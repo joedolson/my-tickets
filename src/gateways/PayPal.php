@@ -14,8 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 add_action( 'mt_receive_ipn', 'mt_paypal_ipn' );
+/**
+ * Process notification from PayPal following payment.
+ *
+ * @return null
+ */
 function mt_paypal_ipn() {
-	if ( isset( $_REQUEST['mt_paypal_ipn'] ) && $_REQUEST['mt_paypal_ipn'] == 'true' ) {
+	if ( isset( $_REQUEST['mt_paypal_ipn'] ) && 'true' == $_REQUEST['mt_paypal_ipn'] ) {
 		if ( isset( $_POST['payment_status'] ) ) {
 			$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 			$receiver = ( isset( $options['mt_paypal_email'] ) ) ? strtolower( $options['mt_paypal_email'] ) : false;
@@ -24,7 +29,7 @@ function mt_paypal_ipn() {
 			$req = 'cmd=_notify-validate';
 			foreach ( $_POST as $key => $value ) {
 				$value = urlencode( stripslashes( $value ) );
-				$req .= "&$key=$value";
+				$req  .= "&$key=$value";
 			}
 
 			$args   = wp_parse_args( $req, array() );
@@ -36,8 +41,8 @@ function mt_paypal_ipn() {
                 'httpversion' => '1.1',
 			);
 
-			// transaction variables to store
-			$payment_status   = $_POST['payment_status'];
+			// transaction variables to store.
+			$payment_status = $_POST['payment_status'];
 			if ( isset( $_POST['num_cart_items'] ) ) {
 			    // My Tickets support for cart formatted requests. My Tickets only supports processing of a single order, however.
 			    $item_number = $_POST['item_number1'];
@@ -97,7 +102,8 @@ function mt_paypal_ipn() {
 				$value_match = mt_check_payment_amount( $price, $item_number );
 			}
 			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || ! $value_match ) {
-				wp_mail( $options['mt_to'], __( 'Payment Conditions Error', 'my-tickets' ), __( "PayPal receiver email did not match account or payment currency did not match payment on $item_number", 'my-tickets' ) . "\n" . print_r( $data, 1 ) );
+				// Translators: Item Number of payment triggering error.
+				wp_mail( $options['mt_to'], __( 'Payment Conditions Error', 'my-tickets' ), sprintf( __( 'PayPal receiver email did not match account or payment currency did not match payment on %s', 'my-tickets' ), $item_number ) . "\n" . print_r( $data, 1 ) );
 				status_header( 200 ); // Why 200? Because that's the only way to stop PayPal.
 				die;
 			}
@@ -105,14 +111,13 @@ function mt_paypal_ipn() {
 			// Everything's all right.
 			status_header( 200 );
 		} else {
-
 			if ( isset( $_POST['txn_type'] ) ) {
 				// this is a transaction other than a purchase.
 				if ( 'dispute' == $_POST['case_type'] ) {
 					$posts = get_posts( array(
-					    'post_type'=> 'mt-payments',
-                        'meta_key'=>'_transaction_id',
-                        'meta_value'=>$_POST['txn_id'],
+					    'post_type'  => 'mt-payments',
+                        'meta_key'   => '_transaction_id',
+                        'meta_value' => $_POST['txn_id'],
                     ) );
 					if ( ! empty ( $posts ) ) {
 						$post = $posts[0];
