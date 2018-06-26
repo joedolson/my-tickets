@@ -25,7 +25,7 @@ function mt_offline_shipping_fields( $form, $gateway ) {
 			'mt_shipping_city',
 			'mt_shipping_state',
 			'mt_shipping_country',
-			'mt_shipping_code'
+			'mt_shipping_code',
 		);
 		$replace = array( 'address', 'city', 'state', 'address_country', 'zip' );
 
@@ -64,8 +64,8 @@ function mt_setup_offline( $gateways ) {
 	$gateways['offline'] = array(
 		'label'  => __( 'Offline', 'my-tickets' ),
 		'fields' => array(
-			'notes' => __( 'Offline Payment Notes', 'my-tickets' )
-		)
+			'notes' => __( 'Offline Payment Notes', 'my-tickets' ),
+		),
 	);
 
 	return $gateways;
@@ -87,7 +87,7 @@ function mt_gateway_offline( $form, $gateway, $args ) {
 		$payment_id     = $args['payment'];
 		$handling       = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 		$total          = $args['total'] + $handling;
-		$shipping_price = ( $args['method'] == 'postal' ) ? number_format( $options['mt_shipping'], 2 ) : 0;
+		$shipping_price = ( 'postal' == $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
 		$currency       = $options['mt_currency'];
 		$form           = "
 		<form action='" . get_permalink( $options['mt_purchase_page'] ) . "' method='POST'>
@@ -97,10 +97,10 @@ function mt_gateway_offline( $form, $gateway, $args ) {
 		<input type='hidden' name='mt_shipping' value='" . esc_attr( $shipping_price ) . "' />
 		<input type='hidden' name='mt_offline_payment' value='true' />
 		<input type='hidden' name='mt_currency' value='" . esc_attr( $currency ) . "' />";
-		$form .= mt_render_field( 'address', 'offline' );
-		$form .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Complete Reservation', 'my-tickets' ), $gateway ) ) . "' />";
-		$form .= apply_filters( 'mt_offline_form', '', $gateway, $args );
-		$form .= "</form>";
+		$form          .= mt_render_field( 'address', 'offline' );
+		$form          .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Complete Reservation', 'my-tickets' ), $gateway ) ) . "' />";
+		$form          .= apply_filters( 'mt_offline_form', '', $gateway, $args );
+		$form          .= "</form>";
 	}
 
 	return $form;
@@ -111,9 +111,9 @@ add_action( 'wp_loaded', 'mt_offline_processor' );
  *  Process posted data from Offline payment.
  */
 function mt_offline_processor() {
-	if ( isset( $_POST['mt_offline_payment'] ) && $_POST['mt_offline_payment'] == 'true' ) {
-		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-		$response = 'VERIFIED';
+	if ( isset( $_POST['mt_offline_payment'] ) && 'true' == $_POST['mt_offline_payment'] ) {
+		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+		$response      = 'VERIFIED';
 		$response_code = 200;
 
 		// transaction variables to store.
@@ -146,7 +146,10 @@ function mt_offline_processor() {
 
 		mt_handle_payment( $response, $response_code, $data, $_POST );
 		// Everything's all right.
-		wp_safe_redirect( esc_url_raw( add_query_arg( array( 'response_code'=> 'thanks', 'payment_id' => $item_number ), get_permalink( $options['mt_purchase_page'] ) ) ) );
+		wp_safe_redirect( esc_url_raw( add_query_arg( array(
+			'response_code' => 'thanks',
+			'payment_id' => $item_number,
+		), get_permalink( $options['mt_purchase_page'] ) ) ) );
 	}
 
 	return;
