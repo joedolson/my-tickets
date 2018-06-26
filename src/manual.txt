@@ -1,0 +1,60 @@
+My Tickets
+
+1) Public Experience
+	- Tickets
+	- Receipts
+	- Add to cart forms
+	- Shopping Cart
+	- Payment process
+	- Notifications
+	- Error messages
+
+2) Admin Experience
+
+	- Main Settings
+		- Notification Messages
+		- Template Tags
+		- Enabled for custom post types
+	- Payment Settings
+		- Basic settings
+		- Payment Gateways
+		- Test Mode
+		- SSL
+		- Select payment/ticket handling Pages.
+	- Ticket Settings
+		- Ticketing choices
+		- Default Ticketing set up (same as fields added to post types or to My Calendar events)
+
+3) Box Office Management
+
+	- Adding a new ticket order
+	- Viewing a user's shopping cart
+	- Copying a user's shopping cart into a new ticket order.
+	- Editing payments and payment data
+	- Reporting
+		- Reports by Date
+		- Reports by Event
+		- Mass Email purchasers
+	- Payments List
+		- Shows status, total value of cart, and receipt ID
+		- Filter by status
+
+4) Ticket Taking
+
+	- E-tickets
+	- Print-at-home tickets
+	- Will-call lists
+	
+5) Customization
+
+	- Custom Field API
+	- Hooks and Filters
+	- Custom CSS
+	- Resources (enqueued JS)
+	
+	
+	
+	
+	
+	Note: templatable settings; allow multiple defaults.
+	

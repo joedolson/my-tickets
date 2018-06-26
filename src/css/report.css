@@ -1,0 +1,80 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+caption {
+    font-weight: 700;
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin-top: 2em;
+}
+thead th {
+    background: #e9e9e9;
+}
+th {
+    background: #f6f6f6;
+    text-align: left;
+}
+th[scope=col] {
+    padding: 12px 4px;
+}
+th[scope=row] {
+    border-bottom: 1px solid #ddd;
+    padding: 4px;
+    background: transparent;
+    font-family: monospace;
+    border-right: 1px solid #f3f3f3;
+}
+td {
+    padding: 4px;
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #f3f3f3;
+}
+
+tr.even {
+    background: rgba( 240,240,240, .6 );
+}
+
+th.mt-id {
+    width: 12em;
+}
+
+td.mt-owed, td.mt-price, td.mt-paid {
+    text-align: right;
+    width: 6em;
+}
+
+td.mt-post {
+    width: 6em;
+}
+
+.hidden {
+    display: none;
+}
+
+.mt-back {
+    float: right;
+    background: #f6f6f6;
+    display: inline-block;
+    padding: 6px;
+}
+
+.tabs {
+    display: none;
+}
+
+table a:hover, table a:focus {
+    text-decoration: none;
+}
+
+@media print {
+    .mt-back {
+        display: none;
+    }
+    td, th {
+        border: 1px solid #f0f0f0;
+    }
+    button {
+        display: none;
+    }
+}

@@ -1,0 +1,51 @@
+body {
+    font-family: HelveticaNeue, Arial, Verdana, sans-serif;
+}
+
+.panel {
+    padding: 1em;
+    margin: 0 auto;
+    border: 1px solid #999;
+}
+
+.panel img {
+    display: block;
+    margin: 0 auto;
+}
+
+.panel * {
+    word-wrap: breakword;
+}
+
+.panel .post-footer {
+    background: #eee;
+    padding: 1em;
+    margin: 0 -1em;
+    font-size: .8em;
+}
+
+a.print {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.pending {
+    background: #ffa;
+    padding: .5em;
+}
+
+.completed {
+    background: #afa;
+    padding: .5em;
+}
+
+.mt-verification {
+    font-size: 1.6em;
+}
+
+@media print {
+    a.print {
+        display: none;
+    }
+}

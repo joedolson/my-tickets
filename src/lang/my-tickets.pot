@@ -1,0 +1,1848 @@
+# Copyright (C) 2015 My Tickets
+# This file is distributed under the same license as the My Tickets package.
+msgid ""
+msgstr ""
+"Project-Id-Version: My Tickets 1.2.6\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/my-tickets\n"
+"POT-Creation-Date: 2015-09-14 16:13:48+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: gateways/PayPal.php:78
+msgid "Payment Conditions Error"
+msgstr ""
+
+#: gateways/PayPal.php:138
+msgid "PayPal"
+msgstr ""
+
+#: gateways/PayPal.php:140
+msgid "PayPal email (primary)"
+msgstr ""
+
+#: gateways/PayPal.php:141
+msgid "PayPal Merchant ID"
+msgstr ""
+
+#: gateways/PayPal.php:165
+msgid "%s Order from %s"
+msgstr ""
+
+#: gateways/PayPal.php:191
+msgid "Make Payment through PayPal"
+msgstr ""
+
+#: gateways/offline.php:42
+msgid "%s Order"
+msgstr ""
+
+#: gateways/offline.php:48
+msgid "Complete Reservation"
+msgstr ""
+
+#: mt-ajax.php:28
+msgid "Cart updated"
+msgstr ""
+
+#: mt-ajax.php:29
+msgid "Cart not updated"
+msgstr ""
+
+#: mt-ajax.php:53
+msgid "Invalid security response."
+msgstr ""
+
+#: mt-ajax.php:90
+msgid "Your cart is updated. <a href='%s'>Go to cart</a>"
+msgstr ""
+
+#: mt-ajax.php:92
+msgid "Cart not changed. <a href='%s'>Go to cart</a>"
+msgstr ""
+
+#: mt-ajax.php:109
+msgid "Address updated."
+msgstr ""
+
+#: mt-ajax.php:111
+msgid "Address not updated."
+msgstr ""
+
+#: mt-button.php:121
+msgid "Administrators only"
+msgstr ""
+
+#: mt-button.php:158
+msgid "(%1$s<span class=\"tickets-remaining\">, %2$s remaining</span>)"
+msgstr ""
+
+#: mt-button.php:189
+msgid "%s tickets remaining."
+msgstr ""
+
+#: mt-button.php:196
+msgid "Tickets for this event cannot be sent by mail."
+msgstr ""
+
+#: mt-button.php:197
+msgid "Register"
+msgstr ""
+
+#: mt-button.php:197
+msgid "Buy Tickets"
+msgstr ""
+
+#: mt-button.php:217
+msgid "Add to Cart"
+msgstr ""
+
+#: mt-button.php:217 mt-cart.php:245
+msgid "Working"
+msgstr ""
+
+#: mt-button.php:231
+msgid "Online registration for this event is closed"
+msgstr ""
+
+#: mt-button.php:231
+msgid "Online ticket sales for this event are closed."
+msgstr ""
+
+#: mt-button.php:236
+msgid "Registration for this event is full"
+msgstr ""
+
+#: mt-button.php:236
+msgid "Tickets for this event are sold out."
+msgstr ""
+
+#: mt-button.php:256
+msgid ""
+"Online sales are closed, but there are still %d tickets available at the box "
+"office!"
+msgstr ""
+
+#: mt-button.php:314
+msgid "Tickets include a %s ticket handling charge."
+msgstr ""
+
+#: mt-button.php:337
+msgid "Ticket sales close at %s today"
+msgstr ""
+
+#: mt-button.php:444
+msgid "Event successfully added to <a href=\"%s\">your cart</a>."
+msgstr ""
+
+#: mt-button.php:447
+msgid "That event could not be added to your cart."
+msgstr ""
+
+#: mt-button.php:450
+msgid "Online ticket sales are no longer available for this event."
+msgstr ""
+
+#: mt-button.php:458
+msgid "Cart Updated."
+msgstr ""
+
+#: mt-button.php:461
+msgid "Could not update your cart."
+msgstr ""
+
+#: mt-button.php:464
+msgid "The event is no longer available for online ticket sales."
+msgstr ""
+
+#: mt-button.php:472
+msgid ""
+"Your ticket order has been submitted! Any payment due will be collected when "
+"you arrive at the event."
+msgstr ""
+
+#: mt-button.php:480
+msgid "Cart Submitted."
+msgstr ""
+
+#: mt-button.php:483
+msgid "Could not submit your cart."
+msgstr ""
+
+#: mt-cart.php:51
+msgid ""
+"We're sorry you were unable to complete your purchase! Please contact us if "
+"you had any issues in the purchase process."
+msgstr ""
+
+#: mt-cart.php:54
+msgid "Thanks for your purchase!"
+msgstr ""
+
+#: mt-cart.php:57
+msgid ""
+"First name, last name, and email are required fields. Please fill in these "
+"fields and submit again!"
+msgstr ""
+
+#: mt-cart.php:147
+msgid "Log in"
+msgstr ""
+
+#: mt-cart.php:149
+msgid "Create an account"
+msgstr ""
+
+#: mt-cart.php:154
+msgid "%1$s or %2$s"
+msgstr ""
+
+#: mt-cart.php:156
+msgid "%1$s now!"
+msgstr ""
+
+#: mt-cart.php:175 mt-reports.php:80 mt-reports.php:528 mt-reports.php:573
+msgid "Ticket Type"
+msgstr ""
+
+#: mt-cart.php:197
+msgid ""
+"Your ticket will be delivered as an e-ticket. You will receive a link in "
+"your email."
+msgstr ""
+
+#: mt-cart.php:200
+msgid ""
+"Your ticket will be provided for printing after purchase. You will receive a "
+"link to the ticket in your email. Please print your ticket and bring it with "
+"you to the event."
+msgstr ""
+
+#: mt-cart.php:203
+msgid ""
+"Your ticket will be sent to you by mail. You should receive your ticket "
+"within %s days, after payment is completed."
+msgstr ""
+
+#: mt-cart.php:206
+msgid ""
+"Your ticket will be under your name at the box office. Please arrive early "
+"to allow time to pick up your ticket."
+msgstr ""
+
+#: mt-cart.php:241
+msgid "Update Address"
+msgstr ""
+
+#: mt-cart.php:243
+msgid "Save Address"
+msgstr ""
+
+#: mt-cart.php:250 mt-cpt.php:343
+msgid "Shipping Address"
+msgstr ""
+
+#: mt-cart.php:252 mt-reports.php:537
+msgid "Street"
+msgstr ""
+
+#: mt-cart.php:256 mt-reports.php:538
+msgid "Street (2)"
+msgstr ""
+
+#: mt-cart.php:260 mt-reports.php:539
+msgid "City"
+msgstr ""
+
+#: mt-cart.php:264 mt-reports.php:540
+msgid "State"
+msgstr ""
+
+#: mt-cart.php:268 mt-reports.php:541
+msgid "Postal Code"
+msgstr ""
+
+#: mt-cart.php:272 mt-reports.php:542
+msgid "Country"
+msgstr ""
+
+#: mt-cart.php:286
+msgid "First Name (required)"
+msgstr ""
+
+#: mt-cart.php:286
+msgid "Last Name (required)"
+msgstr ""
+
+#: mt-cart.php:291
+msgid "E-mail (required)"
+msgstr ""
+
+#: mt-cart.php:296
+msgid "Phone (required)"
+msgstr ""
+
+#: mt-cart.php:326
+msgid "Payment Gateway"
+msgstr ""
+
+#: mt-cart.php:339
+msgid "Home"
+msgstr ""
+
+#: mt-cart.php:341 mt-cart.php:343
+msgid "Cart"
+msgstr ""
+
+#: mt-cart.php:346 mt-cart.php:348
+msgid "Payment"
+msgstr ""
+
+#: mt-cart.php:386 mt-cart.php:405
+msgid "Place Order"
+msgstr ""
+
+#: mt-cart.php:391
+msgid "A handling fee of %s will be applied to this purchase."
+msgstr ""
+
+#: mt-cart.php:401
+msgid "Ticket Total:"
+msgstr ""
+
+#: mt-cart.php:413 mt-cart.php:680
+msgid "Your cart is currently empty."
+msgstr ""
+
+#: mt-cart.php:425
+msgid "Create new admin payment with this cart"
+msgstr ""
+
+#: mt-cart.php:441
+msgid "Review cart and make payment"
+msgstr ""
+
+#: mt-cart.php:482
+msgid "Review and Purchase"
+msgstr ""
+
+#: mt-cart.php:482
+msgid "Shopping Cart"
+msgstr ""
+
+#: mt-cart.php:485
+msgid "Ticket Order"
+msgstr ""
+
+#: mt-cart.php:492
+msgid "Event"
+msgstr ""
+
+#: mt-cart.php:492 mt-processing.php:247 mt-reports.php:83 mt-reports.php:158
+#: mt-reports.php:530 mt-reports.php:573
+msgid "Price"
+msgstr ""
+
+#: mt-cart.php:492 mt-cpt.php:235 mt-cpt.php:624 mt-reports.php:157
+#: templates/tickets.php:6
+msgid "Tickets"
+msgstr ""
+
+#: mt-cart.php:494
+msgid "Update"
+msgstr ""
+
+#: mt-cart.php:561
+msgid "Add a ticket"
+msgstr ""
+
+#: mt-cart.php:561
+msgid "Remove a ticket"
+msgstr ""
+
+#: mt-cart.php:561 mt-cart.php:563
+msgid "Remove from cart"
+msgstr ""
+
+#: mt-cart.php:649
+msgid "<a href=\"%s\">Return to cart</a>"
+msgstr ""
+
+#: mt-cart.php:658
+msgid "Shipping:"
+msgstr ""
+
+#: mt-cart.php:659
+msgid "Handling:"
+msgstr ""
+
+#: mt-cart.php:668
+msgid "Total:"
+msgstr ""
+
+#: mt-common.php:47
+msgid "That %s key is not valid."
+msgstr ""
+
+#: mt-common.php:49
+msgid "Your %1$s key has expired. <a href=\"%2$s\">Log in to renew</a>."
+msgstr ""
+
+#: mt-common.php:51
+msgid "%s license key already registered."
+msgstr ""
+
+#: mt-common.php:53
+msgid "Your payment for %s has not been confirmed."
+msgstr ""
+
+#: mt-common.php:57
+msgid "%s key validated. Enjoy!"
+msgstr ""
+
+#: mt-common.php:60
+msgid "You have deleted your %s license key."
+msgstr ""
+
+#: mt-common.php:62
+msgid ""
+"%s received an unexpected message from the license server. Try again in a "
+"bit."
+msgstr ""
+
+#: mt-cpt.php:10
+msgid "Purchase Options"
+msgstr ""
+
+#: mt-cpt.php:11
+msgid "Purchase Information"
+msgstr ""
+
+#: mt-cpt.php:14
+msgid "Contact Purchaser"
+msgstr ""
+
+#: mt-cpt.php:16
+msgid "Error Data"
+msgstr ""
+
+#: mt-cpt.php:34
+msgid "Subject"
+msgstr ""
+
+#: mt-cpt.php:35
+msgid "Message"
+msgstr ""
+
+#: mt-cpt.php:36
+msgid "Email Purchaser"
+msgstr ""
+
+#: mt-cpt.php:38
+msgid "Prior Messages"
+msgstr ""
+
+#: mt-cpt.php:77 mt-reports.php:796
+msgid "Don't want to receive email from us? Follow this link: %s"
+msgstr ""
+
+#: mt-cpt.php:107
+msgid "Payment Status"
+msgstr ""
+
+#: mt-cpt.php:113
+msgid "Ticketing Method"
+msgstr ""
+
+#: mt-cpt.php:117 mt-ticketing-settings.php:76
+msgid "Printable"
+msgstr ""
+
+#: mt-cpt.php:118 mt-ticketing-settings.php:77
+msgid "E-tickets"
+msgstr ""
+
+#: mt-cpt.php:119 mt-ticketing-settings.php:78
+msgid "Postal Mail"
+msgstr ""
+
+#: mt-cpt.php:120 mt-ticketing-settings.php:79
+msgid "Pick up at box office"
+msgstr ""
+
+#: mt-cpt.php:124
+msgid "Ticket Delivered"
+msgstr ""
+
+#: mt-cpt.php:127
+msgid "E-tickets and printable tickets are delivered via email."
+msgstr ""
+
+#: mt-cpt.php:130
+msgid "Return tickets to purchase pool"
+msgstr ""
+
+#: mt-cpt.php:135
+msgid "Tickets Total"
+msgstr ""
+
+#: mt-cpt.php:140
+msgid "Purchaser Email"
+msgstr ""
+
+#: mt-cpt.php:145
+msgid "Purchaser Phone"
+msgstr ""
+
+#: mt-cpt.php:150
+msgid "Payment Notes"
+msgstr ""
+
+#: mt-cpt.php:155
+msgid "Re-send Email Notification"
+msgstr ""
+
+#: mt-cpt.php:160
+msgid "Payment Method"
+msgstr ""
+
+#: mt-cpt.php:166
+msgid "Transaction ID"
+msgstr ""
+
+#: mt-cpt.php:200
+msgid "Visit the <a href=\"%s\">public web site</a> to set up a cart order"
+msgstr ""
+
+#: mt-cpt.php:201
+msgid "Total"
+msgstr ""
+
+#: mt-cpt.php:219
+msgid "Ticket Dispute: "
+msgstr ""
+
+#: mt-cpt.php:232
+msgid " @ %d&#37; member discount"
+msgstr ""
+
+#: mt-cpt.php:236
+msgid "Receipt ID:"
+msgstr ""
+
+#: mt-cpt.php:238
+msgid "Paid through:"
+msgstr ""
+
+#: mt-cpt.php:242
+msgid "Custom Field Data"
+msgstr ""
+
+#: mt-cpt.php:340
+msgid "Transaction not yet completed."
+msgstr ""
+
+#: mt-cpt.php:424
+msgid "Tickets from this purchase have been returned to the purchase pool"
+msgstr ""
+
+#: mt-cpt.php:531
+msgid "Add New"
+msgstr ""
+
+#: mt-cpt.php:532
+msgid "Create New Payment"
+msgstr ""
+
+#: mt-cpt.php:533
+msgid "Modify Payment"
+msgstr ""
+
+#: mt-cpt.php:534
+msgid "New Payment"
+msgstr ""
+
+#: mt-cpt.php:535
+msgid "View Payment"
+msgstr ""
+
+#: mt-cpt.php:536
+msgid "Search payments"
+msgstr ""
+
+#: mt-cpt.php:537
+msgid "No payments found"
+msgstr ""
+
+#: mt-cpt.php:538
+msgid "No payments found in Trash"
+msgstr ""
+
+#: mt-cpt.php:568 mt-cpt.php:571
+msgid "Payment updated."
+msgstr ""
+
+#: mt-cpt.php:569
+msgid "Custom field updated."
+msgstr ""
+
+#: mt-cpt.php:570
+msgid "Custom field deleted."
+msgstr ""
+
+#. translators: %s: date and time of the revision
+#: mt-cpt.php:573
+msgid "Payment restored to revision from %s"
+msgstr ""
+
+#: mt-cpt.php:574
+msgid "Payment published."
+msgstr ""
+
+#: mt-cpt.php:575
+msgid "Payment saved."
+msgstr ""
+
+#: mt-cpt.php:576
+msgid "Payment submitted."
+msgstr ""
+
+#: mt-cpt.php:577
+msgid "Payment scheduled for: <strong>%s</strong>."
+msgstr ""
+
+#: mt-cpt.php:577
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#: mt-cpt.php:578
+msgid "Payment draft updated."
+msgstr ""
+
+#: mt-cpt.php:637 mt-reports.php:713
+msgid "Status"
+msgstr ""
+
+#: mt-cpt.php:638
+msgid "Cart Total"
+msgstr ""
+
+#: mt-cpt.php:639
+msgid "Receipt ID"
+msgstr ""
+
+#: mt-cpt.php:662
+msgid "%1$s (%2$s sold)"
+msgstr ""
+
+#: mt-cpt.php:664 mt-cpt.php:667
+msgid "Not ticketed"
+msgstr ""
+
+#: mt-cpt.php:760
+msgid "Filter Payments"
+msgstr ""
+
+#: mt-cpt.php:762
+msgid "All Payments"
+msgstr ""
+
+#: mt-cpt.php:763 mt-settings.php:106
+msgid "Completed"
+msgstr ""
+
+#: mt-cpt.php:764
+msgid "Pending"
+msgstr ""
+
+#: mt-cpt.php:765 mt-settings.php:108
+msgid "Refunded"
+msgstr ""
+
+#: mt-cpt.php:766 mt-settings.php:107
+msgid "Failed"
+msgstr ""
+
+#: mt-cpt.php:780
+msgid "Mark as Completed"
+msgstr ""
+
+#: mt-cpt.php:860
+msgid "Payment completed & ticket notification sent."
+msgid_plural "%s payments completed and ticket notifications sent."
+msgstr[0] ""
+msgstr[1] ""
+
+#: mt-cpt.php:898
+msgid "Active cart"
+msgstr ""
+
+#: mt-help.php:12
+msgid "My Tickets Help"
+msgstr ""
+
+#: mt-help.php:19 my-tickets.php:541
+msgid "Getting Started"
+msgstr ""
+
+#: mt-help.php:23
+msgid ""
+"There are a few minimum settings to configure before you get started with My "
+"Tickets, but getting started is pretty easy."
+msgstr ""
+
+#: mt-help.php:25
+msgid "Basic Settings"
+msgstr ""
+
+#: mt-help.php:27
+msgid "Define what post types My Tickets should be activated on"
+msgstr ""
+
+#: mt-help.php:27
+msgid ""
+"If My Calendar is installed, activate the \"Registration\" panel in the My "
+"Calendar input settings"
+msgstr ""
+
+#: mt-help.php:28
+msgid "Set up a new post and click \"Sell Tickets on this post\""
+msgstr ""
+
+#: mt-help.php:30 my-tickets.php:163
+msgid "Payment Settings"
+msgstr ""
+
+#: mt-help.php:32
+msgid "Set your accepted payment currency"
+msgstr ""
+
+#: mt-help.php:33
+msgid "Enable your preferred payment gateways"
+msgstr ""
+
+#: mt-help.php:34
+msgid ""
+"Add merchant data for your enabled gateways and set the default gateway."
+msgstr ""
+
+#: mt-help.php:36
+msgid "How to get your Authorize.net API Login ID and Transaction Key"
+msgstr ""
+
+#: mt-help.php:37
+msgid "Find your PayPal primary email and merchant ID"
+msgstr ""
+
+#: mt-help.php:40
+msgid "Turn on/off testing mode."
+msgstr ""
+
+#: mt-help.php:42 my-tickets.php:164
+msgid "Ticket Settings"
+msgstr ""
+
+#: mt-help.php:44
+msgid "Choose what types of tickets you provide."
+msgstr ""
+
+#: mt-help.php:45
+msgid "Define shipping costs, if you will ship tickets."
+msgstr ""
+
+#: mt-help.php:46
+msgid "Set defaults to be pre-filled when you add new events for ticketing."
+msgstr ""
+
+#: mt-help.php:52
+msgid "Shortcodes"
+msgstr ""
+
+#: mt-help.php:59
+msgid "Display the Add to Cart form for a single event."
+msgstr ""
+
+#: mt-help.php:59
+msgid "\"Event\" attribute is the post ID for that event."
+msgstr ""
+
+#: mt-help.php:65
+msgid ""
+"Shows a list of events. Provide a template with HTML and tags for what "
+"information to display. Add to cart form is added to the end of the template "
+"automatically."
+msgstr ""
+
+#: mt-help.php:72
+msgid ""
+"Shows a reduced version of the cart with number of tickets, total value of "
+"cart, and a link to the shopping cart."
+msgstr ""
+
+#: mt-help.php:78
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: mt-help.php:82
+msgid ""
+"What is the difference between \"discrete\" and \"continuous\" ticket "
+"counting?"
+msgstr ""
+
+#: mt-help.php:83
+msgid ""
+"Whether it matters which group a ticket is purchased in. If you're selling "
+"tickets based on the purchaser (Adult, Child, etc.), it doesn't matter which "
+"group it's in. You have 250 tickets, and it's perfectly plausible for all "
+"250 to be in one category. This is \"continuous\" counting. You have a "
+"specific total number of tickets, and whichever type of ticket is sold, the "
+"number is subtracted from the total number of tickets. With \"discrete\" "
+"sections (Gallery, Balcony, etc.), it <strong>does</strong> matter which "
+"group a ticket is sold from. You have only 50 tickets in Section A, but 100 "
+"in Section B. If you were to sell 100 tickets for Section A, you'd have a "
+"serious problems!"
+msgstr ""
+
+#: mt-help.php:84
+msgid "What's the difference between Types of Sales?"
+msgstr ""
+
+#: mt-help.php:85
+msgid ""
+"When you choose \"Ticket Sales\", the language on buttons and in your cart "
+"will reflect that this is a ticket sale. It will also add the ability to "
+"change the number of tickets you purchase in any given category."
+msgstr ""
+
+#: mt-help.php:86
+msgid "What is an \"event\" in My Tickets?"
+msgstr ""
+
+#: mt-help.php:87
+msgid ""
+"Any post, Page, or custom post type can be an \"Event\" for My Tickets. When "
+"you create a post or Page, you can decide to sell tickets on it; at which "
+"point it becomes an \"event\". If you're using My Calendar, creating an "
+"event also creates a post, in a hidden custom post type. Your tickets are "
+"associated with that post."
+msgstr ""
+
+#: mt-help.php:89
+msgid "How are e-tickets and printable tickets different?"
+msgstr ""
+
+#: mt-help.php:90
+msgid ""
+"The main difference between e-tickets and printable tickets is in format. E-"
+"tickets are formatted for optimum fit on a mobile device, but printable "
+"tickets are shaped more like traditional tickets. These are defaults, "
+"however, since both types of tickets are fully templatable."
+msgstr ""
+
+#: mt-help.php:91
+msgid "How do e-tickets and printable tickets work?"
+msgstr ""
+
+#: mt-help.php:92
+msgid ""
+"Both types of tickets include a QR Code. If you're logged in to your web "
+"site, you can scan that QR code to verify that the ticket is valid, and it "
+"will be registered as having been used. If you're not logged in, you can "
+"still verify that the ticket is valid, but nothing will be saved to your "
+"site."
+msgstr ""
+
+#: mt-help.php:97 my-tickets.php:545
+msgid "Get Support"
+msgstr ""
+
+#: mt-help.php:103
+msgid ""
+"Please, consider a <a href=\"%s\">donation</a> or a <a href=\"%s\">purchase</"
+"a> to support My Tickets!"
+msgstr ""
+
+#: mt-help.php:213
+msgid ""
+"Please read the FAQ and other Help documents before making a support request."
+msgstr ""
+
+#: mt-help.php:215
+msgid "Please describe your problem. I'm not psychic."
+msgstr ""
+
+#: mt-help.php:219
+msgid ""
+"Thank you for supporting the continuing development of this plug-in! I'll "
+"get back to you as soon as I can. Please ensure that you can receive email "
+"at <code>%s</code>."
+msgstr ""
+
+#: mt-help.php:221
+msgid "Sorry! I couldn't send that message. Here's the text of your request:"
+msgstr ""
+
+#: mt-help.php:221
+msgid "<a href=\"%s\">Contact me here</a>, instead</p>"
+msgstr ""
+
+#: mt-help.php:232
+msgid "Reply to:"
+msgstr ""
+
+#: mt-help.php:235
+msgid ""
+"I have read <a href=\"%1$s\">the FAQ for this plug-in</a> <span>(required)</"
+"span>"
+msgstr ""
+
+#: mt-help.php:238
+msgid "Support Request:"
+msgstr ""
+
+#: mt-help.php:241
+msgid "Send Support Request"
+msgstr ""
+
+#: mt-help.php:244
+msgid ""
+"The following additional information will be sent with your support request:"
+msgstr ""
+
+#: mt-notifications.php:101
+msgid ""
+"Your ticket information will be available once your payment is completed."
+msgstr ""
+
+#: mt-notifications.php:122
+msgid "(Per-ticket handling charge of %s)"
+msgstr ""
+
+#: mt-notifications.php:126 mt-notifications.php:133
+msgid "%1$s: 1 ticket at %2$s"
+msgid_plural "%1$s: %3$d tickets at %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: mt-notifications.php:141
+msgid "Ticket Total"
+msgstr ""
+
+#: mt-notifications.php:190
+msgid "View Ticket"
+msgstr ""
+
+#: mt-notifications.php:210
+msgid "View your receipt for this purchase"
+msgstr ""
+
+#: mt-notifications.php:267
+msgid "Your tickets will be available at the box office."
+msgstr ""
+
+#: mt-notifications.php:267
+msgid "Your tickets will be mailed to you at the address provided."
+msgstr ""
+
+#: mt-notifications.php:302
+msgid "Purchaser did not provide valid email"
+msgstr ""
+
+#: mt-notifications.php:450
+msgid "Ticket sales for %s are now closed"
+msgstr ""
+
+#: mt-notifications.php:451
+msgid ""
+"Online ticket sales for %1$s are now closed. <a href=\"%2$s\">Download the "
+"ticket sales list now</a>"
+msgstr ""
+
+#: mt-payment-settings.php:47
+msgid "My Tickets Payment Settings saved"
+msgstr ""
+
+#: mt-payment-settings.php:61 mt-settings.php:67 mt-ticketing-settings.php:58
+msgid "Event Registrations"
+msgstr ""
+
+#: mt-payment-settings.php:70
+msgid "Registration Payment Settings"
+msgstr ""
+
+#: mt-payment-settings.php:74
+msgid "Currency:"
+msgstr ""
+
+#: mt-payment-settings.php:76
+msgid "U.S. Dollars ($)"
+msgstr ""
+
+#: mt-payment-settings.php:77
+msgid "Euros (€)"
+msgstr ""
+
+#: mt-payment-settings.php:78
+msgid "Australian Dollars (A $)"
+msgstr ""
+
+#: mt-payment-settings.php:79
+msgid "Canadian Dollars (C $)"
+msgstr ""
+
+#: mt-payment-settings.php:80
+msgid "Pounds Sterling (£)"
+msgstr ""
+
+#: mt-payment-settings.php:81
+msgid "Yen (¥)"
+msgstr ""
+
+#: mt-payment-settings.php:82
+msgid "New Zealand Dollar ($)"
+msgstr ""
+
+#: mt-payment-settings.php:83
+msgid "Swiss Franc"
+msgstr ""
+
+#: mt-payment-settings.php:84
+msgid "Hong Kong Dollar ($)"
+msgstr ""
+
+#: mt-payment-settings.php:85
+msgid "Singapore Dollar ($)"
+msgstr ""
+
+#: mt-payment-settings.php:86
+msgid "Swedish Krona"
+msgstr ""
+
+#: mt-payment-settings.php:87
+msgid "Danish Krone"
+msgstr ""
+
+#: mt-payment-settings.php:88
+msgid "Polish Zloty"
+msgstr ""
+
+#: mt-payment-settings.php:89
+msgid "Norwegian Krone"
+msgstr ""
+
+#: mt-payment-settings.php:90
+msgid "Hungarian Forint"
+msgstr ""
+
+#: mt-payment-settings.php:91
+msgid "Israeli Shekel"
+msgstr ""
+
+#: mt-payment-settings.php:92
+msgid "Mexican Peso"
+msgstr ""
+
+#: mt-payment-settings.php:93
+msgid "Brazilian Real"
+msgstr ""
+
+#: mt-payment-settings.php:94
+msgid "Malaysian Ringgits"
+msgstr ""
+
+#: mt-payment-settings.php:95
+msgid "Philippine Pesos"
+msgstr ""
+
+#: mt-payment-settings.php:96
+msgid "Taiwan New Dollars"
+msgstr ""
+
+#: mt-payment-settings.php:97
+msgid "Thai Baht"
+msgstr ""
+
+#: mt-payment-settings.php:98
+msgid "Turkish Lira"
+msgstr ""
+
+#: mt-payment-settings.php:110
+msgid "Member discount (%)"
+msgstr ""
+
+#: mt-payment-settings.php:117
+msgid "Require phone number on purchases"
+msgstr ""
+
+#: mt-payment-settings.php:129
+msgid "Payment Gateways"
+msgstr ""
+
+#: mt-payment-settings.php:147
+msgid "%s settings"
+msgstr ""
+
+#: mt-payment-settings.php:152
+msgid "Default gateway"
+msgstr ""
+
+#: mt-payment-settings.php:157
+msgid "Enabled Payment Gateways"
+msgstr ""
+
+#: mt-payment-settings.php:170
+msgid "Testing mode (no payments will be processed)"
+msgstr ""
+
+#: mt-payment-settings.php:174
+msgid "Use SSL for Payment pages."
+msgstr ""
+
+#: mt-payment-settings.php:178
+msgid "My Tickets Payment and Ticket Handling Pages"
+msgstr ""
+
+#: mt-payment-settings.php:180 mt-payment-settings.php:181
+#: mt-payment-settings.php:182
+msgid "Currently: %s"
+msgstr ""
+
+#: mt-payment-settings.php:180 mt-payment-settings.php:181
+#: mt-payment-settings.php:182
+msgid "Not defined"
+msgstr ""
+
+#: mt-payment-settings.php:190
+msgid "Shopping cart"
+msgstr ""
+
+#: mt-payment-settings.php:199
+msgid "Receipt page"
+msgstr ""
+
+#: mt-payment-settings.php:208
+msgid "Tickets page"
+msgstr ""
+
+#: mt-payment-settings.php:218
+msgid "Save Payment Settings"
+msgstr ""
+
+#: mt-payment.php:55
+msgid "INVALID Response from My Tickets Payment: %s"
+msgstr ""
+
+#: mt-payment.php:56 mt-payment.php:64
+msgid "Something went wrong. Hopefully this information will help:"
+msgstr ""
+
+#: mt-payment.php:63
+msgid "WP HTTP Failed to contact the payment gateway: %s"
+msgstr ""
+
+#: mt-processing.php:18
+msgid "My Tickets Purchase Data"
+msgstr ""
+
+#: mt-processing.php:44
+msgid "Sell tickets on this post."
+msgstr ""
+
+#: mt-processing.php:48
+msgid "Select a location"
+msgstr ""
+
+#: mt-processing.php:54
+msgid ""
+"Install <a href=\"%s\">My Calendar</a> to manage and choose locations for "
+"your events"
+msgstr ""
+
+#: mt-processing.php:60
+msgid "Event Date"
+msgstr ""
+
+#: mt-processing.php:60
+msgid "Event Time"
+msgstr ""
+
+#: mt-processing.php:189
+msgid "Add to Cart Form Shortcode"
+msgstr ""
+
+#: mt-processing.php:195
+msgid "Allow sales until"
+msgstr ""
+
+#: mt-processing.php:195
+msgid "hours before the event"
+msgstr ""
+
+#: mt-processing.php:198 mt-ticketing-settings.php:142
+msgid "Allow multiple tickets/ticket type per purchaser"
+msgstr ""
+
+#: mt-processing.php:200
+msgid "View Tickets Purchased for this event"
+msgstr ""
+
+#: mt-processing.php:203 mt-ticketing-settings.php:166
+msgid "Type of Sale"
+msgstr ""
+
+#: mt-processing.php:205 mt-ticketing-settings.php:170
+msgid "Ticket Sales"
+msgstr ""
+
+#: mt-processing.php:206 mt-ticketing-settings.php:174
+msgid "Event Registration"
+msgstr ""
+
+#: mt-processing.php:209 mt-ticketing-settings.php:178
+msgid "Ticket Counting Method"
+msgstr ""
+
+#: mt-processing.php:211 mt-ticketing-settings.php:183
+msgid "Discrete - (Section A, Section B, etc.)"
+msgstr ""
+
+#: mt-processing.php:212 mt-ticketing-settings.php:187
+msgid "Continuous - (Adult, Child, Senior)"
+msgstr ""
+
+#: mt-processing.php:217
+msgid "Registration Information"
+msgstr ""
+
+#: mt-processing.php:221
+msgid "Don't display form on event"
+msgstr ""
+
+#: mt-processing.php:242
+msgid "Ticket Prices and Availability"
+msgstr ""
+
+#: mt-processing.php:245
+msgid "Move"
+msgstr ""
+
+#: mt-processing.php:246
+msgid "Label"
+msgstr ""
+
+#: mt-processing.php:248
+msgid "Available"
+msgstr ""
+
+#: mt-processing.php:249
+msgid "Sold"
+msgstr ""
+
+#: mt-processing.php:260
+msgid "Total Tickets Available"
+msgstr ""
+
+#: mt-processing.php:290
+msgid ""
+"Note: complementary tickets can only be added by logged-in administrators."
+msgstr ""
+
+#: mt-processing.php:306
+msgid "Add a price group"
+msgstr ""
+
+#: mt-processing.php:307
+msgid "Remove last price group"
+msgstr ""
+
+#: mt-reports.php:14
+msgid "My Tickets Reporting"
+msgstr ""
+
+#: mt-reports.php:19
+msgid "Reports on Ticket Sales and Registrations"
+msgstr ""
+
+#: mt-reports.php:39
+msgid "Print this report"
+msgstr ""
+
+#: mt-reports.php:76
+msgid "Tickets Purchased for &ldquo;%s&rdquo;"
+msgstr ""
+
+#: mt-reports.php:79 mt-reports.php:573
+msgid "Ticket ID"
+msgstr ""
+
+#: mt-reports.php:81 mt-reports.php:154 mt-reports.php:711
+msgid "Purchaser"
+msgstr ""
+
+#: mt-reports.php:82 mt-reports.php:573
+msgid "Purchase ID"
+msgstr ""
+
+#: mt-reports.php:95 mt-reports.php:97
+msgid "%1$s tickets sold."
+msgstr ""
+
+#: mt-reports.php:104
+msgid "You do not have sufficient permissions to view ticketing reports."
+msgstr ""
+
+#: mt-reports.php:127
+msgid "Completed (%Completed)"
+msgstr ""
+
+#: mt-reports.php:128
+msgid "Failed (%Failed)"
+msgstr ""
+
+#: mt-reports.php:129
+msgid "Refunded (%Refunded)"
+msgstr ""
+
+#: mt-reports.php:130
+msgid "Pending (%Pending)"
+msgstr ""
+
+#: mt-reports.php:151
+msgid "Purchase Records for &ldquo;%s&rdquo;"
+msgstr ""
+
+#: mt-reports.php:155
+msgid "Notes"
+msgstr ""
+
+#: mt-reports.php:156
+msgid "Type"
+msgstr ""
+
+#: mt-reports.php:159 mt-reports.php:531 mt-templating.php:314
+msgid "Paid"
+msgstr ""
+
+#: mt-reports.php:160 mt-reports.php:533
+msgid "Ticket Method"
+msgstr ""
+
+#: mt-reports.php:161 mt-reports.php:534
+msgid "Date"
+msgstr ""
+
+#: mt-reports.php:162
+msgid "ID"
+msgstr ""
+
+#: mt-reports.php:180
+msgid "%1$s tickets sold in %3$s purchases. Total sales: %2$s"
+msgstr ""
+
+#: mt-reports.php:191
+msgid "You do not have sufficient permissions to view sales reports."
+msgstr ""
+
+#: mt-reports.php:206
+msgid "Report by Event"
+msgstr ""
+
+#: mt-reports.php:212 mt-reports.php:283
+msgid "Select Event"
+msgstr ""
+
+#: mt-reports.php:218
+msgid "Select Report Type"
+msgstr ""
+
+#: mt-reports.php:220
+msgid "List of Tickets"
+msgstr ""
+
+#: mt-reports.php:221
+msgid "List of Purchases"
+msgstr ""
+
+#: mt-reports.php:225 mt-reports.php:262
+msgid "Report Format"
+msgstr ""
+
+#: mt-reports.php:227 mt-reports.php:264
+msgid "View Report"
+msgstr ""
+
+#: mt-reports.php:228 mt-reports.php:265
+msgid "Download CSV"
+msgstr ""
+
+#: mt-reports.php:231
+msgid "Get Report by Event"
+msgstr ""
+
+#: mt-reports.php:248
+msgid "Sales Report by Date"
+msgstr ""
+
+#: mt-reports.php:254
+msgid "Report Start Date"
+msgstr ""
+
+#: mt-reports.php:258
+msgid "Report End Date"
+msgstr ""
+
+#: mt-reports.php:268
+msgid "Get Report by Date"
+msgstr ""
+
+#: mt-reports.php:280
+msgid "Email Purchasers of Tickets by Event"
+msgstr ""
+
+#: mt-reports.php:289
+msgid "Email Subject"
+msgstr ""
+
+#: mt-reports.php:293
+msgid "Email Body"
+msgstr ""
+
+#: mt-reports.php:295
+msgid "Use <code>{name}</code> to insert the recipient's name"
+msgstr ""
+
+#: mt-reports.php:297
+msgid "Send Email"
+msgstr ""
+
+#: mt-reports.php:492
+msgid "Printable Sales Report"
+msgstr ""
+
+#: mt-reports.php:496
+msgid "Return to My Tickets Reports"
+msgstr ""
+
+#: mt-reports.php:525 mt-reports.php:573
+msgid "First Name"
+msgstr ""
+
+#: mt-reports.php:526 mt-reports.php:573
+msgid "Last Name"
+msgstr ""
+
+#: mt-reports.php:527
+msgid "Email"
+msgstr ""
+
+#: mt-reports.php:529
+msgid "Purchased"
+msgstr ""
+
+#: mt-reports.php:532
+msgid "Fees"
+msgstr ""
+
+#: mt-reports.php:535
+msgid "Time"
+msgstr ""
+
+#: mt-reports.php:536
+msgid "Phone"
+msgstr ""
+
+#: mt-reports.php:707
+msgid "Sales from %1$s to %2$s"
+msgstr ""
+
+#: mt-reports.php:712
+msgid "Purchase Value"
+msgstr ""
+
+#: mt-reports.php:714
+msgid "Events"
+msgstr ""
+
+#: mt-reports.php:725
+msgid "Total sales in period: %s"
+msgstr ""
+
+#: mt-reports.php:729
+msgid "No sales in period."
+msgstr ""
+
+#: mt-reports.php:818
+msgid ""
+"%1$d/%2$d purchasers of tickets for \"%4$s\" have been emailed. %3$d/%2$d "
+"purchasers have opted out."
+msgstr ""
+
+#: mt-settings.php:33
+msgid "My Tickets Settings saved"
+msgstr ""
+
+#: mt-settings.php:74
+msgid "My Tickets Event Registration Settings"
+msgstr ""
+
+#: mt-settings.php:81
+msgid "Ticket Purchase Messages"
+msgstr ""
+
+#: mt-settings.php:89
+msgid "Send email as HTML."
+msgstr ""
+
+#: mt-settings.php:93
+msgid "Send to:"
+msgstr ""
+
+#: mt-settings.php:99
+msgid "Send from:"
+msgstr ""
+
+#: mt-settings.php:125
+msgid "Sent to administrators"
+msgstr ""
+
+#: mt-settings.php:129 mt-settings.php:151
+msgid "%s - Subject"
+msgstr ""
+
+#: mt-settings.php:138 mt-settings.php:160
+msgid "%s - Message"
+msgstr ""
+
+#: mt-settings.php:147
+msgid "Sent to purchaser"
+msgstr ""
+
+#: mt-settings.php:209
+msgid "Enable ticketing for these post types:"
+msgstr ""
+
+#: mt-settings.php:216
+msgid "Save Settings"
+msgstr ""
+
+#: mt-settings.php:225
+msgid "Premium Add-on License Keys"
+msgstr ""
+
+#: mt-settings.php:246
+msgid "Save License Keys"
+msgstr ""
+
+#: mt-settings.php:250
+msgid ""
+"If you install any My Tickets Premium Add-ons, the license fields will "
+"appear here."
+msgstr ""
+
+#: mt-shortcodes.php:16
+msgid "%s tickets"
+msgstr ""
+
+#: mt-shortcodes.php:18
+msgid "<a href=\"%s\">Checkout</a>"
+msgstr ""
+
+#: mt-shortcodes.php:21
+msgid "In your cart: "
+msgstr ""
+
+#: mt-templating.php:135
+msgid "This receipt is paid in full."
+msgstr ""
+
+#: mt-templating.php:138
+msgid "Payment through:"
+msgstr ""
+
+#: mt-templating.php:139
+msgid "Transaction ID:"
+msgstr ""
+
+#: mt-templating.php:144
+msgid ""
+"Payment on this purchase is not completed. The receipt will be updated with "
+"payment details when payment is completed."
+msgstr ""
+
+#: mt-templating.php:321
+msgid "Payment Due"
+msgstr ""
+
+#: mt-templating.php:453
+msgid "Ticket Verified"
+msgstr ""
+
+#: mt-templating.php:453
+msgid "Invalid Ticket ID"
+msgstr ""
+
+#: mt-templating.php:454
+msgid "Payment pending: %s"
+msgstr ""
+
+#: mt-templating.php:461
+msgid "Ticket has been used."
+msgstr ""
+
+#: mt-templating.php:471
+msgid "Not a valid ticket ID"
+msgstr ""
+
+#: mt-ticketing-settings.php:44
+msgid "My Tickets Ticketing Defaults saved"
+msgstr ""
+
+#: mt-ticketing-settings.php:67 mt-ticketing-settings.php:82
+msgid "Ticketing Options"
+msgstr ""
+
+#: mt-ticketing-settings.php:93
+msgid "Shipping Cost for Postal Mail"
+msgstr ""
+
+#: mt-ticketing-settings.php:97
+msgid "Approximate Shipping Time for Postal Mail (days)"
+msgstr ""
+
+#: mt-ticketing-settings.php:102
+msgid "Handling/Administrative Fee (per Cart)"
+msgstr ""
+
+#: mt-ticketing-settings.php:106
+msgid "Handling/Administrative Fee (per Ticket)"
+msgstr ""
+
+#: mt-ticketing-settings.php:110
+msgid "Tickets reserved for sale at the door"
+msgstr ""
+
+#: mt-ticketing-settings.php:114
+msgid "Reserve tickets based on"
+msgstr ""
+
+#: mt-ticketing-settings.php:116
+msgid "Specific number of tickets"
+msgstr ""
+
+#: mt-ticketing-settings.php:117
+msgid "Percentage of available tickets"
+msgstr ""
+
+#: mt-ticketing-settings.php:122
+msgid "Image shown on tickets"
+msgstr ""
+
+#: mt-ticketing-settings.php:124
+msgid "Featured image on Ticket Page"
+msgstr ""
+
+#: mt-ticketing-settings.php:125
+msgid "Featured image for Event"
+msgstr ""
+
+#: mt-ticketing-settings.php:132
+msgid "Default Ticketing Options"
+msgstr ""
+
+#: mt-ticketing-settings.php:135
+msgid "Stop online sales <em>x</em> hours before event"
+msgstr ""
+
+#: mt-ticketing-settings.php:194
+msgid "Save Ticket Defaults"
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (My Tickets 1.2.6)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: my-tickets.php:159 my-tickets.php:162 my-tickets.php:163 my-tickets.php:164
+msgid "My Tickets"
+msgstr ""
+
+#: my-tickets.php:162
+msgid "Settings"
+msgstr ""
+
+#: my-tickets.php:165
+msgid "My Tickets > Reports"
+msgstr ""
+
+#: my-tickets.php:165
+msgid "Reports"
+msgstr ""
+
+#: my-tickets.php:166
+msgid "My Tickets > Help"
+msgstr ""
+
+#: my-tickets.php:166
+msgid "Ticketing Help"
+msgstr ""
+
+#: my-tickets.php:206
+msgid ""
+"You've reached the maximum number of tickets available for this purchase."
+msgstr ""
+
+#: my-tickets.php:220
+msgid "Offline"
+msgstr ""
+
+#: my-tickets.php:221
+msgid "Payment Forms Accepted"
+msgstr ""
+
+#: my-tickets.php:404
+msgid "Empty Cart"
+msgstr ""
+
+#: my-tickets.php:464
+msgid ""
+"My Tickets is currently in testing mode. No financial transactions will be "
+"processed."
+msgstr ""
+
+#: my-tickets.php:490
+msgid "Support this Plug-in"
+msgstr ""
+
+#: my-tickets.php:501
+msgid ""
+"<a href=\"http://www.joedolson.com/donate/\">Make a donation today!</a> "
+"Every donation counts - donate $2, $10, or $100 and help me keep this plug-"
+"in running!"
+msgstr ""
+
+#: my-tickets.php:512 my-tickets.php:557
+msgid "Check out my other plug-ins"
+msgstr ""
+
+#: my-tickets.php:513
+msgid "Rate this plug-in"
+msgstr ""
+
+#: my-tickets.php:521
+msgid "Premium Add-ons"
+msgstr ""
+
+#: my-tickets.php:524
+msgid ""
+"Want to do more with My Tickets? <a href=\"%s\">Premium add-ons are "
+"available now</a> - with more to come!"
+msgstr ""
+
+#: my-tickets.php:533
+msgid "Get My Tickets Help"
+msgstr ""
+
+#: my-tickets.php:549
+msgid "My Tickets FAQ"
+msgstr ""
+
+#: my-tickets.php:553
+msgid "Documentation"
+msgstr ""
+
+#: my-tickets.php:686
+msgid "Grant My Tickets Permissions"
+msgstr ""
+
+#: my-tickets.php:688
+msgid "Can verify tickets"
+msgstr ""
+
+#: my-tickets.php:689
+msgid "Can place orders after expiration dates."
+msgstr ""
+
+#: my-tickets.php:690
+msgid "Can view reports"
+msgstr ""
+
+#: my-tickets.php:691
+msgid "Can import user shopping carts"
+msgstr ""
+
+#: my-tickets.php:702
+msgid "My Tickets Shopping Cart"
+msgstr ""
+
+#: my-tickets.php:706
+msgid "Create new payment with this cart"
+msgstr ""
+
+#: templates/opt_out.php:3
+msgid "Opt Out"
+msgstr ""
+
+#: templates/opt_out.php:10
+msgid "You've opted out!"
+msgstr ""
+
+#: templates/opt_out.php:12
+msgid ""
+"We're sorry you don't want to hear from us about your purchase, and you "
+"won't hear from us again about this purchase, although we will still notify "
+"you about any future purchases. Thanks for your business!"
+msgstr ""
+
+#: templates/receipt.php:6
+msgid "Receipts"
+msgstr ""
+
+#: templates/receipt.php:28
+msgid "Add your business name and address to the post content."
+msgstr ""
+
+#: templates/receipt.php:42
+msgid "Receipt"
+msgstr ""
+
+#: templates/receipt.php:50
+msgid "Purchaser:"
+msgstr ""
+
+#: templates/receipt.php:53
+msgid "Purchased on:"
+msgstr ""
+
+#: templates/receipt.php:56
+msgid "Tickets Purchased:"
+msgstr ""
+
+#: templates/receipt.php:59
+msgid "Payment Details"
+msgstr ""
+
+#: templates/tickets.php:56
+msgid "Add your custom text into the post content."
+msgstr ""
+
+#: templates/verify.php:3
+msgid "Verify Ticket"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.joedolson.com/my-tickets/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Sell Tickets and take registrations for your events. Integrates with My "
+"Calendar."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Joseph C Dolson"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.joedolson.com"
+msgstr ""

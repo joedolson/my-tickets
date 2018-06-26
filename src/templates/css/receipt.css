@@ -1,0 +1,20 @@
+.receipt {
+    width: 100%;
+    max-width: 400px;
+}
+
+.receipt .post-thumbnail .default {
+    width: 120px;
+    height: auto;
+    margin-bottom: 1em;
+}
+
+.receipt .post-content {
+    background: #eee;
+    padding: 1em;
+    margin: 0 -1em;
+}
+
+code {
+    font-size: 1.2em;
+}

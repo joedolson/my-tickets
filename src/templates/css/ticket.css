@@ -1,0 +1,193 @@
+h1 {
+    font-size: 1em;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.ticket img {
+    display: inline-block;
+    float: left;
+}
+
+.ticket.eticket .post-thumbnail {
+    margin: 2em auto;
+    text-align: center;
+    float: none;
+}
+
+.eticket .post-thumbnail img {
+    float: none;
+}
+
+.ticket {
+    padding: 1em;
+    width: 800px;
+    height: 200px;
+}
+
+.bulk-tickets .ticket {
+    margin-bottom: 2em;
+}
+
+.eticket.ticket {
+    max-width: 480px;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    border: none;
+}
+
+.eticket .ticket-data {
+    padding: 0 2em 4em;
+    position: relative;
+}
+
+.ticket .inside {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.ticket .post-thumbnail {
+    float: left;
+    margin-right: 1em;
+    width: 25%;
+}
+
+.ticket .post-thumbnail img {
+    width: 100%;
+    height: auto;
+}
+
+.ticket .post-content {
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    margin-left: 1em;
+    font-size: .8em;
+    color: #555;
+    font-style: italic;
+}
+
+.eticket.ticket .post-content {
+    margin-left: 0;
+    font-size: .9em;
+    position: static;
+}
+
+.ticket .ticket_id {
+    position: absolute;
+    bottom: -10px;
+    right: 0;
+    font-size: .7em;
+    text-transform: uppercase;
+}
+
+.eticket .ticket_id {
+    position: static;
+    font-size: .8em;
+    clear: both;
+}
+
+.ticket .event-date {
+    color: #444;
+    font-size: 1.1em;
+}
+
+.ticket .time {
+    color: #000;
+}
+
+.ticket .event-title {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.ticket .ticket-type {
+    margin-top: 2em;
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+.ticket .ticket-price {
+    font-size: 1.6em;
+}
+
+.ticket .map {
+    display: none;
+}
+
+.printable .ticket-qrcode, .willcall .ticket-qrcode {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.printable .ticket-qrcode img, .willcall .ticket-qrcode img {
+    max-width: 96px;
+}
+
+.eticket .ticket-qrcode img {
+    float: none;
+    width: 100%;
+    height: auto;
+}
+
+.ticket-venue {
+    font-size: .9em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: right;
+}
+
+.eticket .ticket-venue, .eticket .ticket-id {
+    position: static;
+    text-align: left;
+    font-size: 1em;
+}
+
+@media only screen and (max-width: 800px) {
+    .printable {
+        padding: 1em;
+        width: 90%;
+        min-width: 320px;
+        height: 500px;
+    }
+
+    .eticket.ticket {
+        width: 100%;
+        height: auto;
+        padding: 0;
+        border: none;
+    }
+
+    .eticket.ticket .inside {
+        padding: 1em;
+        height: auto;
+    }
+
+    .ticket .event-title {
+        clear: left;
+        padding-top: 1em;
+    }
+
+    .ticket-venue {
+        position: static;
+        text-align: left;
+        margin-top: 2em;
+    }
+
+    .ticket .post-content {
+        position: static;
+    }
+
+}
+
+@media print {
+    .bulk-tickets .ticket {
+        page-break-inside: avoid;
+    }
+}

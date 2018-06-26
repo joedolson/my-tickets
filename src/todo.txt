@@ -1,0 +1,19 @@
+
+Issues log: 
+ - Add method to access transiently saved carts by ID in admin. [done, needs UI]
+ - Add additional screenshots for alternate views (add to cart with custom fields, etc.)
+
+
+ - Add toggle to auto add billing address to shipping address
+
+
+Future add-ons:
+ - MailChimp/aWeber integrations
+ - abandonment & expiration statistics
+ - address validation
+ - PDF generation with http://pdfcrowd.com/web-html-to-pdf-php/
+ - Future add-on: seating charts
+ - Venue pricing model (defaults per venue; seating maps)
+ - Use MCM to define custom fields for tickets?
+ - Coupons/Discounts
+ -

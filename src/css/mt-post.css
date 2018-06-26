@@ -1,0 +1,80 @@
+.panels:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.panel {
+    border-bottom: 1px solid rgba(0, 0, 0, .5);
+}
+
+.panel .inner {
+    padding: 0 0 .5em;
+}
+
+.panel .inner h4 {
+    padding: .2em;
+    margin: 0 0 1.33em;
+    background: #fff;
+}
+
+#mt_paid, #mt_status {
+    width: 6em;
+}
+
+#mt_receipt {
+    width: 18em;
+}
+
+.mt_paid, .mt_status, .mt_receipt {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.mt {
+    color: #fff;
+    background: #000;
+    padding: 2px 4px;
+    border-radius: 3px;
+    width: 6em;
+    display: inline-block;
+    box-shadow: 1px 1px #333;
+    text-shadow: 1px 1px #000;
+}
+
+.mt-message-log li > strong {
+    font-size: 16px;
+    padding-bottom: .5em;
+    display: block;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.mt-message-log li {
+    margin-bottom: 1.5em;
+    padding: .5em;
+    border: 1px solid #f3f3f3;
+}
+
+.pending {
+    background: #009;
+}
+
+.refunded {
+    background: #900;
+}
+
+.failed {
+    background: #f00;
+}
+
+.completed {
+    background: #070;
+}
+
+.other {
+    background: #555;
+}
+
+#mt_send_subject, #mt_send_email {
+    width: 100%;
+}

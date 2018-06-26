@@ -1,0 +1,227 @@
+.mt_cart_total, .mt_cart_label, .mt_ticket_handling {
+    text-align: right;
+    padding: .25em 0;
+}
+
+.mt_cart_total {
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.mt_cart_label, .mt_ticket_handling {
+    font-size: 1.1em;
+}
+
+.mt-message {
+    background: #f0f0fa;
+    color: #333;
+    padding: 1em;
+    font-size: 1.1em;
+    border: 2px solid;
+}
+
+.mt-message.success {
+    border-color: green;
+}
+
+.mt-message.error {
+    border-color: red;
+}
+
+.mt-payment-button {
+    padding: 1em 0;
+}
+
+.ticket-orders fieldset {
+    margin: 1em 0;
+}
+
+.tickets-remaining.hiding, .hiding .tickets-remaining {
+    display: none;
+}
+
+.ticket-orders legend {
+    font-weight: 700;
+    padding: 2px;
+}
+
+.ticket-orders label {
+    display: inline-block;
+    width: 10em;
+    margin-right: .5em;
+}
+
+.mt_cart caption {
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.mt_cart table {
+    width: 100%;
+    margin: 0;
+}
+
+.mt_cart td {
+    vertical-align: middle;
+}
+
+.mt_cart th {
+    line-height: 1.5;
+    font-weight: 700;
+    text-align: center;
+}
+
+.mt_cart th[scope="row"] {
+    text-align: left;
+}
+
+.mt_cart th .mt-datetime {
+    font-weight: 400;
+}
+
+.mt-response p {
+    padding: .5em;
+    background-color: rgba(255, 255, 200, .8);
+    color: #000;
+}
+
+.mt-processing {
+    display: none;
+}
+
+button[name="mt_add_to_cart"] img {
+    width: 16px !important;
+    padding: 0 0 0 2px;
+}
+
+.mt-payment-form fieldset {
+    margin: 1em 0;
+}
+
+.mt_cart tr.removed {
+    display: none;
+}
+
+.mt_cart .screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+.mt-payment-form legend {
+    font-weight: 700;
+    padding: .25em 0;
+}
+
+.gateway-selector {
+    padding: 1em 0;
+}
+
+.gateway-selector ul {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.gateway-selector li {
+    margin: 0 .25em 0 0 !important;
+    padding: .25em !important;
+    display: inline-block !important;
+    list-style-type: none !important;
+    background: rgba(0, 0, 0, .075);
+}
+
+.gateway-selector .active {
+    font-weight: 700;
+    background: rgba(0, 0, 0, .001);
+}
+
+.gateway-selector .active a {
+    text-decoration: none;
+    cursor: text;
+}
+
+.mt_sandbox_enabled {
+    position: relative;
+    background: #ffa;
+    color: #000;
+    padding: .5em 0;
+    font-size: 1.4em;
+    display: block;
+    border-top: 2px solid #933;
+    width: 100%;
+    text-align: center;
+}
+
+.admin-bar .mt_sandbox_enabled {
+    top: 32px;
+}
+
+.mt_cart label {
+    display: block;
+}
+
+.mt_cart .wp-post-image {
+    float: left;
+    margin-right: .5em;
+}
+
+.mt-update-column button {
+    padding: 3px 5px 2px;
+}
+
+.mt_purchase_path {
+    margin-bottom: 1em;
+}
+
+.mt_purchase_path span {
+    display: inline-block;
+    width: 33.33333333%;
+    padding: .5em 0;
+    text-align: center;
+    background: rgba( 255,255,255,.1 );
+}
+
+.mt_purchase_path .inactive {
+    background: rgba( 0,0,0,.3 );
+}
+
+.mt_purchase_path .active {
+    background: rgba( 0,0,0,.1 );
+}
+
+#x_card_code {
+    width: 4em;
+}
+
+.mt-admin-only {
+    background-color: rgba( 240,240,240,.8 );
+    font-style: italic;
+}
+
+.mt_email_check span {
+    font-weight: 700;
+    padding: .33em;
+    display: none;
+}
+
+.mt_email_check .dashicons, .mt_email_check .dashicons:before {
+    line-height: inherit;
+}
+
+.mt_email_check .ok {
+    color: #f2f2f2;
+    background: #217e21;
+}
+
+.mt_email_check .mismatch {
+    color: #f2f2f2;
+    background: #712121;
+}
