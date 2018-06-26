@@ -1,8 +1,14 @@
 <?php
-/*
-*  Register custom fields for event registration forms
-*
-*/
+/**
+ * Ticket display template tags.
+ *
+ * @category Display
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
 require_once( 'includes/phpqrcode/qrlib.php' );
 
 /**

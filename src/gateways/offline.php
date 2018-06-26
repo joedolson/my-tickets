@@ -1,4 +1,13 @@
 <?php
+/**
+ * Offline payment gateway
+ *
+ * @category Payment
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
 
 add_filter( 'mt_shipping_fields', 'mt_offline_shipping_fields', 10, 2 );
 function mt_offline_shipping_fields( $form, $gateway ) {

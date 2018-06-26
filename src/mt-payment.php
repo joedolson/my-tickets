@@ -1,5 +1,13 @@
 <?php
-/* Functions related to handling payments */
+/**
+ * Handle payment gateways and transact payment data into DB.
+ *
+ * @category Payments
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
 
 /*
  * Any gateway can call this function to handle inserting payment data into DB

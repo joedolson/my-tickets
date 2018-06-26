@@ -1,6 +1,13 @@
 <?php
-// Get & Save data about event registration options - set up the ticketing options.
-
+/**
+ * Process submissions from add to cart forms.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly

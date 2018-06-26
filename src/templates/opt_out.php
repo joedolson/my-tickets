@@ -1,3 +1,14 @@
+<?php
+/**
+ * Opt out template.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+?>
 <html>
 <head>
 	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Opt Out', 'my-tickets' ); ?></title>

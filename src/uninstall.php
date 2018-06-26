@@ -1,4 +1,14 @@
 <?php
+/**
+ * Uninstall My Tickets.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
 if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 } else {

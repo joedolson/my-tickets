@@ -1,6 +1,13 @@
 <?php
-
-/* Functions related to Tickets Receipts */
+/**
+ * Generate and display receipts.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
 
 add_filter( 'template_redirect', 'mt_receipt', 10, 1 );
 /**

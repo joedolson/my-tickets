@@ -1,8 +1,13 @@
 <?php
-/* 	
- * Admin methods for managing, viewing, and creating manual payment records.
+/**
+ * Custom Post Type elements - display and handling.
  *
-*/
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
 
 // begin add boxes
 add_action( 'add_meta_boxes', 'mt_add_meta_boxes' );

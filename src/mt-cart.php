@@ -1,6 +1,13 @@
 <?php
-
-/* Functions related to My Tickets Shopping Cart */
+/**
+ * Shopping Cart.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
 
 add_filter( 'the_content', 'my_tickets_cart', 20, 2 );
 /**

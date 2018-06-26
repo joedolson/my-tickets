@@ -1,4 +1,14 @@
 <?php
+/**
+ * My Tickets widgets.
+ *
+ * @category Widgets
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 exit;
 } // Exit if accessed directly

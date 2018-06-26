@@ -1,4 +1,14 @@
 <?php
+/**
+ * Generate and display reports.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
 /* Payments Page; display payment history */
 
 if ( ! defined( 'ABSPATH' ) ) {

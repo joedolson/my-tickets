@@ -1,4 +1,13 @@
 <?php
+/**
+ * Cart handling.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
 
 add_action( 'init', 'mt_handle_cart' );
 /**

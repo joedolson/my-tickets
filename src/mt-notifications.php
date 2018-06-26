@@ -1,4 +1,13 @@
 <?php
+/**
+ * Create and send notifications.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
 
 // if a post is trashed, return the tickets to pool.
 // Trashing a payment is *not* a refund; no notifications are sent.

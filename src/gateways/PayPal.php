@@ -1,4 +1,14 @@
 <?php
+/**
+ * PayPal payment gateway.
+ *
+ * @category Payments
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
@@ -9,8 +19,7 @@ function mt_paypal_ipn() {
 		if ( isset( $_POST['payment_status'] ) ) {
 			$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 			$receiver = ( isset( $options['mt_paypal_email'] ) ) ? strtolower( $options['mt_paypal_email'] ) : false;
-			// ipn address modified 2017
-			$url      = ( $options['mt_use_sandbox'] == 'true' ) ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' : 'https://ipnpb.paypal.com/cgi-bin/webscr';
+			$url      = ( 'true' == $options['mt_use_sandbox'] ) ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' : 'https://ipnpb.paypal.com/cgi-bin/webscr';
 
 			$req = 'cmd=_notify-validate';
 			foreach ( $_POST as $key => $value ) {
@@ -20,11 +29,11 @@ function mt_paypal_ipn() {
 
 			$args   = wp_parse_args( $req, array() );
 			$params = array(
-				'body'      => $args,
-				'sslverify' => false,
-				'timeout'   => 30,
-				'user-agent' => 'WordPress/My Tickets',
-                'httpversion' => '1.1'
+				'body'        => $args,
+				'sslverify'   => false,
+				'timeout'     => 30,
+				'user-agent'  => 'WordPress/My Tickets',
+                'httpversion' => '1.1',
 			);
 
 			// transaction variables to store
@@ -44,13 +53,13 @@ function mt_paypal_ipn() {
 			$mc_fee           = $_POST['mc_fee'];
 			$txn_id           = $_POST['txn_id'];
 			$parent           = isset( $_POST['parent_txn_id'] ) ? $_POST['parent_txn_id'] : '';
-			// paypal IPN data
 			$ipn              = wp_remote_post( $url, $params );
 
 			if ( is_wp_error( $ipn ) ) {
 				// send an email notification about this error.
 				wp_mail( $options['mt_to'], __( 'My Tickets could not contact PayPal', 'my-tickets' ), print_r( $ipn, 1 ) );
-				status_header( 503 ); die;
+				status_header( 503 );
+				die;
 			}
 			$response      = $ipn['body'];
 			$response_code = $ipn['response']['code'];
@@ -63,7 +72,7 @@ function mt_paypal_ipn() {
 				'city'    => isset( $_POST['address_city'] ) ? $_POST['address_city'] : '',
 				'state'   => isset( $_POST['address_state'] ) ? $_POST['address_state'] : '',
 				'country' => isset( $_POST['address_country_code'] ) ? $_POST['address_country_code'] : '',
-				'code'    => isset( $_POST['address_zip'] ) ? $_POST['address_zip'] : ''
+				'code'    => isset( $_POST['address_zip'] ) ? $_POST['address_zip'] : '',
 			);
 
 			$data = array(
@@ -77,19 +86,19 @@ function mt_paypal_ipn() {
 				'parent'         => $parent,
 				'status'         => $payment_status,
 				'purchase_id'    => $item_number,
-				'shipping'       => $address
+				'shipping'       => $address,
 			);
-			// die conditions for PayPal
-			// if receiver email or currency are wrong, this is probably a fraudulent transaction.
-			// if no receiver email provided, that check will be skipped.
-			if ( $payment_status == 'Refunded' ) {
-				$value_match = true; // it won't match, and probably doesn't need to.
+			// Die conditions for PayPal.
+			// If receiver email or currency are wrong, this is probably a fraudulent transaction.
+			// If no receiver email provided, that check will be skipped.
+			if ( 'Refunded' == $payment_status ) {
+				$value_match = true; // It won't match, and probably doesn't need to.
 			} else {
 				$value_match = mt_check_payment_amount( $price, $item_number );
 			}
-			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || !$value_match ) {
+			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || ! $value_match ) {
 				wp_mail( $options['mt_to'], __( 'Payment Conditions Error', 'my-tickets' ), __( "PayPal receiver email did not match account or payment currency did not match payment on $item_number", 'my-tickets' ) . "\n" . print_r( $data, 1 ) );
-				status_header( 200 ); // why 200? Because that's the only way to stop PayPal.
+				status_header( 200 ); // Why 200? Because that's the only way to stop PayPal.
 				die;
 			}
 			mt_handle_payment( $response, $response_code, $data, $_POST );
@@ -99,8 +108,12 @@ function mt_paypal_ipn() {
 
 			if ( isset( $_POST['txn_type'] ) ) {
 				// this is a transaction other than a purchase.
-				if ( $_POST['case_type'] == 'dispute' ) {
-					$posts = get_posts( array( 'post_type'=> 'mt-payments', 'meta_key'=>'_transaction_id', 'meta_value'=>$_POST['txn_id'] ) );
+				if ( 'dispute' == $_POST['case_type'] ) {
+					$posts = get_posts( array(
+					    'post_type'=> 'mt-payments',
+                        'meta_key'=>'_transaction_id',
+                        'meta_value'=>$_POST['txn_id'],
+                    ) );
 					if ( ! empty ( $posts ) ) {
 						$post = $posts[0];
 						update_post_meta( $post->ID, '_dispute_reason', $_POST['reason_code'] );
@@ -110,22 +123,33 @@ function mt_paypal_ipn() {
 				}
 				status_header( 200 );
 			}
-			status_header( 503 ); die;
+			status_header( 503 );
+			die;
 		}
 	}
 
 	return;
 }
 
+add_action( 'http_api_curl', 'mt_paypal_http_api_curl' );
 /**
  * Set cURL to use SSL version supporting TLS 1.2
+ *
+ * @param object $handle cURL object.
  */
-add_action( 'http_api_curl', 'mt_paypal_http_api_curl' );
 function mt_paypal_http_api_curl( $handle ) {
     curl_setopt( $handle,CURLOPT_SSLVERSION, 6 );
 }
 
 add_filter( 'mt_shipping_fields', 'mt_paypal_shipping_fields', 10, 2 );
+/**
+ * Rename shipping fields as needed for PayPal.
+ *
+ * @param string $form Original form fields.
+ * @param string $gateway Selected gateway.
+ *
+ * @return string
+ */
 function mt_paypal_shipping_fields( $form, $gateway ) {
 	if ( $gateway == 'paypal' ) {
 		$search  = array(
@@ -134,7 +158,7 @@ function mt_paypal_shipping_fields( $form, $gateway ) {
 			'mt_shipping_city',
 			'mt_shipping_state',
 			'mt_shipping_country',
-			'mt_shipping_code'
+			'mt_shipping_code',
 		);
 		$replace = array( 'address1', 'address2', 'city', 'state', 'mt_shipping_country', 'zip' );
 
@@ -145,6 +169,14 @@ function mt_paypal_shipping_fields( $form, $gateway ) {
 }
 
 add_filter( 'mt_format_transaction', 'mt_paypal_transaction', 10, 2 );
+/**
+ * Optional filter to modify return from PayPal.
+ *
+ * @param array $transaction Transaction data.
+ * @param string $gateway Selected gateway.
+ *
+ * @return array
+ */
 function mt_paypal_transaction( $transaction, $gateway ) {
 	if ( $gateway == 'paypal' ) {
 		// alter return value if desired.
@@ -154,6 +186,13 @@ function mt_paypal_transaction( $transaction, $gateway ) {
 }
 
 add_filter( 'mt_setup_gateways', 'mt_setup_paypal', 10, 1 );
+/**
+ * Setup PayPal settings fields.
+ *
+ * @param array $gateways Existing gateways array.
+ *
+ * @return array
+ */
 function mt_setup_paypal( $gateways ) {
 	$gateways['paypal'] = array(
 		'label'  => __( 'PayPal', 'my-tickets' ),
@@ -169,6 +208,15 @@ function mt_setup_paypal( $gateways ) {
 }
 
 add_filter( 'mt_gateway', 'mt_gateway_paypal', 10, 3 );
+/**
+ * Setup PayPal payment fields..
+ *
+ * @param string $form Payment form.
+ * @param string $gateway Selected gateway.
+ * @param array  $args Setup arguments.
+ *
+ * @return array
+ */
 function mt_gateway_paypal( $form, $gateway, $args ) {
 	if ( $gateway == 'paypal' ) {
 		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
@@ -219,7 +267,11 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 	return $form;
 }
 
-
+/**
+ * Currencies supported by PayPal.
+ *
+ * @return array
+ */
 function mt_paypal_supported() {
 	return array(
 		'AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD',
@@ -227,10 +279,14 @@ function mt_paypal_supported() {
 	);
 }
 
+add_filter( 'mt_currencies', 'mt_paypal_currencies', 10, 1 );
 /**
  * If this gateway is active, limit currencies to supported currencies.
+ *
+ * @param array $currencies All currencies.
+ *
+ * @return array supported currencies.
  */
-add_filter( 'mt_currencies', 'mt_paypal_currencies', 10, 1 );
 function mt_paypal_currencies( $currencies ) {
 	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
 	$defaults = mt_default_settings();
