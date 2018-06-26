@@ -10,8 +10,16 @@
  */
 
 add_filter( 'mt_shipping_fields', 'mt_offline_shipping_fields', 10, 2 );
+/**
+ * Rename shipping fields as needed for Offline gateway.
+ *
+ * @param string $form Original form fields.
+ * @param string $gateway Selected gateway.
+ *
+ * @return string
+ */
 function mt_offline_shipping_fields( $form, $gateway ) {
-	if ( $gateway == 'offline' ) {
+	if ( 'offline' == $gateway ) {
 		$search  = array(
 			'mt_shipping_street',
 			'mt_shipping_city',
@@ -28,8 +36,16 @@ function mt_offline_shipping_fields( $form, $gateway ) {
 }
 
 add_filter( 'mt_format_transaction', 'mt_format_offline_transaction', 10, 2 );
+/**
+ * Optional filter to modify return from PayPal.
+ *
+ * @param array  $transaction Transaction data.
+ * @param string $gateway Selected gateway.
+ *
+ * @return array
+ */
 function mt_format_offline_transaction( $transaction, $gateway ) {
-	if ( $gateway == 'offline' ) {
+	if ( 'offline' == $gateway ) {
 		// alter return value if desired.
 	}
 
@@ -37,11 +53,18 @@ function mt_format_offline_transaction( $transaction, $gateway ) {
 }
 
 add_filter( 'mt_setup_gateways', 'mt_setup_offline', 10, 1 );
+/**
+ * Setup Offline settings fields.
+ *
+ * @param array $gateways Existing gateways array.
+ *
+ * @return array
+ */
 function mt_setup_offline( $gateways ) {
 	$gateways['offline'] = array(
 		'label'  => __( 'Offline', 'my-tickets' ),
 		'fields' => array(
-			'notes'       => __( 'Offline Payment Notes', 'my-tickets' )
+			'notes' => __( 'Offline Payment Notes', 'my-tickets' )
 		)
 	);
 
@@ -49,8 +72,17 @@ function mt_setup_offline( $gateways ) {
 }
 
 add_filter( 'mt_gateway', 'mt_gateway_offline', 10, 3 );
+/**
+ * Setup Offline payment fields..
+ *
+ * @param string $form Payment form.
+ * @param string $gateway Selected gateway.
+ * @param array  $args Setup arguments.
+ *
+ * @return array
+ */
 function mt_gateway_offline( $form, $gateway, $args ) {
-	if ( $gateway == 'offline' ) {
+	if ( 'offline' == $gateway ) {
 		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$payment_id     = $args['payment'];
 		$handling       = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
@@ -75,13 +107,16 @@ function mt_gateway_offline( $form, $gateway, $args ) {
 }
 
 add_action( 'wp_loaded', 'mt_offline_processor' );
+/**
+ *  Process posted data from Offline payment.
+ */
 function mt_offline_processor() {
 	if ( isset( $_POST['mt_offline_payment'] ) && $_POST['mt_offline_payment'] == 'true' ) {
 		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$response = 'VERIFIED';
 		$response_code = 200;
 
-		// transaction variables to store
+		// transaction variables to store.
 		$item_number      = $_POST['mt_item'];
 		$price            = 0;
 		$payment_currency = $_POST['mt_currency'];
@@ -94,7 +129,7 @@ function mt_offline_processor() {
 			'city'    => isset( $_POST['city'] ) ? $_POST['city'] : '',
 			'state'   => isset( $_POST['state'] ) ? $_POST['state'] : '',
 			'country' => isset( $_POST['address_country'] ) ? $_POST['address_country'] : '',
-			'code'    => isset( $_POST['zip'] ) ? $_POST['zip'] : ''
+			'code'    => isset( $_POST['zip'] ) ? $_POST['zip'] : '',
 		);
 
 		// if the total price on this transaction is zero, mark as completed.
@@ -106,7 +141,7 @@ function mt_offline_processor() {
 			'currency'       => $payment_currency,
 			'status'         => $payment_status,
 			'purchase_id'    => $item_number,
-			'shipping'       => $address
+			'shipping'       => $address,
 		);
 
 		mt_handle_payment( $response, $response_code, $data, $_POST );
@@ -116,3 +151,4 @@ function mt_offline_processor() {
 
 	return;
 }
+

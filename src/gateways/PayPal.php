@@ -119,7 +119,7 @@ function mt_paypal_ipn() {
 						'meta_key'   => '_transaction_id',
 						'meta_value' => $_POST['txn_id'],
 					) );
-					if ( ! empty ( $posts ) ) {
+					if ( ! empty( $posts ) ) {
 						$post = $posts[0];
 						update_post_meta( $post->ID, '_dispute_reason', $_POST['reason_code'] );
 						update_post_meta( $post->ID, '_dispute_message', $_POST['buyer_additional_information'] );
@@ -142,7 +142,7 @@ add_action( 'http_api_curl', 'mt_paypal_http_api_curl' );
  * @param object $handle cURL object.
  */
 function mt_paypal_http_api_curl( $handle ) {
-	curl_setopt( $handle, CURLOPT_SSLVERSION,  6 );
+	curl_setopt( $handle, CURLOPT_SSLVERSION, 6 );
 }
 
 add_filter( 'mt_shipping_fields', 'mt_paypal_shipping_fields', 10, 2 );
@@ -245,28 +245,18 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		<input type='hidden' name='shipping' value='" . esc_attr( $shipping_price ) . "' />
 		<input type='hidden' name='no_note' value='1' />
 		<input type='hidden' name='currency_code' value='" . esc_attr( $currency ) . "' />";
-		$form .= "
+		$form          .= "
 		<input type='hidden' name='notify_url' value='" . mt_replace_http( add_query_arg( 'mt_paypal_ipn', 'true', esc_url( home_url() ) . '/' ) ) . "' />
 		<input type='hidden' name='return' value='" . mt_replace_http( esc_url( add_query_arg( array(
 			'response_code' => 'thanks',
 			'gateway'       => 'paypal',
-			'payment_id'    => $payment_id
+			'payment_id'    => $payment_id,
 		), get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />
 		<input type='hidden' name='cancel_return' value='" . mt_replace_http( add_query_arg( 'response_code', 'cancel', esc_url( get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />";
-		/* This might be part of handling discount codes.
-		if ( $discount == true && $discount_rate > 0 ) {
-			$form .= "
-			<input type='hidden' name='discount_rate' value='$discount_rate' />";
-			if ( $quantity == 'true' ) {
-				$form .= "
-				<input type='hidden' name='discount_rate2' value='$discount_rate' />";	
-			}
-		}
-		*/
 		$form .= mt_render_field( 'address', 'paypal' );
 		$form .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Make Payment through PayPal', 'my-tickets' ), $gateway ) ) . "' />";
 		$form .= apply_filters( 'mt_paypal_form', '', $gateway, $args );
-		$form .= "</form>";
+		$form .= '</form>';
 	}
 
 	return $form;
