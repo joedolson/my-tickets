@@ -38,17 +38,17 @@ function mt_paypal_ipn() {
 				'sslverify'   => false,
 				'timeout'     => 30,
 				'user-agent'  => 'WordPress/My Tickets',
-                'httpversion' => '1.1',
+				'httpversion' => '1.1',
 			);
 
 			// transaction variables to store.
 			$payment_status = $_POST['payment_status'];
 			if ( isset( $_POST['num_cart_items'] ) ) {
-			    // My Tickets support for cart formatted requests. My Tickets only supports processing of a single order, however.
-			    $item_number = $_POST['item_number1'];
-            } else {
-			    $item_number = $_POST['item_number'];
-            }
+				// My Tickets support for cart formatted requests. My Tickets only supports processing of a single order, however.
+				$item_number = $_POST['item_number1'];
+			} else {
+				$item_number = $_POST['item_number'];
+			}
 			$price            = $_POST['mc_gross'];
 			$payment_currency = $_POST['mc_currency'];
 			$receiver_email   = $_POST['receiver_email'];
@@ -115,16 +115,15 @@ function mt_paypal_ipn() {
 				// this is a transaction other than a purchase.
 				if ( 'dispute' == $_POST['case_type'] ) {
 					$posts = get_posts( array(
-					    'post_type'  => 'mt-payments',
-                        'meta_key'   => '_transaction_id',
-                        'meta_value' => $_POST['txn_id'],
-                    ) );
+						'post_type'  => 'mt-payments',
+						'meta_key'   => '_transaction_id',
+						'meta_value' => $_POST['txn_id'],
+					) );
 					if ( ! empty ( $posts ) ) {
 						$post = $posts[0];
 						update_post_meta( $post->ID, '_dispute_reason', $_POST['reason_code'] );
 						update_post_meta( $post->ID, '_dispute_message', $_POST['buyer_additional_information'] );
 					}
-
 				}
 				status_header( 200 );
 			}
@@ -143,7 +142,7 @@ add_action( 'http_api_curl', 'mt_paypal_http_api_curl' );
  * @param object $handle cURL object.
  */
 function mt_paypal_http_api_curl( $handle ) {
-    curl_setopt( $handle,CURLOPT_SSLVERSION, 6 );
+	curl_setopt( $handle, CURLOPT_SSLVERSION,  6 );
 }
 
 add_filter( 'mt_shipping_fields', 'mt_paypal_shipping_fields', 10, 2 );
@@ -156,8 +155,8 @@ add_filter( 'mt_shipping_fields', 'mt_paypal_shipping_fields', 10, 2 );
  * @return string
  */
 function mt_paypal_shipping_fields( $form, $gateway ) {
-	if ( $gateway == 'paypal' ) {
-		$search  = array(
+	if ( 'paypal' == $gateway ) {
+		$search = array(
 			'mt_shipping_street',
 			'mt_shipping_street2',
 			'mt_shipping_city',
@@ -177,13 +176,13 @@ add_filter( 'mt_format_transaction', 'mt_paypal_transaction', 10, 2 );
 /**
  * Optional filter to modify return from PayPal.
  *
- * @param array $transaction Transaction data.
+ * @param array  $transaction Transaction data.
  * @param string $gateway Selected gateway.
  *
  * @return array
  */
 function mt_paypal_transaction( $transaction, $gateway ) {
-	if ( $gateway == 'paypal' ) {
+	if ( 'paypal' == $gateway ) {
 		// alter return value if desired.
 	}
 
@@ -202,11 +201,12 @@ function mt_setup_paypal( $gateways ) {
 	$gateways['paypal'] = array(
 		'label'  => __( 'PayPal', 'my-tickets' ),
 		'fields' => array(
-			'email'       => __( "PayPal email (primary)", 'my-tickets' ),
+			'email'       => __( 'PayPal email (primary)', 'my-tickets' ),
 			'merchant_id' => __( 'PayPal Merchant ID', 'my-tickets' ),
-			'notes'       => __( 'PayPal Notes for Email Templates', 'my-tickets' )
+			'notes'       => __( 'PayPal Notes for Email Templates', 'my-tickets' ),
 		),
-		'note'  => sprintf( __( 'You need IPN (Instant Payment Notification) enabled in your PayPal account to handle payments. Your IPN address for My Tickets is currently %s.', 'my-tickets' ), "<code>" . add_query_arg( 'mt_paypal_ipn', 'true', home_url( '/' ) ) . "</code>" )
+		// Translators: URL recommended for My Tickets IPN.
+		'note'   => sprintf( __( 'You need IPN (Instant Payment Notification) enabled in your PayPal account to handle payments. Your IPN address for My Tickets is currently %s.', 'my-tickets' ), '<code>' . add_query_arg( 'mt_paypal_ipn', 'true', home_url( '/' ) ) . '</code>' ),
 	);
 
 	return $gateways;
@@ -223,22 +223,22 @@ add_filter( 'mt_gateway', 'mt_gateway_paypal', 10, 3 );
  * @return array
  */
 function mt_gateway_paypal( $form, $gateway, $args ) {
-	if ( $gateway == 'paypal' ) {
+	if ( 'paypal' == $gateway ) {
 		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$payment_id     = $args['payment'];
 		$handling       = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 		$total          = $args['total'] + $handling;
-		$shipping       = ( $args['method'] == 'postal' ) ? 2 : 1;
-		$shipping_price = ( $args['method'] == 'postal' ) ? number_format( $options['mt_shipping'], 2 ) : 0;
+		$shipping       = ( 'postal' == $args['method'] ) ? 2 : 1;
+		$shipping_price = ( 'postal' == $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
 		$use_sandbox    = $options['mt_use_sandbox'];
 		$currency       = $options['mt_currency'];
 		$merchant       = $options['mt_gateways']['paypal']['merchant_id'];
 		$purchaser      = get_the_title( $payment_id );
 		$form           = "
-		<form action='" . ( $use_sandbox != 'true' ? "https://www.paypal.com/cgi-bin/webscr" : "https://www.sandbox.paypal.com/cgi-bin/webscr" ) . "' method='POST'>
+		<form action='" . ( 'true' != $use_sandbox ? 'https://www.paypal.com/cgi-bin/webscr' : 'https://www.sandbox.paypal.com/cgi-bin/webscr' ) . "' method='POST'>
 		<input type='hidden' name='cmd' value='_xclick' />
 		<input type='hidden' name='business' value='" . esc_attr( $merchant ) . "' />
-		<input type='hidden' name='item_name' value='" . esc_attr( sprintf( __( '%s Order from %s', 'my-tickets' ), get_option( 'blogname' ), $purchaser ) ) . "' />
+		<input type='hidden' name='item_name' value='" . esc_attr( sprintf( __( '%1$s Order from %2$s', 'my-tickets' ), get_option( 'blogname' ), $purchaser ) ) . "' />
 		<input type='hidden' name='item_number' value='" . esc_attr( $payment_id ) . "' />
 		<input type='hidden' name='amount' value='" . esc_attr( $total ) . "' />
 		<input type='hidden' name='no_shipping' value='" . esc_attr( $shipping ) . "' />
@@ -248,10 +248,10 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		$form .= "
 		<input type='hidden' name='notify_url' value='" . mt_replace_http( add_query_arg( 'mt_paypal_ipn', 'true', esc_url( home_url() ) . '/' ) ) . "' />
 		<input type='hidden' name='return' value='" . mt_replace_http( esc_url( add_query_arg( array(
-						'response_code' => 'thanks',
-						'gateway'       => 'paypal',
-						'payment_id'       => $payment_id
-					), get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />
+			'response_code' => 'thanks',
+			'gateway'       => 'paypal',
+			'payment_id'    => $payment_id
+		), get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />
 		<input type='hidden' name='cancel_return' value='" . mt_replace_http( add_query_arg( 'response_code', 'cancel', esc_url( get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />";
 		/* This might be part of handling discount codes.
 		if ( $discount == true && $discount_rate > 0 ) {
@@ -278,10 +278,7 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
  * @return array
  */
 function mt_paypal_supported() {
-	return array(
-		'AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD',
-		'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'TRY', 'USD'
-	);
+	return array( 'AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'TRY', 'USD' );
 }
 
 add_filter( 'mt_currencies', 'mt_paypal_currencies', 10, 1 );
@@ -293,18 +290,18 @@ add_filter( 'mt_currencies', 'mt_paypal_currencies', 10, 1 );
  * @return array supported currencies.
  */
 function mt_paypal_currencies( $currencies ) {
-	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
-	$defaults = mt_default_settings();
-	$options  = array_merge( $defaults, $options );
+	$options     = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
+	$defaults    = mt_default_settings();
+	$options     = array_merge( $defaults, $options );
 	$mt_gateways = $options['mt_gateway'];
 
 	if ( is_array( $mt_gateways ) && in_array( 'authorizenet', $mt_gateways ) ) {
 		$paypal = mt_paypal_supported();
 		$return = array();
-		foreach( $paypal as $currency ) {
+		foreach ( $paypal as $currency ) {
 			$keys = array_keys( $currencies );
 			if ( in_array( $currency, $keys ) ) {
-				$return[$currency] = $currencies[$currency];
+				$return[ $currency ] = $currencies[ $currency ];
 			}
 		}
 
