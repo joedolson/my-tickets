@@ -298,7 +298,7 @@ function mt_wp_enqueue_scripts() {
 				'jquery-ui-autocomplete'
 			) );
 		wp_localize_script( 'mt.functions', 'mt_ajax_action', 'mt_post_lookup' );
-	} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'mt-reports' ) {
+	} elseif ( isset( $_GET['page'] ) && $_GET['page'] == 'mt-reports' ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', 'mt_completed' );
 	}

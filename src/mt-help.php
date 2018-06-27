@@ -219,7 +219,7 @@ $plugins_string
 
 		if ( ! $has_read_faq ) {
 			echo "<div class='message error'><p>" . __( 'Please read the FAQ and other Help documents before making a support request.', 'my-tickets' ) . "</p></div>";
-		} else if ( ! $request ) {
+		} elseif ( ! $request ) {
 			echo "<div class='message error'><p>" . __( 'Please describe your problem. I\'m not psychic.', 'my-tickets' ) . "</p></div>";
 		} else {
 			$sent = wp_mail( "plugins@joedolson.com", $subject, $message, $from );

@@ -197,11 +197,11 @@ function mt_get_payment_details() {
 		</ul>";
 
 			return $return;
-		} else if ( $paid == 'Refunded' ) {
+		} elseif ( $paid == 'Refunded' ) {
 			return __( 'This payment has been refunded.', 'my-tickets' );
-		} else if ( $paid == 'Failed' ) {
+		} elseif ( $paid == 'Failed' ) {
 			return __( 'Payment on this order failed.', 'my-tickets' );
-		} else if ( $paid == 'Turned Back' ) {
+		} elseif ( $paid == 'Turned Back' ) {
 		    return __( 'This purchase was cancelled and the tickets were returned to the seller.', 'my-tickets' );
         } else {
                 return __( 'Payment on this purchase is not completed. The receipt will be updated with payment details when payment is completed.', 'my-tickets' );

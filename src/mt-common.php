@@ -11,15 +11,23 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly
+} // Exit if accessed directly.
 
-// PHP functions common to all pro packages
+/**
+ * Check submitted license key.
+ *
+ * @param string|boolean $key License key.
+ * @param string         $product Product being checked.
+ * @param string         $store URL of store.
+ *
+ * @return bool
+ */
 function mt_check_license( $key = false, $product, $store ) {
-	// listen for our activate button to be clicked
+	// listen for our activate button to be clicked.
 	if( isset( $_POST[ 'mt_license_keys' ] ) ) {
-		// retrieve the license from the database
+		// retrieve the license from the database.
 		$license = trim( sanitize_text_field( $key ) );
-		// data to send in our API request
+		// data to send in our API request.
 		$api_params = array(
 			'edd_action'=> 'activate_license',
 			'license' 	=> $license,
@@ -33,27 +41,36 @@ function mt_check_license( $key = false, $product, $store ) {
 			'sslverify' => false,
 			'body'      => $api_params,
 		) );
-		// make sure the response came back okay
+		// make sure the response came back okay.
 
 		if ( is_wp_error( $response ) )
 			return false;
 		// decode the license data
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
-		// $license_data->license will be either "active" or "inactive"
+		// $license_data->license will be either "active" or "inactive".
 		return $license_data->license;
 	}
 
 	return false;
 }
 
+/**
+ * Verify the key.
+ *
+ * @param string $option Option to check for key storage.
+ * @param string $name Name of product.
+ * @param string $store URL of store.
+ *
+ * @return string
+ */
 function mt_verify_key( $option, $name, $store ) {
 	$message = '';
 
 	$key = strip_tags( $_POST[ $option ] );
 	update_option( $option, $key );
 
-	if ( $key != '' ) {
+	if ( '' != $key ) {
 		$confirmation = mt_check_license( $key, $name, $store );
 	} else {
 		$confirmation = 'deleted';
@@ -61,21 +78,24 @@ function mt_verify_key( $option, $name, $store ) {
 
 	$previously = get_option( $option . '_valid' );
 	update_option( $option . '_valid', $confirmation );
-	if ( $confirmation == 'inactive' ) {
+	if ( 'inactive' ==  $confirmation ) {
+		// Translators: plugin name.
 		$message = sprintf( __( "That %s key is not active.", 'my-tickets' ), $name );
-	} else if ( $confirmation == 'active' || $confirmation == 'valid'  ) {
-		if ( $previously == 'true' || $previously == 'active' || $previously == 'valid' ) {
-			$message = 'This';
+	} elseif ( 'active' == $confirmation || 'valid' == $confirmation  ) {
+		if ( 'true' ==  $previously || 'active' == $previously || 'valid' == $previously ) {
+			$message = '';
 		} else {
-			$message = sprintf( __( "%s key validated. Enjoy!", 'my-tickets' ), $name );
+			// Translators: plugin name.
+			$message = sprintf( __( '%s key validated. Enjoy!', 'my-tickets' ), $name );
 		}
-	} else if ( $confirmation == 'deleted' ) {
-		$message = sprintf( __( "You have deleted your %s license key.", 'my-tickets' ), $name );
+	} elseif ( 'deleted' == $confirmation ) {
+		// Translators: plugin name.
+		$message = sprintf( __( 'You have deleted your %s license key.', 'my-tickets' ), $name );
 	} else {
-		$message = sprintf( __( "%s received an unexpected message from the license server. Try again in a bit.", 'my-tickets' ), $name );
-		//delete_option( $option );
+		// Translators: plugin name.
+		$message = sprintf( __( '%s received an unexpected message from the license server. Try again in a bit.', 'my-tickets' ), $name );
 	}
-	$message = ( $message != '' ) ? " $message " : $message; // just add a space
+	$message = ( $message != '' ) ? " $message " : $message; // just add a space.
 
 	return $message;
 }

@@ -35,7 +35,7 @@ add_action( 'init', 'mt_handle_response_message' );
 /**
  * Delete cart data if payment response message is 'thank you'.
  *
- * @return null
+ * @return void
  */
 function mt_handle_response_message() {
 	// if we've got a thank you message, we don't need this cart any more.
@@ -130,10 +130,10 @@ function mt_cart_no_postal( $cart ) {
  * @return mixed|string
  */
 function mt_required_fields( $cart ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$output  = mt_render_field( 'name' );
-	$output .= mt_render_field( 'email' );
-	$output .= ( isset( $options['mt_phone'] ) && 'on' == $options['mt_phone'] ) ? mt_render_field( 'phone' ) : '';
+	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$output    = mt_render_field( 'name' );
+	$output   .= mt_render_field( 'email' );
+	$output   .= ( isset( $options['mt_phone'] ) && 'on' == $options['mt_phone'] ) ? mt_render_field( 'phone' ) : '';
 	$opt_types = $options['mt_ticketing'];
 	if ( isset( $opt_types['postal'] ) ) {
 		$no_postal = mt_cart_no_postal( $cart );
@@ -168,9 +168,11 @@ function mt_invite_login_or_register() {
 			$register = '';
 		}
 		if ( '' != $register ) {
+			// Translators: Login link, register link.
 			$text = wpautop( sprintf( __( '%1$s or %2$s', 'my-tickets' ), $login, $register ) );
 		} else {
-			$text = wpautop( sprintf( __( '%1$s now!', 'my-tickets' ), $login, $register ) );
+			// Translators: Login link.
+			$text = wpautop( sprintf( __( '%1$s now!', 'my-tickets' ), $login ) );
 		}
 
 		return apply_filters( 'mt_invite_login_or_register', "<div class='mt-invite-login-or-register'>$text</div>" );
@@ -180,7 +182,7 @@ function mt_invite_login_or_register() {
 }
 
 /**
- * if multiple types are available, allow to choose whether or not to use an e-ticket. Notify of multiple methods that are available.
+ * If multiple types are available, allow to choose whether or not to use an e-ticket. Notify of multiple methods that are available.
  *
  * @param array $types Types of tickets enabled.
  *
@@ -197,7 +199,7 @@ function mt_render_types( $types ) {
 			$output  .= "<option value='$key'$selected>$method</option>";
 		}
 	}
-	$output .= "</select></p>";
+	$output .= '</select></p>';
 
 	return $output;
 }
@@ -212,23 +214,24 @@ function mt_render_types( $types ) {
 function mt_render_type( $type ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	switch ( $type ) {
-		case 'eticket' :
+		case 'eticket':
 			$return = __( 'Your ticket will be delivered as an e-ticket. You will receive a link in your email.', 'my-tickets' );
 			break;
-		case 'printable' :
+		case 'printable':
 			$return = __( 'Your ticket will be provided for printing after purchase. You will receive a link to the ticket in your email. Please print your ticket and bring it with you to the event.', 'my-tickets' );
 			break;
-		case 'postal' :
+		case 'postal':
+			// Translators: estimated number of days for ticket shipping.
 			$return = sprintf( __( 'Your ticket will be sent to you by mail. You should receive your ticket within %s days, after payment is completed.', 'my-tickets' ), $options['mt_shipping_time'] );
 			break;
-		case 'willcall' :
+		case 'willcall':
 			$return = __( 'Your ticket will be under your name at the box office. Please arrive early to allow time to pick up your ticket.', 'my-tickets' );
 			break;
 		default:
 			$return = '';
 	}
 
-	return "<input type='hidden' name='ticketing_method' value='$type' />" . apply_filters( 'mt_render_ticket_type_message', "<p class='ticket-type-message'>" . $return . "</p>", $type );
+	return "<input type='hidden' name='ticketing_method' value='$type' />" . apply_filters( 'mt_render_ticket_type_message', "<p class='ticket-type-message'>" . $return . '</p>', $type );
 }
 
 /**
@@ -251,7 +254,7 @@ function mt_render_field( $field, $argument = false ) {
 		'code'    => '',
 	);
 	switch ( $field ) {
-		case 'address' :
+		case 'address':
 			// only show shipping fields if postal ticketing in use.
 			if ( ( isset( $_POST['ticketing_method'] ) && 'postal' == $_POST['ticketing_method'] ) || mt_always_collect_shipping() ) {
 				$user_address = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, '_mt_shipping_address', true ) : $defaults;
@@ -295,7 +298,7 @@ function mt_render_field( $field, $argument = false ) {
 			}
 			$output = apply_filters( 'mt_shipping_fields', $output, $argument );
 			break;
-		case 'name' :
+		case 'name':
 			$user_fname = ( is_user_logged_in() ) ? $current_user->user_firstname : '';
 			$user_lname = ( is_user_logged_in() ) ? $current_user->user_lastname : '';
 			$fname      = ( isset( $_POST['mt_fname'] ) ) ? $_POST['mt_fname'] : $user_fname;
@@ -305,27 +308,27 @@ function mt_render_field( $field, $argument = false ) {
 				$fname      = get_post_meta( $payment_id, '_first_name', true );
 				$lname      = get_post_meta( $payment_id, '_last_name', true );
 			}
-			$output     = '<p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" required aria-required="true" /> <label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" required aria-required="true" /></p>';
+			$output = '<p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" required aria-required="true" /> <label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" required aria-required="true" /></p>';
 			break;
-		case 'email' :
+		case 'email':
 			$user_email = ( is_user_logged_in() ) ? $current_user->user_email : '';
 			$email      = ( isset( $_POST['mt_email'] ) ) ? $_POST['mt_email'] : $user_email;
 			if ( isset( $_GET['payment'] ) ) {
 				$payment_id = (int) $_GET['payment'];
 				$email      = get_post_meta( $payment_id, '_email', true );
 			}
-			$output     = '<p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /></p>';
-			$output    .= '<p><label for="mt_email2">' . __( 'E-mail (confirm)', 'my-tickets' ) . '</label> <input type="email" name="mt_email2" id="mt_email2" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /></p>';
-			$output    .= '<p class="mt_email_check" aria-live="polite"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address matches', 'my-tickets' ) .'</span><span class="mismatch"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Email address does not match', 'my-tickets' ) .'</span></p>';
+			$output  = '<p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /></p>';
+			$output .= '<p><label for="mt_email2">' . __( 'E-mail (confirm)', 'my-tickets' ) . '</label> <input type="email" name="mt_email2" id="mt_email2" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /></p>';
+			$output .= '<p class="mt_email_check" aria-live="polite"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address matches', 'my-tickets' ) . '</span><span class="mismatch"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Email address does not match', 'my-tickets' ) . '</span></p>';
 			break;
-		case 'phone' :
+		case 'phone':
 			$user_phone = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, 'mt_phone', true ) : '';
 			$phone      = ( isset( $_POST['mt_phone'] ) ) ? $_POST['mt_phone'] : $user_phone;
 			if ( isset( $_GET['payment'] ) ) {
 				$payment_id = (int) $_GET['payment'];
 				$phone      = get_post_meta( $payment_id, '_phone', true );
 			}
-			$output     = '<p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" required aria-required="true"  /></p>';
+			$output = '<p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" required aria-required="true"  /></p>';
 			break;
 	}
 
@@ -362,8 +365,8 @@ function mt_gateways() {
 		foreach ( $enabled as $gate ) {
 			$current_gate = ( isset( $_GET['mt_gateway'] ) && in_array( $_GET['mt_gateway'], $enabled ) ) ? $_GET['mt_gateway'] : $options['mt_default_gateway'];
 			if ( isset( $labels[ $gate ] ) ) {
-				$checked      = ( $gate == $current_gate ) ? ' class="active"' : '';
-				$label        = $labels[ $gate ]['label'];
+				$checked   = ( $gate == $current_gate ) ? ' class="active"' : '';
+				$label     = $labels[ $gate ]['label'];
 				$selector .= "<li$checked><a href='$url?mt_gateway=$gate' data-assign='$gate'>$label</a></li>";
 			}
 		}
@@ -375,7 +378,7 @@ function mt_gateways() {
 /**
  * Generate breadcrumb path for cart purchase process
  *
- * @param string|boolean $gateway Has a value if we're on payment process; false if not set
+ * @param string|boolean $gateway Has a value if we're on payment process; false if not set.
  *
  * @return string
  */
@@ -383,7 +386,7 @@ function mt_generate_path( $gateway ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$path    = '<span class="active"><a href="' . home_url() . '">' . __( 'Home', 'my-tickets' ) . '</a></span>';
 	if ( false == $gateway ) {
-		$path .= '<span class="inactive"><strong>' .  __( 'Cart', 'my-tickets' ) . '</strong></span>';
+		$path .= '<span class="inactive"><strong>' . __( 'Cart', 'my-tickets' ) . '</strong></span>';
 	} else {
 		$path .= '<span class="active"><a href="' . get_permalink( $options['mt_purchase_page'] ) . '">' . __( 'Cart', 'my-tickets' ) . '</a></span>';
 	}
@@ -399,15 +402,15 @@ function mt_generate_path( $gateway ) {
  * Generate cart. Show all events with tickets in cart unless event is already past the time when it can be ordered.
  * TODO: Display notice if item has been removed from cart.
  *
- * @param bool $user_ID
+ * @param bool $user_ID User ID.
  *
  * @return mixed|string|void
  */
 function mt_generate_cart( $user_ID = false ) {
 	// if submitted successfully & payment required, toggle to payment form.
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$gateway = isset( $_POST['mt_gateway'] ) ? $_POST['mt_gateway'] : false;
-	$type    = isset( $_POST['ticketing_method'] ) ? $_POST['ticketing_method'] : false;
+	$options     = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$gateway     = isset( $_POST['mt_gateway'] ) ? $_POST['mt_gateway'] : false;
+	$type        = isset( $_POST['ticketing_method'] ) ? $_POST['ticketing_method'] : false;
 	$breadcrumbs = mt_generate_path( $gateway );
 	if ( $gateway && ( 'offline' != $gateway || 'postal' == $type || mt_always_collect_shipping() ) ) {
 		$response = mt_update_cart( $_POST['mt_cart_order'] );
@@ -425,19 +428,19 @@ function mt_generate_cart( $user_ID = false ) {
 		$gateway        = "<input type='hidden' name='mt_gateway' value='" . esc_attr( $current_gate ) . "' />";
 		$cart_page      = get_permalink( $options['mt_purchase_page'] );
 		if ( is_array( $cart ) && ! empty( $cart ) && $count > 0 ) {
-			$output = '
+			$output     = '
 		<div class="mt_cart">
 			<div class="mt-response" aria-live="assertive"></div>
 			<form action="' . esc_url( $cart_page ) . '" method="POST">' . "
 			<input class='screen-reader-text' type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Place Order', 'my-tickets' ), $current_gate ) . "' />" . '
 				' . $nonce . '
 				' . $gateway;
-			$output .= mt_generate_cart_table( $cart );
+			$output    .= mt_generate_cart_table( $cart );
 			if ( 0 != $handling_total ) {
-				$output .= "<div class='mt_cart_handling'>" . apply_filters( 'mt_cart_handling_text', sprintf( __( 'A handling fee of %s will be applied to this purchase.', 'my-tickets' ), $handling ), $current_gate ) . "</div>";
+				$output .= "<div class='mt_cart_handling'>" . apply_filters( 'mt_cart_handling_text', sprintf( __( 'A handling fee of %s will be applied to this purchase.', 'my-tickets' ), $handling ), $current_gate ) . '</div>';
 			}
 			if ( mt_handling_notice() ) {
-				$output .= "<div class='mt_ticket_handling'>" . mt_handling_notice() . "</div>";
+				$output .= "<div class='mt_ticket_handling'>" . mt_handling_notice() . '</div>';
 			}
 			$custom_fields = apply_filters( 'mt_cart_custom_fields', array(), $cart, $gateway );
 			$custom_output = '';
@@ -510,8 +513,8 @@ add_filter( 'mt_link_title', 'mt_core_link_title', 10, 2 );
 /**
  * Filter event titles to display as linked in cart when a link is available. Occurrence IDs are not available, so details link can't be provided.
  *
- * @param string $event_title Title of event
- * @param object $event Event post object
+ * @param string $event_title Title of event.
+ * @param object $event Event post object.
  *
  * @return string linked title if a link is available (any event post or event with a link)
  */
@@ -573,7 +576,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$currency = $options['mt_currency'];
 				$event    = get_post( $event_id );
 				if ( ! is_object( $event ) ) {
-					// this is coming from a deleted event
+					// this is coming from a deleted event.
 					continue;
 				}
 				$title        = apply_filters( 'mt_link_title', $event->post_title, $event );
@@ -649,9 +652,9 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 /**
  * Get total $ value of saved cart.
  *
- * @param $cart
+ * @param array $cart Cart data.
  *
- * @return int
+ * @return float
  */
 function mt_total_cart( $cart ) {
 	$total = 0;
@@ -682,7 +685,7 @@ function mt_total_cart( $cart ) {
 /**
  * Get number of tickets in current cart.
  *
- * @param $cart
+ * @param array $cart Cart data.
  *
  * @return int
  */
@@ -707,11 +710,13 @@ function mt_count_cart( $cart ) {
 /**
  * Generate payment gateway code from selected gateway.
  *
- * array $cart cart data
+ * @param array $cart cart data.
  *
  * uses: filter mt_gateway (pull gateway form)
  * uses: filter mt_form_wrapper (html wrapper around gateway)
-*/
+ *
+ * @return string
+ */
 function mt_generate_gateway( $cart ) {
 	$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$return_url     = get_permalink( $options['mt_purchase_page'] );
@@ -724,8 +729,8 @@ function mt_generate_gateway( $cart ) {
 		$ticket_method  = ( isset( $_POST['ticketing_method'] ) ) ? $_POST['ticketing_method'] : 'willcall';
 		$shipping_total = ( $ticket_method == 'postal' ) ? $options['mt_shipping'] : 0;
 		$handling_total = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
-		$shipping       = ( $shipping_total ) ? "<div class='mt_cart_shipping mt_cart_label'>" . __( 'Shipping:', 'my-tickets' ) . " <span class='mt_shipping_number mt_cart_value'>" . apply_filters( 'mt_money_format', $shipping_total ) . "</span></div>" : '';
-		$handling       = ( $handling_total ) ? "<div class='mt_cart_handling mt_cart_label'>" . __( 'Handling:', 'my-tickets' ) . " <span class='mt_handling_number mt_cart_value'>" . apply_filters( 'mt_money_format', $handling_total ) . "</span></div>" : '';
+		$shipping       = ( $shipping_total ) ? "<div class='mt_cart_shipping mt_cart_label'>" . __( 'Shipping:', 'my-tickets' ) . " <span class='mt_shipping_number mt_cart_value'>" . apply_filters( 'mt_money_format', $shipping_total ) . '</span></div>' : '';
+		$handling       = ( $handling_total ) ? "<div class='mt_cart_handling mt_cart_label'>" . __( 'Handling:', 'my-tickets' ) . " <span class='mt_handling_number mt_cart_value'>" . apply_filters( 'mt_money_format', $handling_total ) . '</span></div>' : '';
 		$tick_handling  = mt_handling_notice();
 		$mt_gateway     = ( isset( $_POST['mt_gateway'] ) ) ? $_POST['mt_gateway'] : 'offline';
 		$other_charges  = apply_filters( 'mt_custom_charges', 0, $cart, $mt_gateway );
@@ -734,7 +739,7 @@ function mt_generate_gateway( $cart ) {
 			$mt_gateway = 'offline';
 		}
 
-		$report_total   = "<div class='mt_cart_total'>" . apply_filters( 'mt_cart_total_text', __( 'Total:', 'my-tickets' ), $mt_gateway ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total + $shipping_total + $handling_total + $other_charges ) . "</span></div>";
+		$report_total   = "<div class='mt_cart_total'>" . apply_filters( 'mt_cart_total_text', __( 'Total:', 'my-tickets' ), $mt_gateway ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total + $shipping_total + $handling_total + $other_charges ) . '</span></div>';
 		$args           = apply_filters( 'mt_payment_form_args', array(
 		    'cart'    => $cart,
             'total'   => $total,
@@ -756,24 +761,24 @@ add_filter( 'mt_form_wrapper', 'mt_wrap_payment_button' );
 /**
  * Generate HTML to wrap gateway form.
  *
- * @param $form
+ * @param string $form Form HTML.
  *
  * @return string
  */
 function mt_wrap_payment_button( $form ) {
-	return "<div class='mt-payment-form'>" . $form . "</div>";
+	return "<div class='mt-payment-form'>" . $form . '</div>';
 }
 
 /**
  * If SSL is enabled, replace HTTP in URL.
  *
- * @param $url
+ * @param string $url site URL.
  *
  * @return mixed
  */
 function mt_replace_http( $url ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( $options['mt_ssl'] == 'true' ) {
+	if ( 'true' == $options['mt_ssl'] ) {
 		$url = preg_replace( '|^http://|', 'https://', $url );
 	}
 
@@ -784,7 +789,7 @@ function mt_replace_http( $url ) {
  * Test whether an event is no longer available for purchase. If user has capability to order expired events, allow.
  *
  * @param object  $event And event object.
- * @param boolean $react Should a reaction happen?
+ * @param boolean $react Should a reaction happen.
  *
  * @return bool
  */
@@ -799,7 +804,7 @@ function mt_expired( $event, $react = false ) {
 		$options    = get_post_meta( $event, '_mt_registration_options', true );
 		$data       = get_post_meta( $event, '_mc_event_data', true );
 		if ( is_array( $data ) && is_array( $options ) && !empty( $options ) ) {
-			if ( !isset( $data['event_begin'] ) ) {
+			if ( ! isset( $data['event_begin'] ) ) {
 				return false;
 			}
 			$expires    = ( isset( $options['reg_expires'] ) ) ? $options['reg_expires'] : 0;
@@ -827,19 +832,19 @@ function mt_expired( $event, $react = false ) {
  * @return array|mixed
  */
 function mt_get_cart( $user_ID = false, $cart_id = false ) {
-	$cart = array();
+	$cart      = array();
 	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
 	if ( $user_ID ) {
 		$cart = get_user_meta( $user_ID, '_mt_user_cart', true );
-	} else if ( !$user_ID && $cart_id ) {
-		$cart = get_transient( "mt_".$cart_id.'_cart' );
+	} elseif ( ! $user_ID && $cart_id ) {
+		$cart = get_transient( 'mt_' . $cart_id . '_cart' );
 	} else {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
-			$cart = get_user_meta( $current_user->ID, '_mt_user_cart', true );
+			$cart         = get_user_meta( $current_user->ID, '_mt_user_cart', true );
 		} else {
 			if ( $unique_id ) {
-				$cart = get_transient( "mt_".$unique_id.'_cart' );
+				$cart = get_transient( 'mt_' . $unique_id . '_cart' );
 			}
 		}
 	}
@@ -860,6 +865,6 @@ add_action( 'wp_head', 'mt_cart_meta', 1 );
 function mt_cart_meta() {
 	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
 	if ( $unique_id ) {
-		echo "<meta name='cart_id' value='".esc_attr( $unique_id )."' />\n";
+		echo "<meta name='cart_id' value='" . esc_attr( $unique_id ) . "' />\n";
 	}
 }

@@ -23,7 +23,7 @@ function mt_handle_cart() {
 			die;
 		}
 		// add filter here to handle required custom fields in cart TODO.
-		if ( !isset( $_POST['mt_fname'] ) || '' == $_POST['mt_fname'] || ! isset( $_POST['mt_lname'] ) || '' == $_POST['mt_lname'] || ! isset( $_POST['mt_email'] ) || '' == $_POST['mt_email'] || ! isset( $_POST['mt_email2'] ) || $_POST['mt_email'] != $_POST['mt_email2'] ) {
+		if ( ! isset( $_POST['mt_fname'] ) || '' == $_POST['mt_fname'] || ! isset( $_POST['mt_lname'] ) || '' == $_POST['mt_lname'] || ! isset( $_POST['mt_email'] ) || '' == $_POST['mt_email'] || ! isset( $_POST['mt_email2'] ) || $_POST['mt_email'] != $_POST['mt_email2'] ) {
 			$url = add_query_arg( 'response_code', 'required-fields', get_permalink( $options['mt_purchase_page'] ) );
 			wp_safe_redirect( $url );
 			die;
@@ -89,7 +89,7 @@ function mt_is_payment_completed( $payment ) {
  */
 function mt_create_payment( $post ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	// save payment post
+	// save payment post.
 	$current_user = wp_get_current_user();
 	$purchaser    = ( is_user_logged_in() ) ? $current_user->ID : 1;
 	$payment      = mt_get_data( 'payment' );
@@ -118,7 +118,7 @@ function mt_create_payment( $post ) {
 	}
 	$email = $post['mt_email'];
 	update_post_meta( $purchase_id, '_email', $email );
-	$phone = ( isset( $post['mt_phone']) ) ? $post['mt_phone'] : '';
+	$phone = ( isset( $post['mt_phone'] ) ) ? $post['mt_phone'] : '';
 	update_post_meta( $purchase_id, '_phone', $phone );
 	if ( is_user_logged_in() ) {
 		update_user_meta( $purchaser, 'mt_phone', $phone );
@@ -130,8 +130,8 @@ function mt_create_payment( $post ) {
 		$paid = $paid + $options['mt_handling'];
 	}
 	if ( isset( $options['mt_shipping'] ) && 'postal' == $post['ticketing_method'] ) {
-	    $paid = $paid + $options['mt_shipping'];
-    }
+		$paid = $paid + $options['mt_shipping'];
+	}
 	update_post_meta( $purchase_id, '_total_paid', $paid );
 	$payment_status = ( 0 == $paid ) ? 'Completed' : 'Pending';
 	update_post_meta( $purchase_id, '_is_paid', $payment_status );
@@ -171,7 +171,7 @@ function mt_create_payment( $post ) {
  * Generates tickets for purchase.
  *
  * @param integer $purchase_id Payment ID.
- * @param bool    $purchased Is this already sold?
+ * @param bool    $purchased Is this already sold.
  * @param bool    $resending We're resending a notice right now.
  *
  * @return null
@@ -193,12 +193,12 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 			$sold                                    = $registration['prices'][ $type ]['sold'];
 			$new_sold                                = $sold + $count;
 			$registration['prices'][ $type ]['sold'] = $new_sold;
-			if ( !$resending ) {
+			if ( ! $resending ) {
 				update_post_meta( $event_id, '_mt_registration_options', $registration );
 			}
 			for ( $i = 0; $i < $count; $i ++ ) {
 				$ticket_id = mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price );
-				if ( !$resending ) {
+				if ( ! $resending ) {
 					add_post_meta( $event_id, '_ticket', $ticket_id );
 					update_post_meta( $event_id, '_' . $ticket_id, array(
 						'type'        => $type,
@@ -226,17 +226,17 @@ function mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price ) {
 	// hash data.
 	$hash = md5( $purchase_id . $type . $i . $price . $event_id );
 	// reduce to 13 chars.
-	$hash = substr( $hash, 0,12 );
+	$hash = substr( $hash, 0, 12 );
 	// seed with $type substring & ticket type ID.
 	$hash = substr( $type, 0, 2 ) . $hash . zeroise( $i, 4 );
 
 	$args = array(
-	    'purchase_id' => $purchase_id,
-        'event_id'    => $event_id,
-        'type'        => $type,
-        'i'           => $i,
-        'price'       => $price,
-    );
+		'purchase_id' => $purchase_id,
+		'event_id'    => $event_id,
+		'type'        => $type,
+		'i'           => $i,
+		'price'       => $price,
+	);
 
 	return apply_filters( 'mt_generate_ticket_id', $hash, $args );
 }
@@ -275,7 +275,7 @@ function mt_calculate_cart_cost( $purchased ) {
  * Compares price paid by customer to expected price of cart.
  *
  * @param float $price Total amount paid.
- * @param int   $payment Payment ID to compare against.
+ * @param int   $purchase_id Payment ID to compare against.
  *
  * @return boolean False if not a match
  */

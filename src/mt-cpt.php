@@ -9,8 +9,12 @@
  * @link     https://www.joedolson.com/my-tickets/
  */
 
-// begin add boxes
 add_action( 'add_meta_boxes', 'mt_add_meta_boxes' );
+/**
+ * Load  meta boxes for tickets.
+ *
+ * @return void
+ */
 function mt_add_meta_boxes() {
 	add_meta_box( 'mt_purchase_options', __( 'Purchase Options', 'my-tickets' ), 'mt_add_inner_box', 'mt-payments', 'normal', 'high' );
 	add_meta_box( 'mt_purchase_info', __( 'Purchase Information', 'my-tickets' ), 'mt_add_uneditable', 'mt-payments', 'side', 'high' );
@@ -23,7 +27,9 @@ function mt_add_meta_boxes() {
 	}
 }
 
-
+/**
+ * Display error data from log.
+ */
 function mt_error_data() {
 	global $post_id;
 	echo "<pre>";
@@ -31,21 +37,23 @@ function mt_error_data() {
 	echo "</pre>";
 }
 
-
+/**
+ * Send custom email to ticket purchaser from payment record.
+ */
 function mt_email_purchaser() {
 	global $post_id;
 	$messages = false;
-	$nonce   = '<input type="hidden" name="mt-email-nonce" value="' . wp_create_nonce( 'mt-email-nonce' ) . '" />';
-	$form    = "<p><label for='mt_send_subject'>" . __( 'Subject', 'my-tickets' ) . "</label><br /><input type='text' size='60' name='mt_send_subject' id='mt_send_subject' /></p>
+	$nonce    = '<input type="hidden" name="mt-email-nonce" value="' . wp_create_nonce( 'mt-email-nonce' ) . '" />';
+	$form     = "<p><label for='mt_send_subject'>" . __( 'Subject', 'my-tickets' ) . "</label><br /><input type='text' size='60' name='mt_send_subject' id='mt_send_subject' /></p>
 	<p><label for='mt_send_email'>" . __( 'Message', 'my-tickets' ) . "</label><br /><textarea cols='60' rows='6' name='mt_send_email' id='mt_send_email'></textarea></p>
 	<input type='submit' class='button-primary' id='mt_email_form' value='" . __( 'Email Purchaser', 'my-tickets' ) . "' />";
-	$email   = get_post_meta( $post_id, '_mt_send_email' );
-	$message = '<h4>' . __( 'Prior Messages', 'my-tickets' ) . '</h4>';
+	$email    = get_post_meta( $post_id, '_mt_send_email' );
+	$message  = '<h4>' . __( 'Prior Messages', 'my-tickets' ) . '</h4>';
 	foreach ( $email as $mail ) {
 		if ( is_array( $mail ) ) {
-			$body    = $mail['body'];
-			$subject = $mail['subject'];
-			$date    = date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), $mail['date'] );
+			$body     = $mail['body'];
+			$subject  = $mail['subject'];
+			$date     = date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), $mail['date'] );
 			$message .= "<li><strong>$subject <code>($date)</code></strong><br /><blockquote>" . stripslashes( wp_kses_post( $body ) ) . '</blockquote></li>';
 			$messages = true;
 		}
@@ -55,6 +63,11 @@ function mt_email_purchaser() {
 }
 
 add_action( 'save_post', 'mt_delete_error_log', 10 );
+/**
+ * Delete error logs.
+ *
+ * @param int $id Payment ID.
+ */
 function mt_delete_error_log( $id ) {
 	if ( isset( $_POST['mt_delete_log'] ) ) {
 		mt_delete_log( $id );
@@ -65,7 +78,7 @@ add_action( 'save_post', 'mt_cpt_email_purchaser', 10 );
 /**
  * Send email notification when post is saved.
  *
- * @param $id Purchaser ID
+ * @param int $id Purchaser ID
  */
 function mt_cpt_email_purchaser( $id ) {
 	if ( isset( $_POST['mt-email-nonce'] ) ) {
@@ -84,12 +97,11 @@ function mt_cpt_email_purchaser( $id ) {
 			$subject     = stripslashes( $_POST['mt_send_subject'] );
 			$email       = get_post_meta( $id, '_email', true );
 			$opt_out_url = add_query_arg( 'opt_out', $id, home_url() );
-			$opt_out     = PHP_EOL . PHP_EOL . "<p><small>" .
-			                sprintf( __( "Don't want to receive email from us? Follow this link: %s", 'my-tickets' ), $opt_out_url ) . "</small></p>";
+			$opt_out     = PHP_EOL . PHP_EOL . "<p><small>" . sprintf( __( "Don't want to receive email from us? Follow this link: %s", 'my-tickets' ), $opt_out_url ) . '</small></p>';
 			$opt_out     = apply_filters( 'mt_opt_out_text', $opt_out, $opt_out_url, $id, 'single' );
-			$headers[]   = "From: $blogname Events <" . $options['mt_from'] . ">";
+			$headers[]   = "From: $blogname Events <" . $options['mt_from'] . '>';
 			$headers[]   = "Reply-to: $options[mt_from]";
-			if ( $options['mt_html_email'] == 'true' ) {
+			if ( 'true' == $options['mt_html_email'] ) {
 				add_filter( 'wp_mail_content_type', 'mt_html_type' );
 				$body = wpautop( $body . $opt_out );
 			} else {
@@ -97,21 +109,26 @@ function mt_cpt_email_purchaser( $id ) {
 			}
 			$body = apply_filters( 'mt_modify_email_body', $body );
 
-			// message to purchaser
+			// message to purchaser.
 			wp_mail( $email, $subject, $body, $headers );
 
-			if ( $options['mt_html_email'] == 'true' ) {
+			if ( 'true' == $options['mt_html_email'] ) {
 				remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 			}
 			add_post_meta( $id, '_mt_send_email', array(
 					'body'    => $body,
 					'subject' => $subject,
-					'date'    => current_time( 'timestamp' )
+					'date'    => current_time( 'timestamp' ),
 				) );
 		}
 	}
 }
 
+/**
+ * Set up custom fields for payment page.
+ *
+ * @return mixed|void
+ */
 function mt_default_fields() {
 	$mt_fields =
 		array(
@@ -119,7 +136,7 @@ function mt_default_fields() {
 				'label'   => __( 'Payment Status', 'my-tickets' ),
 				'input'   => 'select',
 				'default' => 'Pending',
-				'choices' => array( '--', 'Completed', 'Pending', 'Failed', 'Refunded', 'Turned Back', 'Reserved', 'Waiting List', 'Other' )
+				'choices' => array( '--', 'Completed', 'Pending', 'Failed', 'Refunded', 'Turned Back', 'Reserved', 'Waiting List', 'Other' ),
 			),
 			'ticketing_method'  => array(
 				'label'   => __( 'Ticketing Method', 'my-tickets' ),
@@ -129,61 +146,64 @@ function mt_default_fields() {
 						'printable' => __( 'Printable', 'my-tickets' ),
 						'eticket'   => __( 'E-tickets', 'my-tickets' ),
 						'postal'    => __( 'Postal Mail', 'my-tickets' ),
-						'willcall'  => __( 'Pick up at box office', 'my-tickets' )
-					) )
+						'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
+                ) ),
 			),
 			'is_delivered'         => array(
 				'label'   => __( 'Ticket Delivered', 'my-tickets' ),
 				'input'   => 'checkbox',
 				'default' => '',
-				'notes'   => __( 'E-tickets and printable tickets are delivered via email.', 'my-tickets' )
+				'notes'   => __( 'E-tickets and printable tickets are delivered via email.', 'my-tickets' ),
 			),
 			'mt_return_tickets' => array(
 				'label'   => __( 'Return tickets to purchase pool', 'my-tickets' ),
 				'input'   => 'checkbox',
-				'default' => 'checked'
+				'default' => 'checked',
 			),
 			'total_paid'        => array(
 				'label'   => __( 'Tickets Total', 'my-tickets' ),
 				'input'   => 'text',
-				'default' => ''
+				'default' => '',
 			),
 			'email'             => array(
 				'label'   => __( 'Purchaser Email', 'my-tickets' ),
 				'input'   => 'text',
-				'default' => ''
+				'default' => '',
 			),
 			'phone'             => array(
 				'label' => __( 'Purchaser Phone', 'my-tickets' ),
 				'input' => 'text',
-				'default' => ''
+				'default' => '',
 			),
 			'notes'             => array(
 				'label' => __( 'Payment Notes', 'my-tickets' ),
 				'input' => 'textarea',
-				'notes' => 'Internal-use only'
+				'notes' => 'Internal-use only',
 			),
 			'send_email'        => array(
 				'label'   => __( 'Re-send Email Notification', 'my-tickets' ),
 				'input'   => 'checkbox',
-				'context' => 'edit'
+				'context' => 'edit',
 			),
 			'gateway'           => array(
 				'label'   => __( 'Payment Method', 'my-tickets' ),
 				'input'   => 'select',
 				'choices' => array( 'Credit Card', 'Check', 'Cash', 'Other' ),
-				'context' => 'new'
+				'context' => 'new',
 			),
 			'transaction_id'    => array(
 				'label'   => __( 'Transaction ID', 'my-tickets' ),
 				'input'   => 'text',
-				'context' => 'new'
+				'context' => 'new',
 			),
 		);
 
 	return apply_filters( 'mt_add_custom_fields', $mt_fields );
 }
 
+/**
+ * Display inner box of metabox.
+ */
 function mt_add_inner_box() {
 	global $post_id;
 	$fields = mt_default_fields();
@@ -197,11 +217,12 @@ function mt_add_inner_box() {
 		$choices  = ( isset( $value['choices'] ) ) ? $value['choices'] : false;
 		$multiple = ( isset( $value['multiple'] ) ) ? true : false;
 		$notes    = ( isset( $value['notes'] ) ) ? $value['notes'] : '';
-		$format .= mt_create_field( $key, $label, $input, $post_id, $choices, $multiple, $notes, $value );
+		$format  .= mt_create_field( $key, $label, $input, $post_id, $choices, $multiple, $notes, $value );
 	}
 	if ( ! isset( $_GET['post'] ) ) {
-		// for new payments only; imports user's cart
-		$cart_id = $cart_transient_id = false;
+		// for new payments only; imports user's cart.
+		$cart_id           = false;
+		$cart_transient_id = false;
 		if ( isset( $_GET['cart'] ) && is_numeric( $_GET['cart'] ) ) {
 			$cart_id = (int) $_GET['cart'];
 		}
@@ -209,10 +230,11 @@ function mt_add_inner_box() {
 			$cart_transient_id = esc_html( $_GET['cart_id'] );
 		}
 		$cart  = mt_get_cart( $cart_id, $cart_transient_id );
-		$order = ( $cart ) ? mt_generate_cart_table( $cart, 'confirmation' ) : "<p>" . sprintf( __( 'Visit the <a href="%s">public web site</a> to set up a cart order', 'my-tickets' ), home_url() ) . "</p>";
-		$total = "<strong>" . __( 'Total', 'my-tickets' ) . "</strong>: " . apply_filters( 'mt_money_format', mt_total_cart( $cart ) );
+		$order = ( $cart ) ? mt_generate_cart_table( $cart, 'confirmation' ) : '<p>' . sprintf( __( 'Visit the <a href="%s">public web site</a> to set up a cart order', 'my-tickets' ), home_url() ) . '</p>';
+		$total = '<strong>' . __( 'Total', 'my-tickets' ) . '</strong>: ' . apply_filters( 'mt_money_format', mt_total_cart( $cart ) );
 	} else {
-		$order = $total = '';
+		$order = '';
+		$total = '';
 	}
 	echo '<div class="mt_post_fields">' . $format . $order . $total . '</div>';
 }
@@ -224,14 +246,14 @@ function mt_add_uneditable() {
 	global $post_id;
 	if ( isset( $_GET['post'] ) && isset( $_GET['action'] ) ) {
 
-		$dispute = get_post_meta( $post_id, '_dispute_reason', true );
+		$dispute        = get_post_meta( $post_id, '_dispute_reason', true );
 		$dispute_reason = get_post_meta( $post_id, '_dispute_message', true );
 
 		if ( $dispute ) {
-			$dispute_data = "<div class='mt-dispute'><h4>" . __( 'Ticket Dispute: ', 'my-tickets' ) . "</h4><ul>";
+			$dispute_data  = "<div class='mt-dispute'><h4>" . __( 'Ticket Dispute: ', 'my-tickets' ) . '</h4><ul>';
 			$dispute_data .= "<li>$dispute</li>";
 			$dispute_data .= "<li>$dispute_reason</li>";
-			$dispute_data .= "</ul></div>";
+			$dispute_data .= '</ul></div>';
 		} else {
 			$dispute_data = '';
 		}
@@ -241,20 +263,19 @@ function mt_add_uneditable() {
 		$link          = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
 		$purchase      = get_post_meta( $post_id, '_purchased' );
 		$discount      = get_post_meta( $post_id, '_discount', true );
-		$discount_text = ( $discount != '' ) ? sprintf( __( " @ %d&#37; member discount", 'my-tickets' ), $discount ) : '';
+		$discount_text = ( '' != $discount ) ? sprintf( __( ' @ %d&#37; member discount', 'my-tickets' ), $discount ) : '';
 
 		$status           = get_post_meta( $post_id, '_is_paid', true );
 		$total            = mt_money_format( get_post_meta( $post_id, '_total_paid', true ) );
-		$owed             = ( $status == 'Pending' ) ? "<div class='mt-owed'>" . sprintf( __( 'Owed: %s', 'my-tickets' ), $total ) . "</div>" : '';
+		$owed             = ( 'Pending' == $status ) ? "<div class='mt-owed'>" . sprintf( __( 'Owed: %s', 'my-tickets' ), $total ) . '</div>' : '';
 		$tickets          = mt_setup_tickets( $purchase, $post_id );
-		$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h4>" . __( 'Tickets', 'my-tickets' ) . "</h4>" . mt_format_tickets( $tickets, 'html', $post_id ) . "</div></div>";
-		$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . "</div></div>";
+		$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h4>" . __( 'Tickets', 'my-tickets' ) . '</h4>' . mt_format_tickets( $tickets, 'html', $post_id ) . '</div></div>';
+		$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
 		$gateway          = get_post_meta( $post_id, '_gateway', true );
-		$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h4>" . __( 'Paid through:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h4>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . "</div></div>";
-
+		$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h4>" . __( 'Paid through:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h4>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . '</div></div>';
 		$other_data       = apply_filters( 'mt_show_in_payment_fields', '', $post_id );
-		if ( $other_data !== '' ) {
-			$other_data = "<div class='custom-data panel'><div class='inner'><h4>" . __( 'Custom Field Data', 'my-tickets' ) . "</h4>" . $other_data . "</div></div>";
+		if ( '' !== $other_data ) {
+			$other_data = "<div class='custom-data panel'><div class='inner'><h4>" . __( 'Custom Field Data', 'my-tickets' ) . '</h4>' . $other_data . '</div></div>';
 		}
 		echo '<div class="mt_post_fields panels">' . $owed . $dispute_data . $transaction_data . $purchase_data . $ticket_data . $other_data . '</div>';
 	}
@@ -263,7 +284,7 @@ function mt_add_uneditable() {
 /**
  * Get a list of event IDs for any given purchase.
  *
- * @param $purchase_id
+ * @param int $purchase_id Payment ID.
  *
  * @return array
  */
@@ -284,28 +305,28 @@ function mt_list_events( $purchase_id ) {
 /**
  * Generate tickets for a given purchase.
  *
- * @param $purchase
- * @param $id
+ * @param array $purchase Purchase data.
+ * @param int   $id Payment ID.
  *
  * @return array
  */
 function mt_setup_tickets( $purchase, $id ) {
 	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$ticket_array = $ticket_ids = array();
+	$ticket_array = array();
 	foreach ( $purchase as $purch ) {
 		foreach ( $purch as $event => $tickets ) {
 			$purchases[ $event ] = $tickets;
             $ticket_meta = get_post_meta( $event, '_ticket' );
 			foreach ( $tickets as $type => $details ) {
-				// add ticket hash for each ticket
+				// add ticket hash for each ticket.
 				$count = $details['count'];
-				// only add tickets if count of tickets is more than 0
+				// only add tickets if count of tickets is more than 0.
 				if ( $count >= 1 ) {
 					$price = $details['price'];
 					for ( $i = 0; $i < $count; $i ++ ) {
 						$ticket_id = mt_generate_ticket_id( $id, $event, $type, $i, $price );
-						// check for existing ticket data
-						$meta        = get_post_meta( $id, $ticket_id, true );
+						// check for existing ticket data.
+						$meta = get_post_meta( $id, $ticket_id, true );
 						// if ticket data doesn't exist, create it.
 						if ( ! $meta ) {
 							if ( ! in_array( $ticket_id, $ticket_meta ) ) {
@@ -314,11 +335,11 @@ function mt_setup_tickets( $purchase, $id ) {
 							update_post_meta( $id, $ticket_id, array(
 								'type'        => $type,
 								'price'       => $price,
-								'purchase_id' => $id
+								'purchase_id' => $id,
 							) );
 						}
 
-						$ticket_array[$ticket_id] = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
+						$ticket_array[ $ticket_id ] = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
 					}
 				}
 			}
