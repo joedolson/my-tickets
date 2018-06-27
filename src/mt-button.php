@@ -20,7 +20,7 @@ add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpauto
  * Appends a registration form to post content for posts with defined event data.
  *
  * @uses function mt_registration_form();
- * @param string $content Post Content
+ * @param string $content Post Content.
  *
  * @return string
  */
@@ -96,7 +96,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 		}
 	}
 
-	if ( get_post_meta( $event_id, '_mt_hide_registration_form', true ) == 'true' && $override == false ) {
+	if ( 'true' == get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false == $override ) {
 		return $content;
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
@@ -133,10 +133,10 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				$permalink = get_the_permalink();
 			}
 			if ( is_array( $pricing ) ) {
-				$available         = $registration['total'];
+				$available = $registration['total'];
 				// if multiple != true, use checkboxes.
-				$input_type        = ( isset( $registration['multiple'] ) && 'true' == $registration['multiple'] ) ? 'number' : 'checkbox';
-				//$input_type        = 'radio';
+				$input_type = ( isset( $registration['multiple'] ) && 'true' == $registration['multiple'] ) ? 'number' : 'checkbox';
+				// Figure out handling for radio input type.
 				$tickets_data      = mt_tickets_left( $pricing, $available );
 				$tickets_remaining = $tickets_data['remain'];
 				$tickets_sold      = $tickets_data['sold'];
@@ -169,7 +169,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								if ( 1 == $value ) {
 									$attributes = " checked='checked'";
 								}
-								$value = 1;
+								$value       = 1;
 								$order_value = 0;
 							}
 							if ( 'inherit' == $available ) {
@@ -182,14 +182,14 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								} else {
 									$max = $remaining;
 								}
-								$disable   = ( $remaining < 1 ) ? ' disabled="disabled"' : '';
+								$disable = ( $remaining < 1 ) ? ' disabled="disabled"' : '';
 								if ( '' == $attributes ) {
 									$attributes = " min='0' max='$max'";
 									if ( 0 == $remaining ) {
 										$attributes .= ' readonly="readonly"';
 									}
 								}
-								$form .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . "</label>";
+								$form .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . '</label>';
 								$form .= apply_filters( 'mt_add_to_cart_input',
 									"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type'$disable />",
 									$input_type,
@@ -201,16 +201,12 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									$available
 								);
 
-                                $hide_remaining = mt_hide_remaining( $tickets_remaining );
-
-                                $form       .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" .
-									            sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s<span class="tickets-remaining">, %2$s remaining</span>)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label, "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . "</span>" ) .
-									        $extra_label .
-									          "</span>";
-								$form       .= "<span class='mt-error-notice' aria-live='assertive'></span><br />";
-								$total_order = $total_order + $order_value;
+								$hide_remaining = mt_hide_remaining( $tickets_remaining );
+                                $form          .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s<span class="tickets-remaining">, %2$s remaining</span>)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label, "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>' ) . $extra_label . '</span>';
+								$form          .= "<span class='mt-error-notice' aria-live='assertive'></span><br />";
+								$total_order    = $total_order + $order_value;
 							} else {
-								$remaining  = $tickets_remaining;
+								$remaining = $tickets_remaining;
 								if ( '' == $attributes ) {
 									$attributes = " min='0' max='$remaining'";
 									if ( 0 == $remaining ) {
@@ -358,11 +354,11 @@ add_filter( 'mt_tickets_close_value', 'mt_close_ticket_sales', 10, 3 );
 /**
  * Customize when events will close for ticket sales, to reserve some tickets for door sales.
  *
- * @param $limit integer Point where ticket sales will close. Default: 0
- * @param $event_id integer Event ID, in case somebody wanted some further customization.
- * @param $remaining array: remaining, sold, and total tickets available.
+ * @param integer $limit Point where ticket sales will close. Default: 0
+ * @param integer $event_id Event ID, in case somebody wanted some further customization.
+ * @param array   $remaining remaining, sold, and total tickets available.
  *
- * @return $limit new value where ticket sales are closed for an event.
+ * @return integer new value where ticket sales are closed for an event.
  */
 function mt_close_ticket_sales( $limit, $event_id, $remaining ) {
 	$options            = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
@@ -382,10 +378,10 @@ function mt_close_ticket_sales( $limit, $event_id, $remaining ) {
 /**
  * Produce price if a per-ticket handling charge is being applied.
  *
- * @param $price Original price without handling.
- * @param $event Event ID
+ * @param float $price Original price without handling.
+ * @param integer $event Event ID
  *
- * @return new price
+ * @return float new price
  */
 function mt_handling_price( $price, $event, $type = 'standard' ) {
 	// correction for an early mipselling
@@ -403,7 +399,7 @@ function mt_handling_price( $price, $event, $type = 'standard' ) {
 /**
  * Produce price if a per-ticket handling charge is being applied.
  *
- * @return handling notice
+ * @return string handling notice
  */
 function mt_handling_notice() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
@@ -419,8 +415,8 @@ function mt_handling_notice() {
 /**
  * Get closing date/time for event
  *
- * @param $event_id
- * @param $expires
+ * @param integer $event_id Event ID.
+ * @param string  $expires Expiration time.
  *
  * @return string
  */
@@ -446,7 +442,7 @@ function mt_sales_close( $event_id, $expires ) {
 /**
  * Test whether event can currently allow tickets to be shipped, given provided time frame for shipping in relation to event date/time.
  *
- * @param $event_id
+ * @param integer $event_id Event ID.
  *
  * @return bool
  */
@@ -456,7 +452,7 @@ function mt_no_postal( $event_id ) {
 	$event         = get_post_meta( $event_id, '_mc_event_data', true );
 	if ( $event && is_array( $event ) ) {
 		$date       = ( isset( $event['event_begin'] ) ) ? $event['event_begin']: false;
-		$time       =  ( isset( $event['event_time'] ) ) ? $event['event_time']: false;
+		$time       = ( isset( $event['event_time'] ) ) ? $event['event_time']: false;
 		if ( is_numeric( $date ) && is_numeric( $time ) ) {
 			$event_date = strtotime( absint( $date . ' ' . $time ) );
 			$no_postal  = ( $event_date <= ( current_time( 'timestamp' ) + ( 60 * 60 * 24 * $shipping_time ) ) ) ? true : false;
@@ -471,8 +467,8 @@ function mt_no_postal( $event_id ) {
 /**
  * Determine how many tickets have been sold for a given pricing set.
  *
- * @param $pricing
- * @param $available
+ * @param array          $pricing Pricing array.
+ * @param string|integer $available Available tickets.
  *
  * @return array|bool
  */
@@ -543,19 +539,31 @@ function mt_add_to_cart() {
 /**
  * Register a message to be displayed following a cart or button action.
  *
- * @param $context
- * @param $type
+ * @param string  $context Current message context.
+ * @param string  $type Message type.
+ * @param integer $payment_id Payment ID.
+ *
+ * @return string
  */
 function mt_register_message( $context, $type, $payment_id = false ) {
 	global $mt_message;
 	$mt_message = mt_get_message( $context, $type, $payment_id );
 }
 
+/**
+ * Fetch a message to be displayed following a cart or button action.
+ *
+ * @param string  $context Current message context.
+ * @param string  $type Message type.
+ * @param integer $payment_id Payment ID.
+ *
+ * @return string
+ */
 function mt_get_message( $context, $type, $payment_id ) {
 	$context = esc_attr( $context );
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$type    = esc_attr( $type );
-	if ( $context == 'add_to_cart' ) {
+	if ( 'add_to_cart' == $context ) {
 		$cart_url = get_permalink( $options['mt_purchase_page'] );
 		switch ( $type ) {
 			case 'success':
@@ -570,7 +578,7 @@ function mt_get_message( $context, $type, $payment_id ) {
 			default:
 				$return = '';
 		}
-	} else if ( $context == 'update_cart' ) {
+	} else if ( 'update_cart' == $context ) {
 		switch ( $type ) {
 			case 'success':
 				$return = __( 'Cart Updated.', 'my-tickets' );
@@ -584,7 +592,7 @@ function mt_get_message( $context, $type, $payment_id ) {
 			default:
 				$return = '';
 		}
-	} else if ( $context == 'payment_due' ) {
+	} else if ( 'payment_due' == $context ) {
 		switch ( $type ) {
 			case 'success':
 				if ( $payment_id ) {
@@ -598,7 +606,7 @@ function mt_get_message( $context, $type, $payment_id ) {
 			default:
 				$return = '';
 		}
-	} else if ( $context == 'cart_submitted' ) {
+	} else if ( 'cart_submitted' == $context ) {
 		switch ( $type ) {
 			case 'success':
 				$return = __( 'Cart Submitted.', 'my-tickets' );
@@ -618,7 +626,7 @@ add_filter( 'the_content', 'mt_display_message' );
 /**
  * Get registered message and display at top of content.
  *
- * @param $content
+ * @param string $content Post content.
  *
  * @return string
  */
@@ -635,16 +643,16 @@ function mt_display_message( $content ) {
 /**
  * Abstract function for saving user data (cookie or meta). Saves as cookie is not logged in, as user meta if is.
  *
- * @param $passed
- * @param string $type
- * @param bool $override
+ * @param array  $passed Data passed to save.
+ * @param string $type Type of data to save.
+ * @param bool   $override Whether to override this.
  *
  * @return bool
  */
 function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	mt_debug( print_r( $passed, 1 ), 'mt_save_data' );
 	$type = sanitize_title( $type );
-	if ( $override == true ) {
+	if ( true == $override ) {
 		$save = $passed;
 	} else {
 		switch ( $type ) {
@@ -668,10 +676,10 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		return true;
 	} else {
 		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
-		if ( get_transient( "mt_" . $unique_id . "_" . $type ) ) {
-			delete_transient( "mt_" . $unique_id . "_" . $type );
+		if ( get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
+			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
-		set_transient( "mt_" . $unique_id . "_" . $type, $save, current_time( 'timestamp' ) + WEEK_IN_SECONDS );
+		set_transient( 'mt_' . $unique_id . '_' . $type, $save, current_time( 'timestamp' ) + WEEK_IN_SECONDS );
 
 		return true;
 	}
@@ -684,27 +692,33 @@ add_action( 'init', 'mt_set_user_unique_id' );
 */
 function mt_set_user_unique_id() {
 	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
-	if ( !$unique_id ) {
+	if ( ! $unique_id ) {
 		$unique_id = mt_generate_unique_id();
-		setcookie( "mt_unique_id", $unique_id, time() + 60 * 60 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN, false, true );
+		setcookie( 'mt_unique_id', $unique_id, time() + 60 * 60 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN, false, true );
 	}
 }
 
+/**
+ * Generate a unique ID to track the current cart process.
+ *
+ * @return string
+ */
 function mt_generate_unique_id() {
-	$length = 16;
-	$characters = "0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz-_";
-	$string = '';
+	$length     = 16;
+	$characters = '0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz-_';
+	$string     = '';
 	for ( $p = 0; $p < $length; $p++ ) {
 		$string .= $characters[mt_rand(0, strlen($characters)-1)];
 	}
+
 	return $string;
 }
 
 /**
  * Abstract function to retrieve data for current user/public user.
  *
- * @param $type
- * @param bool $user_ID
+ * @param string       $type Type of data.
+ * @param bool|integer $user_ID User ID or false if not logged in.
  *
  * @return array|mixed
  */
@@ -714,9 +728,8 @@ function mt_get_data( $type, $user_ID = false ) {
 	} else {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
-			$data = get_user_meta( $current_user->ID, "_mt_user_$type", true );
+			$data         = get_user_meta( $current_user->ID, "_mt_user_$type", true );
 		} else {
-			//$cookie = ( isset( $_COOKIE["_mt_logged_out_$type"] ) ) ? $_COOKIE["_mt_logged_out_$type"] : false;
 			$unique_id = ( isset( $_COOKIE['mt_unique_id']) ) ? $_COOKIE['mt_unique_id'] : false;
 			if ( $unique_id ) {
 				$cookie = get_transient( "mt_".$unique_id."_".$type );
@@ -741,7 +754,7 @@ function mt_get_data( $type, $user_ID = false ) {
 /**
  * Update cart data. Special case application of mt_save_data.
  *
- * @param $post
+ * @param array $post Posted data.
  *
  * @return array
  */
@@ -751,7 +764,10 @@ function mt_update_cart( $post = array() ) {
 	if ( ! $cart ) {
 		$event_id = ( isset( $post['mt_event_id'] ) ) ? $post['mt_event_id'] : false;
 		$options  = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : false;
-		$cart     = array( 'event_id' => $event_id, 'options' => $options );
+		$cart     = array(
+			'event_id' => $event_id,
+			'options'  => $options,
+		);
 		$updated  = mt_save_data( $cart );
 	} else {
 		foreach ( $post as $id => $item ) {
@@ -772,14 +788,17 @@ function mt_update_cart( $post = array() ) {
 		$updated = mt_save_data( $cart, 'cart', true );
 	}
 
-	return array( 'success' => $updated, 'cart' => $cart );
+	return array(
+		'success' => $updated,
+		'cart'    => $cart,
+	);
 }
 
 /**
  * Checks whether a given event is currently represented in user's cart.
  *
- * @param $event_id
- * @param $user_ID
+ * @param Integer $event_id event ID
+ * @param Integer $user_ID user ID.
  *
  * @return bool
  */

@@ -156,7 +156,7 @@ add_filter( 'mt_shipping_fields', 'mt_paypal_shipping_fields', 10, 2 );
  */
 function mt_paypal_shipping_fields( $form, $gateway ) {
 	if ( 'paypal' == $gateway ) {
-		$search = array(
+		$search  = array(
 			'mt_shipping_street',
 			'mt_shipping_street2',
 			'mt_shipping_city',
@@ -234,29 +234,32 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		$currency       = $options['mt_currency'];
 		$merchant       = $options['mt_gateways']['paypal']['merchant_id'];
 		$purchaser      = get_the_title( $payment_id );
-		$form           = "
+		// Translators: Site's name, purchaser name.
+		$item_name  = sprintf( __( '%1$s Order from %2$s', 'my-tickets' ), get_option( 'blogname' ), $purchaser );
+		$return_url = add_query_arg( array(
+			'response_code' => 'thanks',
+			'gateway'       => 'paypal',
+			'payment_id'    => $payment_id,
+		), get_permalink( $options['mt_purchase_page'] ) );
+		$form       = "
 		<form action='" . ( 'true' != $use_sandbox ? 'https://www.paypal.com/cgi-bin/webscr' : 'https://www.sandbox.paypal.com/cgi-bin/webscr' ) . "' method='POST'>
 		<input type='hidden' name='cmd' value='_xclick' />
 		<input type='hidden' name='business' value='" . esc_attr( $merchant ) . "' />
-		<input type='hidden' name='item_name' value='" . esc_attr( sprintf( __( '%1$s Order from %2$s', 'my-tickets' ), get_option( 'blogname' ), $purchaser ) ) . "' />
+		<input type='hidden' name='item_name' value='" . esc_attr( $item_name ) . "' />
 		<input type='hidden' name='item_number' value='" . esc_attr( $payment_id ) . "' />
 		<input type='hidden' name='amount' value='" . esc_attr( $total ) . "' />
 		<input type='hidden' name='no_shipping' value='" . esc_attr( $shipping ) . "' />
 		<input type='hidden' name='shipping' value='" . esc_attr( $shipping_price ) . "' />
 		<input type='hidden' name='no_note' value='1' />
 		<input type='hidden' name='currency_code' value='" . esc_attr( $currency ) . "' />";
-		$form          .= "
+		$form      .= "
 		<input type='hidden' name='notify_url' value='" . mt_replace_http( add_query_arg( 'mt_paypal_ipn', 'true', esc_url( home_url() ) . '/' ) ) . "' />
-		<input type='hidden' name='return' value='" . mt_replace_http( esc_url( add_query_arg( array(
-			'response_code' => 'thanks',
-			'gateway'       => 'paypal',
-			'payment_id'    => $payment_id,
-		), get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />
+		<input type='hidden' name='return' value='" . mt_replace_http( esc_url( $return_url ) ) . "' />
 		<input type='hidden' name='cancel_return' value='" . mt_replace_http( add_query_arg( 'response_code', 'cancel', esc_url( get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />";
-		$form .= mt_render_field( 'address', 'paypal' );
-		$form .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Make Payment through PayPal', 'my-tickets' ), $gateway ) ) . "' />";
-		$form .= apply_filters( 'mt_paypal_form', '', $gateway, $args );
-		$form .= '</form>';
+		$form      .= mt_render_field( 'address', 'paypal' );
+		$form      .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Make Payment through PayPal', 'my-tickets' ), $gateway ) ) . "' />";
+		$form      .= apply_filters( 'mt_paypal_form', '', $gateway, $args );
+		$form      .= '</form>';
 	}
 
 	return $form;

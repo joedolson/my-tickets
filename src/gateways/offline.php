@@ -89,18 +89,20 @@ function mt_gateway_offline( $form, $gateway, $args ) {
 		$total          = $args['total'] + $handling;
 		$shipping_price = ( 'postal' == $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
 		$currency       = $options['mt_currency'];
-		$form           = "
+		// Translators: Site name.
+		$purchase = sprintf( __( '%s Order', 'my-tickets' ), get_option( 'blogname' ) );
+		$form     = "
 		<form action='" . get_permalink( $options['mt_purchase_page'] ) . "' method='POST'>
-		<input type='hidden' name='mt_purchase' value='" . sprintf( __( '%s Order', 'my-tickets' ), get_option( 'blogname' ) ) . "' />
+		<input type='hidden' name='mt_purchase' value='" . esc_attr( $purchase ) . "' />
 		<input type='hidden' name='mt_item' value='" . esc_attr( $payment_id ) . "' />
 		<input type='hidden' name='mt_amount' value='" . esc_attr( $total ) . "' />
 		<input type='hidden' name='mt_shipping' value='" . esc_attr( $shipping_price ) . "' />
 		<input type='hidden' name='mt_offline_payment' value='true' />
 		<input type='hidden' name='mt_currency' value='" . esc_attr( $currency ) . "' />";
-		$form          .= mt_render_field( 'address', 'offline' );
-		$form          .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Complete Reservation', 'my-tickets' ), $gateway ) ) . "' />";
-		$form          .= apply_filters( 'mt_offline_form', '', $gateway, $args );
-		$form          .= "</form>";
+		$form    .= mt_render_field( 'address', 'offline' );
+		$form    .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Complete Reservation', 'my-tickets' ), $gateway ) ) . "' />";
+		$form    .= apply_filters( 'mt_offline_form', '', $gateway, $args );
+		$form    .= '</form>';
 	}
 
 	return $form;
@@ -148,7 +150,7 @@ function mt_offline_processor() {
 		// Everything's all right.
 		wp_safe_redirect( esc_url_raw( add_query_arg( array(
 			'response_code' => 'thanks',
-			'payment_id' => $item_number,
+			'payment_id'    => $item_number,
 		), get_permalink( $options['mt_purchase_page'] ) ) ) );
 	}
 
