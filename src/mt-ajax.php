@@ -37,15 +37,17 @@ function mt_ajax_cart() {
 			),
 		);
 		// generate and submit cart data.
-		$saved = mt_update_cart( $post );
-		$saved = apply_filters( 'mt_update_cart_field_handler', $saved, $post );
-		echo ( $saved ) ? json_encode( array(
-				'success'  => 1,
-				'response' => __( 'Cart updated', 'my-tickets' ),
-			) ) : json_encode( array(
-				'success'  => 0,
-				'response' => __( 'Cart not updated', 'my-tickets' ),
-			) );
+		$saved   = mt_update_cart( $post );
+		$saved   = apply_filters( 'mt_update_cart_field_handler', $saved, $post );
+		$success = json_encode( array(
+			'success'  => 1,
+			'response' => __( 'Cart updated', 'my-tickets' ),
+		) );
+		$failure = json_encode( array(
+			'success'  => 0,
+			'response' => __( 'Cart not updated', 'my-tickets' ),
+		) );
+		echo ( $saved ) ? $success : $failure;
 		die;
 	}
 }
@@ -66,11 +68,11 @@ add_action( 'wp_ajax_nopriv_mt_ajax_handler', 'mt_ajax_handler' );
  */
 function mt_ajax_handler() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	// verify nonce
+	// verify nonce.
 	if ( ! check_ajax_referer( 'mt-cart-nonce', 'security', false ) ) {
 		wp_send_json( array(
 			'response' => __( 'Invalid security response.', 'my-tickets' ),
-			'saved' => false,
+			'saved'    => false,
 		) );
 	}
 	if ( 'add_to_cart' == $_REQUEST['function'] ) {
@@ -95,8 +97,8 @@ function mt_ajax_handler() {
 		}
 		mt_debug( print_r( $submit, 1 ), 'mt_ajax_handler' );
 
-		// generate and submit cart data
-		$save  = array(
+		// generate and submit cart data.
+		$save = array(
 			$submit['mt_event_id'] => $submit['mt_tickets'],
 			'mt_event_id'          => $submit['mt_event_id'],
 			'mt_tickets'           => $submit['mt_tickets'],
@@ -107,11 +109,11 @@ function mt_ajax_handler() {
 		$saved = mt_update_cart( $save );
 		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
 		$url   = get_permalink( $options['mt_purchase_page'] );
-		if ( $saved['success'] == 1 ) {
+		if ( 1 == $saved['success'] ) {
 			// Translators: Cart URL.
 			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. <a href='%s'>Go to cart</a>", 'my-tickets' ), $url ) );
 		} else {
-			//  Translators: Cart URL.
+			// Translators: Cart URL.
 			$response = apply_filters( 'mt_ajax_updated_unchanged', sprintf( __( "Cart not changed. <a href='%s'>Go to cart</a>", 'my-tickets' ), $url ) );
 		}
 		$return = array(

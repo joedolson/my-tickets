@@ -14,13 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly.
 
 add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
-add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpautop
+add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpautop.
 
 /**
  * Appends a registration form to post content for posts with defined event data.
  *
  * @uses function mt_registration_form();
- * @param $content
+ * @param string $content Post Content
  *
  * @return string
  */
@@ -40,7 +40,7 @@ function mt_registration_form_post( $content ) {
 /**
  * Test whether a price set for an event has any tickets available for purchase.
  *
- * @param $pricing
+ * @param array $pricing Events pricing array.
  *
  * @return bool
  */
@@ -62,10 +62,11 @@ function mt_has_tickets( $pricing ) {
 /**
  * Generates event registration form.
  *
- * @param string                $content
+ * @param string                $content Page content.
  * @param mixed/bool/int/object $event If boolean, exit.
- * @param string                $view
- * @param string                $time
+ * @param string                $view Type of view for context.
+ * @param string                $time Time view being displayed.
+ * @param boolean               $override Don't display.
  *
  * @return string
  */
@@ -77,14 +78,18 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) ) {
 		return $content;
 	}
-	if ( !$event ) {
+	if ( ! $event ) {
 		return $content;
 	}
 
-	$form     = $cart_data = $sold_out = $has_tickets = $output = '';
-	$event_id = ( is_object( $event ) ) ? $event->event_post : $event;
+	$form        = '';
+	$cart_data   = '';
+	$sold_out    = '';
+	$has_tickets = '';
+	$output      = '';
+	$event_id    = ( is_object( $event ) ) ? $event->event_post : $event;
 
-	if ( get_post_type( $event_id ) == 'mc-events' ) {
+	if ( 'mc-events' == get_post_type( $event_id ) ) {
 		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
 		if ( 'false' == $sell ) {
 			return $content;
@@ -100,16 +105,16 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 	if ( empty( $registration['prices'] ) ) {
 		return $content;
 	}
-	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. ('0' is a valid number of tickets, '' is not.)
+	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. '0' is a valid number of tickets, '' is not.
 	if ( ( isset( $registration['total'] ) && 'inherit' == $registration['total'] ) && ! mt_has_tickets( $registration['prices'] ) ) {
 		return $content;
 	}
-	//if total number of tickets is set but is an empty string or is not set; return.
-	if ( ( isset( $registration['total'] ) && '' == trim( $registration['total'] ) ) || !isset( $registration['total'] ) ) {
+	// if total number of tickets is set but is an empty string or is not set; return.
+	if ( ( isset( $registration['total'] ) && '' == trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
 		return $content;
 	}
-	$expired         = mt_expired( $event_id, true );
-	$no_postal       = mt_no_postal( $event_id );
+	$expired   = mt_expired( $event_id, true );
+	$no_postal = mt_no_postal( $event_id );
 	if ( $no_postal && 1 == count( $options['mt_ticketing'] ) && in_array( 'postal', $options['mt_ticketing'] ) && ! ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) ) {
 		$expired = true;
 	}
@@ -147,7 +152,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 							$extra_label = '<span class="mt-admin-only">( ' . __( 'Administrators only', 'my-tickets' ) . ' )</span>';
 						}
 						if ( $type ) {
-							if ( !isset( $settings['price'] ) ) {
+							if ( ! isset( $settings['price'] ) ) {
 								continue;
 							}
 							$price              = mt_calculate_discount( $settings['price'], $event_id );

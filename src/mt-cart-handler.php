@@ -22,24 +22,23 @@ function mt_handle_cart() {
 		if ( ! wp_verify_nonce( $nonce, 'mt_cart_nonce' ) ) {
 			die;
 		}
-		// add filter here to handle required custom fields in cart TODO
-
-		if ( !isset( $_POST['mt_fname'] ) || $_POST['mt_fname'] == '' || !isset( $_POST['mt_lname'] ) || $_POST['mt_lname'] == '' || !isset( $_POST['mt_email'] ) || $_POST['mt_email'] == '' || !isset( $_POST['mt_email2'] ) || $_POST['mt_email'] != $_POST['mt_email2'] ) {
+		// add filter here to handle required custom fields in cart TODO.
+		if ( !isset( $_POST['mt_fname'] ) || '' == $_POST['mt_fname'] || ! isset( $_POST['mt_lname'] ) || '' == $_POST['mt_lname'] || ! isset( $_POST['mt_email'] ) || '' == $_POST['mt_email'] || ! isset( $_POST['mt_email2'] ) || $_POST['mt_email'] != $_POST['mt_email2'] ) {
 			$url = add_query_arg( 'response_code', 'required-fields', get_permalink( $options['mt_purchase_page'] ) );
 			wp_safe_redirect( $url );
 			die;
 		}
 		$payment = mt_create_payment( $_POST );
 		if ( $payment ) {
-			// Handle custom fields added to cart form
+			// Handle custom fields added to cart form.
 			do_action( 'mt_handle_custom_cart_data', $payment, $_POST );
-			if ( isset( $_POST['mt_gateway'] ) && $_POST['mt_gateway'] == 'offline' && ( !isset( $_POST['ticketing_method'] ) || $_POST['ticketing_method'] != 'postal' ) && !mt_always_collect_shipping() ) {
+			if ( isset( $_POST['mt_gateway'] ) && 'offline' == $_POST['mt_gateway'] && ( ! isset( $_POST['ticketing_method'] ) || 'postal' != $_POST['ticketing_method'] ) && ! mt_always_collect_shipping() ) {
 				// if this is offline payment with no shipping info collected, we're done.
 				mt_register_message( 'payment_due', 'success', $payment );
 				mt_delete_data( 'cart' );
 				mt_delete_data( 'payment' );
 			} else {
-				if ( !( mt_get_data( 'payment' ) ) ) {
+				if ( ! ( mt_get_data( 'payment' ) ) ) {
 					mt_save_data( $payment, 'payment' );
 				}
 			}
@@ -52,7 +51,7 @@ function mt_handle_cart() {
 /**
  * Abstract function to delete data. Defaults to delete user's shopping cart.
  *
- * @param string $data
+ * @param string $data Type of data to delete.
  */
 function mt_delete_data( $data = 'cart' ) {
 	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
@@ -69,12 +68,13 @@ function mt_delete_data( $data = 'cart' ) {
 /**
  *  Verify payment status. If a payment is completed, do not re-use that payment record.
  *
- * @param integer $payment
+ * @param integer $payment Payment ID.
+ *
  * @return boolean
  */
 function mt_is_payment_completed( $payment ) {
 	$payment_status = get_post_meta( $payment, '_is_paid', true );
-	if ( $payment_status == 'Completed' ) {
+	if ( 'Completed' == $payment_status ) {
 		return true;
 	}
 	return false;
@@ -83,15 +83,17 @@ function mt_is_payment_completed( $payment ) {
 /**
  * Generates new payment from POSTed data.
  *
- * @param array $post
-*/
+ * @param array $post POST data.
+ *
+ * @return array|int|mixed|WP_Error
+ */
 function mt_create_payment( $post ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	// save payment post
 	$current_user = wp_get_current_user();
 	$purchaser    = ( is_user_logged_in() ) ? $current_user->ID : 1;
 	$payment      = mt_get_data( 'payment' );
-	if ( $payment && !mt_is_payment_completed( $payment ) ) {
+	if ( $payment && ! mt_is_payment_completed( $payment ) ) {
 		$purchase_id = mt_get_data( 'payment' );
 		$status      = 'draft';
 	} else {
@@ -111,7 +113,7 @@ function mt_create_payment( $post ) {
 	}
 	update_post_meta( $purchase_id, '_first_name', $post['mt_fname'] );
 	update_post_meta( $purchase_id, '_last_name', $post['mt_lname'] );
-	if ( isset( $options[ 'mt_ticket_handling' ] ) && is_numeric( $options[ 'mt_ticket_handling' ] ) ) {
+	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) ) {
 		update_post_meta( $purchase_id, '_ticket_handling', $options['mt_ticket_handling'] );
 	}
 	$email = $post['mt_email'];
@@ -127,30 +129,39 @@ function mt_create_payment( $post ) {
 	if ( isset( $options['mt_handling'] ) ) {
 		$paid = $paid + $options['mt_handling'];
 	}
-	if ( isset( $options['mt_shipping'] ) && $post['ticketing_method'] == 'postal' ) {
+	if ( isset( $options['mt_shipping'] ) && 'postal' == $post['ticketing_method'] ) {
 	    $paid = $paid + $options['mt_shipping'];
     }
 	update_post_meta( $purchase_id, '_total_paid', $paid );
-	$payment_status = ( $paid == 0 ) ? 'Completed' : 'Pending';
+	$payment_status = ( 0 == $paid ) ? 'Completed' : 'Pending';
 	update_post_meta( $purchase_id, '_is_paid', $payment_status );
-	if ( is_user_logged_in() && ! is_admin() && $options['mt_members_discount'] != '' ) {
+	if ( is_user_logged_in() && ! is_admin() && '' != $options['mt_members_discount'] ) {
 		update_post_meta( $purchase_id, '_discount', $options['mt_members_discount'] );
 	}
 	update_post_meta( $purchase_id, '_gateway', $post['mt_gateway'] );
 	update_post_meta( $purchase_id, '_purchase_data', $purchased );
 	update_post_meta( $purchase_id, '_ticketing_method', $post['ticketing_method'] );
-	if ( $post['ticketing_method'] == 'printable' || $post['ticketing_method'] == 'eticket' ) {
+	if ( 'printable' == $post['ticketing_method'] || 'eticket' == $post['ticketing_method'] ) {
 		update_post_meta( $purchase_id, '_is_delivered', 'true' );
 	}
-	// for pushing data into custom fields
+	// for pushing data into custom fields.
 	do_action( 'mt_save_payment_fields', $purchase_id, $post, $purchased );
 	if ( $purchase_id ) {
-		wp_update_post( array( 'ID' => $purchase_id, 'post_name' => 'mt_payment_' . $purchase_id ) );
+		wp_update_post( array(
+			'ID'        => $purchase_id,
+			'post_name' => 'mt_payment_' . $purchase_id,
+		) );
 	}
-	$receipt_id = md5( add_query_arg( array( 'post_type' => 'mt-payments', 'p' => $purchase_id ), home_url() ) );
+	$receipt_id = md5( add_query_arg( array(
+		'post_type' => 'mt-payments',
+		'p'         => $purchase_id,
+	), home_url() ) );
 	update_post_meta( $purchase_id, '_receipt', $receipt_id );
-	if ( $status == 'publish' ) {
-		wp_update_post( array( 'ID' => $purchase_id, 'post_status' => $status ) );
+	if ( 'publish' == $status ) {
+		wp_update_post( array(
+			'ID'          => $purchase_id,
+			'post_status' => $status,
+		) );
 	}
 
 	return $purchase_id;
@@ -159,25 +170,18 @@ function mt_create_payment( $post ) {
 /**
  * Generates tickets for purchase.
  *
- * @param $purchase_id
- * @param bool $purchased
+ * @param integer $purchase_id Payment ID.
+ * @param bool    $purchased Is this already sold?
+ * @param bool    $resending We're resending a notice right now.
+ *
+ * @return null
  */
 function mt_create_tickets( $purchase_id, $purchased = false, $resending = false ) {
 	$purchased = ( $purchased ) ? $purchased : get_post_meta( $purchase_id, '_purchase_data', true );
-	if ( !is_array( $purchased ) ) {
+	if ( ! is_array( $purchased ) ) {
 		return;
 	}
 	foreach ( $purchased as $event_id => $purchase ) {
-		/*
-		 * This block of code caused problems when multiple events sold. I believe it is a redundant check, and can be eliminated.
-			$_purchased = get_post_meta( $purchase_id, '_purchased', true );
-			$_purchase  = get_post_meta( $event_id, '_purchase', true );
-			$_receipt   = get_post_meta( $event_id, '_receipt', true );
-			if ( $_purchased && $_purchase && $_receipt ) {
-				// these tickets have already been generated
-				return;
-			}
-		*/
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		add_post_meta( $purchase_id, '_purchased', array( $event_id => $purchase ) );
 		add_post_meta( $event_id, '_purchase', array( $purchase_id => $purchase ) );
@@ -199,7 +203,7 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 					update_post_meta( $event_id, '_' . $ticket_id, array(
 						'type'        => $type,
 						'price'       => $price,
-						'purchase_id' => $purchase_id
+						'purchase_id' => $purchase_id,
 					) );
 				}
 			}
@@ -210,19 +214,20 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 /**
  * Generates the ticket ID from purchase ID, ticket type, number of ticket purchased of that time, and price.
  *
- * @param $purchase_id
- * @param $type
- * @param $i
- * @param $price
+ * @param integer $purchase_id Payment ID.
+ * @param integer $event_id Event ID for this ticket.
+ * @param string  $type Type of ticket purchased.
+ * @param integer $i Count; how many of this type have been purchased in this payment.
+ * @param float   $price Price for this ticket.
  *
  * @return string
  */
 function mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price ) {
-	// hash data
+	// hash data.
 	$hash = md5( $purchase_id . $type . $i . $price . $event_id );
-	// reduce to 13 chars
+	// reduce to 13 chars.
 	$hash = substr( $hash, 0,12 );
-	// seed with $type substring & ticket type ID
+	// seed with $type substring & ticket type ID.
 	$hash = substr( $type, 0, 2 ) . $hash . zeroise( $i, 4 );
 
 	$args = array(
@@ -230,7 +235,7 @@ function mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price ) {
         'event_id'    => $event_id,
         'type'        => $type,
         'i'           => $i,
-        'price'       => $price
+        'price'       => $price,
     );
 
 	return apply_filters( 'mt_generate_ticket_id', $hash, $args );
@@ -239,7 +244,7 @@ function mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price ) {
 /**
  * Calculates cost of cart. (Actual cost, after discounts.)
  *
- * @param $purchased
+ * @param array $purchased Tickets purchased.
  *
  * @return float
  */
@@ -269,8 +274,8 @@ function mt_calculate_cart_cost( $purchased ) {
 /**
  * Compares price paid by customer to expected price of cart.
  *
- * @param $price
- * @param $payment
+ * @param float $price Total amount paid.
+ * @param int   $payment Payment ID to compare against.
  *
  * @return boolean False if not a match
  */
