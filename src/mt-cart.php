@@ -428,7 +428,7 @@ function mt_generate_cart( $user_ID = false ) {
 		$gateway        = "<input type='hidden' name='mt_gateway' value='" . esc_attr( $current_gate ) . "' />";
 		$cart_page      = get_permalink( $options['mt_purchase_page'] );
 		if ( is_array( $cart ) && ! empty( $cart ) && $count > 0 ) {
-			$output = '
+			$output  = '
 		<div class="mt_cart">
 			<div class="mt-response" aria-live="assertive"></div>
 			<form action="' . esc_url( $cart_page ) . '" method="POST">' . "
@@ -460,9 +460,9 @@ function mt_generate_cart( $user_ID = false ) {
 				$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
 				$purchase = get_post_meta( $post_id, '_purchased' );
 				$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
-            } else {
-                $output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
-            }
+			} else {
+				$output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
+			}
 		}
 	}
 
@@ -512,7 +512,7 @@ add_filter( 'mt_link_title', 'mt_core_link_title', 10, 2 );
  * @return string linked title if a link is available (any event post or event with a link)
  */
 function mt_core_link_title( $event_title, $event ) {
-    $event_title = apply_filters( 'mt_the_title', $event_title, $event );
+	$event_title = apply_filters( 'mt_the_title', $event_title, $event );
 	$event_id    = get_post_meta( $event->ID, '_mc_event_id', true );
 	if ( $event_id && function_exists( 'mc_get_details_link' ) ) {
 		$event = mc_get_event_core( $event_id );
@@ -557,10 +557,10 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 	$total   = 0;
 	if ( is_array( $cart ) && ! empty( $cart ) ) {
 		foreach ( $cart as $event_id => $order ) {
-		    // If this post doesn't exist, don't include in cart, e.g. event was deleted after being added to cart.
-		    if ( false === get_post_status( $event_id ) ) {
-		        continue;
-            }
+			// If this post doesn't exist, don't include in cart, e.g. event was deleted after being added to cart.
+			if ( false === get_post_status( $event_id ) ) {
+				continue;
+			}
 			$expired = mt_expired( $event_id );
 			if ( ! $expired ) {
 				$prices   = mt_get_prices( $event_id );
@@ -593,7 +593,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 									$available = $registration['total'];
 									$sold      = 0;
 									foreach ( $registration['prices'] as $pricetype ) {
-										$sold = $sold +intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
+										$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
 									}
 								}
 								$remaining = $available - $sold;
@@ -603,7 +603,9 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								} else {
 									$max = $remaining;
 								}
-								if ( $count > $max ) { $count = $max; }
+								if ( $count > $max ) {
+									$count = $max;
+								}
 								if ( 'cart' == $format || is_admin() ) {
 									$hidden = "
 											<input type='hidden' class='mt_count' name='mt_cart_order[$event_id][$type][count]' value='$count' />
@@ -655,7 +657,7 @@ function mt_total_cart( $cart ) {
 				if ( is_array( $order ) ) {
 					foreach ( $order as $type => $count ) {
 						if ( $count > 0 ) {
-						    $count = intval( $count );
+							$count = intval( $count );
 							$price = ( isset( $prices[ $type ] ) ) ? $prices[ $type ]['price'] : '0';
 							if ( $price ) {
 								$price = mt_handling_price( $price, $event );
@@ -701,22 +703,22 @@ function mt_count_cart( $cart ) {
  *
  * @param array $cart cart data.
  *
- * uses: filter mt_gateway (pull gateway form)
- * uses: filter mt_form_wrapper (html wrapper around gateway)
+ * uses: filter mt_gateway (pull gateway form).
+ * uses: filter mt_form_wrapper (html wrapper around gateway).
  *
  * @return string
  */
 function mt_generate_gateway( $cart ) {
-	$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$return_url     = get_permalink( $options['mt_purchase_page'] );
-	$link           = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
-	$confirmation   = mt_generate_cart_table( $cart, 'confirmation' );
-	$total          = mt_total_cart( $cart );
-	$count          = mt_count_cart( $cart );
+	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$return_url   = get_permalink( $options['mt_purchase_page'] );
+	$link         = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
+	$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
+	$total        = mt_total_cart( $cart );
+	$count        = mt_count_cart( $cart );
 	if ( $count > 0 ) {
 		$payment        = mt_get_data( 'payment' );
 		$ticket_method  = ( isset( $_POST['ticketing_method'] ) ) ? $_POST['ticketing_method'] : 'willcall';
-		$shipping_total = ( $ticket_method == 'postal' ) ? $options['mt_shipping'] : 0;
+		$shipping_total = ( 'postal' == $ticket_method ) ? $options['mt_shipping'] : 0;
 		$handling_total = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 		$shipping       = ( $shipping_total ) ? "<div class='mt_cart_shipping mt_cart_label'>" . __( 'Shipping:', 'my-tickets' ) . " <span class='mt_shipping_number mt_cart_value'>" . apply_filters( 'mt_money_format', $shipping_total ) . '</span></div>' : '';
 		$handling       = ( $handling_total ) ? "<div class='mt_cart_handling mt_cart_label'>" . __( 'Handling:', 'my-tickets' ) . " <span class='mt_handling_number mt_cart_value'>" . apply_filters( 'mt_money_format', $handling_total ) . '</span></div>' : '';
@@ -724,19 +726,19 @@ function mt_generate_gateway( $cart ) {
 		$mt_gateway     = ( isset( $_POST['mt_gateway'] ) ) ? $_POST['mt_gateway'] : 'offline';
 		$other_charges  = apply_filters( 'mt_custom_charges', 0, $cart, $mt_gateway );
 		$other_notices  = apply_filters( 'mt_custom_notices', '', $cart, $mt_gateway );
-		if ( $total + $shipping_total + $handling_total + $other_charges == 0 && $mt_gateway != 'offline' ) {
+		if ( 0 == $total + $shipping_total + $handling_total + $other_charges && 'offline' != $mt_gateway ) {
 			$mt_gateway = 'offline';
 		}
 
-		$report_total   = "<div class='mt_cart_total'>" . apply_filters( 'mt_cart_total_text', __( 'Total:', 'my-tickets' ), $mt_gateway ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total + $shipping_total + $handling_total + $other_charges ) . '</span></div>';
-		$args           = apply_filters( 'mt_payment_form_args', array(
+		$report_total = "<div class='mt_cart_total'>" . apply_filters( 'mt_cart_total_text', __( 'Total:', 'my-tickets' ), $mt_gateway ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total + $shipping_total + $handling_total + $other_charges ) . '</span></div>';
+		$args         = apply_filters( 'mt_payment_form_args', array(
 		    'cart'    => $cart,
             'total'   => $total,
             'payment' => $payment,
             'method'  => $ticket_method,
 		) );
-		$form           = apply_filters( 'mt_gateway', '', $mt_gateway, $args );
-		$form           = apply_filters( 'mt_form_wrapper', $form );
+		$form = apply_filters( 'mt_gateway', '', $mt_gateway, $args );
+		$form = apply_filters( 'mt_form_wrapper', $form );
 
 		return $link . $confirmation . "<div class='mt-after-cart'>" . $tick_handling . $shipping . $handling . $other_notices . $report_total . '</div>' . $form;
 	} else {
@@ -816,7 +818,8 @@ function mt_expired( $event, $react = false ) {
 /**
  * Get saved cart data for user.
  *
- * @param bool $user_ID User ID.
+ * @param bool|int    $user_ID User ID.
+ * @param bool|string $cart_id Cart identifier.
  *
  * @return array|mixed
  */
@@ -839,7 +842,7 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 	}
 	if ( is_user_logged_in() && ! $cart ) {
 		if ( $unique_id ) {
-			$cart = get_transient( "mt_".$unique_id.'_cart' );
+			$cart = get_transient( 'mt_' . $unique_id . '_cart' );
 		}
 	}
 	return $cart;

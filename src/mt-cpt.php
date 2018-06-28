@@ -144,11 +144,11 @@ function mt_default_fields() {
 				'input'   => 'select',
 				'default' => 'willcall',
 				'choices' => apply_filters( 'mt_registration_tickets_options', array(
-                    'printable' => __( 'Printable', 'my-tickets' ),
-                    'eticket'   => __( 'E-tickets', 'my-tickets' ),
-                    'postal'    => __( 'Postal Mail', 'my-tickets' ),
-                    'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
-                ) ),
+					'printable' => __( 'Printable', 'my-tickets' ),
+					'eticket'   => __( 'E-tickets', 'my-tickets' ),
+					'postal'    => __( 'Postal Mail', 'my-tickets' ),
+					'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
+				) ),
 			),
 			'is_delivered'      => array(
 				'label'   => __( 'Ticket Delivered', 'my-tickets' ),
@@ -268,8 +268,9 @@ function mt_add_uneditable() {
 		// Translators: Quantity of member discount.
 		$discount_text = ( '' != $discount ) ? sprintf( __( ' @ %d&#37; member discount', 'my-tickets' ), $discount ) : '';
 
-		$status           = get_post_meta( $post_id, '_is_paid', true );
-		$total            = mt_money_format( get_post_meta( $post_id, '_total_paid', true ) );
+		$status = get_post_meta( $post_id, '_is_paid', true );
+		$total  = mt_money_format( get_post_meta( $post_id, '_total_paid', true ) );
+		// Translators: Amount still owed on this transaction.
 		$owed             = ( 'Pending' == $status ) ? "<div class='mt-owed'>" . sprintf( __( 'Owed: %s', 'my-tickets' ), $total ) . '</div>' : '';
 		$tickets          = mt_setup_tickets( $purchase, $post_id );
 		$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h4>" . __( 'Tickets', 'my-tickets' ) . '</h4>' . mt_format_tickets( $tickets, 'html', $post_id ) . '</div></div>';
@@ -319,7 +320,7 @@ function mt_setup_tickets( $purchase, $id ) {
 	foreach ( $purchase as $purch ) {
 		foreach ( $purch as $event => $tickets ) {
 			$purchases[ $event ] = $tickets;
-			$ticket_meta = get_post_meta( $event, '_ticket' );
+			$ticket_meta         = get_post_meta( $event, '_ticket' );
 			foreach ( $tickets as $type => $details ) {
 				// add ticket hash for each ticket.
 				$count = $details['count'];
@@ -362,7 +363,7 @@ add_filter( 'mt_format_transaction', 'mt_offline_transaction', 5, 2 );
  * @return string
  */
 function mt_offline_transaction( $transaction, $gateway ) {
-	// this is the default format. 
+	// this is the default format.
 	$output   = '';
 	$shipping = '';
 	if ( is_array( $transaction ) ) {
@@ -501,14 +502,14 @@ add_action( 'save_post', 'mt_post_meta', 10 );
 /**
  * Save updates to payment meta data
  *
- * @param $id
+ * @param int $id Post ID.
  */
 function mt_post_meta( $id ) {
 	$fields = mt_default_fields();
 	if ( isset( $_POST['mt-meta-nonce'] ) ) {
 		$nonce = $_POST['mt-meta-nonce'];
 		if ( ! wp_verify_nonce( $nonce, 'mt-meta-nonce' ) ) {
-			wp_die( "Invalid nonce" );
+			wp_die( 'Invalid nonce' );
 		}
 		if ( isset( $_POST['_inline_edit'] ) ) {
 			return;
@@ -520,15 +521,15 @@ function mt_post_meta( $id ) {
 			// handle custom fields in custom orders.
 			do_action( 'mt_save_payment_fields', $id, $_POST, $purchased );
 			$receipt_id = md5( add_query_arg( array(
-                'post_type' => 'mt-payments',
-                'p' => $id,
-            ), home_url() ) );
+				'post_type' => 'mt-payments',
+				'p'         => $id,
+			), home_url() ) );
 			update_post_meta( $id, '_receipt', $receipt_id );
 		}
 
 		if ( is_array( $fields ) ) {
 			foreach ( $fields as $key => $value ) {
-				if ( 'checkbox' == $value['input'] && !isset( $_POST['_' . $key ] ) ) {
+				if ( 'checkbox' == $value['input'] && ! isset( $_POST[ '_' . $key ] ) ) {
 					delete_post_meta( $id, '_' . $key );
 				}
 				if ( isset( $_POST[ '_' . $key ] ) ) {
@@ -588,16 +589,17 @@ add_filter( 'post_updated_messages', 'mt_posttypes_messages' );
 function mt_posttypes_messages( $messages ) {
 	global $post;
 	$messages['mt-payments'] = array(
-		0  => '', // Unused. Messages start at index 1.
-		1  => __( 'Payment updated.', 'my-tickets' ),
-		2  => __( 'Custom field updated.', 'my-tickets' ),
-		3  => __( 'Custom field deleted.', 'my-tickets' ),
-		4  => __( 'Payment updated.', 'my-tickets' ),
+		0 => '', // Unused. Messages start at index 1.
+		1 => __( 'Payment updated.', 'my-tickets' ),
+		2 => __( 'Custom field updated.', 'my-tickets' ),
+		3 => __( 'Custom field deleted.', 'my-tickets' ),
+		4 => __( 'Payment updated.', 'my-tickets' ),
 		// translators: %s: date and time of the revision.
-		5  => isset( $_GET['revision'] ) ? sprintf( __( 'Payment restored to revision from %s', 'my-tickets' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-		6  => __( 'Payment published.', 'my-tickets' ),
-		7  => __( 'Payment saved.', 'my-tickets' ),
-		8  => __( 'Payment submitted.', 'my-tickets' ),
+		5 => isset( $_GET['revision'] ) ? sprintf( __( 'Payment restored to revision from %s', 'my-tickets' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+		6 => __( 'Payment published.', 'my-tickets' ),
+		7 => __( 'Payment saved.', 'my-tickets' ),
+		8 => __( 'Payment submitted.', 'my-tickets' ),
+		// Translators: %s: date scheduled to publish.
 		9  => sprintf( __( 'Payment scheduled for: <strong>%s</strong>.', 'my-tickets' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ) ),
 		10 => __( 'Payment draft updated.', 'my-tickets' ),
 	);
@@ -621,7 +623,7 @@ function mt_get_custom_field( $field, $id = false ) {
 	return $custom_field;
 }
 
-// Actions/Filters for various tables and the css output
+// Actions/Filters for various tables and the css output.
 add_action( 'admin_init', 'mt_add' );
 /**
  * Add custom columns to payments post type page.
@@ -661,7 +663,8 @@ function mt_column( $cols ) {
 	$cols['mt_status']      = __( 'Status', 'my-tickets' );
 	$cols['mt_paid']        = __( 'Cart Total', 'my-tickets' );
 	$cols['mt_receipt']     = __( 'Receipt ID', 'my-tickets' );
-    $cols['mt_payer_email'] = __( 'Email', 'my-tickets' );
+	$cols['mt_payer_email'] = __( 'Email', 'my-tickets' );
+
 	return $cols;
 }
 
@@ -702,21 +705,21 @@ add_filter( 'mc_event_classes', 'mt_is_mc_ticketed', 10, 4 );
  *
  * @param array  $classes Array of my calendar classes.
  * @param object $event My Calendar event object.
- * @param int    $uid Unique ID.
+ * @param int	$uid Unique ID.
  * @param string $type Display type.
  *
  * @return array
  */
 function mt_is_mc_ticketed( $classes, $event, $uid, $type ) {
-    if ( ! is_object( $event ) ) {
-        return $classes;
-    }
-    $event_id = $event->event_post;
-    if ( mt_is_ticketed_event( $event_id ) ) {
-        $classes[] = 'ticketed-event';
-    }
+	if ( ! is_object( $event ) ) {
+		return $classes;
+	}
+	$event_id = $event->event_post;
+	if ( mt_is_ticketed_event( $event_id ) ) {
+		$classes[] = 'ticketed-event';
+	}
 
-    return $classes;
+	return $classes;
 }
 
 /**
@@ -727,19 +730,19 @@ function mt_is_mc_ticketed( $classes, $event, $uid, $type ) {
  * @return boolean
  */
 function mt_is_ticketed_event( $id ) {
-    $event_data = get_post_meta( $id, '_mc_event_data', true );
-    if ( $event_data ) {
-        $registration = get_post_meta( $id, '_mt_registration_options', true );
-        if ( is_array( $registration ) ) {
-            $status = true;
-        } else {
-            $status = false;
-        }
-    } else {
-        $status = false;
-    }
+	$event_data = get_post_meta( $id, '_mc_event_data', true );
+	if ( $event_data ) {
+		$registration = get_post_meta( $id, '_mt_registration_options', true );
+		if ( is_array( $registration ) ) {
+			$status = true;
+		} else {
+			$status = false;
+		}
+	} else {
+		$status = false;
+	}
 
-    return $status;
+	return $status;
 }
 
 /**
@@ -769,8 +772,8 @@ function mt_custom_column( $column_name, $id ) {
 			echo $receipt;
 			break;
         case 'mt_payer_email':
-            $em     = get_post_meta( $id, '_email',  true );
-            $show   = "<code>$em</code>";
+            $em   = get_post_meta( $id, '_email',  true );
+            $show = "<code>$em</code>";
             echo $show;
             break;
 	}
@@ -863,7 +866,7 @@ function filter_mt_dropdown() {
 			<option value="Refunded"<?php echo $refunded; ?>><?php _e( 'Refunded', 'my-tickets' ); ?></option>
 			<option value="Failed"<?php echo $failed; ?>><?php _e( 'Failed', 'my-tickets' ); ?></option>
 		</select>
-	<?php
+	    <?php
 	}
 }
 
@@ -877,10 +880,10 @@ function mt_bulk_admin_footer() {
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
-				$('<option>').val('complete').text('<?php _e( 'Mark as Completed', 'my-tickets' )?>').appendTo("select[name='action']");
+				$('<option>').val('complete').text('<?php _e( 'Mark as Completed', 'my-tickets' ); ?>').appendTo("select[name='action']");
 			});
 		</script>
-	<?php
+	    <?php
 	}
 }
 
@@ -925,7 +928,10 @@ function mt_bulk_action() {
 				$completed = 0;
 				foreach ( $post_ids as $post_id ) {
 					update_post_meta( $post_id, '_is_paid', 'Completed' );
-					wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) );
+					wp_update_post( array(
+                        'ID'          => $post_id,
+                        'post_status' => 'publish',
+                    ) );
 					$completed ++;
 				}
 				// build the redirect url.
@@ -953,7 +959,7 @@ function mt_bulk_admin_notices() {
 	global $post_type, $pagenow;
 	if ( 'edit.php' == $pagenow && 'mt-payments' == $post_type && isset( $_REQUEST['completed'] ) && (int) $_REQUEST['completed'] ) {
 	    // Translators: Number of payments edited.
-		$message = sprintf( _n( 'Payment completed & ticket notification sent.', '%s payments completed and ticket notifications sent.', $_REQUEST['completed'], 'my-tickets' ), number_format_i18n( $_REQUEST['completed'] ) );
+		$message = sprintf( _n( '%s payment completed & ticket notification sent.', '%s payments completed and ticket notifications sent.', $_REQUEST['completed'], 'my-tickets' ), number_format_i18n( $_REQUEST['completed'] ) );
 		echo "<div class='updated'><p>$message</p></div>";
 	}
 }
@@ -967,7 +973,7 @@ add_filter( 'wp_list_pages_excludes', 'mt_exclude_pages', 10, 2 );
  * @return array
  */
 function mt_exclude_pages( $array ) {
-	if ( !is_admin() ) {
+	if ( ! is_admin() ) {
 		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$tickets  = $options['mt_tickets_page'];
 		$receipts = $options['mt_receipt_page'];

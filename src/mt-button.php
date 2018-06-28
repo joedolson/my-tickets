@@ -370,7 +370,7 @@ function mt_close_ticket_sales( $limit, $event_id, $remaining ) {
 			$limit = $tickets_close_at;
 			break;
 		case 'percent':
-			$limit = round( ( $tickets_close_at/100 ) * $remaining['total'] );
+			$limit = round( ( $tickets_close_at / 100 ) * $remaining['total'] );
 			break;
 	}
 
@@ -432,7 +432,7 @@ function mt_sales_close( $event_id, $expires ) {
 			$begin      = strtotime( $event['event_begin'] . ' ' . $event['event_time'] ) - $expiration;
 			if ( date( 'Y-m-d', $begin ) == date( 'Y-m-d', current_time( 'timestamp' ) ) ) {
 				// Translators: time that ticket sales close today.
-				return '<p>' . sprintf(	apply_filters( 'mt_ticket_sales_close_text', __( 'Ticket sales close at %s today', 'my-tickets' ), $event ), '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';
+				return '<p>' . sprintf( apply_filters( 'mt_ticket_sales_close_text', __( 'Ticket sales close at %s today', 'my-tickets' ), $event ), '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';
 			}
 		}
 	}
@@ -712,7 +712,7 @@ function mt_generate_unique_id() {
 	$characters = '0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz-_';
 	$string     = '';
 	for ( $p = 0; $p < $length; $p++ ) {
-		$string .= $characters[ mt_rand( 0, strlen( $characters ) -1 ) ];
+		$string .= $characters[ mt_rand( 0, strlen( $characters ) - 1 ) ];
 	}
 
 	return $string;

@@ -24,14 +24,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function mt_check_license( $key = false, $product, $store ) {
 	// listen for our activate button to be clicked.
-	if ( isset( $_POST[ 'mt_license_keys' ] ) ) {
+	if ( isset( $_POST['mt_license_keys'] ) ) {
 		// retrieve the license from the database.
 		$license = trim( sanitize_text_field( $key ) );
 		// data to send in our API request.
 		$api_params = array(
 			'edd_action' => 'activate_license',
 			'license'    => $license,
-			'item_name'  => urlencode( $product ), // the name of our product in EDD,
+			'item_name'  => urlencode( $product ), // the name of our product in EDD.
 			'url'        => home_url(),
 		);
 
