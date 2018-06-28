@@ -711,6 +711,7 @@ function mt_count_cart( $cart ) {
 function mt_generate_gateway( $cart ) {
 	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$return_url   = get_permalink( $options['mt_purchase_page'] );
+	// Translators: cart url
 	$link         = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
 	$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
 	$total        = mt_total_cart( $cart );
@@ -732,10 +733,10 @@ function mt_generate_gateway( $cart ) {
 
 		$report_total = "<div class='mt_cart_total'>" . apply_filters( 'mt_cart_total_text', __( 'Total:', 'my-tickets' ), $mt_gateway ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total + $shipping_total + $handling_total + $other_charges ) . '</span></div>';
 		$args         = apply_filters( 'mt_payment_form_args', array(
-		    'cart'    => $cart,
-            'total'   => $total,
-            'payment' => $payment,
-            'method'  => $ticket_method,
+			'cart'    => $cart,
+			'total'   => $total,
+			'payment' => $payment,
+			'method'  => $ticket_method,
 		) );
 		$form = apply_filters( 'mt_gateway', '', $mt_gateway, $args );
 		$form = apply_filters( 'mt_form_wrapper', $form );

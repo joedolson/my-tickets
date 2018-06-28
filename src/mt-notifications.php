@@ -131,36 +131,36 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 						$type     = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
 						$price = $ticket['price'] - $handling;
 						if ( $handling ) {
-						    // Translators: price of ticket handling charge.
+							// Translators: price of ticket handling charge.
 							$handling_notice = ' ' . apply_filters( 'mt_handling_charge_of', sprintf( __( '(Per-ticket handling charge of %s)', 'my-tickets' ), apply_filters( 'mt_money_format', $handling ) ) );
 						}
 						if ( $is_html ) {
 							$tickets_list .= sprintf(
-								           _n( '%1$s: 1 ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ),
-								           "<strong>" . $type . "</strong>",
-								           strip_tags( apply_filters( 'mt_money_format', $price ) ),
-								           $ticket['count']
-							           ) . $handling_notice . $sep;
+										   _n( '%1$s: 1 ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ),
+										   "<strong>" . $type . "</strong>",
+										   strip_tags( apply_filters( 'mt_money_format', $price ) ),
+										   $ticket['count']
+									   ) . $handling_notice . $sep;
 						} else {
 							$tickets_list .= sprintf(
-								           _n( '%1$s: 1 ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ),
-								           $type,
-								           strip_tags( apply_filters( 'mt_money_format', $price ) ),
-								           $ticket['count']
-							           ) . $handling_notice . $sep;
+										   _n( '%1$s: 1 ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ),
+										   $type,
+										   strip_tags( apply_filters( 'mt_money_format', $price ) ),
+										   $ticket['count']
+									   ) . $handling_notice . $sep;
 						}
 					}
 				}
 				if ( trim( $tickets_list ) != '' ) {
-                    $output .= $title . ' - ' . $date . ' @ ' . $time . $sep;
-                    $output .= apply_filters('mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep);
-                    $output .= $sep . $tickets_list;
+					$output .= $title . ' - ' . $date . ' @ ' . $time . $sep;
+					$output .= apply_filters('mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep);
+					$output .= $sep . $tickets_list;
 				}
 				if ( $is_html ) {
-                    $output = wpautop( $output . __('Ticket Total', 'my-tickets') . ': ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) );
-                } else {
-                    $output .= $sep . __('Ticket Total', 'my-tickets') . ': ' . strip_tags(apply_filters('mt_money_format', $total)) . $sep;
-                }
+					$output = wpautop( $output . __('Ticket Total', 'my-tickets') . ': ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) );
+				} else {
+					$output .= $sep . __('Ticket Total', 'my-tickets') . ': ' . strip_tags(apply_filters('mt_money_format', $total)) . $sep;
+				}
 			}
 		}
 	}
@@ -182,7 +182,7 @@ function mt_format_address( $address, $format = false, $purchase_id ) {
 		$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$sep     = ( $options['mt_html_email'] == 'true' ) ? "<br />" : PHP_EOL;
 		foreach ( $address as $value ) {
-		    $separator = ( trim( $value ) == '' ) ? '' : $sep;
+			$separator = ( trim( $value ) == '' ) ? '' : $sep;
 			$output   .= $value . $separator;
 		}
 
@@ -213,24 +213,24 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id ) {
 		$used = get_post_meta( $purchase_id, '_tickets_used' );
 		$test_use = true;
 	}
-    $options    = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
-    $ticket_url = get_permalink( $options['mt_tickets_page'] );
+	$options    = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
+	$ticket_url = get_permalink( $options['mt_tickets_page'] );
 	foreach ( $tickets as $ticket ) {
 		if ( $test_use ) {
 			if ( is_array( $used ) ) {
-                $ticket_id = str_replace(array($ticket_url . '&ticket_id=', $ticket_url . '?ticket_id='), '', $ticket);
-                $is_used = in_array($ticket_id, $used);
-                $show = ($is_used) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span>" . __('Checked in', 'my-tickets') . ' ' : '';
-                if ( is_admin() ) {
-                   /* $event = mt_get_ticket( $ticket_id );
-                    if ( is_object( $event ) ) {
-                        $ttype = get_post_meta($event->ID, '_' . $ticket_id, true);
-                        $ttype = $ttype['type'];
-                    }
-                    $delete_url = add_query_arg(array('ticket_id' => $ticket_id, 'event_id' => $event->ID, 'type' => $ttype, 'delete_ticket' => 'true' ), admin_url('post.php?post=' . $purchase_id . '&action=edit'));
-                    $delete = "<a href='$delete_url'><span class='dashicons dashicons-no' aria-hidden-'true'></span><span class='screen-reader-text'>" . __('Delete ticket', 'my-tickets') . '</span></a>';
-                   */
-                }
+				$ticket_id = str_replace(array($ticket_url . '&ticket_id=', $ticket_url . '?ticket_id='), '', $ticket);
+				$is_used = in_array($ticket_id, $used);
+				$show = ($is_used) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span>" . __('Checked in', 'my-tickets') . ' ' : '';
+				if ( is_admin() ) {
+				   /* $event = mt_get_ticket( $ticket_id );
+					if ( is_object( $event ) ) {
+						$ttype = get_post_meta($event->ID, '_' . $ticket_id, true);
+						$ttype = $ttype['type'];
+					}
+					$delete_url = add_query_arg(array('ticket_id' => $ticket_id, 'event_id' => $event->ID, 'type' => $ttype, 'delete_ticket' => 'true' ), admin_url('post.php?post=' . $purchase_id . '&action=edit'));
+					$delete = "<a href='$delete_url'><span class='dashicons dashicons-no' aria-hidden-'true'></span><span class='screen-reader-text'>" . __('Delete ticket', 'my-tickets') . '</span></a>';
+				   */
+				}
 			}
 		}
 		if ( $type == 'ids' ) {
@@ -250,14 +250,14 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id ) {
 /**
 add_action( 'init', 'mt_process_single_return' );
 function mt_process_single_return() {
-    if ( !is_admin() || !current_user_can( 'manage_options' ) ) { return; }
-    if ( isset( $_GET['delete_ticket'] ) && $_GET['delete_ticket'] == 'true' ) {
-        $ticket_id   = $_GET['ticket_id'];
-        $event_id    = $_GET['event_id'];
-        $ticket_type = $_GET['type'];
+	if ( !is_admin() || !current_user_can( 'manage_options' ) ) { return; }
+	if ( isset( $_GET['delete_ticket'] ) && $_GET['delete_ticket'] == 'true' ) {
+		$ticket_id   = $_GET['ticket_id'];
+		$event_id    = $_GET['event_id'];
+		$ticket_type = $_GET['type'];
 
-        mt_return_ticket( $ticket_id, $event_id, $ticket_type );
-    }
+		mt_return_ticket( $ticket_id, $event_id, $ticket_type );
+	}
 }**/
 
 
@@ -355,8 +355,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		'purchase_edit'  => get_edit_post_link( $id, 'email' ),
 		'gateway_notes'  => $notes,
 		'buyer_email'    => $email,
-        'event_notes'    => apply_filters( 'mt_format_notes', '', $purchased, $id ),
-        'bulk_tickets'   => $bulk_tickets
+		'event_notes'    => apply_filters( 'mt_format_notes', '', $purchased, $id ),
+		'bulk_tickets'   => $bulk_tickets
 	);
 
 	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'notify' );
@@ -364,8 +364,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		$info = get_post_meta( $id, $name, true );
 		$event = isset( $info['event_id'] ) ? $info['event_id'] : false;
 		if ( !$event ) {
-		    continue;
-        }
+			continue;
+		}
 		$value = $info[$name];
 		$data[$name] = call_user_func( $field['display_callback'], $value, $event );
 	}
@@ -381,16 +381,16 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 			$append = __( 'Purchaser did not provide valid email', 'my-tickets' );
 		}
 		if ( !empty( $options['messages']['interim']['purchaser']['subject'] ) && !empty( $options['messages']['interim']['purchaser']['body'] ) && $status == 'Pending' && $gateway == 'offline' ) {
-		    $purchaser_subject = $options['messages']['interim']['purchaser']['subject'];
-		    $purchaser_body    = $options['messages']['interim']['purchaser']['body'];
-            $admin_subject     = $options['messages']['interim']['admin']['subject'];
-            $admin_body        = $options['messages']['interim']['admin']['body'];
-        } else {
-            $purchaser_subject = $options['messages']['completed']['purchaser']['subject'];
-            $purchaser_body    = $options['messages']['completed']['purchaser']['body'];
-            $admin_subject     = $options['messages']['completed']['admin']['subject'];
-            $admin_body        = $options['messages']['completed']['admin']['body'];
-        }
+			$purchaser_subject = $options['messages']['interim']['purchaser']['subject'];
+			$purchaser_body    = $options['messages']['interim']['purchaser']['body'];
+			$admin_subject     = $options['messages']['interim']['admin']['subject'];
+			$admin_body        = $options['messages']['interim']['admin']['body'];
+		} else {
+			$purchaser_subject = $options['messages']['completed']['purchaser']['subject'];
+			$purchaser_body    = $options['messages']['completed']['purchaser']['body'];
+			$admin_subject     = $options['messages']['completed']['admin']['subject'];
+			$admin_body        = $options['messages']['completed']['admin']['body'];
+		}
 
 
 		$subject  = mt_draw_template( $data, $purchaser_subject );
@@ -413,9 +413,9 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	}
 
 	if ( $status == 'Turned Back' ) {
-	    // No notifications, just cancelled.
-	    mt_return_tickets( $id );
-    }
+		// No notifications, just cancelled.
+		mt_return_tickets( $id );
+	}
 
 	if ( $status == 'Failed' ) {
 
@@ -443,12 +443,12 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 
 		// message to purchaser
 		$body = apply_filters( 'mt_modify_email_body', $body, 'purchaser' );
-        // Log this message.
-        add_post_meta( $id, '_mt_send_email', array(
-            'body'    => $body,
-            'subject' => $subject,
-            'date'    => current_time( 'timestamp' )
-        ) );
+		// Log this message.
+		add_post_meta( $id, '_mt_send_email', array(
+			'body'    => $body,
+			'subject' => $subject,
+			'date'    => current_time( 'timestamp' )
+		) );
 		wp_mail( $email, $subject, $body, $headers );
 		// message to admin
 		$body2 = apply_filters( 'mt_modify_email_body', $body2, 'admin' );
@@ -462,21 +462,21 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 
 add_filter( 'mt_format_notes', 'mt_create_event_notes', 10, 3 );
 function mt_create_event_notes( $event_notes, $purchased, $payment_id ) {
-    $options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-    if ( is_array( $purchased ) ) {
-        foreach( $purchased as $event ) {
-            foreach ( $event as $event_id => $tickets ) {
-                if ( $options['mt_html_email'] == 'true' ) {
-                    $notes = wpautop( get_post_meta( $event_id, '_mt_event_notes', true ) );
-                } else {
-                    $notes = get_post_meta( $event_id, '_mt_event_notes', true ) . PHP_EOL . PHP_EOL;
-                }
-                $event_notes .= apply_filters( 'mt_event_notes', $notes, $payment_id, $event_id );
-            }
-        }
-    }
+	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	if ( is_array( $purchased ) ) {
+		foreach( $purchased as $event ) {
+			foreach ( $event as $event_id => $tickets ) {
+				if ( $options['mt_html_email'] == 'true' ) {
+					$notes = wpautop( get_post_meta( $event_id, '_mt_event_notes', true ) );
+				} else {
+					$notes = get_post_meta( $event_id, '_mt_event_notes', true ) . PHP_EOL . PHP_EOL;
+				}
+				$event_notes .= apply_filters( 'mt_event_notes', $notes, $payment_id, $event_id );
+			}
+		}
+	}
 
-    return $event_notes;
+	return $event_notes;
 }
 
 /**
@@ -559,13 +559,13 @@ function mt_return_tickets( $payment_id ) {
  * @param $type - type of ticket sold
  */
 function mt_return_ticket( $ticket_id, $event_id, $purchase_id, $type  ) {
-    delete_post_meta( $event_id, '_ticket', $ticket_id );
-    delete_post_meta( $event_id, '_' . $ticket_id );
-    $registration = get_post_meta( '_mt_registration_options', true );
-    $sold = $registration['prices'][ $type ]['sold'];
-    $new_sold = $sold + 1;
-    $registration['prices'][ $type ]['sold'] = $new_sold;
-    update_post_meta( $event_id, '_mt_registration_options', $registration );
+	delete_post_meta( $event_id, '_ticket', $ticket_id );
+	delete_post_meta( $event_id, '_' . $ticket_id );
+	$registration = get_post_meta( '_mt_registration_options', true );
+	$sold = $registration['prices'][ $type ]['sold'];
+	$new_sold = $sold + 1;
+	$registration['prices'][ $type ]['sold'] = $new_sold;
+	update_post_meta( $event_id, '_mt_registration_options', $registration );
 }
 
 add_action( 'mt_ticket_sales_closed', 'mt_notify_admin', 10, 1 );
@@ -602,5 +602,5 @@ function mt_notify_admin( $event ) {
  */
 function mt_html_type() {
 
-    return 'text/html';
+	return 'text/html';
 }

@@ -105,20 +105,20 @@ function mt_payment_settings() {
 										<label
 											for="mt_dec_point"><?php _e( 'Decimal Point', 'my-tickets' ); ?></label>
 										<input type="text" name="mt_dec_point" id="mt_dec_point"
-										       size="3" value="<?php echo esc_attr( $options['mt_dec_point'] ); ?>"/>
+											   size="3" value="<?php echo esc_attr( $options['mt_dec_point'] ); ?>"/>
 									</li>
 									<li>
 										<label
 											for="mt_thousands_sep"><?php _e( 'Thousands separator', 'my-tickets' ); ?></label>
 										<input type="text" name="mt_thousands_sep" id="mt_thousands_sep"
-										       size="3" value="<?php echo esc_attr( $options['mt_thousands_sep'] ); ?>"/>
+											   size="3" value="<?php echo esc_attr( $options['mt_thousands_sep'] ); ?>"/>
 									</li>
 									<li>
 										<label
 											for="mt_members_discount"><?php _e( 'Member discount (%)', 'my-tickets' ); ?></label>
 										<input type="number" name="mt_members_discount" id="mt_members_discount"
-										       size="3" min='0' max='100'
-										       value="<?php echo esc_attr( $options['mt_members_discount'] ); ?>"/>
+											   size="3" min='0' max='100'
+											   value="<?php echo esc_attr( $options['mt_members_discount'] ); ?>"/>
 									</li>
 									<li>
 										<label
@@ -185,7 +185,7 @@ function mt_payment_settings() {
 								<ul>
 									<li>
 										<input type="checkbox" id="mt_use_sandbox"
-										       name="mt_use_sandbox" <?php mt_is_checked( 'mt_use_sandbox', 'true', $options ); ?> />
+											   name="mt_use_sandbox" <?php mt_is_checked( 'mt_use_sandbox', 'true', $options ); ?> />
 										<label for="mt_use_sandbox"><?php _e( 'Testing mode (no payments will be processed)', 'my-tickets' ); ?></label>
 									</li>
 									<li>
@@ -204,27 +204,27 @@ function mt_payment_settings() {
 									<ul>
 										<li>
 											<input type="text" size='6' class='suggest' id="mt_purchase_page"
-											       name="mt_purchase_page"
-											       value="<?php echo esc_attr( $options['mt_purchase_page'] ); ?>"
-											       required aria-required="true"/> <label
+												   name="mt_purchase_page"
+												   value="<?php echo esc_attr( $options['mt_purchase_page'] ); ?>"
+												   required aria-required="true"/> <label
 												for="mt_purchase_page"><?php _e( 'Shopping cart', 'my-tickets' ); ?>
 												<span class='new' aria-live="assertive"></span> <em
 													class='current'><?php echo $current_purchase_page; ?></em></label><br/>
 										</li>
 										<li>
 											<input type="text" size='6' class='suggest' id="mt_receipt_page"
-											       name="mt_receipt_page"
-											       value="<?php echo esc_attr( $options['mt_receipt_page'] ); ?>"
-											       required aria-required="true"/> <label
+												   name="mt_receipt_page"
+												   value="<?php echo esc_attr( $options['mt_receipt_page'] ); ?>"
+												   required aria-required="true"/> <label
 												for="mt_receipt_page"><?php _e( 'Receipt page', 'my-tickets' ); ?> <span
 													class='new' aria-live="assertive"></span> <em
 													class='current'><?php echo $current_receipt_page; ?></em></label><br/>
 										</li>
 										<li>
 											<input type="text" size='6' class='suggest' id="mt_tickets_page"
-											       name="mt_tickets_page"
-											       value="<?php echo esc_attr( $options['mt_tickets_page'] ); ?>"
-											       required aria-required="true"/> <label
+												   name="mt_tickets_page"
+												   value="<?php echo esc_attr( $options['mt_tickets_page'] ); ?>"
+												   required aria-required="true"/> <label
 												for="mt_tickets_page"><?php _e( 'Tickets page', 'my-tickets' ); ?> <span
 													class='new' aria-live="assertive"></span> <em
 													class='current'><?php echo $current_tickets_page; ?></em></label><br/>
@@ -235,7 +235,7 @@ function mt_payment_settings() {
 						</div>
 					</div>
 					<p><input type="submit" name="mt-payment-settings" class="button-primary"
-					          value="<?php _e( 'Save Payment Settings', 'my-tickets' ); ?>"/></p>
+							  value="<?php _e( 'Save Payment Settings', 'my-tickets' ); ?>"/></p>
 				</form>
 			</div>
 		</div>
@@ -279,10 +279,10 @@ function mt_currency() {
 			'symbol' => '£',
 			'description' => __( 'Pounds Sterling (£)', 'my-tickets' )
 		),
-        "INR" => array(
-            'symbol' => '₹',
-            'description' => __( 'Indian Rupees (₹)', 'my-tickets' )
-        ),
+		"INR" => array(
+			'symbol' => '₹',
+			'description' => __( 'Indian Rupees (₹)', 'my-tickets' )
+		),
 		"JPY" => array(
 			'symbol' => '¥',
 			'description' => __( 'Yen (¥)', 'my-tickets' ),

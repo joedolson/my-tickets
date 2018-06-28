@@ -117,10 +117,10 @@ function mt_cpt_email_purchaser( $id ) {
 				remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 			}
 			add_post_meta( $id, '_mt_send_email', array(
-                'body'    => $body,
-                'subject' => $subject,
-                'date'    => current_time( 'timestamp' ),
-            ) );
+				'body'    => $body,
+				'subject' => $subject,
+				'date'    => current_time( 'timestamp' ),
+			) );
 		}
 	}
 }
@@ -589,16 +589,16 @@ add_filter( 'post_updated_messages', 'mt_posttypes_messages' );
 function mt_posttypes_messages( $messages ) {
 	global $post;
 	$messages['mt-payments'] = array(
-		0 => '', // Unused. Messages start at index 1.
-		1 => __( 'Payment updated.', 'my-tickets' ),
-		2 => __( 'Custom field updated.', 'my-tickets' ),
-		3 => __( 'Custom field deleted.', 'my-tickets' ),
-		4 => __( 'Payment updated.', 'my-tickets' ),
+		0  => '', // Unused. Messages start at index 1.
+		1  => __( 'Payment updated.', 'my-tickets' ),
+		2  => __( 'Custom field updated.', 'my-tickets' ),
+		3  => __( 'Custom field deleted.', 'my-tickets' ),
+		4  => __( 'Payment updated.', 'my-tickets' ),
 		// translators: %s: date and time of the revision.
-		5 => isset( $_GET['revision'] ) ? sprintf( __( 'Payment restored to revision from %s', 'my-tickets' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-		6 => __( 'Payment published.', 'my-tickets' ),
-		7 => __( 'Payment saved.', 'my-tickets' ),
-		8 => __( 'Payment submitted.', 'my-tickets' ),
+		5  => isset( $_GET['revision'] ) ? sprintf( __( 'Payment restored to revision from %s', 'my-tickets' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+		6  => __( 'Payment published.', 'my-tickets' ),
+		7  => __( 'Payment saved.', 'my-tickets' ),
+		8  => __( 'Payment submitted.', 'my-tickets' ),
 		// Translators: %s: date scheduled to publish.
 		9  => sprintf( __( 'Payment scheduled for: <strong>%s</strong>.', 'my-tickets' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ) ),
 		10 => __( 'Payment draft updated.', 'my-tickets' ),
@@ -617,7 +617,7 @@ function mt_posttypes_messages( $messages ) {
  */
 function mt_get_custom_field( $field, $id = false ) {
 	global $post;
-	$id           = ( $id  ) ? absint( $id ) : $post->ID;
+	$id           = ( $id ) ? absint( $id ) : $post->ID;
 	$custom_field = get_post_meta( $id, $field, true );
 
 	return $custom_field;
@@ -655,7 +655,7 @@ function mt_is_event( $cols ) {
 /**
  * Add status/total and receipt ID fields to Payments post type.
  *
- * @param array $cols All columns.s
+ * @param array $cols All columns.
  *
  * @return mixed
  */
@@ -705,7 +705,7 @@ add_filter( 'mc_event_classes', 'mt_is_mc_ticketed', 10, 4 );
  *
  * @param array  $classes Array of my calendar classes.
  * @param object $event My Calendar event object.
- * @param int	$uid Unique ID.
+ * @param int    $uid Unique ID.
  * @param string $type Display type.
  *
  * @return array
@@ -771,11 +771,11 @@ function mt_custom_column( $column_name, $id ) {
 			$receipt = "<code>$pd</code>";
 			echo $receipt;
 			break;
-        case 'mt_payer_email':
-            $em   = get_post_meta( $id, '_email',  true );
-            $show = "<code>$em</code>";
-            echo $show;
-            break;
+		case 'mt_payer_email':
+			$em   = get_post_meta( $id, '_email',  true );
+			$show = "<code>$em</code>";
+			echo $show;
+			break;
 	}
 }
 
@@ -866,7 +866,7 @@ function filter_mt_dropdown() {
 			<option value="Refunded"<?php echo $refunded; ?>><?php _e( 'Refunded', 'my-tickets' ); ?></option>
 			<option value="Failed"<?php echo $failed; ?>><?php _e( 'Failed', 'my-tickets' ); ?></option>
 		</select>
-	    <?php
+        <?php
 	}
 }
 
@@ -883,7 +883,7 @@ function mt_bulk_admin_footer() {
 				$('<option>').val('complete').text('<?php _e( 'Mark as Completed', 'my-tickets' ); ?>').appendTo("select[name='action']");
 			});
 		</script>
-	    <?php
+        <?php
 	}
 }
 

@@ -73,34 +73,34 @@ function mt_cart_order() {
  * @return mixed bool/array Ticket IDs.
  */
 function mt_get_payment_tickets() {
-    $receipt = mt_get_receipt();
-    if ( $receipt ) {
-        $purchase = get_post_meta(  $receipt->ID, '_purchased' );
-        $id       = $receipt->ID;
+	$receipt = mt_get_receipt();
+	if ( $receipt ) {
+		$purchase = get_post_meta(  $receipt->ID, '_purchased' );
+		$id       = $receipt->ID;
 
-        $ticket_array = array();
-        foreach ( $purchase as $purch ) {
-            foreach ( $purch as $event => $tickets ) {
-                $purchases[ $event ] = $tickets;
-                foreach ( $tickets as $type => $details ) {
-                    // add ticket hash for each ticket
-                    $count = $details['count'];
-                    // only add tickets if count of tickets is more than 0
-                    if ( $count >= 1 ) {
-                        $price = $details['price'];
-                        for ( $i = 0; $i < $count; $i ++ ) {
-                            $ticket_id      = mt_generate_ticket_id( $id, $event, $type, $i, $price );
-                            $ticket_array[] = $ticket_id;
-                        }
-                    }
-                }
-            }
-        }
+		$ticket_array = array();
+		foreach ( $purchase as $purch ) {
+			foreach ( $purch as $event => $tickets ) {
+				$purchases[ $event ] = $tickets;
+				foreach ( $tickets as $type => $details ) {
+					// add ticket hash for each ticket
+					$count = $details['count'];
+					// only add tickets if count of tickets is more than 0
+					if ( $count >= 1 ) {
+						$price = $details['price'];
+						for ( $i = 0; $i < $count; $i ++ ) {
+							$ticket_id      = mt_generate_ticket_id( $id, $event, $type, $i, $price );
+							$ticket_array[] = $ticket_id;
+						}
+					}
+				}
+			}
+		}
 
-        return $ticket_array;
-    }
+		return $ticket_array;
+	}
 
-    return false;
+	return false;
 }
 /**
  * Return receipt ID.
@@ -202,10 +202,10 @@ function mt_get_payment_details() {
 		} elseif ( $paid == 'Failed' ) {
 			return __( 'Payment on this order failed.', 'my-tickets' );
 		} elseif ( $paid == 'Turned Back' ) {
-		    return __( 'This purchase was cancelled and the tickets were returned to the seller.', 'my-tickets' );
-        } else {
-                return __( 'Payment on this purchase is not completed. The receipt will be updated with payment details when payment is completed.', 'my-tickets' );
-        }
+			return __( 'This purchase was cancelled and the tickets were returned to the seller.', 'my-tickets' );
+		} else {
+				return __( 'Payment on this purchase is not completed. The receipt will be updated with payment details when payment is completed.', 'my-tickets' );
+		}
 	}
 
 	return '';
@@ -236,9 +236,9 @@ function mt_ticket_id() {
  * @return mixed|string
  */
 function mt_get_ticket_method( $ticket_id = false ) {
-    if ( ! $ticket_id ) {
-        $ticket_id = mt_get_ticket_id();
-    }
+	if ( ! $ticket_id ) {
+		$ticket_id = mt_get_ticket_id();
+	}
 	$purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
 	$purchase_id = $purchase['purchase_id'];
 	$ticket_type = get_post_meta( $purchase_id, '_ticketing_method', true );
@@ -257,10 +257,10 @@ function mt_ticket_method( $ticket_id = false ) {
  * @return integer
  */
 function mt_get_ticket_purchase_id( $ticket_id = false ) {
-    if ( ! $ticket_id ) {
-        $ticket_id = mt_get_ticket_id();
-    }
-    $purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
+	if ( ! $ticket_id ) {
+		$ticket_id = mt_get_ticket_id();
+	}
+	$purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
 	$purchase_id = $purchase['purchase_id'];
 
 	return $purchase_id;
@@ -276,10 +276,10 @@ function mt_ticket_purchase_id( $ticket_id = false ) {
  * @return mixed|string
  */
 function mt_get_ticket_purchaser( $ticket_id = false ) {
-    if ( ! $ticket_id ) {
-        $ticket_id = mt_get_ticket_id();
-    }
-    $purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
+	if ( ! $ticket_id ) {
+		$ticket_id = mt_get_ticket_id();
+	}
+	$purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
 	$purchase_id = $purchase['purchase_id'];
 	$purchaser   = get_post_field( 'post_title', $purchase_id );
 
@@ -299,10 +299,10 @@ function mt_ticket_purchaser( $ticket_id = false ) {
  * @return string
  */
 function mt_get_ticket_custom_fields( $custom_field = false, $ticket_id = false ) {
-    if ( ! $ticket_id ) {
-        $ticket_id = mt_get_ticket_id();
-    }
-    $purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
+	if ( ! $ticket_id ) {
+		$ticket_id = mt_get_ticket_id();
+	}
+	$purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
 	$purchase_id = $purchase['purchase_id'];
 
 	return mt_show_custom_data( $purchase_id, $custom_field );
@@ -318,11 +318,11 @@ function mt_ticket_custom_fields( $custom_field = false, $ticket_id = false ) {
  * @return string
  */
 function mt_get_event_date( $ticket_id = false ) {
-    if ( ! $ticket_id ) {
-        $ticket = mt_get_ticket();
-    } else {
-        $ticket = mt_get_ticket( $ticket_id );
-    }
+	if ( ! $ticket_id ) {
+		$ticket = mt_get_ticket();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
 	if ( $ticket ) {
 		$event = get_post_meta( $ticket->ID, '_mc_event_data', true );
 		$date  = isset( $event['event_begin'] ) ? $event['event_begin'] : '';
@@ -344,11 +344,11 @@ function mt_event_date( $ticket_id = false ) {
  * @return string
  */
 function mt_get_event_title( $ticket_id = false ) {
-    if ( ! $ticket_id ) {
-        $ticket = mt_get_ticket();
-    } else {
-        $ticket = mt_get_ticket( $ticket_id );
-    }
+	if ( ! $ticket_id ) {
+		$ticket = mt_get_ticket();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
 	if ( $ticket ) {
 		$title = apply_filters( 'the_title', apply_filters( 'mt_the_title', $ticket->post_title, $ticket ), $ticket_id );
 
@@ -368,11 +368,11 @@ function mt_event_title( $ticket_id = false ) {
  * @return string
  */
 function mt_get_event_time( $ticket_id = false ) {
-    if ( !$ticket_id ) {
-        $ticket = mt_get_ticket();
-    } else {
-        $ticket = mt_get_ticket( $ticket_id );
-    }
+	if ( !$ticket_id ) {
+		$ticket = mt_get_ticket();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
 	if ( $ticket ) {
 		$event = get_post_meta( $ticket->ID, '_mc_event_data', true );
 		$time  = isset( $event['event_time'] ) ? $event['event_time'] : '';
@@ -394,12 +394,12 @@ function mt_event_time( $ticket_id = false ) {
  * @return mixed|string
  */
 function mt_get_ticket_type( $ticket_id = false ) {
-    if ( !$ticket_id ) {
-        $ticket    = mt_get_ticket();
-        $ticket_id = mt_get_ticket_id();
-    } else {
-        $ticket = mt_get_ticket( $ticket_id );
-    }
+	if ( !$ticket_id ) {
+		$ticket    = mt_get_ticket();
+		$ticket_id = mt_get_ticket_id();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
 	if ( $ticket ) {
 		$type  = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
 		$type  = $type['type'];
@@ -421,12 +421,12 @@ function mt_ticket_type( $ticket_id = false ) {
  * @return string
  */
 function mt_get_ticket_price( $ticket_id = false ) {
-    if ( ! $ticket_id ) {
-        $ticket    = mt_get_ticket();
-        $ticket_id = mt_get_ticket_id();
-    } else {
-        $ticket = mt_get_ticket( $ticket_id );
-    }
+	if ( ! $ticket_id ) {
+		$ticket    = mt_get_ticket();
+		$ticket_id = mt_get_ticket_id();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
 	$append = ': <em>' . __( 'Paid', 'my-tickets' ) . '</em>';
 	if ( $ticket ) {
 		$data    = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
@@ -464,11 +464,11 @@ function mt_ticket_qrcode( $ticket_id = false ) {
  * @return string
  */
 function mt_get_ticket_venue( $ticket_id = false ) {
-    if ( !$ticket_id ) {
-        $ticket = mt_get_ticket();
-    } else {
-        $ticket = mt_get_ticket( $ticket_id );
-    }
+	if ( !$ticket_id ) {
+		$ticket = mt_get_ticket();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
 	if ( $ticket ) {
 		$location_id = get_post_meta( $ticket->ID, '_mc_event_location', true );
 		$html        = false;
@@ -609,11 +609,11 @@ function mt_verification( $ticket_id = false ) {
  *
  */
 function mt_get_ticket_custom_field( $field = false, $callback = false, $ticket_id = false ) {
-    if ( !$ticket_id ) {
-        $ticket = mt_get_ticket();
-    } else {
-        $ticket = mt_get_ticket( $ticket_id );
-    }
+	if ( !$ticket_id ) {
+		$ticket = mt_get_ticket();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
 	if ( $field ) {
 		$purchase    = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
 		$purchase_id = $purchase['purchase_id'];

@@ -11,19 +11,19 @@ Version: 1.7.3
 */
 /*  Copyright 2014-2018  Joe Dolson (email : joe@joedolson.com)
 
-    This program is open source software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is open source software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 load_plugin_textdomain( 'my-tickets', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
@@ -197,7 +197,7 @@ function mt_ticketing_help_tab() {
 		'title' => __( 'Ticket Defaults', 'my-tickets' ),
 		'content' => '<p><strong>' . __( 'Ticket Defaults' ) . '</strong><br />
 						' . __( 'Ticket defaults are settings that are specific to events. These values are what will be set up by default when you create a new event, but can be changed within the event. Only events that have a value entered for the number of tickets available for purchase will show up for sale on your site.', 'my-tickets' )
-		             . '</p>'
+					 . '</p>'
 	) );
 	$resources = '<p>' . __( 'More Help', 'my-tickets' ) . '</p>';
 	$resources .= '<ul>
@@ -233,19 +233,19 @@ function mt_public_enqueue_scripts() {
 	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ) );
 	wp_enqueue_style( 'mt-styles', $ticket_styles );
 	wp_localize_script( 'mt.public', 'mt_ajax',	array(
-        'action'   => 'mt_ajax_handler',
-        'url'      => admin_url( 'admin-ajax.php' ),
-        'security' => wp_create_nonce( 'mt-cart-nonce' ),
-        'currency' => $symbol,
-        'cart_url' => $cart_url,
-        'redirect' => $redirect,
-    ) );
+		'action'   => 'mt_ajax_handler',
+		'url'      => admin_url( 'admin-ajax.php' ),
+		'security' => wp_create_nonce( 'mt-cart-nonce' ),
+		'currency' => $symbol,
+		'cart_url' => $cart_url,
+		'redirect' => $redirect,
+	) );
 	wp_localize_script( 'mt.public', 'mt_ajax_cart', array(
-        'action'   => 'mt_ajax_cart',
-        'url'      => admin_url( 'admin-ajax.php' ),
-        'security' => wp_create_nonce( 'mt-ajax-cart-nonce' ),
-        'max_limit'=> __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
-    ) );
+		'action'   => 'mt_ajax_cart',
+		'url'      => admin_url( 'admin-ajax.php' ),
+		'security' => wp_create_nonce( 'mt-ajax-cart-nonce' ),
+		'max_limit'=> __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
+	) );
 }
 
 
@@ -687,7 +687,7 @@ function mt_user_profile() {
 				'mt-order-expired' =>__( 'Can place orders after expiration dates.', 'my-tickets' ),
 				'mt-view-reports'  =>__( 'Can view reports', 'my-tickets' ),
 				'mt-copy-cart'     =>__( 'Can import user shopping carts', 'my-tickets' ),
-                'mt-order-comps'   => __( 'Can order complimentary tickets', 'my-tickets' )
+				'mt-order-comps'   => __( 'Can order complimentary tickets', 'my-tickets' )
 			);
 		$options = '';
 		foreach ( $caps as $cap => $label ) {
@@ -725,7 +725,7 @@ function mt_save_profile() {
 			'mt-order-expired',
 			'mt-view-reports',
 			'mt-copy-cart',
-            'mt-order-comps'
+			'mt-order-comps'
 		);
 		foreach ( $_POST['mt_capabilities'] as $add_cap ) {
 			$user->add_cap( $add_cap );

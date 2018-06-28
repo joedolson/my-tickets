@@ -146,8 +146,8 @@ function mt_ticketing_settings() {
 								$form .= "<p class='handling ticket-hide-remaining'>
 					<label for='mt_tickets_hide_remaining'>" . __( 'Hide number of tickets remaining', 'my-tickets' ) . "</label> <input name='mt_hide_remaining' id='mt_tickets_hide_remaining' type='checkbox' value='true'" . checked( $mt_hide_remaining, 'true', false ) . " />
 			</p>";
-                                $mt_hide_remaining_limit = ( isset( $options['mt_hide_remaining_limit'] ) ) ? $options['mt_hide_remaining_limit'] : 0;
-                                $form .= "<p class='handling ticket-hide-remaining-limit'>
+								$mt_hide_remaining_limit = ( isset( $options['mt_hide_remaining_limit'] ) ) ? $options['mt_hide_remaining_limit'] : 0;
+								$form .= "<p class='handling ticket-hide-remaining-limit'>
 					<label for='mt_tickets_hide_remaining_limit'>" . __( 'Show number of tickets remaining when available tickets falls below:', 'my-tickets' ) . "</label> <input name='mt_hide_remaining_limit' id='mt_tickets_hide_remaining_limit' type='number' value='" . $mt_hide_remaining_limit . "' />
 			</p>";
 								$mt_tickets_close_type = ( isset( $options['mt_tickets_close_type'] ) ) ? $options['mt_tickets_close_type'] : '';
@@ -179,21 +179,21 @@ function mt_ticketing_settings() {
 							<h3 id="mt-ticketing-options"><?php _e( 'Default Ticket Settings', 'my-tickets' ); ?></h3>
 
 							<div class="inside">
-                                    <p>
-                                        <em><?php _e( 'Changing these settings does not impact events that have already been created.', 'my-tickets' ); ?></em>
-                                    </p>
+									<p>
+										<em><?php _e( 'Changing these settings does not impact events that have already been created.', 'my-tickets' ); ?></em>
+									</p>
 									<p>
 										<label
 											for='reg_expires'><?php _e( 'Stop online sales <em>x</em> hours before event', 'my-tickets' ); ?></label>
 										<input type='number' name='defaults[reg_expires]' id='reg_expires'
-										       value='<?php esc_attr( $options['defaults']['reg_expires'] ); ?>'/>
+											   value='<?php esc_attr( $options['defaults']['reg_expires'] ); ?>'/>
 									</p>
 
 									<p>
 										<label
 											for='multiple'><?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?></label>
 										<input type='checkbox' name='defaults[multiple]' id='multiple'
-										       value='true' <?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
+											   value='true' <?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
 									</p>
 									<?php
 									$type = $options['defaults']['sales_type'];
@@ -218,11 +218,11 @@ function mt_ticketing_settings() {
 										<legend><?php _e( 'Type of Sale', 'my-tickets' ); ?></legend>
 										<p>
 											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_tickets'
-											       value='tickets'<?php echo $is_tickets; ?> /> <label
+												   value='tickets'<?php echo $is_tickets; ?> /> <label
 												for='mt_sales_type_tickets'><?php _e( 'Ticket Sales', 'my-tickets' ); ?></label><br/>
 											<input type='radio' name='defaults[sales_type]'
-											       id='mt_sales_type_registration'
-											       value='registration'<?php echo $is_registration; ?> /> <label
+												   id='mt_sales_type_registration'
+												   value='registration'<?php echo $is_registration; ?> /> <label
 												for='mt_sales_type_registration'><?php _e( 'Event Registration', 'my-tickets' ); ?></label>
 										</p>
 									</fieldset>
@@ -230,12 +230,12 @@ function mt_ticketing_settings() {
 										<legend><?php _e( 'Ticket Counting Method', 'my-tickets' ); ?></legend>
 										<p>
 											<input type='radio' name='defaults[counting_method]'
-											       id='mt_counting_method_discrete'
-											       value='discrete',<?php echo $is_discrete; ?> /> <label
+												   id='mt_counting_method_discrete'
+												   value='discrete',<?php echo $is_discrete; ?> /> <label
 												for='mt_counting_method_discrete'><?php _e( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ); ?></label><br/>
 											<input type='radio' name='defaults[counting_method]'
-											       id='mt_counting_method_continuous'
-											       value='continuous'<?php echo $is_continuous; ?> /> <label
+												   id='mt_counting_method_continuous'
+												   value='continuous'<?php echo $is_continuous; ?> /> <label
 												for='mt_counting_method_continuous'><?php _e( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ); ?></label>
 										</p>
 									</fieldset>
@@ -243,7 +243,7 @@ function mt_ticketing_settings() {
 						</div>
 					</div>
 					<p><input type="submit" name="mt-ticketing-settings" class="button-primary"
-					          value="<?php _e( 'Save Ticket Defaults', 'my-tickets' ); ?>"/></p>
+							  value="<?php _e( 'Save Ticket Defaults', 'my-tickets' ); ?>"/></p>
 				</form>
 			</div>
 		</div>

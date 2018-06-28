@@ -17,27 +17,27 @@ function mt_ticket() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$id      = ( $options['mt_tickets_page'] != '' ) ? $options['mt_tickets_page'] : false;
 	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
-	    if ( ! isset( $_GET['multiple'] ) ) {
-            if ( isset( $_GET['ticket_id'] ) && mt_verify_ticket( $_GET['ticket_id'] ) ) {
-                if ( $template = locate_template( 'tickets.php' ) ) {
-                    load_template( $template );
-                } else {
-                    load_template( dirname(__FILE__ ) . '/templates/tickets.php' );
-                }
-            } else {
-                wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
-            }
-        } else {
-            if ( isset( $_GET['receipt_id']) ) {
-                if ( $template = locate_template( 'bulk-tickets.php' ) ) {
-                    load_template( $template );
-                } else {
-                    load_template( dirname(__FILE__ ) . '/templates/bulk-tickets.php' );
-                }
-            } else {
-               wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
-            }
-        }
+		if ( ! isset( $_GET['multiple'] ) ) {
+			if ( isset( $_GET['ticket_id'] ) && mt_verify_ticket( $_GET['ticket_id'] ) ) {
+				if ( $template = locate_template( 'tickets.php' ) ) {
+					load_template( $template );
+				} else {
+					load_template( dirname(__FILE__ ) . '/templates/tickets.php' );
+				}
+			} else {
+				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+			}
+		} else {
+			if ( isset( $_GET['receipt_id']) ) {
+				if ( $template = locate_template( 'bulk-tickets.php' ) ) {
+					load_template( $template );
+				} else {
+					load_template( dirname(__FILE__ ) . '/templates/bulk-tickets.php' );
+				}
+			} else {
+			   wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+			}
+		}
 		exit;
 	}
 }
@@ -63,9 +63,9 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
 		$gateway     = get_post_meta( $purchase_id, '_gateway', true );
 		if ( 'Completed' == $status || ( 'Pending' == $status && 'offline' == $gateway ) ) {
 			return ( 'full' == $return ) ? array(
-			    'status' => true,
-                'ticket' => $ticket
-            ) : true;
+				'status' => true,
+				'ticket' => $ticket
+			) : true;
 		}
 	}
 
@@ -80,7 +80,7 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
  * @return bool
  */
 function mt_get_ticket( $ticket_id = false ) {
-    global $wpdb;
+	global $wpdb;
 
 	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$ticket_id = isset( $_GET['ticket_id'] ) ? $_GET['ticket_id'] : $ticket_id;
@@ -88,9 +88,9 @@ function mt_get_ticket( $ticket_id = false ) {
 	$ticket_id = strtolower( preg_replace( "/[^a-z0-9\-]+/i", "", $ticket_id ) );
 	$ticket    = false;
 	if ( $ticket_id ) {
-	    $post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_ticket' AND meta_value = %s", $ticket_id ) );
-        $post    = get_post( $post_id );
-        $ticket  = ( $post ) ? $post : false;
+		$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_ticket' AND meta_value = %s", $ticket_id ) );
+		$post    = get_post( $post_id );
+		$ticket  = ( $post ) ? $post : false;
 	}
 
 	return $ticket;

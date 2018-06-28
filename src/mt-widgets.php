@@ -14,7 +14,7 @@ exit;
 } // Exit if accessed directly
 
 function mt_register_widgets() {
-    register_widget( 'mt_short_cart_widget' );
+	register_widget( 'mt_short_cart_widget' );
 }
 add_action( 'widgets_init', 'mt_register_widgets' );
 
@@ -24,11 +24,11 @@ class mt_short_cart_widget extends WP_Widget {
 	}
 
 	function widget($args, $instance) {
-        $before_widget = $args['before_widget'];
-        $after_widget  = $args['after_widget'];
-        $before_title  = $args['before_title'];
-        $after_title   = $args['after_title'];
-        
+		$before_widget = $args['before_widget'];
+		$after_widget  = $args['after_widget'];
+		$before_title  = $args['before_title'];
+		$after_title   = $args['after_title'];
+
 		$the_title = apply_filters( 'widget_title', $instance['title'] );
 		$widget_title = empty( $the_title ) ? '' : $the_title;
 		$widget_title = ( $widget_title != '' ) ? $before_title . $widget_title . $after_title : '';

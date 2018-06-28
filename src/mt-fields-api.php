@@ -82,7 +82,7 @@ function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
  * @return bool|mixed|void
  */
 function mt_apply_custom_field( $field, $event_id ) {
-    $return = false;
+	$return = false;
 	if ( ! isset( $field['context'] ) || 'global' == $field['context'] ) {
 		$return = true;
 	}
@@ -259,7 +259,7 @@ function mt_show_payment_field( $content, $payment_id ) {
 				}
 				if ( '' != $display_value ) {
 					$event_title = get_the_title( $d['event_id'] );
-					$output .= apply_filters( 'mt_custom_data_format_output', "<p><strong>$event_title</strong>:<br />$field[title] - $display_value</p>", $payment_id, $name );
+					$output     .= apply_filters( 'mt_custom_data_format_output', "<p><strong>$event_title</strong>:<br />$field[title] - $display_value</p>", $payment_id, $name );
 				}
 			}
 		} else {
@@ -285,7 +285,7 @@ function mt_show_custom_data( $payment_id, $custom_field = false ) {
 		if ( false == $custom_field || $custom_field == $name ) {
 			$data   = get_post_meta( $payment_id, $name );
 			$return = apply_filters( 'mt_custom_display_field', '', $data, $name );
-			if ( '' ===  $return ) {
+			if ( '' === $return ) {
 				foreach ( $data as $d ) {
 					if ( ! isset( $field['display_callback'] ) ) {
 						$display_value = stripslashes( $d[ $name ] );

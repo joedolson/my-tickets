@@ -85,7 +85,7 @@ function mt_settings() {
 						<div class="inside">
 							<form method="post" action="<?php echo admin_url( "admin.php?page=my-tickets" ); ?>">
 								<div><input type="hidden" name="_wpnonce"
-								            value="<?php echo wp_create_nonce( 'my-tickets' ); ?>"/></div>
+											value="<?php echo wp_create_nonce( 'my-tickets' ); ?>"/></div>
 								<fieldset>
 									<legend><?php _e( 'Enable ticketing for these post types:', 'my-tickets' ); ?></legend>
 									<ul class="checkboxes">
@@ -98,7 +98,7 @@ function mt_settings() {
 								?>
 								<p>
 									<input type="checkbox" id="mt_html_email"
-									       name="mt_html_email" <?php mt_is_checked( 'mt_html_email', 'true', $options ); ?> />
+										   name="mt_html_email" <?php mt_is_checked( 'mt_html_email', 'true', $options ); ?> />
 									<label
 										for="mt_html_email"><?php _e( 'Send email as HTML.', 'my-tickets' ); ?></label>
 								</p>
@@ -135,7 +135,7 @@ function mt_settings() {
 										foreach ( $status_types as $type => $status_type ) {
 											?>
 											<div class='wptab mt_<?php echo $type; ?>' id='<?php echo $type; ?>'
-											     aria-live='assertive'>
+												 aria-live='assertive'>
 												<fieldset>
 													<legend><?php _e( 'Sent to administrators', 'my-tickets' ); ?></legend>
 													<ul>
@@ -143,10 +143,10 @@ function mt_settings() {
 															<label
 																for="mt_messages_<?php echo $type; ?>_admin_subject"><?php printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type ); ?></label><br/>
 															<input type="text"
-															       name="mt_messages[<?php echo $type; ?>][admin][subject]"
-															       id="mt_messages_<?php echo $type; ?>_admin_subject"
-															       size="60"
-															       value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
+																   name="mt_messages[<?php echo $type; ?>][admin][subject]"
+																   id="mt_messages_<?php echo $type; ?>_admin_subject"
+																   size="60"
+																   value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
 														</li>
 														<li>
 															<label
@@ -165,10 +165,10 @@ function mt_settings() {
 															<label
 																for="mt_messages_<?php echo $type; ?>_purchaser_subject"><?php printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type ); ?></label><br/>
 															<input type="text"
-															       name="mt_messages[<?php echo $type; ?>][purchaser][subject]"
-															       id="mt_messages_<?php echo $type; ?>_purchaser_subject"
-															       size="60"
-															       value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
+																   name="mt_messages[<?php echo $type; ?>][purchaser][subject]"
+																   id="mt_messages_<?php echo $type; ?>_purchaser_subject"
+																   size="60"
+																   value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
 														</li>
 														<li>
 															<label
@@ -204,8 +204,8 @@ function mt_settings() {
 										'purchase_ID',
 										'purchase_edit',
 										'buyer_email',
-                                        'event_notes',
-                                        'bulk_tickets',
+										'event_notes',
+										'bulk_tickets',
 									);
 									/*
 									 * Add custom fields to display of template tags.
@@ -225,7 +225,7 @@ function mt_settings() {
 								</div>
 
 								<p><input type="submit" name="mt-submit-settings" class="button-primary"
-								          value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
+										  value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
 							</form>
 						</div>
 					</div>
@@ -255,7 +255,7 @@ function mt_settings() {
 								<?php echo $fields; ?>
 							</ul>
 								<p><input type="submit" name="mt-submit-settings" class="button-primary"
-								          value="<?php _e( 'Save License Keys', 'my-tickets' ); ?>"/></p>
+										  value="<?php _e( 'Save License Keys', 'my-tickets' ); ?>"/></p>
 							</form>
 								<?php
 								} else {
@@ -310,11 +310,11 @@ function mt_wp_enqueue_scripts() {
 
 add_action( 'admin_print_footer_scripts', 'mt_report_scripts' );
 function mt_report_scripts() {
-    if ( isset( $_GET[ 'mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
-        $script_path = apply_filters('mt_printable_report_js', plugins_url('js/report.js', __FILE__));
-        echo "<script>mt_action_text = '" . __( 'Hide Column', 'my-tickets' ) . "';</script>";
-        echo "<script src='$script_path'></script>";
-    }
+	if ( isset( $_GET[ 'mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
+		$script_path = apply_filters('mt_printable_report_js', plugins_url('js/report.js', __FILE__));
+		echo "<script>mt_action_text = '" . __( 'Hide Column', 'my-tickets' ) . "';</script>";
+		echo "<script src='$script_path'></script>";
+	}
 }
 
 add_action( 'wp_ajax_mt_post_lookup', 'mt_post_lookup' );
