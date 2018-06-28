@@ -202,7 +202,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								);
 
 								$hide_remaining = mt_hide_remaining( $tickets_remaining );
-								// Translators: Ticket price label, number remaining
+								// Translators: Ticket price label, number remaining.
 								$form       .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s<span class="tickets-remaining">, %2$s remaining</span>)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label, "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>' ) . $extra_label . '</span>';
 								$form       .= "<span class='mt-error-notice' aria-live='assertive'></span><br />";
 								$total_order = $total_order + $order_value;
@@ -330,14 +330,14 @@ function mt_admin_only( $type ) {
 /**
  * Produce notice about tickets remaining after sales are closed.
  *
- * @param array   $tickets_data array of ticket sales data
- * @param integer $event_id Event ID
+ * @param array   $tickets_data array of ticket sales data.
+ * @param integer $event_id Event ID.
  *
  * @return string Notice
  */
 function mt_tickets_remaining( $tickets_data, $event_id ) {
 	$tickets_remaining = $tickets_data['remain'];
-	if ( $tickets_remaining && $tickets_remaining > apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data )  ) {
+	if ( $tickets_remaining && $tickets_remaining > apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data ) ) {
 		$tickets_remain_text = '';
 	} else {
 		if ( $tickets_remaining > 0 ) {
@@ -355,7 +355,7 @@ add_filter( 'mt_tickets_close_value', 'mt_close_ticket_sales', 10, 3 );
 /**
  * Customize when events will close for ticket sales, to reserve some tickets for door sales.
  *
- * @param integer $limit Point where ticket sales will close. Default: 0
+ * @param integer $limit Point where ticket sales will close. Default: 0.
  * @param integer $event_id Event ID, in case somebody wanted some further customization.
  * @param array   $remaining remaining, sold, and total tickets available.
  *
@@ -364,13 +364,14 @@ add_filter( 'mt_tickets_close_value', 'mt_close_ticket_sales', 10, 3 );
 function mt_close_ticket_sales( $limit, $event_id, $remaining ) {
 	$options            = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$tickets_close_at   = ( isset( $options['mt_tickets_close_value'] ) && is_numeric( $options['mt_tickets_close_value'] ) ) ? $options['mt_tickets_close_value'] : 0;
-	$tickets_close_type =  ( isset( $options['mt_tickets_close_type'] ) ) ? $options['mt_tickets_close_type'] : 'integer';
-	switch( $tickets_close_type ) {
+	$tickets_close_type = ( isset( $options['mt_tickets_close_type'] ) ) ? $options['mt_tickets_close_type'] : 'integer';
+	switch ( $tickets_close_type ) {
 		case 'integer':
-			$limit = $tickets_close_at; break;
+			$limit = $tickets_close_at;
+			break;
 		case 'percent':
 			$limit = round( ( $tickets_close_at/100 ) * $remaining['total'] );
-		break;
+			break;
 	}
 
 	return apply_filters( 'mt_custom_event_limit', $limit, $event_id, $remaining );
@@ -379,18 +380,19 @@ function mt_close_ticket_sales( $limit, $event_id, $remaining ) {
 /**
  * Produce price if a per-ticket handling charge is being applied.
  *
- * @param float $price Original price without handling.
- * @param integer $event Event ID
+ * @param float   $price Original price without handling.
+ * @param integer $event Event ID.
+ * @param string  $type Public or admin ticket type.
  *
  * @return float new price
  */
 function mt_handling_price( $price, $event, $type = 'standard' ) {
-	// correction for an early mipselling
+	// correction for an early mipselling.
 	if ( mt_admin_only( $type ) ) {
 		return $price; // no handling on complimentary tickets.
 	}
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( isset( $options['mt_ticket_handling' ] ) && is_numeric( $options['mt_ticket_handling' ] ) ) {
+	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) ) {
 		$price = $price + apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event );
 	}
 
@@ -404,7 +406,7 @@ function mt_handling_price( $price, $event, $type = 'standard' ) {
  */
 function mt_handling_notice() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling' ] ) && $options['mt_ticket_handling'] > 0 ) {
+	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) && $options['mt_ticket_handling'] > 0 ) {
 		// Translators: amount of ticket handling charge.
 		$handling_notice = "<div class='mt-ticket-handling'>" . apply_filters( 'mt_ticket_handling_notice', sprintf( __( 'Tickets include a %s ticket handling charge.', 'my-tickets' ), apply_filters( 'mt_money_format', $options['mt_ticket_handling'] ) ) ) . '</div>';
 	} else {
@@ -430,8 +432,7 @@ function mt_sales_close( $event_id, $expires ) {
 			$begin      = strtotime( $event['event_begin'] . ' ' . $event['event_time'] ) - $expiration;
 			if ( date( 'Y-m-d', $begin ) == date( 'Y-m-d', current_time( 'timestamp' ) ) ) {
 				// Translators: time that ticket sales close today.
-				return '<p>' . sprintf(	apply_filters( 'mt_ticket_sales_close_text', __( 'Ticket sales close at %s today', 'my-tickets' ), $event ), '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>'
-				) . '</p>';
+				return '<p>' . sprintf(	apply_filters( 'mt_ticket_sales_close_text', __( 'Ticket sales close at %s today', 'my-tickets' ), $event ), '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';
 			}
 		}
 	}
@@ -522,12 +523,11 @@ function mt_add_to_cart() {
 				$event_options = isset( $data[ $event_id ] ) ? $data[ $event_id ] : array();
 				$options       = array_merge( $event_options, $options );
 			}
-
 		} else {
 			$event_id = ( isset( $_POST['mt_event_id'] ) ) ? $_POST['mt_event_id'] : false;
 			$options  = ( isset( $_POST['mt_tickets'] ) ) ? $_POST['mt_tickets'] : false;
 		}
-		$saved    = ( $options !== false ) ? mt_save_data( array(
+		$saved = ( false !== $options ) ? mt_save_data( array(
 			'event_id' => $event_id,
 			'options'  => $options,
 		) ) : false;
@@ -546,7 +546,7 @@ function mt_add_to_cart() {
  * @param string  $type Message type.
  * @param integer $payment_id Payment ID.
  *
- * @return string
+ * @return void
  */
 function mt_register_message( $context, $type, $payment_id = false ) {
 	global $mt_message;
@@ -693,7 +693,7 @@ add_action( 'init', 'mt_set_user_unique_id' );
 /**
  * Note: if sitecookiepath doesn't match the site's render location, this won't work.
  * It'll also create a secondary issue where AJAX actions read the sitecookiepath cookie.
-*/
+ */
 function mt_set_user_unique_id() {
 	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
 	if ( ! $unique_id ) {
@@ -712,7 +712,7 @@ function mt_generate_unique_id() {
 	$characters = '0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz-_';
 	$string     = '';
 	for ( $p = 0; $p < $length; $p++ ) {
-		$string .= $characters[mt_rand(0, strlen($characters)-1)];
+		$string .= $characters[ mt_rand( 0, strlen( $characters ) -1 ) ];
 	}
 
 	return $string;
@@ -734,9 +734,9 @@ function mt_get_data( $type, $user_ID = false ) {
 			$current_user = wp_get_current_user();
 			$data         = get_user_meta( $current_user->ID, "_mt_user_$type", true );
 		} else {
-			$unique_id = ( isset( $_COOKIE['mt_unique_id']) ) ? $_COOKIE['mt_unique_id'] : false;
+			$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
 			if ( $unique_id ) {
-				$cookie = get_transient( "mt_".$unique_id."_".$type );
+				$cookie = get_transient( 'mt_' . $unique_id . '_' . $type );
 			} else {
 				$cookie = '[]';
 			}
@@ -801,7 +801,7 @@ function mt_update_cart( $post = array() ) {
 /**
  * Checks whether a given event is currently represented in user's cart.
  *
- * @param Integer $event_id event ID
+ * @param Integer $event_id event ID.
  * @param Integer $user_ID user ID.
  *
  * @return bool

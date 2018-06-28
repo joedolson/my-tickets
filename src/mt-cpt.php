@@ -32,9 +32,9 @@ function mt_add_meta_boxes() {
  */
 function mt_error_data() {
 	global $post_id;
-	echo "<pre>";
+	echo '<pre>';
 	print_r( get_post_meta( $post_id, '_error_log' ) );
-	echo "</pre>";
+	echo '</pre>';
 }
 
 /**
@@ -78,7 +78,7 @@ add_action( 'save_post', 'mt_cpt_email_purchaser', 10 );
 /**
  * Send email notification when post is saved.
  *
- * @param int $id Purchaser ID
+ * @param int $id Purchaser ID.
  */
 function mt_cpt_email_purchaser( $id ) {
 	if ( isset( $_POST['mt-email-nonce'] ) ) {
@@ -86,21 +86,22 @@ function mt_cpt_email_purchaser( $id ) {
 		$blogname = get_option( 'blogname' );
 		$nonce    = $_POST['mt-email-nonce'];
 		if ( ! wp_verify_nonce( $nonce, 'mt-email-nonce' ) ) {
-			wp_die( "Invalid nonce" );
+			wp_die( 'Invalid nonce' );
 		}
 		if ( isset( $_POST['_inline_edit'] ) ) {
 			return;
 		}
 
-		if ( isset( $_POST['mt_send_email'] ) && $_POST['mt_send_email'] != '' ) {
+		if ( isset( $_POST['mt_send_email'] ) && '' != $_POST['mt_send_email'] ) {
 			$body        = stripslashes( $_POST['mt_send_email'] );
 			$subject     = stripslashes( $_POST['mt_send_subject'] );
 			$email       = get_post_meta( $id, '_email', true );
 			$opt_out_url = add_query_arg( 'opt_out', $id, home_url() );
-			$opt_out     = PHP_EOL . PHP_EOL . "<p><small>" . sprintf( __( "Don't want to receive email from us? Follow this link: %s", 'my-tickets' ), $opt_out_url ) . '</small></p>';
-			$opt_out     = apply_filters( 'mt_opt_out_text', $opt_out, $opt_out_url, $id, 'single' );
-			$headers[]   = "From: $blogname Events <" . $options['mt_from'] . '>';
-			$headers[]   = "Reply-to: $options[mt_from]";
+			// Translators: Link to stop email notices.
+			$opt_out   = PHP_EOL . PHP_EOL . '<p><small>' . sprintf( __( "Don't want to receive email from us? Follow this link: %s", 'my-tickets' ), $opt_out_url ) . '</small></p>';
+			$opt_out   = apply_filters( 'mt_opt_out_text', $opt_out, $opt_out_url, $id, 'single' );
+			$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
+			$headers[] = "Reply-to: $options[mt_from]";
 			if ( 'true' == $options['mt_html_email'] ) {
 				add_filter( 'wp_mail_content_type', 'mt_html_type' );
 				$body = wpautop( $body . $opt_out );
@@ -116,10 +117,10 @@ function mt_cpt_email_purchaser( $id ) {
 				remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 			}
 			add_post_meta( $id, '_mt_send_email', array(
-					'body'    => $body,
-					'subject' => $subject,
-					'date'    => current_time( 'timestamp' ),
-				) );
+                'body'    => $body,
+                'subject' => $subject,
+                'date'    => current_time( 'timestamp' ),
+            ) );
 		}
 	}
 }
@@ -143,13 +144,13 @@ function mt_default_fields() {
 				'input'   => 'select',
 				'default' => 'willcall',
 				'choices' => apply_filters( 'mt_registration_tickets_options', array(
-						'printable' => __( 'Printable', 'my-tickets' ),
-						'eticket'   => __( 'E-tickets', 'my-tickets' ),
-						'postal'    => __( 'Postal Mail', 'my-tickets' ),
-						'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
+                    'printable' => __( 'Printable', 'my-tickets' ),
+                    'eticket'   => __( 'E-tickets', 'my-tickets' ),
+                    'postal'    => __( 'Postal Mail', 'my-tickets' ),
+                    'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
                 ) ),
 			),
-			'is_delivered'         => array(
+			'is_delivered'      => array(
 				'label'   => __( 'Ticket Delivered', 'my-tickets' ),
 				'input'   => 'checkbox',
 				'default' => '',
@@ -171,8 +172,8 @@ function mt_default_fields() {
 				'default' => '',
 			),
 			'phone'             => array(
-				'label' => __( 'Purchaser Phone', 'my-tickets' ),
-				'input' => 'text',
+				'label'   => __( 'Purchaser Phone', 'my-tickets' ),
+				'input'   => 'text',
 				'default' => '',
 			),
 			'notes'             => array(
@@ -229,7 +230,8 @@ function mt_add_inner_box() {
 		if ( isset( $_GET['cart_id'] ) ) {
 			$cart_transient_id = esc_html( $_GET['cart_id'] );
 		}
-		$cart  = mt_get_cart( $cart_id, $cart_transient_id );
+		$cart = mt_get_cart( $cart_id, $cart_transient_id );
+		// Translators: link to public web site.
 		$order = ( $cart ) ? mt_generate_cart_table( $cart, 'confirmation' ) : '<p>' . sprintf( __( 'Visit the <a href="%s">public web site</a> to set up a cart order', 'my-tickets' ), home_url() ) . '</p>';
 		$total = '<strong>' . __( 'Total', 'my-tickets' ) . '</strong>: ' . apply_filters( 'mt_money_format', mt_total_cart( $cart ) );
 	} else {
@@ -258,11 +260,12 @@ function mt_add_uneditable() {
 			$dispute_data = '';
 		}
 
-		$receipt       = get_post_meta( $post_id, '_receipt', true );
-		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-		$link          = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
-		$purchase      = get_post_meta( $post_id, '_purchased' );
-		$discount      = get_post_meta( $post_id, '_discount', true );
+		$receipt  = get_post_meta( $post_id, '_receipt', true );
+		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+		$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
+		$purchase = get_post_meta( $post_id, '_purchased' );
+		$discount = get_post_meta( $post_id, '_discount', true );
+		// Translators: Quantity of member discount.
 		$discount_text = ( '' != $discount ) ? sprintf( __( ' @ %d&#37; member discount', 'my-tickets' ), $discount ) : '';
 
 		$status           = get_post_meta( $post_id, '_is_paid', true );
@@ -290,7 +293,7 @@ function mt_add_uneditable() {
  */
 function mt_list_events( $purchase_id ) {
 	$purchase = get_post_meta( $purchase_id, '_purchased' );
-	$events = array();
+	$events   = array();
 	if ( is_array( $purchase ) ) {
 		foreach ( $purchase as $purch ) {
 			foreach ( $purch as $event => $tickets ) {
@@ -316,7 +319,7 @@ function mt_setup_tickets( $purchase, $id ) {
 	foreach ( $purchase as $purch ) {
 		foreach ( $purch as $event => $tickets ) {
 			$purchases[ $event ] = $tickets;
-            $ticket_meta = get_post_meta( $event, '_ticket' );
+			$ticket_meta = get_post_meta( $event, '_ticket' );
 			foreach ( $tickets as $type => $details ) {
 				// add ticket hash for each ticket.
 				$count = $details['count'];
@@ -353,33 +356,34 @@ add_filter( 'mt_format_transaction', 'mt_offline_transaction', 5, 2 );
 /**
  * Format transaction data shown in Payment history.
  *
- * @param $transaction
- * @param $gateway
+ * @param array  $transaction Transaction details.
+ * @param string $gateway Selected gateway.
  *
  * @return string
  */
 function mt_offline_transaction( $transaction, $gateway ) {
 	// this is the default format. 
-	$output = $shipping = '';
+	$output   = '';
+	$shipping = '';
 	if ( is_array( $transaction ) ) {
 		foreach ( $transaction as $key => $value ) {
-			if ( $key == 'shipping' ) {
+			if ( 'shipping' == $key ) {
 				foreach ( $value as $label => $field ) {
-					$shipping .= "<li><strong>" . ucfirst( $label ) . "</strong> $field</li>";
+					$shipping .= '<li><strong>' . ucfirst( $label ) . "</strong> $field</li>";
 				}
 			} else {
-				$output .= "<li><strong>" . ucfirst( str_replace( '_', ' ', $key ) ) . "</strong>: $value</li>";
+				$output .= '<li><strong>' . ucfirst( str_replace( '_', ' ', $key ) ) . "</strong>: $value</li>";
 			}
 		}
 	}
 	if ( ! $output ) {
-		return __( "Transaction not yet completed.", 'my-tickets' );
+		return __( 'Transaction not yet completed.', 'my-tickets' );
 	} else {
 		if ( $shipping ) {
-			$shipping = "<h4>" . __( 'Shipping Address', 'my-tickets' ) . "</h4><ul>" . $shipping . "</ul>";
+			$shipping = '<h4>' . __( 'Shipping Address', 'my-tickets' ) . '</h4><ul>' . $shipping . '</ul>';
 		}
 		if ( $output ) {
-			$output = "<ul>" . $output . "</ul>";
+			$output = '<ul>' . $output . '</ul>';
 		}
 
 		return $output . $shipping;
@@ -389,32 +393,32 @@ function mt_offline_transaction( $transaction, $gateway ) {
 /**
  * Define meta box fields that can be changed by Admin in a payment record.
  *
- * @param $key
- * @param $label
- * @param $type
- * @param $post_id
- * @param bool $choices
- * @param bool $multiple
- * @param string $notes
- * @param $field
+ * @param string      $key Name of field.
+ * @param string      $label Label for field.
+ * @param string      $type Type of field.
+ * @param integer     $post_id Post ID.
+ * @param bool|array  $choices Array of choices for multiple choice fields.
+ * @param bool|string $multiple Indicates whether this is part of a set of fields.
+ * @param string      $notes Field notes.
+ * @param array       $field Array governing field context.
  *
  * @return bool|string
  */
 function mt_create_field( $key, $label, $type, $post_id, $choices = false, $multiple = false, $notes = '', $field ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( isset( $field['context'] ) && $field['context'] == 'edit' && ! isset( $_GET['post'] ) ) {
+	if ( isset( $field['context'] ) && 'edit' == $field['context'] && ! isset( $_GET['post'] ) ) {
 		return '';
 	}
-	if ( isset( $field['context'] ) && $field['context'] == 'new' && isset( $_GET['post'] ) ) {
+	if ( isset( $field['context'] ) && 'new' == $field['context'] && isset( $_GET['post'] ) ) {
 		return '';
 	}
 	$value = false;
-	if ( $multiple == 'true' ) {
-		$custom = (array) get_post_meta( $post_id, "_" . $key );
+	if ( 'true' == $multiple ) {
+		$custom = (array) get_post_meta( $post_id, '_' . $key );
 	} else {
-		$custom = esc_attr( get_post_meta( $post_id, "_" . $key, true ) );
+		$custom = esc_attr( get_post_meta( $post_id, '_' . $key, true ) );
 	}
-	if ( $key != 'notes' && get_post_meta( $post_id, '_is_paid', true ) == 'Refunded' ) {
+	if ( 'notes' != $key && 'Refunded' == get_post_meta( $post_id, '_is_paid', true ) ) {
 		$disabled = 'disabled';
 	} else {
 		$disabled = '';
@@ -426,65 +430,51 @@ function mt_create_field( $key, $label, $type, $post_id, $choices = false, $mult
 					if ( is_array( $val ) ) {
 						foreach ( $val as $event => $tickets ) {
 							$event_title = get_the_title( $event );
-							$value .= '<p><strong>' . $label . ': ' . $event_title . '</strong><br />';
+							$value      .= '<p><strong>' . $label . ': ' . $event_title . '</strong><br />';
 							foreach ( $tickets as $klabel => $data ) {
 								$value .= "<em>$klabel</em>: $data[count] @ $data[price]<br />";
 							}
-							$value .= "</p>";
+							$value .= '</p>';
 						}
 					}
 				}
 			} else {
-				if ( $key == 'total_paid' && $custom != '' ) {
+				if ( 'total_paid' == $key && '' != $custom ) {
 					$custom = number_format( $custom, 2 );
-					$label .= " (" . $options['mt_currency'] . ")";
+					$label .= ' (' . $options['mt_currency'] . ')';
 				}
-				$value = "
-					<label for='_$key'>$label</label><br />
-					<input class='widefat' type='text' name='_$key' id='$key' value='$custom' $disabled />";
+				$value = "<label for='_$key'>$label</label><br /><input class='widefat' type='text' name='_$key' id='$key' value='$custom' $disabled />";
 			}
 			break;
 		case 'textarea':
-			$value = '
-				<label for="_' . $key . '">' . $label . ' <em>(' . $notes . ')</em></label><br />' .
-			         '<textarea class="widefat" cols="60" rows="4" name="_' . $key . '" id="_' . $key . '">' . $custom . '</textarea>';
+			$value = '<label for="_' . $key . '">' . $label . ' <em>(' . $notes . ')</em></label><br />' . '<textarea class="widefat" cols="60" rows="4" name="_' . $key . '" id="_' . $key . '">' . $custom . '</textarea>';
 			break;
 		case 'checkbox':
 			// the mt_return_tickets should only be visible if a payment is failed.
-			if ( ( $key == 'mt_return_tickets' && get_post_meta( $post_id, '_is_paid', true ) == 'Failed' || get_post_meta( $post_id, '_is_paid', true ) == 'Refunded' || get_post_meta( $post_id, '_is_paid', true ) == 'Turned Back' ) || $key != 'mt_return_tickets' ) {
-				if ( $key == 'mt_return_tickets' && get_post_meta( $post_id, '_returned', true ) == 'true' ) {
+			if ( ( 'mt_return_tickets' == $key && 'Failed' == get_post_meta( $post_id, '_is_paid', true ) || 'Refunded' == get_post_meta( $post_id, '_is_paid', true ) || 'Turned Back' == get_post_meta( $post_id, '_is_paid', true ) ) || 'mt_return_tickets' != $key ) {
+				if ( 'mt_return_tickets' == $key && 'true' == get_post_meta( $post_id, '_returned', true ) ) {
 					$notes = __( 'Tickets from this purchase have been returned to the purchase pool', 'my-tickets' );
 				}
 				$checked = checked( $custom, 'true', false );
-				$value = '
-					<input type="checkbox" name="_' . $key . '" id="_' . $key . '" aria-labelledby="_' . $key . ' _' . $key . '_notes" value="true" ' . $checked . ' /> <label for="_' . $key . '">' . $label . '</label><br />
-					<span id="_' . $key . '_notes">' . $notes . '</span>
-				';
+				$value   = '<input type="checkbox" name="_' . $key . '" id="_' . $key . '" aria-labelledby="_' . $key . ' _' . $key . '_notes" value="true" ' . $checked . ' /> <label for="_' . $key . '">' . $label . '</label><br /><span id="_' . $key . '_notes">' . $notes . '</span>';
 			}
 			break;
 		case 'select':
-			$value = '
-			<label for="_' . $key . '">' . $label . '</label> ' .
-			         '<select name="_' . $key . '" id="_' . $key . '">' .
-			         mt_create_options( $choices, $custom ) .
-			         '</select>
-		';
+			$value = '<label for="_' . $key . '">' . $label . '</label> ' . '<select name="_' . $key . '" id="_' . $key . '">' . mt_create_options( $choices, $custom ) . '</select>';
 			break;
 		case 'none':
-			$value = "
-			<p><strong>$label</strong>: <span>" . esc_html( $custom ) . "</span></p>
-		";
+			$value = "<p><strong>$label</strong>: <span>" . esc_html( $custom ) . '</span></p>';
 			break;
 	}
 
-	return "<div class='mt-field $type'>" . $value . "</div>";
+	return "<div class='mt-field $type'>" . $value . '</div>';
 }
 
 /**
  * Create options for a custom select control.
  *
- * @param $choices
- * @param $selected
+ * @param array      $choices Options for select control.
+ * @param string|int $selected Selected choice.
  *
  * @return string
  */
@@ -493,12 +483,12 @@ function mt_create_options( $choices, $selected ) {
 	if ( is_array( $choices ) ) {
 		foreach ( $choices as $key => $value ) {
 			if ( ! is_numeric( $key ) ) {
-				$k      = esc_attr( $key );
-				$chosen = ( $k == $selected ) ? ' selected="selected"' : '';
+				$k       = esc_attr( $key );
+				$chosen  = ( $k == $selected ) ? ' selected="selected"' : '';
 				$return .= "<option value='$key'$chosen>$value</option>";
 			} else {
-				$v      = esc_attr( $value );
-				$chosen = ( $v == $selected ) ? ' selected="selected"' : '';
+				$v       = esc_attr( $value );
+				$chosen  = ( $v == $selected ) ? ' selected="selected"' : '';
 				$return .= "<option value='$value'$chosen>$value</option>";
 			}
 		}
@@ -523,25 +513,28 @@ function mt_post_meta( $id ) {
 		if ( isset( $_POST['_inline_edit'] ) ) {
 			return;
 		}
-		// create new ticket purchase
+		// create new ticket purchase.
 		if ( isset( $_POST['mt_cart_order'] ) ) {
 			$purchased = $_POST['mt_cart_order'];
 			mt_create_tickets( $id, $purchased );
-			// handle custom fields in custom orders
+			// handle custom fields in custom orders.
 			do_action( 'mt_save_payment_fields', $id, $_POST, $purchased );
-			$receipt_id = md5( add_query_arg( array( 'post_type' => 'mt-payments', 'p' => $id ), home_url() ) );
+			$receipt_id = md5( add_query_arg( array(
+                'post_type' => 'mt-payments',
+                'p' => $id,
+            ), home_url() ) );
 			update_post_meta( $id, '_receipt', $receipt_id );
 		}
 
 		if ( is_array( $fields ) ) {
 			foreach ( $fields as $key => $value ) {
-				if ( $value['input'] == 'checkbox' && !isset( $_POST["_" . $key ] ) ) {
-					delete_post_meta( $id, "_" . $key );
+				if ( 'checkbox' == $value['input'] && !isset( $_POST['_' . $key ] ) ) {
+					delete_post_meta( $id, '_' . $key );
 				}
-				if ( isset( $_POST[ "_" . $key ] ) ) {
-					$value = $_POST[ "_" . $key ];
-					update_post_meta( $id, "_" . $key, $value );
-					if ( $key == 'mt_return_tickets' && $value == 'true' ) {
+				if ( isset( $_POST[ '_' . $key ] ) ) {
+					$value = $_POST[ '_' . $key ];
+					update_post_meta( $id, '_' . $key, $value );
+					if ( 'mt_return_tickets' == $key && 'true' == $value ) {
 						mt_return_tickets( $id );
 					}
 				}
@@ -567,7 +560,7 @@ function mt_posttypes() {
 		'search_items'       => __( 'Search payments', 'my-tickets' ),
 		'not_found'          => __( 'No payments found', 'my-tickets' ),
 		'not_found_in_trash' => __( 'No payments found in Trash', 'my-tickets' ),
-		'parent_item_colon'  => ''
+		'parent_item_colon'  => '',
 	);
 	$args   = array(
 		'labels'              => $labels,
@@ -579,7 +572,7 @@ function mt_posttypes() {
 		'menu_icon'           => 'dashicons-tickets',
 		'query_var'           => true,
 		'hierarchical'        => false,
-		'supports'            => array( 'title' )
+		'supports'            => array( 'title' ),
 	);
 	register_post_type( 'mt-payments', $args );
 }
@@ -588,7 +581,7 @@ add_filter( 'post_updated_messages', 'mt_posttypes_messages' );
 /**
  * Define textdomain messages for Payments post type.
  *
- * @param $messages
+ * @param array $messages Post type descriptors.
  *
  * @return mixed
  */
@@ -600,7 +593,7 @@ function mt_posttypes_messages( $messages ) {
 		2  => __( 'Custom field updated.', 'my-tickets' ),
 		3  => __( 'Custom field deleted.', 'my-tickets' ),
 		4  => __( 'Payment updated.', 'my-tickets' ),
-		/* translators: %s: date and time of the revision */
+		// translators: %s: date and time of the revision.
 		5  => isset( $_GET['revision'] ) ? sprintf( __( 'Payment restored to revision from %s', 'my-tickets' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 		6  => __( 'Payment published.', 'my-tickets' ),
 		7  => __( 'Payment saved.', 'my-tickets' ),
@@ -615,8 +608,8 @@ function mt_posttypes_messages( $messages ) {
 /**
  * Get value of a custom field by fieldname and post ID.
  *
- * @param string $field
- * @param int    $id
+ * @param string $field Name of field.
+ * @param int    $id Post ID.
  *
  * @return mixed
  */
@@ -636,11 +629,11 @@ add_action( 'admin_init', 'mt_add' );
 function mt_add() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	add_action( 'admin_head', 'mt_css' );
-	add_filter( "manage_mt-payments_posts_columns", 'mt_column' );
-	add_action( "manage_mt-payments_posts_custom_column", 'mt_custom_column', 10, 2 );
+	add_filter( 'manage_mt-payments_posts_columns', 'mt_column' );
+	add_action( 'manage_mt-payments_posts_custom_column', 'mt_custom_column', 10, 2 );
 	foreach ( $options['mt_post_types'] as $name ) {
-		add_filter( "manage_" . $name . "_posts_columns", 'mt_is_event' );
-		add_action( "manage_" . $name . "_posts_custom_column", 'mt_is_event_column', 10, 2 );
+		add_filter( 'manage_' . $name . '_posts_columns', 'mt_is_event' );
+		add_action( 'manage_' . $name . '_posts_custom_column', 'mt_is_event_column', 10, 2 );
 	}
 }
 
@@ -680,34 +673,42 @@ function mt_column( $cols ) {
  */
 function mt_is_event_column( $column_name, $id ) {
 	switch ( $column_name ) {
-		case 'mt_is_event' :
+		case 'mt_is_event':
 			$event_data = get_post_meta( $id, '_mc_event_data', true );
 			if ( $event_data ) {
 				$registration = get_post_meta( $id, '_mt_registration_options', true );
 				if ( is_array( $registration ) ) {
-					$available    = $registration['total'];
-					$pricing      = $registration['prices'];
-					$tickets      = mt_tickets_left( $pricing, $available );
-					$remain       = $tickets['remain'];
-					$sold         = $tickets['sold'];
-					$status       = "<span class='mt is-event'>" . sprintf( __( '%1$s (%2$s sold)', 'my-tickets' ), $remain, $sold ) . "</span>";
+					$available = $registration['total'];
+					$pricing   = $registration['prices'];
+					$tickets   = mt_tickets_left( $pricing, $available );
+					$remain    = $tickets['remain'];
+					$sold      = $tickets['sold'];
+					// Translators: Tickets remaining, total sold.
+					$status = "<span class='mt is-event'>" . sprintf( __( '%1$s (%2$s sold)', 'my-tickets' ), $remain, $sold ) . '</span>';
 				} else {
-					$status       = "<span class='mt not-event'>" . __( 'Not ticketed', 'my-tickets' ) . "</span>";
+					$status = "<span class='mt not-event'>" . __( 'Not ticketed', 'my-tickets' ) . '</span>';
 				}
 			} else {
-				$status = "<span class='mt not-event'>" . __( 'Not ticketed', 'my-tickets' ) . "</span>";
+				$status = "<span class='mt not-event'>" . __( 'Not ticketed', 'my-tickets' ) . '</span>';
 			}
 			echo $status;
 			break;
 	}
 }
 
+add_filter( 'mc_event_classes', 'mt_is_mc_ticketed', 10, 4 );
 /**
  * Add class to My Calendar events if have tickets
+ *
+ * @param array  $classes Array of my calendar classes.
+ * @param object $event My Calendar event object.
+ * @param int    $uid Unique ID.
+ * @param string $type Display type.
+ *
+ * @return array
  */
-add_filter( 'mc_event_classes', 'mt_is_mc_ticketed', 10, 4 );
 function mt_is_mc_ticketed( $classes, $event, $uid, $type ) {
-    if ( !is_object( $event ) ) {
+    if ( ! is_object( $event ) ) {
         return $classes;
     }
     $event_id = $event->event_post;
@@ -721,7 +722,7 @@ function mt_is_mc_ticketed( $classes, $event, $uid, $type ) {
 /**
  * Check a given post ID to see event status
  *
- * @param $id
+ * @param int $id Post ID.
  *
  * @return boolean
  */
@@ -730,9 +731,9 @@ function mt_is_ticketed_event( $id ) {
     if ( $event_data ) {
         $registration = get_post_meta( $id, '_mt_registration_options', true );
         if ( is_array( $registration ) ) {
-            $status       = true;
+            $status = true;
         } else {
-            $status       = false;
+            $status = false;
         }
     } else {
         $status = false;
@@ -741,28 +742,28 @@ function mt_is_ticketed_event( $id ) {
     return $status;
 }
 
-// Echo the ID for the new column
 /**
  * In Payment post type, get status paid and receipt data.
- * @param $column_name
- * @param $id
+ *
+ * @param string $column_name Name of the current column.
+ * @param int    $id Post ID.
  */
 function mt_custom_column( $column_name, $id ) {
 	switch ( $column_name ) {
-		case 'mt_status' :
+		case 'mt_status':
 			$pd       = get_post_meta( $id, '_is_paid', true );
 			$pd_class = esc_attr( strtolower( $pd ) );
-			$pd_class = ( strpos( $pd_class, 'other' ) !== false ) ? 'other' : $pd_class;
+			$pd_class = ( false !== strpos( $pd_class, 'other' ) ) ? 'other' : $pd_class;
 			$status   = "<span class='mt $pd_class'>$pd</span>";
 			echo $status;
 			break;
-		case 'mt_paid' :
+		case 'mt_paid':
 			$pd   = get_post_meta( $id, '_total_paid', true );
 			$pd   = apply_filters( 'mt_money_format', $pd );
 			$paid = "<span>$pd</span>";
 			echo $paid;
 			break;
-		case 'mt_receipt' :
+		case 'mt_receipt':
 			$pd      = get_post_meta( $id, '_receipt', true );
 			$receipt = "<code>$pd</code>";
 			echo $receipt;
@@ -775,23 +776,39 @@ function mt_custom_column( $column_name, $id ) {
 	}
 }
 
+/**
+ * Value of current column.
+ *
+ * @param mixed  $value Value to display.
+ * @param string $column_name Column key.
+ * @param int    $id Post ID.
+ *
+ * @return mixed
+ */
 function mt_return_value( $value, $column_name, $id ) {
-	if ( $column_name == 'mt_status' || $column_name == 'mt_paid' || $column_name == 'mt_receipt' || $column_name == 'mt_email' ) {
+	if ( 'mt_status' == $column_name || 'mt_paid' == $column_name || 'mt_receipt' == $column_name || 'mt_email' == $column_name ) {
 		$value = $id;
 	}
 
 	return $value;
 }
 
-// Output CSS for width of new column
+/**
+ * Custom width CSS for columns.
+ */
 function mt_css() {
 	global $current_screen;
-	if ( $current_screen->id == 'mt-payments' || $current_screen->id == 'edit-mt-payments' ) {
+	if ( 'mt-payments' == $current_screen->id || 'edit-mt-payments' == $current_screen->id ) {
 		wp_enqueue_style( 'mt.posts', plugins_url( 'css/mt-post.css', __FILE__ ) );
 	}
 }
 
-add_filter( "pre_get_posts", 'filter_mt_payments' );
+add_filter( 'pre_get_posts', 'filter_mt_payments' );
+/**
+ * Run filters to view sets of payments.
+ *
+ * @param object $query WP Query object.
+ */
 function filter_mt_payments( $query ) {
 	global $pagenow;
 	if ( ! is_admin() ) {
@@ -799,8 +816,8 @@ function filter_mt_payments( $query ) {
 	}
 
 	$qv = &$query->query_vars;
-	if ( $pagenow == 'edit.php' && ! empty( $qv['post_type'] ) && $qv['post_type'] == 'mt-payments' ) {
-		if ( empty( $_GET['mt_filter'] ) || $_GET['mt_filter'] == 'all' ) {
+	if ( 'edit.php' == $pagenow && ! empty( $qv['post_type'] ) && 'mt-payments' == $qv['post_type'] ) {
+		if ( empty( $_GET['mt_filter'] ) || 'all' == $_GET['mt_filter'] ) {
 			return;
 		}
 		if ( isset( $_GET['mt_filter'] ) ) {
@@ -811,25 +828,31 @@ function filter_mt_payments( $query ) {
 					array(
 						'key'     => '_is_paid',
 						'value'   => $value,
-						'compare' => '='
-					)
+						'compare' => '=',
+					),
 				)
 			);
 		}
 	}
 }
 
-add_action( "restrict_manage_posts", 'filter_mt_dropdown' );
+add_action( 'restrict_manage_posts', 'filter_mt_dropdown' );
+/**
+ * Show dropdown to filter payments.
+ */
 function filter_mt_dropdown() {
 	global $typenow;
-	if ( $typenow == 'mt-payments' ) {
+	if ( 'mt-payments' == $typenow ) {
 		if ( isset( $_GET['mt_filter'] ) ) {
-			$completed = ( $_GET['mt_filter'] == 'Completed' ) ? ' selected="selected"' : '';
-			$pending   = ( $_GET['mt_filter'] == 'Pending' )   ? ' selected="selected"' : '';
-			$refunded  = ( $_GET['mt_filter'] == 'Refunded' )  ? ' selected="selected"' : '';
-			$failed    = ( $_GET['mt_filter'] == 'Failed' )    ? ' selected="selected"' : '';
+			$completed = ( 'Completed' == $_GET['mt_filter'] ) ? ' selected="selected"' : '';
+			$pending   = ( 'Pending' == $_GET['mt_filter'] ) ? ' selected="selected"' : '';
+			$refunded  = ( 'Refunded' == $_GET['mt_filter'] ) ? ' selected="selected"' : '';
+			$failed    = ( 'Failed' == $_GET['mt_filter'] ) ? ' selected="selected"' : '';
 		} else {
-			$completed = $pending = $refunded = $failed = '';
+			$completed = '';
+			$pending   = '';
+			$refunded  = '';
+			$failed    = '';
 		}
 		?>
 		<label for="mt_filter" class="screen-reader-text"><?php _e( 'Filter Payments', 'my-tickets' ); ?></label>
@@ -844,11 +867,13 @@ function filter_mt_dropdown() {
 	}
 }
 
-/* Add bulk action to mark payments completed. */
 add_action( 'admin_footer-edit.php', 'mt_bulk_admin_footer' );
+/**
+ * Add bulk action to mark payments completed.
+ */
 function mt_bulk_admin_footer() {
 	global $post_type;
-	if ( $post_type == 'mt-payments' ) {
+	if ( 'mt-payments' == $post_type ) {
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
@@ -860,11 +885,14 @@ function mt_bulk_admin_footer() {
 }
 
 add_action( 'load-edit.php', 'mt_bulk_action' );
+/**
+ * Implement bulk actions.
+ */
 function mt_bulk_action() {
 	global $typenow;
 	$post_type = $typenow;
 
-	if ( $post_type == 'mt-payments' ) {
+	if ( 'mt-payments' == $post_type ) {
 		$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 		$action        = $wp_list_table->current_action();
 
@@ -873,7 +901,7 @@ function mt_bulk_action() {
 			return;
 		}
 
-		// security check
+		// security check.
 		check_admin_referer( 'bulk-posts' );
 
 		if ( isset( $_REQUEST['post'] ) ) {
@@ -900,28 +928,17 @@ function mt_bulk_action() {
 					wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) );
 					$completed ++;
 				}
-				// build the redirect url
+				// build the redirect url.
 				$sendback = esc_url( add_query_arg( array(
-						'completed' => $completed,
-						'ids'       => join( ',', $post_ids )
-					), $sendback ) );
+                    'completed' => $completed,
+                    'ids'       => join( ',', $post_ids ),
+                ), $sendback ) );
 				break;
 			default:
 				return;
 		}
 
-		$sendback = esc_url( remove_query_arg( array(
-				'action',
-				'action2',
-				'tags_input',
-				'post_author',
-				'comment_status',
-				'ping_status',
-				'_status',
-				'post',
-				'bulk_edit',
-				'post_view'
-			), $sendback ) );
+		$sendback = esc_url( remove_query_arg( array( 'action', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status', 'post', 'bulk_edit', 'post_view' ), $sendback ) );
 
 		wp_redirect( $sendback );
 		exit();
@@ -929,9 +946,13 @@ function mt_bulk_action() {
 }
 
 add_action( 'admin_notices', 'mt_bulk_admin_notices' );
+/**
+ * Admin notice covering bulk edits.
+ */
 function mt_bulk_admin_notices() {
 	global $post_type, $pagenow;
-	if ( $pagenow == 'edit.php' && $post_type == 'mt-payments' && isset( $_REQUEST['completed'] ) && (int) $_REQUEST['completed'] ) {
+	if ( 'edit.php' == $pagenow && 'mt-payments' == $post_type && isset( $_REQUEST['completed'] ) && (int) $_REQUEST['completed'] ) {
+	    // Translators: Number of payments edited.
 		$message = sprintf( _n( 'Payment completed & ticket notification sent.', '%s payments completed and ticket notifications sent.', $_REQUEST['completed'], 'my-tickets' ), number_format_i18n( $_REQUEST['completed'] ) );
 		echo "<div class='updated'><p>$message</p></div>";
 	}
@@ -941,7 +962,7 @@ add_filter( 'wp_list_pages_excludes', 'mt_exclude_pages', 10, 2 );
 /**
  * Exclude receipt and ticket pages from page lists.
  *
- * @param $array
+ * @param array $array Array of pages.
  *
  * @return array
  */
@@ -963,14 +984,14 @@ add_filter( 'display_post_states', 'mt_post_states', 10, 2 );
 /**
  * Change 'draft' label to 'Active cart'
  *
- * @param $post_states Default post states array
- * @param $post Current post
+ * @param array  $post_states Default post states array.
+ * @param object $post Current post.
  *
  * @return array
  */
 function mt_post_states( $post_states, $post ) {
 	$post = get_post( $post );
-	if ( get_post_type( $post ) == 'mt-payments' && $post->post_status == 'draft' ) {
+	if ( 'mt-payments' == get_post_type( $post ) && 'draft' == $post->post_status ) {
 		$post_states['draft'] = __( 'Active cart', 'my-tickets' );
 	}
 	return $post_states;

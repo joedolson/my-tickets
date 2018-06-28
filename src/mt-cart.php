@@ -428,15 +428,16 @@ function mt_generate_cart( $user_ID = false ) {
 		$gateway        = "<input type='hidden' name='mt_gateway' value='" . esc_attr( $current_gate ) . "' />";
 		$cart_page      = get_permalink( $options['mt_purchase_page'] );
 		if ( is_array( $cart ) && ! empty( $cart ) && $count > 0 ) {
-			$output     = '
+			$output = '
 		<div class="mt_cart">
 			<div class="mt-response" aria-live="assertive"></div>
 			<form action="' . esc_url( $cart_page ) . '" method="POST">' . "
 			<input class='screen-reader-text' type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Place Order', 'my-tickets' ), $current_gate ) . "' />" . '
 				' . $nonce . '
 				' . $gateway;
-			$output    .= mt_generate_cart_table( $cart );
+			$output .= mt_generate_cart_table( $cart );
 			if ( 0 != $handling_total ) {
+				// Translators: amount of handling fee.
 				$output .= "<div class='mt_cart_handling'>" . apply_filters( 'mt_cart_handling_text', sprintf( __( 'A handling fee of %s will be applied to this purchase.', 'my-tickets' ), $handling ), $current_gate ) . '</div>';
 			}
 			if ( mt_handling_notice() ) {
@@ -447,28 +448,20 @@ function mt_generate_cart( $user_ID = false ) {
 			foreach ( $custom_fields as $key => $field ) {
 				$custom_output .= $field;
 			}
-			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" .
-			           mt_invite_login_or_register() . "\n" .
-			           mt_required_fields( $cart ) . "\n" .
-			           $custom_output . "\n
-				<p class='mt_submit'><input type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Place Order', 'my-tickets' ), $current_gate ) . "' /></p>\n
-				<input type='hidden' name='my-tickets' value='true' />" .
-                apply_filters( 'mt_cart_hidden_fields', '' ) . '
-			</form>' . mt_gateways() . mt_copy_cart() . '</div>';
+			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart ) . "\n" . $custom_output . "\n<p class='mt_submit'><input type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Place Order', 'my-tickets' ), $current_gate ) . "' /></p>\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_gateways() . mt_copy_cart() . '</div>';
 		} else {
 			do_action( 'mt_cart_is_empty' );
-            // clear POST data to prevent re-submission of data.
+			// clear POST data to prevent re-submission of data.
 			$_POST = array();
 			if ( isset( $_GET['payment_id'] ) ) {
-                $post_id  = absint( $_GET['payment_id'] );
-                $receipt  = get_post_meta( $post_id, '_receipt', true );
-                $options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-                $link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
-                $purchase = get_post_meta( $post_id, '_purchased' );
-                $output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . "</div></div>";
-
+				$post_id  = absint( $_GET['payment_id'] );
+				$receipt  = get_post_meta( $post_id, '_receipt', true );
+				$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+				$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
+				$purchase = get_post_meta( $post_id, '_purchased' );
+				$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
             } else {
-                $output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __('Your cart is currently empty.', 'my-tickets') . '</p>' );
+                $output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
             }
 		}
 	}
@@ -485,7 +478,7 @@ function mt_copy_cart() {
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'manage_options' ) ) {
 		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
 		if ( $unique_id ) {
-			return "<p><a href='" . esc_url( admin_url( "post-new.php?post_type=mt-payments&amp;cart=$unique_id" ) ) . "'>" . __( 'Create new admin payment with this cart', 'my-tickets' ) . "</a></p>";
+			return "<p><a href='" . esc_url( admin_url( "post-new.php?post_type=mt-payments&amp;cart=$unique_id" ) ) . "'>" . __( 'Create new admin payment with this cart', 'my-tickets' ) . '</a></p>';
 		}
 	}
 
@@ -560,9 +553,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 	if ( 'cart' == $format ) {
 		$output .= '<th scope="col" class="mt-update-column">' . __( 'Update', 'my-tickets' ) . '</th>';
 	}
-	$output .= '</tr>
-			</thead>
-			<tbody>';
+	$output .= '</tr></thead><tbody>';
 	$total   = 0;
 	if ( is_array( $cart ) && ! empty( $cart ) ) {
 		foreach ( $cart as $event_id => $order ) {
@@ -585,7 +576,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 				$date         = $data['event_begin'] . ' ' . $data['event_time'];
 				$dt_format    = apply_filters( 'mt_cart_datetime', get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ) );
-				$datetime     = "<span class='mt-datetime'>" . date_i18n( $dt_format, strtotime( $date ) ) . "</span>";
+				$datetime     = "<span class='mt-datetime'>" . date_i18n( $dt_format, strtotime( $date ) ) . '</span>';
 				if ( is_array( $order ) ) {
 					foreach ( $order as $type => $count ) {
 						if ( mt_admin_only( $type ) ) {
@@ -613,28 +604,28 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 									$max = $remaining;
 								}
 								if ( $count > $max ) { $count = $max; }
-								if ( $format == 'cart' || is_admin() ) {
+								if ( 'cart' == $format || is_admin() ) {
 									$hidden = "
 											<input type='hidden' class='mt_count' name='mt_cart_order[$event_id][$type][count]' value='$count' />
 											<input type='hidden' name='mt_cart_order[$event_id][$type][price]' value='$price' />";
 								} else {
 									$hidden = '';
 								}
-								$total  = $total + ( $price * $count );
-								$custom = apply_filters( 'mt_show_in_cart_fields', '', $event_id );
+								$total   = $total + ( $price * $count );
+								$custom  = apply_filters( 'mt_show_in_cart_fields', '', $event_id );
 								$output .= "
 											<tr id='mt_cart_order_$event_id" . '_' . "$type'>
 												<th scope='row'>$image$title: <em>$label</em><br />$datetime$hidden$custom</th>
 												<td>$currency " . apply_filters( 'mt_money_format', $price ) . "</td>
 												<td aria-live='assertive'><span class='count' data-limit='$max'>$count</span></td>";
-								if ( $format == 'cart' && apply_filters( 'mt_include_update_column', true ) ) {
-									if ( $registration['multiple'] == 'true' ) {
-										$output .= "<td class='mt-update-column'><button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='more'>+<span class='screen-reader-text'> " . __( 'Add a ticket', 'my-tickets' ) . "</span></button> <button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='less'>-<span class='screen-reader-text'> " . __( 'Remove a ticket', 'my-tickets' ) . "</span></button> <button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='remove'>x<span class='screen-reader-text'> " . __( 'Remove from cart', 'my-tickets' ) . "</span></button></td>";
+								if ( 'cart' == $format && apply_filters( 'mt_include_update_column', true ) ) {
+									if ( 'true' == $registration['multiple'] ) {
+										$output .= "<td class='mt-update-column'><button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='more'>+<span class='screen-reader-text'> " . __( 'Add a ticket', 'my-tickets' ) . "</span></button> <button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='less'>-<span class='screen-reader-text'> " . __( 'Remove a ticket', 'my-tickets' ) . "</span></button> <button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='remove'>x<span class='screen-reader-text'> " . __( 'Remove from cart', 'my-tickets' ) . '</span></button></td>';
 									} else {
-										$output .= "<td class='mt-update-column'><button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='remove'>x<span class='screen-reader-text'> " . __( 'Remove from cart', 'my-tickets' ) . "</span></button>" . apply_filters( 'mt_no_multiple_registration', '' ) . "</td>";
+										$output .= "<td class='mt-update-column'><button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='remove'>x<span class='screen-reader-text'> " . __( 'Remove from cart', 'my-tickets' ) . '</span></button>' . apply_filters( 'mt_no_multiple_registration', '' ) . '</td>';
 									}
 								}
-								$output .= "</tr>";
+								$output .= '</tr>';
 							}
 						}
 					}
@@ -642,9 +633,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 			}
 		}
 	}
-	$output .= '
-			</tbody>		
-		</table>';
+	$output .= '</tbody></table>';
 
 	return $output;
 }
@@ -720,7 +709,7 @@ function mt_count_cart( $cart ) {
 function mt_generate_gateway( $cart ) {
 	$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$return_url     = get_permalink( $options['mt_purchase_page'] );
-	$link           = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . "</p>" );
+	$link           = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
 	$confirmation   = mt_generate_cart_table( $cart, 'confirmation' );
 	$total          = mt_total_cart( $cart );
 	$count          = mt_count_cart( $cart );
@@ -798,12 +787,12 @@ function mt_expired( $event, $react = false ) {
 		return false;
 	}
 	$expired = get_post_meta( $event, '_mt_event_expired', true );
-	if ( $expired === 'true' ) {
+	if ( 'true' === $expired ) {
 		return true;
 	} else {
-		$options    = get_post_meta( $event, '_mt_registration_options', true );
-		$data       = get_post_meta( $event, '_mc_event_data', true );
-		if ( is_array( $data ) && is_array( $options ) && !empty( $options ) ) {
+		$options = get_post_meta( $event, '_mt_registration_options', true );
+		$data    = get_post_meta( $event, '_mc_event_data', true );
+		if ( is_array( $data ) && is_array( $options ) && ! empty( $options ) ) {
 			if ( ! isset( $data['event_begin'] ) ) {
 				return false;
 			}
@@ -827,7 +816,7 @@ function mt_expired( $event, $react = false ) {
 /**
  * Get saved cart data for user.
  *
- * @param bool $user_ID
+ * @param bool $user_ID User ID.
  *
  * @return array|mixed
  */
