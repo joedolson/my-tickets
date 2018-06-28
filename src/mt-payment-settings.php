@@ -109,7 +109,7 @@ function mt_payment_settings() {
 											$selected = ( $options['mt_currency'] == $code ) ? " selected='selected'" : '';
 											echo "<option value='$code'$selected>" . $currency['description'] . '</option>';
 										}
-										echo "</select>";
+										echo '</select>';
 										?>
 									</li>
 									<li>
@@ -153,12 +153,12 @@ function mt_payment_settings() {
 										<li>
 											<input type='checkbox' id='mt_gateway_$gateway' name='mt_gateway[]' value='$gateway'" . $gateway_enabled . " /> <label for='mt_gateway_$gateway'>$fields[label]</label>
 										</li>";
-										$settings = $fields['fields'];
+										$settings          = $fields['fields'];
 										foreach ( $settings as $key => $label ) {
 											if ( is_array( $label ) ) {
 												$input_type   = $label['type'];
 												$text_label   = $label['label'];
-												$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ?  $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
+												$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
 												$checked      = ( 'checkbox' == $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] == $label['value'] ) ) ? 'checked="checked"' : '';
 												$pg_settings .= "<li><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /></li>";
 											} else {
@@ -166,12 +166,13 @@ function mt_payment_settings() {
 												$pg_settings .= "<li><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
 											}
 										}
-										$notes            = ( isset( $fields['note'] ) ) ? '<p>' . wp_kses( $fields['note'], array(
+										$notes             = ( isset( $fields['note'] ) ) ? '<p>' . wp_kses( $fields['note'], array(
 											'strong' => array(),
 											'code'   => array(),
 											'em'     => array(),
 											'a'      => array( 'href' ),
 										) ) . '</p>' : '';
+										// Translators: Gateway settings.
 										$pg_tabs          .= "<li><a href='#$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '</a></li>';
 										$payment_gateways .= "
 										<div class='wptab mt_$gateway' id='$gateway' aria-live='assertive'>
@@ -183,7 +184,7 @@ function mt_payment_settings() {
 										</fieldset>
 										</div>";
 									}
-									echo "<li><fieldset><legend>" . __( 'Enabled Payment Gateways', 'my-tickets' ) . "</legend> $default_selector</fieldset>
+									echo '<li><fieldset><legend>' . __( 'Enabled Payment Gateways', 'my-tickets' ) . "</legend> $default_selector</fieldset>
 									<div class='mt-tabs'>
 										<ul class='tabs'>
 											$pg_tabs
@@ -206,8 +207,11 @@ function mt_payment_settings() {
 								<fieldset>
 									<legend><?php _e( 'My Tickets Payment and Ticket Handling Pages', 'my-tickets' ); ?></legend>
 									<?php
+									// Translators: Current purchase page.
 									$current_purchase_page = ( is_numeric( $options['mt_purchase_page'] ) ) ? sprintf( __( 'Currently: %s', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_purchase_page'] ) . "'>" . get_the_title( $options['mt_purchase_page'] ) . '</a>' ) : __( 'Not defined', 'my-tickets' );
+									// Translators: Current receipts page.
 									$current_receipt_page  = ( is_numeric( $options['mt_receipt_page'] ) ) ? sprintf( __( 'Currently: %s', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_receipt_page'] ) . "'>" . get_the_title( $options['mt_receipt_page'] ) . '</a>' ) : __( 'Not defined', 'my-tickets' );
+									// Translators: Current ticket display page.
 									$current_tickets_page  = ( is_numeric( $options['mt_tickets_page'] ) ) ? sprintf( __( 'Currently: %s', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_tickets_page'] ) . "'>" . get_the_title( $options['mt_tickets_page'] ) . '</a>' ) : __( 'Not defined', 'my-tickets' );
 									?>
 									<ul>
@@ -384,7 +388,7 @@ function mt_zerodecimal_currency() {
 
 	$currency   = $options['mt_currency'];
 	$currencies = mt_currency();
-	$data       = $currencies[$currency];
+	$data       = $currencies[ $currency ];
 
 	if ( isset( $data['zerodecimal'] ) && true == $data['zerodecimal'] ) {
 		return true;

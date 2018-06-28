@@ -110,7 +110,7 @@ function mt_help() {
 								<p>
 									<?php
 									// Translators: URL to donate, URL to purchase.
-									printf( __( 'Please, consider a <a href="%s">donation</a> or a <a href="%s">purchase</a> to support My Tickets!', 'my-tickets' ), 'https://www.joedolson.com/donate/', 'https://www.joedolson.com/my-tickets/add-ons/' );
+									printf( __( 'Please, consider a <a href="%1$s">donation</a> or a <a href="%2$s">purchase</a> to support My Tickets!', 'my-tickets' ), 'https://www.joedolson.com/donate/', 'https://www.joedolson.com/my-tickets/add-ons/' );
 									?>
 								</p>
 							</div>
@@ -129,7 +129,6 @@ function mt_help() {
 
 /**
  * Display support form
- *
  */
 function mt_get_support_form() {
 	$current_user = wp_get_current_user();
@@ -147,28 +146,28 @@ function mt_get_support_form() {
 	// send fields for all plugins.
 	$wp_version = get_bloginfo( 'version' );
 	$home_url   = home_url();
-	$wp_url	 = site_url();
+	$wp_url     = site_url();
 	$language   = get_bloginfo( 'language' );
-	$charset	= get_bloginfo( 'charset' );
+	$charset    = get_bloginfo( 'charset' );
 	// server.
 	$php_version = phpversion();
 
 	// theme data.
-	$theme		 = wp_get_theme();
-	$theme_name	= $theme->Name;
-	$theme_uri	 = $theme->ThemeURI;
-	$theme_parent  = $theme->Template;
-	$theme_version = $theme->Version;
+	$theme         = wp_get_theme();
+	$theme_name    = $theme->get( 'Name' );
+	$theme_uri     = $theme->get( 'ThemeURI' );
+	$theme_parent  = $theme->get( 'Template' );
+	$theme_version = $theme->get( 'Version' );
 
 	// plugin data.
-	$plugins		= get_plugins();
+	$plugins        = get_plugins();
 	$plugins_string = '';
 	foreach ( array_keys( $plugins ) as $key ) {
 		if ( is_plugin_active( $key ) ) {
-			$plugin		 =& $plugins[ $key ];
-			$plugin_name	= $plugin['Name'];
-			$plugin_uri	 = $plugin['PluginURI'];
-			$plugin_version = $plugin['Version'];
+			$plugin          =& $plugins[ $key ];
+			$plugin_name     = $plugin['Name'];
+			$plugin_uri      = $plugin['PluginURI'];
+			$plugin_version  = $plugin['Version'];
 			$plugins_string .= "$plugin_name: $plugin_version; $plugin_uri\n";
 		}
 	}
@@ -224,8 +223,10 @@ $plugins_string
 		} else {
 			$sent = wp_mail( 'plugins@joedolson.com', $subject, $message, $from );
 			if ( $sent ) {
+				// Translators: email address.
 				echo "<div class='message updated'><p>" . sprintf( __( 'Thank you for supporting the continuing development of this plug-in! I\'ll get back to you as soon as I can. Please ensure that you can receive email at <code>%s</code>.', 'my-tickets' ), $current_user->user_email ) . '</p></div>';
 			} else {
+				// Translators: Contact URL.
 				echo "<div class='message error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-calendar' ) . '</p><p>' . sprintf( __( '<a href="%s">Contact me here</a>, instead</p>', 'my-tickets' ), 'https://www.joedolson.com/contact/' ) . "<pre>$request</pre></div>";
 			}
 		}

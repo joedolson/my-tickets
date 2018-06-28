@@ -79,13 +79,13 @@ function mt_format_array( $output, $type, $data, $transaction_id ) {
 				$output = mt_format_purchase( $data, false, $transaction_id );
 				break;
 			case 'address':
-				$output = mt_format_address( $data, false, $transaction_id  );
+				$output = mt_format_address( $data, false, $transaction_id );
 				break;
 			case 'tickets':
-				$output = mt_format_tickets( $data, 'text', $transaction_id  );
+				$output = mt_format_tickets( $data, 'text', $transaction_id );
 				break;
 			case 'ticket_ids':
-				$output = mt_format_tickets( $data, 'ids', $transaction_id  );
+				$output = mt_format_tickets( $data, 'ids', $transaction_id );
 				break;
 		}
 	}
@@ -136,17 +136,11 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 							$handling_notice = ' ' . apply_filters( 'mt_handling_charge_of', sprintf( __( '(Per-ticket handling charge of %s)', 'my-tickets' ), apply_filters( 'mt_money_format', $handling ) ) );
 						}
 						if ( $is_html ) {
-							$tickets_list .= sprintf(
-								_n( '%1$s: 1 ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ),
-								'<strong>' . $type . '</strong>',
-								strip_tags( apply_filters( 'mt_money_format', $price ) ),
-								$ticket['count'] ) . $handling_notice . $sep;
+							// translators: Type of tickets, cost of tickets, price of tickets.
+							$tickets_list .= sprintf( _n( '%1$s: %3$s ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), '<strong>' . $type . '</strong>', strip_tags( apply_filters( 'mt_money_format', $price ) ), $ticket['count'] ) . $handling_notice . $sep;
 						} else {
-							$tickets_list .= sprintf(
-								_n( '%1$s: 1 ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ),
-								$type,
-								strip_tags( apply_filters( 'mt_money_format', $price ) ),
-								$ticket['count'] ) . $handling_notice . $sep;
+							// translators: type of tickets, cost of tickets, price of tickets.
+							$tickets_list .= sprintf( _n( '%1$s: %3$s ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), $type, strip_tags( apply_filters( 'mt_money_format', $price ) ), $ticket['count'] ) . $handling_notice . $sep;
 						}
 					}
 				}
@@ -274,7 +268,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$send     = true;
 	$id       = $details['id'];
 	$gateway  = get_post_meta( $id, '_gateway', true );
-	$notes    = ( ! empty( $options['mt_gateways'][ $gateway ][ 'notes' ] ) ) ? $options['mt_gateways'][ $gateway ][ 'notes' ] : '';
+	$notes    = ( ! empty( $options['mt_gateways'][ $gateway ]['notes'] ) ) ? $options['mt_gateways'][ $gateway ]['notes'] : '';
 	$phone    = get_post_meta( $id, '_phone', true );
 
 	// restructure post meta array to match cart array.
