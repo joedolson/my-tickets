@@ -866,7 +866,7 @@ function filter_mt_dropdown() {
 			<option value="Refunded"<?php echo $refunded; ?>><?php _e( 'Refunded', 'my-tickets' ); ?></option>
 			<option value="Failed"<?php echo $failed; ?>><?php _e( 'Failed', 'my-tickets' ); ?></option>
 		</select>
-        <?php
+		<?php
 	}
 }
 
@@ -883,7 +883,7 @@ function mt_bulk_admin_footer() {
 				$('<option>').val('complete').text('<?php _e( 'Mark as Completed', 'my-tickets' ); ?>').appendTo("select[name='action']");
 			});
 		</script>
-        <?php
+		<?php
 	}
 }
 
@@ -929,16 +929,16 @@ function mt_bulk_action() {
 				foreach ( $post_ids as $post_id ) {
 					update_post_meta( $post_id, '_is_paid', 'Completed' );
 					wp_update_post( array(
-                        'ID'          => $post_id,
-                        'post_status' => 'publish',
-                    ) );
+						'ID'          => $post_id,
+						'post_status' => 'publish',
+					) );
 					$completed ++;
 				}
 				// build the redirect url.
 				$sendback = esc_url( add_query_arg( array(
-                    'completed' => $completed,
-                    'ids'       => join( ',', $post_ids ),
-                ), $sendback ) );
+					'completed' => $completed,
+					'ids'       => join( ',', $post_ids ),
+				), $sendback ) );
 				break;
 			default:
 				return;
@@ -958,7 +958,7 @@ add_action( 'admin_notices', 'mt_bulk_admin_notices' );
 function mt_bulk_admin_notices() {
 	global $post_type, $pagenow;
 	if ( 'edit.php' == $pagenow && 'mt-payments' == $post_type && isset( $_REQUEST['completed'] ) && (int) $_REQUEST['completed'] ) {
-	    // Translators: Number of payments edited.
+		// Translators: Number of payments edited.
 		$message = sprintf( _n( '%s payment completed & ticket notification sent.', '%s payments completed and ticket notifications sent.', $_REQUEST['completed'], 'my-tickets' ), number_format_i18n( $_REQUEST['completed'] ) );
 		echo "<div class='updated'><p>$message</p></div>";
 	}

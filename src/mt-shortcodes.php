@@ -31,7 +31,7 @@ function my_tickets_short_cart() {
 	$checkout    = apply_filters( 'mt_quick_cart_checkout', sprintf( __( '<a href="%s">Checkout</a>', 'my-tickets' ), $url ) );
 	return "
 		<div class='mt-quick-cart' aria-live='polite'>" .
-	     __( 'In your cart: ', 'my-tickets' ) . "$ticket_text
+		 __( 'In your cart: ', 'my-tickets' ) . "$ticket_text
 			<span class='divider'>|</span> 
 			<span class='mt_currency'>" . mt_symbols( $options['mt_currency'] ) . "</span><span class='mt_qc_total'>" . number_format( $total, 2 ) . "</span>
 			<span class='divider'>|</span> 
@@ -82,8 +82,8 @@ function mt_featured_tickets( $atts, $content = '' ) {
 	if ( $atts['events'] ) {
 		$events = explode( ',', $atts['events'] );
 	} else {
-	    $events = array();
-    }
+		$events = array();
+	}
 	$content = '';
 	if ( is_array( $events ) ) {
 		foreach ( $events as $event ) {
