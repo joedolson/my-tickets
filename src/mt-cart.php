@@ -709,9 +709,9 @@ function mt_count_cart( $cart ) {
  * @return string
  */
 function mt_generate_gateway( $cart ) {
-	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$return_url   = get_permalink( $options['mt_purchase_page'] );
-	// Translators: cart url
+	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$return_url = get_permalink( $options['mt_purchase_page'] );
+	// Translators: cart url.
 	$link         = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
 	$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
 	$total        = mt_total_cart( $cart );
@@ -738,6 +738,7 @@ function mt_generate_gateway( $cart ) {
 			'payment' => $payment,
 			'method'  => $ticket_method,
 		) );
+
 		$form = apply_filters( 'mt_gateway', '', $mt_gateway, $args );
 		$form = apply_filters( 'mt_form_wrapper', $form );
 

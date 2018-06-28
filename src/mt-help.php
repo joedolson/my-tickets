@@ -34,20 +34,20 @@ function mt_help() {
 							</p>
 							<h4><?php _e( 'Basic Settings', 'my-tickets' ); ?></h4>
 							<ul>
-								<li><?php _e( 'Define what post types My Tickets should be activated for','my-tickets' ); ?>. (<?php _e( 'If My Calendar is installed, activate the "Registration" panel in the My Calendar input settings', 'my-tickets' ); ?>)</li>
+								<li><?php _e( 'Define what post types My Tickets should be activated for', 'my-tickets' ); ?>. (<?php _e( 'If My Calendar is installed, activate the "Registration" panel in the My Calendar input settings', 'my-tickets' ); ?>)</li>
 								<li><?php _e( 'Set up a new post and click "Sell Tickets on this post"', 'my-tickets' ); ?></li>
 							</ul>
 							<h4><?php _e( 'Payment Settings', 'my-tickets' ); ?></h4>
 							<ul>
 								<li><?php _e( 'Set your accepted payment currency', 'my-tickets' ); ?></li>
-								<li><?php _e( 'Enable your preferred payment gateways','my-tickets' ); ?></li>
-								<li><?php _e( 'Add merchant data for your enabled gateways and set the default gateway.','my-tickets' ); ?>
+								<li><?php _e( 'Enable your preferred payment gateways', 'my-tickets' ); ?></li>
+								<li><?php _e( 'Add merchant data for your enabled gateways and set the default gateway.', 'my-tickets' ); ?>
 									<ul>
 										<li><a href="https://www.authorize.net/support/CP/helpfiles/Account/Settings/Security_Settings/General_Settings/API_Login_ID_and_Transaction_Key.htm"><?php _e( 'How to get your Authorize.net API Login ID and Transaction Key', 'my-tickets' ); ?></a></li>
 										<li><a href="https://www.paypal.com/businessprofile/settings/"><?php _e( 'Find your PayPal primary email and merchant ID', 'my-tickets' ); ?></a></li>
 									</ul>
 								</li>
-								<li><?php _e( 'Turn on/off testing mode.','my-tickets' ); ?></li>
+								<li><?php _e( 'Turn on/off testing mode.', 'my-tickets' ); ?></li>
 							</ul>
 							<h4><?php _e( 'Ticket Settings', 'my-tickets' ); ?></h4>
 							<ul>
@@ -108,9 +108,10 @@ function mt_help() {
 						<div class="inside">
 							<div class="mt-support-me">
 								<p>
-									<?php printf(
-										__( 'Please, consider a <a href="%s">donation</a> or a <a href="%s">purchase</a> to support My Tickets!', 'my-tickets' )
-										, 'https://www.joedolson.com/donate/', 'https://www.joedolson.com/my-tickets/add-ons/' ); ?>
+									<?php
+									// Translators: URL to donate, URL to purchase.
+									printf( __( 'Please, consider a <a href="%s">donation</a> or a <a href="%s">purchase</a> to support My Tickets!', 'my-tickets' ), 'https://www.joedolson.com/donate/', 'https://www.joedolson.com/my-tickets/add-ons/' );
+									?>
 								</p>
 							</div>
 							<?php
@@ -132,7 +133,7 @@ function mt_help() {
  */
 function mt_get_support_form() {
 	$current_user = wp_get_current_user();
-	$request = '';
+	$request      = '';
 	// send fields for My Tickets.
 	$license = ( '' != get_option( 'mt_license_key' ) ) ? get_option( 'mt_license_key' ) : 'none';
 	if ( '' != $license ) {
@@ -202,30 +203,30 @@ $plugins_string
 	if ( isset( $_POST['mt_support'] ) ) {
 		$nonce = $_REQUEST['_wpnonce'];
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets-nonce' ) ) {
-			die( "Security check failed" );
+			die( 'Security check failed' );
 		}
-		$request	  = ( ! empty( $_POST['support_request'] ) ) ? stripslashes( $_POST['support_request'] ) : false;
+		$request      = ( ! empty( $_POST['support_request'] ) ) ? stripslashes( $_POST['support_request'] ) : false;
 		$has_read_faq = ( 'on' == $_POST['has_read_faq'] ) ? 'Read FAQ' : false;
-		$subject	  = 'My Tickets support request.';
-		$message	  = $request . "\n\n" . $data;
+		$subject      = 'My Tickets support request.';
+		$message      = $request . "\n\n" . $data;
 		// Get the site domain and get rid of www. from pluggable.php.
 		$sitename = strtolower( $_SERVER['SERVER_NAME'] );
 		if ( substr( $sitename, 0, 4 ) == 'www.' ) {
 			$sitename = substr( $sitename, 4 );
 		}
 		$from_email = 'wordpress@' . $sitename;
-		$from	   = "From: \"$current_user->display_name\" <$from_email>\r\nReply-to: \"$current_user->display_name\" <$current_user->user_email>\r\n";
+		$from       = "From: \"$current_user->display_name\" <$from_email>\r\nReply-to: \"$current_user->display_name\" <$current_user->user_email>\r\n";
 
 		if ( ! $has_read_faq ) {
-			echo "<div class='message error'><p>" . __( 'Please read the FAQ and other Help documents before making a support request.', 'my-tickets' ) . "</p></div>";
+			echo "<div class='message error'><p>" . __( 'Please read the FAQ and other Help documents before making a support request.', 'my-tickets' ) . '</p></div>';
 		} elseif ( ! $request ) {
-			echo "<div class='message error'><p>" . __( 'Please describe your problem. I\'m not psychic.', 'my-tickets' ) . "</p></div>";
+			echo "<div class='message error'><p>" . __( 'Please describe your problem. I\'m not psychic.', 'my-tickets' ) . '</p></div>';
 		} else {
 			$sent = wp_mail( 'plugins@joedolson.com', $subject, $message, $from );
 			if ( $sent ) {
 				echo "<div class='message updated'><p>" . sprintf( __( 'Thank you for supporting the continuing development of this plug-in! I\'ll get back to you as soon as I can. Please ensure that you can receive email at <code>%s</code>.', 'my-tickets' ), $current_user->user_email ) . '</p></div>';
 			} else {
-				echo "<div class='message error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-calendar' ) . "</p><p>" . sprintf( __( '<a href="%s">Contact me here</a>, instead</p>', 'my-tickets' ), 'https://www.joedolson.com/contact/' ) . "<pre>$request</pre></div>";
+				echo "<div class='message error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-calendar' ) . '</p><p>' . sprintf( __( '<a href="%s">Contact me here</a>, instead</p>', 'my-tickets' ), 'https://www.joedolson.com/contact/' ) . "<pre>$request</pre></div>";
 			}
 		}
 	}
@@ -239,8 +240,10 @@ $plugins_string
 		<code>' . __( 'Reply to:', 'my-tickets' ) . " \"$current_user->display_name\" &lt;$current_user->user_email&gt;</code>
 		</p>
 		<p>
-		<input type='checkbox' name='has_read_faq' id='has_read_faq' value='on' required='required' aria-required='true' /> <label for='has_read_faq'>" . sprintf( __( 'I have read <a href="%1$s">the FAQ for this plug-in</a> <span>(required)</span>', 'my-tickets' ), '#faq' ) . "
-		</p>
+		<input type='checkbox' name='has_read_faq' id='has_read_faq' value='on' required='required' aria-required='true' /> <label for='has_read_faq'>";
+	// Translators: FAQ URL.
+	printf( __( 'I have read <a href="%s">the FAQ for this plug-in</a> <span>(required)</span>', 'my-tickets' ), '#faq' );
+	echo "</p>
 		<p>
 		<label for='support_request'>" . __( 'Support Request:', 'my-tickets' ) . "</label><br /><textarea class='support-request' name='support_request' id='support_request' cols='80' rows='10'>" . stripslashes( $request ) . "</textarea>
 		</p>
@@ -248,8 +251,7 @@ $plugins_string
 		<input type='submit' value='" . __( 'Send Support Request', 'my-tickets' ) . "' name='mt_support' class='button-primary' />
 		</p>
 		<p>" . __( 'The following additional information will be sent with your support request:', 'my-tickets' ) . "</p>
-		<div class='mt_support'>
-		" . wpautop( $data ) . '
+		<div class='mt_support'>" . wpautop( $data ) . '
 		</div>
 		</div>
 	</form>';

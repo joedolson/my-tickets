@@ -772,7 +772,7 @@ function mt_custom_column( $column_name, $id ) {
 			echo $receipt;
 			break;
 		case 'mt_payer_email':
-			$em   = get_post_meta( $id, '_email',  true );
+			$em   = get_post_meta( $id, '_email', true );
 			$show = "<code>$em</code>";
 			echo $show;
 			break;
