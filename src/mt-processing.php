@@ -123,7 +123,7 @@ function mt_ticket_meta( $post_id ) {
 /**
  * Gets array of ticket types and prices for an event
  *
- * @param int $event_id Event ID
+ * @param int $event_id Event ID.
  *
  * @uses mt_calculate_discount()
  *
@@ -157,6 +157,7 @@ function mt_get_prices( $event_id ) {
  * Calculates actual cost of an event ticket if member discount in effect
  *
  * @param float $price Event Ticket Price before discounts.
+ * @param int   $event_id Event ID.
  *
  * @return float
  */
@@ -293,7 +294,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
  * Generates pricing table from registration array and event ID; uses defaults if no values passed.
  *
  * @param array $registration array of ticketing and registration data for this event.
- * @param int $event_id post ID.
+ * @param int   $event_id post ID.
  *
  * @return string
  */
@@ -315,7 +316,7 @@ function mt_prices_table( $registration = array() ) {
 						</tr>
 					</thead>
 					<tbody>';
-	$counting = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $counting;
+	$counting  = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $counting;
 	if ( 'discrete' == $counting ) {
 		$available_empty = "<input type='text' name='mt_tickets[]' id='mt_tickets' value='' size='8' />";
 		$total           = '<input type="hidden" name="mt_tickets_total" value="inherit" />';
@@ -346,7 +347,7 @@ function mt_prices_table( $registration = array() ) {
 					<td><input type='hidden' name='mt_sold[]' value='" . $options['sold'] . "' />" . $options['sold'] . '</td>
 				</tr>';
 
-				$labels_index[$label] = $options['label'];
+				$labels_index[ $label ] = $options['label'];
 			}
 		}
 		mt_index_labels( $labels_index );
@@ -367,7 +368,7 @@ function mt_prices_table( $registration = array() ) {
 				</tr>";
 		}
 	}
-	$return .= "
+	$return   .= "
 		<tr class='clonedPrice' id='price1'>
 			<td></td>
 			<td><input type='text' name='mt_label[]' id='mt_label' /></td>
@@ -391,12 +392,12 @@ function mt_prices_table( $registration = array() ) {
 /**
  * Create index of labels/stored names
  *
- * @param array $labels array of labels/names
+ * @param array $labels array of labels/names.
  */
 function mt_index_labels( $labels ) {
-	$index = get_option('mt_labels');
+	$index = get_option( 'mt_labels' );
 	$index = is_array( $index ) ? $index : array();
-	$keys  = array_keys($index);
+	$keys  = array_keys( $index );
 	foreach ( $labels as $name => $label ) {
 		if ( ! in_array( $name, $keys ) ) {
 			$index[ $name ] = $label;
@@ -409,7 +410,7 @@ function mt_index_labels( $labels ) {
 /**
  * Fetch label from stored key
  *
- * @param string $name Key for stored label
+ * @param string $key Key for stored label.
  *
  * @return string: either key or found label
  */
@@ -429,8 +430,7 @@ function mt_get_label( $key ) {
  * @param array  $post $_POST data.
  * @param object $data My Calendar event object.
  * @param int    $event_id Event ID.
- *
-*/
+ */
 function mt_save_registration_data( $post_id, $post, $data = array(), $event_id = false ) {
 	$reg_data             = get_post_meta( $post_id, '_mt_registration_options', true );
 	$event_begin          = ( isset( $post['event_begin'] ) ) ? $post['event_begin'] : '';
@@ -456,7 +456,6 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 		'total'           => $total_tickets,
 		'multiple'        => $multiple,
 	);
-
 	$updated_expire       = ( isset( $reg_data['reg_expires'] ) && $reg_data['reg_expires'] != $reg_expires ) ? true : false;
 	if ( mt_date_comp( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ), $event_begin ) || $updated_expire ) {
 		// if the date changes, and is now in the future, re-open ticketing.
@@ -476,10 +475,10 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
  * @param array $labels Price labels.
  * @param array $prices Prices.
  * @param array $availability Availability for tickets.
- * @param array $sold array (empty when event is created.)
+ * @param array $sold array - empty when event is created.
  *
  * @return array ticket data
-*/
+ */
 function mt_setup_pricing( $labels, $prices, $availability, $sold = array() ) {
 	$return = array();
 	if ( is_array( $labels ) ) {

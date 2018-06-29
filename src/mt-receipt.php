@@ -15,10 +15,11 @@ add_filter( 'template_redirect', 'mt_receipt', 10, 1 );
  */
 function mt_receipt() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$id      = ( $options['mt_receipt_page'] != '' ) ? $options['mt_receipt_page'] : false;
+	$id      = ( '' != $options['mt_receipt_page'] ) ? $options['mt_receipt_page'] : false;
 	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		if ( isset( $_GET['receipt_id'] ) ) {
-			if ( $template = locate_template( 'receipt.php' ) ) {
+			$template = locate_template( 'receipt.php' );
+			if ( $template ) {
 				load_template( $template );
 			} else {
 				load_template( dirname( __FILE__ ) . '/templates/receipt.php' );
@@ -40,10 +41,10 @@ function mt_get_receipt() {
 	$receipt    = false;
 	if ( $receipt_id ) {
 		$posts   = get_posts( array(
-				'post_type'  => 'mt-payments',
-				'meta_key'   => '_receipt',
-				'meta_value' => $receipt_id
-			) );
+			'post_type'  => 'mt-payments',
+			'meta_key'   => '_receipt',
+			'meta_value' => $receipt_id,
+		) );
 		$receipt = $posts[0];
 	}
 

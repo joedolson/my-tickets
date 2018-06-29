@@ -368,7 +368,7 @@ function mt_currency() {
 		'ZAR' => array(
 			'symbol'      => 'R',
 			'description' => __( 'South African Rand', 'my-tickets' ),
-		)
+		),
 	) );
 
 	ksort( $currencies );
