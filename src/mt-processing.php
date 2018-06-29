@@ -70,6 +70,7 @@ function mt_add_ticket_form() {
 			" . mc_location_select( $location ) . '
 		</select>';
 	} else {
+		// Translators: URL for My Calendar installation.
 		$selector = sprintf( __( 'Install <a href="%s">My Calendar</a> to manage and choose locations for your events', 'my-tickets' ), admin_url( 'plugin-install.php?tab=search&s=my-calendar' ) );
 	}
 	$form =
@@ -81,9 +82,7 @@ function mt_add_ticket_form() {
 					<p>
 						$selector
 					</p>
-			</div>" .
-		apply_filters( 'mc_event_registration', '', $post_id, $data, 'admin' ) . "
-		</div>";
+			</div>" . apply_filters( 'mc_event_registration', '', $post_id, $data, 'admin' ) . '</div>';
 	echo '<div class="mt_post_fields">' . $format . $form . '</div>';
 }
 
@@ -91,13 +90,13 @@ add_action( 'save_post', 'mt_ticket_meta', 10 );
 /**
  * Save ticket meta data when enabled post is saved.
  *
- * @param $post_id
+ * @param int $post_id Post ID.
  */
 function mt_ticket_meta( $post_id ) {
 	if ( isset( $_POST['mt-tickets-nonce'] ) && isset( $_POST['mt-trigger'] ) ) {
 		$nonce = $_POST['mt-tickets-nonce'];
 		if ( ! wp_verify_nonce( $nonce, 'mt-tickets-nonce' ) ) {
-			wp_die( "Invalid nonce" );
+			wp_die( 'Invalid nonce' );
 		}
 		$event_begin = date( 'Y-m-d', strtotime( $_POST['event_begin'] ) );
 		$event_time  = date( 'H:i:s', strtotime( $_POST['event_time'] ) );
@@ -121,10 +120,11 @@ function mt_ticket_meta( $post_id ) {
 	return;
 }
 
-/*
+/**
  * Gets array of ticket types and prices for an event
  *
- * @param $event_id int
+ * @param int $event_id Event ID
+ *
  * @uses mt_calculate_discount()
  *
  * @return boolean|array
@@ -137,7 +137,7 @@ function mt_get_prices( $event_id ) {
 		if ( is_user_logged_in() && is_array( $prices ) ) { // cycle only if pricing is being modified.
 			foreach ( $prices as $label => $options ) {
 				if ( 'sold' != $label ) {
-					$price                     = isset( $prices[ $label ]['price'] ) ? $prices[ $label ]['price'] : false;
+					$price = isset( $prices[ $label ]['price'] ) ? $prices[ $label ]['price'] : false;
 					if ( ! $price ) {
 						continue;
 					}
@@ -153,17 +153,17 @@ function mt_get_prices( $event_id ) {
 	return false;
 }
 
-/*
+/**
  * Calculates actual cost of an event ticket if member discount in effect
  *
- * @param $price float
+ * @param float $price Event Ticket Price before discounts.
  *
  * @return float
  */
 function mt_calculate_discount( $price, $event_id ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	if ( is_user_logged_in() ) { // members discount.
-		if ( is_admin() && ! ( defined( 'DOING_AJAX') && DOING_AJAX ) ) {
+		if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			$discount = 0;
 		} else {
 			$discount = (int) $options['mt_members_discount'];
@@ -176,13 +176,13 @@ function mt_calculate_discount( $price, $event_id ) {
 	if ( mt_zerodecimal_currency() ) {
 		$discounted = round( $discounted, 0 );
 	} else {
-		$discounted = sprintf( "%01.2f", $discounted );
+		$discounted = sprintf( '%01.2f', $discounted );
 	}
 
 	return $discounted;
 }
 
-/*
+/**
  * Add registration fields for My Calendar events
  *
  * @param string $form Form html.
@@ -214,7 +214,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
 		$description  = false;
-		$checked      = ( 'true' ==  get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
+		$checked      = ( 'true' == get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
 	}
 	$expiration  = ( isset( $registration['reg_expires'] ) ) ? $registration['reg_expires'] : $options['defaults']['reg_expires'];
@@ -265,10 +265,10 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		<fieldset><legend>' . __( 'Type of Sale', 'my-tickets' ) . "</legend>
 		<p>
 			<input type='radio' name='mt_sales_type' id='mt_sales_type_tickets' value='tickets' $is_tickets /> <label for='mt_sales_type_tickets'>" . __( 'Ticket Sales', 'my-tickets' ) . "</label><br />
-			<input type='radio' name='mt_sales_type' id='mt_sales_type_registration' value='registration' $is_registration /> <label for='mt_sales_type_registration'>" . __( 'Event Registration', 'my-tickets' ) . "</label>
+			<input type='radio' name='mt_sales_type' id='mt_sales_type_registration' value='registration' $is_registration /> <label for='mt_sales_type_registration'>" . __( 'Event Registration', 'my-tickets' ) . '</label>
 		</p>
 		</fieldset>
-		<fieldset><legend>" . __( 'Ticket Counting Method', 'my-tickets' ) . "</legend>
+		<fieldset><legend>' . __( 'Ticket Counting Method', 'my-tickets' ) . "</legend>
 			<p>
 				<input type='radio' name='mt_counting_method' id='mt_counting_method_discrete' value='discrete' $is_discrete /> <label for='mt_counting_method_discrete'>" . __( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ) . "</label><br />
 				<input type='radio' name='mt_counting_method' id='mt_counting_method_continuous' value='continuous' $is_continuous /> <label for='mt_counting_method_continuous'>" . __( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ) . '</label>
@@ -289,11 +289,13 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	return apply_filters( 'mc_event_registration_form', $form, $has_data, $data, $public, $original_form );
 }
 
-/*
+/**
  * Generates pricing table from registration array and event ID; uses defaults if no values passed.
  *
  * @param array $registration array of ticketing and registration data for this event.
- * @param int   $event_id post ID.
+ * @param int $event_id post ID.
+ *
+ * @return string
  */
 function mt_prices_table( $registration = array() ) {
 	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
@@ -341,8 +343,8 @@ function mt_prices_table( $registration = array() ) {
 					<td><input type='text' name='mt_label[]' id='mt_label_$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' /></td>
 					<td><input type='text' name='mt_price[]' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
-					<td><input type='hidden' name='mt_sold[]' value='$options[sold]' />$options[sold]</td>
-				</tr>";
+					<td><input type='hidden' name='mt_sold[]' value='" . $options['sold'] . "' />" . $options['sold'] . '</td>
+				</tr>';
 
 				$labels_index[$label] = $options['label'];
 			}
@@ -386,7 +388,7 @@ function mt_prices_table( $registration = array() ) {
 }
 
 
-/*
+/**
  * Create index of labels/stored names
  *
  * @param array $labels array of labels/names
@@ -404,7 +406,7 @@ function mt_index_labels( $labels ) {
 	update_option('mt_labels', $index);
 }
 
-/*
+/**
  * Fetch label from stored key
  *
  * @param string $name Key for stored label
@@ -419,7 +421,8 @@ function mt_get_label( $key ) {
 
 	return $key;
 }
-/*
+
+/**
  * Save registration/ticketing info as post meta.
  *
  * @param int    $post_id Post ID.
@@ -467,7 +470,7 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	update_post_meta( $post_id, '_mt_event_notes', $notes );
 }
 
-/*
+/**
  * Generates pricing array from POST data
  *
  * @param array $labels Price labels.

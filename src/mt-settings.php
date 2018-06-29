@@ -120,7 +120,7 @@ function mt_settings() {
 									'completed' => __( 'Completed', 'my-tickets' ),
 									'failed'    => __( 'Failed', 'my-tickets' ),
 									'refunded'  => __( 'Refunded', 'my-tickets' ),
-									'interim'  => __( 'Offline & Pending', 'my-tickets' ),
+									'interim'   => __( 'Offline & Pending', 'my-tickets' ),
 								);
 								foreach ( $status_types as $type => $status_type ) {
 									$tabs .= "<li><a href='#$type'>$status_type</a></li>";

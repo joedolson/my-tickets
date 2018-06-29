@@ -64,6 +64,11 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.4 =
+
+* Bug fix: offline payment better redirection
+*
+
 = 1.7.3 =
 
 * Bug fix: custom rules for custom fields filter awkwardly written.

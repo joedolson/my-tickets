@@ -162,11 +162,11 @@ function mt_payment_settings() {
 												$checked      = ( 'checkbox' == $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] == $label['value'] ) ) ? 'checked="checked"' : '';
 												$pg_settings .= "<li><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /></li>";
 											} else {
-												$value        = ( !empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
+												$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
 												$pg_settings .= "<li><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
 											}
 										}
-										$notes             = ( isset( $fields['note'] ) ) ? '<p>' . wp_kses( $fields['note'], array(
+										$notes = ( isset( $fields['note'] ) ) ? '<p>' . wp_kses( $fields['note'], array(
 											'strong' => array(),
 											'code'   => array(),
 											'em'     => array(),
@@ -210,9 +210,9 @@ function mt_payment_settings() {
 									// Translators: Current purchase page.
 									$current_purchase_page = ( is_numeric( $options['mt_purchase_page'] ) ) ? sprintf( __( 'Currently: %s', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_purchase_page'] ) . "'>" . get_the_title( $options['mt_purchase_page'] ) . '</a>' ) : __( 'Not defined', 'my-tickets' );
 									// Translators: Current receipts page.
-									$current_receipt_page  = ( is_numeric( $options['mt_receipt_page'] ) ) ? sprintf( __( 'Currently: %s', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_receipt_page'] ) . "'>" . get_the_title( $options['mt_receipt_page'] ) . '</a>' ) : __( 'Not defined', 'my-tickets' );
+									$current_receipt_page = ( is_numeric( $options['mt_receipt_page'] ) ) ? sprintf( __( 'Currently: %s', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_receipt_page'] ) . "'>" . get_the_title( $options['mt_receipt_page'] ) . '</a>' ) : __( 'Not defined', 'my-tickets' );
 									// Translators: Current ticket display page.
-									$current_tickets_page  = ( is_numeric( $options['mt_tickets_page'] ) ) ? sprintf( __( 'Currently: %s', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_tickets_page'] ) . "'>" . get_the_title( $options['mt_tickets_page'] ) . '</a>' ) : __( 'Not defined', 'my-tickets' );
+									$current_tickets_page = ( is_numeric( $options['mt_tickets_page'] ) ) ? sprintf( __( 'Currently: %s', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_tickets_page'] ) . "'>" . get_the_title( $options['mt_tickets_page'] ) . '</a>' ) : __( 'Not defined', 'my-tickets' );
 									?>
 									<ul>
 										<li>
@@ -303,7 +303,7 @@ function mt_currency() {
 			'symbol'      => 'CHF ',
 			'description' => __( 'Swiss Franc', 'my-tickets' ),
 		),
-		'HKD"' => array(
+		'HKD' => array(
 			'symbol'      => '$',
 			'description' => __( 'Hong Kong Dollar ($)', 'my-tickets' ),
 		),

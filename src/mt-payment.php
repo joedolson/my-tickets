@@ -9,7 +9,7 @@
  * @link     https://www.joedolson.com/my-tickets/
  */
 
-/*
+/**
  * Any gateway can call this function to handle inserting payment data into DB
  *
  * @param string $response string -- 'VERIFIED' to continue.
@@ -61,22 +61,22 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 		} else {
 			// If we're here, there was an invalid payment response detected.
 			// log for manual investigation.
-			$mail_From    = "From: $blogname Events <" . $options['mt_from'] . ">";
+			$mail_from    = "From: $blogname Events <" . $options['mt_from'] . ">";
 			// Response from My Tickets payment gateway.
-			$mail_Subject = sprintf( __( 'INVALID Response from My Tickets Payment: %s', 'my-tickets' ), $response );
-			$mail_Body    = __( 'Something went wrong. Hopefully this information will help:', 'my-tickets' ) . "\n\n";
-			$mail_Body   .= print_r( $post, 1 );
-			wp_mail( $options['mt_to'], $mail_Subject, $mail_Body, $mail_From );
+			$mail_subject = sprintf( __( 'INVALID Response from My Tickets Payment: %s', 'my-tickets' ), $response );
+			$mail_body    = __( 'Something went wrong. Hopefully this information will help:', 'my-tickets' ) . "\n\n";
+			$mail_body   .= print_r( $post, 1 );
+			wp_mail( $options['mt_to'], $mail_subject, $mail_body, $mail_from );
 		}
 	} else {
 		// If we're here, WP HTTP couldn't contact the payment gateway.
-		$mail_From    = "From: $blogname Events <" . $options['mt_from'] . '>';
-		$mail_Subject = sprintf( __( 'WP HTTP Failed to contact the payment gateway: %s', 'my-tickets' ), $response_code );
-		$mail_Body    = __( 'Something went wrong. Hopefully this information will help:', 'my-tickets' ) . "\n\n";
-		$mail_Body   .= print_r( $data, 1 );
-		$mail_Body   .= print_r( $post, 1 );
-		$mail_Body   .= print_r( $response, 1 );
-		wp_mail( $options['mt_to'], $mail_Subject, $mail_Body, $mail_From );
+		$mail_from    = "From: $blogname Events <" . $options['mt_from'] . '>';
+		$mail_subject = sprintf( __( 'WP HTTP Failed to contact the payment gateway: %s', 'my-tickets' ), $response_code );
+		$mail_body    = __( 'Something went wrong. Hopefully this information will help:', 'my-tickets' ) . "\n\n";
+		$mail_body   .= print_r( $data, 1 );
+		$mail_body   .= print_r( $post, 1 );
+		$mail_body   .= print_r( $response, 1 );
+		wp_mail( $options['mt_to'], $mail_subject, $mail_body, $mail_from );
 		mt_log( $response, $response_code, $data, $post );
 	}
 }

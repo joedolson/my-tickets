@@ -137,10 +137,10 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 						}
 						if ( $is_html ) {
 							// translators: Type of tickets, cost of tickets, price of tickets.
-							$tickets_list .= sprintf( _n( '%1$s: %3$s ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), '<strong>' . $type . '</strong>', strip_tags( apply_filters( 'mt_money_format', $price ) ), $ticket['count'] ) . $handling_notice . $sep;
+							$tickets_list .= sprintf( _n( '%1$s: %3$d ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), '<strong>' . $type . '</strong>', strip_tags( apply_filters( 'mt_money_format', $price ) ), $ticket['count'] ) . $handling_notice . $sep;
 						} else {
 							// translators: type of tickets, cost of tickets, price of tickets.
-							$tickets_list .= sprintf( _n( '%1$s: %3$s ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), $type, strip_tags( apply_filters( 'mt_money_format', $price ) ), $ticket['count'] ) . $handling_notice . $sep;
+							$tickets_list .= sprintf( _n( '%1$s: %3$d ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), $type, strip_tags( apply_filters( 'mt_money_format', $price ) ), $ticket['count'] ) . $handling_notice . $sep;
 						}
 					}
 				}
@@ -205,7 +205,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id ) {
 	$total    = count( $tickets );
 	$i        = 1;
 	$test_use = false;
-	if ( ( current_user_can( 'mt-verify-tickets') || current_user_can( 'manage_options' ) ) && is_admin() ) {
+	if ( ( current_user_can( 'mt-verify-tickets' ) || current_user_can( 'manage_options' ) ) && is_admin() ) {
 		$used     = get_post_meta( $purchase_id, '_tickets_used' );
 		$test_use = true;
 	}
@@ -315,7 +315,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	), get_permalink( $options['mt_tickets_page'] ) ) : '';
 
 	$purchases = apply_filters( 'mt_format_array', '', 'purchase', $purchased, $id );
-	$data = array(
+	$data      = array(
 		'receipt'        => apply_filters( 'mt_format_receipt', $receipt ),
 		'tickets'        => $tickets,
 		'ticket_ids'     => $ticket_ids,
@@ -346,7 +346,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		if ( ! $event ) {
 			continue;
 		}
-		$value         = $info[$name];
+		$value         = $info[ $name ];
 		$data[ $name ] = call_user_func( $field['display_callback'], $value, $event );
 	}
 
@@ -452,7 +452,7 @@ add_filter( 'mt_format_notes', 'mt_create_event_notes', 10, 3 );
 function mt_create_event_notes( $event_notes, $purchased, $payment_id ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	if ( is_array( $purchased ) ) {
-		foreach( $purchased as $event ) {
+		foreach ( $purchased as $event ) {
 			foreach ( $event as $event_id => $tickets ) {
 				if ( 'true' == $options['mt_html_email'] ) {
 					$notes = wpautop( get_post_meta( $event_id, '_mt_event_notes', true ) );
@@ -485,18 +485,23 @@ function mt_draw_template( $data, $template ) {
 				// null values return false.
 			} else {
 				if ( false !== strpos( $template, '{' . $key ) ) {
-					if ( false !== strpos( $template, '{' . $key . ' ' ) ) { // only do preg_match if appropriate
+					if ( false !== strpos( $template, '{' . $key . ' ' ) ) { // only do preg_match if appropriate.
 						preg_match_all( '/{' . $key . '\b(?>\s+(?:before="([^"]*)"|after="([^"]*)"|format="([^"]*)")|[^\s]+|\s+){0,2}}/', $template, $matches, PREG_PATTERN_ORDER );
 						if ( $matches ) {
-							$before = @$matches[1][0];
-							$after  = @$matches[2][0];
-							$format = @$matches[3][0];
-							if ( '' != $format ) {
-								$value = date_i18n( stripslashes( $format ), strtotime( stripslashes( $value ) ) );
+							$number = count( $matches[0] );
+							for ( $i = 0; $i < $number; $i ++ ) {
+								$orig   = $value;
+								$before = $matches[1][ $i ];
+								$after  = $matches[2][ $i ];
+								$format = $matches[3][ $i ];
+								if ( '' != $format ) {
+									$value = date_i18n( stripslashes( $format ), strtotime( stripslashes( $value ) ) );
+								}
+								$value    = ( '' == $value ) ? '' : $before . $value . $after;
+								$search   = $matches[0][ $i ];
+								$template = str_replace( $search, $value, $template );
+								$value    = $orig;
 							}
-							$value    = ( '' == $value ) ? '' : $before . $value . $after;
-							$search   = @$matches[0][0];
-							$template = str_replace( $search, $value, $template );
 						}
 					} else { // don't do preg match (never required for RSS).
 						$template = stripcslashes( str_replace( '{' . $key . '}', $value, $template ) );
@@ -549,7 +554,7 @@ function mt_return_tickets( $payment_id ) {
  * @param int    $purchase_id Payment ID.
  * @param string $type - type of ticket sold.
  */
-function mt_return_ticket( $ticket_id, $event_id, $purchase_id, $type  ) {
+function mt_return_ticket( $ticket_id, $event_id, $purchase_id, $type ) {
 	delete_post_meta( $event_id, '_ticket', $ticket_id );
 	delete_post_meta( $event_id, '_' . $ticket_id );
 	$registration                            = get_post_meta( '_mt_registration_options', true );
