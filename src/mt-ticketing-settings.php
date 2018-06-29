@@ -13,48 +13,55 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+/**
+ * Update ticketing settings.
+ *
+ * @param array $post POST data.
+ *
+ * @return bool|string
+ */
 function mt_update_ticketing_settings( $post ) {
 	if ( isset( $post['mt-ticketing-settings'] ) ) {
 		$nonce = $_POST['_wpnonce'];
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets' ) ) {
 			return '';
 		}
-		$mt_handling            = ( isset( $post['mt_handling'] ) ) ? $post['mt_handling'] : 0;
-		$mt_ticket_handling     = ( isset( $post['mt_ticket_handling'] ) ) ? $post['mt_ticket_handling'] : 0;
-		$mt_shipping            = ( isset( $post['mt_shipping'] ) ) ? $post['mt_shipping'] : 0;
-		$mt_ticketing           = ( isset( $post['mt_ticketing'] ) ) ? $post['mt_ticketing'] : array();
-		$mt_ticket_type_default = ( isset( $post['mt_ticket_type_default'] ) ) ? $post['mt_ticket_type_default'] : '';
-		$mt_total_tickets       = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
-		$mt_shipping_time       = ( isset( $post['mt_shipping_time'] ) ) ? $post['mt_shipping_time'] : '3-5';
-		$mt_hide_remaining      = ( isset( $post['mt_hide_remaining'] ) ) ? 'true' : 'false';
-		$mt_hide_remaining_limit= ( isset( $post['mt_hide_remaining_limit'] ) ) ? intval( $post['mt_hide_remaining_limit'] ) : 0;
-		$mt_collect_shipping    = ( isset( $post['mt_collect_shipping'] ) ) ? 'true' : 'false';
-		$defaults               = ( isset( $post['defaults'] ) ) ? $post['defaults'] : array();
-		$labels                 = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
-		$prices                 = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
-		$availability           = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : array();
-		$close_value            = ( isset( $post['mt_tickets_close_value'] ) ) ? $post['mt_tickets_close_value'] : '';
-		$close_type             = ( isset( $post['mt_tickets_close_type'] ) ) ? $post['mt_tickets_close_type'] : 'integer';
-		$mt_ticket_image        = ( isset( $post['mt_ticket_image'] ) ) ? $post['mt_ticket_image'] : 'ticket';
-		$pricing_array          = mt_setup_pricing( $labels, $prices, $availability );
-		$defaults['pricing']    = $pricing_array;
-		$defaults['tickets']    = $mt_total_tickets;
-		$defaults['multiple']   = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';
+		$mt_handling             = ( isset( $post['mt_handling'] ) ) ? $post['mt_handling'] : 0;
+		$mt_ticket_handling      = ( isset( $post['mt_ticket_handling'] ) ) ? $post['mt_ticket_handling'] : 0;
+		$mt_shipping             = ( isset( $post['mt_shipping'] ) ) ? $post['mt_shipping'] : 0;
+		$mt_ticketing            = ( isset( $post['mt_ticketing'] ) ) ? $post['mt_ticketing'] : array();
+		$mt_ticket_type_default  = ( isset( $post['mt_ticket_type_default'] ) ) ? $post['mt_ticket_type_default'] : '';
+		$mt_total_tickets        = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
+		$mt_shipping_time        = ( isset( $post['mt_shipping_time'] ) ) ? $post['mt_shipping_time'] : '3-5';
+		$mt_hide_remaining       = ( isset( $post['mt_hide_remaining'] ) ) ? 'true' : 'false';
+		$mt_hide_remaining_limit = ( isset( $post['mt_hide_remaining_limit'] ) ) ? intval( $post['mt_hide_remaining_limit'] ) : 0;
+		$mt_collect_shipping     = ( isset( $post['mt_collect_shipping'] ) ) ? 'true' : 'false';
+		$defaults                = ( isset( $post['defaults'] ) ) ? $post['defaults'] : array();
+		$labels                  = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
+		$prices                  = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
+		$availability            = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : array();
+		$close_value             = ( isset( $post['mt_tickets_close_value'] ) ) ? $post['mt_tickets_close_value'] : '';
+		$close_type              = ( isset( $post['mt_tickets_close_type'] ) ) ? $post['mt_tickets_close_type'] : 'integer';
+		$mt_ticket_image         = ( isset( $post['mt_ticket_image'] ) ) ? $post['mt_ticket_image'] : 'ticket';
+		$pricing_array           = mt_setup_pricing( $labels, $prices, $availability );
+		$defaults['pricing']     = $pricing_array;
+		$defaults['tickets']     = $mt_total_tickets;
+		$defaults['multiple']    = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';
 
 		$settings = apply_filters( 'mt_settings', array(
-			'defaults'               => $defaults,
-			'mt_shipping'            => $mt_shipping,
-			'mt_handling'            => $mt_handling,
-			'mt_ticket_handling'     => $mt_ticket_handling,
-			'mt_ticketing'           => $mt_ticketing,
-			'mt_ticket_type_default' => $mt_ticket_type_default,
-			'mt_shipping_time'       => $mt_shipping_time,
-			'mt_tickets_close_value' => $close_value,
-			'mt_tickets_close_type'  => $close_type,
-			'mt_ticket_image'        => $mt_ticket_image,
-			'mt_hide_remaining'      => $mt_hide_remaining,
-			'mt_hide_remaining_limit'=> $mt_hide_remaining_limit,
-			'mt_collect_shipping'    => $mt_collect_shipping
+			'defaults'                => $defaults,
+			'mt_shipping'             => $mt_shipping,
+			'mt_handling'             => $mt_handling,
+			'mt_ticket_handling'      => $mt_ticket_handling,
+			'mt_ticketing'            => $mt_ticketing,
+			'mt_ticket_type_default'  => $mt_ticket_type_default,
+			'mt_shipping_time'        => $mt_shipping_time,
+			'mt_tickets_close_value'  => $close_value,
+			'mt_tickets_close_type'   => $close_type,
+			'mt_ticket_image'         => $mt_ticket_image,
+			'mt_hide_remaining'       => $mt_hide_remaining,
+			'mt_hide_remaining_limit' => $mt_hide_remaining_limit,
+			'mt_collect_shipping'     => $mt_collect_shipping,
 		), $_POST );
 		$settings = array_merge( get_option( 'mt_settings' ), $settings );
 		update_option( 'mt_settings', $settings );
@@ -95,31 +102,28 @@ function mt_ticketing_settings() {
 										'printable' => __( 'Printable', 'my-tickets' ),
 										'eticket'   => __( 'E-tickets', 'my-tickets' ),
 										'postal'    => __( 'Postal Mail', 'my-tickets' ),
-										'willcall'  => __( 'Pick up at box office', 'my-tickets' )
+										'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
 									) );
 								$ticketing    = $options['mt_ticketing'];
-								$form         = "<fieldset><legend>" . __( 'Available Ticket Types', 'my-calendar' ) . "</legend>
-								<ul class='ticket-type checkboxes'>";
+								$form         = '<fieldset><legend>' . __( 'Available Ticket Types', 'my-calendar' ) . "</legend><ul class='ticket-type checkboxes'>";
 								foreach ( $mt_ticketing as $type => $label ) {
 									$checked = ( in_array( $type, array_keys( $ticketing ) ) ) ? ' checked="checked"' : '';
-									$form .= "<li><label for='mt_tickets_$type'>$label</label> <input name='mt_ticketing[$type]' id='mt_tickets_$type' type='checkbox' value='" . esc_attr( $label ) . "' $checked /></li>";
+									$form   .= "<li><label for='mt_tickets_$type'>$label</label> <input name='mt_ticketing[$type]' id='mt_tickets_$type' type='checkbox' value='" . esc_attr( $label ) . "' $checked /></li>";
 								}
-								$form .= "</ul>
-								</fieldset>";
-								$form .= '
+								$form        .= '</ul></fieldset>';
+								$form        .= '
 									<p>
 										<label for="mt_ticket_type_default">' . __( 'Default ticket type', 'my-tickets' ) . '</label>
 										<select name="mt_ticket_type_default" id="mt_ticket_type_default">';
-												$mt_ticket_type_default = isset( $options['mt_ticket_type_default'] ) ? $options['mt_ticket_type_default'] : '';
-												foreach( $mt_ticketing as $type => $label ) {
-													$selected = selected( $type, $mt_ticket_type_default, false );
-													$form .= "<option value='$type'$selected>$label</option>";
-												}
-								$form .=	'</select>
-									</p>';
+								$mt_ticket_type_default = isset( $options['mt_ticket_type_default'] ) ? $options['mt_ticket_type_default'] : '';
+								foreach( $mt_ticketing as $type => $label ) {
+									$selected = selected( $type, $mt_ticket_type_default, false );
+									$form    .= "<option value='$type'$selected>$label</option>";
+								}
+								$form        .= '</select></p>';
 								// only show shipping field is postal mail ticket is selected.
 								$shipping = $options['mt_shipping'];
-								$form .= "<p class='shipping'>
+								$form    .= "<p class='shipping'>
 					<label for='mt_shipping'>" . __( 'Shipping Cost for Postal Mail', 'my-tickets' ) . "</label> <input name='mt_shipping' id='mt_shipping' type='text' size='4' value='$shipping' />
 			</p>";
 								$shipping_time = $options['mt_shipping_time'];
@@ -197,7 +201,7 @@ function mt_ticketing_settings() {
 									</p>
 									<?php
 									$type = $options['defaults']['sales_type'];
-									if ( ! $type || $type == 'tickets' ) {
+									if ( ! $type || 'tickets' == $type ) {
 										$is_tickets      = ' checked="checked"';
 										$is_registration = '';
 									} else {
@@ -205,7 +209,7 @@ function mt_ticketing_settings() {
 										$is_registration = ' checked="checked"';
 									}
 									$method = $options['defaults']['counting_method'];
-									if ( $method == 'discrete' ) {
+									if ( 'discrete' == $method ) {
 										$is_discrete   = ' checked="checked"';
 										$is_continuous = '';
 									} else {
@@ -217,38 +221,30 @@ function mt_ticketing_settings() {
 									<fieldset>
 										<legend><?php _e( 'Type of Sale', 'my-tickets' ); ?></legend>
 										<p>
-											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_tickets'
-												   value='tickets'<?php echo $is_tickets; ?> /> <label
-												for='mt_sales_type_tickets'><?php _e( 'Ticket Sales', 'my-tickets' ); ?></label><br/>
-											<input type='radio' name='defaults[sales_type]'
-												   id='mt_sales_type_registration'
-												   value='registration'<?php echo $is_registration; ?> /> <label
-												for='mt_sales_type_registration'><?php _e( 'Event Registration', 'my-tickets' ); ?></label>
+											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_tickets' value='tickets'<?php echo $is_tickets; ?> />
+											<label for='mt_sales_type_tickets'><?php _e( 'Ticket Sales', 'my-tickets' ); ?></label><br/>
+											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_registration' value='registration'<?php echo $is_registration; ?> />
+											<label for='mt_sales_type_registration'><?php _e( 'Event Registration', 'my-tickets' ); ?></label>
 										</p>
 									</fieldset>
 									<fieldset>
 										<legend><?php _e( 'Ticket Counting Method', 'my-tickets' ); ?></legend>
 										<p>
-											<input type='radio' name='defaults[counting_method]'
-												   id='mt_counting_method_discrete'
-												   value='discrete',<?php echo $is_discrete; ?> /> <label
-												for='mt_counting_method_discrete'><?php _e( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ); ?></label><br/>
-											<input type='radio' name='defaults[counting_method]'
-												   id='mt_counting_method_continuous'
-												   value='continuous'<?php echo $is_continuous; ?> /> <label
-												for='mt_counting_method_continuous'><?php _e( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ); ?></label>
+											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_discrete' value='discrete' <?php echo $is_discrete; ?> />
+											<label for='mt_counting_method_discrete'><?php _e( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ); ?></label><br/>
+											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_continuous' value='continuous'<?php echo $is_continuous; ?> />
+											<label for='mt_counting_method_continuous'><?php _e( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ); ?></label>
 										</p>
 									</fieldset>
 							</div>
 						</div>
 					</div>
-					<p><input type="submit" name="mt-ticketing-settings" class="button-primary"
-							  value="<?php _e( 'Save Ticket Defaults', 'my-tickets' ); ?>"/></p>
+					<p><input type="submit" name="mt-ticketing-settings" class="button-primary" value="<?php _e( 'Save Ticket Defaults', 'my-tickets' ); ?>"/></p>
 				</form>
 			</div>
 		</div>
 		<?php mt_show_support_box(); ?>
 	</div>
 	<?php
-	// creates settings page for My tickets
+	// creates settings page for My tickets.
 }

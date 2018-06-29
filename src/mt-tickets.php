@@ -15,11 +15,12 @@ add_filter( 'template_redirect', 'mt_ticket', 10, 1 );
  */
 function mt_ticket() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$id      = ( $options['mt_tickets_page'] != '' ) ? $options['mt_tickets_page'] : false;
+	$id      = ( '' != $options['mt_tickets_page'] ) ? $options['mt_tickets_page'] : false;
 	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		if ( ! isset( $_GET['multiple'] ) ) {
 			if ( isset( $_GET['ticket_id'] ) && mt_verify_ticket( $_GET['ticket_id'] ) ) {
-				if ( $template = locate_template( 'tickets.php' ) ) {
+				$template = locate_template( 'tickets.php' );
+				if ( $template ) {
 					load_template( $template );
 				} else {
 					load_template( dirname(__FILE__ ) . '/templates/tickets.php' );
@@ -29,7 +30,8 @@ function mt_ticket() {
 			}
 		} else {
 			if ( isset( $_GET['receipt_id']) ) {
-				if ( $template = locate_template( 'bulk-tickets.php' ) ) {
+				$template = locate_template( 'bulk-tickets.php' );
+				if ( $template ) {
 					load_template( $template );
 				} else {
 					load_template( dirname(__FILE__ ) . '/templates/bulk-tickets.php' );
@@ -45,7 +47,7 @@ function mt_ticket() {
 /**
  * Verify that ticket is valid. (Does not check whether ticket is for current or future event.)
  *
- * @param string $ticket_id Ticket ID
+ * @param string $ticket_id Ticket ID.
  * @param string $return type of data to return.
  *
  * @return array|bool
@@ -64,28 +66,30 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
 		if ( 'Completed' == $status || ( 'Pending' == $status && 'offline' == $gateway ) ) {
 			return ( 'full' == $return ) ? array(
 				'status' => true,
-				'ticket' => $ticket
+				'ticket' => $ticket,
 			) : true;
 		}
 	}
 
-	return ( 'full' == $return ) ? array( 'status' => false, 'ticket' => false ) : false;
+	return ( 'full' == $return ) ? array(
+		'status' => false,
+		'ticket' => false,
+	) : false;
 }
 
 /**
  * Get ticket object for use in ticket template if ticket ID is set and valid.
  *
- * @param bool $ticket_id
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return bool
  */
 function mt_get_ticket( $ticket_id = false ) {
 	global $wpdb;
 
-	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$ticket_id = isset( $_GET['ticket_id'] ) ? $_GET['ticket_id'] : $ticket_id;
-	// sanitize ticket id
-	$ticket_id = strtolower( preg_replace( "/[^a-z0-9\-]+/i", "", $ticket_id ) );
+	// sanitize ticket id.
+	$ticket_id = strtolower( preg_replace( "/[^a-z0-9\-]+/i", '', $ticket_id ) );
 	$ticket    = false;
 	if ( $ticket_id ) {
 		$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_ticket' AND meta_value = %s", $ticket_id ) );

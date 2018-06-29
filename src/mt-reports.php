@@ -143,6 +143,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 			);
 			$status_types = array(
 				'completed' => __( 'Completed (%Completed)', 'my-tickets' ),
+				// Translators: percent signs, *not* placeholders.
 				'failed'    => __( 'Failed (%Failed)', 'my-tickets' ),
 				'refunded'  => __( 'Refunded (%Refunded)', 'my-tickets' ),
 				'pending'   => __( 'Pending (%Pending)', 'my-tickets' ),
@@ -199,7 +200,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				$out          .= "<div class='wptab wp_" . strtolower( $status ) . "' id='mt_" . strtolower( $status ) . "' aria-live='assertive'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
 			}
 
-			$output     .= $out . '</div>';
+			$output .= $out . '</div>';
 			// Translators: Number of tickets sold, total number of sales completed, number of purchases transacted.
 			$total_line  = "<p class='totals'>" . sprintf( __( '%1$s tickets sold in %3$s purchases. Total completed sales: %2$s', 'my-tickets' ), "<strong>$total_tickets</strong>", '<strong>' . apply_filters( 'mt_money_format', $total_income ) . '</strong>', "<strong>$total_sales</strong>" ) . '</p>';
 			$custom_line = apply_filters( 'mt_custom_total_line_event', '', $event_id );
@@ -310,7 +311,7 @@ function mt_email_purchasers() {
 		if ( isset( $_GET['message'] ) ) {
 			$strip = intval( $_GET['message'] );
 			for ( $i = 0; $i < $strip; $i++ ) {
-				$removed = ( is_array( $email ) ) ? array_pop($email) : array();
+				$removed = ( is_array( $email ) ) ? array_pop( $email ) : array();
 			}
 		}
 		if ( ! empty( $email ) ) {
@@ -559,7 +560,7 @@ function mt_get_tickets( $event_id ) {
 	$options   = get_option( 'mt_settings' );
 	$alternate = 'even';
 	foreach ( $query as $ticket_id ) {
-		$ticket       = get_post_meta( $event_id, '_'. $ticket_id, true );
+		$ticket       = get_post_meta( $event_id, '_' . $ticket_id, true );
 		$ticket_url   = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
 		$purchase_id  = $ticket['purchase_id'];
 		$type         = $ticket['type'];

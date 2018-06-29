@@ -20,19 +20,20 @@ add_filter( 'milky_way_top_of_header', 'my_tickets_short_cart', 10, 1 );
 /**
  * Shortcode to add quick cart to site. Shows current number of tickets and total value plus link to checkout.
  *
- * @return void
+ * @return string
  */
 function my_tickets_short_cart() {
-	$options     = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$cart        = mt_get_cart();
-	$total       = mt_total_cart( $cart );
-	$tickets     = mt_count_cart( $cart );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$cart    = mt_get_cart();
+	$total   = mt_total_cart( $cart );
+	$tickets = mt_count_cart( $cart );
+	// Translators: Number of tickets.
 	$ticket_text = apply_filters( 'mt_quick_cart_ticket_text', sprintf( __( '%s tickets', 'my-tickets' ), "<span class='mt_qc_tickets'>$tickets</span>" ) );
 	$url         = get_permalink( $options['mt_purchase_page'] );
-	$checkout    = apply_filters( 'mt_quick_cart_checkout', sprintf( __( '<a href="%s">Checkout</a>', 'my-tickets' ), $url ) );
+	// Translators: Checkout URL.
+	$checkout = apply_filters( 'mt_quick_cart_checkout', sprintf( __( '<a href="%s">Checkout</a>', 'my-tickets' ), $url ) );
 	return "
-		<div class='mt-quick-cart' aria-live='polite'>" .
-		 __( 'In your cart: ', 'my-tickets' ) . "$ticket_text
+		<div class='mt-quick-cart' aria-live='polite'>" . __( 'In your cart: ', 'my-tickets' ) . "$ticket_text
 			<span class='divider'>|</span> 
 			<span class='mt_currency'>" . mt_symbols( $options['mt_currency'] ) . "</span><span class='mt_qc_total'>" . number_format( $total, 2 ) . "</span>
 			<span class='divider'>|</span> 
@@ -44,7 +45,7 @@ add_shortcode( 'ticket', 'mt_registration_form_shortcode' );
 /**
  * Shortcode to generate ticketing form. Required attribute: event="event_id"
  *
- * @param array $atts Shortcode attributes.
+ * @param array  $atts Shortcode attributes.
  * @param string $content Contained content.
  *
  * @return string
@@ -66,7 +67,7 @@ add_shortcode( 'tickets', 'mt_featured_tickets' );
 /**
  * Produce a list of featured tickets with a custom template and registration forms.
  *
- * @param array $atts Shortcode attributes.
+ * @param array  $atts Shortcode attributes.
  * @param string $content Contained content.
  *
  * @return string
@@ -99,9 +100,7 @@ function mt_featured_tickets( $atts, $content = '' ) {
 	return "<div class='mt-event-list'>" . $content . '</div>';
 }
 
-/* 
- * Add {register} form to My Calendar templating for upcoming events lists, etc.
- */
+// Add {register} form to My Calendar templating for upcoming events lists, etc.
 add_filter( 'mc_filter_shortcodes', 'mt_add_shortcode', 5, 2 );
 /**
  * Insert {register} quicktag into the My Calendar templating array.

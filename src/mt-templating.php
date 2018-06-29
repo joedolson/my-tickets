@@ -20,10 +20,10 @@ require_once( 'includes/phpqrcode/qrlib.php' );
  * @return string
  */
 function mt_get_logo( $args = array(), $post_ID = false ) {
-	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$ticket = mt_get_ticket();
-	if ( isset( $options['mt_ticket_image'] ) && $options['mt_ticket_image'] == 'event' && $ticket ) {
-		// if event has post thumbnail, use that
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$ticket  = mt_get_ticket();
+	if ( isset( $options['mt_ticket_image'] ) && 'event' == $options['mt_ticket_image'] && $ticket ) {
+		// if event has post thumbnail, use that.
 		if ( has_post_thumbnail( $ticket->ID ) ) {
 			return get_the_post_thumbnail( $ticket->ID );
 		}
@@ -95,7 +95,7 @@ function mt_cart_order() {
 function mt_get_payment_tickets() {
 	$receipt = mt_get_receipt();
 	if ( $receipt ) {
-		$purchase = get_post_meta(  $receipt->ID, '_purchased' );
+		$purchase = get_post_meta( $receipt->ID, '_purchased' );
 		$id       = $receipt->ID;
 
 		$ticket_array = array();
@@ -473,7 +473,7 @@ function mt_event_title( $ticket_id = false ) {
  * @return string
  */
 function mt_get_event_time( $ticket_id = false ) {
-	if ( !$ticket_id ) {
+	if ( ! $ticket_id ) {
 		$ticket = mt_get_ticket();
 	} else {
 		$ticket = mt_get_ticket( $ticket_id );
@@ -508,7 +508,7 @@ function mt_event_time( $ticket_id = false ) {
  * @return mixed|string
  */
 function mt_get_ticket_type( $ticket_id = false ) {
-	if ( !$ticket_id ) {
+	if ( ! $ticket_id ) {
 		$ticket    = mt_get_ticket();
 		$ticket_id = mt_get_ticket_id();
 	} else {
@@ -555,7 +555,7 @@ function mt_get_ticket_price( $ticket_id = false ) {
 		$data    = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
 		$receipt = $data['purchase_id'];
 		$paid    = get_post_meta( $receipt, '_is_paid', true );
-		if ( $paid != 'Completed' ) {
+		if ( 'Completed' != $paid ) {
 			$append = ': <em>' . __( 'Payment Due', 'my-tickets' ) . '</em>';
 		}
 		$type = apply_filters( 'mt_money_format', $data['price'] );
@@ -597,7 +597,7 @@ function mt_ticket_qrcode( $ticket_id = false ) {
  * @return string
  */
 function mt_get_ticket_venue( $ticket_id = false ) {
-	if ( !$ticket_id ) {
+	if ( ! $ticket_id ) {
 		$ticket = mt_get_ticket();
 	} else {
 		$ticket = mt_get_ticket( $ticket_id );
@@ -634,7 +634,7 @@ add_filter( 'mt_create_location_object', 'mt_get_mc_location', 10, 2 );
 function mt_get_mc_location( $location, $location_id ) {
 	if ( function_exists( 'mc_hcard' ) ) {
 		global $wpdb;
-		$location = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' .  my_calendar_locations_table() . ' WHERE location_id = %d', $location_id ) ); // WPCS: unprepared SQL ok.
+		$location = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . my_calendar_locations_table() . ' WHERE location_id = %d', $location_id ) ); // WPCS: unprepared SQL ok.
 	}
 
 	return $location;
@@ -661,23 +661,23 @@ function mt_hcard( $location ) {
 	if ( ! $url && ! $label && ! $street && ! $street2 && ! $city && ! $state && ! $zip && ! $country && ! $phone ) {
 		return '';
 	}
-	$link  = ( $url != '' ) ? "<a href='$url' class='location-link external'>$label</a>" : $label;
-	$hcard = "<div class=\"address vcard\">";
-	$hcard .= "<div class=\"adr\">";
-	$hcard .= ( $label != '' ) ? "<strong class=\"org\">" . $link . "</strong><br />" : '';
-	$hcard .= ( $street . $street2 . $city . $state . $zip . $country . $phone == '' ) ? '' : "<div class='sub-address'>";
-	$hcard .= ( $street != "" ) ? "<div class=\"street-address\">" . $street . "</div>" : '';
-	$hcard .= ( $street2 != "" ) ? "<div class=\"street-address\">" . $street2 . "</div>" : '';
-	$hcard .= ( $city . $state . $zip != '' ) ? "<div>" : '';
-	$hcard .= ( $city != "" ) ? "<span class=\"locality\">" . $city . "</span><span class='sep'>, </span>" : '';
-	$hcard .= ( $state != "" ) ? "<span class=\"region\">" . $state . "</span> " : '';
-	$hcard .= ( $zip != "" ) ? " <span class=\"postal-code\">" . $zip . "</span>" : '';
-	$hcard .= ( $city . $state . $zip != '' ) ? "</div>" : '';
-	$hcard .= ( $country != "" ) ? "<div class=\"country-name\">" . $country . "</div>" : '';
-	$hcard .= ( $phone != "" ) ? "<div class=\"tel\">" . $phone . "</div>" : '';
-	$hcard .= ( $street . $street2 . $city . $state . $zip . $country . $phone == '' ) ? '' : "</div>";
-	$hcard .= "</div>";
-	$hcard .= "</div>";
+	$link   = ( '' != $url ) ? "<a href='$url' class='location-link external'>$label</a>" : $label;
+	$hcard  = '<div class="address vcard">';
+	$hcard .= '<div class="adr">';
+	$hcard .= ( $label != '' ) ? '<strong class="org">' . $link . '</strong><br />' : '';
+	$hcard .= ( '' == $street . $street2 . $city . $state . $zip . $country . $phone ) ? '' : "<div class='sub-address'>";
+	$hcard .= ( '' != $street ) ? '<div class="street-address">' . $street . '</div>' : '';
+	$hcard .= ( '' != $street2 ) ? '<div class="street-address">' . $street2 . '</div>' : '';
+	$hcard .= ( '' != $city . $state . $zip ) ? "<div>" : '';
+	$hcard .= ( '' != $city ) ? '<span class="locality">' . $city . "</span><span class='sep'>, </span>" : '';
+	$hcard .= ( '' != $state ) ? '<span class="region">' . $state . '</span> ' : '';
+	$hcard .= ( '' != $zip ) ? ' <span class="postal-code">' . $zip . '</span>' : '';
+	$hcard .= ( '' != $city . $state . $zip ) ? '</div>' : '';
+	$hcard .= ( '' != $country ) ? "<div class=\"country-name\">" . $country . '</div>' : '';
+	$hcard .= ( '' != $phone ) ? "<div class=\"tel\">" . $phone . '</div>' : '';
+	$hcard .= ( '' == $street . $street2 . $city . $state . $zip . $country . $phone ) ? '' : '</div>';
+	$hcard .= '</div>';
+	$hcard .= '</div>';
 
 	return $hcard;
 }
@@ -705,21 +705,24 @@ function mt_get_verification( $ticket_id = false ) {
 	$verified  = mt_verify_ticket( $ticket_id );
 	$ticket    = mt_get_ticket( $ticket_id );
 	if ( $ticket ) {
-		$data         = get_post_meta( $ticket->ID, '_'.$ticket_id, true );
-		$purchase_id  = $data['purchase_id'];
-		$status       = get_post_meta( $purchase_id, '_is_paid', true );
-		$due          = get_post_meta( $purchase_id, '_total_paid', true );
-		$due          = apply_filters( 'mt_money_format', $due );
-		$text         = ( $verified ) ? __( 'Ticket Verified', 'my-tickets' ) : __( 'Invalid Ticket ID', 'my-tickets' );
-		$text        .= ( $status == 'Pending' ) ? ' - ' . sprintf( __( 'Payment pending: %s', 'my-tickets' ), $due ) : '';
+		$data        = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
+		$purchase_id = $data['purchase_id'];
+		$status      = get_post_meta( $purchase_id, '_is_paid', true );
+		$due         = get_post_meta( $purchase_id, '_total_paid', true );
+		$due         = apply_filters( 'mt_money_format', $due );
+		$text        = ( $verified ) ? __( 'Ticket Verified', 'my-tickets' ) : __( 'Invalid Ticket ID', 'my-tickets' );
+		// Translators: Amount due on account.
+		$text        .= ( 'Pending' == $status ) ? ' - ' . sprintf( __( 'Payment pending: %s', 'my-tickets' ), $due ) : '';
 		$status_class = sanitize_title( $status );
 		$used         = get_post_meta( $purchase_id, '_tickets_used' );
-		if ( !is_array( $used ) ) { $used = array(); }
+		if ( !is_array( $used ) ) {
+			$used = array();
+		}
 		$is_used = false;
 		if ( in_array( $ticket_id, $used ) ) {
 			$is_used       = true;
 			$status_class .= ' used';
-			$text         .= ' (' . __( "Ticket has been used.", 'my-tickets' ) . ')';
+			$text         .= ' (' . __( 'Ticket has been used.', 'my-tickets' ) . ')';
 		}
 
 		if ( ( current_user_can( 'mt-verify-ticket' ) || current_user_can( 'manage_options' ) ) && ! $is_used ) {
@@ -728,8 +731,7 @@ function mt_get_verification( $ticket_id = false ) {
 
 		do_action( 'mt_ticket_verified', $verified, $is_used, $purchase_id, $ticket_id );
 
-
-		return "<div class='$status_class'>" . $text . "</div>";
+		return "<div class='$status_class'>" . $text . '</div>';
 	}
 
 	return '<div class="invalid">' . __( 'Not a valid ticket ID', 'my-tickets' ) . '</div>';
@@ -750,7 +752,7 @@ function mt_verification( $ticket_id = false ) {
  * Fetch custom fields set up using the custom fields API
  * This function only pulls single values; if you need arrays, you'll need to write your own custom handler.
  *
- * @param bool|false  $field name of field as defined in custom code
+ * @param bool|false  $field name of field as defined in custom code.
  * @param string      $callback name of function to call and process output.
  * @param bool|string $ticket_id Ticket ID.
  *
@@ -782,8 +784,7 @@ function mt_get_ticket_custom_field( $field = false, $callback = false, $ticket_
  * Fetch custom fields set up using the custom fields API
  * This function only pulls single values; if you need arrays, you'll need to write your own custom handler.
  *
- * @param bool|false  $field name of field as defined in custom code
- * @param string      $callback name of function to call and process output.
+ * @param bool|false  $field name of field as defined in custom code.
  * @param bool|string $ticket_id Ticket ID.
  *
  * @return void
