@@ -13,10 +13,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+/**
+ * My Tickets general settings.
+ *
+ * @param array $post POST data.
+ *
+ * @return bool|string|void
+ */
 function mt_update_settings( $post ) {
 	if ( isset( $post['mt-submit-settings'] ) ) {
 		$nonce = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : false;
-		if ( !$nonce ) {
+		if ( ! $nonce ) {
 			return;
 		}
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets' ) ) {
@@ -30,11 +37,11 @@ function mt_update_settings( $post ) {
 
 		$messages = $_POST['mt_messages'];
 		$settings = apply_filters( 'mt_update_settings', array(
-			'messages'       => $messages,
-			'mt_post_types'  => $mt_post_types,
-			'mt_to'          => $mt_to,
-			'mt_from'        => $mt_from,
-			'mt_html_email'  => $mt_html_email
+			'messages'      => $messages,
+			'mt_post_types' => $mt_post_types,
+			'mt_to'         => $mt_to,
+			'mt_from'       => $mt_from,
+			'mt_html_email' => $mt_html_email,
 		), $_POST );
 		$settings = array_merge( get_option( 'mt_settings' ), $settings );
 		update_option( 'mt_settings', $settings );
@@ -46,6 +53,9 @@ function mt_update_settings( $post ) {
 	return false;
 }
 
+/**
+ * Generate settings form.
+ */
 function mt_settings() {
 	$response = mt_update_settings( $_POST );
 	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
@@ -60,7 +70,7 @@ function mt_settings() {
 	$mt_post_type_options = '';
 
 	foreach ( $post_types as $type ) {
-		if ( $type->name == 'mc-events' ) {
+		if ( 'mc-events' == $type->name ) {
 			continue;
 		}
 		if ( in_array( $type->name, $mt_post_types ) ) {
@@ -68,9 +78,8 @@ function mt_settings() {
 		} else {
 			$selected = '';
 		}
-		$mt_post_type_options .= "<li><input type='checkbox' name='mt_post_types[]' id='mt_$type->name' value='$type->name'$selected> <label for='mt_$type->name'>" . $type->labels->name . "</label></li>";
+		$mt_post_type_options .= "<li><input type='checkbox' name='mt_post_types[]' id='mt_$type->name' value='$type->name'$selected> <label for='mt_$type->name'>" . $type->labels->name . '</label></li>';
 	}
-
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
 		<h2><?php _e( 'Event Registrations', 'my-tickets' ); ?></h2>
@@ -83,9 +92,8 @@ function mt_settings() {
 						<h3><?php _e( 'My Tickets Event Registration Settings', 'my-tickets' ); ?></h3>
 
 						<div class="inside">
-							<form method="post" action="<?php echo admin_url( "admin.php?page=my-tickets" ); ?>">
-								<div><input type="hidden" name="_wpnonce"
-											value="<?php echo wp_create_nonce( 'my-tickets' ); ?>"/></div>
+							<form method="post" action="<?php echo admin_url( 'admin.php?page=my-tickets' ); ?>">
+								<div><input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce( 'my-tickets' ); ?>" /></div>
 								<fieldset>
 									<legend><?php _e( 'Enable ticketing for these post types:', 'my-tickets' ); ?></legend>
 									<ul class="checkboxes">
@@ -140,21 +148,12 @@ function mt_settings() {
 													<legend><?php _e( 'Sent to administrators', 'my-tickets' ); ?></legend>
 													<ul>
 														<li>
-															<label
-																for="mt_messages_<?php echo $type; ?>_admin_subject"><?php printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type ); ?></label><br/>
-															<input type="text"
-																   name="mt_messages[<?php echo $type; ?>][admin][subject]"
-																   id="mt_messages_<?php echo $type; ?>_admin_subject"
-																   size="60"
-																   value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
+															<label for="mt_messages_<?php echo $type; ?>_admin_subject"><?php printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type ); ?></label><br/>
+															<input type="text" name="mt_messages[<?php echo $type; ?>][admin][subject]" id="mt_messages_<?php echo $type; ?>_admin_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
 														</li>
 														<li>
-															<label
-																for="mt_messages_<?php echo $type; ?>_admin_body"><?php printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type ); ?></label><br/><textarea
-																name="mt_messages[<?php echo $type; ?>][admin][body]"
-																id="mt_messages_<?php echo $type; ?>_admin_body"
-																rows="12"
-																cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
+															<label for="mt_messages_<?php echo $type; ?>_admin_body"><?php printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type ); ?></label><br/>
+															<textarea name="mt_messages[<?php echo $type; ?>][admin][body]" id="mt_messages_<?php echo $type; ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
 														</li>
 													</ul>
 												</fieldset>
@@ -162,26 +161,19 @@ function mt_settings() {
 													<legend><?php _e( 'Sent to purchaser', 'my-tickets' ); ?></legend>
 													<ul>
 														<li>
-															<label
-																for="mt_messages_<?php echo $type; ?>_purchaser_subject"><?php printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type ); ?></label><br/>
-															<input type="text"
-																   name="mt_messages[<?php echo $type; ?>][purchaser][subject]"
-																   id="mt_messages_<?php echo $type; ?>_purchaser_subject"
-																   size="60"
-																   value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
+															<label for="mt_messages_<?php echo $type; ?>_purchaser_subject"><?php printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type ); ?></label><br/>
+															<input type="text" name="mt_messages[<?php echo $type; ?>][purchaser][subject]" id="mt_messages_<?php echo $type; ?>_purchaser_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
 														</li>
 														<li>
-															<label
-																for="mt_messages_<?php echo $type; ?>_purchaser_body"><?php printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type ); ?></label><br/><textarea
-																name="mt_messages[<?php echo $type; ?>][purchaser][body]"
-																id="mt_messages_<?php echo $type; ?>_purchaser_body"
-																rows="12"
-																cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
+															<label for="mt_messages_<?php echo $type; ?>_purchaser_body"><?php printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type ); ?></label><br/>
+															<textarea name="mt_messages[<?php echo $type; ?>][purchaser][body]" id="mt_messages_<?php echo $type; ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
 														</li>
 													</ul>
 												</fieldset>
 											</div>
-										<?php } ?>
+										<?php
+										}
+										?>
 									</div>
 									<?php
 									$tags = array(
@@ -207,16 +199,12 @@ function mt_settings() {
 										'event_notes',
 										'bulk_tickets',
 									);
-									/*
-									 * Add custom fields to display of template tags.
-									 */
+									// Add custom fields to display of template tags.
 									$custom_fields = apply_filters( 'mt_custom_fields', array(), 'tags' );
 									foreach ( $custom_fields as $name => $field ) {
 										$tags[] = $name;
 									}
-									/*
-									 * Add custom tags that are not also custom fields.
-									 */
+									// Add custom tags that are not also custom fields.
 									$tags      = apply_filters( 'mt_display_tags', $tags );
 									$tags      = array_map( 'mt_array_code', $tags );
 									$available = implode( ', ', $tags );
@@ -224,8 +212,7 @@ function mt_settings() {
 									<p><em><?php _e( "Available template tags: $available", 'my-tickets' ); ?></em></p>
 								</div>
 
-								<p><input type="submit" name="mt-submit-settings" class="button-primary"
-										  value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
+								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
 							</form>
 						</div>
 					</div>
@@ -237,16 +224,15 @@ function mt_settings() {
 						<h3><?php _e( 'Premium Add-on License Keys', 'my-tickets' ); ?></h3>
 						<?php
 							if ( isset( $_POST['mt_license_keys'] ) && wp_verify_nonce( $_POST['_wpnonce_tickets'], 'my-tickets-licensing' ) ) {
-								echo "<div class='updated'><ul>" . apply_filters( 'mt_save_license', '', $_POST ) . "</ul></div>";
+								echo "<div class='updated'><ul>" . apply_filters( 'mt_save_license', '', $_POST ) . '</ul></div>';
 							}
 						?>
 						<div class="inside">
-
 								<?php
 								$fields = apply_filters( 'mt_license_fields', '' );
-								if ( $fields != '' ) {
+								if ( '' != $fields ) {
 								?>
-							<form method="post" action="<?php echo admin_url( "admin.php?page=my-tickets" ); ?>">
+							<form method="post" action="<?php echo admin_url( 'admin.php?page=my-tickets' ); ?>">
 								<div>
 									<input type="hidden" name="mt_license_keys" value="saved" />
 									<input type="hidden" name="_wpnonce_tickets" value="<?php echo wp_create_nonce( 'my-tickets-licensing' ); ?>"/>
@@ -254,12 +240,11 @@ function mt_settings() {
 							<ul>
 								<?php echo $fields; ?>
 							</ul>
-								<p><input type="submit" name="mt-submit-settings" class="button-primary"
-										  value="<?php _e( 'Save License Keys', 'my-tickets' ); ?>"/></p>
+								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save License Keys', 'my-tickets' ); ?>"/></p>
 							</form>
 								<?php
 								} else {
-									echo "<p>" . __( 'If you install any My Tickets Premium Add-ons, the license fields will appear here.', 'my-tickets' ) . "</p>";
+									echo '<p>' . __( 'If you install any My Tickets Premium Add-ons, the license fields will appear here.', 'my-tickets' ) . '</p>';
 								}
 								?>
 						</div>
@@ -270,45 +255,58 @@ function mt_settings() {
 		<?php mt_show_support_box(); ?>
 	</div>
 	<?php
-	// creates settings page for My tickets
+	// creates settings page for My tickets.
 }
 
+/**
+ * Display a set of array values for template tags.
+ *
+ * @param string $k Array value.
+ *
+ * @return string
+ */
 function mt_array_code( $k ) {
-	return "<code>{" . $k . "}</code>";
+	return '<code>{' . $k . '}</code>';
 }
 
 add_action( 'admin_enqueue_scripts', 'mt_wp_enqueue_scripts' );
+/**
+ * Enqueue admin scripts and styles.
+ */
 function mt_wp_enqueue_scripts() {
 	global $current_screen;
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( isset( $_GET['page'] ) && $_GET['page'] == 'my-tickets' ) {
+	if ( isset( $_GET['page'] ) && 'my-tickets' == $_GET['page'] ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', 'completed' );
 	}
-	if ( isset( $_GET['page'] ) && $_GET['page'] == 'mt-ticketing' ) {
+	if ( isset( $_GET['page'] ) && 'mt-ticketing' == $_GET['page'] ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
 	}
-	if ( isset( $_GET['page'] ) && $_GET['page'] == 'mt-payment' ) {
+	if ( isset( $_GET['page'] ) && 'mt-payment' == $_GET['page'] ) {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', $options['mt_default_gateway'] );
 		wp_enqueue_script( 'mt.functions', plugins_url( 'js/jquery.functions.js', __FILE__ ), array(
-				'jquery',
-				'jquery-ui-autocomplete'
-			) );
+			'jquery',
+			'jquery-ui-autocomplete',
+		) );
 		wp_localize_script( 'mt.functions', 'mt_ajax_action', 'mt_post_lookup' );
-	} elseif ( isset( $_GET['page'] ) && $_GET['page'] == 'mt-reports' ) {
+	} elseif ( isset( $_GET['page'] ) && 'mt-reports' == $_GET['page'] ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', 'mt_completed' );
 	}
-	if ( $current_screen->base == 'post' && in_array( $current_screen->id, $options['mt_post_types'] ) || $current_screen->base == 'toplevel_page_my-calendar' ) {
+	if ( 'post' == $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'] ) || 'toplevel_page_my-calendar' == $current_screen->base ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
 		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ) );
 	}
 }
 
 add_action( 'admin_print_footer_scripts', 'mt_report_scripts' );
+/**
+ * Enqueue footer scripts in report view.
+ */
 function mt_report_scripts() {
 	if ( isset( $_GET[ 'mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
 		$script_path = apply_filters('mt_printable_report_js', plugins_url('js/report.js', __FILE__));
@@ -318,12 +316,14 @@ function mt_report_scripts() {
 }
 
 add_action( 'wp_ajax_mt_post_lookup', 'mt_post_lookup' );
-
+/**
+ * AJAX post lookup.
+ */
 function mt_post_lookup() {
 	if ( isset( $_REQUEST['term'] ) ) {
 		$posts       = get_posts( array(
 			's'         => $_REQUEST['term'],
-			'post_type' => array( 'post', 'page' )
+			'post_type' => array( 'post', 'page' ),
 		) );
 		$suggestions = array();
 		global $post;
@@ -335,7 +335,7 @@ function mt_post_lookup() {
 			$suggestions[]       = $suggestion;
 		endforeach;
 
-		echo esc_html( $_GET["callback"] ) . "(" . json_encode( $suggestions ) . ")";
+		echo esc_html( $_GET['callback'] ) . '(' . json_encode( $suggestions ) . ')';
 		exit;
 	}
 }

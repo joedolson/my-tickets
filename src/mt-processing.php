@@ -291,10 +291,9 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 }
 
 /**
- * Generates pricing table from registration array and event ID; uses defaults if no values passed.
+ * Generates pricing table from registration array; uses defaults if no values passed.
  *
  * @param array $registration array of ticketing and registration data for this event.
- * @param int   $event_id post ID.
  *
  * @return string
  */
@@ -404,7 +403,7 @@ function mt_index_labels( $labels ) {
 		}
 	}
 
-	update_option('mt_labels', $index);
+	update_option( 'mt_labels', $index );
 }
 
 /**

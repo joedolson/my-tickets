@@ -13,7 +13,9 @@ require_once( 'includes/phpqrcode/qrlib.php' );
 
 /**
  * Get logo for display on receipts and tickets.
- * @param array $args
+ *
+ * @param array $args Custom arguments.
+ * @param int   $post_ID Post ID.
  *
  * @return string
  */
@@ -29,10 +31,15 @@ function mt_get_logo( $args = array(), $post_ID = false ) {
 	if ( $post_ID && has_post_thumbnail( $post_ID ) ) {
 		return get_the_post_thumbnail( $post_ID );
 	}
-	$args = array_merge( array( 'alt' => 'My Tickets', 'class' => 'default', 'width' => '', 'height' => '' ), $args );
+	$args = array_merge( array(
+		'alt'    => 'My Tickets',
+		'class'  => 'default',
+		'width'  => '',
+		'height' => '',
+	), $args );
 	$atts = '';
 	foreach ( $args as $att => $value ) {
-		if ( $value != '' ) {
+		if ( '' != $value ) {
 			$atts .= ' ' . esc_attr( $att ) . '=' . '"' . esc_attr( $value ) . '"';
 		}
 	}
@@ -41,11 +48,19 @@ function mt_get_logo( $args = array(), $post_ID = false ) {
 	return $img;
 }
 
+/**
+ * Get logo for display on receipts and tickets.
+ *
+ * @param array $args Custom arguments.
+ * @param int   $post_ID Post ID.
+ *
+ * @return void
+ */
 function mt_logo( $args = array(), $post_ID = false ) {
 	echo mt_get_logo( $args, $post_ID );
 }
 
-/* Template Functions for Receipts */
+// Template Functions for Receipts.
 /**
  * Return formatted order data for receipt template.
  *
@@ -63,6 +78,11 @@ function mt_get_cart_order() {
 	return '';
 }
 
+/**
+ * Return formatted order data for receipt template.
+ *
+ * @return void
+ */
 function mt_cart_order() {
 	echo mt_get_cart_order();
 }
@@ -83,9 +103,9 @@ function mt_get_payment_tickets() {
 			foreach ( $purch as $event => $tickets ) {
 				$purchases[ $event ] = $tickets;
 				foreach ( $tickets as $type => $details ) {
-					// add ticket hash for each ticket
+					// add ticket hash for each ticket.
 					$count = $details['count'];
-					// only add tickets if count of tickets is more than 0
+					// only add tickets if count of tickets is more than 0.
 					if ( $count >= 1 ) {
 						$price = $details['price'];
 						for ( $i = 0; $i < $count; $i ++ ) {
@@ -115,6 +135,11 @@ function mt_get_receipt_id() {
 	}
 }
 
+/**
+ * Return receipt ID.
+ *
+ * @return void
+ */
 function mt_receipt_id() {
 	echo mt_get_receipt_id();
 }
@@ -131,6 +156,11 @@ function mt_get_receipt_purchase_id() {
 	return $purchase_id;
 }
 
+/**
+ * Get receipt's purchase ID
+ *
+ * @return void
+ */
 function mt_receipt_purchase_id() {
 	echo mt_get_receipt_purchase_id();
 }
@@ -151,6 +181,11 @@ function mt_get_cart_purchaser() {
 	return '';
 }
 
+/**
+ * Get provided purchaser name from payment.
+ *
+ * @return void
+ */
 function mt_cart_purchaser() {
 	echo mt_get_cart_purchaser();
 }
@@ -171,6 +206,11 @@ function mt_get_cart_purchase_date() {
 	return '';
 }
 
+/**
+ * Get formatted date/time of purchase.
+ *
+ * @return void
+ */
 function mt_cart_purchase_date() {
 	echo mt_get_cart_purchase_date();
 }
@@ -184,33 +224,38 @@ function mt_get_payment_details() {
 	$receipt = mt_get_receipt();
 	if ( $receipt ) {
 		$paid = get_post_meta( $receipt->ID, '_is_paid', true );
-		if ( $paid == 'Completed' ) {
+		if ( 'Completed' == $paid ) {
 			$gateway       = get_post_meta( $receipt->ID, '_gateway', true );
 			$gateways      = mt_setup_gateways();
 			$gateway_label = isset( $gateways[ $gateway ] ) ? $gateways[ $gateway ]['label'] : $gateway;
 			$transaction   = get_post_meta( $receipt->ID, '_transaction_id', true );
-			$return        = __( "This receipt is paid in full.", 'my-tickets' );
-			$return .= "
+			$return        = __( 'This receipt is paid in full.', 'my-tickets' );
+			$return       .= '
 		<ul>
-			<li>" . __( 'Payment through:', 'my-tickets' ) . " $gateway_label</li>
+			<li>' . __( 'Payment through:', 'my-tickets' ) . " $gateway_label</li>
 			<li>" . __( 'Transaction ID:', 'my-tickets' ) . " <code>$transaction</code></li>
 		</ul>";
 
 			return $return;
-		} elseif ( $paid == 'Refunded' ) {
+		} elseif ( 'Refunded' == $paid ) {
 			return __( 'This payment has been refunded.', 'my-tickets' );
-		} elseif ( $paid == 'Failed' ) {
+		} elseif ( 'Failed' == $paid ) {
 			return __( 'Payment on this order failed.', 'my-tickets' );
-		} elseif ( $paid == 'Turned Back' ) {
+		} elseif ( 'Turned Back' == $paid ) {
 			return __( 'This purchase was cancelled and the tickets were returned to the seller.', 'my-tickets' );
 		} else {
-				return __( 'Payment on this purchase is not completed. The receipt will be updated with payment details when payment is completed.', 'my-tickets' );
+			return __( 'Payment on this purchase is not completed. The receipt will be updated with payment details when payment is completed.', 'my-tickets' );
 		}
 	}
 
 	return '';
 }
 
+/**
+ * Get payment gateway data from payment.
+ *
+ * @return void
+ */
 function mt_payment_details() {
 	echo mt_get_payment_details();
 }
@@ -226,12 +271,19 @@ function mt_get_ticket_id() {
 	return $ticket_id;
 }
 
+/**
+ * Get ticket ID (must be used in ticket template.)
+ *
+ * @return void
+ */
 function mt_ticket_id() {
 	echo mt_get_ticket_id();
 }
 
 /**
  * Get ticket method (willcall, postal, eticket, printable)
+ *
+ * @param bool|int $ticket_id Ticket ID.
  *
  * @return mixed|string
  */
@@ -247,12 +299,21 @@ function mt_get_ticket_method( $ticket_id = false ) {
 	return $ticket_type;
 }
 
+/**
+ * Get ticket method (willcall, postal, eticket, printable)
+ *
+ * @param bool|int $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_ticket_method( $ticket_id = false ) {
 	echo mt_get_ticket_method( $ticket_id );
 }
 
 /**
  * Get ticket's parent purchase ID
+ *
+ * @param bool|int $ticket_id Ticket ID.
  *
  * @return integer
  */
@@ -266,12 +327,21 @@ function mt_get_ticket_purchase_id( $ticket_id = false ) {
 	return $purchase_id;
 }
 
+/**
+ * Get ticket's parent purchase ID
+ *
+ * @param bool|int $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_ticket_purchase_id( $ticket_id = false ) {
 	echo mt_get_ticket_purchase_id( $ticket_id );
 }
 
 /**
  * Get ticket purchaser name
+ *
+ * @param bool|int $ticket_id Ticket ID.
  *
  * @return mixed|string
  */
@@ -286,15 +356,22 @@ function mt_get_ticket_purchaser( $ticket_id = false ) {
 	return $purchaser;
 }
 
+/**
+ * Get ticket purchaser name
+ *
+ * @param bool|int $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_ticket_purchaser( $ticket_id = false ) {
 	echo mt_get_ticket_purchaser( $ticket_id );
 }
 
-
 /**
  * Get custom field data; all by default, or only a specific field. Display in tickets.
  *
- * @param bool $custom_field
+ * @param bool|string $custom_field Custom Field Name.
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return string
  */
@@ -308,12 +385,22 @@ function mt_get_ticket_custom_fields( $custom_field = false, $ticket_id = false 
 	return mt_show_custom_data( $purchase_id, $custom_field );
 }
 
+/**
+ * Get custom field data; all by default, or only a specific field. Display in tickets.
+ *
+ * @param bool|string $custom_field Custom Field Name.
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_ticket_custom_fields( $custom_field = false, $ticket_id = false ) {
 	echo mt_get_ticket_custom_fields( $custom_field, $ticket_id );
 }
 
 /**
  * Get date of event this ticket is for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return string
  */
@@ -334,12 +421,21 @@ function mt_get_event_date( $ticket_id = false ) {
 	return '';
 }
 
+/**
+ * Get date of event this ticket is for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_event_date( $ticket_id = false ) {
 	echo mt_get_event_date( $ticket_id );
 }
 
 /**
  * Get title of event this ticket is for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return string
  */
@@ -358,12 +454,21 @@ function mt_get_event_title( $ticket_id = false ) {
 	return '';
 }
 
+/**
+ * Get title of event this ticket is for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_event_title( $ticket_id = false ) {
 	echo mt_get_event_title( $ticket_id );
 }
 
 /**
  * Get time of event this ticket is for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return string
  */
@@ -384,12 +489,21 @@ function mt_get_event_time( $ticket_id = false ) {
 	return '';
 }
 
+/**
+ * Get time of event this ticket is for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_event_time( $ticket_id = false ) {
 	echo mt_get_event_time( $ticket_id );
 }
 
 /**
  * Get type of ticket. (Adult, child, section 1, section 2, etc.)
+ *
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return mixed|string
  */
@@ -411,12 +525,21 @@ function mt_get_ticket_type( $ticket_id = false ) {
 	return '';
 }
 
+/**
+ * Get type of ticket. (Adult, child, section 1, section 2, etc.)
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_ticket_type( $ticket_id = false ) {
 	echo mt_get_ticket_type( $ticket_id );
 }
 
 /**
  * Get ticket price for ticket.
+ *
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return string
  */
@@ -443,6 +566,13 @@ function mt_get_ticket_price( $ticket_id = false ) {
 	return '';
 }
 
+/**
+ * Get ticket price for ticket.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_ticket_price( $ticket_id = false ) {
 	echo mt_get_ticket_price( $ticket_id );
 }
@@ -450,6 +580,8 @@ function mt_ticket_price( $ticket_id = false ) {
 // no getter for qrcodes; produces an image directly.
 /**
  * Return image URL for printable/eticket QR codes.
+ *
+ * @param bool|string $ticket_id Ticket ID.
  */
 function mt_ticket_qrcode( $ticket_id = false ) {
 	$text = ( $ticket_id ) ? $ticket_id : mt_get_ticket_id();
@@ -459,6 +591,7 @@ function mt_ticket_qrcode( $ticket_id = false ) {
 /**
  * Get ticket venue location data.
  *
+ * @param bool|string $ticket_id Ticket ID.
  * @uses filter mt_create_location_object
  *
  * @return string
@@ -493,15 +626,15 @@ add_filter( 'mt_create_location_object', 'mt_get_mc_location', 10, 2 );
 /**
  * If My Calendar installed, return My Calendar location object.
  *
- * @param $location
- * @param $location_id
+ * @param Object $location Location object.
+ * @param int    $location_id Location ID.
  *
  * @return mixed
  */
 function mt_get_mc_location( $location, $location_id ) {
 	if ( function_exists( 'mc_hcard' ) ) {
 		global $wpdb;
-		$location = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' .  my_calendar_locations_table() . ' WHERE location_id = %d', $location_id ) );
+		$location = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' .  my_calendar_locations_table() . ' WHERE location_id = %d', $location_id ) ); // WPCS: unprepared SQL ok.
 	}
 
 	return $location;
@@ -511,7 +644,7 @@ function mt_get_mc_location( $location, $location_id ) {
 /**
  * Produce HTML for My Tickets hCard.
  *
- * @param $location
+ * @param object $location Location object.
  *
  * @return string
  */
@@ -549,13 +682,21 @@ function mt_hcard( $location ) {
 	return $hcard;
 }
 
+/**
+ * Get ticket venue location data.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_ticket_venue( $ticket_id = false ) {
 	echo mt_get_ticket_venue( $ticket_id );
 }
 
-// verification
 /**
  * Verify that a ticket is valid, paid for, and which event it's for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return string
  */
@@ -594,6 +735,13 @@ function mt_get_verification( $ticket_id = false ) {
 	return '<div class="invalid">' . __( 'Not a valid ticket ID', 'my-tickets' ) . '</div>';
 }
 
+/**
+ * Verify that a ticket is valid, paid for, and which event it's for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_verification( $ticket_id = false ) {
 	echo mt_get_verification( $ticket_id );
 }
@@ -602,14 +750,14 @@ function mt_verification( $ticket_id = false ) {
  * Fetch custom fields set up using the custom fields API
  * This function only pulls single values; if you need arrays, you'll need to write your own custom handler.
  *
- * @param bool|false $field name of field as defined in custom code
- * @param string $callback name of function to call and process output.
+ * @param bool|false  $field name of field as defined in custom code
+ * @param string      $callback name of function to call and process output.
+ * @param bool|string $ticket_id Ticket ID.
  *
  * @return string
- *
  */
 function mt_get_ticket_custom_field( $field = false, $callback = false, $ticket_id = false ) {
-	if ( !$ticket_id ) {
+	if ( ! $ticket_id ) {
 		$ticket = mt_get_ticket();
 	} else {
 		$ticket = mt_get_ticket( $ticket_id );
@@ -617,13 +765,12 @@ function mt_get_ticket_custom_field( $field = false, $callback = false, $ticket_
 	if ( $field ) {
 		$purchase    = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
 		$purchase_id = $purchase['purchase_id'];
-		$meta   = get_post_meta( $purchase_id, $field, true );
-
-		if ( $meta && isset( $meta[$field] ) ) {
+		$meta        = get_post_meta( $purchase_id, $field, true );
+		if ( $meta && isset( $meta[ $field ] ) ) {
 			if ( $callback ) {
 				return call_user_func( $callback, $meta );
 			} else {
-				return wp_kses_post( $meta[$field] );
+				return wp_kses_post( $meta[ $field ] );
 			}
 		}
 	}
@@ -631,6 +778,16 @@ function mt_get_ticket_custom_field( $field = false, $callback = false, $ticket_
 	return '';
 }
 
+/**
+ * Fetch custom fields set up using the custom fields API
+ * This function only pulls single values; if you need arrays, you'll need to write your own custom handler.
+ *
+ * @param bool|false  $field name of field as defined in custom code
+ * @param string      $callback name of function to call and process output.
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
 function mt_ticket_custom_field( $field = false, $ticket_id = false ) {
 	echo mt_get_ticket_custom_field( $field, false, $ticket_id );
 }

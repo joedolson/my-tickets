@@ -83,7 +83,8 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 			$data          = mt_get_tickets( $event_id );
 			$report        = $data['html'];
 			$total_tickets = count( $report );
-			$table_top     = "<table class='widefat'><caption>" . sprintf( __( 'Tickets Purchased for &ldquo;%s&rdquo;', 'my-tickets' ), $title ) . "</caption>
+			// Translators: name of event.
+			$table_top    = "<table class='widefat'><caption>" . sprintf( __( 'Tickets Purchased for &ldquo;%s&rdquo;', 'my-tickets' ), $title ) . "</caption>
 						<thead>
 							<tr>
 								<th scope='col' class='mt-id'>" . __( 'Ticket ID', 'my-tickets' ) . "</th>
@@ -95,7 +96,7 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 							</tr>
 						</thead>
 						<tbody>';
-			$table_bottom  = '</tbody></table>';
+			$table_bottom = '</tbody></table>';
 
 			foreach ( $report as $row ) {
 				$table_top .= $row;
@@ -103,8 +104,10 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 			$table   = $table_top . $table_bottom;
 			$output .= $table;
 			if ( $return ) {
+				// Translators: Number of tickets sold.
 				return "<p class='totals'>" . sprintf( __( '%1$s tickets sold.', 'my-tickets' ), "<strong>$total_tickets</strong>" ) . '</p>' . $output;
 			} else {
+				// Translators: Number of tickets sold.
 				echo "<p class='totals'>" . sprintf( __( '%1$s tickets sold.', 'my-tickets' ), "<strong>$total_tickets</strong>" ) . '</p>' . $output;
 			}
 		}
@@ -179,12 +182,12 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 							</tr>
 						</thead>
 						<tbody>';
-			$table_bottom = "</tbody></table>";
+			$table_bottom = '</tbody></table>';
 
 			foreach ( $report as $status => $rows ) {
 				${$status} = '';
-				$count  = count( $rows );
-				$output = str_replace( "%$status", $count, $output );
+				$count     = count( $rows );
+				$output    = str_replace( "%$status", $count, $output );
 				if ( 0 == $count ) {
 					continue;
 				}
@@ -196,7 +199,8 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				$out          .= "<div class='wptab wp_" . strtolower( $status ) . "' id='mt_" . strtolower( $status ) . "' aria-live='assertive'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
 			}
 
-			$output     .= $out . "</div>";
+			$output     .= $out . '</div>';
+			// Translators: Number of tickets sold, total number of sales completed, number of purchases transacted.
 			$total_line  = "<p class='totals'>" . sprintf( __( '%1$s tickets sold in %3$s purchases. Total completed sales: %2$s', 'my-tickets' ), "<strong>$total_tickets</strong>", '<strong>' . apply_filters( 'mt_money_format', $total_income ) . '</strong>', "<strong>$total_sales</strong>" ) . '</p>';
 			$custom_line = apply_filters( 'mt_custom_total_line_event', '', $event_id );
 			if ( $return ) {
@@ -239,8 +243,8 @@ function mt_choose_report_by_event() {
 					<p>
 					<label for='mt_select_event'>" . __( 'Select Report Type', 'my-tickets' ) . "</label>
 					<select name='mt-event-report' id='mt_select_event'>
-						<option value='tickets'" . selected( $report, 'tickets', false ) . ">" . __( 'List of Tickets', 'my-tickets' ) . "</option>
-						<option value='purchases'" . selected( $report, 'purchases', false ) . ">" . __( 'List of Purchases', 'my-tickets' ) . "</option>
+						<option value='tickets'" . selected( $report, 'tickets', false ) . '>' . __( 'List of Tickets', 'my-tickets' ) . "</option>
+						<option value='purchases'" . selected( $report, 'purchases', false ) . '>' . __( 'List of Purchases', 'my-tickets' ) . "</option>
 					</select>
 					</p>
 					<p>
@@ -302,21 +306,21 @@ function mt_email_purchasers() {
 	$body     = '';
 	$subject  = '';
 	$email    = get_post_meta( $event_id, '_mass_email' );
-	if ( !empty ( $email ) ) {
+	if ( ! empty( $email ) ) {
 		if ( isset( $_GET['message'] ) ) {
 			$strip = intval( $_GET['message'] );
 			for ( $i = 0; $i < $strip; $i++ ) {
 				$removed = ( is_array( $email ) ) ? array_pop($email) : array();
 			}
 		}
-		if ( !empty( $email ) ) {
-			$last_email = end($email);
+		if ( ! empty( $email ) ) {
+			$last_email = end( $email );
 			$body       = $last_email['body'];
 			$subject    = $last_email['subject'];
 		}
 	}
-	$form     = "
-		<h4>" . __( 'Email Purchasers of Tickets by Event', 'my-tickets' ) . "</h4>
+	$form = '
+		<h4>' . __( 'Email Purchasers of Tickets by Event', 'my-tickets' ) . "</h4>
 		<form method='POST' action='" . admin_url( 'admin.php?page=mt-reports' ) . "'>
 			<p>
 			<label for='mt_select_event_for_email'>" . __( 'Select Event', 'my-tickets' ) . "</label>
@@ -360,19 +364,19 @@ function mt_select_events() {
 					'key'     => '_ticket',
 					'compare' => 'EXISTS',
 				),
-			)
+			),
 		);
 	$args    = apply_filters( 'mt_select_events_args', $args );
 	$query   = new WP_Query( $args );
 	$posts   = $query->posts;
 	$options = '<option value="false"> --- </option>';
 	foreach ( $posts as $post ) {
-		$tickets  = get_post_meta( $post->ID, '_ticket' );
-		$count    = count( $tickets );
-		$selected = ( isset( $_GET['event_id'] ) && $_GET['event_id'] == $post->ID ) ? ' selected="selected"' : '';
+		$tickets    = get_post_meta( $post->ID, '_ticket' );
+		$count      = count( $tickets );
+		$selected   = ( isset( $_GET['event_id'] ) && $_GET['event_id'] == $post->ID ) ? ' selected="selected"' : '';
 		$event_data = get_post_meta( $post->ID, '_mc_event_data', true );
 		if ( is_array( $event_data ) ) {
-			$event_date = strtotime( $event_data['event_begin'] );
+			$event_date   = strtotime( $event_data['event_begin'] );
 			$display_date = date_i18n( get_option( 'date_format' ), $event_date );
 			// if this event happened more than a month ago, don't show in list *unless* it's the currently selected report.
 			$report_age_limit = apply_filters( 'mt_reports_age_limit', current_time( 'timestamp' ) - MONTH_IN_SECONDS );
@@ -398,8 +402,8 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 	if ( 'false' == $event_id ) {
 		exit;
 	}
-	$query        = get_post_meta( $event_id, '_purchase' );
-	$report       = array(
+	$query         = get_post_meta( $event_id, '_purchase' );
+	$report        = array(
 		'html' => array(
 			'Completed'    => array(),
 			'Pending'      => array(),
@@ -417,7 +421,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 			'Reserved'     => array(),
 			'Turned Back'  => array(),
 			'Waiting List' => array(),
-		)
+		),
 	);
 	$total_tickets = 0;
 	$total_income  = 0;
@@ -430,7 +434,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 			$status      = get_post_meta( $purchase_id, '_is_paid', true );
 			$ticket_type = get_post_meta( $purchase_id, '_ticketing_method', true );
 			$notes       = esc_html( get_post_meta( $purchase_id, '_notes', true ) );
-			if ( $options['include_failed'] == false && ( 'Failed' == $status || 'Refunded' == $status || 'Turned Back' == $status ) ) {
+			if ( false == $options['include_failed'] && ( 'Failed' == $status || 'Refunded' == $status || 'Turned Back' == $status ) ) {
 				continue;
 			}
 			$types        = '';
@@ -488,14 +492,14 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 					foreach ( $custom_fields as $name => $field ) {
 						$value   = get_post_meta( $purchase_id, $name );
 						$cstring = '';
-						foreach( $value as $v ) {
+						foreach ( $value as $v ) {
 							if ( is_array( $v ) ) {
 								if ( $v['event_id'] == $_GET['event_id'] ) {
 									$keys = array_keys( $v );
 									foreach ( $keys as $val ) {
 										if ( 'event_id' != $val ) {
 											$cstring .= ( '' != $cstring ) ? '; ' : '';
-											$cstring .= esc_html( $v[$val] );
+											$cstring .= esc_html( $v[ $val ] );
 										}
 									}
 								}
@@ -524,10 +528,10 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 								<td class='mt-notes'>$notes</td>                                    
 						  </tr>";
 				// add split field to csv headers.
-				$types                     = str_replace(PHP_EOL, ', ', $types);
-				$csv                       = "\"$last_name\",\"$first_name\",\"$email\",\"$types\",\"$ticket_count\",\"$owed\",\"$paid\",\"$fee\",\"$ticket_type\",\"$date\",\"$time\",\"$purchase_id\",\"$phone\",\"$street\",\"$street2\",\"$city\",\"$state\",\"$code\",\"$country\"$custom_csv" . PHP_EOL;
-				$report['html'][$status][] = $row;
-				$report['csv'][$status][]  = $csv;
+				$types                       = str_replace( PHP_EOL, ', ', $types );
+				$csv                         = "\"$last_name\",\"$first_name\",\"$email\",\"$types\",\"$ticket_count\",\"$owed\",\"$paid\",\"$fee\",\"$ticket_type\",\"$date\",\"$time\",\"$purchase_id\",\"$phone\",\"$street\",\"$street2\",\"$city\",\"$state\",\"$code\",\"$country\"$custom_csv" . PHP_EOL;
+				$report['html'][ $status ][] = $row;
+				$report['csv'][ $status ][]  = $csv;
 			}
 		}
 	}
@@ -555,7 +559,7 @@ function mt_get_tickets( $event_id ) {
 	$options   = get_option( 'mt_settings' );
 	$alternate = 'even';
 	foreach ( $query as $ticket_id ) {
-		$ticket       = get_post_meta( $event_id, '_'.$ticket_id, true );
+		$ticket       = get_post_meta( $event_id, '_'. $ticket_id, true );
 		$ticket_url   = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
 		$purchase_id  = $ticket['purchase_id'];
 		$type         = $ticket['type'];
@@ -614,7 +618,7 @@ function mt_printable_report() {
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('charset'); ?>" />
+		<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo( 'charset' ); ?>" />
 		<meta name="viewport" content="width=device-width" />
 		<title><?php _e( 'Printable Sales Report', 'my-tickets' ); ?></title>
 		<link href="<?php echo $stylesheet_path; ?>" type="text/css" media="print,screen" rel="stylesheet" />
@@ -653,7 +657,7 @@ function mt_download_csv_event() {
 		foreach ( $custom_fields as $name => $field ) {
 			$custom_headings .= ",\"$name\"";
 		}
-		$csv = __( 'Last Name', 'my-tickets' ) . "," . __( 'First Name', 'my-tickets' ) . "," . __( 'Email', 'my-tickets' ) . "," . __( 'Ticket Type', 'my-tickets' ) . "," . __( 'Purchased', 'my-tickets' ) . "," . __( 'Price', 'my-tickets' ) . "," . __( 'Paid', 'my-tickets' ) . "," . __( 'Fees', 'my-tickets' ) . "," . __( 'Ticket Method', 'my-tickets' ) . "," . __( 'Date', 'my-tickets' ) . "," . __( 'Time', 'my-tickets' ) . "," . __( 'Purchase ID', 'my-tickets' ) . "," . __( 'Phone', 'my-tickets' ) . "," . __( 'Street', 'my-tickets' ) . "," . __( 'Street (2)', 'my-tickets' ) . "," . __( 'City', 'my-tickets' ) . "," . __( 'State', 'my-tickets' ) . "," . __( 'Postal Code', 'my-tickets' ) . "," . __( 'Country', 'my-tickets' ) . $custom_headings . PHP_EOL;
+		$csv = __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Email', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchased', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Paid', 'my-tickets' ) . ',' . __( 'Fees', 'my-tickets' ) . ',' . __( 'Ticket Method', 'my-tickets' ) . ',' . __( 'Date', 'my-tickets' ) . ',' . __( 'Time', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Phone', 'my-tickets' ) . ',' . __( 'Street', 'my-tickets' ) . ',' . __( 'Street (2)', 'my-tickets' ) . ',' . __( 'City', 'my-tickets' ) . ',' . __( 'State', 'my-tickets' ) . ',' . __( 'Postal Code', 'my-tickets' ) . ',' . __( 'Country', 'my-tickets' ) . $custom_headings . PHP_EOL;
 		foreach ( $report as $status => $rows ) {
 			foreach ( $rows as $type => $row ) {
 				$csv .= $row;
@@ -680,10 +684,10 @@ function mt_download_csv_tickets() {
 		isset( $_GET['mt-event-report'] ) && 'tickets' == $_GET['mt-event-report']
 	) {
 		$event_id = intval( $_GET['event_id'] );
-		$title    = get_the_title( $event_id ). ' tickets';
+		$title    = get_the_title( $event_id ) . ' tickets';
 		$tickets  = mt_get_tickets( $event_id );
 		$report   = $tickets['csv'];
-		$csv      = __( 'Ticket ID', 'my-tickets' ) . ',' . __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . "," . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Used', 'my-tickets' ) . PHP_EOL;
+		$csv      = __( 'Ticket ID', 'my-tickets' ) . ',' . __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Used', 'my-tickets' ) . PHP_EOL;
 		foreach ( $report as $row ) {
 			$csv .= "$row";
 		}
@@ -763,7 +767,7 @@ function mt_get_report_data_by_time() {
 	$alternate = 'even';
 	$html      = array();
 	$csv       = array();
-	$csv[]     = "\"First Name\",\"Last Name\",\"Ticket Type\",\"Purchase Value\",\"Status\",\"Events\",\"Date\"" . PHP_EOL;
+	$csv[]     = '\"First Name\",\"Last Name\",\"Ticket Type\",\"Purchase Value\",\"Status\",\"Events\",\"Date\"' . PHP_EOL;
 	foreach ( $posts as $post ) {
 		$purchaser  = get_the_title( $post->ID );
 		$first_name = get_post_meta( $post->ID, '_first_name', true );
@@ -828,7 +832,7 @@ function mt_generate_report_by_time() {
 		$total     = $report['total'];
 		$start     = $report['start'];
 		$end       = $report['end'];
-
+		// Translators: Starting date, ending date.
 		echo '<h4>' . sprintf( __( 'Sales from %1$s to %2$s', 'my-tickets' ), $start, $end ) . '</h4>';
 		echo "<table class='widefat'>
 			<thead>
@@ -849,6 +853,7 @@ function mt_generate_report_by_time() {
 		}
 		echo '</tbody>
 		</table>';
+		// Translators: Time period.
 		printf( '<p>' . __( 'Total sales in period: %s', 'my-tickets' ) . '</p>', '<strong>' . apply_filters( 'mt_money_format', $total ) . '</strong>' );
 		$custom_line = apply_filters( 'mt_custom_total_line_time', '', $start, $end );
 		echo $custom_line;
@@ -904,10 +909,10 @@ function mt_mass_email( $event_id = false ) {
 		$event_id = ( isset( $_POST['event_id'] ) ) ? (int) $_POST['event_id'] : false;
 	}
 	if ( $event_id ) {
-		$body        = ( ! empty( $_POST['mt_body'] ) ) ? stripslashes( $_POST['mt_body'] ) : false;
-		$subject     = ( ! empty( $_POST['mt_subject'] ) ) ? stripslashes( $_POST['mt_subject'] ) : false;
-		$orig_subj   = $subject;
-		$orig_body   = $body;
+		$body      = ( ! empty( $_POST['mt_body'] ) ) ? stripslashes( $_POST['mt_body'] ) : false;
+		$subject   = ( ! empty( $_POST['mt_subject'] ) ) ? stripslashes( $_POST['mt_subject'] ) : false;
+		$orig_subj = $subject;
+		$orig_body = $body;
 		// save email message to event post.
 		add_post_meta( $event_id, '_mass_email', array(
 			'subject' => $subject,
@@ -921,7 +926,8 @@ function mt_mass_email( $event_id = false ) {
 		$options     = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$purchasers  = mt_get_purchasers( $event_id );
 		$count       = count( $purchasers );
-		$emails_sent = $opt_outs = 0;
+		$emails_sent = 0;
+		$opt_outs    = 0;
 		$blogname    = get_option( 'blogname' );
 		$headers[]   = "From: $blogname Events <" . $options['mt_from'] . '>';
 		$headers[]   = "Reply-to: $options[mt_from]";
@@ -930,7 +936,7 @@ function mt_mass_email( $event_id = false ) {
 				$purchase_id = $purchaser['purchase_id'];
 				$opt_out_url = add_query_arg( 'opt_out', $purchase_id, home_url() );
 				// Translators: Opt out URL.
-				$opt_out = PHP_EOL . PHP_EOL . "<p><small>" . sprintf( __( "Don't want to receive email from us? Follow this link: %s", 'my-tickets' ), $opt_out_url ) . '</small></p>';
+				$opt_out = PHP_EOL . PHP_EOL . '<p><small>' . sprintf( __( "Don't want to receive email from us? Follow this link: %s", 'my-tickets' ), $opt_out_url ) . '</small></p>';
 				$opt_out = apply_filters( 'mt_opt_out_text', $opt_out, $opt_out_url, $event_id, 'bulk' );
 				$to      = $purchaser['email'];
 				$name    = $purchaser['name'];
