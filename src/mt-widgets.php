@@ -10,7 +10,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-exit;
+	exit;
 } // Exit if accessed directly.
 
 /**
@@ -30,8 +30,8 @@ class mt_short_cart_widget extends WP_Widget {
 	}
 
 	/**
-     * Display the widget.
-     *
+	 * Display the widget.
+	 *
 	 * @param array $args Widget arguments from theme.
 	 * @param array $instance Widget settings.
 	 */
@@ -52,8 +52,8 @@ class mt_short_cart_widget extends WP_Widget {
 	}
 
 	/**
-     * Form to configure widget.
-     *
+	 * Form to configure widget.
+	 *
 	 * @param array $instance Settings.
 	 *
 	 * @return void
@@ -62,15 +62,15 @@ class mt_short_cart_widget extends WP_Widget {
 		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title','my-tickets'); ?>:</label><br />
-			<input class="widefat" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $title; ?>"/>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title','my-tickets' ); ?>:</label><br />
+			<input class="widefat" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>"/>
 		</p>
 		<?php
 	}
 
 	/**
-     * Update widget.
-     *
+	 * Update widget.
+	 *
 	 * @param array $new_instance New settings.
 	 * @param array $old_instance Old settings.
 	 *

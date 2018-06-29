@@ -664,17 +664,17 @@ function mt_hcard( $location ) {
 	$link   = ( '' != $url ) ? "<a href='$url' class='location-link external'>$label</a>" : $label;
 	$hcard  = '<div class="address vcard">';
 	$hcard .= '<div class="adr">';
-	$hcard .= ( $label != '' ) ? '<strong class="org">' . $link . '</strong><br />' : '';
+	$hcard .= ( '' != $label ) ? '<strong class="org">' . $link . '</strong><br />' : '';
 	$hcard .= ( '' == $street . $street2 . $city . $state . $zip . $country . $phone ) ? '' : "<div class='sub-address'>";
 	$hcard .= ( '' != $street ) ? '<div class="street-address">' . $street . '</div>' : '';
 	$hcard .= ( '' != $street2 ) ? '<div class="street-address">' . $street2 . '</div>' : '';
-	$hcard .= ( '' != $city . $state . $zip ) ? "<div>" : '';
+	$hcard .= ( '' != $city . $state . $zip ) ? '<div>' : '';
 	$hcard .= ( '' != $city ) ? '<span class="locality">' . $city . "</span><span class='sep'>, </span>" : '';
 	$hcard .= ( '' != $state ) ? '<span class="region">' . $state . '</span> ' : '';
 	$hcard .= ( '' != $zip ) ? ' <span class="postal-code">' . $zip . '</span>' : '';
 	$hcard .= ( '' != $city . $state . $zip ) ? '</div>' : '';
-	$hcard .= ( '' != $country ) ? "<div class=\"country-name\">" . $country . '</div>' : '';
-	$hcard .= ( '' != $phone ) ? "<div class=\"tel\">" . $phone . '</div>' : '';
+	$hcard .= ( '' != $country ) ? '<div class="country-name">' . $country . '</div>' : '';
+	$hcard .= ( '' != $phone ) ? '<div class="tel">' . $phone . '</div>' : '';
 	$hcard .= ( '' == $street . $street2 . $city . $state . $zip . $country . $phone ) ? '' : '</div>';
 	$hcard .= '</div>';
 	$hcard .= '</div>';
@@ -715,7 +715,7 @@ function mt_get_verification( $ticket_id = false ) {
 		$text        .= ( 'Pending' == $status ) ? ' - ' . sprintf( __( 'Payment pending: %s', 'my-tickets' ), $due ) : '';
 		$status_class = sanitize_title( $status );
 		$used         = get_post_meta( $purchase_id, '_tickets_used' );
-		if ( !is_array( $used ) ) {
+		if ( ! is_array( $used ) ) {
 			$used = array();
 		}
 		$is_used = false;

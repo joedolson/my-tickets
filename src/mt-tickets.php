@@ -23,21 +23,21 @@ function mt_ticket() {
 				if ( $template ) {
 					load_template( $template );
 				} else {
-					load_template( dirname(__FILE__ ) . '/templates/tickets.php' );
+					load_template( dirname( __FILE__ ) . '/templates/tickets.php' );
 				}
 			} else {
 				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
 			}
 		} else {
-			if ( isset( $_GET['receipt_id']) ) {
+			if ( isset( $_GET['receipt_id'] ) ) {
 				$template = locate_template( 'bulk-tickets.php' );
 				if ( $template ) {
 					load_template( $template );
 				} else {
-					load_template( dirname(__FILE__ ) . '/templates/bulk-tickets.php' );
+					load_template( dirname( __FILE__ ) . '/templates/bulk-tickets.php' );
 				}
 			} else {
-			   wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
 			}
 		}
 		exit;
@@ -89,7 +89,7 @@ function mt_get_ticket( $ticket_id = false ) {
 
 	$ticket_id = isset( $_GET['ticket_id'] ) ? $_GET['ticket_id'] : $ticket_id;
 	// sanitize ticket id.
-	$ticket_id = strtolower( preg_replace( "/[^a-z0-9\-]+/i", '', $ticket_id ) );
+	$ticket_id = strtolower( preg_replace( '/[^a-z0-9\-]+/i', '', $ticket_id ) );
 	$ticket    = false;
 	if ( $ticket_id ) {
 		$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_ticket' AND meta_value = %s", $ticket_id ) );

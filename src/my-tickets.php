@@ -29,7 +29,9 @@ Version: 1.7.3
 load_plugin_textdomain( 'my-tickets', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 
 /**
- * @return string * Current My Tickets version.
+ * Return current version of My Tickets.
+ *
+ * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
 	$mt_version = '1.7.3';
@@ -46,11 +48,10 @@ function mt_import_gateways() {
 	$results   = array();
 	$directory = plugin_dir_path( __FILE__ ) . 'gateways';
 	$handler   = opendir( $directory );
-	// keep going until all files in directory have been read
+	// keep going until all files in directory have been read.
 	while ( $file = readdir( $handler ) ) {
-		// if $file isn't this directory or its parent,
-		// add it to the results array
-		if ( $file != '.' && $file != '..' ) {
+		// if $file isn't this directory or its parent add it to the results array.
+		if ( '.' != $file && '..' != $file ) {
 			$results[] = $file;
 		}
 	}
@@ -69,7 +70,7 @@ add_action( 'init', 'mt_build_gateways' );
 function mt_build_gateways() {
 	$gateways = apply_filters( 'mt_import_gateways', mt_import_gateways() );
 	foreach ( $gateways as $gateway ) {
-		if ( strpos( $gateway, '.php' ) !== false ) {
+		if ( false !== strpos( $gateway, '.php' ) ) {
 			require_once( plugin_dir_path( __FILE__ ) . 'gateways/' . $gateway );
 		}
 	}
@@ -97,16 +98,16 @@ include( plugin_dir_path( __FILE__ ) . 'mt-payment-settings.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-ticketing-settings.php' );
 
 // Not used by core plug-in; only if premium add-ons are installed.
-// old updater; deprecated
+// old updater; deprecated.
 require_once( plugin_dir_path( __FILE__ ) . 'updates/plugin-update-checker.php' );
 // new version of updating.
-if ( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 	require_once( plugin_dir_path( __FILE__ ) . 'updates/EDD_SL_Plugin_Updater.php' );
 }
 
 /*
  * Quick and easy email-based debugging
- * 
+ *
  * @param $data email message body
  * @param $subject email message subject extension
 */
@@ -114,12 +115,12 @@ define( 'MT_DEBUG', false );
 /**
  * Send debugging data as needed.
  *
- * @param $data
- * @param string $subject
- * @param bool $override
+ * @param string $data Information used for debugging.
+ * @param string $subject Message subject line.
+ * @param bool   $override Send message even if not enabled.
  */
 function mt_debug( $data, $subject = '', $override = false ) {
-	if ( MT_DEBUG == true || $override == true ) {
+	if ( true == MT_DEBUG || true == $override ) {
 		wp_mail( get_option( 'admin_email' ), "Debugging: $subject", $data );
 	}
 }
@@ -173,33 +174,32 @@ function my_tickets_menu() {
 	if ( function_exists( 'add_menu_page' ) ) {
 		add_menu_page( __( 'My Tickets', 'my-tickets' ), __( 'My Tickets', 'my-tickets' ), $permission, 'my-tickets', 'mt_settings', $icon_path . '/tickets.png' );
 	}
-	add_action( "admin_head", 'mt_reg_styles' );
+	add_action( 'admin_head', 'mt_reg_styles' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets', 'my-tickets' ), __( 'Settings', 'my-tickets' ), $permission, 'my-tickets', 'mt_settings' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets', 'my-tickets' ), __( 'Payment Settings', 'my-tickets' ), $permission, 'mt-payment', 'mt_payment_settings' );
 	$ticketing = add_submenu_page( 'my-tickets', __( 'My Tickets', 'my-tickets' ), __( 'Ticket Settings', 'my-tickets' ), $permission, 'mt-ticketing', 'mt_ticketing_settings' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets > Reports', 'my-tickets' ), __( 'Reports', 'my-tickets' ), 'mt-view-reports', 'mt-reports', 'mt_reports_page' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets > Help', 'my-tickets' ), __( 'Ticketing Help', 'my-tickets' ), $permission, 'mt-help', 'mt_help' );
 
-	add_action( 'load-'.$ticketing, 'mt_ticketing_help_tab' );
+	add_action( 'load-' . $ticketing, 'mt_ticketing_help_tab' );
 }
 
+/**
+ * Generate Help tab information in screen.
+ */
 function mt_ticketing_help_tab() {
 	$screen = get_current_screen();
 	$screen->add_help_tab( array(
-		'id' => 'mt_ticketing_help_tab_1',
-		'title' => __( 'Ticket Options', 'my-tickets' ),
-		'content' => '<p><strong>' . __( 'General Ticketing Options' ) . '</strong><br />
-						' . __( 'These options are global to all tickets. They include shipping rates, administrative fees, types of tickets available to your customers, and how you reserve tickets for sales at your ticket office.', 'my-tickets' )
-						. '</p>'
+		'id'      => 'mt_ticketing_help_tab_1',
+		'title'   => __( 'Ticket Options', 'my-tickets' ),
+		'content' => '<p><strong>' . __( 'General Ticketing Options' ) . '</strong><br />' . __( 'These options are global to all tickets. They include shipping rates, administrative fees, types of tickets available to your customers, and how you reserve tickets for sales at your ticket office.', 'my-tickets' ) . '</p>',
 	) );
 	$screen->add_help_tab( array(
-		'id' => 'mt_ticketing_help_tab_2',
-		'title' => __( 'Ticket Defaults', 'my-tickets' ),
-		'content' => '<p><strong>' . __( 'Ticket Defaults' ) . '</strong><br />
-						' . __( 'Ticket defaults are settings that are specific to events. These values are what will be set up by default when you create a new event, but can be changed within the event. Only events that have a value entered for the number of tickets available for purchase will show up for sale on your site.', 'my-tickets' )
-					 . '</p>'
+		'id'      => 'mt_ticketing_help_tab_2',
+		'title'   => __( 'Ticket Defaults', 'my-tickets' ),
+		'content' => '<p><strong>' . __( 'Ticket Defaults' ) . '</strong><br />' . __( 'Ticket defaults are settings that are specific to events. These values are what will be set up by default when you create a new event, but can be changed within the event. Only events that have a value entered for the number of tickets available for purchase will show up for sale on your site.', 'my-tickets' ) . '</p>',
 	) );
-	$resources = '<p>' . __( 'More Help', 'my-tickets' ) . '</p>';
+	$resources  = '<p>' . __( 'More Help', 'my-tickets' ) . '</p>';
 	$resources .= '<ul>
 					<li><a href="http://docs.joedolson.com/my-tickets/">' . __( 'Documentation', 'my-tickets' ) . '</a></li>
 					<li><a href="http://docs.joedolson.com/my-tickets/2014/11/25/ticket-settings/">' . __( 'Ticket Settings', 'my-tickets' ) . '</a></li>
@@ -232,7 +232,7 @@ function mt_public_enqueue_scripts() {
 	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ) );
 	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ) );
 	wp_enqueue_style( 'mt-styles', $ticket_styles );
-	wp_localize_script( 'mt.public', 'mt_ajax',	array(
+	wp_localize_script( 'mt.public', 'mt_ajax', array(
 		'action'   => 'mt_ajax_handler',
 		'url'      => admin_url( 'admin-ajax.php' ),
 		'security' => wp_create_nonce( 'mt-cart-nonce' ),
@@ -241,10 +241,10 @@ function mt_public_enqueue_scripts() {
 		'redirect' => $redirect,
 	) );
 	wp_localize_script( 'mt.public', 'mt_ajax_cart', array(
-		'action'   => 'mt_ajax_cart',
-		'url'      => admin_url( 'admin-ajax.php' ),
-		'security' => wp_create_nonce( 'mt-ajax-cart-nonce' ),
-		'max_limit'=> __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
+		'action'    => 'mt_ajax_cart',
+		'url'       => admin_url( 'admin-ajax.php' ),
+		'security'  => wp_create_nonce( 'mt-ajax-cart-nonce' ),
+		'max_limit' => __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
 	) );
 }
 
@@ -258,8 +258,8 @@ function mt_setup_gateways() {
 	$gateways = array(
 		'offline' => array(
 			'label'  => __( 'Offline', 'my-tickets' ),
-			'fields' => array( 'forms' => __( 'Payment Forms Accepted', 'my-tickets' ) )
-		)
+			'fields' => array( 'forms' => __( 'Payment Forms Accepted', 'my-tickets' ) ),
+		),
 	);
 
 	return apply_filters( 'mt_setup_gateways', $gateways );
@@ -274,16 +274,16 @@ function mt_default_settings() {
 	$gateways = array(
 		'paypal'       => array(
 			'email'       => '',
-			'merchant_id' => ''
+			'merchant_id' => '',
 		),
 		'authorizenet' => array(
 			'api'  => '',
 			'key'  => '',
-			'hash' => ''
+			'hash' => '',
 		),
 		'offline'      => array(
-			'forms' => ''
-		)
+			'forms' => '',
+		),
 	);
 
 	$messages  = array(
@@ -310,7 +310,7 @@ Thanks for your ticket purchase from {blogname}, {name}!
 <p>
 We\'ll see you soon!<br />
 {blogname}
-</p>'
+</p>',
 			),
 			'admin'     => array(
 				'subject' => 'New ticket purchase on {blogname}',
@@ -330,28 +330,28 @@ We\'ll see you soon!<br />
 {address}
 
 <p>Amount due: {amount_due}</p>
-'
+',
 			)
 		),
 		'failed'    => array(
 			'purchaser' => array(
 				'subject' => 'Payment Failed on ticket purchase from {blogname}',
-				'body'    => 'Payment failed on purchase: {receipt}'
+				'body'    => 'Payment failed on purchase: {receipt}',
 			),
 			'admin'     => array(
 				'subject' => 'Payment Failed on ticket purchase from {blogname}',
-				'body'    => 'Payment failed on purchase: {receipt}'
+				'body'    => 'Payment failed on purchase: {receipt}',
 			)
 		),
 		'refunded'  => array(
 			'purchaser' => array(
 				'subject' => 'Your purchased from {blogname} has been refunded.',
-				'body'    => 'Payment refunded on purchase: {receipt}'
+				'body'    => 'Payment refunded on purchase: {receipt}',
 			),
 			'admin'     => array(
 				'subject' => 'Purchase from {blogname} has been refunded.',
-				'body'    => 'Payment refunded on purchase: {receipt}'
-			)
+				'body'    => 'Payment refunded on purchase: {receipt}',
+			),
 		)
 	);
 	$ticketing = array(
@@ -363,8 +363,8 @@ We\'ll see you soon!<br />
 		'pricing'         => array(
 			'adult'          => array( 'label' => 'Adult', 'price' => '', 'tickets' => '', 'sold' => '' ),
 			'senior-student' => array( 'label' => 'Senior/Student', 'price' => '', 'tickets' => '', 'sold' => '' ),
-			'child'          => array( 'label' => 'Child', 'price' => '', 'tickets' => '', 'sold' => '' )
-		)
+			'child'          => array( 'label' => 'Child', 'price' => '', 'tickets' => '', 'sold' => '' ),
+		),
 	);
 
 	$defaults = array(
@@ -396,7 +396,7 @@ We\'ll see you soon!<br />
 		'mt_ticket_handling'     => '',
 		'mt_tickets_close_value' => '',
 		'mt_tickets_close_type'  => 'integer',
-		'mt_ticket_image'        => 'ticket'
+		'mt_ticket_image'        => 'ticket',
 	);
 
 	return $defaults;
@@ -406,13 +406,14 @@ add_filter( 'template_include', 'mt_verify', 10, 1 );
 /**
  * Verify ticket for e-ticketing or printables. (Use any QR code reader on phone or tablet.)
  *
- * @param $template
+ * @param string $template Template name.
  *
  * @return string
  */
 function mt_verify( $template ) {
-	if ( isset( $_GET['ticket_id'] ) && isset( $_GET['action'] ) && $_GET['action'] == 'mt-verify' ) {
-		if ( $template = locate_template( 'verify.php' ) ) {
+	if ( isset( $_GET['ticket_id'] ) && isset( $_GET['action'] ) && 'mt-verify' == $_GET['action'] ) {
+		$template = locate_template( 'verify.php' );
+		if ( $template ) {
 			return $template;
 		} else {
 			return dirname( __FILE__ ) . '/templates/verify.php';
@@ -428,7 +429,7 @@ add_action( 'init', 'mt_admin_delete' );
  * Give admins easy ability to delete cart from adminbar.
  */
 function mt_admin_delete() {
-	if ( is_user_logged_in() && isset( $_GET['mt_delete'] ) && $_GET['mt_delete'] == 'true' ) {
+	if ( is_user_logged_in() && isset( $_GET['mt_delete'] ) && 'true' == $_GET['mt_delete'] ) {
 		mt_delete_data( 'cart' );
 		mt_delete_data( 'payment' );
 		$redirect = wp_get_referer();
@@ -443,14 +444,18 @@ add_action( 'admin_bar_menu', 'mt_admin_bar', 200 );
 function mt_admin_bar() {
 	global $wp_admin_bar;
 	$url  = add_query_arg( 'mt_delete', 'true', home_url() );
-	$args = array( 'id' => 'mt_delete', 'title' => __( 'Empty Cart', 'my-tickets' ), 'href' => $url );
+	$args = array(
+		'id' => 'mt_delete',
+		'title' => __( 'Empty Cart', 'my-tickets' ),
+		'href' => $url,
+	);
 	$wp_admin_bar->add_node( $args );
 }
 
 /**
  * Setup purchase pages on activation if pages of that name don't already exist.
  *
- * @param $slug
+ * @param string $slug slug of page to create.
  *
  * @return int|WP_Error
  */
@@ -462,11 +467,14 @@ function mt_setup_page( $slug ) {
 			'post_status' => 'publish',
 			'post_type'   => 'page',
 			'post_author' => $current_user->ID,
-			'ping_status' => 'closed'
+			'ping_status' => 'closed',
 		);
 		$post_ID   = wp_insert_post( $page );
 		$post_slug = wp_unique_post_slug( $slug, $post_ID, 'publish', 'page', 0 );
-		wp_update_post( array( 'ID' => $post_ID, 'post_name' => $post_slug ) );
+		wp_update_post( array(
+			'ID' => $post_ID,
+			'post_name' => $post_slug,
+		) );
 	} else {
 		$post    = get_page_by_path( $slug );
 		$post_ID = $post->ID;
@@ -480,7 +488,7 @@ add_action( 'init', 'mt_register_actions', 20 );
  * Register and deregister key actions in My Calendar.
  */
 function mt_register_actions() {
-	apply_filters( "debug", "my tickets add actions/filters" );
+	apply_filters( 'debug', 'my tickets add actions/filters' );
 	if ( function_exists( 'my_calendar' ) ) {
 		remove_filter( 'mc_event_registration', 'mc_standard_event_registration', 10, 4 );
 		add_action( 'mc_update_event_post', 'mt_save_registration_data', 10, 4 );
@@ -491,6 +499,8 @@ function mt_register_actions() {
 
 /**
  * Define custom action processed at the time of template include.
+ *
+ * @param string $template Template name.
  */
 function mt_receive_ipn( $template ) {
 	do_action( 'mt_receive_ipn' );
@@ -499,17 +509,24 @@ function mt_receive_ipn( $template ) {
 }
 
 add_action( 'wp_footer', 'mt_test_mode' );
+/**
+ * Display message if in testing mode.
+ */
 function mt_test_mode() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( $options['mt_use_sandbox'] == 'true' ) {
-		echo "<div class='mt_sandbox_enabled'>".__( 'My Tickets is currently in testing mode. No financial transactions will be processed.', 'my-tickets' )."</div>";
+	if ( 'true' == $options['mt_use_sandbox'] ) {
+		echo "<div class='mt_sandbox_enabled'>" . __( 'My Tickets is currently in testing mode. No financial transactions will be processed.', 'my-tickets' ) . '</div>';
 	}
 }
 
-/* 
-* utility function duplicates my_calendar_date_xcomp
-* true if first date before second date
-*/
+/**
+ * utility function duplicates my_calendar_date_xcomp; true if first date before second date
+ *
+ * @param string $early Date/time
+ * @param string $late Second date/time.
+ *
+ * @return bool
+ */
 function mt_date_comp( $early, $late ) {
 	$firstdate = strtotime( $early );
 	$lastdate  = strtotime( $late );
@@ -520,7 +537,11 @@ function mt_date_comp( $early, $late ) {
 	}
 }
 
-// produce admin support box
+/**
+ * Show support information.
+ *
+ * @param bool|array $add Addiitional panels as needed.
+ */
 function mt_show_support_box( $add = false ) {
 	?>
 	<div class="postbox-container jcd-narrow">
@@ -528,10 +549,9 @@ function mt_show_support_box( $add = false ) {
 
 		<div class="ui-sortable meta-box-sortables">
 			<div class="postbox">
-				<h3><?php _e('Support this Plug-in','my-tickets'); ?></h3>
+				<h3><?php _e( 'Support this Plug-in','my-tickets' ); ?></h3>
 				<div id="support" class="inside resources">
 					<?php mt_logo( array( 'class' => 'mt-logo' ) ) ?>
-
 					<ul>
 						<li>
 							<p>
@@ -539,7 +559,7 @@ function mt_show_support_box( $add = false ) {
 								<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if (!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 							</p>
 						</li>
-						<li><p><?php _e('<a href="http://www.joedolson.com/donate/">Make a donation today!</a> Every donation counts - donate $2, $10, or $100 and help me keep this plug-in running!','access-monitor'); ?></p>
+						<li><p><?php _e( '<a href="http://www.joedolson.com/donate/">Make a donation today!</a> Every donation counts - donate $2, $10, or $100 and help me keep this plug-in running!','my-tickets' ); ?></p>
 							<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 								<div>
 									<input type="hidden" name="cmd" value="_s-xclick" />
@@ -550,8 +570,8 @@ function mt_show_support_box( $add = false ) {
 							</form>
 
 						</li>
-						<li><a href="http://profiles.wordpress.org/users/joedolson/"><?php _e('Check out my other plug-ins','my-tickets'); ?></a></li>
-						<li><a href="http://wordpress.org/extend/plugins/my-tickets/"><?php _e('Rate this plug-in','my-tickets'); ?></a></li>
+						<li><a href="http://profiles.wordpress.org/users/joedolson/"><?php _e( 'Check out my other plug-ins', 'my-tickets' ); ?></a></li>
+						<li><a href="http://wordpress.org/extend/plugins/my-tickets/"><?php _e( 'Rate this plug-in', 'my-tickets' ); ?></a></li>
 					</ul>
 				</div>
 			</div>
@@ -559,10 +579,13 @@ function mt_show_support_box( $add = false ) {
 
 		<div class="ui-sortable meta-box-sortables">
 			<div class="postbox">
-				<h3><?php _e('Premium Add-ons','my-tickets'); ?></h3>
+				<h3><?php _e( 'Premium Add-ons', 'my-tickets' ); ?></h3>
 				<div id="support" class="inside resources">
 					<p>
-						<?php printf( __( 'Want to do more with My Tickets? <a href="%s">Premium add-ons are available now</a> - with more to come!', 'my-tickets' ), "https://www.joedolson.com/my-tickets/add-ons/" ); ?>
+						<?php
+						// Translators: Sales URL.
+						printf( __( 'Want to do more with My Tickets? <a href="%s">Premium add-ons are available now</a> - with more to come!', 'my-tickets' ), "https://www.joedolson.com/my-tickets/add-ons/" );
+						?>
 					</p>
 				</div>
 			</div>
@@ -574,24 +597,21 @@ function mt_show_support_box( $add = false ) {
 				<h3><?php _e( 'Get My Tickets Help', 'my-tickets' ); ?></h3>
 
 				<div class="inside">
-
 					<ul>
 						<li>
 							<div class="dashicons dashicons-editor-help"></div>
-							<strong><a
-									href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#get-started"><?php _e( "Getting Started", 'my-tickets' ); ?>
-							</strong></a></li>
+							<strong><a href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#get-started"><?php _e( 'Getting Started', 'my-tickets' ); ?></strong></a></li>
 						<li>
 							<div class="dashicons dashicons-editor-help"></div>
-							<a href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#get-support"><?php _e( "Get Support", 'my-tickets' ); ?></a>
+							<a href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#get-support"><?php _e( 'Get Support', 'my-tickets' ); ?></a>
 						</li>
 						<li>
 							<div class="dashicons dashicons-editor-help"></div>
-							<a href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#faq"><?php _e( "My Tickets FAQ", 'my-tickets' ); ?></a>
+							<a href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#faq"><?php _e( 'My Tickets FAQ', 'my-tickets' ); ?></a>
 						</li>
 						<li>
 							<div class="dashicons dashicons-book-alt"></div>
-							<a href="http://docs.joedolson.com/my-tickets/"><?php _e( "Documentation", 'my-tickets' ); ?></a>
+							<a href="http://docs.joedolson.com/my-tickets/"><?php _e( 'Documentation', 'my-tickets' ); ?></a>
 						</li>
 						<li>
 							<div class="dashicons dashicons-yes"></div>
@@ -601,7 +621,8 @@ function mt_show_support_box( $add = false ) {
 				</div>
 			</div>
 		</div>
-		<?php if ( is_array( $add ) ) {
+		<?php
+		if ( is_array( $add ) ) {
 			foreach ( $add as $key => $value ) {
 				?>
 				<div class="ui-sortable meta-box-sortables">
@@ -615,16 +636,18 @@ function mt_show_support_box( $add = false ) {
 				</div>
 			<?php
 			}
-		} ?>
+		}
+		?>
 	</div>
-	</div><?php
+	</div>
+	<?php
 }
 
 add_filter( 'mt_money_format', 'mt_money_format', 10, 1 );
 /**
  * Format money for use in cart or other context.
  *
- * @param $price
+ * @param float $price Price.
  *
  * @return string
  */
@@ -644,12 +667,12 @@ function mt_money_format( $price ) {
 /**
  * See whether field should be checked.
  *
- * @param $field
- * @param $value
- * @param $options
- * @param bool $return
+ * @param string $field Field name.
+ * @param mixed  $value Saved value.
+ * @param array  $options Field options.
+ * @param bool   $return Return or echo.
  *
- * @return string
+ * @return string|void
  */
 function mt_is_checked( $field, $value, $options, $return = false ) {
 	if ( isset( $options[ $field ] ) && $options[ $field ] == $value ) {
@@ -678,31 +701,31 @@ function mt_user_profile() {
 		$edit_user = ( is_numeric( $_GET['user_id'] ) ) ? $_GET['user_id'] : false;
 	} else {
 		$current_user = wp_get_current_user();
-		$edit_user = $current_user->ID;
+		$edit_user    = $current_user->ID;
 	}
 	if ( current_user_can ( 'manage_options' ) ) {
-		echo "<h3>" . __( 'Grant My Tickets Permissions', 'my-tickets' ) . "</h3>";
-		$caps = array(
+		echo '<h3>' . __( 'Grant My Tickets Permissions', 'my-tickets' ) . '</h3>';
+		$caps    = array(
 				'mt-verify-ticket' =>__( 'Can verify tickets', 'my-tickets' ),
 				'mt-order-expired' =>__( 'Can place orders after expiration dates.', 'my-tickets' ),
 				'mt-view-reports'  =>__( 'Can view reports', 'my-tickets' ),
 				'mt-copy-cart'     =>__( 'Can import user shopping carts', 'my-tickets' ),
-				'mt-order-comps'   => __( 'Can order complimentary tickets', 'my-tickets' )
+				'mt-order-comps'   => __( 'Can order complimentary tickets', 'my-tickets' ),
 			);
 		$options = '';
 		foreach ( $caps as $cap => $label ) {
-			$checked = ( user_can( $edit_user, $cap ) )  ? ' checked="checked"' : '';
-			$options.= "<li><input type='checkbox' name='mt_capabilities[]' value='$cap' id='mt_$cap' $checked /> <label for='mt_$cap'>$label</label></li>";
+			$checked  = ( user_can( $edit_user, $cap ) )  ? ' checked="checked"' : '';
+			$options .= "<li><input type='checkbox' name='mt_capabilities[]' value='$cap' id='mt_$cap' $checked /> <label for='mt_$cap'>$label</label></li>";
 		}
 		$options = "<ul>$options</ul>";
 		echo $options;
 	}
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'edit_user' ) ) {
-		echo "<h3>" . __( 'My Tickets Shopping Cart', 'my-tickets' ) . "</h3>";
+		echo '<h3>' . __( 'My Tickets Shopping Cart', 'my-tickets' ) . '</h3>';
 		$cart         = mt_get_cart( $edit_user );
 		$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
 		echo $confirmation;
-		echo "<p><a href='" . admin_url( "post-new.php?post_type=mt-payments&amp;cart=$edit_user" ) . "'>" . __( 'Create new payment with this cart', 'my-tickets' ) . "</a></p>";
+		echo "<p><a href='" . admin_url( "post-new.php?post_type=mt-payments&amp;cart=$edit_user" ) . "'>" . __( 'Create new payment with this cart', 'my-tickets' ) . '</a></p>';
 	}
 }
 
@@ -712,7 +735,7 @@ add_action( 'profile_update', 'mt_save_profile' );
  */
 function mt_save_profile() {
 	$current_user = wp_get_current_user();
-	$user_ID = $current_user->ID;
+	$user_ID      = $current_user->ID;
 	if ( isset( $_POST['user_id'] ) ) {
 		$edit_id = (int) $_POST['user_id'];
 	} else {
@@ -725,7 +748,7 @@ function mt_save_profile() {
 			'mt-order-expired',
 			'mt-view-reports',
 			'mt-copy-cart',
-			'mt-order-comps'
+			'mt-order-comps',
 		);
 		foreach ( $_POST['mt_capabilities'] as $add_cap ) {
 			$user->add_cap( $add_cap );
@@ -738,9 +761,12 @@ function mt_save_profile() {
 }
 
 add_action( 'admin_init', 'mt_check_permissions' );
+/**
+ * Check what permissions current user has and apply as needed.
+ */
 function mt_check_permissions() {
 	if ( current_user_can( 'manage_options' ) && !current_user_can( 'mt-verify-ticket' ) ) {
-		// if the current user can manage options, they might as well be able to do MT tasks
+		// if the current user can manage options, they might as well be able to do MT tasks.
 		global $current_user;
 
 		$user_roles = $current_user->roles;
@@ -752,6 +778,5 @@ function mt_check_permissions() {
 		$role->add_cap( 'mt-order-expired' );
 		$role->add_cap( 'mt-view-reports' );
 		$role->add_cap( 'mt-copy-cart' );
-
 	}
 }
