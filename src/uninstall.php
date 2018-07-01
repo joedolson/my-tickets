@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 } else {
-	$options = get_option( 'mt_settings' );
+	$options       = get_option( 'mt_settings' );
 	$purchase_page = ( is_numeric( $options['mt_purchase_page'] ) ) ? $options['mt_purchase_page'] : false;
 	$receipt_page  = ( is_numeric( $options['mt_receipt_page'] ) ) ? $options['mt_receipt_page'] : false;
 	$tickets_page  = ( is_numeric( $options['mt_tickets_page'] ) ) ? $options['mt_tickets_page'] : false;

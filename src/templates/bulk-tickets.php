@@ -7,10 +7,12 @@
  * @author   Joe Dolson
  * @license  GPLv2 or later
  * @link     https://www.joedolson.com/my-tickets/
- */?>
+ */
+
+?>
 <html>
 <head>
-	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Tickets', 'my-tickets' ); ?> &bull; <?php mt_ticket_id() ?></title>
+	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Tickets', 'my-tickets' ); ?> &bull; <?php mt_ticket_id(); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="<?php echo plugins_url( 'css/generic.css', __FILE__ ); ?>"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo plugins_url( 'css/ticket.css', __FILE__ ); ?>"/>
@@ -30,13 +32,13 @@ foreach( $purchases as $ticket_id ) {
 <div class='panel ticket <?php mt_ticket_method( $ticket_id ); ?>'>
 	<div class='inside'>
 
-		<?php if ( mt_get_ticket_method( $ticket_id ) != 'eticket' ) { ?>
+		<?php if ( 'eticket' != mt_get_ticket_method( $ticket_id ) ) { ?>
 			<div class='post-thumbnail'>
 				<?php mt_logo( array(), get_the_ID() ); ?>
 			</div>
 		<?php } else { ?>
 			<div class='ticket-qrcode'>
-				<img src="<?php mt_ticket_qrcode( $ticket_id ); ?>" alt="<?php __('QR Code Verification Link', 'my-tickets'); ?>"/>
+				<img src="<?php mt_ticket_qrcode( $ticket_id ); ?>" alt="<?php __( 'QR Code Verification Link', 'my-tickets' ); ?>"/>
 			</div>
 		<?php } ?>
 		<div class="ticket-data">
@@ -56,28 +58,34 @@ foreach( $purchases as $ticket_id ) {
 			<div class='ticket-venue'>
 				<?php mt_ticket_venue( $ticket_id ); ?>
 			</div>
-			<?php if (mt_get_ticket_method( $ticket_id ) != 'eticket') { ?>
+			<?php
+            if ( 'eticket' != mt_get_ticket_method( $ticket_id ) ) {
+                ?>
 				<div class='ticket-qrcode'>
 					<img src="<?php mt_ticket_qrcode( $ticket_id ); ?>" alt="QR Code Verification Link"/>
 				</div>
-			<?php } ?>
+			<?php
+			}
+			?>
 			<div class='post-content'>
 				<?php
 				$content = get_the_content();
-				if ( trim( strip_tags( $content ) ) == '' ) {
+				if ( '' == trim( strip_tags( $content ) ) ) {
 					$content = ( current_user_can( 'edit_pages' ) ) ? __('Add your custom text into the post content.', 'my-tickets' ) : '';
 				}
 				echo $content;
 				?>
 				<?php edit_post_link(); ?>
 			</div>
-			<?php if (mt_get_ticket_method( $ticket_id ) == 'eticket') { ?>
+			<?php if ( 'eticket' == mt_get_ticket_method( $ticket_id ) ) { ?>
 				<div class='post-thumbnail'>
-					<?php if ( has_post_thumbnail() ) { ?>
-						<?php the_post_thumbnail(); ?>
-					<?php } else { ?>
-						<?php mt_logo(); ?>
-					<?php } ?>
+					<?php
+                    if ( has_post_thumbnail() ) {
+					    the_post_thumbnail();
+					} else {
+					    mt_logo();
+					}
+					?>
 				</div>
 			<?php } ?>
 			<div class='ticket_id'>
@@ -91,7 +99,7 @@ foreach( $purchases as $ticket_id ) {
 <?php
 }
 
-if ( mt_get_ticket_method( $ticket_id ) == 'printable' ) {
+if ( 'printable' == mt_get_ticket_method( $ticket_id ) ) {
 	?>
 	<a href="javascript:window.print()" class="print">Print</a>
 <?php

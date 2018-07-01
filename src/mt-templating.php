@@ -9,6 +9,10 @@
  * @link     https://www.joedolson.com/my-tickets/
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly.
+
 require_once( 'includes/phpqrcode/qrlib.php' );
 
 /**

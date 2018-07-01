@@ -7,10 +7,12 @@
  * @author   Joe Dolson
  * @license  GPLv2 or later
  * @link     https://www.joedolson.com/my-tickets/
- */?>
+ */
+
+?>
 <html>
 <head>
-	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Tickets', 'my-tickets' ); ?> &bull; <?php mt_ticket_id() ?></title>
+	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Tickets', 'my-tickets' ); ?> &bull; <?php mt_ticket_id(); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="<?php echo plugins_url( 'css/generic.css', __FILE__ ); ?>"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo plugins_url( 'css/ticket.css', __FILE__ ); ?>"/>
@@ -19,13 +21,11 @@
 <div class='panel ticket <?php mt_ticket_method(); ?>'>
 	<div class='inside'>
 		<?php
-		/*
-		 * Template the ticket
-		 */
 		// load data from the Tickets Page.
 		if ( have_posts() ) : while ( have_posts() ) : the_post();
 			?>
-			<?php if ( mt_get_ticket_method() != 'eticket' ) { ?>
+			<?php if ( mt_get_ticket_method() != 'eticket' ) {
+				?>
 				<div class='post-thumbnail'>
 					<?php mt_logo( array(), get_the_ID() ); ?>
 				</div>

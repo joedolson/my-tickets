@@ -141,11 +141,21 @@ function mt_settings() {
 													<legend><?php _e( 'Sent to administrators', 'my-tickets' ); ?></legend>
 													<ul>
 														<li>
-															<label for="mt_messages_<?php echo $type; ?>_admin_subject"><?php printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type ); ?></label><br/>
+															<label for="mt_messages_<?php echo $type; ?>_admin_subject">
+																<?php
+																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
+																printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type );
+																?>
+															</label><br/>
 															<input type="text" name="mt_messages[<?php echo $type; ?>][admin][subject]" id="mt_messages_<?php echo $type; ?>_admin_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
 														</li>
 														<li>
-															<label for="mt_messages_<?php echo $type; ?>_admin_body"><?php printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type ); ?></label><br/>
+															<label for="mt_messages_<?php echo $type; ?>_admin_body">
+																<?php
+																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
+																printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type );
+																?>
+															</label><br/>
 															<textarea name="mt_messages[<?php echo $type; ?>][admin][body]" id="mt_messages_<?php echo $type; ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
 														</li>
 													</ul>
@@ -154,11 +164,21 @@ function mt_settings() {
 													<legend><?php _e( 'Sent to purchaser', 'my-tickets' ); ?></legend>
 													<ul>
 														<li>
-															<label for="mt_messages_<?php echo $type; ?>_purchaser_subject"><?php printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type ); ?></label><br/>
+															<label for="mt_messages_<?php echo $type; ?>_purchaser_subject">
+																<?php
+																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
+																printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type );
+																?>
+															</label><br/>
 															<input type="text" name="mt_messages[<?php echo $type; ?>][purchaser][subject]" id="mt_messages_<?php echo $type; ?>_purchaser_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
 														</li>
 														<li>
-															<label for="mt_messages_<?php echo $type; ?>_purchaser_body"><?php printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type ); ?></label><br/>
+															<label for="mt_messages_<?php echo $type; ?>_purchaser_body">
+																<?php
+																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
+																printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type );
+																?>
+															</label><br/>
 															<textarea name="mt_messages[<?php echo $type; ?>][purchaser][body]" id="mt_messages_<?php echo $type; ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
 														</li>
 													</ul>
@@ -202,7 +222,12 @@ function mt_settings() {
 									$tags      = array_map( 'mt_array_code', $tags );
 									$available = implode( ', ', $tags );
 									?>
-									<p><em><?php _e( "Available template tags: $available", 'my-tickets' ); ?></em></p>
+									<p><em>
+									<?php
+									// Translators: list of template tags.
+									printf( __( 'Available template tags: %s', 'my-tickets' ), $available );
+									?>
+									</em></p>
 								</div>
 
 								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
@@ -301,7 +326,7 @@ add_action( 'admin_print_footer_scripts', 'mt_report_scripts' );
  * Enqueue footer scripts in report view.
  */
 function mt_report_scripts() {
-	if ( isset( $_GET[ 'mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
+	if ( isset( $_GET['mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
 		$script_path = apply_filters( 'mt_printable_report_js', plugins_url( 'js/report.js', __FILE__ ) );
 		echo "<script>mt_action_text = '" . __( 'Hide Column', 'my-tickets' ) . "';</script>";
 		echo "<script src='$script_path'></script>";

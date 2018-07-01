@@ -17,13 +17,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Register short cart widget.
  */
 function mt_register_widgets() {
-	register_widget( 'mt_short_cart_widget' );
+	register_widget( 'Mt_Short_Cart_Widget' );
 }
 add_action( 'widgets_init', 'mt_register_widgets' );
 
-class mt_short_cart_widget extends WP_Widget {
+/**
+ * My Tickets Short Cart widget class
+ *
+ * @category  Widgets
+ * @package   My Tickets
+ * @author    Joe Dolson
+ * @copyright 2015
+ * @license   GPLv2 or later
+ * @version   1.0
+ */
+class Mt_Short_Cart_Widget extends WP_Widget {
 	/**
-	 * mt_short_cart_widget constructor.
+	 * Mt_Short_Cart_Widget constructor.
 	 */
 	function __construct() {
 		parent::__construct( false, $name = __( 'My Tickets: Quick Cart', 'my-tickets' ), array( 'customize_selective_refresh' => true ) );
@@ -62,7 +72,7 @@ class mt_short_cart_widget extends WP_Widget {
 		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title','my-tickets' ); ?>:</label><br />
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'my-tickets' ); ?>:</label><br />
 			<input class="widefat" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>"/>
 		</p>
 		<?php

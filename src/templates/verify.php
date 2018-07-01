@@ -8,10 +8,11 @@
  * @license  GPLv2 or later
  * @link     https://www.joedolson.com/my-tickets/
  */
+
 ?>
 <html>
 <head>
-	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Verify Ticket', 'my-tickets' ); ?> &bull; <?php mt_ticket_id() ?></title>
+	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Verify Ticket', 'my-tickets' ); ?> &bull; <?php mt_ticket_id(); ?></title>
 	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 	<link type="text/css" rel="stylesheet" href="<?php echo plugins_url( 'css/generic.css', __FILE__ ); ?>"/>
 </head>

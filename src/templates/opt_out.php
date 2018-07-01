@@ -8,6 +8,7 @@
  * @license  GPLv2 or later
  * @link     https://www.joedolson.com/my-tickets/
  */
+
 ?>
 <html>
 <head>
