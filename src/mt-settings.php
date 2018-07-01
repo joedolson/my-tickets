@@ -184,7 +184,7 @@ function mt_settings() {
 													</ul>
 												</fieldset>
 											</div>
-										<?php
+											<?php
 										}
 										?>
 									</div>
@@ -241,15 +241,15 @@ function mt_settings() {
 					<div class="postbox">
 						<h3><?php _e( 'Premium Add-on License Keys', 'my-tickets' ); ?></h3>
 						<?php
-							if ( isset( $_POST['mt_license_keys'] ) && wp_verify_nonce( $_POST['_wpnonce_tickets'], 'my-tickets-licensing' ) ) {
-								echo "<div class='updated'><ul>" . apply_filters( 'mt_save_license', '', $_POST ) . '</ul></div>';
-							}
+						if ( isset( $_POST['mt_license_keys'] ) && wp_verify_nonce( $_POST['_wpnonce_tickets'], 'my-tickets-licensing' ) ) {
+							echo "<div class='updated'><ul>" . apply_filters( 'mt_save_license', '', $_POST ) . '</ul></div>';
+						}
 						?>
 						<div class="inside">
 							<?php
 							$fields = apply_filters( 'mt_license_fields', '' );
 							if ( '' != $fields ) {
-							?>
+								?>
 							<form method="post" action="<?php echo admin_url( 'admin.php?page=my-tickets' ); ?>">
 								<div>
 									<input type="hidden" name="mt_license_keys" value="saved" />
@@ -260,7 +260,7 @@ function mt_settings() {
 							</ul>
 								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save License Keys', 'my-tickets' ); ?>"/></p>
 							</form>
-							<?php
+								<?php
 							} else {
 								echo '<p>' . __( 'If you install any My Tickets Premium Add-ons, the license fields will appear here.', 'my-tickets' ) . '</p>';
 							}

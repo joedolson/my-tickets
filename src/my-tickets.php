@@ -1,17 +1,29 @@
 <?php
-/*
-Plugin Name: My Tickets
-Plugin URI: http://www.joedolson.com/my-tickets/
-Description: Sell Tickets and take registrations for your events. Integrates with My Calendar.
-Author: Joseph C Dolson
-Author URI: http://www.joedolson.com
-Text Domain: my-tickets
-Domain Path: lang
-Version: 1.7.3
-*/
-/*  Copyright 2014-2018  Joe Dolson (email : joe@joedolson.com)
+/**
+ * My Tickets, Accessible ticket sales for WordPress
+ *
+ * @package     My Tickets
+ * @author      Joe Dolson
+ * @copyright   2014-2018 Joe Dolson
+ * @license     GPL-2.0+
+ *
+ * @wordpress-plugin
+ * Plugin Name: My Tickets
+ * Plugin URI:  http://www.joedolson.com/my-tickets/
+ * Description: Sell Tickets and take registrations for your events. Integrates with My Calendar.
+ * Author:      Joseph C Dolson
+ * Author URI:  http://www.joedolson.com
+ * Text Domain: my-tickets
+ * License:     GPL-2.0+
+ * License URI: http://www.gnu.org/license/gpl-2.0.txt
+ * Domain Path: lang
+ * Version:     1.7.3
+ */
 
-	This program is open source software; you can redistribute it and/or modify
+/*
+	Copyright 2009-2018  Joe Dolson (email : joe@joedolson.com)
+
+	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
@@ -331,7 +343,7 @@ We\'ll see you soon!<br />
 
 <p>Amount due: {amount_due}</p>
 ',
-			)
+			),
 		),
 		'failed'    => array(
 			'purchaser' => array(
@@ -341,7 +353,7 @@ We\'ll see you soon!<br />
 			'admin'     => array(
 				'subject' => 'Payment Failed on ticket purchase from {blogname}',
 				'body'    => 'Payment failed on purchase: {receipt}',
-			)
+			),
 		),
 		'refunded'  => array(
 			'purchaser' => array(
