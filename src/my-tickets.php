@@ -102,7 +102,7 @@ include( plugin_dir_path( __FILE__ ) . 'mt-ajax.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-tickets.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-receipt.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-shortcodes.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-widgets.php' );
+include( plugin_dir_path( __FILE__ ) . 'class-mt-short-cart-widget.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-button.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-templating.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-settings.php' );
