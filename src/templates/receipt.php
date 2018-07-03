@@ -22,7 +22,7 @@
 	<?php
 	// load data from the Receipts Page.
 	if ( have_posts() ) : while ( have_posts() ) : the_post();
-		?>
+			?>
 		<div class='post-thumbnail'>
 			<?php if ( has_post_thumbnail() ) { ?>
 				<?php the_post_thumbnail(); ?>
@@ -40,13 +40,11 @@
 			?>
 			<?php edit_post_link(); ?>
 		</div>
-	<?php
+			<?php
 	endwhile;
 	endif;
 
-	/*
-	 * Template the receipt
-	 */
+	// Receipt template.
 	?>
 	<h1><?php _e( 'Receipt', 'my-tickets' ); ?></h1>
 

@@ -373,9 +373,24 @@ We\'ll see you soon!<br />
 		'reg_expires'     => '3',
 		'multiple'        => 'true',
 		'pricing'         => array(
-			'adult'          => array( 'label' => 'Adult', 'price' => '', 'tickets' => '', 'sold' => '' ),
-			'senior-student' => array( 'label' => 'Senior/Student', 'price' => '', 'tickets' => '', 'sold' => '' ),
-			'child'          => array( 'label' => 'Child', 'price' => '', 'tickets' => '', 'sold' => '' ),
+			'adult'          => array(
+				'label' => 'Adult',
+				'price' => '',
+				'tickets' => '',
+				'sold' => '',
+			),
+			'senior-student' => array(
+				'label' => 'Senior/Student',
+				'price' => '',
+				'tickets' => '',
+				'sold' => '',
+			),
+			'child'          => array(
+				'label' => 'Child',
+				'price' => '',
+				'tickets' => '',
+				'sold' => '',
+			),
 		),
 	);
 
@@ -532,9 +547,9 @@ function mt_test_mode() {
 }
 
 /**
- * utility function duplicates my_calendar_date_xcomp; true if first date before second date
+ * Utility function duplicates my_calendar_date_xcomp; true if first date before second date
  *
- * @param string $early Date/time
+ * @param string $early Date/time.
  * @param string $late Second date/time.
  *
  * @return bool
@@ -561,9 +576,9 @@ function mt_show_support_box( $add = false ) {
 
 		<div class="ui-sortable meta-box-sortables">
 			<div class="postbox">
-				<h3><?php _e( 'Support this Plug-in','my-tickets' ); ?></h3>
+				<h3><?php _e( 'Support this Plug-in', 'my-tickets' ); ?></h3>
 				<div id="support" class="inside resources">
-					<?php mt_logo( array( 'class' => 'mt-logo' ) ) ?>
+					<?php mt_logo( array( 'class' => 'mt-logo' ) ); ?>
 					<ul>
 						<li>
 							<p>
@@ -571,7 +586,7 @@ function mt_show_support_box( $add = false ) {
 								<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if (!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 							</p>
 						</li>
-						<li><p><?php _e( '<a href="http://www.joedolson.com/donate/">Make a donation today!</a> Every donation counts - donate $2, $10, or $100 and help me keep this plug-in running!','my-tickets' ); ?></p>
+						<li><p><?php _e( '<a href="http://www.joedolson.com/donate/">Make a donation today!</a> Every donation counts - donate $2, $10, or $100 and help me keep this plug-in running!', 'my-tickets' ); ?></p>
 							<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 								<div>
 									<input type="hidden" name="cmd" value="_s-xclick" />
@@ -596,7 +611,7 @@ function mt_show_support_box( $add = false ) {
 					<p>
 						<?php
 						// Translators: Sales URL.
-						printf( __( 'Want to do more with My Tickets? <a href="%s">Premium add-ons are available now</a> - with more to come!', 'my-tickets' ), "https://www.joedolson.com/my-tickets/add-ons/" );
+						printf( __( 'Want to do more with My Tickets? <a href="%s">Premium add-ons are available now</a> - with more to come!', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' );
 						?>
 					</p>
 				</div>
@@ -612,14 +627,14 @@ function mt_show_support_box( $add = false ) {
 					<ul>
 						<li>
 							<div class="dashicons dashicons-editor-help"></div>
-							<strong><a href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#get-started"><?php _e( 'Getting Started', 'my-tickets' ); ?></strong></a></li>
+							<strong><a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#get-started"><?php _e( 'Getting Started', 'my-tickets' ); ?></strong></a></li>
 						<li>
 							<div class="dashicons dashicons-editor-help"></div>
-							<a href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#get-support"><?php _e( 'Get Support', 'my-tickets' ); ?></a>
+							<a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#get-support"><?php _e( 'Get Support', 'my-tickets' ); ?></a>
 						</li>
 						<li>
 							<div class="dashicons dashicons-editor-help"></div>
-							<a href="<?php echo admin_url( "admin.php?page=mt-help" ); ?>#faq"><?php _e( 'My Tickets FAQ', 'my-tickets' ); ?></a>
+							<a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#faq"><?php _e( 'My Tickets FAQ', 'my-tickets' ); ?></a>
 						</li>
 						<li>
 							<div class="dashicons dashicons-book-alt"></div>
@@ -718,15 +733,15 @@ function mt_user_profile() {
 	if ( current_user_can ( 'manage_options' ) ) {
 		echo '<h3>' . __( 'Grant My Tickets Permissions', 'my-tickets' ) . '</h3>';
 		$caps    = array(
-				'mt-verify-ticket' =>__( 'Can verify tickets', 'my-tickets' ),
-				'mt-order-expired' =>__( 'Can place orders after expiration dates.', 'my-tickets' ),
-				'mt-view-reports'  =>__( 'Can view reports', 'my-tickets' ),
-				'mt-copy-cart'     =>__( 'Can import user shopping carts', 'my-tickets' ),
-				'mt-order-comps'   => __( 'Can order complimentary tickets', 'my-tickets' ),
-			);
+			'mt-verify-ticket' => __( 'Can verify tickets', 'my-tickets' ),
+			'mt-order-expired' => __( 'Can place orders after expiration dates.', 'my-tickets' ),
+			'mt-view-reports'  => __( 'Can view reports', 'my-tickets' ),
+			'mt-copy-cart'     => __( 'Can import user shopping carts', 'my-tickets' ),
+			'mt-order-comps'   => __( 'Can order complimentary tickets', 'my-tickets' ),
+		);
 		$options = '';
 		foreach ( $caps as $cap => $label ) {
-			$checked  = ( user_can( $edit_user, $cap ) )  ? ' checked="checked"' : '';
+			$checked  = ( user_can( $edit_user, $cap ) ) ? ' checked="checked"' : '';
 			$options .= "<li><input type='checkbox' name='mt_capabilities[]' value='$cap' id='mt_$cap' $checked /> <label for='mt_$cap'>$label</label></li>";
 		}
 		$options = "<ul>$options</ul>";
@@ -777,7 +792,7 @@ add_action( 'admin_init', 'mt_check_permissions' );
  * Check what permissions current user has and apply as needed.
  */
 function mt_check_permissions() {
-	if ( current_user_can( 'manage_options' ) && !current_user_can( 'mt-verify-ticket' ) ) {
+	if ( current_user_can( 'manage_options' ) && ! current_user_can( 'mt-verify-ticket' ) ) {
 		// if the current user can manage options, they might as well be able to do MT tasks.
 		global $current_user;
 

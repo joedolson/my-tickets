@@ -23,17 +23,20 @@
 		<?php
 		// load data from the Tickets Page.
 		if ( have_posts() ) : while ( have_posts() ) : the_post();
-			?>
-			<?php if ( mt_get_ticket_method() != 'eticket' ) {
+			if ( 'eticket' != mt_get_ticket_method() ) {
 				?>
 				<div class='post-thumbnail'>
 					<?php mt_logo( array(), get_the_ID() ); ?>
 				</div>
-			<?php } else { ?>
+			<?php
+			} else {
+				?>
 				<div class='ticket-qrcode'>
 					<img src="<?php mt_ticket_qrcode(); ?>" alt="<?php __( 'QR Code Verification Link', 'my-tickets' ); ?>"/>
 				</div>
-			<?php } ?>
+			<?php
+			}
+			?>
 			<div class="ticket-data">
 				<h1 class='event-title'>
 					<?php mt_event_title(); ?>
@@ -55,26 +58,34 @@
 					<div class='ticket-qrcode'>
 						<img src="<?php mt_ticket_qrcode(); ?>" alt="QR Code Verification Link"/>
 					</div>
-				<?php } ?>
+				<?php
+				}
+				?>
 				<div class='post-content'>
 					<?php
 					$content = get_the_content();
-					if ( trim( strip_tags( $content ) ) == '' ) {
+					if ( '' == trim( strip_tags( $content ) ) ) {
 						$content = ( current_user_can( 'edit_pages' ) ) ? __( 'Add your custom text into the post content.', 'my-tickets' ) : '';
 					}
 					echo $content;
 					?>
 					<?php edit_post_link(); ?>
 				</div>
-				<?php if ( mt_get_ticket_method() == 'eticket' ) { ?>
+				<?php
+				if ( 'eticket' == mt_get_ticket_method() ) {
+					?>
 					<div class='post-thumbnail'>
-						<?php if ( has_post_thumbnail() ) { ?>
-							<?php the_post_thumbnail(); ?>
-						<?php } else { ?>
-							<?php mt_logo(); ?>
-						<?php } ?>
+						<?php
+						if ( has_post_thumbnail() ) {
+							the_post_thumbnail();
+						} else {
+							mt_logo();
+						}
+						?>
 					</div>
-				<?php } ?>
+				<?php
+				}
+				?>
 				<div class='ticket_id'>
 					<?php mt_ticket_id(); ?>
 				</div>
@@ -87,8 +98,12 @@
 
 	</div>
 </div>
-<?php if ( mt_get_ticket_method() == 'printable' ) { ?>
+<?php
+if ( 'printable' == mt_get_ticket_method() ) {
+	?>
 	<a href="javascript:window.print()" class="print">Print</a>
-<?php } ?>
+	<?php
+}
+?>
 </body>
 </html>
