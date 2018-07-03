@@ -260,11 +260,15 @@ function mt_add_uneditable() {
 			$dispute_data = '';
 		}
 
-		$receipt  = get_post_meta( $post_id, '_receipt', true );
-		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-		$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
-		$purchase = get_post_meta( $post_id, '_purchased' );
-		$discount = get_post_meta( $post_id, '_discount', true );
+		$receipt      = get_post_meta( $post_id, '_receipt', true );
+		$options      = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+		$link         = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
+		$bulk_tickets = add_query_arg( array(
+			'receipt_id' => $receipt,
+			'multiple'   => true,
+		), get_permalink( $options['mt_tickets_page'] ) );
+		$purchase     = get_post_meta( $post_id, '_purchased' );
+		$discount     = get_post_meta( $post_id, '_discount', true );
 		// Translators: Quantity of member discount.
 		$discount_text = ( '' != $discount ) ? sprintf( __( ' @ %d&#37; member discount', 'my-tickets' ), $discount ) : '';
 
@@ -273,7 +277,7 @@ function mt_add_uneditable() {
 		// Translators: Amount still owed on this transaction.
 		$owed             = ( 'Pending' == $status ) ? "<div class='mt-owed'>" . sprintf( __( 'Owed: %s', 'my-tickets' ), $total ) . '</div>' : '';
 		$tickets          = mt_setup_tickets( $purchase, $post_id );
-		$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h4>" . __( 'Tickets', 'my-tickets' ) . '</h4>' . mt_format_tickets( $tickets, 'html', $post_id ) . '</div></div>';
+		$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h4>" . __( 'Tickets', 'my-tickets' ) . '</h4>' . mt_format_tickets( $tickets, 'html', $post_id ) . '<br /><a href="' . $bulk_tickets . '">View All Tickets</a></div></div>';
 		$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
 		$gateway          = get_post_meta( $post_id, '_gateway', true );
 		$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h4>" . __( 'Paid through:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h4>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . '</div></div>';
