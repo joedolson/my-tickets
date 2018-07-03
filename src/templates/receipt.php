@@ -21,28 +21,30 @@
 <div class='panel receipt'>
 	<?php
 	// load data from the Receipts Page.
-	if ( have_posts() ) : while ( have_posts() ) : the_post();
+	if ( have_posts() ) {
+		while ( have_posts() ) {
+			the_post();
 			?>
-		<div class='post-thumbnail'>
-			<?php if ( has_post_thumbnail() ) { ?>
-				<?php the_post_thumbnail(); ?>
-			<?php } else { ?>
-				<?php mt_logo(); ?>
-			<?php } ?>
-		</div>
-		<div class='post-content'>
+			<div class='post-thumbnail'>
+				<?php if ( has_post_thumbnail() ) { ?>
+					<?php the_post_thumbnail(); ?>
+				<?php } else { ?>
+					<?php mt_logo(); ?>
+				<?php } ?>
+			</div>
+			<div class='post-content'>
+				<?php
+				$content = get_the_content();
+				if ( trim( strip_tags( $content ) ) == '' ) {
+					$content = ( current_user_can( 'edit_pages' ) ) ? wpautop( __( 'Add your business name and address to the post content.', 'my-tickets' ) ) : '';
+				}
+				echo wpautop( $content );
+				?>
+				<?php edit_post_link(); ?>
+			</div>
 			<?php
-			$content = get_the_content();
-			if ( trim( strip_tags( $content ) ) == '' ) {
-				$content = ( current_user_can( 'edit_pages' ) ) ? wpautop( __( 'Add your business name and address to the post content.', 'my-tickets' ) ) : '';
-			}
-			echo wpautop( $content );
-			?>
-			<?php edit_post_link(); ?>
-		</div>
-			<?php
-	endwhile;
-	endif;
+		}
+	}
 
 	// Receipt template.
 	?>

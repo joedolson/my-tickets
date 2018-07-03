@@ -39,8 +39,7 @@ if ( have_posts() ) {
 					} else {
 						?>
 						<div class='ticket-qrcode'>
-							<img src="<?php mt_ticket_qrcode( $ticket_id ); ?>"
-								 alt="<?php __( 'QR Code Verification Link', 'my-tickets' ); ?>"/>
+							<img src="<?php mt_ticket_qrcode( $ticket_id ); ?>" alt="<?php __( 'QR Code Verification Link', 'my-tickets' ); ?>"/>
 						</div>
 						<?php
 					}

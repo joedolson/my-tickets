@@ -110,9 +110,6 @@ include( plugin_dir_path( __FILE__ ) . 'mt-payment-settings.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-ticketing-settings.php' );
 
 // Not used by core plug-in; only if premium add-ons are installed.
-// old updater; deprecated.
-require_once( plugin_dir_path( __FILE__ ) . 'updates/plugin-update-checker.php' );
-// new version of updating.
 if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 	require_once( plugin_dir_path( __FILE__ ) . 'updates/EDD_SL_Plugin_Updater.php' );
 }
@@ -661,7 +658,7 @@ function mt_show_support_box( $add = false ) {
 						</div>
 					</div>
 				</div>
-			    <?php
+				<?php
 			}
 		}
 		?>
