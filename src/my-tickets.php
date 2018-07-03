@@ -342,7 +342,7 @@ We\'ll see you soon!<br />
 {address}
 
 <p>Amount due: {amount_due}</p>
-',
+				',
 			),
 		),
 		'failed'    => array(
@@ -364,7 +364,7 @@ We\'ll see you soon!<br />
 				'subject' => 'Purchase from {blogname} has been refunded.',
 				'body'    => 'Payment refunded on purchase: {receipt}',
 			),
-		)
+		),
 	);
 	$ticketing = array(
 		'free'            => '',
@@ -374,22 +374,22 @@ We\'ll see you soon!<br />
 		'multiple'        => 'true',
 		'pricing'         => array(
 			'adult'          => array(
-				'label' => 'Adult',
-				'price' => '',
+				'label'   => 'Adult',
+				'price'   => '',
 				'tickets' => '',
-				'sold' => '',
+				'sold'    => '',
 			),
 			'senior-student' => array(
-				'label' => 'Senior/Student',
-				'price' => '',
+				'label'   => 'Senior/Student',
+				'price'   => '',
 				'tickets' => '',
-				'sold' => '',
+				'sold'    => '',
 			),
 			'child'          => array(
-				'label' => 'Child',
-				'price' => '',
+				'label'   => 'Child',
+				'price'   => '',
 				'tickets' => '',
-				'sold' => '',
+				'sold'    => '',
 			),
 		),
 	);
@@ -472,9 +472,9 @@ function mt_admin_bar() {
 	global $wp_admin_bar;
 	$url  = add_query_arg( 'mt_delete', 'true', home_url() );
 	$args = array(
-		'id' => 'mt_delete',
+		'id'    => 'mt_delete',
 		'title' => __( 'Empty Cart', 'my-tickets' ),
-		'href' => $url,
+		'href'  => $url,
 	);
 	$wp_admin_bar->add_node( $args );
 }
@@ -499,7 +499,7 @@ function mt_setup_page( $slug ) {
 		$post_ID   = wp_insert_post( $page );
 		$post_slug = wp_unique_post_slug( $slug, $post_ID, 'publish', 'page', 0 );
 		wp_update_post( array(
-			'ID' => $post_ID,
+			'ID'        => $post_ID,
 			'post_name' => $post_slug,
 		) );
 	} else {
@@ -661,7 +661,7 @@ function mt_show_support_box( $add = false ) {
 						</div>
 					</div>
 				</div>
-			<?php
+			    <?php
 			}
 		}
 		?>
@@ -730,7 +730,7 @@ function mt_user_profile() {
 		$current_user = wp_get_current_user();
 		$edit_user    = $current_user->ID;
 	}
-	if ( current_user_can ( 'manage_options' ) ) {
+	if ( current_user_can( 'manage_options' ) ) {
 		echo '<h3>' . __( 'Grant My Tickets Permissions', 'my-tickets' ) . '</h3>';
 		$caps    = array(
 			'mt-verify-ticket' => __( 'Can verify tickets', 'my-tickets' ),
