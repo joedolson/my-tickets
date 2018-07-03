@@ -18,9 +18,15 @@ define( 'WP_USE_THEMES', false );
 define( 'SHORTINIT', true );
 if ( file_exists( '../../../../wp-load.php' ) ) {
 	require_once( '../../../../wp-load.php' );
-	require( ABSPATH . WPINC . '/formatting.php' );
-	require( ABSPATH . WPINC . '/link-template.php' );
-	require( ABSPATH . WPINC . '/kses.php' );
+	if ( ! function_exists( 'wptexturize' ) ) {
+		require( ABSPATH . WPINC . '/formatting.php' );
+	}
+	if ( ! function_exists( 'the_permalink' ) ) {
+		require( ABSPATH . WPINC . '/link-template.php' );
+	}
+	if ( ! function_exists( 'wp_kses' ) ) {
+		require( ABSPATH . WPINC . '/kses.php' );
+	}
 	$url = esc_url_raw( add_query_arg( array(
 		'ticket_id' => $ticket,
 		'action'    => 'mt-verify',
