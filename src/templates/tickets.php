@@ -22,21 +22,21 @@
 	<div class='inside'>
 		<?php
 		// load data from the Tickets Page.
-		if ( have_posts() )  {
+		if ( have_posts() ) {
 			while ( have_posts() ) {
 				the_post();
 				if ( 'eticket' != mt_get_ticket_method() ) {
-				?>
+					?>
 				<div class='post-thumbnail'>
 					<?php mt_logo( array(), get_the_ID() ); ?>
 				</div>
-				<?php
+					<?php
 				} else {
-				?>
+					?>
 				<div class='ticket-qrcode'>
 					<img src="<?php mt_ticket_qrcode(); ?>" alt="<?php __( 'QR Code Verification Link', 'my-tickets' ); ?>"/>
 				</div>
-				<?php
+					<?php
 				}
 				?>
 				<div class="ticket-data">
@@ -56,7 +56,9 @@
 					<div class='ticket-venue'>
 						<?php mt_ticket_venue(); ?>
 					</div>
-					<?php if ( mt_get_ticket_method() != 'eticket' ) { ?>
+					<?php
+					if ( mt_get_ticket_method() != 'eticket' ) {
+						?>
 						<div class='ticket-qrcode'>
 							<img src="<?php mt_ticket_qrcode(); ?>" alt="QR Code Verification Link"/>
 						</div>
@@ -64,14 +66,14 @@
 					}
 					?>
 					<div class='post-content'>
-						<?php
-						$content = get_the_content();
-						if ( '' == trim( strip_tags( $content ) ) ) {
-							$content = ( current_user_can( 'edit_pages' ) ) ? __( 'Add your custom text into the post content.', 'my-tickets' ) : '';
-						}
-						echo $content;
-						?>
-						<?php edit_post_link(); ?>
+					<?php
+					$content = get_the_content();
+					if ( '' == trim( strip_tags( $content ) ) ) {
+						$content = ( current_user_can( 'edit_pages' ) ) ? __( 'Add your custom text into the post content.', 'my-tickets' ) : '';
+					}
+					echo $content;
+					?>
+					<?php edit_post_link(); ?>
 					</div>
 					<?php
 					if ( 'eticket' == mt_get_ticket_method() ) {
