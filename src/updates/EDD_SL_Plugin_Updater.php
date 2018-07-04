@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 /**
  * My Tickets updater for premium add-ons.
  *
