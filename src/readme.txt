@@ -67,7 +67,9 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 = 1.7.4 =
 
 * Bug fix: offline payment better redirection
-*
+* New filter to handle post-payment redirection
+* Code sniffing and conformance.
+* Move development to GitHub
 
 = 1.7.3 =
 
