@@ -997,7 +997,12 @@ function mt_opt_out( $template ) {
 		if ( $template ) {
 			return $template;
 		} else {
-			return dirname( __FILE__ ) . '/templates/opt_out.php';
+			$template = locate_template( 'opt-out.php' );
+			if ( locate_template( 'opt-out.php' ) ) {
+				return $template;
+			} else {
+				return dirname( __FILE__ ) . '/templates/opt-out.php';
+			}
 		}
 	}
 
