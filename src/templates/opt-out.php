@@ -1,5 +1,4 @@
 <?php
-// phpcs:ignoreFile
 /**
  * Opt out template.
  *
