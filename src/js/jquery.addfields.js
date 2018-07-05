@@ -27,7 +27,7 @@ jQuery(document).ready(function ($) {
     });
     $('#del_price').attr('disabled', 'disabled');
 
-    $("button.up,button.down").click(function(e){
+    $("button.up,button.down").on( 'click', function(e){
         e.preventDefault();
         $('.mt-pricing table tr').removeClass('fade');
         var row = $(this).parents("tr:first");
@@ -35,6 +35,23 @@ jQuery(document).ready(function ($) {
             row.insertBefore(row.prev()).addClass('fade');
         } else {
             row.insertAfter(row.next()).addClass('fade');
+        }
+    });
+
+    $('.deletable .controls').append( '<button type="button" class="button delete"><span class="dashicons dashicons-no"></span><span class="screen-reader-text">' + mt.delete + '</span></button>' );
+    $('.deletable .controls .delete').on( 'click', function(e) {
+        var is_undo = $( this ).hasClass( 'undo' );
+        var parent = $(this).parents('.deletable');
+        if ( is_undo ) {
+            parent.find('input,button.up,button.down').removeAttr('disabled');
+            parent.find('button.delete').removeClass('undo');
+            parent.find('button.delete .dashicons').removeClass( 'dashicons-undo').addClass('dashicons-no');
+            parent.find('button.delete .screen-reader-text').text(mt.delete);
+        } else {
+            parent.find('input,button.up,button.down').attr('disabled', 'disabled');
+            parent.find('button.delete').addClass('undo');
+            parent.find('button.delete .dashicons').removeClass( 'dashicons-no').addClass('dashicons-undo');
+            parent.find('button.delete .screen-reader-text').text(mt.undo);
         }
     });
 });

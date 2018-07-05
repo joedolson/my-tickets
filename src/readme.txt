@@ -69,6 +69,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 * Bug fix: offline payment better redirection
 * New filter to handle post-payment redirection
 * Code sniffing and conformance.
+* Button to remove ticket types.
 * Move development to GitHub
 
 = 1.7.3 =
