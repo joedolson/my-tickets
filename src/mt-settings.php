@@ -300,10 +300,13 @@ function mt_wp_enqueue_scripts() {
 	}
 	if ( isset( $_GET['page'] ) && 'mt-ticketing' == $_GET['page'] ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
+		wp_localize_script( 'mt.add', 'mt', array(
+			'delete' => __( 'Delete', 'my-tickets' ),
+			'undo'   => __( 'Undo Deletion', 'my-tickets' ),
+		) );
 	}
 	if ( isset( $_GET['page'] ) && 'mt-payment' == $_GET['page'] ) {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
-		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', $options['mt_default_gateway'] );
 		wp_enqueue_script( 'mt.functions', plugins_url( 'js/jquery.functions.js', __FILE__ ), array(
