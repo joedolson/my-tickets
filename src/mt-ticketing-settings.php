@@ -128,8 +128,7 @@ function mt_ticketing_settings() {
 								$shipping                = $options['mt_shipping'];
 								$form                   .= "<p class='shipping'><label for='mt_shipping'>" . __( 'Shipping Cost for Postal Mail', 'my-tickets' ) . "</label> <input name='mt_shipping' id='mt_shipping' type='text' size='4' value='$shipping' /></p>";
 								$shipping_time           = $options['mt_shipping_time'];
-								$input_type              = ( ! is_int( $shipping_time ) ) ? 'text' : 'number';
-								$form                   .= "<p class='shipping'><label for='mt_shipping_time'>" . __( 'Approximate Shipping Time for Postal Mail (days)', 'my-tickets' ) . "</label> <input name='mt_shipping_time' id='mt_shipping_time' type='$input_type' min='1' size='4' value='$shipping_time' /></p>";
+								$form                   .= "<p class='shipping'><label for='mt_shipping_time'>" . __( 'Approximate Shipping Time for Postal Mail (days)', 'my-tickets' ) . "</label> <input name='mt_shipping_time' id='mt_shipping_time' type='text' value='$shipping_time' /></p>";
 								$mt_collect_shipping     = ( isset( $options['mt_collect_shipping'] ) ) ? $options['mt_collect_shipping'] : 'false';
 								$form                   .= "<p class='handling ticket-collect-shipping'><label for='mt_collect_shipping'>" . __( 'Always collect shipping address', 'my-tickets' ) . "</label> <input name='mt_collect_shipping' id='mt_collect_shipping' type='checkbox' value='true'" . checked( $mt_collect_shipping, 'true', false ) . ' /></p>';
 								$handling                = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : '';
