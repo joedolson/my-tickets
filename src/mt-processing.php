@@ -334,7 +334,7 @@ function mt_prices_table( $registration = array() ) {
 				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";
 			}
 			if ( $label ) {
-				$class   = ( $options['sold'] != 0 || sanitize_title( $options['label'] ) == 'complimentary' ) ? 'undeletable' : 'deletable';
+				$class   = ( 0 != $options['sold'] || 'complimentary' == sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
 				$return .= "
 				<tr class='$class'>
 					<td class='controls'>
