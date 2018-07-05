@@ -51,7 +51,8 @@ before_script:
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
       composer global require wp-coding-standards/wpcs
-      phpcs --ignore=*/phpqrcode/* --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+      phpcs --ignore=*/phpqrcode/* installed_paths
     fi
 
 script:
