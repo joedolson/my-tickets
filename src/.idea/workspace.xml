@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ea63222-62f2-4551-a4f9-da5c5431eb39" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/mt-ticketing-settings.php" afterPath="$PROJECT_DIR$/mt-ticketing-settings.php" />
+      <change beforePath="$PROJECT_DIR$/my-tickets.php" afterPath="$PROJECT_DIR$/my-tickets.php" />
+      <change beforePath="$PROJECT_DIR$/readme.txt" afterPath="$PROJECT_DIR$/readme.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -133,11 +133,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mt-ticketing-settings.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mt-ticketing-settings.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mt-ticketing-settings.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="129" column="88" lean-forward="true" selection-start-line="129" selection-start-column="88" selection-end-line="129" selection-end-column="88" />
+            <state relative-caret-position="373">
+              <caret line="120" column="49" lean-forward="false" selection-start-line="120" selection-start-column="49" selection-end-line="120" selection-end-column="49" />
               <folding>
                 <marker date="1530818780338" expanded="true" signature="5831:6012" ph="..." />
                 <marker date="1530818780338" expanded="true" signature="9924:10438" ph="..." />
@@ -150,19 +150,31 @@
       <file leaf-file-name="readme.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/readme.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="71" column="32" lean-forward="true" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
+            <state relative-caret-position="136">
+              <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opt_out.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/opt_out.php">
+      <file leaf-file-name="my-tickets.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/my-tickets.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="7" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="374">
+              <caret line="22" column="2" lean-forward="true" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
+              <folding>
+                <element signature="e#6#610#0#PHP" expanded="true" />
+                <marker date="1530895143277" expanded="true" signature="7461:7756" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="7911:8293" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="8387:8646" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="11198:11260" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="11264:11279" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="11283:11298" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="11359:11402" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="11512:11561" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="11565:11580" ph="..." />
+                <marker date="1530895143277" expanded="true" signature="11584:11599" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -206,10 +218,11 @@
       <find>opt_out.php</find>
       <find>opt_out</find>
       <find>.addfields.</find>
-      <find>mt-pricing</find>
       <find>addfields</find>
       <find>approximate shipping</find>
       <find>mt_shipping_time</find>
+      <find>dark</find>
+      <find>mt-pricing</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -242,17 +255,17 @@
         <option value="$PROJECT_DIR$/includes/qrcode.php" />
         <option value="$PROJECT_DIR$/templates/bulk-tickets.php" />
         <option value="$PROJECT_DIR$/templates/receipt.php" />
-        <option value="$PROJECT_DIR$/my-tickets.php" />
         <option value="$PROJECT_DIR$/templates/tickets.php" />
         <option value="$PROJECT_DIR$/updates/EDD_SL_Plugin_Updater.php" />
         <option value="$PROJECT_DIR$/templates/opt_out.php" />
         <option value="$PROJECT_DIR$/templates/opt-out.php" />
         <option value="$PROJECT_DIR$/mt-reports.php" />
-        <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/js/jquery.addfields.js" />
         <option value="$PROJECT_DIR$/mt-processing.php" />
         <option value="$PROJECT_DIR$/mt-settings.php" />
         <option value="$PROJECT_DIR$/mt-ticketing-settings.php" />
+        <option value="$PROJECT_DIR$/readme.txt" />
+        <option value="$PROJECT_DIR$/my-tickets.php" />
       </list>
     </option>
   </component>
@@ -380,12 +393,12 @@
       <option name="presentableId" value="Default" />
       <updated>1530049909075</updated>
       <workItem from="1530049910292" duration="53608000" />
-      <workItem from="1530462249557" duration="18768000" />
+      <workItem from="1530462249557" duration="20008000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72376000" />
+    <option name="totallyTimeSpent" value="73616000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -573,25 +586,17 @@
         <state relative-caret-position="1309">
           <caret line="86" column="55" lean-forward="true" selection-start-line="86" selection-start-column="55" selection-end-line="86" selection-end-column="55" />
           <folding>
-            <marker date="1530655102027" expanded="true" signature="7461:7756" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="7911:8293" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="8387:8646" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11198:11260" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11264:11279" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11283:11298" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11359:11402" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11512:11561" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11565:11580" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11584:11599" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20418:20599" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20428:20599" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20439:20599" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20665:20817" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20877:21021" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="21084:21206" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="21268:21388" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="21626:21707" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="21653:21707" ph="..." />
+            <element signature="e#6#610#0#PHP" expanded="true" />
+            <marker date="1530895143277" expanded="true" signature="7461:7756" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="7911:8293" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="8387:8646" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11198:11260" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11264:11279" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11283:11298" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11359:11402" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11512:11561" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11565:11580" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11584:11599" ph="..." />
           </folding>
         </state>
       </provider>
@@ -834,34 +839,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/my-tickets.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="117" column="30" lean-forward="false" selection-start-line="117" selection-start-column="30" selection-end-line="117" selection-end-column="30" />
-          <folding>
-            <marker date="1530655102027" expanded="true" signature="7461:7756" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="7911:8293" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="8387:8646" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11198:11260" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11264:11279" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11283:11298" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11359:11402" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11512:11561" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11565:11580" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="11584:11599" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20418:20599" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20428:20599" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20439:20599" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20665:20817" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="20877:21021" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="21084:21206" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="21268:21388" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="21626:21707" ph="..." />
-            <marker date="1530655102027" expanded="true" signature="21653:21707" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/tickets.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -952,14 +929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="71" column="32" lean-forward="true" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/jquery.showfields.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1017,12 +986,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mt-ticketing-settings.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="129" column="88" lean-forward="true" selection-start-line="129" selection-start-column="88" selection-end-line="129" selection-end-column="88" />
+        <state relative-caret-position="373">
+          <caret line="120" column="49" lean-forward="false" selection-start-line="120" selection-start-column="49" selection-end-line="120" selection-end-column="49" />
           <folding>
             <marker date="1530818780338" expanded="true" signature="5831:6012" ph="..." />
             <marker date="1530818780338" expanded="true" signature="9924:10438" ph="..." />
             <marker date="1530818780338" expanded="true" signature="10624:11192" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my-tickets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="2" lean-forward="true" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
+          <folding>
+            <element signature="e#6#610#0#PHP" expanded="true" />
+            <marker date="1530895143277" expanded="true" signature="7461:7756" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="7911:8293" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="8387:8646" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11198:11260" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11264:11279" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11283:11298" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11359:11402" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11512:11561" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11565:11580" ph="..." />
+            <marker date="1530895143277" expanded="true" signature="11584:11599" ph="..." />
           </folding>
         </state>
       </provider>
