@@ -6,7 +6,7 @@ Requires at least: 4.4
 Tested up to: 4.9
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 
 My Tickets is an easy-to-use, flexible platform for selling event tickets with WordPress.
 
@@ -63,6 +63,11 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
 == Changelog ==
+
+= 1.7.5 =
+
+* Bug fix: misc.issues in offline gateway
+* Change: unify behavior of offline gateway with other gateways to eliminate code exceptions and related issues...
 
 = 1.7.4 =
 
