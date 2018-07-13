@@ -18,14 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param array $post POST data.
  *
- * @return bool|string|void
+ * @return bool|string
  */
 function mt_update_settings( $post ) {
 	if ( isset( $post['mt-submit-settings'] ) ) {
 		$nonce = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : false;
-		if ( ! $nonce ) {
-			return;
-		}
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets' ) ) {
 			return false;
 		}
@@ -78,7 +75,7 @@ function mt_settings() {
 		} else {
 			$selected = '';
 		}
-		$mt_post_type_options .= "<li><input type='checkbox' name='mt_post_types[]' id='mt_$type->name' value='$type->name'$selected> <label for='mt_$type->name'>" . $type->labels->name . '</label></li>';
+		$mt_post_type_options .= "<li><input type='checkbox' name='mt_post_types[]' id='mt_$type->name' value='$type->name' $selected> <label for='mt_$type->name'>" . $type->labels->name . '</label></li>';
 	}
 	?>
 	<div class="wrap my-tickets" id="mt_settings">

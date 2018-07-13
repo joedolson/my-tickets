@@ -412,7 +412,9 @@ function mt_generate_cart( $user_ID = false ) {
 	$gateway     = isset( $_POST['mt_gateway'] ) ? $_POST['mt_gateway'] : false;
 	$type        = isset( $_POST['ticketing_method'] ) ? $_POST['ticketing_method'] : false;
 	$breadcrumbs = mt_generate_path( $gateway );
-	if ( $gateway && ( 'offline' != $gateway || 'postal' == $type || mt_always_collect_shipping() ) ) {
+	// TODO: If gateway is offline, mt_generate_gateway is never run. Use mt_generate_gateway to create button in both cases.
+	// Need to handle the case where multiple gateways are available, however; can't display the gateway until after gateway is selected.
+	if ( $gateway ) {
 		$response = mt_update_cart( $_POST['mt_cart_order'] );
 		$cart     = $response['cart'];
 		$output   = mt_generate_gateway( $cart );
@@ -448,7 +450,8 @@ function mt_generate_cart( $user_ID = false ) {
 			foreach ( $custom_fields as $key => $field ) {
 				$custom_output .= $field;
 			}
-			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart ) . "\n" . $custom_output . "\n<p class='mt_submit'><input type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Place Order', 'my-tickets' ), $current_gate ) . "' /></p>\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_gateways() . mt_copy_cart() . '</div>';
+			$button  = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Review cart and make payment', 'my-tickets' ), $current_gate ) . "' /></p>";
+			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart ) . "\n" . $custom_output . "\n$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_gateways() . mt_copy_cart() . '</div>';
 		} else {
 			do_action( 'mt_cart_is_empty' );
 			// clear POST data to prevent re-submission of data.
@@ -483,23 +486,6 @@ function mt_copy_cart() {
 	}
 
 	return '';
-}
-
-add_filter( 'mt_submit_button_text', 'mt_submit_button_text', 10, 2 );
-/**
- * Filter button text based on gateway selected.
- *
- * @param string $text Text message.
- * @param string $gateway Gateway identifier.
- *
- * @return string
- */
-function mt_submit_button_text( $text, $gateway ) {
-	if ( 'offline' != $gateway ) {
-		return __( 'Review cart and make payment', 'my-tickets' );
-	}
-
-	return $text;
 }
 
 add_filter( 'mt_link_title', 'mt_core_link_title', 10, 2 );
@@ -727,6 +713,7 @@ function mt_generate_gateway( $cart ) {
 		$mt_gateway     = ( isset( $_POST['mt_gateway'] ) ) ? $_POST['mt_gateway'] : 'offline';
 		$other_charges  = apply_filters( 'mt_custom_charges', 0, $cart, $mt_gateway );
 		$other_notices  = apply_filters( 'mt_custom_notices', '', $cart, $mt_gateway );
+		// If everything in cart is free, don't pass through payment gateway.
 		if ( 0 == $total + $shipping_total + $handling_total + $other_charges && 'offline' != $mt_gateway ) {
 			$mt_gateway = 'offline';
 		}

@@ -32,16 +32,8 @@ function mt_handle_cart() {
 		if ( $payment ) {
 			// Handle custom fields added to cart form.
 			do_action( 'mt_handle_custom_cart_data', $payment, $_POST );
-			if ( isset( $_POST['mt_gateway'] ) && 'offline' == $_POST['mt_gateway'] && ( ! isset( $_POST['ticketing_method'] ) || 'postal' != $_POST['ticketing_method'] ) && ! mt_always_collect_shipping() ) {
-				mt_save_data( $payment, 'offline-payment' );
-				// if this is offline payment with no shipping info collected, we're done.
-				mt_register_message( 'payment_due', 'success', $payment );
-				mt_delete_data( 'cart' );
-				mt_delete_data( 'payment' );
-			} else {
-				if ( ! ( mt_get_data( 'payment' ) ) ) {
-					mt_save_data( $payment, 'payment' );
-				}
+			if ( ! ( mt_get_data( 'payment' ) ) ) {
+				mt_save_data( $payment, 'payment' );
 			}
 		} else {
 			mt_register_message( 'payment', 'error' );

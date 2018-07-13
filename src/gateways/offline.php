@@ -97,7 +97,8 @@ function mt_gateway_offline( $form, $gateway, $args ) {
 		<input type='hidden' name='mt_item' value='" . esc_attr( $payment_id ) . "' />
 		<input type='hidden' name='mt_amount' value='" . esc_attr( $total ) . "' />
 		<input type='hidden' name='mt_shipping' value='" . esc_attr( $shipping_price ) . "' />
-		<input type='hidden' name='mt_currency' value='" . esc_attr( $currency ) . "' />";
+		<input type='hidden' name='mt_currency' value='" . esc_attr( $currency ) . "' />
+		<input type='hidden' name='mt_gateway_offline' value='true' />";
 		$form    .= mt_render_field( 'address', 'offline' );
 		$form    .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Complete Reservation', 'my-tickets' ), $gateway ) ) . "' />";
 		$form    .= apply_filters( 'mt_offline_form', '', $gateway, $args );
@@ -112,7 +113,7 @@ add_action( 'wp_loaded', 'mt_offline_processor' );
  *  Process posted data from Offline payment.
  */
 function mt_offline_processor() {
-	if ( isset( $_POST['mt_gateway'] ) && 'offline' == $_POST['mt_gateway'] ) {
+	if ( isset( $_POST['mt_gateway_offline'] ) && 'true' == $_POST['mt_gateway_offline'] ) {
 		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$response      = 'VERIFIED';
 		$response_code = 200;
