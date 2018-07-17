@@ -538,6 +538,10 @@ function mt_post_meta( $id ) {
 				}
 				if ( isset( $_POST[ '_' . $key ] ) ) {
 					$value = $_POST[ '_' . $key ];
+					if ( 'is_paid' == $key ) {
+						// Track last status.
+						update_post_meta( $id, '_last_status', get_post_meta( $id, '_is_paid', true ) );
+					}
 					update_post_meta( $id, '_' . $key, $value );
 					if ( 'mt_return_tickets' == $key && 'true' == $value ) {
 						mt_return_tickets( $id );

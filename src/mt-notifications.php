@@ -25,7 +25,7 @@ function mt_return_tickets_action( $id ) {
 }
 
 
-add_action( 'save_post', 'mt_generate_notifications' );
+add_action( 'save_post', 'mt_generate_notifications', 15 );
 /**
  * Send payment notifications to admin and purchaser when a payment is transitioned to published.
  *
@@ -42,10 +42,11 @@ function mt_generate_notifications( $id ) {
 		if ( 'publish' != $post->post_status ) {
 			return;
 		}
-		$email_sent = get_post_meta( $id, '_notified', true );
-		if ( ! $email_sent || isset( $_POST['_send_email'] ) ) {
+		$email_sent  = get_post_meta( $id, '_notified', true );
+		$last_status = get_post_meta( $id, '_last_status', true );
+		$paid        = get_post_meta( $id, '_is_paid', true );
+		if ( ! $email_sent || isset( $_POST['_send_email'] ) || ( 'Pending' == $last_status && 'Completed' == $paid ) ) {
 			$resend           = ( isset( $_POST['_send_email'] ) ) ? true : false;
-			$paid             = get_post_meta( $id, '_is_paid', true );
 			$details['email'] = get_post_meta( $id, '_email', true );
 			$details['name']  = get_the_title( $id );
 			$details['id']    = $id;
@@ -270,9 +271,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$gateway  = get_post_meta( $id, '_gateway', true );
 	$notes    = ( ! empty( $options['mt_gateways'][ $gateway ]['notes'] ) ) ? $options['mt_gateways'][ $gateway ]['notes'] : '';
 	$phone    = get_post_meta( $id, '_phone', true );
-
-	// restructure post meta array to match cart array.
-	if ( ( 'Completed' == $status || ( 'Pending' == $status && 'offline' == $gateway ) ) && ! $resending ) {
+	// Restructure post meta array to match cart array.
+	if ( 'Completed' == $status && ! $resending ) {
 		mt_create_tickets( $id );
 	}
 	$purchased     = get_post_meta( $id, '_purchased' );

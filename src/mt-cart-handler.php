@@ -134,7 +134,7 @@ function mt_create_payment( $post ) {
 	update_post_meta( $purchase_id, '_gateway', $post['mt_gateway'] );
 	update_post_meta( $purchase_id, '_purchase_data', $purchased );
 	update_post_meta( $purchase_id, '_ticketing_method', $post['ticketing_method'] );
-	if ( 'printable' == $post['ticketing_method'] || 'eticket' == $post['ticketing_method'] ) {
+	if ( 'printable' == $post['ticketing_method'] || 'eticket' == $post['ticketing_method'] && ( 'Completed' == $payment_status ) ) {
 		update_post_meta( $purchase_id, '_is_delivered', 'true' );
 	}
 	// for pushing data into custom fields.
