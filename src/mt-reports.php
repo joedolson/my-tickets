@@ -956,7 +956,11 @@ function mt_mass_email( $event_id = false ) {
 					'subject' => $subject,
 					'date'    => current_time( 'timestamp' ),
 				) );
-				wp_mail( $to, $subject, $body, $headers );
+				$sent = wp_mail( $to, $subject, $body, $headers );
+				if ( ! $sent ) {
+					// If mail sends, try without custom headers.
+					wp_mail( $to, $subject, $body );
+				}
 				$emails_sent ++;
 				$subject = $orig_subj;
 				$body    = $orig_body;
@@ -972,7 +976,11 @@ function mt_mass_email( $event_id = false ) {
 		if ( 'true' == $options['mt_html_email'] ) {
 			add_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
-		wp_mail( $options['mt_to'], $orig_subj, wpautop( $orig_body ), $headers );
+		$sent = wp_mail( $options['mt_to'], $orig_subj, wpautop( $orig_body ), $headers );
+		if ( ! $sent ) {
+			// If mail sends, try without custom headers.
+			wp_mail( $options['mt_to'], $orig_subj, wpautop( $orig_body ) );
+		}
 		if ( 'true' == $options['mt_html_email'] ) {
 			remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}

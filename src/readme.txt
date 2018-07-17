@@ -64,6 +64,13 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.6 =
+
+* Bug fix: Further rewriting of offline payment handling.
+* Bug fix: Improve sending of email notifications
+* Change: Track prior status for transitions
+*
+
 = 1.7.5 =
 
 * Bug fix: misc.issues in offline gateway

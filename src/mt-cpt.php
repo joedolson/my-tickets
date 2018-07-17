@@ -111,7 +111,11 @@ function mt_cpt_email_purchaser( $id ) {
 			$body = apply_filters( 'mt_modify_email_body', $body );
 
 			// message to purchaser.
-			wp_mail( $email, $subject, $body, $headers );
+			$sent = wp_mail( $email, $subject, $body, $headers );
+			if ( ! $sent ) {
+				// If mail sends, try without custom headers.
+				wp_mail( $email, $subject, $body );
+			}
 
 			if ( 'true' == $options['mt_html_email'] ) {
 				remove_filter( 'wp_mail_content_type', 'mt_html_type' );

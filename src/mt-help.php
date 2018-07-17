@@ -222,6 +222,10 @@ $plugins_string
 			echo "<div class='message error'><p>" . __( 'Please describe your problem. I\'m not psychic.', 'my-tickets' ) . '</p></div>';
 		} else {
 			$sent = wp_mail( 'plugins@joedolson.com', $subject, $message, $from );
+			if ( ! $sent ) {
+				// If mail sends, try without custom headers.
+				$sent = wp_mail( 'plugins@joedolson.com', $subject, $message );
+			}
 			if ( $sent ) {
 				// Translators: email address.
 				echo "<div class='message updated'><p>" . sprintf( __( 'Thank you for supporting the continuing development of this plug-in! I\'ll get back to you as soon as I can. Please ensure that you can receive email at <code>%s</code>.', 'my-tickets' ), $current_user->user_email ) . '</p></div>';

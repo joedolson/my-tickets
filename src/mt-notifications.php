@@ -428,10 +428,18 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 			'subject' => $subject,
 			'date'    => current_time( 'timestamp' ),
 		) );
-		wp_mail( $email, $subject, $body, $headers );
+		$sent = wp_mail( $email, $subject, $body, $headers );
+		if ( ! $sent ) {
+			// If mail sends, try without custom headers.
+			wp_mail( $email, $subject, $body );
+		}
 		// message to admin.
-		$body2 = apply_filters( 'mt_modify_email_body', $body2, 'admin' );
-		wp_mail( $options['mt_to'], $subject2, $body2, $headers );
+		$body2      = apply_filters( 'mt_modify_email_body', $body2, 'admin' );
+		$admin_sent = wp_mail( $options['mt_to'], $subject2, $body2, $headers );
+		if ( ! $admin_sent ) {
+			// If mail sends, try without custom headers.
+			wp_mail( $options['mt_to'], $subject2, $body2 );
+		}
 		if ( 'true' == $options['mt_html_email'] ) {
 			remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
