@@ -190,7 +190,7 @@ function mt_invite_login_or_register() {
  */
 function mt_render_types( $types ) {
 	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$ticketing = apply_filters("mt_ticketing_availability", $options['mt_ticketing'], $cart);
+	$ticketing = apply_filters( 'mt_ticketing_availability' , $options['mt_ticketing'], $cart );
 	$default   = isset( $options['mt_ticket_type_default'] ) ? $options['mt_ticket_type_default'] : '';
 	$output    = '<p><label for="ticketing_method">' . __( 'Ticket Type', 'my-tickets' ) . '</label> <select name="ticketing_method" id="ticketing_method">';
 	foreach ( $ticketing as $key => $method ) {
