@@ -69,7 +69,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 * Bug fix: Further rewriting of offline payment handling.
 * Bug fix: Improve sending of email notifications
 * Change: Track prior status for transitions
-*
+* Add filter: mt_ticketing_availability to filter ticket types available in a given cart. (https://github.com/joedolson/my-tickets/pull/1)
 
 = 1.7.5 =
 

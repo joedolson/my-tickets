@@ -74,7 +74,10 @@ function mt_response_messages() {
 			$message = __( 'First name, last name, and email are required fields. Please fill in these fields and submit again!', 'my-tickets' );
 		}
 		if ( ! $message ) {
-			$message = ( isset( $_GET['response_reason_text'] ) ) ? $_GET['response_reason_text'] : '';
+			$message = ( isset( $_GET['reason'] ) ) ? $_GET['reason'] : '';
+			if ( ! $message ) {
+				$message = ( isset( $_GET['response_reason_text'] ) ) ? $_GET['response_reason_text'] : '';
+			}
 			$message = sanitize_text_field( $message );
 		}
 		return apply_filters( 'mt_response_messages', $message, $response_code );
