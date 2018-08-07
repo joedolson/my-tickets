@@ -63,7 +63,7 @@
                 $('button[name="mt_add_to_cart"]').removeClass('mt-invalid-purchase').removeAttr('disabled');
             }
         });
-        $('.mt_cart button').on('click', function (e) {
+        $('.mt_cart button:not(.mt-plugin)').on('click', function (e) {
             e.preventDefault();
             var action = $(this).attr('class');
             var target = $(this).attr('rel');
