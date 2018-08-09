@@ -68,7 +68,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 * Bug fix: PHP notice due to incorrectly named variable.
 * Bug fix: Offline pending payments should still deliver tickets.
-* Change: 
+* Change: exlude .mt-plugin class from cart button actions.
 
 = 1.7.6 =
 
