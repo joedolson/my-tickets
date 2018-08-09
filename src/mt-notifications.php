@@ -272,7 +272,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$notes    = ( ! empty( $options['mt_gateways'][ $gateway ]['notes'] ) ) ? $options['mt_gateways'][ $gateway ]['notes'] : '';
 	$phone    = get_post_meta( $id, '_phone', true );
 	// Restructure post meta array to match cart array.
-	if ( ( 'Completed' == $status || ( 'Pending' == $status && 'offline' == $gateway ) )&& ! $resending ) {
+	if ( ( 'Completed' == $status || ( 'Pending' == $status && 'offline' == $gateway ) ) && ! $resending ) {
 		mt_create_tickets( $id );
 	}
 	$purchased     = get_post_meta( $id, '_purchased' );
