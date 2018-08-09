@@ -193,7 +193,7 @@ function mt_invite_login_or_register() {
  */
 function mt_render_types( $types ) {
 	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$ticketing = apply_filters( 'mt_ticketing_availability', $options['mt_ticketing'], $cart );
+	$ticketing = apply_filters( 'mt_ticketing_availability', $options['mt_ticketing'], $types );
 	$default   = isset( $options['mt_ticket_type_default'] ) ? $options['mt_ticket_type_default'] : '';
 	$output    = '<p><label for="ticketing_method">' . __( 'Ticket Type', 'my-tickets' ) . '</label> <select name="ticketing_method" id="ticketing_method">';
 	foreach ( $ticketing as $key => $method ) {
@@ -437,7 +437,7 @@ function mt_generate_cart( $user_ID = false ) {
 		<div class="mt_cart">
 			<div class="mt-response" aria-live="assertive"></div>
 			<form action="' . esc_url( $cart_page ) . '" method="POST">' . "
-			<input class='screen-reader-text' type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Place Order', 'my-tickets' ), $current_gate ) . "' />" . '
+			<input class='screen-reader-text' type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Review cart and make payment', 'my-tickets' ), $current_gate ) . "' />" . '
 				' . $nonce . '
 				' . $gateway;
 			$output .= mt_generate_cart_table( $cart );
@@ -651,6 +651,7 @@ function mt_total_cart( $cart ) {
 							if ( $price ) {
 								$price = mt_handling_price( $price, $event );
 							}
+							$price = apply_filters( 'mt_apply_event_discount', $price, $event );
 							$total = $total + ( $price * $count );
 						}
 					}
@@ -659,7 +660,7 @@ function mt_total_cart( $cart ) {
 		}
 	}
 
-	return $total;
+	return apply_filters( 'mt_apply_total_discount', $total );
 }
 
 /**
