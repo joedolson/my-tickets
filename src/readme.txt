@@ -64,6 +64,12 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.7 =
+
+* Bug fix: PHP notice due to incorrectly named variable.
+* Bug fix: Offline pending payments should still deliver tickets.
+* Change: 
+
 = 1.7.6 =
 
 * Bug fix: Further rewriting of offline payment handling.
