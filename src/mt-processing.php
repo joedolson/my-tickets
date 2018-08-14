@@ -129,7 +129,7 @@ function mt_ticket_meta( $post_id ) {
  *
  * @return boolean|array
  */
-function mt_get_prices( $event_id ) {
+function mt_get_prices( $event_id, $payment_id = false ) {
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	if ( isset( $registration['prices'] ) ) {
 		$prices = $registration['prices'];
@@ -142,7 +142,7 @@ function mt_get_prices( $event_id ) {
 						continue;
 					}
 
-					$prices[ $label ]['price'] = mt_calculate_discount( $price, $event_id );
+					$prices[ $label ]['price'] = mt_calculate_discount( $price, $event_id, $payment_id = false );
 				}
 			}
 		}
@@ -158,10 +158,11 @@ function mt_get_prices( $event_id ) {
  *
  * @param float $price Event Ticket Price before discounts.
  * @param int   $event_id Event ID.
+ * @param int   $payment_id Payment ID.
  *
  * @return float
  */
-function mt_calculate_discount( $price, $event_id ) {
+function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	if ( is_user_logged_in() ) { // members discount.
 		if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
@@ -174,6 +175,7 @@ function mt_calculate_discount( $price, $event_id ) {
 	}
 	$discount   = apply_filters( 'mt_members_discount', $discount, $event_id );
 	$discounted = ( 0 != $discount ) ? $price - ( $price * ( $discount / 100 ) ) : $price;
+	$discounted = apply_filters( 'mt_apply_event_discounts', $discounted, $event_id, $payment_id );
 	if ( mt_zerodecimal_currency() ) {
 		$discounted = round( $discounted, 0 );
 	} else {

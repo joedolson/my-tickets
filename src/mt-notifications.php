@@ -280,7 +280,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$ticket_array  = mt_setup_tickets( $purchased, $id, $resending );
 	$handling      = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 
-	$total = mt_calculate_cart_cost( $purchase_data ) + $handling;
+	$total = mt_calculate_cart_cost( $purchase_data, $id ) + $handling;
 	$hash  = md5( add_query_arg( array(
 		'post_type' => 'mt-payments',
 		'p'         => $id,

@@ -118,7 +118,7 @@ function mt_create_payment( $post ) {
 	}
 
 	$purchased = ( isset( $post['mt_cart_order'] ) ) ? $post['mt_cart_order'] : false;
-	$paid      = mt_calculate_cart_cost( $purchased );
+	$paid      = mt_calculate_cart_cost( $purchased, $purchase_id );
 	if ( isset( $options['mt_handling'] ) ) {
 		$paid = $paid + $options['mt_handling'];
 	}
@@ -241,11 +241,11 @@ function mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price ) {
  *
  * @return float
  */
-function mt_calculate_cart_cost( $purchased ) {
+function mt_calculate_cart_cost( $purchased, $payment_id ) {
 	$total = 0;
 	if ( $purchased ) {
 		foreach ( $purchased as $event_id => $tickets ) {
-			$prices = mt_get_prices( $event_id );
+			$prices = mt_get_prices( $event_id, $payment_id );
 			if ( $prices ) {
 				foreach ( $tickets as $type => $ticket ) {
 					if ( (int) $ticket['count'] > 0 ) {
@@ -259,7 +259,7 @@ function mt_calculate_cart_cost( $purchased ) {
 			}
 		}
 	}
-	$total = apply_filters( 'mt_apply_discounts', $total, $purchased );
+	$total = apply_filters( 'mt_apply_discounts', $total, $purchased, $payment_id );
 
 	return round( $total, 2 );
 }
