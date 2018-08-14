@@ -124,6 +124,7 @@ function mt_ticket_meta( $post_id ) {
  * Gets array of ticket types and prices for an event
  *
  * @param int $event_id Event ID.
+ * @param int $payment_id Payment ID.
  *
  * @uses mt_calculate_discount()
  *
@@ -142,7 +143,7 @@ function mt_get_prices( $event_id, $payment_id = false ) {
 						continue;
 					}
 
-					$prices[ $label ]['price'] = mt_calculate_discount( $price, $event_id, $payment_id = false );
+					$prices[ $label ]['price'] = mt_calculate_discount( $price, $event_id, $payment_id );
 				}
 			}
 		}

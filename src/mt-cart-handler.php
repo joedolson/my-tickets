@@ -238,6 +238,7 @@ function mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price ) {
  * Calculates cost of cart. (Actual cost, after discounts.)
  *
  * @param array $purchased Tickets purchased.
+ * @param int   $payment_id Payment ID. Use for calculating discounts.
  *
  * @return float
  */
