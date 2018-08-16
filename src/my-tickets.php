@@ -188,9 +188,29 @@ function my_tickets_menu() {
 	add_submenu_page( 'my-tickets', __( 'My Tickets', 'my-tickets' ), __( 'Payment Settings', 'my-tickets' ), $permission, 'mt-payment', 'mt_payment_settings' );
 	$ticketing = add_submenu_page( 'my-tickets', __( 'My Tickets', 'my-tickets' ), __( 'Ticket Settings', 'my-tickets' ), $permission, 'mt-ticketing', 'mt_ticketing_settings' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets > Reports', 'my-tickets' ), __( 'Reports', 'my-tickets' ), 'mt-view-reports', 'mt-reports', 'mt_reports_page' );
+	add_submenu_page( 'my-tickets', __( 'My Tickets > Payments', 'my-tickets' ), __( 'Payments', 'my-tickets' ), 'mt-view-reports', 'mt-payments', 'mt_payments_page' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets > Help', 'my-tickets' ), __( 'Ticketing Help', 'my-tickets' ), $permission, 'mt-help', 'mt_help' );
 
 	add_action( 'load-' . $ticketing, 'mt_ticketing_help_tab' );
+}
+
+add_action( 'admin_init', 'mt_redirect_to_payments' );
+/**
+ * Redirect users to payments section if they click on the Payments link under My Tickets menu.
+ */
+function mt_redirect_to_payments() {
+	if ( isset( $_GET['page'] ) && 'mt-payments' == $_GET['page'] ) {
+		wp_safe_redirect( admin_url( 'edit.php?post_type=mt-payments' ) );
+	}
+}
+
+/**
+ * Doesn't do anything.
+ *
+ * @return void
+ */
+function mt_payments_page() {
+	return;
 }
 
 /**
