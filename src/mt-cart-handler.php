@@ -171,11 +171,12 @@ function mt_create_payment( $post ) {
  */
 function mt_create_tickets( $purchase_id, $purchased = false, $resending = false ) {
 	$purchased = ( $purchased ) ? $purchased : get_post_meta( $purchase_id, '_purchase_data', true );
-	if ( ! is_array( $purchased ) ) {
+	if ( ! is_array( $purchased ) || mt_purchase_has_tickets( $purchase_id ) ) {
 		return;
 	}
 	foreach ( $purchased as $event_id => $purchase ) {
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+		$created      = false;
 		add_post_meta( $purchase_id, '_purchased', array( $event_id => $purchase ) );
 		add_post_meta( $event_id, '_purchase', array( $purchase_id => $purchase ) );
 		add_post_meta( $event_id, '_receipt', $purchase_id );
@@ -186,12 +187,10 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 			$sold                                    = $registration['prices'][ $type ]['sold'];
 			$new_sold                                = $sold + $count;
 			$registration['prices'][ $type ]['sold'] = $new_sold;
-			if ( ! $resending ) {
-				update_post_meta( $event_id, '_mt_registration_options', $registration );
-			}
 			for ( $i = 0; $i < $count; $i ++ ) {
 				$ticket_id = mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price );
-				if ( ! $resending ) {
+				if ( ! $resending && ! mt_ticket_exists( $purchase_id, $ticket_id ) ) {
+					$created = true;
 					add_post_meta( $event_id, '_ticket', $ticket_id );
 					update_post_meta( $event_id, '_' . $ticket_id, array(
 						'type'        => $type,
@@ -200,10 +199,44 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 					) );
 				}
 			}
+			if ( ! $resending && $created ) {
+				update_post_meta( $event_id, '_mt_registration_options', $registration );
+			}
 		}
 	}
 }
 
+/**
+ * Check whether this purchase has already had tickets created.
+ *
+ * @param int $purchase_id Payment ID.
+ *
+ * @return boolean
+ */
+function mt_purchase_has_tickets( $purchase_id ) {
+	// This crudely checks whether the _purchased data point is created, but doesn't check the entire list of tickets.
+	$tickets = get_post_meta( $purchase_id, '_purchased', true );
+	if ( is_array( $tickets ) && ! empty( $tickets ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Check whether this ticket ID already exists.
+ *
+ * @param int    $purchase_id Payment ID.
+ * @param string $ticket_id Ticket ID string.
+ *
+ * @return boolean
+ */
+function mt_ticket_exists( $purchase_id, $ticket_id ) {
+	global $wpdb;
+	$value = $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE post_id = %d AND meta_value = %s", $purchase_id, $ticket_id ) );
+
+	return ( $value ) ? true : false;
+}
 /**
  * Generates the ticket ID from purchase ID, ticket type, number of ticket purchased of that time, and price.
  *

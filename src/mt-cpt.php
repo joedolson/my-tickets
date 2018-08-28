@@ -237,7 +237,7 @@ function mt_add_inner_box() {
 		$cart = mt_get_cart( $cart_id, $cart_transient_id );
 		// Translators: link to public web site.
 		$order = ( $cart ) ? mt_generate_cart_table( $cart, 'confirmation' ) : '<p>' . sprintf( __( 'Visit the <a href="%s">public web site</a> to set up a cart order', 'my-tickets' ), home_url() ) . '</p>';
-		$total = '<strong>' . __( 'Total', 'my-tickets' ) . '</strong>: ' . apply_filters( 'mt_money_format', mt_total_cart( $cart ) );
+		$total = '<strong>' . __( 'Total', 'my-tickets' ) . '</strong>: ' . apply_filters( 'mt_money_format', mt_total_cart( $cart, $post_id ) );
 	} else {
 		$order = '';
 		$total = '';
