@@ -636,7 +636,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
  *
  * @return float
  */
-function mt_total_cart( $cart ) {
+function mt_total_cart( $cart, $payment_id = false ) {
 	$total = 0;
 	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event => $order ) {
@@ -660,7 +660,7 @@ function mt_total_cart( $cart ) {
 		}
 	}
 
-	return apply_filters( 'mt_apply_total_discount', $total );
+	return apply_filters( 'mt_apply_total_discount', $total, $payment_id );
 }
 
 /**
