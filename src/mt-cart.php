@@ -633,6 +633,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
  * Get total $ value of saved cart.
  *
  * @param array $cart Cart data.
+ * @param int   $payment_id Payment ID.
  *
  * @return float
  */

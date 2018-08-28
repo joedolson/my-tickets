@@ -64,6 +64,11 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.8 =
+
+* Bug fix: Tickets duplicated when offline payments completed.
+* Change: add additional parameters to some functions for filtering purposes
+
 = 1.7.7 =
 
 * Bug fix: PHP notice due to incorrectly named variable.
