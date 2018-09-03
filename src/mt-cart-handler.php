@@ -51,10 +51,9 @@ function mt_delete_data( $data = 'cart' ) {
 	if ( is_user_logged_in() ) {
 		$current_user = wp_get_current_user();
 		delete_user_meta( $current_user->ID, "_mt_user_$data" );
-	} else {
-		if ( $unique_id ) {
-			delete_transient( 'mt_' . $unique_id . '_' . $data );
-		}
+	}
+	if ( $unique_id ) {
+		delete_transient( 'mt_' . $unique_id . '_' . $data );
 	}
 }
 
