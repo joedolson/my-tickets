@@ -67,7 +67,10 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 = 1.7.8 =
 
 * Bug fix: Tickets duplicated when offline payments completed.
-* Change: add additional parameters to some functions for filtering purposes
+* Bug fix: Fix headers on date report CSV.
+* Change: add additional parameters to some functions for filtering purposes.
+* Change: add email as output in date report CSV.
+* Add: mt_purchase_completed action on confirmation screen.
 
 = 1.7.7 =
 

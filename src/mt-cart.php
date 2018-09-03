@@ -466,6 +466,7 @@ function mt_generate_cart( $user_ID = false ) {
 				$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
 				$purchase = get_post_meta( $post_id, '_purchased' );
 				$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
+				do_action( 'mt_purchase_completed', $post_id, $link, $purchase );
 			} else {
 				$output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
 			}
