@@ -768,7 +768,7 @@ function mt_get_report_data_by_time() {
 	$alternate = 'even';
 	$html      = array();
 	$csv       = array();
-	$csv[]     = '\"First Name\",\"Last Name\",\"Ticket Type\",\"Purchase Value\",\"Status\",\"Events\",\"Date\"' . PHP_EOL;
+	$csv[]     = '"Last Name","First Name","Email","Ticket Type","Purchase Value","Status","Events","Date"' . PHP_EOL;
 	foreach ( $posts as $post ) {
 		$purchaser  = get_the_title( $post->ID );
 		$first_name = get_post_meta( $post->ID, '_first_name', true );
@@ -782,6 +782,7 @@ function mt_get_report_data_by_time() {
 		$format_value = apply_filters( 'mt_money_format', $value );
 		$total        = $total + $value;
 		$status       = get_post_meta( $post->ID, '_is_paid', true );
+		$email        = get_post_meta( $post->ID, '_email', true );
 		$type         = get_post_meta( $post->ID, '_ticketing_method', true );
 		$purchased    = get_post_meta( $post->ID, '_purchased' );
 		$date         = get_the_time( 'Y-m-d', $post->ID );
@@ -812,7 +813,7 @@ function mt_get_report_data_by_time() {
 				<td class='mt-events'>$events</td>
 				<td class='mt-date'>$date $time</td>
 			</tr>\n";
-		$csv[]      = "\"$first_name\",\"$last_name\",\"$type\",\"$value\",\"$status\",\"$raw_events\",\"$date $time\"" . PHP_EOL;
+		$csv[]      = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $date . ' ' . $time . '"' . PHP_EOL;
 	}
 	$report['html']  = $html;
 	$report['csv']   = $csv;
