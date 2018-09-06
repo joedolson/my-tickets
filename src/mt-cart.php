@@ -454,7 +454,7 @@ function mt_generate_cart( $user_ID = false ) {
 				$custom_output .= $field;
 			}
 			$button  = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Review cart and make payment', 'my-tickets' ), $current_gate ) . "' /></p>";
-			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart ) . "\n" . $custom_output . "\n$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_gateways() . mt_copy_cart() . '</div>';
+			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_total_content', '', $current_gate, $cart ) . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart ) . "\n" . $custom_output . "\n$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_gateways() . mt_copy_cart() . '</div>';
 		} else {
 			do_action( 'mt_cart_is_empty' );
 			// clear POST data to prevent re-submission of data.
@@ -465,7 +465,8 @@ function mt_generate_cart( $user_ID = false ) {
 				$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 				$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
 				$purchase = get_post_meta( $post_id, '_purchased' );
-				$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
+				$append   = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
+				$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) .  $append . '</div></div>';
 				do_action( 'mt_purchase_completed', $post_id, $link, $purchase );
 			} else {
 				$output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
@@ -638,7 +639,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
  *
  * @return float
  */
-function mt_total_cart( $cart, $payment_id = false ) {
+function mt_total_cart( $cart, $payment_id = false, $apply_discounts = true ) {
 	$total = 0;
 	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event => $order ) {
@@ -653,7 +654,7 @@ function mt_total_cart( $cart, $payment_id = false ) {
 							if ( $price ) {
 								$price = mt_handling_price( $price, $event );
 							}
-							$price = apply_filters( 'mt_apply_event_discount', $price, $event );
+							//$price = ( $apply_discounts ) ? apply_filters( 'mt_apply_event_discount', $price, $event ) : $price;
 							$total = $total + ( $price * $count );
 						}
 					}
@@ -662,7 +663,7 @@ function mt_total_cart( $cart, $payment_id = false ) {
 		}
 	}
 
-	return apply_filters( 'mt_apply_total_discount', $total, $payment_id );
+	return ( $apply_discounts ) ? apply_filters( 'mt_apply_total_discount', $total, $payment_id ) : $total;
 }
 
 /**

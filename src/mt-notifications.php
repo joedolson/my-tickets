@@ -129,9 +129,10 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				$tickets_list    = '';
 				foreach ( $tickets as $type => $ticket ) {
 					if ( $ticket['count'] > 0 ) {
-						$total = $total + $ticket['price'] * $ticket['count'];
+						$price = apply_filters( 'mt_apply_event_discounts', $ticket['price'], $event_id, $purchase_id );
+						$total = $total + $price * $ticket['count'];
 						$type  = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
-						$price = $ticket['price'] - $handling;
+						$price = $price - $handling;
 						if ( $handling ) {
 							// Translators: price of ticket handling charge.
 							$handling_notice = ' ' . apply_filters( 'mt_handling_charge_of', sprintf( __( '(Per-ticket handling charge of %s)', 'my-tickets' ), apply_filters( 'mt_money_format', $handling ) ) );
@@ -150,6 +151,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					$output .= apply_filters( 'mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep );
 					$output .= $sep . $tickets_list;
 				}
+				$total = apply_filters( 'mt_apply_total_discount', $total, $purchase_id );
 				if ( $is_html ) {
 					$output = wpautop( $output . __( 'Ticket Total', 'my-tickets' ) . ': ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) );
 				} else {

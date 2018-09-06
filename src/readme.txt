@@ -68,6 +68,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 * Bug fix: Tickets duplicated when offline payments completed.
 * Bug fix: Fix headers on date report CSV.
+* Bug fix: Delete both logged-in and logged-out carts if both exist after purchase.
 * Change: add additional parameters to some functions for filtering purposes.
 * Change: add email as output in date report CSV.
 * Add: mt_purchase_completed action on confirmation screen.
