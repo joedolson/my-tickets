@@ -74,7 +74,7 @@ function mt_get_cart_order() {
 	$receipt = mt_get_receipt();
 	if ( $receipt ) {
 		$purchase = get_post_meta( $receipt->ID, '_purchased' );
-		$data     = mt_format_purchase( $purchase, 'html' );
+		$data     = mt_format_purchase( $purchase, 'html', $receipt->ID );
 
 		return $data;
 	}

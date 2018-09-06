@@ -466,7 +466,7 @@ function mt_generate_cart( $user_ID = false ) {
 				$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
 				$purchase = get_post_meta( $post_id, '_purchased' );
 				$append   = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
-				$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) .  $append . '</div></div>';
+				$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . $append . '</div></div>';
 				do_action( 'mt_purchase_completed', $post_id, $link, $purchase );
 			} else {
 				$output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
@@ -636,6 +636,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
  *
  * @param array $cart Cart data.
  * @param int   $payment_id Payment ID.
+ * *param bool  $apply_discounts 'False' to get original total without discounts.
  *
  * @return float
  */
@@ -654,7 +655,7 @@ function mt_total_cart( $cart, $payment_id = false, $apply_discounts = true ) {
 							if ( $price ) {
 								$price = mt_handling_price( $price, $event );
 							}
-							//$price = ( $apply_discounts ) ? apply_filters( 'mt_apply_event_discount', $price, $event ) : $price;
+							// Remove this? $price = ( $apply_discounts ) ? apply_filters( 'mt_apply_event_discount', $price, $event ) : $price;
 							$total = $total + ( $price * $count );
 						}
 					}
