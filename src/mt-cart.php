@@ -636,7 +636,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
  *
  * @param array $cart Cart data.
  * @param int   $payment_id Payment ID.
- * *param bool  $apply_discounts 'False' to get original total without discounts.
+ * @param bool  $apply_discounts 'False' to get original total without discounts.
  *
  * @return float
  */
