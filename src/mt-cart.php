@@ -655,7 +655,6 @@ function mt_total_cart( $cart, $payment_id = false, $apply_discounts = true ) {
 							if ( $price ) {
 								$price = mt_handling_price( $price, $event );
 							}
-							// Remove this? $price = ( $apply_discounts ) ? apply_filters( 'mt_apply_event_discount', $price, $event ) : $price;
 							$total = $total + ( $price * $count );
 						}
 					}
