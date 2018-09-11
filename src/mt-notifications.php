@@ -486,8 +486,8 @@ function mt_create_event_notes( $event_notes, $purchased, $payment_id ) {
  * @return string
  */
 function mt_draw_template( $data, $template ) {
-	if ( function_exists( 'jd_draw_template' ) ) {
-		return jd_draw_template( $data, $template );
+	if ( function_exists( 'mc_draw_template' ) ) {
+		return mc_draw_template( $data, $template );
 	} else {
 		$template = stripcslashes( $template );
 		foreach ( $data as $key => $value ) {
