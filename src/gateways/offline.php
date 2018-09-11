@@ -148,14 +148,18 @@ function mt_offline_processor() {
 		);
 
 		mt_handle_payment( $response, $response_code, $data, $_POST );
-
+		$redirect = esc_url_raw(
+			add_query_arg(
+				array(
+					'response_code' => 'thanks',
+					'payment_id'    => $item_number,
+				),
+				get_permalink( $options['mt_purchase_page'] )
+			)
+		);
 		// Everything's all right.
-		wp_safe_redirect( esc_url_raw( add_query_arg( array(
-			'response_code' => 'thanks',
-			'payment_id'    => $item_number,
-		), get_permalink( $options['mt_purchase_page'] ) ) ) );
+		wp_safe_redirect( $redirect );
 	}
 
 	return;
 }
-

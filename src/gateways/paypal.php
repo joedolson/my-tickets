@@ -114,11 +114,13 @@ function mt_paypal_ipn() {
 			if ( isset( $_POST['txn_type'] ) ) {
 				// this is a transaction other than a purchase.
 				if ( 'dispute' == $_POST['case_type'] ) {
-					$posts = get_posts( array(
-						'post_type'  => 'mt-payments',
-						'meta_key'   => '_transaction_id',
-						'meta_value' => $_POST['txn_id'],
-					) );
+					$posts = get_posts(
+						array(
+							'post_type'  => 'mt-payments',
+							'meta_key'   => '_transaction_id',
+							'meta_value' => $_POST['txn_id'],
+						)
+					);
 					if ( ! empty( $posts ) ) {
 						$post = $posts[0];
 						update_post_meta( $post->ID, '_dispute_reason', $_POST['reason_code'] );

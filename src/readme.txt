@@ -64,6 +64,12 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.9 =
+
+* Bug fix: execute discount calculation in cart data.
+* Change: Update references to My Calendar template function.
+
+
 = 1.7.8 =
 
 * Bug fix: Tickets duplicated when offline payments completed.

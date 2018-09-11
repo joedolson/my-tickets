@@ -27,10 +27,15 @@ if ( file_exists( '../../../../wp-load.php' ) ) {
 	if ( ! function_exists( 'wp_kses' ) ) {
 		require( ABSPATH . WPINC . '/kses.php' );
 	}
-	$url = esc_url_raw( add_query_arg( array(
-		'ticket_id' => $ticket,
-		'action'    => 'mt-verify',
-	), home_url() ) );
+	$url = esc_url_raw(
+		add_query_arg(
+			array(
+				'ticket_id' => $ticket,
+				'action'    => 'mt-verify',
+			),
+			home_url()
+		)
+	);
 } else {
 	// if the above fails, we'll generate a URL, but it may be wrong.
 	$url = MT_HOME_URL . "?ticket_id=$ticket&action=mt-verify";
