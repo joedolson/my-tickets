@@ -139,21 +139,30 @@ function mt_create_payment( $post ) {
 	// for pushing data into custom fields.
 	do_action( 'mt_save_payment_fields', $purchase_id, $post, $purchased );
 	if ( $purchase_id ) {
-		wp_update_post( array(
-			'ID'        => $purchase_id,
-			'post_name' => 'mt_payment_' . $purchase_id,
-		) );
+		wp_update_post(
+			array(
+				'ID'        => $purchase_id,
+				'post_name' => 'mt_payment_' . $purchase_id,
+			)
+		);
 	}
-	$receipt_id = md5( add_query_arg( array(
-		'post_type' => 'mt-payments',
-		'p'         => $purchase_id,
-	), home_url() ) );
+	$receipt_id = md5(
+		add_query_arg(
+			array(
+				'post_type' => 'mt-payments',
+				'p'         => $purchase_id,
+			),
+			home_url()
+		)
+	);
 	update_post_meta( $purchase_id, '_receipt', $receipt_id );
 	if ( 'publish' == $status ) {
-		wp_update_post( array(
-			'ID'          => $purchase_id,
-			'post_status' => $status,
-		) );
+		wp_update_post(
+			array(
+				'ID'          => $purchase_id,
+				'post_status' => $status,
+			)
+		);
 	}
 
 	return $purchase_id;
@@ -191,11 +200,15 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 				if ( ! $resending && ! mt_ticket_exists( $purchase_id, $ticket_id ) ) {
 					$created = true;
 					add_post_meta( $event_id, '_ticket', $ticket_id );
-					update_post_meta( $event_id, '_' . $ticket_id, array(
-						'type'        => $type,
-						'price'       => $price,
-						'purchase_id' => $purchase_id,
-					) );
+					update_post_meta(
+						$event_id,
+						'_' . $ticket_id,
+						array(
+							'type'        => $type,
+							'price'       => $price,
+							'purchase_id' => $purchase_id,
+						)
+					);
 				}
 			}
 			if ( ! $resending && $created ) {

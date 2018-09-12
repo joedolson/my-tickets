@@ -190,7 +190,8 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									}
 								}
 								$form .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . '</label>';
-								$form .= apply_filters( 'mt_add_to_cart_input',
+								$form .= apply_filters(
+									'mt_add_to_cart_input',
 									"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type'$disable />",
 									$input_type,
 									$type,
@@ -215,7 +216,8 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									}
 								}
 								$form       .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . '</label>';
-								$form       .= apply_filters( 'mt_add_to_cart_input',
+								$form       .= apply_filters(
+									'mt_add_to_cart_input',
 									"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type' />",
 									$input_type,
 									$type,
@@ -527,10 +529,12 @@ function mt_add_to_cart() {
 			$event_id = ( isset( $_POST['mt_event_id'] ) ) ? $_POST['mt_event_id'] : false;
 			$options  = ( isset( $_POST['mt_tickets'] ) ) ? $_POST['mt_tickets'] : false;
 		}
-		$saved = ( false !== $options ) ? mt_save_data( array(
-			'event_id' => $event_id,
-			'options'  => $options,
-		) ) : false;
+		$saved = ( false !== $options ) ? mt_save_data(
+			array(
+				'event_id' => $event_id,
+				'options'  => $options,
+			)
+		) : false;
 	}
 	if ( $saved ) {
 		mt_register_message( 'add_to_cart', 'success' );

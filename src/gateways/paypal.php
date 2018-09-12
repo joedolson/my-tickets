@@ -238,11 +238,14 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		$purchaser      = get_the_title( $payment_id );
 		// Translators: Site's name, purchaser name.
 		$item_name  = sprintf( __( '%1$s Order from %2$s', 'my-tickets' ), get_option( 'blogname' ), $purchaser );
-		$return_url = add_query_arg( array(
-			'response_code' => 'thanks',
-			'gateway'       => 'paypal',
-			'payment_id'    => $payment_id,
-		), get_permalink( $options['mt_purchase_page'] ) );
+		$return_url = add_query_arg(
+			array(
+				'response_code' => 'thanks',
+				'gateway'       => 'paypal',
+				'payment_id'    => $payment_id,
+			),
+			get_permalink( $options['mt_purchase_page'] )
+		);
 		$form       = "
 		<form action='" . ( 'true' != $use_sandbox ? 'https://www.paypal.com/cgi-bin/webscr' : 'https://www.sandbox.paypal.com/cgi-bin/webscr' ) . "' method='POST'>
 		<input type='hidden' name='cmd' value='_xclick' />

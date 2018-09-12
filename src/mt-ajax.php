@@ -39,14 +39,18 @@ function mt_ajax_cart() {
 		// generate and submit cart data.
 		$saved   = mt_update_cart( $post );
 		$saved   = apply_filters( 'mt_update_cart_field_handler', $saved, $post );
-		$success = json_encode( array(
-			'success'  => 1,
-			'response' => __( 'Cart updated', 'my-tickets' ),
-		) );
-		$failure = json_encode( array(
-			'success'  => 0,
-			'response' => __( 'Cart not updated', 'my-tickets' ),
-		) );
+		$success = json_encode(
+			array(
+				'success'  => 1,
+				'response' => __( 'Cart updated', 'my-tickets' ),
+			)
+		);
+		$failure = json_encode(
+			array(
+				'success'  => 0,
+				'response' => __( 'Cart not updated', 'my-tickets' ),
+			)
+		);
 		echo ( $saved ) ? $success : $failure;
 		die;
 	}
@@ -70,10 +74,12 @@ function mt_ajax_handler() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	// verify nonce.
 	if ( ! check_ajax_referer( 'mt-cart-nonce', 'security', false ) ) {
-		wp_send_json( array(
-			'response' => __( 'Invalid security response.', 'my-tickets' ),
-			'saved'    => false,
-		) );
+		wp_send_json(
+			array(
+				'response' => __( 'Invalid security response.', 'my-tickets' ),
+				'saved'    => false,
+			)
+		);
 	}
 	if ( 'add_to_cart' == $_REQUEST['function'] ) {
 		$post = $_REQUEST['data'];
