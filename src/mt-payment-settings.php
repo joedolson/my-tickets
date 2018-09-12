@@ -46,21 +46,25 @@ function mt_update_payment_settings( $post ) {
 		$mt_receipt_page  = (int) $post['mt_receipt_page'];
 		$mt_tickets_page  = (int) $post['mt_tickets_page'];
 
-		$settings = apply_filters( 'mt_settings', array(
-			'mt_use_sandbox'      => $mt_use_sandbox,
-			'mt_members_discount' => $mt_members_discount,
-			'mt_currency'         => $mt_currency,
-			'mt_dec_point'        => $mt_dec_point,
-			'mt_thousands_sep'    => $mt_thousands_sep,
-			'mt_phone'            => $mt_phone,
-			'mt_gateway'          => $mt_gateway,
-			'mt_default_gateway'  => $mt_default_gateway,
-			'mt_gateways'         => $mt_gateways,
-			'mt_ssl'              => $mt_ssl,
-			'mt_purchase_page'    => $mt_purchase_page,
-			'mt_receipt_page'     => $mt_receipt_page,
-			'mt_tickets_page'     => $mt_tickets_page,
-		), $_POST );
+		$settings = apply_filters(
+			'mt_settings',
+			array(
+				'mt_use_sandbox'      => $mt_use_sandbox,
+				'mt_members_discount' => $mt_members_discount,
+				'mt_currency'         => $mt_currency,
+				'mt_dec_point'        => $mt_dec_point,
+				'mt_thousands_sep'    => $mt_thousands_sep,
+				'mt_phone'            => $mt_phone,
+				'mt_gateway'          => $mt_gateway,
+				'mt_default_gateway'  => $mt_default_gateway,
+				'mt_gateways'         => $mt_gateways,
+				'mt_ssl'              => $mt_ssl,
+				'mt_purchase_page'    => $mt_purchase_page,
+				'mt_receipt_page'     => $mt_receipt_page,
+				'mt_tickets_page'     => $mt_tickets_page,
+			),
+			$_POST
+		);
 		$settings = array_merge( get_option( 'mt_settings' ), $settings );
 		update_option( 'mt_settings', $settings );
 		$messages = apply_filters( 'mt_payment_update_settings', '', $post );
@@ -166,12 +170,15 @@ function mt_payment_settings() {
 												$pg_settings .= "<li><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
 											}
 										}
-										$notes = ( isset( $fields['note'] ) ) ? '<p>' . wp_kses( $fields['note'], array(
-											'strong' => array(),
-											'code'   => array(),
-											'em'     => array(),
-											'a'      => array( 'href' ),
-										) ) . '</p>' : '';
+										$notes = ( isset( $fields['note'] ) ) ? '<p>' . wp_kses(
+												$fields['note'],
+												array(
+													'strong' => array(),
+													'code'   => array(),
+													'em'     => array(),
+													'a'      => array( 'href' ),
+												)
+											) . '</p>' : '';
 										// Translators: Gateway settings.
 										$pg_tabs          .= "<li><a href='#$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '</a></li>';
 										$payment_gateways .= "
@@ -265,111 +272,113 @@ function mt_symbols( $currency ) {
  * @return array
  */
 function mt_currency() {
-	$currencies = apply_filters( 'mt_currencies', array(
-		'USD' => array(
-			'symbol'      => '$',
-			'description' => __( 'U.S. Dollars ($)', 'my-tickets' ),
-		),
-		'EUR' => array(
-			'symbol'      => '€',
-			'description' => __( 'Euros (€)', 'my-tickets' ),
-		),
-		'AUD' => array(
-			'symbol'      => 'A $',
-			'description' => __( 'Australian Dollars (A $)', 'my-tickets' ),
-		),
-		'CAD' => array(
-			'symbol'      => 'C $',
-			'description' => __( 'Canadian Dollars (C $)', 'my-tickets' ),
-		),
-		'GBP' => array(
-			'symbol'      => '£',
-			'description' => __( 'Pounds Sterling (£)', 'my-tickets' ),
-		),
-		'INR' => array(
-			'symbol'      => '₹',
-			'description' => __( 'Indian Rupees (₹)', 'my-tickets' ),
-		),
-		'JPY' => array(
-			'symbol'      => '¥',
-			'description' => __( 'Yen (¥)', 'my-tickets' ),
-			'zerodecimal' => true,
-		),
-		'NZD' => array(
-			'symbol'      => '$',
-			'description' => __( 'New Zealand Dollar ($)', 'my-tickets' ),
-		),
-		'CHF' => array(
-			'symbol'      => 'CHF ',
-			'description' => __( 'Swiss Franc', 'my-tickets' ),
-		),
-		'HKD' => array(
-			'symbol'      => '$',
-			'description' => __( 'Hong Kong Dollar ($)', 'my-tickets' ),
-		),
-		'SGD' => array(
-			'symbol'      => '$',
-			'description' => __( 'Singapore Dollar ($)', 'my-tickets' ),
-		),
-		'SEK' => array(
-			'symbol'      => 'kr ',
-			'description' => __( 'Swedish Krona', 'my-tickets' ),
-		),
-		'DKK' => array(
-			'symbol'      => 'kr ',
-			'description' => __( 'Danish Krone', 'my-tickets' ),
-		),
-		'PLN' => array(
-			'symbol'      => 'zł',
-			'description' => __( 'Polish Zloty', 'my-tickets' ),
-		), // this is triggedec9decring an error. Why.
-		'NOK' => array(
-			'symbol'      => 'kr ',
-			'description' => __( 'Norwegian Krone', 'my-tickets' ),
-		),
-		'HUF' => array(
-			'symbol'      => 'Ft ',
-			'description' => __( 'Hungarian Forint', 'my-tickets' ),
-			'zerodecimal' => true,
-		),
-		'ILS' => array(
-			'symbol'      => '₪',
-			'description' => __( 'Israeli Shekel', 'my-tickets' ),
-		),
-		'MXN' => array(
-			'symbol'      => '$',
-			'description' => __( 'Mexican Peso', 'my-tickets' ),
-		),
-		'BRL' => array(
-			'symbol'      => 'R$',
-			'description' => __( 'Brazilian Real', 'my-tickets' ),
-		),
-		'MYR' => array(
-			'symbol'      => 'RM',
-			'description' => __( 'Malaysian Ringgits', 'my-tickets' ),
-		),
-		'PHP' => array(
-			'symbol'      => '₱',
-			'description' => __( 'Philippine Pesos', 'my-tickets' ),
-		),
-		'TWD' => array(
-			'symbol'      => 'NT$',
-			'description' => __( 'Taiwan New Dollars', 'my-tickets' ),
-			'zerodecimal' => true,
-		),
-		'THB' => array(
-			'symbol'      => '฿',
-			'description' => __( 'Thai Baht', 'my-tickets' ),
-		),
-		'TRY' => array(
-			'symbol'      => 'TRY ',
-			'description' => __( 'Turkish Lira', 'my-tickets' ),
-		),
-		'ZAR' => array(
-			'symbol'      => 'R',
-			'description' => __( 'South African Rand', 'my-tickets' ),
-		),
-	) );
+	$currencies = apply_filters(
+		'mt_currencies', array(
+			'USD' => array(
+				'symbol'      => '$',
+				'description' => __( 'U.S. Dollars ($)', 'my-tickets' ),
+			),
+			'EUR' => array(
+				'symbol'      => '€',
+				'description' => __( 'Euros (€)', 'my-tickets' ),
+			),
+			'AUD' => array(
+				'symbol'      => 'A $',
+				'description' => __( 'Australian Dollars (A $)', 'my-tickets' ),
+			),
+			'CAD' => array(
+				'symbol'      => 'C $',
+				'description' => __( 'Canadian Dollars (C $)', 'my-tickets' ),
+			),
+			'GBP' => array(
+				'symbol'      => '£',
+				'description' => __( 'Pounds Sterling (£)', 'my-tickets' ),
+			),
+			'INR' => array(
+				'symbol'      => '₹',
+				'description' => __( 'Indian Rupees (₹)', 'my-tickets' ),
+			),
+			'JPY' => array(
+				'symbol'      => '¥',
+				'description' => __( 'Yen (¥)', 'my-tickets' ),
+				'zerodecimal' => true,
+			),
+			'NZD' => array(
+				'symbol'      => '$',
+				'description' => __( 'New Zealand Dollar ($)', 'my-tickets' ),
+			),
+			'CHF' => array(
+				'symbol'      => 'CHF ',
+				'description' => __( 'Swiss Franc', 'my-tickets' ),
+			),
+			'HKD' => array(
+				'symbol'      => '$',
+				'description' => __( 'Hong Kong Dollar ($)', 'my-tickets' ),
+			),
+			'SGD' => array(
+				'symbol'      => '$',
+				'description' => __( 'Singapore Dollar ($)', 'my-tickets' ),
+			),
+			'SEK' => array(
+				'symbol'      => 'kr ',
+				'description' => __( 'Swedish Krona', 'my-tickets' ),
+			),
+			'DKK' => array(
+				'symbol'      => 'kr ',
+				'description' => __( 'Danish Krone', 'my-tickets' ),
+			),
+			'PLN' => array(
+				'symbol'      => 'zł',
+				'description' => __( 'Polish Zloty', 'my-tickets' ),
+			), // this is triggedec9decring an error. Why.
+			'NOK' => array(
+				'symbol'      => 'kr ',
+				'description' => __( 'Norwegian Krone', 'my-tickets' ),
+			),
+			'HUF' => array(
+				'symbol'      => 'Ft ',
+				'description' => __( 'Hungarian Forint', 'my-tickets' ),
+				'zerodecimal' => true,
+			),
+			'ILS' => array(
+				'symbol'      => '₪',
+				'description' => __( 'Israeli Shekel', 'my-tickets' ),
+			),
+			'MXN' => array(
+				'symbol'      => '$',
+				'description' => __( 'Mexican Peso', 'my-tickets' ),
+			),
+			'BRL' => array(
+				'symbol'      => 'R$',
+				'description' => __( 'Brazilian Real', 'my-tickets' ),
+			),
+			'MYR' => array(
+				'symbol'      => 'RM',
+				'description' => __( 'Malaysian Ringgits', 'my-tickets' ),
+			),
+			'PHP' => array(
+				'symbol'      => '₱',
+				'description' => __( 'Philippine Pesos', 'my-tickets' ),
+			),
+			'TWD' => array(
+				'symbol'      => 'NT$',
+				'description' => __( 'Taiwan New Dollars', 'my-tickets' ),
+				'zerodecimal' => true,
+			),
+			'THB' => array(
+				'symbol'      => '฿',
+				'description' => __( 'Thai Baht', 'my-tickets' ),
+			),
+			'TRY' => array(
+				'symbol'      => 'TRY ',
+				'description' => __( 'Turkish Lira', 'my-tickets' ),
+			),
+			'ZAR' => array(
+				'symbol'      => 'R',
+				'description' => __( 'South African Rand', 'my-tickets' ),
+			),
+		)
+	);
 
 	ksort( $currencies );
 

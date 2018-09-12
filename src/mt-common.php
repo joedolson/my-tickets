@@ -36,11 +36,14 @@ function mt_check_license( $key = false, $product, $store ) {
 		);
 
 		// Call the custom API.
-		$response = wp_remote_post( $store, array(
-			'timeout'   => 15,
-			'sslverify' => false,
-			'body'      => $api_params,
-		) );
+		$response = wp_remote_post(
+			$store,
+			array(
+				'timeout'   => 15,
+				'sslverify' => false,
+				'body'      => $api_params,
+			)
+		);
 		// make sure the response came back okay.
 		if ( is_wp_error( $response ) ) {
 			return false;

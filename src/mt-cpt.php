@@ -120,11 +120,15 @@ function mt_cpt_email_purchaser( $id ) {
 			if ( 'true' == $options['mt_html_email'] ) {
 				remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 			}
-			add_post_meta( $id, '_mt_send_email', array(
-				'body'    => $body,
-				'subject' => $subject,
-				'date'    => current_time( 'timestamp' ),
-			) );
+			add_post_meta(
+				$id,
+				'_mt_send_email',
+				array(
+					'body'    => $body,
+					'subject' => $subject,
+					'date'    => current_time( 'timestamp' ),
+				)
+			);
 		}
 	}
 }
@@ -147,12 +151,15 @@ function mt_default_fields() {
 				'label'   => __( 'Ticketing Method', 'my-tickets' ),
 				'input'   => 'select',
 				'default' => 'willcall',
-				'choices' => apply_filters( 'mt_registration_tickets_options', array(
-					'printable' => __( 'Printable', 'my-tickets' ),
-					'eticket'   => __( 'E-tickets', 'my-tickets' ),
-					'postal'    => __( 'Postal Mail', 'my-tickets' ),
-					'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
-				) ),
+				'choices' => apply_filters(
+					'mt_registration_tickets_options',
+					array(
+						'printable' => __( 'Printable', 'my-tickets' ),
+						'eticket'   => __( 'E-tickets', 'my-tickets' ),
+						'postal'    => __( 'Postal Mail', 'my-tickets' ),
+						'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
+					)
+				),
 			),
 			'is_delivered'      => array(
 				'label'   => __( 'Ticket Delivered', 'my-tickets' ),
@@ -214,7 +221,8 @@ function mt_add_inner_box() {
 	$fields = mt_default_fields();
 	$format = sprintf(
 		'<input type="hidden" name="%1$s" id="%1$s" value="%2$s" />',
-		'mt-meta-nonce', wp_create_nonce( 'mt-meta-nonce' )
+		'mt-meta-nonce',
+		wp_create_nonce( 'mt-meta-nonce' )
 	);
 	foreach ( $fields as $key => $value ) {
 		$label    = $value['label'];
@@ -267,10 +275,13 @@ function mt_add_uneditable() {
 		$receipt      = get_post_meta( $post_id, '_receipt', true );
 		$options      = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$link         = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
-		$bulk_tickets = add_query_arg( array(
-			'receipt_id' => $receipt,
-			'multiple'   => true,
-		), get_permalink( $options['mt_tickets_page'] ) );
+		$bulk_tickets = add_query_arg(
+			array(
+				'receipt_id' => $receipt,
+				'multiple'   => true,
+			),
+			get_permalink( $options['mt_tickets_page'] )
+		);
 		$purchase     = get_post_meta( $post_id, '_purchased' );
 		$discount     = get_post_meta( $post_id, '_discount', true );
 		// Translators: Quantity of member discount.
@@ -344,11 +355,15 @@ function mt_setup_tickets( $purchase, $id ) {
 							if ( ! in_array( $ticket_id, $ticket_meta ) ) {
 								add_post_meta( $event, '_ticket', $ticket_id );
 							}
-							update_post_meta( $id, $ticket_id, array(
-								'type'        => $type,
-								'price'       => $price,
-								'purchase_id' => $id,
-							) );
+							update_post_meta(
+								$id,
+								$ticket_id,
+								array(
+									'type'        => $type,
+									'price'       => $price,
+									'purchase_id' => $id,
+								)
+							);
 						}
 
 						$ticket_array[ $ticket_id ] = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
@@ -528,10 +543,15 @@ function mt_post_meta( $id ) {
 			mt_create_tickets( $id, $purchased );
 			// handle custom fields in custom orders.
 			do_action( 'mt_save_payment_fields', $id, $_POST, $purchased );
-			$receipt_id = md5( add_query_arg( array(
-				'post_type' => 'mt-payments',
-				'p'         => $id,
-			), home_url() ) );
+			$receipt_id = md5(
+				add_query_arg(
+					array(
+						'post_type' => 'mt-payments',
+						'p'         => $id,
+					),
+					home_url()
+				)
+			);
 			update_post_meta( $id, '_receipt', $receipt_id );
 		}
 
@@ -939,18 +959,25 @@ function mt_bulk_action() {
 			case 'complete':
 				$completed = 0;
 				foreach ( $post_ids as $post_id ) {
-					update_post_meta( $post_id, '_is_paid', 'Completed' );
-					wp_update_post( array(
-						'ID'          => $post_id,
-						'post_status' => 'publish',
-					) );
+				update_post_meta( $post_id, '_is_paid', 'Completed' );
+					wp_update_post(
+						array(
+							'ID'          => $post_id,
+							'post_status' => 'publish',
+						)
+					);
 					$completed ++;
 				}
 				// build the redirect url.
-				$sendback = esc_url( add_query_arg( array(
-					'completed' => $completed,
-					'ids'       => join( ',', $post_ids ),
-				), $sendback ) );
+				$sendback = esc_url(
+					add_query_arg(
+						array(
+							'completed' => $completed,
+							'ids'       => join( ',', $post_ids ),
+						),
+						$sendback
+					)
+				);
 				break;
 			default:
 				return;

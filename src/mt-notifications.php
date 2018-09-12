@@ -283,10 +283,14 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$handling      = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 
 	$total = mt_calculate_cart_cost( $purchase_data, $id ) + $handling;
-	$hash  = md5( add_query_arg( array(
-		'post_type' => 'mt-payments',
-		'p'         => $id,
-	), home_url() ) );
+	$hash  = md5(
+		add_query_arg( array(
+			'post_type' => 'mt-payments',
+			'p'         => $id,
+		),
+		home_url()
+		)
+	);
 
 	$receipt        = add_query_arg( 'receipt_id', $hash, get_permalink( $options['mt_receipt_page'] ) );
 	$transaction_id = get_post_meta( $id, '_transaction_id', true );
@@ -311,10 +315,13 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		$tickets    = ( 'true' == $options['mt_html_email'] ) ? '<p>' . $tickets . '</p>' : $tickets;
 		$ticket_ids = '';
 	}
-	$bulk_tickets = ( 'printable' == $ticketing_method ) ? add_query_arg( array(
-		'receipt_id' => $hash,
-		'multiple'   => true,
-	), get_permalink( $options['mt_tickets_page'] ) ) : '';
+	$bulk_tickets = ( 'printable' == $ticketing_method ) ? add_query_arg(
+		array(
+			'receipt_id' => $hash,
+			'multiple'   => true,
+		),
+		get_permalink( $options['mt_tickets_page'] )
+	) : '';
 
 	$purchases = apply_filters( 'mt_format_array', '', 'purchase', $purchased, $id );
 	$data      = array(
@@ -425,11 +432,15 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		// message to purchaser.
 		$body = apply_filters( 'mt_modify_email_body', $body, 'purchaser' );
 		// Log this message.
-		add_post_meta( $id, '_mt_send_email', array(
-			'body'    => $body,
-			'subject' => $subject,
-			'date'    => current_time( 'timestamp' ),
-		) );
+		add_post_meta(
+			$id,
+			'_mt_send_email',
+			array(
+				'body'    => $body,
+				'subject' => $subject,
+				'date'    => current_time( 'timestamp' ),
+			)
+		);
 		$sent = wp_mail( $email, $subject, $body, $headers );
 		if ( ! $sent ) {
 			// If mail sends, try without custom headers.

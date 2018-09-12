@@ -726,12 +726,15 @@ function mt_generate_gateway( $cart ) {
 		}
 
 		$report_total = "<div class='mt_cart_total'>" . apply_filters( 'mt_cart_total_text', __( 'Total:', 'my-tickets' ), $mt_gateway ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total + $shipping_total + $handling_total + $other_charges ) . '</span></div>';
-		$args         = apply_filters( 'mt_payment_form_args', array(
-			'cart'    => $cart,
-			'total'   => $total,
-			'payment' => $payment,
-			'method'  => $ticket_method,
-		) );
+		$args         = apply_filters(
+			'mt_payment_form_args',
+			array(
+				'cart'    => $cart,
+				'total'   => $total,
+				'payment' => $payment,
+				'method'  => $ticket_method,
+			)
+		);
 
 		$form = apply_filters( 'mt_gateway', '', $mt_gateway, $args );
 		$form = apply_filters( 'mt_form_wrapper', $form );
