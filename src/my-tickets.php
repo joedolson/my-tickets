@@ -218,16 +218,20 @@ function mt_payments_page() {
  */
 function mt_ticketing_help_tab() {
 	$screen = get_current_screen();
-	$screen->add_help_tab( array(
-		'id'      => 'mt_ticketing_help_tab_1',
-		'title'   => __( 'Ticket Options', 'my-tickets' ),
-		'content' => '<p><strong>' . __( 'General Ticketing Options' ) . '</strong><br />' . __( 'These options are global to all tickets. They include shipping rates, administrative fees, types of tickets available to your customers, and how you reserve tickets for sales at your ticket office.', 'my-tickets' ) . '</p>',
-	) );
-	$screen->add_help_tab( array(
-		'id'      => 'mt_ticketing_help_tab_2',
-		'title'   => __( 'Ticket Defaults', 'my-tickets' ),
-		'content' => '<p><strong>' . __( 'Ticket Defaults' ) . '</strong><br />' . __( 'Ticket defaults are settings that are specific to events. These values are what will be set up by default when you create a new event, but can be changed within the event. Only events that have a value entered for the number of tickets available for purchase will show up for sale on your site.', 'my-tickets' ) . '</p>',
-	) );
+	$screen->add_help_tab(
+		array(
+			'id'      => 'mt_ticketing_help_tab_1',
+			'title'   => __( 'Ticket Options', 'my-tickets' ),
+			'content' => '<p><strong>' . __( 'General Ticketing Options' ) . '</strong><br />' . __( 'These options are global to all tickets. They include shipping rates, administrative fees, types of tickets available to your customers, and how you reserve tickets for sales at your ticket office.', 'my-tickets' ) . '</p>',
+		)
+	);
+	$screen->add_help_tab(
+		array(
+			'id'      => 'mt_ticketing_help_tab_2',
+			'title'   => __( 'Ticket Defaults', 'my-tickets' ),
+			'content' => '<p><strong>' . __( 'Ticket Defaults' ) . '</strong><br />' . __( 'Ticket defaults are settings that are specific to events. These values are what will be set up by default when you create a new event, but can be changed within the event. Only events that have a value entered for the number of tickets available for purchase will show up for sale on your site.', 'my-tickets' ) . '</p>',
+		)
+	);
 	$resources  = '<p>' . __( 'More Help', 'my-tickets' ) . '</p>';
 	$resources .= '<ul>
 					<li><a href="http://docs.joedolson.com/my-tickets/">' . __( 'Documentation', 'my-tickets' ) . '</a></li>
@@ -261,20 +265,28 @@ function mt_public_enqueue_scripts() {
 	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ) );
 	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ) );
 	wp_enqueue_style( 'mt-styles', $ticket_styles );
-	wp_localize_script( 'mt.public', 'mt_ajax', array(
-		'action'   => 'mt_ajax_handler',
-		'url'      => admin_url( 'admin-ajax.php' ),
-		'security' => wp_create_nonce( 'mt-cart-nonce' ),
-		'currency' => $symbol,
-		'cart_url' => $cart_url,
-		'redirect' => $redirect,
-	) );
-	wp_localize_script( 'mt.public', 'mt_ajax_cart', array(
-		'action'    => 'mt_ajax_cart',
-		'url'       => admin_url( 'admin-ajax.php' ),
-		'security'  => wp_create_nonce( 'mt-ajax-cart-nonce' ),
-		'max_limit' => __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
-	) );
+	wp_localize_script(
+		'mt.public',
+		'mt_ajax',
+		array(
+			'action'   => 'mt_ajax_handler',
+			'url'      => admin_url( 'admin-ajax.php' ),
+			'security' => wp_create_nonce( 'mt-cart-nonce' ),
+			'currency' => $symbol,
+			'cart_url' => $cart_url,
+			'redirect' => $redirect,
+		)
+	);
+	wp_localize_script(
+		'mt.public',
+		'mt_ajax_cart',
+		array(
+			'action'    => 'mt_ajax_cart',
+			'url'       => admin_url( 'admin-ajax.php' ),
+			'security'  => wp_create_nonce( 'mt-ajax-cart-nonce' ),
+			'max_limit' => __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
+		)
+	);
 }
 
 
@@ -515,10 +527,12 @@ function mt_setup_page( $slug ) {
 		);
 		$post_ID   = wp_insert_post( $page );
 		$post_slug = wp_unique_post_slug( $slug, $post_ID, 'publish', 'page', 0 );
-		wp_update_post( array(
-			'ID'        => $post_ID,
-			'post_name' => $post_slug,
-		) );
+		wp_update_post(
+			array(
+				'ID'        => $post_ID,
+				'post_name' => $post_slug,
+			)
+		);
 	} else {
 		$post    = get_page_by_path( $slug );
 		$post_ID = $post->ID;

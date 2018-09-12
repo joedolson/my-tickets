@@ -317,8 +317,7 @@ function mt_wp_enqueue_scripts() {
 		wp_localize_script( 'mt.tabs', 'firstItem', $options['mt_default_gateway'] );
 		wp_enqueue_script(
 			'mt.functions',
-			plugins_url( 'js/jquery.functions.js',
-				__FILE__ ),
+			plugins_url( 'js/jquery.functions.js', __FILE__ ),
 			array(
 				'jquery',
 				'jquery-ui-autocomplete',

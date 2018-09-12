@@ -48,21 +48,25 @@ function mt_update_ticketing_settings( $post ) {
 		$defaults['tickets']     = $mt_total_tickets;
 		$defaults['multiple']    = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';
 
-		$settings = apply_filters( 'mt_settings', array(
-			'defaults'                => $defaults,
-			'mt_shipping'             => $mt_shipping,
-			'mt_handling'             => $mt_handling,
-			'mt_ticket_handling'      => $mt_ticket_handling,
-			'mt_ticketing'            => $mt_ticketing,
-			'mt_ticket_type_default'  => $mt_ticket_type_default,
-			'mt_shipping_time'        => $mt_shipping_time,
-			'mt_tickets_close_value'  => $close_value,
-			'mt_tickets_close_type'   => $close_type,
-			'mt_ticket_image'         => $mt_ticket_image,
-			'mt_hide_remaining'       => $mt_hide_remaining,
-			'mt_hide_remaining_limit' => $mt_hide_remaining_limit,
-			'mt_collect_shipping'     => $mt_collect_shipping,
-		), $_POST );
+		$settings = apply_filters(
+			'mt_settings',
+			array(
+				'defaults'                => $defaults,
+				'mt_shipping'             => $mt_shipping,
+				'mt_handling'             => $mt_handling,
+				'mt_ticket_handling'      => $mt_ticket_handling,
+				'mt_ticketing'            => $mt_ticketing,
+				'mt_ticket_type_default'  => $mt_ticket_type_default,
+				'mt_shipping_time'        => $mt_shipping_time,
+				'mt_tickets_close_value'  => $close_value,
+				'mt_tickets_close_type'   => $close_type,
+				'mt_ticket_image'         => $mt_ticket_image,
+				'mt_hide_remaining'       => $mt_hide_remaining,
+				'mt_hide_remaining_limit' => $mt_hide_remaining_limit,
+				'mt_collect_shipping'     => $mt_collect_shipping,
+			),
+			$_POST
+		);
 		$settings = array_merge( get_option( 'mt_settings' ), $settings );
 		update_option( 'mt_settings', $settings );
 		$messages = apply_filters( 'mt_ticketing_update_settings', '', $post );
@@ -101,12 +105,15 @@ function mt_ticketing_settings() {
 								?>
 								<?php
 								// array of ticket options. Need to also be registered as ticket action.
-								$mt_ticketing = apply_filters( 'mt_registration_tickets_options', array(
-									'printable' => __( 'Printable', 'my-tickets' ),
-									'eticket'   => __( 'E-tickets', 'my-tickets' ),
-									'postal'    => __( 'Postal Mail', 'my-tickets' ),
-									'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
-								) );
+								$mt_ticketing = apply_filters(
+									'mt_registration_tickets_options',
+									array(
+										'printable' => __( 'Printable', 'my-tickets' ),
+										'eticket'   => __( 'E-tickets', 'my-tickets' ),
+										'postal'    => __( 'Postal Mail', 'my-tickets' ),
+										'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
+									)
+								);
 								$ticketing    = $options['mt_ticketing'];
 								$form         = '<fieldset><legend>' . __( 'Available Ticket Types', 'my-calendar' ) . "</legend><ul class='ticket-type checkboxes'>";
 								foreach ( $mt_ticketing as $type => $label ) {

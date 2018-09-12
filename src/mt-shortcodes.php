@@ -51,11 +51,14 @@ add_shortcode( 'ticket', 'mt_registration_form_shortcode' );
  * @return string
  */
 function mt_registration_form_shortcode( $atts, $content = '' ) {
-	$atts = ( shortcode_atts( array(
-		'event' => false,
-		'view'  => 'calendar',
-		'time'  => 'month',
-	), $atts ) );
+	$atts = shortcode_atts(
+		array(
+			'event' => false,
+			'view'  => 'calendar',
+			'time'  => 'month',
+		),
+		$atts
+	);
 	if ( $atts['event'] ) {
 		return mt_registration_form( $content, $atts['event'], $atts['view'], $atts['time'], true );
 	}
@@ -73,12 +76,15 @@ add_shortcode( 'tickets', 'mt_featured_tickets' );
  * @return string
  */
 function mt_featured_tickets( $atts, $content = '' ) {
-	$atts = ( shortcode_atts( array(
-		'events'   => false,
-		'view'     => 'calendar',
-		'time'     => 'month',
-		'template' => '<h3>{post_title}: {event_begin format="l, F d"}</h3><p>{post_excerpt}</p>',
-	), $atts ) );
+	$atts = shortcode_atts(
+		array(
+			'events'   => false,
+			'view'     => 'calendar',
+			'time'     => 'month',
+			'template' => '<h3>{post_title}: {event_begin format="l, F d"}</h3><p>{post_excerpt}</p>',
+		),
+		$atts
+	);
 	if ( $atts['events'] ) {
 		$events = explode( ',', $atts['events'] );
 	} else {
