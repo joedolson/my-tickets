@@ -916,10 +916,14 @@ function mt_mass_email( $event_id = false ) {
 		$orig_subj = $subject;
 		$orig_body = $body;
 		// save email message to event post.
-		add_post_meta( $event_id, '_mass_email', array(
-			'subject' => $subject,
-			'body'    => $body,
-		) );
+		add_post_meta(
+			$event_id,
+			'_mass_email',
+			array(
+				'subject' => $subject,
+				'body'    => $body,
+			)
+		);
 		if ( ! $body || ! $subject ) {
 			echo "<div class='updated error'><p>" . __( 'You must include a message subject and body to send mass email.', 'my-tickets' ) . '</p></div>';
 			return;
@@ -952,11 +956,15 @@ function mt_mass_email( $event_id = false ) {
 				}
 				$body = apply_filters( 'mt_modify_email_body', $body, 'purchaser' );
 				// Log this message.
-				add_post_meta( $purchase_id, '_mt_send_email', array(
-					'body'    => $body,
-					'subject' => $subject,
-					'date'    => current_time( 'timestamp' ),
-				) );
+				add_post_meta(
+					$purchase_id,
+					'_mt_send_email',
+					array(
+						'body'    => $body,
+						'subject' => $subject,
+						'date'    => current_time( 'timestamp' ),
+					)
+				);
 				$sent = wp_mail( $to, $subject, $body, $headers );
 				if ( ! $sent ) {
 					// If mail sends, try without custom headers.

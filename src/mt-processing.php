@@ -35,7 +35,8 @@ function mt_add_ticket_form() {
 	global $post_id;
 	$format   = sprintf(
 		'<input type="hidden" name="%1$s" id="%1$s" value="%2$s" />',
-		'mt-tickets-nonce', wp_create_nonce( 'mt-tickets-nonce' )
+		'mt-tickets-nonce',
+		wp_create_nonce( 'mt-tickets-nonce' )
 	);
 	$data     = get_post_meta( $post_id, '_mc_event_data', true );
 	$location = get_post_meta( $post_id, '_mc_event_location', true );

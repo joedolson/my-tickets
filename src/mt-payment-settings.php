@@ -171,14 +171,14 @@ function mt_payment_settings() {
 											}
 										}
 										$notes = ( isset( $fields['note'] ) ) ? '<p>' . wp_kses(
-												$fields['note'],
-												array(
-													'strong' => array(),
-													'code'   => array(),
-													'em'     => array(),
-													'a'      => array( 'href' ),
-												)
-											) . '</p>' : '';
+											$fields['note'],
+											array(
+												'strong' => array(),
+												'code'   => array(),
+												'em'     => array(),
+												'a'      => array( 'href' ),
+											)
+										) . '</p>' : '';
 										// Translators: Gateway settings.
 										$pg_tabs          .= "<li><a href='#$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '</a></li>';
 										$payment_gateways .= "
@@ -273,7 +273,8 @@ function mt_symbols( $currency ) {
  */
 function mt_currency() {
 	$currencies = apply_filters(
-		'mt_currencies', array(
+		'mt_currencies',
+		array(
 			'USD' => array(
 				'symbol'      => '$',
 				'description' => __( 'U.S. Dollars ($)', 'my-tickets' ),

@@ -40,11 +40,13 @@ function mt_get_receipt() {
 	$receipt_id = isset( $_GET['receipt_id'] ) ? $_GET['receipt_id'] : false;
 	$receipt    = false;
 	if ( $receipt_id ) {
-		$posts   = get_posts( array(
-			'post_type'  => 'mt-payments',
-			'meta_key'   => '_receipt',
-			'meta_value' => $receipt_id,
-		) );
+		$posts   = get_posts(
+			array(
+				'post_type'  => 'mt-payments',
+				'meta_key'   => '_receipt',
+				'meta_value' => $receipt_id,
+			)
+		);
 		$receipt = $posts[0];
 	}
 

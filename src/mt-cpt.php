@@ -959,7 +959,7 @@ function mt_bulk_action() {
 			case 'complete':
 				$completed = 0;
 				foreach ( $post_ids as $post_id ) {
-				update_post_meta( $post_id, '_is_paid', 'Completed' );
+					update_post_meta( $post_id, '_is_paid', 'Completed' );
 					wp_update_post(
 						array(
 							'ID'          => $post_id,

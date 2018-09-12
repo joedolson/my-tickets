@@ -284,11 +284,12 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 
 	$total = mt_calculate_cart_cost( $purchase_data, $id ) + $handling;
 	$hash  = md5(
-		add_query_arg( array(
-			'post_type' => 'mt-payments',
-			'p'         => $id,
-		),
-		home_url()
+		add_query_arg(
+			array(
+				'post_type' => 'mt-payments',
+				'p'         => $id,
+			),
+			home_url()
 		)
 	);
 

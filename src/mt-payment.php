@@ -54,10 +54,12 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 			update_post_meta( $purchase_id, '_transaction_id', $txn_id );
 			update_post_meta( $purchase_id, '_transaction_data', $data );
 			update_post_meta( $purchase_id, '_is_paid', $status );
-			wp_update_post( array(
-				'ID'          => $purchase_id,
-				'post_status' => 'publish',
-			) ); // trigger notifications.
+			wp_update_post(
+				array(
+					'ID'          => $purchase_id,
+					'post_status' => 'publish',
+				)
+			); // trigger notifications.
 		} else {
 			// If we're here, there was an invalid payment response detected.
 			// log for manual investigation.
