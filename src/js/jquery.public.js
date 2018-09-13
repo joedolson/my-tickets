@@ -72,9 +72,9 @@
             var val = $(target + ' .mt_count').val();
             var remain = $(target + ' .count').attr( 'data-limit' );
 
-            if (action == 'more') {
+            if ( action == 'more' ) {
                 var newval = parseInt(val) + 1;
-            } else if (action == 'less') {
+            } else if ( action == 'less' ) {
                 if ( parseInt(val) == 0 ) {
                     var newval = 0;
                     $(target).addClass('removed');

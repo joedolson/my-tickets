@@ -297,7 +297,7 @@ function mt_calculate_cart_cost( $purchased, $payment_id ) {
 					if ( (int) $ticket['count'] > 0 ) {
 						$price = ( isset( $prices[ $type ] ) ) ? $prices[ $type ]['price'] : '';
 						if ( $price ) {
-							$price = mt_calculate_discount( $price, $payment_id );
+							$price = mt_calculate_discount( $price, $event_id, $payment_id );
 							$price = mt_handling_price( $price, $event_id );
 						}
 						$total = $total + ( $price * $ticket['count'] );

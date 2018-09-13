@@ -914,7 +914,7 @@ function mt_total_cart( $cart, $payment_id = false, $apply_discounts = true ) {
 		foreach ( $cart as $event => $order ) {
 			$expired = mt_expired( $event );
 			if ( ! $expired ) {
-				$prices = mt_get_prices( $event );
+				$prices = mt_get_prices( $event, $payment_id );
 				if ( is_array( $order ) ) {
 					foreach ( $order as $type => $count ) {
 						if ( $count > 0 ) {
