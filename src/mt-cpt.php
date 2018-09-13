@@ -272,18 +272,18 @@ function mt_add_uneditable() {
 			$dispute_data = '';
 		}
 
-		$receipt      = get_post_meta( $post_id, '_receipt', true );
-		$options      = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-		$link         = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
-		$bulk_tickets = add_query_arg(
+		$receipt       = get_post_meta( $post_id, '_receipt', true );
+		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+		$link          = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
+		$bulk_tickets  = add_query_arg(
 			array(
 				'receipt_id' => $receipt,
 				'multiple'   => true,
 			),
 			get_permalink( $options['mt_tickets_page'] )
 		);
-		$purchase     = get_post_meta( $post_id, '_purchased' );
-		$discount     = get_post_meta( $post_id, '_discount', true );
+		$purchase      = get_post_meta( $post_id, '_purchased' );
+		$discount      = get_post_meta( $post_id, '_discount', true );
 		$discount_text = '';
 		if ( get_post_meta( $post_id, '_mtdi_discount', true ) ) {
 			// Translators: Quantity of member discount.
