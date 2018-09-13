@@ -158,9 +158,9 @@ function mt_get_prices( $event_id, $payment_id = false ) {
 /**
  * Calculates actual cost of an event ticket if member discount in effect
  *
- * @param float $price Event Ticket Price before discounts.
- * @param int   $event_id Event ID.
- * @param int   $payment_id Payment ID.
+ * @param float    $price Event Ticket Price before discounts.
+ * @param int      $event_id Event ID.
+ * @param int|bool $payment_id Payment ID.
  *
  * @return float
  */
