@@ -93,13 +93,12 @@ function mt_paypal_ipn() {
 				'purchase_id'    => $item_number,
 				'shipping'       => $address,
 			);
-			wp_mail( 'joe@joedolson.com', 'PayPal Info', print_r( $data, 1 ) . print_r( $_POST, 1 ) );
 			// Die conditions for PayPal.
 			// If receiver email or currency are wrong, this is probably a fraudulent transaction.
 			// If no receiver email provided, that check will be skipped.
 			if ( 'Refunded' == $payment_status ) {
 				$value_match = true; // It won't match, and probably doesn't need to.
-			} else {
+\			} else {
 				$value_match = mt_check_payment_amount( $price, $item_number );
 			}
 			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || ! $value_match ) {

@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8ea63222-62f2-4551-a4f9-da5c5431eb39" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/gateways/paypal.php" afterPath="$PROJECT_DIR$/gateways/paypal.php" />
-      <change beforePath="$PROJECT_DIR$/mt-cart.php" afterPath="$PROJECT_DIR$/mt-cart.php" />
-      <change beforePath="$PROJECT_DIR$/readme.txt" afterPath="$PROJECT_DIR$/readme.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -93,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mt-cart.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mt-cart.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mt-cart.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="601" column="12" lean-forward="false" selection-start-line="601" selection-start-column="12" selection-end-line="601" selection-end-column="12" />
+            <state relative-caret-position="401">
+              <caret line="596" column="45" lean-forward="true" selection-start-line="596" selection-start-column="45" selection-end-line="596" selection-end-column="45" />
               <folding>
                 <marker date="1536866573639" expanded="true" signature="9583:11383" ph="..." />
                 <marker date="1536866573639" expanded="true" signature="9661:9920" ph="..." />
@@ -152,11 +150,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="paypal.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="paypal.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="233" column="98" lean-forward="false" selection-start-line="233" selection-start-column="98" selection-end-line="233" selection-end-column="98" />
+            <state relative-caret-position="373">
+              <caret line="100" column="20" lean-forward="true" selection-start-line="100" selection-start-column="20" selection-end-line="100" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -203,16 +201,16 @@
       <find>mt_apply_total_discount</find>
       <find>Apply</find>
       <find>mt_shipping_fields</find>
-      <find>is_user_logged</find>
       <find>apply_discount</find>
       <find>_total_paid</find>
-      <find>wp_mail</find>
       <find>shipping</find>
       <find>address</find>
       <find>presave</find>
       <find>always</find>
       <find>mt_collect_shipping</find>
       <find>ipnpb</find>
+      <find>is_user_logged</find>
+      <find>wp_mail</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -254,9 +252,9 @@
         <option value="$PROJECT_DIR$/mt-ticketing-settings.php" />
         <option value="$PROJECT_DIR$/my-tickets.php" />
         <option value="$PROJECT_DIR$/mt-processing.php" />
-        <option value="$PROJECT_DIR$/gateways/paypal.php" />
         <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/mt-cart.php" />
+        <option value="$PROJECT_DIR$/gateways/paypal.php" />
       </list>
     </option>
   </component>
@@ -410,12 +408,12 @@
       <workItem from="1534822726708" duration="604000" />
       <workItem from="1535306528473" duration="8743000" />
       <workItem from="1535996805795" duration="15460000" />
-      <workItem from="1536338228438" duration="24929000" />
+      <workItem from="1536338228438" duration="25490000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="176452000" />
+    <option name="totallyTimeSpent" value="177013000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -967,14 +965,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="233" column="98" lean-forward="false" selection-start-line="233" selection-start-column="98" selection-end-line="233" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -985,8 +975,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mt-cart.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="601" column="12" lean-forward="false" selection-start-line="601" selection-start-column="12" selection-end-line="601" selection-end-column="12" />
+        <state relative-caret-position="401">
+          <caret line="596" column="45" lean-forward="true" selection-start-line="596" selection-start-column="45" selection-end-line="596" selection-end-column="45" />
           <folding>
             <marker date="1536866573639" expanded="true" signature="9583:11383" ph="..." />
             <marker date="1536866573639" expanded="true" signature="9661:9920" ph="..." />
@@ -1003,6 +993,14 @@
             <marker date="1536866573639" expanded="true" signature="35040:35056" ph="..." />
             <marker date="1536866573639" expanded="true" signature="35382:35793" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="100" column="20" lean-forward="true" selection-start-line="100" selection-start-column="20" selection-end-line="100" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
