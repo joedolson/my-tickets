@@ -70,6 +70,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 * Bug fix: Ensure address is collected using PayPal if always collect address enabled.
 * New filters for discount handling.
 * Change: Update references to My Calendar template function.
+* Change: Pass payment ID in more contexts.
 
 = 1.7.8 =
 

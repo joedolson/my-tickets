@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ea63222-62f2-4551-a4f9-da5c5431eb39" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/js/jquery.public.js" afterPath="$PROJECT_DIR$/js/jquery.public.js" />
-      <change beforePath="$PROJECT_DIR$/mt-cart-handler.php" afterPath="$PROJECT_DIR$/mt-cart-handler.php" />
-      <change beforePath="$PROJECT_DIR$/mt-cart.php" afterPath="$PROJECT_DIR$/mt-cart.php" />
       <change beforePath="$PROJECT_DIR$/mt-cpt.php" afterPath="$PROJECT_DIR$/mt-cpt.php" />
+      <change beforePath="$PROJECT_DIR$/readme.txt" afterPath="$PROJECT_DIR$/readme.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +17,8 @@
       <file leaf-file-name="readme.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/readme.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="69" column="86" lean-forward="false" selection-start-line="69" selection-start-column="86" selection-end-line="69" selection-end-column="86" />
+            <state relative-caret-position="459">
+              <caret line="72" column="43" lean-forward="false" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -120,11 +117,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jquery.public.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="jquery.public.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/jquery.public.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="90" column="35" lean-forward="false" selection-start-line="90" selection-start-column="35" selection-end-line="90" selection-end-column="35" />
+            <state relative-caret-position="222">
+              <caret line="83" column="31" lean-forward="true" selection-start-line="83" selection-start-column="31" selection-end-line="83" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -146,11 +143,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mt-cpt.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mt-cpt.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mt-cpt.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="302" column="33" lean-forward="false" selection-start-line="302" selection-start-column="33" selection-end-line="302" selection-end-column="33" />
+            <state relative-caret-position="322">
+              <caret line="288" column="56" lean-forward="false" selection-start-line="288" selection-start-column="56" selection-end-line="288" selection-end-column="56" />
               <folding />
             </state>
           </provider>
@@ -237,13 +234,13 @@
         <option value="$PROJECT_DIR$/mt-ticketing-settings.php" />
         <option value="$PROJECT_DIR$/my-tickets.php" />
         <option value="$PROJECT_DIR$/mt-processing.php" />
-        <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/gateways/paypal.php" />
-        <option value="$PROJECT_DIR$/mt-cpt.php" />
         <option value="$PROJECT_DIR$/mt-notifications.php" />
         <option value="$PROJECT_DIR$/mt-cart-handler.php" />
         <option value="$PROJECT_DIR$/mt-cart.php" />
         <option value="$PROJECT_DIR$/js/jquery.public.js" />
+        <option value="$PROJECT_DIR$/readme.txt" />
+        <option value="$PROJECT_DIR$/mt-cpt.php" />
       </list>
     </option>
   </component>
@@ -397,12 +394,12 @@
       <workItem from="1534822726708" duration="604000" />
       <workItem from="1535306528473" duration="8743000" />
       <workItem from="1535996805795" duration="15460000" />
-      <workItem from="1536338228438" duration="29795000" />
+      <workItem from="1536338228438" duration="30060000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="181318000" />
+    <option name="totallyTimeSpent" value="181583000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -800,14 +797,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="69" column="86" lean-forward="false" selection-start-line="69" selection-start-column="86" selection-end-line="69" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -827,14 +816,6 @@
             <marker date="1536783173504" expanded="true" signature="11255:11778" ph="..." />
             <marker date="1536783173504" expanded="true" signature="11394:11761" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-cpt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="302" column="33" lean-forward="false" selection-start-line="302" selection-start-column="33" selection-end-line="302" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -911,8 +892,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/jquery.public.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="90" column="35" lean-forward="false" selection-start-line="90" selection-start-column="35" selection-end-line="90" selection-end-column="35" />
+        <state relative-caret-position="222">
+          <caret line="83" column="31" lean-forward="true" selection-start-line="83" selection-start-column="31" selection-end-line="83" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="72" column="43" lean-forward="false" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-cpt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="288" column="56" lean-forward="false" selection-start-line="288" selection-start-column="56" selection-end-line="288" selection-end-column="56" />
           <folding />
         </state>
       </provider>
