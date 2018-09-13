@@ -93,6 +93,7 @@ function mt_paypal_ipn() {
 				'purchase_id'    => $item_number,
 				'shipping'       => $address,
 			);
+			wp_mail( 'joe@joedolson.com', 'PayPal Info', print_r( $data, 1 ) . print_r( $_POST, 1 ) );
 			// Die conditions for PayPal.
 			// If receiver email or currency are wrong, this is probably a fraudulent transaction.
 			// If no receiver email provided, that check will be skipped.
@@ -166,7 +167,7 @@ function mt_paypal_shipping_fields( $form, $gateway ) {
 			'mt_shipping_country',
 			'mt_shipping_code',
 		);
-		$replace = array( 'address1', 'address2', 'city', 'state', 'mt_shipping_country', 'zip' );
+		$replace = array( 'address1', 'address2', 'city', 'state', 'country', 'zip' );
 
 		return str_replace( $search, $replace, $form );
 	}
@@ -230,7 +231,7 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		$payment_id     = $args['payment'];
 		$handling       = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 		$total          = $args['total'] + $handling;
-		$shipping       = ( 'postal' == $args['method'] ) ? 2 : 1;
+		$shipping       = ( 'postal' == $args['method'] || 'true' == $options['mt_collect_shipping'] ) ? 2 : 1;
 		$shipping_price = ( 'postal' == $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
 		$use_sandbox    = $options['mt_use_sandbox'];
 		$currency       = $options['mt_currency'];
