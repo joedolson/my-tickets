@@ -175,7 +175,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
 	} else {
 		$discount = 0;
 	}
-	$discount   = apply_filters( 'mt_members_discount', $discount, $event_id );
+	$discount   = apply_filters( 'mt_members_discount', $discount, $event_id, $payment_id );
 	$discounted = ( 0 != $discount ) ? $price - ( $price * ( $discount / 100 ) ) : $price;
 	$discounted = apply_filters( 'mt_apply_event_discounts', $discounted, $event_id, $payment_id );
 	if ( mt_zerodecimal_currency() ) {
