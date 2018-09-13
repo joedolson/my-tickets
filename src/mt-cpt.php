@@ -285,7 +285,10 @@ function mt_add_uneditable() {
 		$purchase     = get_post_meta( $post_id, '_purchased' );
 		$discount     = get_post_meta( $post_id, '_discount', true );
 		// Translators: Quantity of member discount.
-		$discount_text = ( '' != $discount ) ? sprintf( __( ' @ %d&#37; member discount', 'my-tickets' ), $discount ) : '';
+		$discount_text = '';
+		if ( get_post_meta( $post_id, '_mtdi_discount', true ) ) {
+			$discount_text = ( '' != $discount ) ? sprintf( __( ' @ %d&#37; member discount', 'my-tickets' ), $discount ) : '';
+		}
 
 		$status = get_post_meta( $post_id, '_is_paid', true );
 		$total  = mt_money_format( get_post_meta( $post_id, '_total_paid', true ) );
