@@ -98,7 +98,7 @@ function mt_paypal_ipn() {
 			// If no receiver email provided, that check will be skipped.
 			if ( 'Refunded' == $payment_status ) {
 				$value_match = true; // It won't match, and probably doesn't need to.
-\			} else {
+			} else {
 				$value_match = mt_check_payment_amount( $price, $item_number );
 			}
 			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || ! $value_match ) {
