@@ -67,8 +67,9 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 = 1.7.9 =
 
 * Bug fix: execute discount calculation in cart data.
+* Bug fix: Ensure address is collected using PayPal if always collect address enabled.
+* New filters for discount handling.
 * Change: Update references to My Calendar template function.
-
 
 = 1.7.8 =
 

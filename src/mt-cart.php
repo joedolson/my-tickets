@@ -597,8 +597,9 @@ function mt_shipping_country( $country = '' ) {
 		'ZM' => __( 'Zambia', 'my-tickets' ),
 		'ZW' => __( 'Zimbabwe', 'my-tickets' ),
 	);
+
 	$options = '';
-	foreach( $countries as $key => $value ) {
+	foreach ( $countries as $key => $value ) {
 		$selected = ( $country == $key || $country == $value ) ? ' selected="selected"' : '';
 		$options .= '<option value="' . esc_attr( $key ) . '"' . $selected . '>' . esc_html( $value ) . '</option>';
 	}
