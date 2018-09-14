@@ -22,6 +22,7 @@ Premium add-ons include:
 
 * Payment Gateways: Authorize.net, Stripe
 * In-cart Donations
+* Discount Codes
 
 = Basic Features: =
 

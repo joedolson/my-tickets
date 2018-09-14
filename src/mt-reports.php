@@ -504,7 +504,9 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 										}
 									}
 								}
-							}
+							} elseif ( ! is_object( $v ) ) {
+							    $cstring .= $v;
+                            }
 						}
 						$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $purchase_id, $name, true ), $purchase_id, $name );
 						$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
