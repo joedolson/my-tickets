@@ -65,6 +65,11 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.10 =
+
+* Increase prominence of sales & help sidebar blocks.
+*
+
 = 1.7.9 =
 
 * Bug fix: execute discount calculation in cart data.

@@ -181,6 +181,12 @@ legend {
     width: 11em;
 }
 
+.sales {
+    background: #e25822;
+    color: #fff;
+    text-shadow: 1px 0 0 #000;
+}
+
 @media (max-width: 782px) {
     .jcd-narrow {
         width: 100%;

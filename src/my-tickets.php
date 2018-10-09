@@ -607,7 +607,57 @@ function mt_show_support_box( $add = false ) {
 
 		<div class="ui-sortable meta-box-sortables">
 			<div class="postbox">
-				<h3><?php _e( 'Support this Plug-in', 'my-tickets' ); ?></h3>
+				<h2 class="sales hndle"><?php _e( 'Buy Premium Add-ons', 'my-tickets' ); ?></h2>
+				<div id="support" class="inside resources">
+					<p><strong>
+						<?php
+						// Translators: Sales URL.
+						printf( __( 'Want to do more with My Tickets? <a href="%s">Premium add-ons are available!</a>!', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' );
+						?>
+					</strong></p>
+					<ul>
+						<li><a href="https://www.joedolson.com/awesome/my-tickets-discounts/">My Tickets: Discounts</a></li>
+						<li><a href="https://www.joedolson.com/awesome/my-tickets-donations/">My Tickets: Donations</a></li>
+						<li><a href="https://www.joedolson.com/awesome/my-tickets-stripe/">My Tickets: Stripe</a></li>
+						<li><a href="https://www.joedolson.com/awesome/tickets-authorize-net/">My Tickets: Authorize.net</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui-sortable meta-box-sortables">
+			<div class="postbox">
+				<h2 class="hndle"><?php _e( 'Get My Tickets Help', 'my-tickets' ); ?></h2>
+
+				<div class="inside">
+					<ul>
+						<li>
+							<div class="dashicons dashicons-editor-help" aria-hidden="true"></div>
+							<strong><a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#get-started"><?php _e( 'Getting Started', 'my-tickets' ); ?></strong></a></li>
+						<li>
+							<div class="dashicons dashicons-editor-help" aria-hidden="true"></div>
+							<a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#get-support"><?php _e( 'Get Support', 'my-tickets' ); ?></a>
+						</li>
+						<li>
+							<div class="dashicons dashicons-editor-help" aria-hidden="true"></div>
+							<a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#faq"><?php _e( 'My Tickets FAQ', 'my-tickets' ); ?></a>
+						</li>
+						<li>
+							<div class="dashicons dashicons-book-alt" aria-hidden="true"></div>
+							<a href="http://docs.joedolson.com/my-tickets/"><?php _e( 'Documentation', 'my-tickets' ); ?></a>
+						</li>
+						<li>
+							<div class="dashicons dashicons-yes" aria-hidden="true"></div>
+							<a href="http://profiles.wordpress.org/joedolson/"><?php _e( 'Check out my other plug-ins', 'my-tickets' ); ?></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui-sortable meta-box-sortables">
+			<div class="postbox">
+				<h2 class="hndle"><?php _e( 'Support this Plug-in', 'my-tickets' ); ?></h2>
 				<div id="support" class="inside resources">
 					<?php mt_logo( array( 'class' => 'mt-logo' ) ); ?>
 					<ul>
@@ -635,57 +685,13 @@ function mt_show_support_box( $add = false ) {
 			</div>
 		</div>
 
-		<div class="ui-sortable meta-box-sortables">
-			<div class="postbox">
-				<h3><?php _e( 'Premium Add-ons', 'my-tickets' ); ?></h3>
-				<div id="support" class="inside resources">
-					<p>
-						<?php
-						// Translators: Sales URL.
-						printf( __( 'Want to do more with My Tickets? <a href="%s">Premium add-ons are available now</a> - with more to come!', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' );
-						?>
-					</p>
-				</div>
-			</div>
-		</div>
-
-
-		<div class="ui-sortable meta-box-sortables">
-			<div class="postbox">
-				<h3><?php _e( 'Get My Tickets Help', 'my-tickets' ); ?></h3>
-
-				<div class="inside">
-					<ul>
-						<li>
-							<div class="dashicons dashicons-editor-help"></div>
-							<strong><a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#get-started"><?php _e( 'Getting Started', 'my-tickets' ); ?></strong></a></li>
-						<li>
-							<div class="dashicons dashicons-editor-help"></div>
-							<a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#get-support"><?php _e( 'Get Support', 'my-tickets' ); ?></a>
-						</li>
-						<li>
-							<div class="dashicons dashicons-editor-help"></div>
-							<a href="<?php echo admin_url( 'admin.php?page=mt-help' ); ?>#faq"><?php _e( 'My Tickets FAQ', 'my-tickets' ); ?></a>
-						</li>
-						<li>
-							<div class="dashicons dashicons-book-alt"></div>
-							<a href="http://docs.joedolson.com/my-tickets/"><?php _e( 'Documentation', 'my-tickets' ); ?></a>
-						</li>
-						<li>
-							<div class="dashicons dashicons-yes"></div>
-							<a href="http://profiles.wordpress.org/joedolson/"><?php _e( 'Check out my other plug-ins', 'my-tickets' ); ?></a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
 		<?php
 		if ( is_array( $add ) ) {
 			foreach ( $add as $key => $value ) {
 				?>
 				<div class="ui-sortable meta-box-sortables">
 					<div class="postbox">
-						<h3><?php echo $key; ?></h3>
+						<h2 class="hndle"><?php echo $key; ?></h2>
 
 						<div class='<?php echo sanitize_title( $key ); ?> inside'>
 							<?php echo $value; ?>
