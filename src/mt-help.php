@@ -103,7 +103,7 @@ function mt_help() {
 						</div>
 					</div>
 					<div class="postbox">
-						<h3><?php _e( 'Get Support', 'my-tickets' ); ?></h3>
+						<h3 id="get-support"><?php _e( 'Get Support', 'my-tickets' ); ?></h3>
 
 						<div class="inside">
 							<div class="mt-support-me">
