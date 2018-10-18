@@ -251,7 +251,10 @@ function mt_get_payment_details() {
 		} elseif ( 'Turned Back' == $paid ) {
 			return __( 'This purchase was cancelled and the tickets were returned to the seller.', 'my-tickets' );
 		} else {
-			return __( 'Payment on this purchase is not completed. The receipt will be updated with payment details when payment is completed.', 'my-tickets' );
+			$due         = get_post_meta( $receipt->ID, '_total_paid', true );
+			$due         = apply_filters( 'mt_money_format', $due );
+
+			return __( 'Payment on this purchase is not completed. The receipt will be updated with payment details when payment is completed.', 'my-tickets' ) . ' ' . sprintf( __( 'Amount due: %s', 'my-tickets' ), '<strong>' . $due . '</strong>' );
 		}
 	}
 

@@ -68,7 +68,8 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 = 1.7.10 =
 
 * Increase prominence of sales & help sidebar blocks.
-*
+* Update dashicon implementation for accessibility.
+* Missing ID on 'Get Support' heading.
 
 = 1.7.9 =
 
