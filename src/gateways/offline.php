@@ -159,6 +159,7 @@ function mt_offline_processor() {
 		);
 		// Everything's all right.
 		wp_safe_redirect( $redirect );
+		exit;
 	}
 
 	return;
