@@ -201,6 +201,7 @@ add_action( 'admin_init', 'mt_redirect_to_payments' );
 function mt_redirect_to_payments() {
 	if ( isset( $_GET['page'] ) && 'mt-payments' == $_GET['page'] ) {
 		wp_safe_redirect( admin_url( 'edit.php?post_type=mt-payments' ) );
+		exit;
 	}
 }
 
@@ -490,6 +491,7 @@ function mt_admin_delete() {
 		mt_delete_data( 'payment' );
 		$redirect = wp_get_referer();
 		wp_safe_redirect( $redirect );
+		exit;
 	}
 }
 

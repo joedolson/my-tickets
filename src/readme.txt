@@ -70,6 +70,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 * Increase prominence of sales & help sidebar blocks.
 * Update dashicon implementation for accessibility.
 * Missing ID on 'Get Support' heading.
+* Bug fix: Must exit after wp_safe_redirect
 
 = 1.7.9 =
 

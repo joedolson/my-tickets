@@ -26,7 +26,7 @@ function mt_handle_cart() {
 		if ( ! isset( $_POST['mt_fname'] ) || '' == $_POST['mt_fname'] || ! isset( $_POST['mt_lname'] ) || '' == $_POST['mt_lname'] || ! isset( $_POST['mt_email'] ) || '' == $_POST['mt_email'] || ! isset( $_POST['mt_email2'] ) || $_POST['mt_email'] != $_POST['mt_email2'] ) {
 			$url = add_query_arg( 'response_code', 'required-fields', get_permalink( $options['mt_purchase_page'] ) );
 			wp_safe_redirect( $url );
-			die;
+			exit;
 		}
 		$payment = mt_create_payment( $_POST );
 		if ( $payment ) {

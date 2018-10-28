@@ -27,6 +27,7 @@ function mt_ticket() {
 				}
 			} else {
 				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+				exit;
 			}
 		} else {
 			if ( isset( $_GET['receipt_id'] ) ) {
@@ -38,6 +39,7 @@ function mt_ticket() {
 				}
 			} else {
 				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+				exit;
 			}
 		}
 		exit;
