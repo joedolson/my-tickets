@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ea63222-62f2-4551-a4f9-da5c5431eb39" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/mt-templating.php" afterPath="$PROJECT_DIR$/mt-templating.php" />
+      <change beforePath="$PROJECT_DIR$/gateways/offline.php" afterPath="$PROJECT_DIR$/gateways/offline.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,8 +26,8 @@
       <file leaf-file-name="offline.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gateways/offline.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="541">
-              <caret line="161" column="13" lean-forward="false" selection-start-line="161" selection-start-column="13" selection-end-line="161" selection-end-column="13" />
+            <state relative-caret-position="592">
+              <caret line="166" column="0" lean-forward="true" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
               <folding>
                 <element signature="e#6#191#0#PHP" expanded="true" />
               </folding>
@@ -55,7 +55,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mt-templating.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mt-templating.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mt-templating.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="566">
@@ -129,11 +129,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="paypal.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="paypal.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="191" column="1" lean-forward="true" selection-start-line="191" selection-start-column="1" selection-end-line="191" selection-end-column="1" />
+            <state relative-caret-position="443">
+              <caret line="303" column="9" lean-forward="true" selection-start-line="303" selection-start-column="9" selection-end-line="303" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -216,8 +216,8 @@
         <option value="$PROJECT_DIR$/my-tickets.php" />
         <option value="$PROJECT_DIR$/mt-help.php" />
         <option value="$PROJECT_DIR$/readme.txt" />
-        <option value="$PROJECT_DIR$/gateways/offline.php" />
         <option value="$PROJECT_DIR$/mt-templating.php" />
+        <option value="$PROJECT_DIR$/gateways/offline.php" />
       </list>
     </option>
   </component>
@@ -375,12 +375,12 @@
       <workItem from="1536945234670" duration="9679000" />
       <workItem from="1539025511797" duration="6027000" />
       <workItem from="1539880479960" duration="3362000" />
-      <workItem from="1540491395267" duration="1605000" />
+      <workItem from="1540491395267" duration="2219000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="202878000" />
+    <option name="totallyTimeSpent" value="203492000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="120" y="86" width="1715" height="868" extended-state="0" />
@@ -859,24 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gateways/offline.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="161" column="13" lean-forward="false" selection-start-line="161" selection-start-column="13" selection-end-line="161" selection-end-column="13" />
-          <folding>
-            <element signature="e#6#191#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="191" column="1" lean-forward="true" selection-start-line="191" selection-start-column="1" selection-end-line="191" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mt-templating.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="566">
@@ -885,6 +867,24 @@
             <marker date="1540493002291" expanded="true" signature="5139:5305" ph="..." />
             <marker date="1540493002291" expanded="true" signature="14916:14990" ph="SELECT * FRO... ${my_calendar_locations_table()}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gateways/offline.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="592">
+          <caret line="166" column="0" lean-forward="true" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+          <folding>
+            <element signature="e#6#191#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="303" column="9" lean-forward="true" selection-start-line="303" selection-start-column="9" selection-end-line="303" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
