@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ea63222-62f2-4551-a4f9-da5c5431eb39" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/includes/qrcode.php" afterPath="$PROJECT_DIR$/includes/qrcode.php" />
+      <change beforePath="$PROJECT_DIR$/readme.txt" afterPath="$PROJECT_DIR$/readme.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="readme.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="readme.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/readme.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1173">
-              <caret line="69" column="11" lean-forward="false" selection-start-line="69" selection-start-column="11" selection-end-line="69" selection-end-column="11" />
+            <state relative-caret-position="340">
+              <caret line="71" column="19" lean-forward="false" selection-start-line="71" selection-start-column="19" selection-end-line="71" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -91,7 +90,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qrcode.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="qrcode.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/includes/qrcode.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
@@ -207,11 +206,11 @@
         <option value="$PROJECT_DIR$/mt-help.php" />
         <option value="$PROJECT_DIR$/mt-templating.php" />
         <option value="$PROJECT_DIR$/gateways/offline.php" />
-        <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/mt-receipt.php" />
         <option value="$PROJECT_DIR$/my-tickets.php" />
         <option value="$PROJECT_DIR$/mt-tickets.php" />
         <option value="$PROJECT_DIR$/includes/qrcode.php" />
+        <option value="$PROJECT_DIR$/readme.txt" />
       </list>
     </option>
   </component>
@@ -370,12 +369,12 @@
       <workItem from="1539025511797" duration="6027000" />
       <workItem from="1539880479960" duration="3362000" />
       <workItem from="1540491395267" duration="3701000" />
-      <workItem from="1540928726166" duration="1281000" />
+      <workItem from="1540928726166" duration="1384000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="206255000" />
+    <option name="totallyTimeSpent" value="206358000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="120" y="86" width="1715" height="868" extended-state="0" />
@@ -882,14 +881,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="11" lean-forward="false" selection-start-line="69" selection-start-column="11" selection-end-line="69" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mt-receipt.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -951,6 +942,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="71" column="19" lean-forward="false" selection-start-line="71" selection-start-column="19" selection-end-line="71" selection-end-column="19" />
           <folding />
         </state>
       </provider>
