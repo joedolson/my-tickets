@@ -16,8 +16,9 @@ $ticket = strtolower( preg_replace( '/[^a-z0-9\-]+/i', '', $ticket ) );
 
 define( 'WP_USE_THEMES', false );
 define( 'SHORTINIT', true );
-if ( file_exists( '../../../../wp-load.php' ) ) {
-	require_once( '../../../../wp-load.php' );
+$path = preg_replace( '/wp-content(?!.*wp-content).*/', '', __DIR__ );
+if ( file_exists( $path . 'wp-load.php' ) ) {
+	require_once( $path . 'wp-load.php' );
 	if ( ! function_exists( 'wptexturize' ) ) {
 		require( ABSPATH . WPINC . '/formatting.php' );
 	}
