@@ -65,6 +65,11 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.11 =
+
+* Bug fix: 'Sell tickets on this post' checkbox appeared twice in post meta box
+* 
+
 = 1.7.10 =
 
 * Increase prominence of sales & help sidebar blocks.

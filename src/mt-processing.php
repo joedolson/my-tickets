@@ -252,7 +252,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$shortcode = '';
 	}
 
-	$format  = "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label></p>';
+	$format  = ( isset( $_GET['post_type'] ) ) ? '' : "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label></p>';
 	$before  = "<div class='mt-ticket-form'>";
 	$after   = '</div>';
 	$reports = ( $event_id ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
