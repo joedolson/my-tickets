@@ -655,7 +655,7 @@ function mt_gateways() {
  */
 function mt_generate_path( $gateway ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$path    = '<span class="active"><a href="' . home_url() . '">' . __( 'Home', 'my-tickets' ) . '</a></span>';
+	$path    = '<span class="active"><a href="' . apply_filters( 'mt_home_breadcrumb_url', home_url() ) . '">' . __( 'Home', 'my-tickets' ) . '</a></span>';
 	if ( false == $gateway ) {
 		$path .= '<span class="inactive"><strong>' . __( 'Cart', 'my-tickets' ) . '</strong></span>';
 	} else {

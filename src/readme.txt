@@ -68,7 +68,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 = 1.7.11 =
 
 * Bug fix: 'Sell tickets on this post' checkbox appeared twice in post meta box
-* 
+* New filter: `mt_home_breadcrumb_url` to change home link in breadcrumb path.
 
 = 1.7.10 =
 
