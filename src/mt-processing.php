@@ -339,6 +339,7 @@ function mt_prices_table( $registration = array() ) {
 			}
 			if ( $label ) {
 				$class   = ( 0 != $options['sold'] || 'complimentary' == sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
+				$sold    = ( isset( $_GET['mode'] ) && $_GET['mode'] == 'copy' ) ? 0 : $options['sold'];
 				$return .= "
 				<tr class='$class'>
 					<td class='controls'>
@@ -348,7 +349,7 @@ function mt_prices_table( $registration = array() ) {
 					<td><input type='text' name='mt_label[]' id='mt_label_$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' /></td>
 					<td><input type='text' name='mt_price[]' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
-					<td><input type='hidden' name='mt_sold[]' value='" . $options['sold'] . "' />" . $options['sold'] . '</td>
+					<td><input type='hidden' name='mt_sold[]' value='" . $sold . "' />" . $sold . '</td>
 				</tr>';
 
 				$labels_index[ $label ] = $options['label'];
