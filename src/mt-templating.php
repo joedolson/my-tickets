@@ -291,6 +291,31 @@ function mt_ticket_id() {
 }
 
 /**
+ * Get sequential ticket ID for display purposes.
+ *
+ * @return string sequential ID
+ */
+function mt_get_sequential_id() {
+	$ticket_id  = mt_get_ticket_id();
+	$ticket     = mt_get_ticket( $ticket_id );
+	$sequential = get_post_meta( $ticket->ID, '_' . $ticket_id . '_seq_id', true );
+	if ( ! $sequential ) {
+		$sequential = mt_generate_sequential_id( $ticket_id, array( 'event_id' => $ticket->ID ) );
+	}
+
+	return zeroise( $sequential, 6 );
+}
+
+/**
+ * Echo sequential ticket ID (must be used in ticket template.)
+ *
+ * @return void
+ */
+function mt_sequential_id() {
+	echo mt_get_sequential_id();
+}
+
+/**
  * Get ticket method (willcall, postal, eticket, printable)
  *
  * @param bool|int $ticket_id Ticket ID.

@@ -286,15 +286,17 @@ function mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price ) {
  * @param string $hash Hash ID for ticket.
  * @param array  $args Array of ticket ID generation information.
  *
- * @return void
+ * @return int sequential ID
  */
 function mt_generate_sequential_id( $hash, $args ) {
-	$sequential_base   = get_post_meta( $args['event_id'], '_sequential_base', true );
-	$sequential_id     = ( $sequential_base ) ? $sequential_base + 1 : 1;
+	$sequential_base = get_post_meta( $args['event_id'], '_sequential_base', true );
+	$sequential_id   = ( $sequential_base ) ? $sequential_base + 1 : 1;
 	if ( ! get_post_meta( $args['event_id'], '_' . $hash . '_seq_id', true ) ) {
 		update_post_meta( $args['event_id'], '_' . $hash . '_seq_id', $sequential_id );
 		update_post_meta( $args['event_id'], '_sequential_base', $sequential_id );
 	}
+
+	return $sequential_id;
 }
 
 /**
