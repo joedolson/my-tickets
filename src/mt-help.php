@@ -133,15 +133,6 @@ function mt_help() {
 function mt_get_support_form() {
 	$current_user = wp_get_current_user();
 	$request      = '';
-	// send fields for My Tickets.
-	$license = ( '' != get_option( 'mt_license_key' ) ) ? get_option( 'mt_license_key' ) : 'none';
-	if ( '' != $license ) {
-		$valid = ( 'true' == get_option( 'mt_license_valid' ) ) ? ' (valid)' : ' (invalid)';
-	} else {
-		$valid = '';
-	}
-	$license = 'License Key: ' . $license . $valid;
-
 	$version = mt_get_current_version();
 	// send fields for all plugins.
 	$wp_version = get_bloginfo( 'version' );
@@ -151,6 +142,7 @@ function mt_get_support_form() {
 	$charset    = get_bloginfo( 'charset' );
 	// server.
 	$php_version = phpversion();
+	$db_version  = $wpdb->db_version();
 
 	// theme data.
 	$theme         = wp_get_theme();
@@ -175,7 +167,6 @@ function mt_get_support_form() {
 ================ Installation Data ====================
 ==My Tickets==
 Version: $version
-$license
 
 ==WordPress:==
 Version: $wp_version
@@ -189,6 +180,7 @@ User Email: $current_user->user_email
 PHP Version: $php_version
 Server Software: $_SERVER[SERVER_SOFTWARE]
 User Agent: $_SERVER[HTTP_USER_AGENT]
+Database: $db_version
 
 ==Theme:==
 Name: $theme_name
