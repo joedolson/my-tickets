@@ -838,7 +838,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$datetime     = "<span class='mt-datetime'>" . date_i18n( $dt_format, strtotime( $date ) ) . '</span>';
 				if ( is_array( $order ) ) {
 					foreach ( $order as $type => $count ) {
-						if ( mt_admin_only( $type ) ) {
+						if ( ! mt_can_order( $type ) ) {
 							continue;
 						}
 						if ( $count > 0 ) {

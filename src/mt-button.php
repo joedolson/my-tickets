@@ -144,7 +144,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 					$sold_out    = false;
 					$total_order = 0;
 					foreach ( $pricing as $type => $settings ) {
-						if ( mt_admin_only( $type ) ) {
+						if ( ! mt_can_order( $type ) ) {
 							continue;
 						}
 						$extra_label = apply_filters( 'mt_extra_label', '', $event, $type );
@@ -189,7 +189,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 										$attributes .= ' readonly="readonly"';
 									}
 								}
-								$form .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . '</label>';
+								$form .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
 								$form .= apply_filters(
 									'mt_add_to_cart_input',
 									"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type'$disable />",
@@ -204,7 +204,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 
 								$hide_remaining = mt_hide_remaining( $tickets_remaining );
 								// Translators: Ticket price label, number remaining.
-								$form       .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s<span class="tickets-remaining">, %2$s remaining</span>)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label, "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>' ) . $extra_label . '</span>';
+								$form       .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s<span class="tickets-remaining">, %2$s remaining</span>)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label, "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>' ) . '</span>';
 								$form       .= "<span class='mt-error-notice' aria-live='assertive'></span><br />";
 								$total_order = $total_order + $order_value;
 							} else {
@@ -215,7 +215,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 										$attributes .= ' readonly="readonly"';
 									}
 								}
-								$form       .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . '</label>';
+								$form       .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
 								$form       .= apply_filters(
 									'mt_add_to_cart_input',
 									"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type' />",
@@ -227,7 +227,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									$remaining,
 									$available
 								);
-								$form       .= "<span id='mt_tickets_data_$type'>$ticket_price_label</span>$extra_label<span class='mt-error-notice' aria-live='assertive'></span><br />";
+								$form       .= "<span id='mt_tickets_data_$type'>$ticket_price_label</span><span class='mt-error-notice' aria-live='assertive'></span><br />";
 								$total_order = $total_order + $value;
 							}
 							$has_tickets = true;
@@ -321,12 +321,30 @@ function mt_hide_remaining( $tickets_remaining ) {
  * @return boolean
  */
 function mt_admin_only( $type ) {
-	$comps = ( current_user_can( 'mt-order-comps' ) || current_user_can( 'manage_options' ) ) ? true : false;
-	if ( ( 'complementary' == $type || 'complimentary' == $type ) && false == $comps ) {
+	if ( ( 'complementary' == $type || 'complimentary' == $type ) ) {
 		return true;
 	}
 
 	return apply_filters( 'mt_admin_only_ticket', false, $type );
+}
+
+/**
+ * Test whether the current user can order the current ticket type.
+ *
+ * @param string $type Type of ticket being handled.
+ *
+ * @return bool
+ */
+function mt_can_order( $type ) {
+	if ( ! mt_admin_only( $type ) ) {
+		return true;
+	}
+	$comps = ( current_user_can( 'mt-order-comps' ) || current_user_can( 'manage_options' ) ) ? true : false;
+	if ( mt_admin_only( $type ) && $comps ) {
+		return true;
+	}
+
+	return false;
 }
 
 /**
