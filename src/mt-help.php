@@ -133,7 +133,7 @@ function mt_help() {
 function mt_get_support_form() {
 	$current_user = wp_get_current_user();
 	$request      = '';
-	$version = mt_get_current_version();
+	$version      = mt_get_current_version();
 	// send fields for all plugins.
 	$wp_version = get_bloginfo( 'version' );
 	$home_url   = home_url();
