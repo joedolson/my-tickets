@@ -339,7 +339,7 @@ function mt_prices_table( $registration = array() ) {
 			}
 			if ( $label ) {
 				$class   = ( 0 != $options['sold'] || 'complimentary' == sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
-				$sold    = ( isset( $_GET['mode'] ) && $_GET['mode'] == 'copy' ) ? 0 : $options['sold'];
+				$sold    = ( isset( $_GET['mode'] ) && 'copy' == $_GET['mode'] ) ? 0 : $options['sold'];
 				$return .= "
 				<tr class='$class'>
 					<td class='controls'>
