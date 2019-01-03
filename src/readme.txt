@@ -69,7 +69,9 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 * Bug fix: 'Sell tickets on this post' checkbox appeared twice in post meta box
 * Bug fix: Don't copy 'sold' value when copying My Calendar events
+* Bug fix: 'adminitrators only' notice not appearing on complimentary field.
 * New filter: `mt_home_breadcrumb_url` to change home link in breadcrumb path.
+* New display option: Sequential ticket IDs on ticket templates.
 
 = 1.7.10 =
 
