@@ -117,7 +117,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 			foreach ( $event as $event_id => $tickets ) {
 				if ( false === get_post_status( $event_id ) ) {
 					// This event does not exist.
-					return;
+					return __( 'This event has been deleted.', 'my-tickets' );
 				}
 				$handling = get_post_meta( $purchase_id, '_ticket_handling', true );
 				if ( ! ( $handling && is_numeric( $handling ) ) ) {
