@@ -65,6 +65,12 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.12 =
+
+* Bug fix: If event has been deleted, exit early in payment UI.
+* Style change on payment page
+* Text change on payment page
+
 = 1.7.11 =
 
 * Bug fix: 'Sell tickets on this post' checkbox appeared twice in post meta box
