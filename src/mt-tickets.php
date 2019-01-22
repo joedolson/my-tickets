@@ -62,6 +62,10 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
 	}
 	if ( $ticket ) {
 		$data        = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
+		if ( empty( $data ) ) {
+			// This ticket does not exist.
+			return false;
+		}
 		$purchase_id = $data['purchase_id'];
 		$status      = get_post_meta( $purchase_id, '_is_paid', true );
 		$gateway     = get_post_meta( $purchase_id, '_gateway', true );

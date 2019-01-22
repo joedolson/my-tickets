@@ -68,6 +68,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 = 1.7.12 =
 
 * Bug fix: If event has been deleted, exit early in payment UI.
+* Bug fix: Exit in ticket template if event does not exist.
 * Style change on payment page
 * Text change on payment page
 
