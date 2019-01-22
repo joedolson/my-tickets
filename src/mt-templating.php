@@ -669,7 +669,7 @@ add_filter( 'mt_create_location_object', 'mt_get_mc_location', 10, 2 );
 function mt_get_mc_location( $location, $location_id ) {
 	if ( function_exists( 'mc_hcard' ) ) {
 		global $wpdb;
-		$location = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . my_calendar_locations_table() . ' WHERE location_id = %d', $location_id ) ); // WPCS: unprepared SQL ok.
+		$location = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . my_calendar_locations_table() . ' WHERE location_id = %d', $location_id ) ); // phpcs:ignore Standard.Category.SniffName.ErrorCode
 	}
 
 	return $location;

@@ -61,7 +61,7 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
 		$ticket = mt_get_ticket();
 	}
 	if ( $ticket ) {
-		$data        = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
+		$data = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
 		if ( empty( $data ) ) {
 			// This ticket does not exist.
 			return false;
