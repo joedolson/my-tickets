@@ -115,6 +115,10 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 		$total = 0;
 		foreach ( $purchase as $event ) {
 			foreach ( $event as $event_id => $tickets ) {
+				if ( false === get_post_status( $event_id ) ) {
+					// This event does not exist.
+					return;
+				}
 				$handling = get_post_meta( $purchase_id, '_ticket_handling', true );
 				if ( ! ( $handling && is_numeric( $handling ) ) ) {
 					$handling = 0;
