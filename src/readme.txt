@@ -69,6 +69,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 * Bug fix: If event has been deleted, exit early in payment UI.
 * Bug fix: Exit in ticket template if event does not exist.
+* New action: 'mt_successful_payment', executes prior to sending purchase notifications.
 * Style change on payment page
 * Text change on payment page
 

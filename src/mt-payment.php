@@ -54,6 +54,7 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 			update_post_meta( $purchase_id, '_transaction_id', $txn_id );
 			update_post_meta( $purchase_id, '_transaction_data', $data );
 			update_post_meta( $purchase_id, '_is_paid', $status );
+			do_action( 'mt_successful_payment', $purchase_id, $response, $data, $post );
 			wp_update_post(
 				array(
 					'ID'          => $purchase_id,
