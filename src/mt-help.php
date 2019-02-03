@@ -82,7 +82,30 @@ function mt_help() {
 
 						</div>
 					</div>
+                    <div class="postbox" id="privacy">
+                        <h2 class='hndle'><?php _e( 'Privacy', 'my-tickets' ); ?></h2>
 
+                        <div class="inside">
+                            <h3><?php _e( 'Cookies', 'my-tickets' ); ?></h3>
+                            <p><?php _e( 'My Tickets uses cookies to track user shopping carts and maintain their state. Cookies are deleted after 7 days.', 'my-tickets' ); ?></p>
+                            <h3><?php _e( 'Data Collected', 'my-tickets' ); ?></h3>
+                            <p><?php _e( 'Information about purchasers is collected at the time of purchase:', 'my-tickets' ); ?></p>
+                            <ol>
+                                <li><?php _e( 'Purchaser name.', 'my-tickets' ); ?></li>
+                                <li><?php _e( 'Email address', 'my-tickets' ); ?></li>
+                            </ol>
+                            <p><?php _e( 'If shipping address is required, the following additional information is collected:', 'my-tickets' ); ?></p>
+                            <ol>
+                                <li><?php _e( 'Full shipping address (Mailing Address, City, State/Province, Country, Postal Code)', 'my-tickets' ); ?></li>
+                            </ol>
+                            <p><?php _e( 'My Tickets does not store any payment information. All payment information is collected by your payment gateway. The only information about payment tracked in My Tickets is:', 'my-tickets' ); ?></p>
+                            <ol>
+                                <li><?php _e( 'The status of the payment (Completed, Pending, Refunded, etc.)', 'my-tickets' ); ?></li>
+                                <li><?php _e( 'The gateway used (e.g. Stripe, PayPal, Authorize.net, offline, etc.)', 'my-tickets' ); ?></li>
+                            </ol>
+                            <p><?php _e( 'Your payment gateway should have its own privacy policy and information about data collected.', 'my-tickets' ); ?></p>
+                        </div>
+                    </div>
 					<div class="postbox">
 						<h3 id="faq" tabindex="-1"><?php _e( 'Frequently Asked Questions', 'my-tickets' ); ?></h3>
 
