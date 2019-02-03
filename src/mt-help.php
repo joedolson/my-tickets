@@ -154,6 +154,7 @@ function mt_help() {
  * Display support form
  */
 function mt_get_support_form() {
+    global $wpdb;
 	$current_user = wp_get_current_user();
 	$request      = '';
 	$version      = mt_get_current_version();
