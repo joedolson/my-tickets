@@ -6,7 +6,7 @@ Requires at least: 4.4
 Tested up to: 5.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.7.11
+Stable tag: 1.7.12
 
 My Tickets is an easy-to-use, flexible platform for selling event tickets with WordPress.
 
@@ -69,9 +69,11 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 * Bug fix: If event has been deleted, exit early in payment UI.
 * Bug fix: Exit in ticket template if event does not exist.
+* Bug fix: Global $wpdb not declared on Help form.
 * New action: 'mt_successful_payment', executes prior to sending purchase notifications.
 * Style change on payment page
 * Text change on payment page
+* Add Privacy information to Help screen
 
 = 1.7.11 =
 
