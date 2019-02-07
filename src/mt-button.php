@@ -292,7 +292,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 	if ( true == $sold_out && $tickets_sold > 0 ) {
 		$tickets_soldout = ( 'registration' == $registration['sales_type'] ) ? __( 'Registration for this event is full', 'my-tickets' ) : __( 'Tickets for this event are sold out.', 'my-tickets' );
 		$output          = "<div class='mt-order mt-soldout'><p>" . apply_filters( 'mt_tickets_soldout', $tickets_soldout ) . '</p></div>';
-		$soldout         = get_post_meta( $event,'_mt_event_soldout', true );
+		$soldout         = get_post_meta( $event, '_mt_event_soldout', true );
 		if ( ! $soldout ) {
 			update_post_meta( $event, '_mt_event_soldout', 'true' );
 			do_action( 'mt_event_sold_out', $event_id, $registration, 'soldout' );
