@@ -204,7 +204,7 @@ function mt_show_custom_field( $content, $event_id ) {
 		if ( ! isset( $field['display_callback'] ) || ( isset( $field['display_callback'] ) && ! function_exists( $field['display_callback'] ) ) ) {
 			$display_value = stripslashes( $data );
 		} else {
-			$display_value = call_user_func( $field['display_callback'], $data, 'cart' );
+			$display_value = call_user_func( $field['display_callback'], $data, 'cart', $field );
 		}
 		$content .= $display_value . "<input type='hidden' name='{$name}[$event_id]' value='" . esc_attr( $data ) . "' />";
 	}
@@ -255,7 +255,7 @@ function mt_show_payment_field( $content, $payment_id ) {
 				if ( ! isset( $field['display_callback'] ) ) {
 					$display_value = stripslashes( $d[ $name ] );
 				} else {
-					$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment' );
+					$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment', $field );
 				}
 				if ( '' != $display_value ) {
 					$event_title = get_the_title( $d['event_id'] );
