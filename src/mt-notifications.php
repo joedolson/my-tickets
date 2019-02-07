@@ -632,8 +632,6 @@ function mt_notify_admin( $event, $registration, $context ) {
 	remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 }
 
-
- */
 /**
  * Return string for HTML email types
  */
