@@ -293,7 +293,7 @@ function mt_show_custom_data( $payment_id, $custom_field = false ) {
 					if ( ! isset( $field['display_callback'] ) ) {
 						$display_value = stripslashes( $d[ $name ] );
 					} else {
-						$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment' );
+						$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment', $field );
 					}
 					if ( '' != $display_value ) {
 						$event_title = get_the_title( $d['event_id'] );

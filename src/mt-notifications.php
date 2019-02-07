@@ -361,7 +361,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 			continue;
 		}
 		$value         = $info[ $name ];
-		$data[ $name ] = call_user_func( $field['display_callback'], $value, $event );
+		$data[ $name ] = call_user_func( $field['display_callback'], $value, $event, $field );
 	}
 
 	$data = apply_filters( 'mt_notifications_data', $data, $details );
