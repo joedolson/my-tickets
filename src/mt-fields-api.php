@@ -53,7 +53,7 @@ function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
 				if ( ! isset( $field['display_callback'] ) ) {
 					$display_value = stripslashes( $d[ $name ] );
 				} else {
-					$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment' );
+					$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment', $field );
 				}
 
 				if ( '' != $display_value && $d['event_id'] == $event_id ) {
@@ -69,6 +69,7 @@ function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
 			}
 		}
 	}
+	$return = ( $return ) ? '<div class="mt-custom-fields">' . $return . '</div>' : '';
 
 	return $output . $return;
 }
@@ -199,6 +200,7 @@ function mt_handle_custom_field( $saved, $submit ) {
  */
 function mt_show_custom_field( $content, $event_id ) {
 	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'display' );
+	$return        = '';
 	foreach ( $custom_fields as $name => $field ) {
 		$data = mt_get_data( $name . '_' . $event_id );
 		if ( ! isset( $field['display_callback'] ) || ( isset( $field['display_callback'] ) && ! function_exists( $field['display_callback'] ) ) ) {
@@ -206,10 +208,11 @@ function mt_show_custom_field( $content, $event_id ) {
 		} else {
 			$display_value = call_user_func( $field['display_callback'], $data, 'cart', $field );
 		}
-		$content .= $display_value . "<input type='hidden' name='{$name}[$event_id]' value='" . esc_attr( $data ) . "' />";
+		$return .= $display_value . "<input type='hidden' name='{$name}[$event_id]' value='" . esc_attr( $data ) . "' />";
 	}
+	$return = ( $return ) ? '<div class="mt-custom-fields">' . $return . '</div>' : '';
 
-	return $content;
+	return $content . $return;
 }
 
 /**
