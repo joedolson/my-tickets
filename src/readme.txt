@@ -65,6 +65,11 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.7.13 =
+
+* Improvement: Pass field array to display_callback in fields API.
+* Improvement: Send email notification when event is sold out.
+
 = 1.7.12 =
 
 * Bug fix: If event has been deleted, exit early in payment UI.
