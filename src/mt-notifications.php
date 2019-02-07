@@ -595,8 +595,8 @@ add_action( 'mt_event_sold_out', 'mt_notify_admin', 10, 3 );
 /**
  * Send notification to admin when ticket sales are closed.
  *
- * @param int $event Event ID.
- * @param array $registration Event registration data.
+ * @param int    $event Event ID.
+ * @param array  $registration Event registration data.
  * @param string $context 'closed' or 'soldout'.
  */
 function mt_notify_admin( $event, $registration, $context ) {
@@ -625,7 +625,7 @@ function mt_notify_admin( $event, $registration, $context ) {
 		$body = apply_filters( 'mt_soldout_body', sprintf( __( '%1$s has sold out, and ticket sales are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ), $title, $download, $tickets ), $event );
 
 	}
-	$to   = apply_filters( 'mt_closure_recipient', $email );
+	$to = apply_filters( 'mt_closure_recipient', $email );
 	add_filter( 'wp_mail_content_type', 'mt_html_type' );
 	$body = apply_filters( 'mt_modify_email_body', $body, 'admin' );
 	wp_mail( $to, $subject, $body, $headers );
