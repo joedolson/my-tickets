@@ -4,7 +4,7 @@
  *
  * @package     My Tickets
  * @author      Joe Dolson
- * @copyright   2014-2018 Joe Dolson
+ * @copyright   2014-2019 Joe Dolson
  * @license     GPL-2.0+
  *
  * @wordpress-plugin
@@ -17,7 +17,7 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     1.7.12
+ * Version:     1.7.13
  */
 
 /*
@@ -46,7 +46,7 @@ load_plugin_textdomain( 'my-tickets', false, dirname( plugin_basename( __FILE__ 
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '1.7.12';
+	$mt_version = '1.7.13';
 
 	return $mt_version;
 }

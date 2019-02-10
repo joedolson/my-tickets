@@ -6,7 +6,7 @@ Requires at least: 4.4
 Tested up to: 5.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.7.12
+Stable tag: 1.7.13
 
 My Tickets is an easy-to-use, flexible platform for selling event tickets with WordPress.
 
@@ -68,7 +68,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 = 1.7.13 =
 
 * Improvement: Pass field array to display_callback in fields API.
-* Improvement: Send email notification when event is sold out.
+* Feature: Send email notification when event is sold out.
 
 = 1.7.12 =
 
