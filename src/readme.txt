@@ -63,7 +63,13 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
+
 == Changelog ==
+
+= 1.7.14 =
+
+* Add field to define custom selector label for offline payment gateway
+* Add aria-current support to gateway selector
 
 = 1.7.13 =
 
