@@ -637,8 +637,13 @@ function mt_gateways() {
 			$current_gate = ( isset( $_GET['mt_gateway'] ) && in_array( $_GET['mt_gateway'], $enabled ) ) ? $_GET['mt_gateway'] : $options['mt_default_gateway'];
 			if ( isset( $labels[ $gate ] ) ) {
 				$checked   = ( $gate == $current_gate ) ? ' class="active"' : '';
+				$current   = ( $gate == $current_gate ) ? ' aria-current="true"' : '';
 				$label     = $labels[ $gate ]['label'];
-				$selector .= "<li$checked><a href='$url?mt_gateway=$gate' data-assign='$gate'>$label</a></li>";
+
+				if ( isset( $options['mt_gateways'][ $gate ]['selector'] ) ) {
+					$label = ( '' == $options['mt_gateways'][ $gate ]['selector'] ) ? $label : $options['mt_gateways'][ $gate ]['selector'];
+				};
+				$selector .= "<li$checked><a href='$url?mt_gateway=$gate' data-assign='$gate'$current>$label</a></li>";
 			}
 		}
 

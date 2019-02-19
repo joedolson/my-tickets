@@ -127,6 +127,8 @@
             e.preventDefault();
             $('.gateway-selector li').removeClass('active');
             $(this).parent('li').addClass('active');
+            $('.gateway-selector a' ).removeAttr( 'aria-current' );
+            $(this).attr( 'aria-current', 'true' );
             var gateway = $(this).attr('data-assign');
             $('input[name="mt_gateway"]').val(gateway);
         });
