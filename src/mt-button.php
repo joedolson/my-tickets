@@ -149,7 +149,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 						}
 						$extra_label = apply_filters( 'mt_extra_label', '', $event, $type );
 						if ( mt_admin_only( $type ) ) {
-							$extra_label = '<span class="mt-admin-only">( ' . __( 'Administrators only', 'my-tickets' ) . ' )</span>';
+							$extra_label = '<span class="mt-admin-only">(' . __( 'Administrators only', 'my-tickets' ) . ')</span>';
 						}
 						if ( $type ) {
 							if ( ! isset( $settings['price'] ) ) {
