@@ -206,6 +206,7 @@ function mt_setup_paypal( $gateways ) {
 			'email'       => __( 'PayPal email (primary)', 'my-tickets' ),
 			'merchant_id' => __( 'PayPal Merchant ID', 'my-tickets' ),
 			'notes'       => __( 'PayPal Notes for Email Templates', 'my-tickets' ),
+			'selector'    => __( 'Payment Gateway selector label', 'my-tickets' ),
 		),
 		// Translators: URL recommended for My Tickets IPN.
 		'note'   => sprintf( __( 'You need IPN (Instant Payment Notification) enabled in your PayPal account to handle payments. Your IPN address for My Tickets is currently %s.', 'my-tickets' ), '<code>' . add_query_arg( 'mt_paypal_ipn', 'true', home_url( '/' ) ) . '</code>' ),
