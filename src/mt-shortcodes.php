@@ -88,7 +88,7 @@ function mt_featured_tickets( $atts, $content = '' ) {
 	if ( $atts['events'] ) {
 		$events = explode( ',', $atts['events'] );
 	} else {
-		$events = array();
+		$events = apply_filters( 'mt_default_ticketed_events', array(), $atts, $content );
 	}
 	$content = '';
 	if ( is_array( $events ) ) {
