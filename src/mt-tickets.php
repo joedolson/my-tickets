@@ -105,3 +105,40 @@ function mt_get_ticket( $ticket_id = false ) {
 
 	return $ticket;
 }
+
+
+add_filter( 'mt_default_ticketed_events', 'mt_get_ticket_ids', 10, 2 );
+/**
+ * Get an array of IDs for live ticketed events.
+ *
+ * @param array  $atts Array of attributes passed to [tickets] shortcode
+ * @param string $content Contained content wrapped in [tickets] shortcode.
+ *
+ * @return array
+ */
+function mt_get_ticket_ids( $atts, $content ) {
+	// fetch posts with meta data for event sales.
+	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	// add time query to this query after timestamp field has been in place for a few months.
+	// only show limit of 50 events.
+	$args    =
+		array(
+			'post_type'      => $settings['mt_post_types'],
+			'posts_per_page' => apply_filters( 'mt_get_events_count', 20 ),
+			'post_status'    => array( 'publish' ),
+			'fields'         => 'ids',
+			'meta_query'     => array(
+				'relation' => 'AND',
+				'queries'  => array(
+					'key'     => '_mc_event_date',
+					'value'   => current_time( 'timestamp' ),
+					'compare' => '>',
+				),
+			),
+		);
+	$args    = apply_filters( 'mt_select_events_args', $args );
+	$query   = new WP_Query( $args );
+	$posts   = $query->posts;
+
+	return $posts;
+}
