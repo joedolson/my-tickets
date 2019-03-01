@@ -111,7 +111,7 @@ add_filter( 'mt_default_ticketed_events', 'mt_get_ticket_ids', 10, 2 );
 /**
  * Get an array of IDs for live ticketed events.
  *
- * @param array  $atts Array of attributes passed to [tickets] shortcode
+ * @param array  $atts Array of attributes passed to [tickets] shortcode.
  * @param string $content Contained content wrapped in [tickets] shortcode.
  *
  * @return array
@@ -120,7 +120,7 @@ function mt_get_ticket_ids( $atts, $content ) {
 	// fetch posts with meta data for event sales.
 	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	// only show limit of 20 events.
-	$args    =
+	$args  =
 		array(
 			'post_type'      => $settings['mt_post_types'],
 			'posts_per_page' => apply_filters( 'mt_get_events_count', 20 ),
@@ -135,9 +135,9 @@ function mt_get_ticket_ids( $atts, $content ) {
 				),
 			),
 		);
-	$args    = apply_filters( 'mt_get_ticket_ids', $args );
-	$query   = new WP_Query( $args );
-	$posts   = $query->posts;
+	$args  = apply_filters( 'mt_get_ticket_ids', $args );
+	$query = new WP_Query( $args );
+	$posts = $query->posts;
 
 	return $posts;
 }
