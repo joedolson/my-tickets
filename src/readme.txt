@@ -2,8 +2,8 @@
 Contributors: joedolson
 Donate link: http://www.joedolson.com/donate/
 Tags: events, ticket sales, tickets, ticketing, registration, reservations, event tickets, sell tickets, event registration, box office
-Requires at least: 4.4
-Tested up to: 5.0
+Requires at least: 4.7
+Tested up to: 5.1
 License: GPLv2 or later
 Text domain: my-tickets
 Stable tag: 1.7.13
@@ -66,10 +66,12 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
-= 1.7.14 =
+= 1.8.0 =
 
 * Add field to define custom selector label for offline payment gateway
 * Add aria-current support to gateway selector
+* Add default output for My Tickets [tickets] shortcode.
+* Add support for native bulk actions. (Available since WP 4.7)
 
 = 1.7.13 =
 
