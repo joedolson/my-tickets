@@ -908,9 +908,11 @@ function filter_mt_dropdown() {
 add_filter( 'bulk_actions-edit-mt-payments', 'mt_bulk_actions' );
 /**
  * Add bulk action to mark payments completed.
+ *
+ * @param array $bulk_actions Existing bulk actions.
  */
 function mt_bulk_actions( $bulk_actions ) {
-	$bulk_actions['complete'] = __( 'Mark as Completed', 'my-tickets');
+	$bulk_actions['complete'] = __( 'Mark as Completed', 'my-tickets' );
 
 	return $bulk_actions;
 }
@@ -926,7 +928,7 @@ add_filter( 'handle_bulk_actions-edit-mt-payments', 'mt_bulk_action_handler', 10
  * @return string $redirect_to
  */
 function mt_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
-	if ( $doaction !== 'complete' ) {
+	if ( 'complete' !== $doaction ) {
 		return $redirect_to;
 	}
 	$completed = 0;
