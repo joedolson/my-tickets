@@ -119,8 +119,7 @@ add_filter( 'mt_default_ticketed_events', 'mt_get_ticket_ids', 10, 2 );
 function mt_get_ticket_ids( $atts, $content ) {
 	// fetch posts with meta data for event sales.
 	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	// add time query to this query after timestamp field has been in place for a few months.
-	// only show limit of 50 events.
+	// only show limit of 20 events.
 	$args    =
 		array(
 			'post_type'      => $settings['mt_post_types'],
@@ -136,7 +135,7 @@ function mt_get_ticket_ids( $atts, $content ) {
 				),
 			),
 		);
-	$args    = apply_filters( 'mt_select_events_args', $args );
+	$args    = apply_filters( 'mt_get_ticket_ids', $args );
 	$query   = new WP_Query( $args );
 	$posts   = $query->posts;
 
