@@ -905,92 +905,53 @@ function filter_mt_dropdown() {
 	}
 }
 
-add_action( 'admin_footer-edit.php', 'mt_bulk_admin_footer' );
+add_filter( 'bulk_actions-edit-mt-payments', 'mt_bulk_actions' );
 /**
  * Add bulk action to mark payments completed.
  */
-function mt_bulk_admin_footer() {
-	global $post_type;
-	if ( 'mt-payments' == $post_type ) {
-		?>
-		<script>
-			jQuery(document).ready(function ($) {
-				$('<option>').val('complete').text('<?php _e( 'Mark as Completed', 'my-tickets' ); ?>').appendTo("select[name='action']");
-			});
-		</script>
-		<?php
-	}
+function mt_bulk_actions( $bulk_actions ) {
+	$bulk_actions['complete'] = __( 'Mark as Completed', 'my-tickets');
+
+	return $bulk_actions;
 }
 
-add_action( 'load-edit.php', 'mt_bulk_action' );
+add_filter( 'handle_bulk_actions-edit-mt-payments', 'mt_bulk_action_handler', 10, 3 );
 /**
  * Implement bulk actions.
+ *
+ * @param string $redirect_to Redirect to new URL.
+ * @param string $doaction Selected bulk action.
+ * @param array  $post_ids Array of IDs selected.
+ *
+ * @return string $redirect_to
  */
-function mt_bulk_action() {
-	global $typenow;
-	$post_type = $typenow;
-
-	if ( 'mt-payments' == $post_type ) {
-		$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
-		$action        = $wp_list_table->current_action();
-
-		$allowed_actions = array( 'complete' );
-		if ( ! in_array( $action, $allowed_actions ) ) {
-			return;
-		}
-
-		// security check.
-		check_admin_referer( 'bulk-posts' );
-
-		if ( isset( $_REQUEST['post'] ) ) {
-			$post_ids = array_map( 'intval', $_REQUEST['post'] );
-		}
-
-		if ( empty( $post_ids ) ) {
-			return;
-		}
-
-		$sendback = remove_query_arg( array( 'completed', 'untrashed', 'deleted', 'ids' ), wp_get_referer() );
-		if ( ! $sendback ) {
-			$sendback = admin_url( "edit.php?post_type=$post_type" );
-		}
-
-		$pagenum  = $wp_list_table->get_pagenum();
-		$sendback = add_query_arg( 'paged', $pagenum, $sendback );
-
-		switch ( $action ) {
-			case 'complete':
-				$completed = 0;
-				foreach ( $post_ids as $post_id ) {
-					update_post_meta( $post_id, '_is_paid', 'Completed' );
-					wp_update_post(
-						array(
-							'ID'          => $post_id,
-							'post_status' => 'publish',
-						)
-					);
-					$completed ++;
-				}
-				// build the redirect url.
-				$sendback = esc_url(
-					add_query_arg(
-						array(
-							'completed' => $completed,
-							'ids'       => join( ',', $post_ids ),
-						),
-						$sendback
-					)
-				);
-				break;
-			default:
-				return;
-		}
-
-		$sendback = esc_url( remove_query_arg( array( 'action', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status', 'post', 'bulk_edit', 'post_view' ), $sendback ) );
-
-		wp_redirect( $sendback );
-		exit();
+function mt_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
+	if ( $doaction !== 'complete' ) {
+		return $redirect_to;
 	}
+	$completed = 0;
+	foreach ( $post_ids as $post_id ) {
+		update_post_meta( $post_id, '_is_paid', 'Completed' );
+		// Set previous status to 'Pending' to ensure notifications are sent.
+		update_post_meta( $post_id, '_last_status', 'Pending' );
+		wp_update_post(
+			array(
+				'ID'          => $post_id,
+				'post_status' => 'publish',
+			)
+		);
+		$completed ++;
+	}
+	// build the redirect url.
+	$redirect_to = add_query_arg(
+		array(
+			'completed' => $completed,
+			'ids'       => join( ',', $post_ids ),
+		),
+		$redirect_to
+	);
+
+	return $redirect_to;
 }
 
 add_action( 'admin_notices', 'mt_bulk_admin_notices' );
