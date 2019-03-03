@@ -8,13 +8,13 @@ License: GPLv2 or later
 Text domain: my-tickets
 Stable tag: 1.8.0
 
-My Tickets is an easy-to-use, flexible platform for selling event tickets with WordPress.
+My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
 
-My Tickets integrates with <a href="http://wordpress.org/plugins/my-calendar/">My Calendar</a> or operates as a stand-alone ticket sales platform. Sell tickets for box office pick up, shipping, or accept print-at-home and e-tickets for an easy experience for your ticket holders!
+My Tickets integrates with <a href="http://wordpress.org/plugins/my-calendar/">My Calendar</a> or can be used for ticket sales on its own. Sell tickets for box office pick up, shipping, or accept print-at-home and e-tickets for an easy experience for your ticket holders!
 
-My Tickets ships with PayPal Standard payments, so you can sell tickets immediately. You can also take offline payments, to use My Tickets as a reservation platform.
+My Tickets ships with PayPal Standard payments, so you can sell tickets immediately. You can also take offline payments, to use My Tickets as a reservation tool.
 
 Explore the <a href="https://www.joedolson.com/my-tickets/add-ons/">premium add-ons for My Tickets</a>!
 
