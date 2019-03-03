@@ -70,7 +70,8 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 * Add field to define custom selector label for offline payment gateway
 * Add aria-current support to gateway selector
-* Add default output for My Tickets [tickets] shortcode.
+* Add default output for My Tickets [tickets] shortcode, showing upcoming events with ticket sales.
+* Add filter to customize default output for [tickets] shortcode, `mt_default_ticketed_events`
 * Add support for native bulk actions. (Available since WP 4.7)
 
 = 1.7.13 =
