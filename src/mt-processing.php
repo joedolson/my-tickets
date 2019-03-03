@@ -347,7 +347,7 @@ function mt_prices_table( $registration = array() ) {
 						<button type='button' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "</span></button>
 					</td>
 					<td><input type='text' name='mt_label[]' id='mt_label_$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' /></td>
-					<td><input type='text' name='mt_price[]' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
+					<td><input type='number' name='mt_price[]' step='0.01' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
 					<td><input type='hidden' name='mt_sold[]' value='" . $sold . "' />" . $sold . '</td>
 				</tr>';
