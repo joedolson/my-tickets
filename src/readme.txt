@@ -6,7 +6,7 @@ Requires at least: 4.7
 Tested up to: 5.1
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.7.13
+Stable tag: 1.8.0
 
 My Tickets is an easy-to-use, flexible platform for selling event tickets with WordPress.
 
@@ -72,6 +72,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 * Add aria-current support to gateway selector
 * Add default output for My Tickets [tickets] shortcode, showing upcoming events with ticket sales.
 * Add filter to customize default output for [tickets] shortcode, `mt_default_ticketed_events`
+* Change price input to number type
 * Add support for native bulk actions. (Available since WP 4.7)
 
 = 1.7.13 =
