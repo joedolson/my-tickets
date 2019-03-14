@@ -19,7 +19,7 @@ add_action( 'wp_trash_post', 'mt_return_tickets_action' );
  */
 function mt_return_tickets_action( $id ) {
 	$type = get_post_type( $id );
-	if ( 'mt-payments' == $type ) {
+	if ( 'mt-payments' == $type && ( FALSE !== get_post_status( $id ) ) ) {
 		mt_return_tickets( $id );
 	}
 }
