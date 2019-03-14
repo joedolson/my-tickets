@@ -550,20 +550,22 @@ function mt_return_tickets( $payment_id ) {
 	if ( is_array( $purchases ) ) {
 		foreach ( $purchases as $key => $value ) {
 			foreach ( $value as $event_id => $purchase ) {
-				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-				foreach ( $purchase as $type => $ticket ) {
-					// add ticket hash for each ticket.
-					$count                                   = $ticket['count'];
-					$price                                   = $ticket['price'];
-					$sold                                    = $registration['prices'][ $type ]['sold'];
-					$new_sold                                = $sold - $count;
-					$registration['prices'][ $type ]['sold'] = $new_sold;
-					update_post_meta( $event_id, '_mt_registration_options', $registration );
-					for ( $i = 0; $i < $count; $i ++ ) {
-						// delete tickets from system.
-						$ticket_id = mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price );
-						delete_post_meta( $event_id, '_ticket', $ticket_id );
-						delete_post_meta( $event_id, '_' . $ticket_id );
+				if ( false !== get_post_status( $event_id ) ) {
+					$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+					foreach ( $purchase as $type => $ticket ) {
+						// add ticket hash for each ticket.
+						$count                                   = $ticket['count'];
+						$price                                   = $ticket['price'];
+						$sold                                    = $registration['prices'][ $type ]['sold'];
+						$new_sold                                = $sold - $count;
+						$registration['prices'][ $type ]['sold'] = $new_sold;
+						update_post_meta( $event_id, '_mt_registration_options', $registration );
+						for ( $i = 0; $i < $count; $i ++ ) {
+							// delete tickets from system.
+							$ticket_id = mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price );
+							delete_post_meta( $event_id, '_ticket', $ticket_id );
+							delete_post_meta( $event_id, '_' . $ticket_id );
+						}
 					}
 				}
 			}
