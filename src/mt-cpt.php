@@ -571,7 +571,7 @@ function mt_post_meta( $id ) {
 					}
 					update_post_meta( $id, '_' . $key, $value );
 					// If related event has been deleted, ignore this.
-					if ( 'mt_return_tickets' == $key && 'true' == $value && ( FALSE !== get_post_status( $id ) )  ) {
+					if ( 'mt_return_tickets' == $key && 'true' == $value && ( false !== get_post_status( $id ) ) ) {
 						mt_return_tickets( $id );
 					}
 				}
