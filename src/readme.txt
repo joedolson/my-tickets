@@ -66,6 +66,10 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 == Changelog ==
 
+= 1.8.1 =
+
+* Bug fix: Don't attempt to return sold tickets to deleted events.
+
 = 1.8.0 =
 
 * Add field to define custom selector label for offline payment gateway
