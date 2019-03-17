@@ -470,7 +470,7 @@ function mt_create_field( $key, $label, $type, $post_id, $choices = false, $mult
 					$custom = number_format( $custom, 2 );
 					$label .= ' (' . $options['mt_currency'] . ')';
 				}
-				$value = "<label for='_$key'>$label</label><br /><input class='widefat' type='text' name='_$key' id='$key' value='$custom' $disabled />";
+				$value = "<label for='_$key'>$label</label><br /><input class='widefat' type='text' name='_$key' id='_$key' value='$custom' $disabled />";
 			}
 			break;
 		case 'textarea':
