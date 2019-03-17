@@ -71,7 +71,7 @@ function mt_help() {
 							<p>
 								<?php
 									_e( 'Shows a list of events. Provide a template with HTML and tags for what information to display. Add to cart form is added to the end of the template automatically.', 'my-tickets' );
-									_e('Omit the "events" attribute to list all upcoming events.', 'my-tickets' );
+									_e( 'Omit the "events" attribute to list all upcoming events.', 'my-tickets' );
 								?>
 							</p>
 
