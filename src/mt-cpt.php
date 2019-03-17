@@ -48,7 +48,7 @@ function mt_email_purchaser() {
 	<p><label for='mt_send_email'>" . __( 'Message', 'my-tickets' ) . "</label><br /><textarea cols='60' rows='6' name='mt_send_email' id='mt_send_email'></textarea></p>
 	<input type='submit' class='button-primary' id='mt_email_form' value='" . __( 'Email Purchaser', 'my-tickets' ) . "' />";
 	$email    = get_post_meta( $post_id, '_mt_send_email' );
-	$message  = '<h4>' . __( 'Prior Messages', 'my-tickets' ) . '</h4>';
+	$message  = '<h3>' . __( 'Prior Messages', 'my-tickets' ) . '</h3>';
 	foreach ( $email as $mail ) {
 		if ( is_array( $mail ) ) {
 			$body     = $mail['body'];
@@ -264,7 +264,7 @@ function mt_add_uneditable() {
 		$dispute_reason = get_post_meta( $post_id, '_dispute_message', true );
 
 		if ( $dispute ) {
-			$dispute_data  = "<div class='mt-dispute'><h4>" . __( 'Ticket Dispute: ', 'my-tickets' ) . '</h4><ul>';
+			$dispute_data  = "<div class='mt-dispute'><h3>" . __( 'Ticket Dispute: ', 'my-tickets' ) . '</h3><ul>';
 			$dispute_data .= "<li>$dispute</li>";
 			$dispute_data .= "<li>$dispute_reason</li>";
 			$dispute_data .= '</ul></div>';
@@ -295,13 +295,13 @@ function mt_add_uneditable() {
 		// Translators: Amount still owed on this transaction.
 		$owed             = ( 'Pending' == $status ) ? "<div class='mt-owed'>" . sprintf( __( 'Owed: %s', 'my-tickets' ), $total ) . '</div>' : '';
 		$tickets          = mt_setup_tickets( $purchase, $post_id );
-		$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h4>" . __( 'Tickets', 'my-tickets' ) . '</h4>' . mt_format_tickets( $tickets, 'html', $post_id ) . '<br /><a href="' . $bulk_tickets . '">View All Tickets</a></div></div>';
-		$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
+		$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h3>" . __( 'Tickets', 'my-tickets' ) . '</h3>' . mt_format_tickets( $tickets, 'html', $post_id ) . '<br /><a href="' . $bulk_tickets . '">View All Tickets</a></div></div>';
+		$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h3>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h3>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
 		$gateway          = get_post_meta( $post_id, '_gateway', true );
-		$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h4>" . __( 'Gateway:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h4>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . '</div></div>';
+		$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h3>" . __( 'Gateway:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h3>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . '</div></div>';
 		$other_data       = apply_filters( 'mt_show_in_payment_fields', '', $post_id );
 		if ( '' !== $other_data ) {
-			$other_data = "<div class='custom-data panel'><div class='inner'><h4>" . __( 'Custom Field Data', 'my-tickets' ) . '</h4>' . $other_data . '</div></div>';
+			$other_data = "<div class='custom-data panel'><div class='inner'><h3>" . __( 'Custom Field Data', 'my-tickets' ) . '</h3>' . $other_data . '</div></div>';
 		}
 		echo '<div class="mt_post_fields panels">' . $owed . $dispute_data . $transaction_data . $purchase_data . $ticket_data . $other_data . '</div>';
 	}
@@ -407,7 +407,7 @@ function mt_offline_transaction( $transaction, $gateway ) {
 		return __( 'Transaction not yet completed.', 'my-tickets' );
 	} else {
 		if ( $shipping ) {
-			$shipping = '<h4>' . __( 'Shipping Address', 'my-tickets' ) . '</h4><ul>' . $shipping . '</ul>';
+			$shipping = '<h3>' . __( 'Shipping Address', 'my-tickets' ) . '</h3><ul>' . $shipping . '</ul>';
 		}
 		if ( $output ) {
 			$output = '<ul>' . $output . '</ul>';

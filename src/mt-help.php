@@ -32,12 +32,12 @@ function mt_help() {
 							<p>
 								<?php _e( 'There are a few minimum settings to configure before you get started with My Tickets.', 'my-tickets' ); ?>
 							</p>
-							<h4><?php _e( 'Basic Settings', 'my-tickets' ); ?></h4>
+							<h3><?php _e( 'Basic Settings', 'my-tickets' ); ?></h3>
 							<ul>
 								<li><?php _e( 'Define what post types My Tickets should be activated for', 'my-tickets' ); ?>. (<?php _e( 'If My Calendar is installed, activate the "Registration" panel in the My Calendar input settings', 'my-tickets' ); ?>)</li>
 								<li><?php _e( 'Set up a new post and click "Sell Tickets on this post"', 'my-tickets' ); ?></li>
 							</ul>
-							<h4><?php _e( 'Payment Settings', 'my-tickets' ); ?></h4>
+							<h3><?php _e( 'Payment Settings', 'my-tickets' ); ?></h3>
 							<ul>
 								<li><?php _e( 'Set your accepted payment currency', 'my-tickets' ); ?></li>
 								<li><?php _e( 'Enable your preferred payment gateways', 'my-tickets' ); ?></li>
@@ -49,7 +49,7 @@ function mt_help() {
 								</li>
 								<li><?php _e( 'Turn on/off testing mode.', 'my-tickets' ); ?></li>
 							</ul>
-							<h4><?php _e( 'Ticket Settings', 'my-tickets' ); ?></h4>
+							<h3><?php _e( 'Ticket Settings', 'my-tickets' ); ?></h3>
 							<ul>
 								<li><?php _e( 'Choose what types of tickets you provide.', 'my-tickets' ); ?></li>
 								<li><?php _e( 'Define shipping costs, if you will ship tickets.', 'my-tickets' ); ?></li>
@@ -66,19 +66,22 @@ function mt_help() {
 								<?php _e( 'Display the Add to Cart form for a single event.', 'my-tickets' ); ?> <?php _e( '"Event" attribute is the post ID for that event.', 'my-tickets' ); ?>
 							</p>
 
-							<textarea readonly='readonly'>[ticket event="1"]</textarea>
+							<label class="screen-reader-text" for="shortcode_1"><?php _e( 'Single ticket shortcode', 'my-tickets' ); ?></label><textarea readonly='readonly' id="shortcode_1">[ticket event="1"]</textarea>
 
 							<p>
-								<?php _e( 'Shows a list of events. Provide a template with HTML and tags for what information to display. Add to cart form is added to the end of the template automatically.', 'my-tickets' ); ?>
+								<?php
+									_e( 'Shows a list of events. Provide a template with HTML and tags for what information to display. Add to cart form is added to the end of the template automatically.', 'my-tickets' );
+									_e('Omit the "events" attribute to list all upcoming events.', 'my-tickets' );
+								?>
 							</p>
 
-							<textarea readonly='readonly'>[tickets events="1,2" template="&lt;h3&gt;{post_title}&lt;/h3&gt;"]</textarea>
+							<label class="screen-reader-text" for="shortcode_2"><?php _e( 'Multiple ticket shortcode', 'my-tickets' ); ?></label><textarea readonly='readonly' id="shortcode_2">[tickets events="1,2" template="&lt;h3&gt;{post_title}&lt;/h3&gt;"]</textarea>
 
 							<p>
 								<?php _e( 'Shows a reduced version of the cart with number of tickets, total value of cart, and a link to the shopping cart.', 'my-tickets' ); ?>
 							</p>
 
-							<textarea readonly='readonly'>[quick-cart]</textarea>
+							<label class="screen-reader-text" for="shortcode_3"><?php _e( 'Quick cart shortcode', 'my-tickets' ); ?></label><textarea readonly='readonly' id="shortcode_3">[quick-cart]</textarea>
 
 						</div>
 					</div>
