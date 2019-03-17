@@ -83,14 +83,14 @@ function mt_settings() {
 	}
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
-		<h2><?php _e( 'Event Registrations', 'my-tickets' ); ?></h2>
+		<h1><?php _e( 'Event Registrations', 'my-tickets' ); ?></h1>
 		<?php echo $response; ?>
 		<div class="postbox-container jcd-wide">
 			<div class="metabox-holder">
 
 				<div class="ui-sortable meta-box-sortables">
 					<div class="postbox">
-						<h3><?php _e( 'My Tickets Event Registration Settings', 'my-tickets' ); ?></h3>
+						<h2 class="hndle"><?php _e( 'My Tickets Event Registration Settings', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
 							<form method="post" action="<?php echo admin_url( 'admin.php?page=my-tickets' ); ?>">
@@ -240,7 +240,7 @@ function mt_settings() {
 			<div class="metabox-holder">
 				<div class="ui-sortable meta-box-sortables">
 					<div class="postbox">
-						<h3><?php _e( 'Premium Add-on License Keys', 'my-tickets' ); ?></h3>
+						<h2 class="hndle"><?php _e( 'Premium Add-on License Keys', 'my-tickets' ); ?></h2>
 						<?php
 						if ( isset( $_POST['mt_license_keys'] ) && wp_verify_nonce( $_POST['_wpnonce_tickets'], 'my-tickets-licensing' ) ) {
 							echo "<div class='updated'><ul>" . apply_filters( 'mt_save_license', '', $_POST ) . '</ul></div>';

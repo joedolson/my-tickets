@@ -19,14 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 function mt_help() {
 	?>
 	<div class='wrap my-tickets'>
-		<h2><?php _e( 'My Tickets Help', 'my-tickets' ); ?></h2>
+		<h1><?php _e( 'My Tickets Help', 'my-tickets' ); ?></h1>
 
 		<div class="postbox-container jcd-wide">
 			<div class="metabox-holder">
 
 				<div class="ui-sortable meta-box-sortables">
 					<div class="postbox">
-						<h3 id="get-started"><?php _e( 'Getting Started', 'my-tickets' ); ?></h3>
+						<h2 id="get-started" class="hndle"><?php _e( 'Getting Started', 'my-tickets' ); ?></h2>
 
 						<div class="inside mt-help">
 							<p>
@@ -59,7 +59,7 @@ function mt_help() {
 					</div>
 
 					<div class="postbox">
-						<h3 id="faq" tabindex="-1"><?php _e( 'Shortcodes', 'my-tickets' ); ?></h3>
+						<h2 id="faq" tabindex="-1" class="hndle"><?php _e( 'Shortcodes', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
 							<p>
@@ -83,7 +83,7 @@ function mt_help() {
 						</div>
 					</div>
 					<div class="postbox" id="privacy">
-						<h2 class='hndle'><?php _e( 'Privacy', 'my-tickets' ); ?></h2>
+						<h2 class="hndle"><?php _e( 'Privacy', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
 							<h3><?php _e( 'Cookies', 'my-tickets' ); ?></h3>
@@ -107,7 +107,7 @@ function mt_help() {
 						</div>
 					</div>
 					<div class="postbox">
-						<h3 id="faq" tabindex="-1"><?php _e( 'Frequently Asked Questions', 'my-tickets' ); ?></h3>
+						<h2 id="faq" tabindex="-1" class="hndle"><?php _e( 'Frequently Asked Questions', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
 							<dl>
@@ -126,7 +126,7 @@ function mt_help() {
 						</div>
 					</div>
 					<div class="postbox">
-						<h3 id="get-support"><?php _e( 'Get Support', 'my-tickets' ); ?></h3>
+						<h2 id="get-support" class="hndle"><?php _e( 'Get Support', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
 							<div class="mt-support-me">

@@ -88,7 +88,7 @@ function mt_ticketing_settings() {
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
 		<div id="icon-options-general" class="icon32"><br/></div>
-		<h2><?php _e( 'Event Ticket Settings', 'my-tickets' ); ?></h2>
+		<h1 class="hndle"><?php _e( 'Event Ticket Settings', 'my-tickets' ); ?></h1>
 		<?php echo $response; ?>
 		<div class="postbox-container jcd-wide">
 			<div class="metabox-holder">
@@ -97,7 +97,7 @@ function mt_ticketing_settings() {
 					</div>
 					<div class="ui-sortable meta-box-sortables">
 						<div class="postbox">
-							<h3 id="mt-ticketing-options"><?php _e( 'Global Ticketing Options', 'my-tickets' ); ?></h3>
+							<h2 id="mt-ticketing-options" class="hndle"><?php _e( 'Global Ticketing Options', 'my-tickets' ); ?></h2>
 
 							<div class="inside">
 								<?php
@@ -171,7 +171,7 @@ function mt_ticketing_settings() {
 
 					<div class="ui-sortable meta-box-sortables">
 						<div class="postbox">
-							<h3 id="mt-ticketing-options"><?php _e( 'Default Ticket Settings', 'my-tickets' ); ?></h3>
+							<h2 id="mt-ticketing-options" class="hndle"><?php _e( 'Default Ticket Settings', 'my-tickets' ); ?></h2>
 
 							<div class="inside">
 									<p>

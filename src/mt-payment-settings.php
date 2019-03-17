@@ -91,7 +91,7 @@ function mt_payment_settings() {
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
 		<div id="icon-options-general" class="icon32"><br/></div>
-		<h2><?php _e( 'Event Registrations', 'my-tickets' ); ?></h2>
+		<h1><?php _e( 'Event Registrations', 'my-tickets' ); ?></h1>
 		<?php echo $response; ?>
 		<?php echo $alert; ?>
 		<div class="postbox-container jcd-wide">
@@ -101,7 +101,7 @@ function mt_payment_settings() {
 					</div>
 					<div class="ui-sortable meta-box-sortables">
 						<div class="postbox">
-							<h3><?php _e( 'Registration Payment Settings', 'my-tickets' ); ?></h3>
+							<h2 class="hndle"><?php _e( 'Registration Payment Settings', 'my-tickets' ); ?></h2>
 
 							<div class="inside">
 								<ul>
@@ -141,7 +141,7 @@ function mt_payment_settings() {
 					</div>
 					<div class="ui-sortable meta-box-sortables">
 						<div class="postbox">
-							<h3><?php _e( 'Payment Gateways', 'my-tickets' ); ?></h3>
+							<h2 class="hndle"><?php _e( 'Payment Gateways', 'my-tickets' ); ?></h2>
 
 							<div class="inside">
 								<ul>
