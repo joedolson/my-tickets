@@ -6,7 +6,7 @@ Requires at least: 4.7
 Tested up to: 5.1
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -45,7 +45,7 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 
 = Documentation =
 
-<a href="http://docs.joedolson.com/my-tickets/">Online documentation</a> is available for most features.
+Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a>.
 
 == Installation ==
 
@@ -71,7 +71,6 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 * Bug fix: Don't attempt to return sold tickets to deleted events.
 * Bug fix: Incorrect headings hierarchy (used old WordPress headings system)
 * Bug fix: Label errors in Payments page
-*
 
 = 1.8.0 =
 
