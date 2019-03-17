@@ -21,12 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 function mt_reports_page() {
 	?>
 	<div class='wrap my-tickets'>
-	<h2><?php _e( 'My Tickets Reporting', 'my-tickets' ); ?></h2>
+	<h1><?php _e( 'My Tickets Reporting', 'my-tickets' ); ?></h1>
 	<div class="postbox-container jcd-wide">
 		<div class="metabox-holder">
 			<div class="ui-sortable meta-box-sortables">
 				<div class="postbox">
-					<h3><?php _e( 'Reports on Ticket Sales and Registrations', 'my-tickets' ); ?></h3>
+					<h2 class="hndle"><?php _e( 'Reports on Ticket Sales and Registrations', 'my-tickets' ); ?></h2>
 
 					<div class="inside">
 						<?php
@@ -230,7 +230,7 @@ function mt_choose_report_by_event() {
 	$report   = ( isset( $_GET['mt-event-report'] ) ) ? $_GET['mt-event-report'] : '';
 	$form     = "
 			<div class='report-by-event'>
-				<h4>" . __( 'Report by Event', 'my-tickets' ) . "</h4>
+				<h3>" . __( 'Report by Event', 'my-tickets' ) . "</h3>
 				<form method='GET' action='" . admin_url( 'admin.php?page=mt-reports' ) . "'>
 					<div>
 						<input type='hidden' name='page' value='mt-reports' />
@@ -242,15 +242,15 @@ function mt_choose_report_by_event() {
 					</select>
 					</p>
 					<p>
-					<label for='mt_select_event'>" . __( 'Select Report Type', 'my-tickets' ) . "</label>
-					<select name='mt-event-report' id='mt_select_event'>
+					<label for='mt_select_report_type'>" . __( 'Select Report Type', 'my-tickets' ) . "</label>
+					<select name='mt-event-report' id='mt_select_report_type'>
 						<option value='tickets'" . selected( $report, 'tickets', false ) . '>' . __( 'List of Tickets', 'my-tickets' ) . "</option>
 						<option value='purchases'" . selected( $report, 'purchases', false ) . '>' . __( 'List of Purchases', 'my-tickets' ) . "</option>
 					</select>
 					</p>
 					<p>
-					<label for='mt_select_format'>" . __( 'Report Format', 'my-tickets' ) . "</label>
-					<select name='format' id='mt_select_format'>
+					<label for='mt_select_format_event'>" . __( 'Report Format', 'my-tickets' ) . "</label>
+					<select name='format' id='mt_select_format_event'>
 						<option value='view'>" . __( 'View Report', 'my-tickets' ) . "</option>
 						<option value='csv'$selected>" . __( 'Download CSV', 'my-tickets' ) . "</option>
 					</select>
@@ -272,7 +272,7 @@ function mt_choose_report_by_date() {
 	$end      = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : date( 'Y-m-d' );
 	$form     = "
 			<div class='report-by-date'>
-				<h4>" . __( 'Sales Report by Date', 'my-tickets' ) . "</h4>
+				<h3>" . __( 'Sales Report by Date', 'my-tickets' ) . "</h3>
 				<form method='GET' action='" . admin_url( 'admin.php?page=mt-reports' ) . "'>
 					<div>
 						<input type='hidden' name='page' value='mt-reports' />
@@ -286,8 +286,8 @@ function mt_choose_report_by_date() {
 						<input type='date' name='mt_end' id='mt_end' value='$end' />
 					</p>
 					<p>
-						<label for='mt_select_format'>" . __( 'Report Format', 'my-tickets' ) . "</label>
-						<select name='format' id='mt_select_format'>
+						<label for='mt_select_format_date'>" . __( 'Report Format', 'my-tickets' ) . "</label>
+						<select name='format' id='mt_select_format_date'>
 							<option value='view'>" . __( 'View Report', 'my-tickets' ) . "</option>
 							<option value='csv'$selected>" . __( 'Download CSV', 'my-tickets' ) . "</option>
 						</select>
@@ -321,7 +321,7 @@ function mt_email_purchasers() {
 		}
 	}
 	$form = '
-		<h4>' . __( 'Email Purchasers of Tickets by Event', 'my-tickets' ) . "</h4>
+		<h3>' . __( 'Email Purchasers of Tickets by Event', 'my-tickets' ) . "</h3>
 		<form method='POST' action='" . admin_url( 'admin.php?page=mt-reports' ) . "'>
 			<p>
 			<label for='mt_select_event_for_email'>" . __( 'Select Event', 'my-tickets' ) . "</label>
@@ -837,7 +837,7 @@ function mt_generate_report_by_time() {
 		$start     = $report['start'];
 		$end       = $report['end'];
 		// Translators: Starting date, ending date.
-		echo '<h4>' . sprintf( __( 'Sales from %1$s to %2$s', 'my-tickets' ), $start, $end ) . '</h4>';
+		echo '<h3>' . sprintf( __( 'Sales from %1$s to %2$s', 'my-tickets' ), $start, $end ) . '</h3>';
 		echo "<table class='widefat'>
 			<thead>
 				<tr>
