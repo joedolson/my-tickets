@@ -69,6 +69,9 @@ My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com
 = 1.8.1 =
 
 * Bug fix: Don't attempt to return sold tickets to deleted events.
+* Bug fix: Incorrect headings hierarchy (used old WordPress headings system)
+* Bug fix: Label errors in Payments page
+*
 
 = 1.8.0 =
 
