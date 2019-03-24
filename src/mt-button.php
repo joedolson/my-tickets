@@ -282,7 +282,6 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 			}
 		}
 	} else {
-		$event_id            = ( is_object( $event ) ) ? $event->event_post : $event;
 		$registration        = get_post_meta( $event_id, '_mt_registration_options', true );
 		$available           = $registration['total'];
 		$pricing             = $registration['prices'];
