@@ -140,6 +140,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				$tickets_data      = mt_tickets_left( $pricing, $available );
 				$tickets_remaining = $tickets_data['remain'];
 				$tickets_sold      = $tickets_data['sold'];
+				$class             = 'mt-available';
 				if ( $tickets_remaining && $tickets_remaining > apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data ) ) {
 					$sold_out    = false;
 					$total_order = 0;
@@ -187,9 +188,10 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									$attributes = " min='0' max='$max'";
 									if ( 0 == $remaining ) {
 										$attributes .= ' readonly="readonly"';
+										$class       = 'mt-sold-out';
 									}
 								}
-								$form .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
+								$form .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
 								$form .= apply_filters(
 									'mt_add_to_cart_input',
 									"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type'$disable />",
@@ -205,7 +207,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								$hide_remaining = mt_hide_remaining( $tickets_remaining );
 								// Translators: Ticket price label, number remaining.
 								$form       .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s<span class="tickets-remaining">, %2$s remaining</span>)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label, "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>' ) . '</span>';
-								$form       .= "<span class='mt-error-notice' aria-live='assertive'></span><br />";
+								$form       .= "<span class='mt-error-notice' aria-live='assertive'></span></div>";
 								$total_order = $total_order + $order_value;
 							} else {
 								$remaining = $tickets_remaining;
@@ -213,9 +215,10 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									$attributes = " min='0' max='$remaining'";
 									if ( 0 == $remaining ) {
 										$attributes .= ' readonly="readonly"';
+										$class       = 'mt-sold-out';
 									}
 								}
-								$form       .= "<label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
+								$form       .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
 								$form       .= apply_filters(
 									'mt_add_to_cart_input',
 									"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type' />",
@@ -227,7 +230,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									$remaining,
 									$available
 								);
-								$form       .= "<span id='mt_tickets_data_$type'>$ticket_price_label</span><span class='mt-error-notice' aria-live='assertive'></span><br />";
+								$form       .= "<span id='mt_tickets_data_$type'>$ticket_price_label</span><span class='mt-error-notice' aria-live='assertive'></span></div>";
 								$total_order = $total_order + $value;
 							}
 							$has_tickets = true;
