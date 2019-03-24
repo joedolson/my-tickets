@@ -66,6 +66,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.2 =
+
+* Add template tag for event status in My Calendar
+* Misc. minor bug fixes
+* Add class & wrapper to sold out ticket types
+
 = 1.8.1 =
 
 * Bug fix: Don't attempt to return sold tickets to deleted events.

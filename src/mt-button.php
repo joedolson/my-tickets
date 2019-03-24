@@ -348,12 +348,12 @@ function mt_event_status( $event_id = false ) {
 	if ( ( isset( $registration['total'] ) && '' == trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
 		return '';
 	}
-	$expired             = ( mt_expired( $event_id ) ) ? __( 'Sales closed', 'my-tickets' ) : '';
-	$registration        = get_post_meta( $event_id, '_mt_registration_options', true );
-	$available           = $registration['total'];
-	$pricing             = $registration['prices'];
-	$tickets_remaining   = mt_tickets_left( $pricing, $available );
-	$sold_out            = ( 0 >= $tickets_remaining['remain'] ) ? __( 'Sold out', 'my-tickets' ) : $expired;
+	$expired           = ( mt_expired( $event_id ) ) ? __( 'Sales closed', 'my-tickets' ) : '';
+	$registration      = get_post_meta( $event_id, '_mt_registration_options', true );
+	$available         = $registration['total'];
+	$pricing           = $registration['prices'];
+	$tickets_remaining = mt_tickets_left( $pricing, $available );
+	$sold_out          = ( 0 >= $tickets_remaining['remain'] ) ? __( 'Sold out', 'my-tickets' ) : $expired;
 
 	return $sold_out;
 }
