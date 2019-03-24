@@ -305,6 +305,60 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 }
 
 /**
+ * Get current status of an event.
+ *
+ * @param int $event_id Event ID.
+ *
+ * @return string
+ */
+function mt_event_status( $event_id = false ) {
+	// Exit conditions.
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$purchase_page = $options['mt_purchase_page'];
+	$receipt_page  = $options['mt_purchase_page'];
+	$tickets_page  = $options['mt_tickets_page'];
+	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) ) {
+		return '';
+	}
+	if ( ! $event_id ) {
+		return '';
+	}
+
+	if ( 'mc-events' == get_post_type( $event_id ) ) {
+		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
+		if ( 'false' == $sell ) {
+			return '';
+		}
+	}
+
+	if ( 'true' == get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false == $override ) {
+		return '';
+	}
+	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+
+	// if no 'total' is set at all, this is not an event with tickets.
+	if ( empty( $registration['prices'] ) ) {
+		return '';
+	}
+	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. '0' is a valid number of tickets, '' is not.
+	if ( ( isset( $registration['total'] ) && 'inherit' == $registration['total'] ) && ! mt_has_tickets( $registration['prices'] ) ) {
+		return '';
+	}
+	// if total number of tickets is set but is an empty string or is not set; return.
+	if ( ( isset( $registration['total'] ) && '' == trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
+		return '';
+	}
+	$expired             = ( mt_expired( $event_id ) ) ? __( 'Sales closed', 'my-tickets' ) : '';
+	$registration        = get_post_meta( $event_id, '_mt_registration_options', true );
+	$available           = $registration['total'];
+	$pricing             = $registration['prices'];
+	$tickets_remaining   = mt_tickets_left( $pricing, $available );
+	$sold_out            = ( 0 >= $tickets_remaining['remain'] ) ? __( 'Sold out', 'my-tickets' ) : $expired;
+
+	return $sold_out;
+}
+
+/**
  * Figure whether tickets should be hidden.
  *
  * @param int $tickets_remaining Number of tickets remaining.

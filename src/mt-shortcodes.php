@@ -114,10 +114,11 @@ add_filter( 'mc_filter_shortcodes', 'mt_add_shortcode', 5, 2 );
  * @param array  $e Array of My Calendar template values.
  * @param object $event My Calendar event object.
  *
- * @return mixed
+ * @return array
  */
 function mt_add_shortcode( $e, $event ) {
-	$e['register'] = mt_registration_form( '', $event->event_post );
+	$e['register']      = mt_registration_form( '', $event->event_post );
+	$e['ticket_status'] = mt_event_status( $event->event_post );
 
 	return $e;
 }
