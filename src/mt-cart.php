@@ -1051,7 +1051,7 @@ function mt_replace_http( $url ) {
 /**
  * Test whether an event is no longer available for purchase. If user has capability to order expired events, allow.
  *
- * @param object  $event And event object.
+ * @param int     $event An event ID.
  * @param boolean $react Should a reaction happen.
  *
  * @return bool
