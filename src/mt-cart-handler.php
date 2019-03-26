@@ -120,9 +120,11 @@ function mt_create_payment( $post ) {
 	$paid      = mt_calculate_cart_cost( $purchased, $purchase_id );
 	if ( isset( $options['mt_handling'] ) ) {
 		$paid = $paid + $options['mt_handling'];
+		update_post_meta( $purchase_id, '_mt_handling', $options['mt_handling'] );
 	}
 	if ( isset( $options['mt_shipping'] ) && 'postal' == $post['ticketing_method'] ) {
 		$paid = $paid + $options['mt_shipping'];
+		update_post_meta( $purchase_id, '_mt_shipping', $options['mt_shipping'] );
 	}
 	update_post_meta( $purchase_id, '_total_paid', $paid );
 	$payment_status = ( 0 == $paid ) ? 'Completed' : 'Pending';
