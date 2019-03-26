@@ -232,15 +232,15 @@ function mt_get_payment_details() {
 	if ( $receipt ) {
 		$paid = get_post_meta( $receipt->ID, '_is_paid', true );
 		if ( 'Completed' == $paid ) {
-			$gateway        = get_post_meta( $receipt->ID, '_gateway', true );
-			$gateways       = mt_setup_gateways();
-			$gateway_label  = isset( $gateways[ $gateway ] ) ? $gateways[ $gateway ]['label'] : $gateway;
-			$transaction    = get_post_meta( $receipt->ID, '_transaction_id', true );
-			$total          = get_post_meta( $receipt->ID, '_total_paid', true );
-			$handling       = ( get_post_meta( $receipt->ID, '_mt_handling', true ) ) ? '<li>' . __( 'Handling:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $handling_total ) . '</li>' : '';
-			$shipping       = ( get_post_meta( $receipt->ID, '_mt_shipping', true ) ) ? '<li>' . __( 'Shipping:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $shipping_total ) . '</li>' : '';
-			$return         = __( 'This receipt is paid in full.', 'my-tickets' );
-			$return        .= '
+			$gateway       = get_post_meta( $receipt->ID, '_gateway', true );
+			$gateways      = mt_setup_gateways();
+			$gateway_label = isset( $gateways[ $gateway ] ) ? $gateways[ $gateway ]['label'] : $gateway;
+			$transaction   = get_post_meta( $receipt->ID, '_transaction_id', true );
+			$total         = get_post_meta( $receipt->ID, '_total_paid', true );
+			$handling      = ( get_post_meta( $receipt->ID, '_mt_handling', true ) ) ? '<li>' . __( 'Handling:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $handling_total ) . '</li>' : '';
+			$shipping      = ( get_post_meta( $receipt->ID, '_mt_shipping', true ) ) ? '<li>' . __( 'Shipping:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $shipping_total ) . '</li>' : '';
+			$return        = __( 'This receipt is paid in full.', 'my-tickets' );
+			$return       .= '
 		<ul>
 			<li>' . __( 'Payment through:', 'my-tickets' ) . " $gateway_label</li>
 			<li>" . __( 'Transaction ID:', 'my-tickets' ) . " <code>$transaction</code></li>
