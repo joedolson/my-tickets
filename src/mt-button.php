@@ -369,10 +369,10 @@ function mt_hide_remaining( $tickets_remaining ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	// If hide remaining is enabled, set as hidden.
 	$hide_remaining = ( isset( $options['mt_hide_remaining'] ) && 'true' == $options['mt_hide_remaining'] ) ? ' hiding' : '';
-	// If a value is set for hiding limit, show again once tickets go below that number.
-	$hide_remaining = ( '' == $hide_remaining && ( isset( $options['mt_hide_remaining_limit'] ) && absint( $options['mt_hide_remaining_limit'] ) < $tickets_remaining ) ) ? ' hiding' : $hide_remaining;
+	// Hide tickets if there are more than x tickets available if limit is set.
+	$hide_limiting = ( isset( $options['mt_hide_remaining_limit'] ) && ( $tickets_remaining > absint( $options['mt_hide_remaining_limit'] ) ) ) ? ' hiding' : '';
 
-	return $hide_remaining;
+	return ( isset( $options['mt_hide_remaining_limit'] ) ) ? $hide_limiting : $hide_remaining;
 }
 /**
  * Test whether the current ticket type is admin-only
