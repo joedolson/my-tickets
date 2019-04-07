@@ -208,7 +208,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id ) {
 	$output   = '';
 	$show     = '';
 	$is_html  = ( 'true' == $options['mt_html_email'] || 'html' == $type ) ? true : false;
-	$sep      = ( $is_html ) ? '<br />' : "\n";
+	$sep      = ( $is_html ) ? '<br />' . "\r\n" : "\n";
 	$total    = count( $tickets );
 	$i        = 1;
 	$test_use = false;

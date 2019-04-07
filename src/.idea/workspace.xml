@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/readme.txt" description="&#10;= 1.8.1 =&#10;&#10;* Bug fix: Don't attempt to return sol..." line="67" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="8ea63222-62f2-4551-a4f9-da5c5431eb39" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/mt-button.php" afterPath="$PROJECT_DIR$/mt-button.php" />
-      <change beforePath="$PROJECT_DIR$/mt-processing.php" afterPath="$PROJECT_DIR$/mt-processing.php" />
-      <change beforePath="$PROJECT_DIR$/readme.txt" afterPath="$PROJECT_DIR$/readme.txt" />
+      <change beforePath="$PROJECT_DIR$/mt-notifications.php" afterPath="$PROJECT_DIR$/mt-notifications.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,76 +17,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="readme.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="readme.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/readme.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="70" column="2" lean-forward="false" selection-start-line="70" selection-start-column="2" selection-end-line="70" selection-end-column="2" />
+            <state relative-caret-position="364">
+              <caret line="60" column="13" lean-forward="true" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mt-processing.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mt-processing.php">
+      <file leaf-file-name="offline.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gateways/offline.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="254" column="54" lean-forward="false" selection-start-line="254" selection-start-column="54" selection-end-line="254" selection-end-column="54" />
-              <folding>
-                <marker date="1541536388291" expanded="true" signature="2307:2502" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="2413:2502" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="2802:3291" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="2835:3207" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="2844:3162" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="3171:3197" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="10284:10298" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="10284:10617" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="10622:10636" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="10622:10830" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="10857:11351" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="10922:10938" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="10922:11337" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="11364:11942" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="11440:11457" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="11440:11928" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="12215:12229" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="12215:12612" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="13623:14093" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="13721:14080" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="13732:14066" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="15661:16508" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="15688:16080" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="16846:17558" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="17622:17826" ph="..." />
-                <marker date="1541536388291" expanded="true" signature="18001:18179" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="my-tickets.pot" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lang/my-tickets.pot">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="711" column="37" lean-forward="false" selection-start-line="711" selection-start-column="37" selection-end-line="711" selection-end-column="37" />
+            <state relative-caret-position="509">
+              <caret line="67" column="47" lean-forward="true" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mt-payment-settings.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mt-payment-settings.php">
+      <file leaf-file-name="paypal.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="98" column="60" lean-forward="false" selection-start-line="98" selection-start-column="60" selection-end-line="98" selection-end-column="60" />
-              <folding>
-                <marker date="1536789694360" expanded="true" signature="6460:6655" ph="..." />
-                <marker date="1536789694360" expanded="true" signature="8472:8902" ph="..." />
-                <marker date="1536789694360" expanded="true" signature="8493:8885" ph="..." />
-                <marker date="1536789694360" expanded="true" signature="8935:9189" ph="..." />
-                <marker date="1536789694360" expanded="true" signature="9076:9184" ph="..." />
-                <marker date="1536789694360" expanded="true" signature="9104:9140" ph="..." />
-              </folding>
+            <state relative-caret-position="288">
+              <caret line="208" column="15" lean-forward="false" selection-start-line="208" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mt-cart.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/mt-cart.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1717">
+              <caret line="101" column="17" lean-forward="false" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -93,14 +60,38 @@
       <file leaf-file-name="mt-button.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mt-button.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="326" column="5" lean-forward="true" selection-start-line="326" selection-start-column="5" selection-end-line="326" selection-end-column="5" />
+            <state relative-caret-position="6205">
+              <caret line="373" column="0" lean-forward="false" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
               <folding>
-                <marker date="1541535476392" expanded="true" signature="10862:11852" ph="..." />
-                <marker date="1541535476392" expanded="true" signature="11118:11842" ph="..." />
-                <marker date="1541535476392" expanded="true" signature="11129:11291" ph="..." />
-                <marker date="1541535476392" expanded="true" signature="11307:11830" ph="..." />
-                <marker date="1541535476392" expanded="true" signature="11446:11813" ph="..." />
+                <marker date="1553802478422" expanded="true" signature="11037:12027" ph="..." />
+                <marker date="1553802478422" expanded="true" signature="11293:12017" ph="..." />
+                <marker date="1553802478422" expanded="true" signature="11304:11466" ph="..." />
+                <marker date="1553802478422" expanded="true" signature="11482:12005" ph="..." />
+                <marker date="1553802478422" expanded="true" signature="11621:11988" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mt-cart.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mt-cart.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="12240">
+              <caret line="728" column="43" lean-forward="false" selection-start-line="728" selection-start-column="34" selection-end-line="728" selection-end-column="43" />
+              <folding>
+                <marker date="1553460685950" expanded="true" signature="9583:11383" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="9661:9920" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="9929:10188" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="10197:10444" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="10453:10706" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="10715:10979" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="10988:11211" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="10988:11212" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="10988:11287" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="30318:30668" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="30438:30668" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="35352:35377" ph="..." />
+                <marker date="1553460685950" expanded="true" signature="35361:35377" ph="..." />
               </folding>
             </state>
           </provider>
@@ -109,11 +100,15 @@
       <file leaf-file-name="mt-templating.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mt-templating.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11968">
-              <caret line="712" column="21" lean-forward="false" selection-start-line="712" selection-start-column="21" selection-end-line="712" selection-end-column="21" />
+            <state relative-caret-position="3978">
+              <caret line="242" column="135" lean-forward="false" selection-start-line="242" selection-start-column="135" selection-end-line="242" selection-end-column="135" />
               <folding>
-                <marker date="1540493002291" expanded="true" signature="5139:5305" ph="..." />
-                <marker date="1540493002291" expanded="true" signature="14916:14990" ph="SELECT * FRO... ${my_calendar_locations_table()}" />
+                <marker date="1553625927053" expanded="true" signature="5659:5851" ph="..." />
+                <marker date="1553625927053" expanded="true" signature="5659:5852" ph="..." />
+                <marker date="1553625927053" expanded="true" signature="5659:5949" ph="..." />
+                <marker date="1553625927053" expanded="true" signature="5659:5957" ph="..." />
+                <marker date="1553625927053" expanded="true" signature="16168:16242" ph="SELECT * FRO... ${my_calendar_locations_table()}" />
+                <marker date="1553625927053" expanded="true" signature="17747:17797" ph="..." />
               </folding>
             </state>
           </provider>
@@ -122,91 +117,86 @@
       <file leaf-file-name="my-tickets.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/my-tickets.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="36" column="63" lean-forward="true" selection-start-line="36" selection-start-column="63" selection-end-line="36" selection-end-column="63" />
+            <state relative-caret-position="1564">
+              <caret line="111" column="49" lean-forward="false" selection-start-line="111" selection-start-column="49" selection-end-line="111" selection-end-column="49" />
               <folding>
-                <element signature="e#6#611#0#PHP" expanded="true" />
-                <marker date="1541184442228" expanded="true" signature="8073:8368" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="8530:8912" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="9008:9267" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="11845:11907" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="11911:11926" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="11930:11945" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="12006:12049" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="12159:12208" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="12212:12227" ph="..." />
-                <marker date="1541184442228" expanded="true" signature="12231:12246" ph="..." />
+                <element signature="e#6#610#0#PHP" expanded="true" />
+                <marker date="1553626064505" expanded="true" signature="9006:9265" ph="..." />
+                <marker date="1553626064505" expanded="true" signature="11843:11905" ph="..." />
+                <marker date="1553626064505" expanded="true" signature="11909:11924" ph="..." />
+                <marker date="1553626064505" expanded="true" signature="11928:11943" ph="..." />
+                <marker date="1553626064505" expanded="true" signature="12004:12047" ph="..." />
+                <marker date="1553626064505" expanded="true" signature="12157:12206" ph="..." />
+                <marker date="1553626064505" expanded="true" signature="12210:12225" ph="..." />
+                <marker date="1553626064505" expanded="true" signature="12229:12244" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qrcode.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/includes/qrcode.php">
+      <file leaf-file-name="mt-notifications.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mt-notifications.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state relative-caret-position="118">
+              <caret line="210" column="4" lean-forward="false" selection-start-line="210" selection-start-column="4" selection-end-line="210" selection-end-column="56" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mt-tickets.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mt-tickets.php">
+      <file leaf-file-name="mt-cart-handler.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mt-cart-handler.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="31" column="16" lean-forward="false" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+            <state relative-caret-position="2023">
+              <caret line="127" column="5" lean-forward="false" selection-start-line="127" selection-start-column="5" selection-end-line="127" selection-end-column="5" />
               <folding>
-                <marker date="1540750721741" expanded="true" signature="2826:2908" ph="SELECT post_... wp_postmeta" />
+                <marker date="1553625218130" expanded="true" signature="8449:8524" ph="SELECT meta_... wp_postmeta" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="verify.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/verify.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mt_redirect</find>
-      <find>payment note</find>
-      <find>offline payment note</find>
-      <find>notes</find>
-      <find>this event</find>
-      <find>jd_twitter</find>
-      <find>print_r</find>
-      <find>mt_gateway</find>
-      <find>premium add-ons</find>
-      <find>Get Support</find>
-      <find>background</find>
-      <find>get-support</find>
-      <find>payment conditions</find>
-      <find>P</find>
-      <find>payment details</find>
-      <find>wp_mail</find>
-      <find>redirect</find>
-      <find>wp_safe_redirect</find>
-      <find>verify.php</find>
-      <find>mt_verify</find>
-      <find>MT_HOME_URL</find>
-      <find>administrators only</find>
-      <find>administrator</find>
-      <find>extra_label</find>
-      <find>mt_admin_only</find>
-      <find>current_user_can</find>
-      <find>decimal point</find>
-      <find>sell tickets on</find>
-      <find>sell tickets on this post</find>
-      <find>sell tickets on this</find>
+      <find>id=</find>
+      <find>mt_send_notifications</find>
+      <find>failed</find>
+      <find>mt_delete</find>
+      <find>mt_return</find>
+      <find>register</find>
+      <find>'register</find>
+      <find>sold out</find>
+      <find>mt_tickets_left</find>
+      <find>$event_id</find>
+      <find>registration</find>
+      <find>mt_sold_out</find>
+      <find>_total_paid</find>
+      <find>mt_format_purchase</find>
+      <find>mt_shipping</find>
+      <find>handling</find>
+      <find>get_post_meta</find>
+      <find>update_post</find>
+      <find>shipping</find>
+      <find>hide-remain</find>
+      <find>tickets-remaining</find>
+      <find>.mt-button</find>
+      <find>button</find>
+      <find>color:</find>
+      <find>view ticket</find>
+      <find>mt_custom_ticket_output</find>
+      <find>mt_format_array</find>
+      <find>&lt;p&gt;1/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stecf3d0fb84f30%0D000&quot; target=&quot;_blank&quot;&gt;View Ticket (1/200)&lt;/a&gt;&lt;br&gt;2/200: &lt;a href=&quot;http://esportlive.gg/ti%0Dckets/?ticket_id=ste014b5a9e13f0001&quot; target=&quot;_blank&quot;&gt;View Ticket (2/200)&lt;/a&gt;&lt;br&gt;3/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st3f9f671c1a160002&quot; target=&quot;_blank&quot;&gt;Vi ew Ticket (3/200)&lt;/a&gt;&lt;br&gt;4/200: &lt;a href=&quot;http://esportlive.gg/tickets/?%0Dticket_id=stb2dbd3d8942f0003&quot; target=&quot;_blank&quot;&gt;View Ticket (4/200)&lt;/a&gt;&lt;br&gt;5/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st5ed3d4d3580b0004&quot; target=&quot;_blank&quot;&gt;View Tick et (5/200)&lt;/a&gt;&lt;br&gt;6/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_%0Did=st3183c58e5fee0005&quot; target=&quot;_blank&quot;&gt;View Ticket (6/200)&lt;/a&gt;&lt;br&gt;7/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (7/2 00)&lt;/a&gt;&lt;br&gt;8/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st%0D4f42bbf08f120007&quot; target=&quot;_blank&quot;&gt;View Ticket (8/200)&lt;/a&gt;&lt;br&gt;9/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (9/200)&lt;/a&gt;&lt;br&gt;10/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=ste811ed%0D05d53c0009&quot; target=&quot;_blank&quot;&gt;View Ticket (10/200)&lt;/a&gt;&lt;br&gt;11/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (11/200)&lt;/a&gt;&lt;br&gt;12/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st11a048e1a%0D32f0011&quot; target=&quot;_blank&quot;&gt;View Ticket (12/200)&lt;/a&gt;&lt;br&gt;13/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (13/200)&lt;/a&gt;&lt;br&gt;14/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=ste895ab4c8573%0D0013&quot; target=&quot;_blank&quot;&gt;View Ticket (14/200)&lt;/a&gt;&lt;br&gt;15/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (15/200)&lt;/a&gt;&lt;br&gt;16/ 200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st6b0e90432d00001%0D5&quot; target=&quot;_blank&quot;&gt;View Ticket (16/200)&lt;/a&gt;&lt;br&gt;17/200: &lt;a href=&quot;http://esportlive.gg/ti%0Dckets/?ticket_id=st6518c46d67170016&quot; target=&quot;_blank&quot;&gt;View Ticket (17/200)&lt;/a&gt;&lt;br&gt;18/200 : &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st1cb705c15f8d0017&quot; target=&quot;_blank&quot;&gt;View Ticket (18/200)&lt;/a&gt;&lt;br&gt;19/200: &lt;a href=&quot;http://esportlive.gg/ticke%0Dts/?ticket_id=st6c39e29f79d90018&quot; target=&quot;_blank&quot;&gt;View Ticket (19/200)&lt;/a&gt;20/200: &amp;lt; a href='&lt;br&gt;&lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st5eed0b765cf30019&quot; target=&quot;_blank&quot;&gt;http://esportlive.gg/tickets/?ticket_id=st5eed0b765cf30019&lt;/a&gt;'&amp;gt;Vie w Ticket (20/200)&lt;br&gt;21/200: &lt;a href=&quot;http://esportlive.gg/tickets/%0D?ticket_id=std7082538aed70020&quot; target=&quot;_blank&quot;&gt;View Ticket (21/200)&lt;/a&gt;&lt;br&gt;22/200: &lt;a target=&quot;_blank&quot;&gt;View T icket (22/200)&lt;/a&gt;&lt;br&gt;23/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ti%0Dcket_id=stb9151460f4a20022&quot; target=&quot;_blank&quot;&gt;View Ticket (23/200)&lt;/a&gt;&lt;br&gt;24/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stc055d07328b10023&quot; target=&quot;_blank&quot;&gt;View Tick et (24/200)&lt;/a&gt;&lt;br&gt;25/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticke%0Dt_id=stb51c455a536e0024&quot; target=&quot;_blank&quot;&gt;View Ticket (25/200)&lt;/a&gt;&lt;br&gt;26/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st923e919a01b90025&quot; target=&quot;_blank&quot;&gt;View Ticket (26/200)&lt;/a&gt;&lt;br&gt;27/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_i%0Dd=stdeeac03990f20026&quot; target=&quot;_blank&quot;&gt;View Ticket (27/200)&lt;/a&gt;&lt;br&gt;28/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (28 /200)&lt;/a&gt;&lt;br&gt;29/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id%0D=st1bed868509200028&quot; target=&quot;_blank&quot;&gt;View Ticket (29/200)&lt;/a&gt;&lt;br&gt;30/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (30/ 200)&lt;/a&gt;&lt;br&gt;31/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=%0Dst5973d0d7a4ef0030&quot; target=&quot;_blank&quot;&gt;View Ticket (31/200)&lt;/a&gt;&lt;br&gt;32/200: &lt;a href=&quot;/%0D/esportlive.gg/tickets/?ticket_id=st50d8e6b1a47e0031&quot; target=&quot;_blank&quot;&gt;View Ticket (32/200 )&lt;/a&gt;&lt;br&gt;33/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stf%0D67ea3beea120032&quot; target=&quot;_blank&quot;&gt;View Ticket (33/200)&lt;/a&gt;&lt;br&gt;34/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (34/200)&lt;br&gt;35/200:&lt;/a&gt; &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st0734%0D920737ee0034&quot; target=&quot;_blank&quot;&gt;View Ticket (35/200)&lt;/a&gt;&lt;br&gt;36/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (36/200)&lt;/a&gt;&amp;lt; br /&amp;gt;37/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st0200e05%0Dedcc20036&quot; target=&quot;_blank&quot;&gt;View Ticket (37/200)&lt;/a&gt;&lt;br&gt;38/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (38/200)&lt;/a&gt;&lt;br&gt;39/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st176158583b%0D730038&quot; target=&quot;_blank&quot;&gt;View Ticket (39/200)&lt;/a&gt;&lt;br&gt;40/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (40/200)&lt;/a&gt;&lt;br&gt;4 1/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stc3ab410e477d0%0D040&quot; target=&quot;_blank&quot;&gt;View Ticket (41/200)&lt;/a&gt;&lt;br&gt;42/200: &lt;a href=&quot;http://esportlive.gg/%0Dtickets/?ticket_id=st30ff5e2676520041&quot; target=&quot;_blank&quot;&gt;View Ticket (42/200)&lt;/a&gt;&lt;br&gt;43/2 00: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stc06487902cf00042&quot; target=&quot;_blank&quot;&gt;View Ticket (43/200)&lt;/a&gt;&lt;br&gt;44/200: &lt;a href=&quot;http://esportlive.gg/tic%0Dkets/?ticket_id=stc66b9e744b6c0043&quot; target=&quot;_blank&quot;&gt;View Ticket (44/200)&lt;/a&gt;&lt;br&gt;45/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stdd6efb270fb50044&quot; target=&quot;_blank&quot;&gt;V iew Ticket (45/200)&lt;/a&gt;&lt;br&gt;46/200: &lt;a href=&quot;http://esportlive.gg/ticket%0Ds/?ticket_id=std9d4c754aafd0045&quot; target=&quot;_blank&quot;&gt;View Ticket (46/200)&lt;/a&gt;&lt;br&gt;47/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st90adeb796cad0046&quot; target=&quot;_blank&quot;&gt;View Ticket (47/200)&lt;/a&gt;&lt;br&gt;48/200: &lt;a href=&quot;http://esportlive.gg/tickets/?%0Dticket_id=st58791e6b44b90047&quot; target=&quot;_blank&quot;&gt;View Ticket (48/200)&lt;/a&gt;&lt;br&gt;49/200: &lt;a target=&quot;_blank&quot;&gt;View Ti cket (49/200)&lt;/a&gt;&lt;br&gt;50/200: &lt;a href=&quot;http://esportlive.gg/tickets/?tic%0Dket_id=st13c160b410c80049&quot; target=&quot;_blank&quot;&gt;View Ticket (50/200)&lt;/a&gt;&lt;br&gt;51/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st38ab63edcb9f0050&quot; target=&quot;_blank&quot;&gt;View Tick et (51/200)&lt;/a&gt;&lt;br&gt;52/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticke%0Dt_id=st2e3ba98e9bbb0051&quot; target=&quot;_blank&quot;&gt;View Ticket (52/200)&lt;/a&gt;&lt;br&gt;53/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stc7652a0d12120052&quot; target=&quot;_blank&quot;&gt;View Ticket (53/200)&lt;/a&gt;&lt;br&gt;54/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_i%0Dd=sta8ab1e6ecb500053&quot; target=&quot;_blank&quot;&gt;View Ticket (54/200)&lt;/a&gt;&lt;br&gt;55/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (55 /200)&lt;/a&gt;&lt;br&gt;56/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id%0D=stf28640916c1d0055&quot; target=&quot;_blank&quot;&gt;View Ticket (56/200)&lt;/a&gt;&lt;br&gt;57/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (57/ 200)&lt;/a&gt;&lt;br&gt;58/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=%0Dst670a133f3df90057&quot; target=&quot;_blank&quot;&gt;View Ticket (58/200)&lt;/a&gt;&lt;br&gt;59/200: &lt;a href=&quot;/%0D/esportlive.gg/tickets/?ticket_id=st87f1c58564b10058&quot; target=&quot;_blank&quot;&gt;View Ticket (59/200 )&lt;/a&gt;&lt;br&gt;60/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=std%0D700fd614b100059&quot; target=&quot;_blank&quot;&gt;View Ticket (60/200)&lt;/a&gt;&lt;br&gt;61/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (61/200)&lt;br&gt;62/200:&lt;/a&gt; &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st338c%0Df6467f2a0061&quot; target=&quot;_blank&quot;&gt;View Ticket (62/200)&lt;/a&gt;&lt;br&gt;63/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (63/200)&lt;/a&gt;&amp;lt; br /&amp;gt;64/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st129dab0%0D74ff60063&quot; target=&quot;_blank&quot;&gt;View Ticket (64/200)&lt;/a&gt;&lt;br&gt;65/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (65/200)&lt;/a&gt;&lt;br&gt;66/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st0233c89986%0D4f0065&quot; target=&quot;_blank&quot;&gt;View Ticket (66/200)&lt;/a&gt;&lt;br&gt;67/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (67/200)&lt;/a&gt;&lt;br&gt;6 8/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st0127ba34a6c80%0D067&quot; target=&quot;_blank&quot;&gt;View Ticket (68/200)&lt;/a&gt;&lt;br&gt;69/200: &lt;a href=&quot;http://esportlive.gg/%0Dtickets/?ticket_id=st33f6099c8a030068&quot; target=&quot;_blank&quot;&gt;View Ticket (69/200)&lt;/a&gt;&lt;br&gt;70/2 00: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st55de55fa5a980069&quot; target=&quot;_blank&quot;&gt;View Ticket (70/200)&lt;/a&gt;&lt;br&gt;71/200: &lt;a href=&quot;http://esportlive.gg/tic%0Dkets/?ticket_id=st0d02cb37c1be0070&quot; target=&quot;_blank&quot;&gt;View Ticket (71/200)&lt;/a&gt;&lt;br&gt;72/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st3a3d44f7c45c0071&quot; target=&quot;_blank&quot;&gt;V iew Ticket (72/200)&lt;/a&gt;&lt;br&gt;73/200: &lt;a href=&quot;http://esportlive.gg/ticket%0Ds/?ticket_id=st18f8494bfcb90072&quot; target=&quot;_blank&quot;&gt;View Ticket (73/200)&lt;/a&gt;&lt;br&gt;74/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st86199eb4bca60073&quot; target=&quot;_blank&quot;&gt;View Ticket (74/200)&lt;/a&gt;&lt;br&gt;75/200: &lt;a href=&quot;http://esportlive.gg/tickets/?%0Dticket_id=ste02e0b6630a00074&quot; target=&quot;_blank&quot;&gt;View Ticket (75/200)&lt;/a&gt;&lt;br&gt;76/200: &lt;a target=&quot;_blank&quot;&gt;View Ti cket (76/200)&lt;/a&gt;&lt;br&gt;77/200: &lt;a href=&quot;http://esportlive.gg/tickets/?tic%0Dket_id=st4d8441e265720076&quot; target=&quot;_blank&quot;&gt;View Ticket (77/200)&lt;/a&gt;&lt;br&gt;78/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=sta724630ad25e0077&quot; target=&quot;_blank&quot;&gt;View Tick et (78/200)&lt;/a&gt;&lt;br&gt;79/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticke%0Dt_id=st1f7cfc9791d80078&quot; target=&quot;_blank&quot;&gt;View Ticket (79/200)&lt;/a&gt;&lt;br&gt;80/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st2e7bff1aaa0d0079&quot; target=&quot;_blank&quot;&gt;View Ticket (80/200)&lt;/a&gt;&lt;br&gt;81/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_i%0Dd=st5d8fa54ec1be0080&quot; target=&quot;_blank&quot;&gt;View Ticket (81/200)&lt;/a&gt;&lt;br&gt;82/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (82 /200)&lt;/a&gt;&lt;br&gt;83/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id%0D=st4b7662a368000082&quot; target=&quot;_blank&quot;&gt;View Ticket (83/200)&lt;/a&gt;&lt;br&gt;84/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (84/ 200)&lt;/a&gt;&lt;br&gt;85/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=%0Dstd405c3ad04860084&quot; target=&quot;_blank&quot;&gt;View Ticket (85/200)&lt;/a&gt;&lt;br&gt;86/200: &lt;a href=&quot;/%0D/esportlive.gg/tickets/?ticket_id=stf945fc021b2b0085&quot; target=&quot;_blank&quot;&gt;View Ticket (86/200 )&lt;/a&gt;&lt;br&gt;87/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st0%0D73f169aae7f0086&quot; target=&quot;_blank&quot;&gt;View Ticket (87/200)&lt;/a&gt;&lt;br&gt;88/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (88/200)&lt;br&gt;89/200:&lt;/a&gt; &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st1470%0D19e19e4a0088&quot; target=&quot;_blank&quot;&gt;View Ticket (89/200)&lt;/a&gt;&lt;br&gt;90/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (90/200)&lt;/a&gt;&amp;lt; br /&amp;gt;91/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st1798ecd%0D0c1de0090&quot; target=&quot;_blank&quot;&gt;View Ticket (91/200)&lt;/a&gt;&lt;br&gt;92/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (92/200)&lt;/a&gt;&lt;br&gt;93/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st7640723133%0D770092&quot; target=&quot;_blank&quot;&gt;View Ticket (93/200)&lt;/a&gt;&lt;br&gt;94/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (94/200)&lt;/a&gt;&lt;br&gt;9 5/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st954c9df5a7c60%0D094&quot; target=&quot;_blank&quot;&gt;View Ticket (95/200)&lt;/a&gt;&lt;br&gt;96/200: &lt;a href=&quot;http://esportlive.gg/%0Dtickets/?ticket_id=st73dac4f0546d0095&quot; target=&quot;_blank&quot;&gt;View Ticket (96/200)&lt;/a&gt;&lt;br&gt;97/2 00: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stf7dff69c0e9d0096&quot; target=&quot;_blank&quot;&gt;View Ticket (97/200)&lt;/a&gt;&lt;br&gt;98/200: &lt;a href=&quot;http://esportlive.gg/tic%0Dkets/?ticket_id=st4248c0994ada0097&quot; target=&quot;_blank&quot;&gt;View Ticket (98/200)&lt;/a&gt;&lt;br&gt;99/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st35265c6f683b0098&quot; target=&quot;_blank&quot;&gt;V iew Ticket (99/200)&lt;/a&gt;&lt;br&gt;100/200: &lt;a href=&quot;http://esportlive.gg/ticke%0Dts/?ticket_id=ste2e9d24c0afe0099&quot; target=&quot;_blank&quot;&gt;View Ticket (100/200)&lt;/a&gt;&lt;br&gt;101/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stb89aa0ce1a040100&quot; target=&quot;_blank&quot;&gt;V iew Ticket (101/200)&lt;/a&gt;&lt;br&gt;102/200: &lt;a href=&quot;http://esportlive.gg/tick%0Dets/?ticket_id=stbd4a4d825ff20101&quot; target=&quot;_blank&quot;&gt;View Ticket (102/200)&lt;/a&gt;&lt;br&gt;103/200 : &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st218364d30b270102&quot; target=&quot;_blank&quot;&gt;View Ticket (103/200)&lt;/a&gt;&lt;br&gt;104/200: &lt;a href=&quot;http://esportlive.gg/tic%0Dkets/?ticket_id=st6a7e479fa2ac0103&quot; target=&quot;_blank&quot;&gt;View Ticket (104/200)&lt;/a&gt;&lt;br&gt;105/20 0: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st461eb11c8ba00104&quot; target=&quot;_blank&quot;&gt;View Ticket (105/200)&lt;/a&gt;&lt;br&gt;106/200: &lt;a href=&quot;http://esportlive.gg/ti%0Dckets/?ticket_id=stb3add1c775220105&quot; target=&quot;_blank&quot;&gt;View Ticket (106/200)&lt;/a&gt;&lt;br&gt;107/2 00: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st9090577200d80106&quot; target=&quot;_blank&quot;&gt;View Ticket (107/200)&lt;/a&gt;&lt;br&gt;108/200: &lt;a href=&quot;http://esportlive.gg/t%0Dickets/?ticket_id=st66d3930a224f0107&quot; target=&quot;_blank&quot;&gt;View Ticket (108/200)&lt;/a&gt;&lt;br&gt;109/ 200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st95d934495a13010%0D8&quot; target=&quot;_blank&quot;&gt;View Ticket (109/200)&lt;/a&gt;&lt;br&gt;110/200: &lt;a href=&quot;http://esportlive.gg/%0Dtickets/?ticket_id=st0637271657080109&quot; target=&quot;_blank&quot;&gt;View Ticket (110/200)&lt;/a&gt;&lt;br&gt;111 /200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st7e8186df4c4301%0D10&quot; target=&quot;_blank&quot;&gt;View Ticket (111/200)&lt;/a&gt;&lt;br&gt;112/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (112/200)&lt;/a&gt;&lt;br&gt;11 3/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st525aaa6c8a800%0D112&quot; target=&quot;_blank&quot;&gt;View Ticket (113/200)&lt;/a&gt;&lt;br&gt;114/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (114/200)&lt;/a&gt;&lt;br&gt;1 15/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st7888afe75e26%0D0114&quot; target=&quot;_blank&quot;&gt;View Ticket (115/200)&lt;/a&gt;&lt;br&gt;116/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (116/200)&lt;/a&gt;&lt;br&gt;117/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stfbf12f04462%0D60116&quot; target=&quot;_blank&quot;&gt;View Ticket (117/200)&lt;/a&gt;&lt;br&gt;118/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (118/200)&lt;/a&gt;&lt;br&gt;119/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st02f1a1a70c%0D260118&quot; target=&quot;_blank&quot;&gt;View Ticket (119/200)&lt;/a&gt;&lt;br&gt;120/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (120/200)&lt;/a&gt;&lt;br&gt;121/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st7c899e61d%0D9f70120&quot; target=&quot;_blank&quot;&gt;View Ticket (121/200)&lt;/a&gt;&lt;br&gt;122/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (122/200)&lt;/a&gt;&lt;br&gt;123/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st1e4dde66%0Dc32c0122&quot; target=&quot;_blank&quot;&gt;View Ticket (123/200)&lt;/a&gt;&lt;br&gt;124/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (124/200)&lt;/a&gt;125/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st7a04467%0D8cc9e0124&quot; target=&quot;_blank&quot;&gt;View Ticket (125/200)&lt;/a&gt;&lt;br&gt;126/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (126/200)&lt;/a&gt;&amp;lt; br /&amp;gt;127/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stc4b9a1%0D49c3e70126&quot; target=&quot;_blank&quot;&gt;View Ticket (127/200)&lt;/a&gt;&lt;br&gt;128/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (128/200)&lt;/a&gt;&lt;br&gt;129/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st2bf1d%0Dc7080e20128&quot; target=&quot;_blank&quot;&gt;View Ticket (129/200)&lt;/a&gt;&lt;br&gt;130/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (130/200)&lt;/a&gt;&lt;br&gt;131/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stbc9a%0D57156e0c0130&quot; target=&quot;_blank&quot;&gt;View Ticket (131/200)&lt;/a&gt;&lt;br&gt;132/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (132/200)&lt;br&gt;133/200:&lt;/a&gt; &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st18c%0D5e64f02cf0132&quot; target=&quot;_blank&quot;&gt;View Ticket (133/200)&lt;/a&gt;&lt;br&gt;134/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (134/200)&amp;lt; /a&amp;gt;&lt;br&gt;135/200:&lt;/a&gt; &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st25%0Dd019eb1e8d0134&quot; target=&quot;_blank&quot;&gt;View Ticket (135/200)&lt;/a&gt;&lt;br&gt;136/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (136/200)&lt;/a&gt;&lt;br&gt;137/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st2%0D1988aa0acc50136&quot; target=&quot;_blank&quot;&gt;View Ticket (137/200)&lt;/a&gt;&lt;br&gt;138/200: &lt;a href=&quot;/tickets/?ticket_id=steb761e2efce40137&quot; target=&quot;_blank&quot;&gt;View Ticket (138/200 )&lt;/a&gt;&lt;br&gt;139/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st%0D7ba9c3d259bd0138&quot; target=&quot;_blank&quot;&gt;View Ticket (139/200)&lt;/a&gt;&lt;br&gt;140/200: &lt;a href=&quot;/%0D/esportlive.gg/tickets/?ticket_id=stfbd555fa86240139&quot; target=&quot;_blank&quot;&gt;View Ticket (140/20 0)&lt;/a&gt;&lt;br&gt;141/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=s%0Dt15d1de68a5580140&quot; target=&quot;_blank&quot;&gt;View Ticket (141/200)&lt;/a&gt;&lt;br&gt;142/200: &lt;a href=&quot;http://%0D//esportlive.gg/tickets/?ticket_id=st2a686642c6eb0141&quot; target=&quot;_blank&quot;&gt;View Ticket (142/2 00)&lt;/a&gt;&lt;br&gt;143/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=%0Dst8b5321d3bbaf0142&quot; target=&quot;_blank&quot;&gt;View Ticket (143/200)&lt;/a&gt;&lt;br&gt;144/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (144/ 200)&lt;/a&gt;&lt;br&gt;145/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id%0D=sta06bf6c31e250144&quot; target=&quot;_blank&quot;&gt;View Ticket (145/200)&lt;/a&gt;&lt;br&gt;146/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (1 46/200)&lt;/a&gt;&lt;br&gt;147/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_i%0Dd=ste78a5cb77baf0146&quot; target=&quot;_blank&quot;&gt;View Ticket (147/200)&lt;/a&gt;&lt;br&gt;148/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stbe6d20b5c44c0147&quot; target=&quot;_blank&quot;&gt;View Ticket ( 148/200)&lt;/a&gt;&lt;br&gt;149/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_%0Did=stdd7d94d0cfc60148&quot; target=&quot;_blank&quot;&gt;View Ticket (149/200)&lt;/a&gt;&lt;br&gt;150/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st912a04148aa40149&quot; target=&quot;_blank&quot;&gt;View Ticket (150/200)&lt;/a&gt;&lt;br&gt;151/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket%0D_id=st3c32bbfda2a70150&quot; target=&quot;_blank&quot;&gt;View Ticket (151/200)&lt;/a&gt;&lt;br&gt;152/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stf8d418c903710151&quot; target=&quot;_blank&quot;&gt;View Tick et (152/200)&lt;/a&gt;&lt;br&gt;153/200: &lt;a href=&quot;http://esportlive.gg/tickets/?tic%0Dket_id=st86a9d8ebef1e0152&quot; target=&quot;_blank&quot;&gt;View Ticket (153/200)&lt;/a&gt;&lt;br&gt;154/200: &lt;a target=&quot;_blank&quot;&gt;View Tic ket (154/200)&lt;/a&gt;&lt;br&gt;155/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ti%0Dcket_id=stc3e9f7c32ab00154&quot; target=&quot;_blank&quot;&gt;View Ticket (155/200)&lt;/a&gt;&lt;br&gt;156/200: &lt;a target=&quot;_blank&quot;&gt;View Ti cket (156/200)&lt;/a&gt;&lt;br&gt;157/200: &lt;a href=&quot;http://esportlive.gg/tickets/?t%0Dicket_id=st658ac28610620156&quot; target=&quot;_blank&quot;&gt;View Ticket (157/200)&lt;/a&gt;&lt;br&gt;158/200: &lt;a target=&quot;_blank&quot;&gt;View T icket (158/200)&lt;/a&gt;&lt;br&gt;159/200: &lt;a href=&quot;http://esportlive.gg/tickets/?%0Dticket_id=st7ac96a71b5670158&quot; target=&quot;_blank&quot;&gt;View Ticket (159/200)&lt;/a&gt;&lt;br&gt;160/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st5af9a36e8e320159&quot; target=&quot;_blank&quot;&gt;View Ticket (160/200)&lt;/a&gt;&lt;br&gt;161/200: &lt;a href=&quot;http://esportlive.gg/tickets/%0D?ticket_id=sta8d10717eae20160&quot; target=&quot;_blank&quot;&gt;View Ticket (161/200)&lt;/a&gt;&lt;br&gt;162/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stdedaf5a0c80f0161&quot; target=&quot;_blank&quot;&gt;View Ticket (162/200)&lt;/a&gt;&lt;br&gt;163/200: &lt;a href=&quot;http://esportlive.gg/tickets%0D/?ticket_id=st887c99f83c1d0162&quot; target=&quot;_blank&quot;&gt;View Ticket (163/200)&lt;/a&gt;&lt;br&gt;164/200: &amp;lt; a href='&lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stf26f764b90120163&quot; target=&quot;_blank&quot;&gt;http://esportlive.gg/tickets/?ticket_id=stf26f764b90120163&lt;/a&gt;'&amp;gt;Vie w Ticket (164/200)&lt;br&gt;165/200: &lt;a href=&quot;http://esportlive.gg/ticket%0Ds/?ticket_id=stb2ed4d41d49a0164&quot; target=&quot;_blank&quot;&gt;View Ticket (165/200)&lt;/a&gt;&lt;br&gt;166/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st0889003f2da50165&quot; target=&quot;_blank&quot;&gt;Vi ew Ticket (166/200)&lt;/a&gt;&lt;br&gt;167/200: &lt;a href=&quot;http://esportlive.gg/ticke%0Dts/?ticket_id=st2e0a7ba3fb360166&quot; target=&quot;_blank&quot;&gt;View Ticket (167/200)&lt;/a&gt;&lt;br&gt;168/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st22b8c6214ab20167&quot; target=&quot;_blank&quot;&gt;V iew Ticket (168/200)&lt;/a&gt;&lt;br&gt;169/200: &lt;a href=&quot;http://esportlive.gg/tick%0Dets/?ticket_id=std052216655bf0168&quot; target=&quot;_blank&quot;&gt;View Ticket (169/200)&lt;/a&gt;&lt;br&gt;170/200 : &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st6a42a686a5b10169&quot; target=&quot;_blank&quot;&gt;View Ticket (170/200)&lt;/a&gt;&lt;br&gt;171/200: &lt;a href=&quot;http://esportlive.gg/tic%0Dkets/?ticket_id=st1db6a3952b250170&quot; target=&quot;_blank&quot;&gt;View Ticket (171/200)&lt;/a&gt;&lt;br&gt;172/20 0: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=std71ce0ea91f40171&quot; target=&quot;_blank&quot;&gt;View Ticket (172/200)&lt;/a&gt;&lt;br&gt;173/200: &lt;a href=&quot;http://esportlive.gg/ti%0Dckets/?ticket_id=stf3fdf89ce62e0172&quot; target=&quot;_blank&quot;&gt;View Ticket (173/200)&lt;/a&gt;&lt;br&gt;174/2 00: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st4a0594d19ac80173&quot; target=&quot;_blank&quot;&gt;View Ticket (174/200)&lt;/a&gt;&lt;br&gt;175/200: &lt;a href=&quot;http://esportlive.gg/t%0Dickets/?ticket_id=sta0766f831c4a0174&quot; target=&quot;_blank&quot;&gt;View Ticket (175/200)&lt;/a&gt;&lt;br&gt;176/ 200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stc18cd0feb9c5017%0D5&quot; target=&quot;_blank&quot;&gt;View Ticket (176/200)&lt;/a&gt;&lt;br&gt;177/200: &lt;a href=&quot;http://esportlive.gg/%0Dtickets/?ticket_id=st296e5d5a54ab0176&quot; target=&quot;_blank&quot;&gt;View Ticket (177/200)&lt;/a&gt;&lt;br&gt;178 /200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st45019a08095101%0D77&quot; target=&quot;_blank&quot;&gt;View Ticket (178/200)&lt;/a&gt;&lt;br&gt;179/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (179/200)&lt;/a&gt;&lt;br&gt;18 0/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=stfd4a608b07a80%0D179&quot; target=&quot;_blank&quot;&gt;View Ticket (180/200)&lt;/a&gt;&lt;br&gt;181/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (181/200)&lt;/a&gt;&lt;br&gt;1 82/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st91b3c3a24de2%0D0181&quot; target=&quot;_blank&quot;&gt;View Ticket (182/200)&lt;/a&gt;&lt;br&gt;183/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (183/200)&lt;/a&gt;&lt;br&gt;184/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st9456f26a765%0D90183&quot; target=&quot;_blank&quot;&gt;View Ticket (184/200)&lt;/a&gt;&lt;br&gt;185/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (185/200)&lt;/a&gt;&lt;br&gt;186/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st6531eb4b7d%0Df90185&quot; target=&quot;_blank&quot;&gt;View Ticket (186/200)&lt;/a&gt;&lt;br&gt;187/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (187/200)&lt;/a&gt;&lt;br&gt;188/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st577e5b078%0Dba90187&quot; target=&quot;_blank&quot;&gt;View Ticket (188/200)&lt;/a&gt;&lt;br&gt;189/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (189/200)&lt;/a&gt;&lt;br&gt;190/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st7547032d%0D4bf80189&quot; target=&quot;_blank&quot;&gt;View Ticket (190/200)&lt;/a&gt;&lt;br&gt;191/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (191/200)&lt;/a&gt;192/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=staad05ce%0Db59c90191&quot; target=&quot;_blank&quot;&gt;View Ticket (192/200)&lt;/a&gt;&lt;br&gt;193/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (193/200)&lt;/a&gt;&amp;lt; br /&amp;gt;194/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st413a7c%0Ddf570d0193&quot; target=&quot;_blank&quot;&gt;View Ticket (194/200)&lt;/a&gt;&lt;br&gt;195/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (195/200)&lt;/a&gt;&lt;br&gt;196/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st719df%0De9bcd640195&quot; target=&quot;_blank&quot;&gt;View Ticket (196/200)&lt;/a&gt;&lt;br&gt;197/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (197/200)&lt;/a&gt;&lt;br&gt;198/200: &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st7071%0D1f9505990197&quot; target=&quot;_blank&quot;&gt;View Ticket (198/200)&lt;/a&gt;&lt;br&gt;199/200: &lt;a target=&quot;_blank&quot;&gt;View Ticket (199/200)&lt;br&gt;200/200:&lt;/a&gt; &lt;a href=&quot;http://esportlive.gg/tickets/?ticket_id=st81f%0D977b04d3f0199&quot; target=&quot;_blank&quot;&gt;View Ticket (200/200)&lt;/a&gt;&lt;br&gt;&lt;/p&gt;</find>
+      <find>mt_format_tickets</find>
+      <find>selector</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -215,43 +205,47 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mt-fields-api.php" />
         <option value="$PROJECT_DIR$/gateways/PayPal.php" />
         <option value="$PROJECT_DIR$/mt-widgets.php" />
         <option value="$PROJECT_DIR$/uninstall.php" />
         <option value="$PROJECT_DIR$/templates/verify.php" />
         <option value="$PROJECT_DIR$/templates/bulk-tickets.php" />
         <option value="$PROJECT_DIR$/templates/receipt.php" />
-        <option value="$PROJECT_DIR$/templates/tickets.php" />
         <option value="$PROJECT_DIR$/updates/EDD_SL_Plugin_Updater.php" />
         <option value="$PROJECT_DIR$/templates/opt_out.php" />
         <option value="$PROJECT_DIR$/templates/opt-out.php" />
-        <option value="$PROJECT_DIR$/js/jquery.addfields.js" />
         <option value="$PROJECT_DIR$/mt-ajax.php" />
-        <option value="$PROJECT_DIR$/mt-common.php" />
-        <option value="$PROJECT_DIR$/mt-payment-settings.php" />
-        <option value="$PROJECT_DIR$/mt-payment.php" />
-        <option value="$PROJECT_DIR$/mt-settings.php" />
-        <option value="$PROJECT_DIR$/mt-shortcodes.php" />
-        <option value="$PROJECT_DIR$/mt-ticketing-settings.php" />
-        <option value="$PROJECT_DIR$/gateways/paypal.php" />
-        <option value="$PROJECT_DIR$/mt-notifications.php" />
-        <option value="$PROJECT_DIR$/mt-cart-handler.php" />
-        <option value="$PROJECT_DIR$/mt-cart.php" />
-        <option value="$PROJECT_DIR$/js/jquery.public.js" />
-        <option value="$PROJECT_DIR$/mt-cpt.php" />
-        <option value="$PROJECT_DIR$/mt-reports.php" />
-        <option value="$PROJECT_DIR$/css/my-tickets.css" />
-        <option value="$PROJECT_DIR$/mt-help.php" />
-        <option value="$PROJECT_DIR$/mt-templating.php" />
-        <option value="$PROJECT_DIR$/gateways/offline.php" />
         <option value="$PROJECT_DIR$/mt-receipt.php" />
-        <option value="$PROJECT_DIR$/mt-tickets.php" />
         <option value="$PROJECT_DIR$/includes/qrcode.php" />
+        <option value="$PROJECT_DIR$/templates/tickets.php" />
+        <option value="$PROJECT_DIR$/my-tickets-block.js" />
+        <option value="$PROJECT_DIR$/js/my-tickets-block.js" />
+        <option value="$PROJECT_DIR$/mt-common.php" />
+        <option value="$PROJECT_DIR$/css/mt-post.css" />
+        <option value="$PROJECT_DIR$/mt-payment.php" />
+        <option value="$PROJECT_DIR$/mt-fields-api.php" />
+        <option value="$PROJECT_DIR$/js/jquery.public.js" />
+        <option value="$PROJECT_DIR$/gateways/offline.php" />
+        <option value="$PROJECT_DIR$/mt-processing.php" />
+        <option value="$PROJECT_DIR$/js/jquery.addfields.js" />
+        <option value="$PROJECT_DIR$/mt-tickets.php" />
+        <option value="$PROJECT_DIR$/mt-reports.php" />
+        <option value="$PROJECT_DIR$/mt-settings.php" />
+        <option value="$PROJECT_DIR$/mt-ticketing-settings.php" />
+        <option value="$PROJECT_DIR$/mt-payment-settings.php" />
+        <option value="$PROJECT_DIR$/css/my-tickets.css" />
+        <option value="$PROJECT_DIR$/mt-cpt.php" />
+        <option value="$PROJECT_DIR$/mt-help.php" />
+        <option value="$PROJECT_DIR$/gateways/paypal.php" />
+        <option value="$PROJECT_DIR$/mt-cart.php" />
+        <option value="$PROJECT_DIR$/mt-shortcodes.php" />
+        <option value="$PROJECT_DIR$/mt-cart-handler.php" />
+        <option value="$PROJECT_DIR$/mt-templating.php" />
+        <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/my-tickets.php" />
         <option value="$PROJECT_DIR$/mt-button.php" />
-        <option value="$PROJECT_DIR$/mt-processing.php" />
-        <option value="$PROJECT_DIR$/readme.txt" />
+        <option value="$PROJECT_DIR$/css/mt-cart.css" />
+        <option value="$PROJECT_DIR$/mt-notifications.php" />
       </list>
     </option>
   </component>
@@ -267,10 +261,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="120" />
-    <option name="y" value="86" />
-    <option name="width" value="1715" />
-    <option name="height" value="868" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -347,6 +341,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <expand>
@@ -358,7 +353,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -368,6 +362,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../wp-subversion/wordpress" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/desig/Documents/GitHub/my-tickets/src/mt-cart-handler.php" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\desig\Documents\GitHub\my-tickets\src\js" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -410,23 +409,33 @@
       <workItem from="1539025511797" duration="6027000" />
       <workItem from="1539880479960" duration="3362000" />
       <workItem from="1540491395267" duration="3701000" />
-      <workItem from="1540928726166" duration="5433000" />
+      <workItem from="1540928726166" duration="11046000" />
+      <workItem from="1541801123718" duration="225000" />
+      <workItem from="1542557049752" duration="10970000" />
+      <workItem from="1546471904676" duration="14194000" />
+      <workItem from="1548176752424" duration="25897000" />
+      <workItem from="1550610604265" duration="7840000" />
+      <workItem from="1550955137756" duration="6214000" />
+      <workItem from="1551470296874" duration="11077000" />
+      <workItem from="1551733190102" duration="3492000" />
+      <workItem from="1552580660270" duration="13329000" />
+      <workItem from="1553452863310" duration="18964000" />
+      <workItem from="1554657464069" duration="74000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="210407000" />
+    <option name="totallyTimeSpent" value="328296000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21822916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19270833" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -438,6 +447,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -457,86 +467,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mt-receipt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="52" column="0" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-reports.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9418">
-          <caret line="562" column="54" lean-forward="false" selection-start-line="562" selection-start-column="54" selection-end-line="562" selection-end-column="54" />
-          <folding>
-            <element signature="e#6#194#0#PHP" expanded="false" />
-            <marker date="1536954454817" expanded="true" signature="2797:3480" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="2917:3466" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="2929:3451" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="5486:5532" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="5509:5532" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="6149:7029" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="6191:7015" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="6203:7000" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="8910:10270" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9051:10260" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9062:9135" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9144:9321" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9280:9311" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9330:9770" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9479:9760" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9779:10106" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9916:10096" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="10734:11810" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="10880:11800" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="10891:10964" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="10973:11140" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="11149:11306" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="11315:11647" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="11454:11637" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="12674:13601" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="12681:12868" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="12833:12860" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="12875:13074" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="13081:13458" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="20738:21440" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="23453:23827" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="32434:32740" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="33576:34120" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="33587:34109" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="33596:34097" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-shortcodes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="13" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3740">
-          <caret line="228" column="38" lean-forward="true" selection-start-line="228" selection-start-column="38" selection-end-line="228" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-templating.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="2" lean-forward="true" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-ticketing-settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2516">
-          <caret line="156" column="38" lean-forward="true" selection-start-line="156" selection-start-column="38" selection-end-line="156" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mt-tickets.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1394">
@@ -550,17 +480,15 @@
         <state relative-caret-position="1309">
           <caret line="86" column="55" lean-forward="true" selection-start-line="86" selection-start-column="55" selection-end-line="86" selection-end-column="55" />
           <folding>
-            <element signature="e#6#611#0#PHP" expanded="true" />
-            <marker date="1541184442228" expanded="true" signature="8073:8368" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="8530:8912" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="9008:9267" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="11845:11907" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="11911:11926" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="11930:11945" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="12006:12049" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="12159:12208" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="12212:12227" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="12231:12246" ph="..." />
+            <element signature="e#6#610#0#PHP" expanded="true" />
+            <marker date="1553626064505" expanded="true" signature="9006:9265" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="11843:11905" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="11909:11924" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="11928:11943" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="12004:12047" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="12157:12206" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="12210:12225" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="12229:12244" ph="..." />
           </folding>
         </state>
       </provider>
@@ -578,13 +506,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="32" column="3" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/tickets.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="68" column="25" lean-forward="true" selection-start-line="68" selection-start-column="25" selection-end-line="68" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -609,38 +530,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/jquery.functions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/jquery.showfields.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/jquery.addfields.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="34" lean-forward="false" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/bulk-tickets.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1394">
           <caret line="82" column="30" lean-forward="false" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-fields-api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2873">
-          <caret line="177" column="12" lean-forward="false" selection-start-line="177" selection-start-column="12" selection-end-line="177" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -651,340 +544,359 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/verify.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/qrcode.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lang/my-tickets.pot">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2261">
+          <caret line="133" column="20" lean-forward="false" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/tickets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1343">
+          <caret line="87" column="30" lean-forward="false" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/my-tickets-block.js" />
     <entry file="file://$PROJECT_DIR$/mt-common.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="45" column="8" lean-forward="false" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="8" />
+        <state relative-caret-position="1054">
+          <caret line="70" column="12" lean-forward="false" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/mt-post.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="27" lean-forward="true" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-fields-api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="55" column="63" lean-forward="false" selection-start-line="55" selection-start-column="63" selection-end-line="55" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery.public.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2193">
+          <caret line="129" column="67" lean-forward="false" selection-start-line="129" selection-start-column="67" selection-end-line="129" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-receipt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="26" column="17" lean-forward="false" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery.showfields.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/report.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/tabs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/modernizr.mt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="36" column="29" lean-forward="false" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery.payment.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery.functions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery.addfields.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="55" column="7" lean-forward="false" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-reports.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="26" column="56" lean-forward="true" selection-start-line="26" selection-start-column="56" selection-end-line="26" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/my-tickets.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="27" lean-forward="false" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-help.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1173">
+          <caret line="77" column="46" lean-forward="false" selection-start-line="77" selection-start-column="46" selection-end-line="77" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mt-payment.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
-          <caret line="61" column="12" lean-forward="false" selection-start-line="61" selection-start-column="12" selection-end-line="61" selection-end-column="12" />
+          <caret line="41" column="25" lean-forward="false" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mt-shortcodes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="80" column="20" lean-forward="false" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-ticketing-settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="37" column="28" lean-forward="false" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-notifications.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1649">
-          <caret line="105" column="17" lean-forward="false" selection-start-line="105" selection-start-column="17" selection-end-line="105" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-cart-handler.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2244">
-          <caret line="140" column="25" lean-forward="false" selection-start-line="140" selection-start-column="25" selection-end-line="140" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/jquery.public.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1411">
-          <caret line="83" column="31" lean-forward="false" selection-start-line="83" selection-start-column="31" selection-end-line="83" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-reports.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8585">
-          <caret line="513" column="21" lean-forward="false" selection-start-line="513" selection-start-column="21" selection-end-line="513" selection-end-column="21" />
-          <folding>
-            <element signature="e#6#194#0#PHP" expanded="false" />
-            <marker date="1536954454817" expanded="true" signature="2797:3480" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="2917:3466" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="2929:3451" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="5486:5532" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="5509:5532" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="6149:7029" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="6191:7015" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="6203:7000" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="8910:10270" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9051:10260" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9062:9135" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9144:9321" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9280:9311" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9330:9770" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9479:9760" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9779:10106" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="9916:10096" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="10734:11810" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="10880:11800" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="10891:10964" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="10973:11140" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="11149:11306" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="11315:11647" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="11454:11637" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="12674:13601" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="12681:12868" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="12833:12860" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="12875:13074" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="13081:13458" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="20738:21440" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="23453:23827" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="32434:32740" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="33576:34120" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="33587:34109" ph="..." />
-            <marker date="1536954454817" expanded="true" signature="33596:34097" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-cpt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="41" column="3" lean-forward="false" selection-start-line="41" selection-start-column="3" selection-end-line="41" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-cart.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11764">
-          <caret line="700" column="64" lean-forward="false" selection-start-line="700" selection-start-column="54" selection-end-line="700" selection-end-column="64" />
-          <folding>
-            <marker date="1536869647302" expanded="true" signature="9583:11383" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="9661:9920" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="9929:10188" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="10197:10444" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="10453:10706" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="10715:10979" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="10988:11211" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="10988:11212" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="10988:11287" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="29997:30347" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="30117:30347" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="35031:35056" ph="..." />
-            <marker date="1536869647302" expanded="true" signature="35040:35056" ph="..." />
-          </folding>
+        <state relative-caret-position="271">
+          <caret line="95" column="21" lean-forward="true" selection-start-line="95" selection-start-column="21" selection-end-line="95" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mt-settings.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4522">
-          <caret line="274" column="33" lean-forward="false" selection-start-line="274" selection-start-column="14" selection-end-line="274" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/my-tickets.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3043">
-          <caret line="179" column="27" lean-forward="false" selection-start-line="179" selection-start-column="27" selection-end-line="179" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/mt-cart.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3502">
-          <caret line="206" column="1" lean-forward="false" selection-start-line="206" selection-start-column="1" selection-end-line="206" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-help.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1632">
-          <caret line="104" column="38" lean-forward="false" selection-start-line="104" selection-start-column="38" selection-end-line="104" selection-end-column="38" />
-          <folding>
-            <marker date="1539112404765" expanded="true" signature="11163:11278" ph="..." />
-            <marker date="1539112404765" expanded="true" signature="11294:11422" ph="..." />
-            <marker date="1539112404765" expanded="false" signature="11376:11380" ph="&lt;" />
-            <marker date="1539112404765" expanded="false" signature="11405:11409" ph="&gt;" />
-            <marker date="1539112404765" expanded="true" signature="11428:11573" ph="..." />
-            <marker date="1539112404765" expanded="true" signature="11739:11979" ph="..." />
-            <marker date="1539112404765" expanded="true" signature="11985:12118" ph="..." />
-            <marker date="1539112404765" expanded="true" signature="12261:12294" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/receipt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="67" column="80" lean-forward="false" selection-start-line="67" selection-start-column="80" selection-end-line="67" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gateways/offline.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2686">
-          <caret line="166" column="0" lean-forward="false" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#191#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5015">
-          <caret line="303" column="9" lean-forward="false" selection-start-line="303" selection-start-column="9" selection-end-line="303" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-receipt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="28" column="78" lean-forward="false" selection-start-line="28" selection-start-column="78" selection-end-line="28" selection-end-column="78" />
-          <folding />
+        <state relative-caret-position="288">
+          <caret line="209" column="48" lean-forward="false" selection-start-line="209" selection-start-column="47" selection-end-line="209" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mt-tickets.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="31" column="16" lean-forward="false" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
-          <folding>
-            <marker date="1540750721741" expanded="true" signature="2826:2908" ph="SELECT post_... wp_postmeta" />
-          </folding>
+        <state relative-caret-position="885">
+          <caret line="132" column="37" lean-forward="false" selection-start-line="132" selection-start-column="37" selection-end-line="132" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/verify.php">
+    <entry file="file://$PROJECT_DIR$/mt-ticketing-settings.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="407">
+          <caret line="140" column="89" lean-forward="false" selection-start-line="140" selection-start-column="78" selection-end-line="140" selection-end-column="89" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mt-templating.php">
+    <entry file="file://$PROJECT_DIR$/templates/receipt.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11968">
-          <caret line="712" column="21" lean-forward="false" selection-start-line="712" selection-start-column="21" selection-end-line="712" selection-end-column="21" />
-          <folding>
-            <marker date="1540493002291" expanded="true" signature="5139:5305" ph="..." />
-            <marker date="1540493002291" expanded="true" signature="14916:14990" ph="SELECT * FRO... ${my_calendar_locations_table()}" />
-          </folding>
+        <state relative-caret-position="760">
+          <caret line="67" column="85" lean-forward="false" selection-start-line="67" selection-start-column="85" selection-end-line="67" selection-end-column="85" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/qrcode.php">
+    <entry file="file://$PROJECT_DIR$/mt-cpt.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/my-tickets.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="36" column="63" lean-forward="true" selection-start-line="36" selection-start-column="63" selection-end-line="36" selection-end-column="63" />
-          <folding>
-            <element signature="e#6#611#0#PHP" expanded="true" />
-            <marker date="1541184442228" expanded="true" signature="8073:8368" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="8530:8912" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="9008:9267" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="11845:11907" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="11911:11926" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="11930:11945" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="12006:12049" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="12159:12208" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="12212:12227" ph="..." />
-            <marker date="1541184442228" expanded="true" signature="12231:12246" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-payment-settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="98" column="60" lean-forward="false" selection-start-line="98" selection-start-column="60" selection-end-line="98" selection-end-column="60" />
-          <folding>
-            <marker date="1536789694360" expanded="true" signature="6460:6655" ph="..." />
-            <marker date="1536789694360" expanded="true" signature="8472:8902" ph="..." />
-            <marker date="1536789694360" expanded="true" signature="8493:8885" ph="..." />
-            <marker date="1536789694360" expanded="true" signature="8935:9189" ph="..." />
-            <marker date="1536789694360" expanded="true" signature="9076:9184" ph="..." />
-            <marker date="1536789694360" expanded="true" signature="9104:9140" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mt-button.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="326" column="5" lean-forward="true" selection-start-line="326" selection-start-column="5" selection-end-line="326" selection-end-column="5" />
-          <folding>
-            <marker date="1541535476392" expanded="true" signature="10862:11852" ph="..." />
-            <marker date="1541535476392" expanded="true" signature="11118:11842" ph="..." />
-            <marker date="1541535476392" expanded="true" signature="11129:11291" ph="..." />
-            <marker date="1541535476392" expanded="true" signature="11307:11830" ph="..." />
-            <marker date="1541535476392" expanded="true" signature="11446:11813" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lang/my-tickets.pot">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="711" column="37" lean-forward="false" selection-start-line="711" selection-start-column="37" selection-end-line="711" selection-end-column="37" />
+        <state relative-caret-position="288">
+          <caret line="792" column="37" lean-forward="false" selection-start-line="792" selection-start-column="24" selection-end-line="792" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mt-processing.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="254" column="54" lean-forward="false" selection-start-line="254" selection-start-column="54" selection-end-line="254" selection-end-column="54" />
+        <state relative-caret-position="7905">
+          <caret line="473" column="15" lean-forward="false" selection-start-line="473" selection-start-column="4" selection-end-line="473" selection-end-column="15" />
           <folding>
-            <marker date="1541536388291" expanded="true" signature="2307:2502" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="2413:2502" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="2802:3291" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="2835:3207" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="2844:3162" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="3171:3197" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="10284:10298" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="10284:10617" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="10622:10636" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="10622:10830" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="10857:11351" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="10922:10938" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="10922:11337" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="11364:11942" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="11440:11457" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="11440:11928" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="12215:12229" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="12215:12612" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="13623:14093" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="13721:14080" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="13732:14066" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="15661:16508" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="15688:16080" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="16846:17558" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="17622:17826" ph="..." />
-            <marker date="1541536388291" expanded="true" signature="18001:18179" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="2307:2502" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="2413:2502" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="2802:3291" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="2835:3207" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="2844:3162" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="3171:3197" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="10284:10298" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="10284:10617" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="10622:10636" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="10622:10830" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="10857:11351" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="10922:10938" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="10922:11337" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="11364:11942" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="11440:11457" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="11440:11928" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="12215:12229" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="12215:12612" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="13623:14093" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="13721:14080" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="13732:14066" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="15754:16549" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="15754:16566" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="15754:16593" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="15781:16173" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="16931:17643" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="17707:17911" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="18086:18103" ph="..." />
+            <marker date="1551641601979" expanded="true" signature="18086:18264" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-payment-settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3706">
+          <caret line="226" column="87" lean-forward="false" selection-start-line="226" selection-start-column="87" selection-end-line="226" selection-end-column="87" />
+          <folding>
+            <marker date="1552837408737" expanded="true" signature="6488:6683" ph="..." />
+            <marker date="1552837408737" expanded="true" signature="8500:8930" ph="..." />
+            <marker date="1552837408737" expanded="true" signature="8521:8913" ph="..." />
+            <marker date="1552837408737" expanded="true" signature="8963:9217" ph="..." />
+            <marker date="1552837408737" expanded="true" signature="9104:9212" ph="..." />
+            <marker date="1552837408737" expanded="true" signature="9132:9168" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-cart-handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2023">
+          <caret line="127" column="5" lean-forward="false" selection-start-line="127" selection-start-column="5" selection-end-line="127" selection-end-column="5" />
+          <folding>
+            <marker date="1553625218130" expanded="true" signature="8449:8524" ph="SELECT meta_... wp_postmeta" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-templating.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3978">
+          <caret line="242" column="135" lean-forward="false" selection-start-line="242" selection-start-column="135" selection-end-line="242" selection-end-column="135" />
+          <folding>
+            <marker date="1553625927053" expanded="true" signature="5659:5851" ph="..." />
+            <marker date="1553625927053" expanded="true" signature="5659:5852" ph="..." />
+            <marker date="1553625927053" expanded="true" signature="5659:5949" ph="..." />
+            <marker date="1553625927053" expanded="true" signature="5659:5957" ph="..." />
+            <marker date="1553625927053" expanded="true" signature="16168:16242" ph="SELECT * FRO... ${my_calendar_locations_table()}" />
+            <marker date="1553625927053" expanded="true" signature="17747:17797" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my-tickets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1564">
+          <caret line="111" column="49" lean-forward="false" selection-start-line="111" selection-start-column="49" selection-end-line="111" selection-end-column="49" />
+          <folding>
+            <element signature="e#6#610#0#PHP" expanded="true" />
+            <marker date="1553626064505" expanded="true" signature="9006:9265" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="11843:11905" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="11909:11924" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="11928:11943" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="12004:12047" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="12157:12206" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="12210:12225" ph="..." />
+            <marker date="1553626064505" expanded="true" signature="12229:12244" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-button.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6205">
+          <caret line="373" column="0" lean-forward="false" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
+          <folding>
+            <marker date="1553802478422" expanded="true" signature="11037:12027" ph="..." />
+            <marker date="1553802478422" expanded="true" signature="11293:12017" ph="..." />
+            <marker date="1553802478422" expanded="true" signature="11304:11466" ph="..." />
+            <marker date="1553802478422" expanded="true" signature="11482:12005" ph="..." />
+            <marker date="1553802478422" expanded="true" signature="11621:11988" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-cart.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12240">
+          <caret line="728" column="43" lean-forward="false" selection-start-line="728" selection-start-column="34" selection-end-line="728" selection-end-column="43" />
+          <folding>
+            <marker date="1553460685950" expanded="true" signature="9583:11383" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="9661:9920" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="9929:10188" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="10197:10444" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="10453:10706" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="10715:10979" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="10988:11211" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="10988:11212" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="10988:11287" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="30318:30668" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="30438:30668" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="35352:35377" ph="..." />
+            <marker date="1553460685950" expanded="true" signature="35361:35377" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/mt-cart.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1717">
+          <caret line="101" column="17" lean-forward="false" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mt-notifications.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="210" column="4" lean-forward="false" selection-start-line="210" selection-start-column="4" selection-end-line="210" selection-end-column="56" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="70" column="2" lean-forward="false" selection-start-line="70" selection-start-column="2" selection-end-line="70" selection-end-column="2" />
+        <state relative-caret-position="364">
+          <caret line="60" column="13" lean-forward="true" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gateways/paypal.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="208" column="15" lean-forward="false" selection-start-line="208" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gateways/offline.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="509">
+          <caret line="67" column="47" lean-forward="true" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
           <folding />
         </state>
       </provider>
