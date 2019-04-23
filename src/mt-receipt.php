@@ -43,9 +43,10 @@ function mt_get_receipt() {
 	if ( $receipt_id ) {
 		$posts   = get_posts(
 			array(
-				'post_type'  => 'mt-payments',
-				'meta_key'   => '_receipt',
-				'meta_value' => $receipt_id,
+				'post_type'   => 'mt-payments',
+				'meta_key'    => '_receipt',
+				'meta_value'  => $receipt_id,
+				'post_status' => 'publish,draft',
 			)
 		);
 		$receipt = $posts[0];
