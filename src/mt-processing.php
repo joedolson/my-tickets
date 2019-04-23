@@ -139,12 +139,16 @@ function mt_get_prices( $event_id, $payment_id = false ) {
 		if ( is_user_logged_in() && is_array( $prices ) ) { // cycle only if pricing is being modified.
 			foreach ( $prices as $label => $options ) {
 				if ( 'sold' != $label ) {
-					$price = isset( $prices[ $label ]['price'] ) ? $prices[ $label ]['price'] : false;
+					$price      = isset( $prices[ $label ]['price'] ) ? $prices[ $label ]['price'] : false;
+					$orig_price = $price;
 					if ( ! $price ) {
 						continue;
 					}
-
-					$prices[ $label ]['price'] = mt_calculate_discount( $price, $event_id, $payment_id );
+					$price                     = mt_calculate_discount( $price, $event_id, $payment_id );
+					$prices[ $label ]['price'] = $price;
+					if ( $price !== $orig_price ) {
+						$prices[ $label ]['orig_price'] = $price;
+					}
 				}
 			}
 		}
