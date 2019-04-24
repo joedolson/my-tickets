@@ -319,8 +319,6 @@ function mt_calculate_cart_cost( $purchased, $payment_id ) {
 					if ( (int) $ticket['count'] > 0 ) {
 						$price = ( isset( $prices[ $type ] ) ) ? $prices[ $type ]['price'] : '';
 						if ( $price ) {
-							// If this discount has already been calculated, don't recalculate.
-							$price = ( ! isset( $prices[ $type ]['orig_price'] ) ) ? mt_calculate_discount( $price, $event_id, $payment_id ) : $price;
 							$price = mt_handling_price( $price, $event_id );
 						}
 						$total = $total + ( $price * $ticket['count'] );
