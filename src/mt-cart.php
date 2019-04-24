@@ -827,6 +827,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 			}
 			$expired = mt_expired( $event_id );
 			if ( ! $expired ) {
+				// There is no payment ID yet, but $_POST data and $_COOKIE data should be available for pricing.
 				$prices   = mt_get_prices( $event_id );
 				$currency = $options['mt_currency'];
 				$event    = get_post( $event_id );
@@ -980,10 +981,10 @@ function mt_generate_gateway( $cart ) {
 	// Translators: cart url.
 	$link         = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
 	$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
-	$total        = mt_total_cart( $cart );
+	$payment      = mt_get_data( 'payment' );
+	$total        = mt_total_cart( $cart, $payment );
 	$count        = mt_count_cart( $cart );
 	if ( $count > 0 ) {
-		$payment        = mt_get_data( 'payment' );
 		$ticket_method  = ( isset( $_POST['ticketing_method'] ) ) ? $_POST['ticketing_method'] : 'willcall';
 		$shipping_total = ( 'postal' == $ticket_method && is_numeric( $options['mt_shipping'] ) ) ? $options['mt_shipping'] : 0;
 		$handling_total = ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
