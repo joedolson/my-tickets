@@ -66,6 +66,13 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.3 =
+
+* Bug fix: Ensure that discount calculations aren't run twice.
+* Bug fix: Get Payment ID before totaling cart.
+* Bug fix: Check that values are numeric for shipping & handling before applying.
+* Change: Allow receipts to display when payments aren't completed yet.
+
 = 1.8.2 =
 
 * Add template tag for event status in My Calendar
