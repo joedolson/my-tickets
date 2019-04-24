@@ -985,8 +985,8 @@ function mt_generate_gateway( $cart ) {
 	if ( $count > 0 ) {
 		$payment        = mt_get_data( 'payment' );
 		$ticket_method  = ( isset( $_POST['ticketing_method'] ) ) ? $_POST['ticketing_method'] : 'willcall';
-		$shipping_total = ( 'postal' == $ticket_method ) ? $options['mt_shipping'] : 0;
-		$handling_total = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
+		$shipping_total = ( 'postal' == $ticket_method && is_numeric( $options['mt_shipping'] ) ) ? $options['mt_shipping'] : 0;
+		$handling_total = ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 		$shipping       = ( $shipping_total ) ? "<div class='mt_cart_shipping mt_cart_label'>" . __( 'Shipping:', 'my-tickets' ) . " <span class='mt_shipping_number mt_cart_value'>" . apply_filters( 'mt_money_format', $shipping_total ) . '</span></div>' : '';
 		$handling       = ( $handling_total ) ? "<div class='mt_cart_handling mt_cart_label'>" . __( 'Handling:', 'my-tickets' ) . " <span class='mt_handling_number mt_cart_value'>" . apply_filters( 'mt_money_format', $handling_total ) . '</span></div>' : '';
 		$tick_handling  = mt_handling_notice();

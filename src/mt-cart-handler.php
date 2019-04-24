@@ -118,7 +118,7 @@ function mt_create_payment( $post ) {
 
 	$purchased = ( isset( $post['mt_cart_order'] ) ) ? $post['mt_cart_order'] : false;
 	$paid      = mt_calculate_cart_cost( $purchased, $purchase_id );
-	if ( isset( $options['mt_handling'] ) ) {
+	if ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) {
 		$paid = $paid + $options['mt_handling'];
 		update_post_meta( $purchase_id, '_mt_handling', $options['mt_handling'] );
 	}
