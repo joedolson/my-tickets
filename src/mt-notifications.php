@@ -133,20 +133,28 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				$tickets_list    = '';
 				foreach ( $tickets as $type => $ticket ) {
 					if ( $ticket['count'] > 0 ) {
-						$price = apply_filters( 'mt_apply_event_discounts', $ticket['price'], $event_id, $purchase_id );
-						$total = $total + $price * $ticket['count'];
-						$type  = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
-						$price = $price - $handling;
+						$price         = $ticket['price'];
+						$orig_price    = ( isset( $ticket['orig_price'] ) ) ? $ticket['orig_price'] : $price;
+						$total         = $total + $price * $ticket['count'];
+						$type          = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
+						$price         = $price - $handling;
+						$orig_price    = $orig_price - $handling;
+						$display_price = strip_tags( apply_filters( 'mt_money_format', $price ) );
+						if ( $orig_price !== $price ) {
+							//  Translators: original ticket price, before discounts.
+							$orig_price     = strip_tags( apply_filters( 'mt_money_format', $orig_price ) );
+							$display_price .= ' (' . sprintf( __( 'Originally %s', 'my-tickets' ), $orig_price ) . ')';
+						}
 						if ( $handling ) {
 							// Translators: price of ticket handling charge.
 							$handling_notice = ' ' . apply_filters( 'mt_handling_charge_of', sprintf( __( '(Per-ticket handling charge of %s)', 'my-tickets' ), apply_filters( 'mt_money_format', $handling ) ) );
 						}
 						if ( $is_html ) {
 							// translators: Type of tickets, cost of tickets, price of tickets.
-							$tickets_list .= sprintf( _n( '%1$s: %3$d ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), '<strong>' . $type . '</strong>', strip_tags( apply_filters( 'mt_money_format', $price ) ), $ticket['count'] ) . $handling_notice . $sep;
+							$tickets_list .= sprintf( _n( '%1$s: %3$d ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), '<strong>' . $type . '</strong>', $display_price, $ticket['count'] ) . $handling_notice . $sep;
 						} else {
 							// translators: type of tickets, cost of tickets, price of tickets.
-							$tickets_list .= sprintf( _n( '%1$s: %3$d ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), $type, strip_tags( apply_filters( 'mt_money_format', $price ) ), $ticket['count'] ) . $handling_notice . $sep;
+							$tickets_list .= sprintf( _n( '%1$s: %3$d ticket at %2$s', '%1$s: %3$d tickets at %2$s', $ticket['count'], 'my-tickets' ), $type, $display_price, $ticket['count'] ) . $handling_notice . $sep;
 						}
 					}
 				}
