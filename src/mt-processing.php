@@ -147,7 +147,7 @@ function mt_get_prices( $event_id, $payment_id = false ) {
 					$price                     = mt_calculate_discount( $price, $event_id, $payment_id );
 					$prices[ $label ]['price'] = $price;
 					if ( $price !== $orig_price ) {
-						$prices[ $label ]['orig_price'] = $price;
+						$prices[ $label ]['orig_price'] = $orig_price;
 					}
 				}
 			}
