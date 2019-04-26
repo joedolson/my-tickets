@@ -85,6 +85,9 @@ function mt_create_payment( $post ) {
 	$current_user = wp_get_current_user();
 	$purchaser    = ( is_user_logged_in() ) ? $current_user->ID : 1;
 	$payment      = mt_get_data( 'payment' );
+	if ( ! is_string( get_post_status( $payment ) ) || 'trash' === get_post_status( $payment ) ) {
+		$payment = false;
+	}
 	if ( $payment && ! mt_is_payment_completed( $payment ) ) {
 		$purchase_id = mt_get_data( 'payment' );
 		$status      = 'draft';
@@ -103,6 +106,7 @@ function mt_create_payment( $post ) {
 		);
 		$purchase_id = wp_insert_post( $my_post );
 	}
+	do_action( 'mt_after_insert_payment', $purchase_id, $post );
 	update_post_meta( $purchase_id, '_first_name', $post['mt_fname'] );
 	update_post_meta( $purchase_id, '_last_name', $post['mt_lname'] );
 	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) ) {
@@ -319,6 +323,7 @@ function mt_calculate_cart_cost( $purchased, $payment_id ) {
 					if ( (int) $ticket['count'] > 0 ) {
 						$price = ( isset( $prices[ $type ] ) ) ? $prices[ $type ]['price'] : '';
 						if ( $price ) {
+							//$price = mt_calculate_discount( $price, $event_id, $payment_id );
 							$price = mt_handling_price( $price, $event_id );
 						}
 						$total = $total + ( $price * $ticket['count'] );
