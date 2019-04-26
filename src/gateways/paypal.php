@@ -35,7 +35,6 @@ function mt_paypal_ipn() {
 			$args   = wp_parse_args( $req, array() );
 			$params = array(
 				'body'        => $args,
-				'sslverify'   => false,
 				'timeout'     => 30,
 				'user-agent'  => 'WordPress/My Tickets',
 				'httpversion' => '1.1',
