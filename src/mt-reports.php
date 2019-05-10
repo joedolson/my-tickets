@@ -495,7 +495,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						$cstring = '';
 						foreach ( $value as $v ) {
 							if ( is_array( $v ) ) {
-								if ( absint( $v['event_id']) === absint( $_GET['event_id'] ) ) {
+								if ( absint( $v['event_id'] ) === absint( $_GET['event_id'] ) ) {
 									$keys = array_keys( $v );
 									foreach ( $keys as $val ) {
 										if ( 'event_id' !== $val ) {
