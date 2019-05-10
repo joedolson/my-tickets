@@ -31,20 +31,20 @@ function mt_reports_page() {
 					<div class="inside">
 						<?php
 						if ( isset( $_POST['event_id'] ) && is_numeric( $_POST['event_id'] ) ) {
-							if ( ! ( '' == strip_tags( $_POST['mt_subject'] ) || '' == strip_tags( $_POST['mt_body'] ) ) ) {
+							if ( ! ( '' === strip_tags( $_POST['mt_subject'] ) || '' === strip_tags( $_POST['mt_body'] ) ) ) {
 								mt_mass_email();
 							}
 						}
 						if ( ! isset( $_GET['event_id'] ) ) {
 							mt_generate_report_by_time();
 						} else {
-							if ( isset( $_GET['mt-event-report'] ) && 'tickets' == $_GET['mt-event-report'] ) {
+							if ( isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report'] ) {
 								mt_generate_tickets_by_event();
 							} else {
 								mt_generate_report_by_event();
 							}
 							$event_id         = (int) $_GET['event_id'];
-							$report_type      = ( isset( $_GET['mt-event-report'] ) && 'tickets' == $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
+							$report_type      = ( isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
 							$print_report_url = admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' );
 							echo '<p><a class="button" href="' . $print_report_url . '">' . __( 'Print this report', 'my-tickets' ) . '</a></p>';
 						}
@@ -189,7 +189,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				${$status} = '';
 				$count     = count( $rows );
 				$output    = str_replace( "%$status", $count, $output );
-				if ( 0 == $count ) {
+				if ( 0 === $count ) {
 					continue;
 				}
 				foreach ( $rows as $type => $row ) {
@@ -226,7 +226,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
  */
 function mt_choose_report_by_event() {
 	$selector = mt_select_events();
-	$selected = ( isset( $_GET['format'] ) && 'csv' == $_GET['format'] ) ? " selected='selected'" : '';
+	$selected = ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] ) ? " selected='selected'" : '';
 	$report   = ( isset( $_GET['mt-event-report'] ) ) ? $_GET['mt-event-report'] : '';
 	$form     = "
 			<div class='report-by-event'>
@@ -267,7 +267,7 @@ function mt_choose_report_by_event() {
  * @return void
  */
 function mt_choose_report_by_date() {
-	$selected = ( isset( $_GET['format'] ) && 'csv' == $_GET['format'] ) ? " selected='selected'" : '';
+	$selected = ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] ) ? " selected='selected'" : '';
 	$start    = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : date( 'Y-m-d', strtotime( '-1 month' ) );
 	$end      = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : date( 'Y-m-d' );
 	$form     = "
@@ -374,14 +374,14 @@ function mt_select_events() {
 	foreach ( $posts as $post ) {
 		$tickets    = get_post_meta( $post->ID, '_ticket' );
 		$count      = count( $tickets );
-		$selected   = ( isset( $_GET['event_id'] ) && $_GET['event_id'] == $post->ID ) ? ' selected="selected"' : '';
+		$selected   = ( isset( $_GET['event_id'] ) && $_GET['event_id'] === $post->ID ) ? ' selected="selected"' : '';
 		$event_data = get_post_meta( $post->ID, '_mc_event_data', true );
 		if ( is_array( $event_data ) ) {
 			$event_date   = strtotime( $event_data['event_begin'] );
 			$display_date = date_i18n( get_option( 'date_format' ), $event_date );
 			// if this event happened more than a month ago, don't show in list *unless* it's the currently selected report.
 			$report_age_limit = apply_filters( 'mt_reports_age_limit', current_time( 'timestamp' ) - MONTH_IN_SECONDS );
-			if ( $event_date > $report_age_limit || ' selected="selected"' == $selected ) {
+			if ( $event_date > $report_age_limit || ' selected="selected"' === $selected ) {
 				$title    = apply_filters( 'mt_the_title', $post->post_title, $post );
 				$options .= "<option value='$post->ID'$selected>$title ($count); $display_date</option>\n";
 			}
@@ -429,13 +429,13 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 	$alternate     = 'even';
 	foreach ( $query as $payment ) {
 		foreach ( $payment as $purchase_id => $details ) {
-			if ( 'publish' != get_post_status( $purchase_id ) ) {
+			if ( 'publish' !== get_post_status( $purchase_id ) ) {
 				continue;
 			}
 			$status      = get_post_meta( $purchase_id, '_is_paid', true );
 			$ticket_type = get_post_meta( $purchase_id, '_ticketing_method', true );
 			$notes       = esc_html( get_post_meta( $purchase_id, '_notes', true ) );
-			if ( false == $options['include_failed'] && ( 'Failed' == $status || 'Refunded' == $status || 'Turned Back' == $status ) ) {
+			if ( false === $options['include_failed'] && ( 'Failed' === $status || 'Refunded' === $status || 'Turned Back' === $status ) ) {
 				continue;
 			}
 			$types        = '';
@@ -473,11 +473,11 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 					$datetime    = "$date $time";
 					$price       = $details[ $type ]['price'];
 					$label       = mt_get_label( $type );
-					$types      .= ( '' != $types ) ? PHP_EOL . $label . ': ' . $count : $label . ':' . $count;
+					$types      .= ( '' !== $types ) ? PHP_EOL . $label . ': ' . $count : $label . ':' . $count;
 					$this_total  = $count * $price;
 					$subtotal    = $subtotal + ( $this_total );
 					// "sold" tickets are only in reports as those completed.
-					if ( 'Completed' == $status ) {
+					if ( 'Completed' === $status ) {
 						$total_income  = $total_income + $this_total;
 						$total_tickets = $total_tickets + $count;
 						$paid          = $subtotal;
@@ -495,11 +495,11 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						$cstring = '';
 						foreach ( $value as $v ) {
 							if ( is_array( $v ) ) {
-								if ( $v['event_id'] == $_GET['event_id'] ) {
+								if ( $v['event_id'] === $_GET['event_id'] ) {
 									$keys = array_keys( $v );
 									foreach ( $keys as $val ) {
-										if ( 'event_id' != $val ) {
-											$cstring .= ( '' != $cstring ) ? '; ' : '';
+										if ( 'event_id' !== $val ) {
+											$cstring .= ( '' !== $cstring ) ? '; ' : '';
 											$cstring .= esc_html( $v[ $val ] );
 										}
 									}
@@ -517,7 +517,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 
 			if ( $ticket_count > 0 ) {
 				$owed      = $subtotal - $paid;
-				$alternate = ( 'alternate' == $alternate ) ? 'even' : 'alternate';
+				$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 				$row       = "<tr class='$alternate'>
 								<th scope='row' class='mt-purchaser'>$last_name, $first_name</th>
 								<td class='mt-type'>" . wpautop( $types ) . "</td>
@@ -578,7 +578,7 @@ function mt_get_tickets( $event_id ) {
 			$first_name = $name[0];
 			$last_name  = end( $name );
 		}
-		$alternate = ( 'alternate' == $alternate ) ? 'even' : 'alternate';
+		$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 		$row       = "
 		<tr class='$alternate'>
 			<th scope='row' class='mt-id'><a href='$ticket_url'>$ticket_id</a></th>
@@ -609,7 +609,7 @@ function mt_printable_report() {
 			exit;
 		}
 		if ( ! $report ) {
-			if ( isset( $_GET['mt-event-report'] ) && 'tickets' == $_GET['mt-event-report'] ) {
+			if ( isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report'] ) {
 				$report = mt_generate_tickets_by_event( $event_id, true );
 			} else {
 				$report = mt_generate_report_by_event( $event_id, true );
@@ -646,10 +646,10 @@ add_action( 'admin_init', 'mt_download_csv_event' );
  */
 function mt_download_csv_event() {
 	if (
-		isset( $_GET['format'] ) && 'csv' == $_GET['format'] &&
-		isset( $_GET['page'] ) && 'mt-reports' == $_GET['page'] &&
+		isset( $_GET['format'] ) && 'csv' === $_GET['format'] &&
+		isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] &&
 		isset( $_GET['event_id'] ) &&
-		isset( $_GET['mt-event-report'] ) && 'purchases' == $_GET['mt-event-report']
+		isset( $_GET['mt-event-report'] ) && 'purchases' === $_GET['mt-event-report']
 	) {
 		$event_id        = intval( $_GET['event_id'] );
 		$title           = get_the_title( $event_id );
@@ -681,10 +681,10 @@ add_action( 'admin_init', 'mt_download_csv_tickets' );
  */
 function mt_download_csv_tickets() {
 	if (
-		isset( $_GET['format'] ) && 'csv' == $_GET['format'] &&
-		isset( $_GET['page'] ) && 'mt-reports' == $_GET['page'] &&
+		isset( $_GET['format'] ) && 'csv' === $_GET['format'] &&
+		isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] &&
 		isset( $_GET['event_id'] ) &&
-		isset( $_GET['mt-event-report'] ) && 'tickets' == $_GET['mt-event-report']
+		isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report']
 	) {
 		$event_id = intval( $_GET['event_id'] );
 		$title    = get_the_title( $event_id ) . ' tickets';
@@ -710,7 +710,7 @@ add_action( 'admin_init', 'mt_download_csv_time' );
  */
 function mt_download_csv_time() {
 	$output = '';
-	if ( isset( $_GET['format'] ) && 'csv' == $_GET['format'] && isset( $_GET['page'] ) && 'mt-reports' == $_GET['page'] && isset( $_GET['mt_start'] ) ) {
+	if ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] && isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] && isset( $_GET['mt_start'] ) ) {
 		$report = mt_get_report_data_by_time();
 		$csv    = $report['csv'];
 		$start  = $report['start'];
@@ -737,7 +737,7 @@ function mt_download_csv_time() {
  */
 function mt_get_report_by_time( $start, $end ) {
 	$posts_per_page = -1;
-	if ( date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) ) == $start && date( 'Y-m-d' ) == $end ) {
+	if ( date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) ) === $start && date( 'Y-m-d' ) === $end ) {
 		$posts_per_page = 50;
 	}
 
@@ -793,7 +793,7 @@ function mt_get_report_data_by_time() {
 		foreach ( $purchased as $purchase ) {
 			foreach ( $purchase as $event => $purch ) {
 				$post_type = get_post_type( $event );
-				if ( 'mc-events' == $post_type ) {
+				if ( 'mc-events' === $post_type ) {
 					$mc_event = get_post_meta( $event, '_mc_event_id', true );
 					$url      = admin_url( 'admin.php?page=my-calendar&amp;mode=edit&amp;event_id=' . $mc_event );
 				} else {
@@ -805,7 +805,7 @@ function mt_get_report_data_by_time() {
 		}
 		$events     = implode( ', ', $titles );
 		$raw_events = implode( ', ', array_map( 'strip_tags', $titles ) );
-		$alternate  = ( 'alternate' == $alternate ) ? 'even' : 'alternate';
+		$alternate  = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 		$html[]     = "
 			<tr class='$alternate'>
 				<td class='mt-purchaser'><a href='" . get_edit_post_link( $post->ID ) . "'>$purchaser</a></td>
@@ -879,12 +879,12 @@ function mt_get_purchasers( $event_id ) {
 	if ( is_array( $purchases ) ) {
 		foreach ( $purchases as $payment ) {
 			foreach ( $payment as $purchase_id => $details ) {
-				if ( 'publish' != get_post_status( $purchase_id ) ) {
+				if ( 'publish' !== get_post_status( $purchase_id ) ) {
 					continue;
 				}
 				$status = get_post_meta( $purchase_id, '_is_paid', true );
 				// only send email to Completed payments.
-				if ( 'Failed' == $status || 'Refunded' == $status || 'Pending' == $status ) {
+				if ( 'Failed' === $status || 'Refunded' === $status || 'Pending' === $status ) {
 					continue;
 				}
 				$purchaser  = get_the_title( $purchase_id );
@@ -940,7 +940,7 @@ function mt_mass_email( $event_id = false ) {
 		$headers[]   = "From: $blogname Events <" . $options['mt_from'] . '>';
 		$headers[]   = "Reply-to: $options[mt_from]";
 		foreach ( $purchasers as $purchaser ) {
-			if ( 'true' != $purchaser['opt_out'] ) {
+			if ( 'true' !== $purchaser['opt_out'] ) {
 				$purchase_id = $purchaser['purchase_id'];
 				$opt_out_url = add_query_arg( 'opt_out', $purchase_id, home_url() );
 				// Translators: Opt out URL.
@@ -950,7 +950,7 @@ function mt_mass_email( $event_id = false ) {
 				$name    = $purchaser['name'];
 				$subject = str_replace( '{name}', $name, $subject );
 				$body    = str_replace( '{name}', $name, $body );
-				if ( 'true' == $options['mt_html_email'] ) {
+				if ( 'true' === $options['mt_html_email'] ) {
 					add_filter( 'wp_mail_content_type', 'mt_html_type' );
 					$body = wpautop( $body . $opt_out );
 				} else {
@@ -976,7 +976,7 @@ function mt_mass_email( $event_id = false ) {
 				$subject = $orig_subj;
 				$body    = $orig_body;
 
-				if ( 'true' == $options['mt_html_email'] ) {
+				if ( 'true' === $options['mt_html_email'] ) {
 					remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 				}
 			} else {
@@ -984,7 +984,7 @@ function mt_mass_email( $event_id = false ) {
 			}
 		}
 		// send copy of message to admin.
-		if ( 'true' == $options['mt_html_email'] ) {
+		if ( 'true' === $options['mt_html_email'] ) {
 			add_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
 		$sent = wp_mail( $options['mt_to'], $orig_subj, wpautop( $orig_body ), $headers );
@@ -992,7 +992,7 @@ function mt_mass_email( $event_id = false ) {
 			// If mail sends, try without custom headers.
 			wp_mail( $options['mt_to'], $orig_subj, wpautop( $orig_body ) );
 		}
-		if ( 'true' == $options['mt_html_email'] ) {
+		if ( 'true' === $options['mt_html_email'] ) {
 			remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
 		// Translators: Number of purchasers notified, total number of purchasers, number of purchasers opted out, name of event.
