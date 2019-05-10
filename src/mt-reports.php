@@ -374,7 +374,7 @@ function mt_select_events() {
 	foreach ( $posts as $post ) {
 		$tickets    = get_post_meta( $post->ID, '_ticket' );
 		$count      = count( $tickets );
-		$selected   = ( isset( $_GET['event_id'] ) && $_GET['event_id'] === $post->ID ) ? ' selected="selected"' : '';
+		$selected   = ( isset( $_GET['event_id'] ) && absint( $_GET['event_id'] ) === $post->ID ) ? ' selected="selected"' : '';
 		$event_data = get_post_meta( $post->ID, '_mc_event_data', true );
 		if ( is_array( $event_data ) ) {
 			$event_date   = strtotime( $event_data['event_begin'] );
