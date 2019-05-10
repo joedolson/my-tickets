@@ -134,17 +134,16 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				foreach ( $tickets as $type => $ticket ) {
 					if ( $ticket['count'] > 0 ) {
 						$price         = $ticket['price'];
-						$orig_price    = ( isset( $ticket['orig_price'] ) ) ? $ticket['orig_price'] : $price;
-						$total         = $total + $price * $ticket['count'];
 						$type          = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
 						$price         = $price - $handling;
-						$orig_price    = $orig_price - $handling;
-						$display_price = strip_tags( apply_filters( 'mt_money_format', $price ) );
-						if ( $orig_price !== $price ) {
+						$discount      = mt_calculate_discount( $price, $event_id, $purchase_id );
+						$total         = ( $discount !== $price ) ? $total + $discount * $ticket['count'] : $total + $price * $ticket['count'];
+						if ( $discount !== $price ) {
 							//  Translators: original ticket price, before discounts.
-							$orig_price     = strip_tags( apply_filters( 'mt_money_format', $orig_price ) );
-							$display_price .= ' (' . sprintf( __( 'Originally %s', 'my-tickets' ), $orig_price ) . ')';
+							$discount    = strip_tags( apply_filters( 'mt_money_format', $discount ) );
+							$display_app = ' (' . sprintf( __( 'Discounted to %s', 'my-tickets' ), $discount ) . ')';
 						}
+						$display_price = strip_tags( apply_filters( 'mt_money_format', $price ) ) . $display_app;
 						if ( $handling ) {
 							// Translators: price of ticket handling charge.
 							$handling_notice = ' ' . apply_filters( 'mt_handling_charge_of', sprintf( __( '(Per-ticket handling charge of %s)', 'my-tickets' ), apply_filters( 'mt_money_format', $handling ) ) );
