@@ -850,7 +850,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 						if ( $count > 0 ) {
 							if ( isset( $prices[ $type ] ) ) {
 								$price      = mt_handling_price( $prices[ $type ]['price'], $event_id, $type );
-								$orig_price = ( isset( $prices[ $type ][ 'orig_price'] ) ) ? mt_handling_price( $prices[ $type ]['orig_price'], $event_id, $type ) : $price;
+								$orig_price = ( isset( $prices[ $type ]['orig_price'] ) ) ? mt_handling_price( $prices[ $type ]['orig_price'], $event_id, $type ) : $price;
 								$label = $prices[ $type ]['label'];
 								if ( 'discrete' == $registration['counting_method'] ) {
 									$available = $prices[ $type ]['tickets'];
@@ -876,7 +876,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 									$hidden = "
 											<input type='hidden' class='mt_count' name='mt_cart_order[$event_id][$type][count]' value='$count' />
 											<input type='hidden' name='mt_cart_order[$event_id][$type][price]' value='$price' />";
-									if ( isset( $prices[ $type ][ 'orig_price'] ) ) {
+									if ( isset( $prices[ $type ]['orig_price'] ) ) {
 										$hidden .= "<input type='hidden' name='mt_cart_order[$event_id][$type][orig_price]' value='$orig_price' />";
 									}
 								} else {
