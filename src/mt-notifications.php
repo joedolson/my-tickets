@@ -138,6 +138,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 						$price         = $price - $handling;
 						$discount      = mt_calculate_discount( $price, $event_id, $purchase_id );
 						$total         = ( $discount !== $price ) ? $total + $discount * $ticket['count'] : $total + $price * $ticket['count'];
+						$display_app   = '';
 						if ( $discount !== $price ) {
 							// Translators: original ticket price, before discounts.
 							$discount    = strip_tags( apply_filters( 'mt_money_format', $discount ) );
