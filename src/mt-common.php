@@ -40,7 +40,6 @@ function mt_check_license( $key = false, $product, $store ) {
 			$store,
 			array(
 				'timeout'   => 15,
-				'sslverify' => false,
 				'body'      => $api_params,
 			)
 		);
