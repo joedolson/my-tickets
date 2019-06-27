@@ -301,6 +301,8 @@ function mt_ticket_id() {
 /**
  * Get sequential ticket ID for display purposes.
  *
+ * @param string $ticket_id Unique ticket ID
+ *
  * @return string sequential ID
  */
 function mt_get_sequential_id( $ticket_id = false ) {
