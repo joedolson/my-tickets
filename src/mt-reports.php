@@ -770,7 +770,12 @@ function mt_get_report_data_by_time() {
 	$alternate = 'even';
 	$html      = array();
 	$csv       = array();
-	$csv[]     = '"Last Name","First Name","Email","Ticket Type","Purchase Value","Status","Events","Date"' . PHP_EOL;
+	$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
+	$custom_headers = '';
+	foreach ( $custom_fields as $name => $field ) {
+		$custom_headers .= ',"' . $field['title'] . '"';
+	}
+	$csv[]     = '"Last Name","First Name","Email","Ticket Type","Purchase Value","Status","Events","Date"' . $custom_headers . PHP_EOL;
 	foreach ( $posts as $post ) {
 		$purchaser  = get_the_title( $post->ID );
 		$first_name = get_post_meta( $post->ID, '_first_name', true );
@@ -806,6 +811,31 @@ function mt_get_report_data_by_time() {
 		$events     = implode( ', ', $titles );
 		$raw_events = implode( ', ', array_map( 'strip_tags', $titles ) );
 		$alternate  = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
+		$custom_fields = apply_filters( 'mt_custom_fields', array(), 'reports' );
+		$custom_cells  = '';
+		$custom_csv    = '';
+		foreach ( $custom_fields as $name => $field ) {
+			$value   = get_post_meta( $post->ID, $name );
+			$cstring = '';
+			foreach ( $value as $v ) {
+				if ( is_array( $v ) ) {
+					if ( absint( $v['event_id'] ) === absint( $post->ID ) ) {
+						$keys = array_keys( $v );
+						foreach ( $keys as $val ) {
+							if ( 'event_id' !== $val ) {
+								$cstring .= ( '' !== $cstring ) ? '; ' : '';
+								$cstring .= esc_html( $v[ $val ] );
+							}
+						}
+					}
+				} elseif ( ! is_object( $v ) ) {
+					$cstring .= $v;
+				}
+			}
+			$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
+			$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
+			$custom_csv   .= ",\"$value\"";
+		}
 		$html[]     = "
 			<tr class='$alternate'>
 				<td class='mt-purchaser'><a href='" . get_edit_post_link( $post->ID ) . "'>$purchaser</a></td>
@@ -814,8 +844,9 @@ function mt_get_report_data_by_time() {
 				<td class='mt-status'>$status</td>
 				<td class='mt-events'>$events</td>
 				<td class='mt-date'>$date $time</td>
+				$custom_cells
 			</tr>\n";
-		$csv[]      = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $date . ' ' . $time . '"' . PHP_EOL;
+		$csv[]      = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $date . ' ' . $time . '"' . $custom_csv . PHP_EOL;
 	}
 	$report['html']  = $html;
 	$report['csv']   = $csv;
@@ -836,6 +867,11 @@ function mt_generate_report_by_time() {
 		$total     = $report['total'];
 		$start     = $report['start'];
 		$end       = $report['end'];
+		$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
+		$custom_headers = '';
+		foreach ( $custom_fields as $name => $field ) {
+			$custom_headers .= "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . "</th>\n";
+		}
 		// Translators: Starting date, ending date.
 		echo '<h3>' . sprintf( __( 'Sales from %1$s to %2$s', 'my-tickets' ), $start, $end ) . '</h3>';
 		echo "<table class='widefat'>
@@ -846,8 +882,9 @@ function mt_generate_report_by_time() {
 					<th scope='col' class='mt-type'>" . __( 'Type', 'my-tickets' ) . "</th>
 					<th scope='col' class='mt-status'>" . __( 'Status', 'my-tickets' ) . "</th>
 					<th scope='col' class='mt-events'>" . __( 'Events', 'my-tickets' ) . "</th>
-					<th scope='col' class='mt-date'>" . __( 'Date', 'my-tickets' ) . '</th>
-				</tr>
+					<th scope='col' class='mt-date'>" . __( 'Date', 'my-tickets' ) . '</th>' .
+					$custom_headers .
+				'</tr>
 			</thead>
 			<tbody>';
 		if ( is_array( $purchases ) && ! empty( $purchases ) ) {
