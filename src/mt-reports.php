@@ -92,6 +92,7 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 								<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
 								<th scope='col' class='mt-post'>" . __( 'Purchase ID', 'my-tickets' ) . "</th>
 								<th scope='col' class='mt-price'>" . __( 'Price', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-status'>" . __( 'Status', 'my-tickets' ) . "</th>
 								<th scope='col' class='mt-used'>" . __( 'Used', 'my-tickets' ) . '</th>
 							</tr>
 						</thead>
@@ -569,6 +570,7 @@ function mt_get_tickets( $event_id ) {
 		$label        = mt_get_label( $type );
 		$price        = $ticket['price'];
 		$purchaser    = get_the_title( $purchase_id );
+		$status       = get_post_meta( $purchase_id, '_is_paid', true );
 		$used_tickets = get_post_meta( $purchase_id, '_tickets_used' );
 		$first_name   = get_post_meta( $purchase_id, '_first_name', true );
 		$last_name    = get_post_meta( $purchase_id, '_last_name', true );
@@ -586,10 +588,11 @@ function mt_get_tickets( $event_id ) {
 			<td class='mt-purchaser'>$purchaser</td>
 			<td class='mt-post'><a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id</a></td>
 			<td class='mt-price'>" . apply_filters( 'mt_money_format', $price ) . "</td>
+			<td class='mt-status'>$status</td>
 			<td class='mt-used'>$used</td>
 		</tr>";
 		// add split field to csv headers.
-		$csv              = "\"$ticket_id\",\"$last_name\",\"$first_name\",\"$type\",\"$purchase_id\",\"$price\",\"$used\"" . PHP_EOL;
+		$csv              = "\"$ticket_id\",\"$last_name\",\"$first_name\",\"$type\",\"$purchase_id\",\"$price\",\"$status\",\"$used\"" . PHP_EOL;
 		$report['html'][] = $row;
 		$report['csv'][]  = $csv;
 	}
