@@ -15,7 +15,7 @@ add_filter( 'template_redirect', 'mt_ticket', 10, 1 );
  */
 function mt_ticket() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	$id      = ( '' != $options['mt_tickets_page'] ) ? $options['mt_tickets_page'] : false;
+	$id      = ( '' !== $options['mt_tickets_page'] ) ? $options['mt_tickets_page'] : false;
 	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		if ( ! isset( $_GET['multiple'] ) ) {
 			if ( isset( $_GET['ticket_id'] ) && mt_verify_ticket( $_GET['ticket_id'] ) ) {
@@ -69,15 +69,15 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
 		$purchase_id = $data['purchase_id'];
 		$status      = get_post_meta( $purchase_id, '_is_paid', true );
 		$gateway     = get_post_meta( $purchase_id, '_gateway', true );
-		if ( 'Completed' == $status || ( 'Pending' == $status && 'offline' == $gateway ) ) {
-			return ( 'full' == $return ) ? array(
+		if ( 'Completed' === $status || ( 'Pending' === $status && 'offline' === $gateway ) ) {
+			return ( 'full' === $return ) ? array(
 				'status' => true,
 				'ticket' => $ticket,
 			) : true;
 		}
 	}
 
-	return ( 'full' == $return ) ? array(
+	return ( 'full' === $return ) ? array(
 		'status' => false,
 		'ticket' => false,
 	) : false;
