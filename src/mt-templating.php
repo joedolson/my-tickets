@@ -303,8 +303,8 @@ function mt_ticket_id() {
  *
  * @return string sequential ID
  */
-function mt_get_sequential_id() {
-	$ticket_id  = mt_get_ticket_id();
+function mt_get_sequential_id( $ticket_id = false ) {
+	$ticket_id  = ( $ticket_id ) ? $ticket_id : mt_get_ticket_id();
 	$ticket     = mt_get_ticket( $ticket_id );
 	$sequential = get_post_meta( $ticket->ID, '_' . $ticket_id . '_seq_id', true );
 	if ( ! $sequential ) {
