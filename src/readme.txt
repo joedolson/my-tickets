@@ -70,7 +70,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Discount notice showing when price unchanged [verify]
 * Add sequential ticket IDs to report [todo]
-* Add payment status to reports of tickets [todo]
+* Add payment status to reports of tickets
 * Fix issue with remaining tickets in {ticket_status} template tag for My Calendar.
 * Add custom fields to reports by date as well as reports by event.
 

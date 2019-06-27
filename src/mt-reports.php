@@ -88,6 +88,7 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 						<thead>
 							<tr>
 								<th scope='col' class='mt-id'>" . __( 'Ticket ID', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-seqid'>" . __( 'Sequential ID', 'my-tickets' ) . "</th>
 								<th scope='col' class='mt-type'>" . __( 'Ticket Type', 'my-tickets' ) . "</th>
 								<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
 								<th scope='col' class='mt-post'>" . __( 'Purchase ID', 'my-tickets' ) . "</th>
@@ -574,6 +575,7 @@ function mt_get_tickets( $event_id ) {
 		$used_tickets = get_post_meta( $purchase_id, '_tickets_used' );
 		$first_name   = get_post_meta( $purchase_id, '_first_name', true );
 		$last_name    = get_post_meta( $purchase_id, '_last_name', true );
+		$seq_id       = mt_get_sequential_id( $ticket_id );
 		$used         = ( in_array( $ticket_id, $used_tickets ) ) ? '<span class="dashicons dashicons-tickets-alt" aria-hidden="true"></span> ' . __( 'Used', 'my-tickets' ) : '--';
 		if ( ! $first_name || ! $last_name ) {
 			$name       = explode( ' ', $purchaser );
@@ -584,6 +586,7 @@ function mt_get_tickets( $event_id ) {
 		$row       = "
 		<tr class='$alternate'>
 			<th scope='row' class='mt-id'><a href='$ticket_url'>$ticket_id</a></th>
+			<td class='mt-seqid'>$seq_id</th>
 			<td class='mt-type'>$label</td>
 			<td class='mt-purchaser'>$purchaser</td>
 			<td class='mt-post'><a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id</a></td>
@@ -592,7 +595,7 @@ function mt_get_tickets( $event_id ) {
 			<td class='mt-used'>$used</td>
 		</tr>";
 		// add split field to csv headers.
-		$csv              = "\"$ticket_id\",\"$last_name\",\"$first_name\",\"$type\",\"$purchase_id\",\"$price\",\"$status\",\"$used\"" . PHP_EOL;
+		$csv              = "\"$ticket_id\",\"$seq_id\",\"$last_name\",\"$first_name\",\"$type\",\"$purchase_id\",\"$price\",\"$status\",\"$used\"" . PHP_EOL;
 		$report['html'][] = $row;
 		$report['csv'][]  = $csv;
 	}
@@ -693,7 +696,7 @@ function mt_download_csv_tickets() {
 		$title    = get_the_title( $event_id ) . ' tickets';
 		$tickets  = mt_get_tickets( $event_id );
 		$report   = $tickets['csv'];
-		$csv      = __( 'Ticket ID', 'my-tickets' ) . ',' . __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Used', 'my-tickets' ) . PHP_EOL;
+		$csv      = __( 'Ticket ID', 'my-tickets' ) . ',' . __( 'Sequential ID', 'my-tickets' ) . ',' . __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Used', 'my-tickets' ) . PHP_EOL;
 		foreach ( $report as $row ) {
 			$csv .= "$row";
 		}
