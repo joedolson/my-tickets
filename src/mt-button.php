@@ -89,14 +89,14 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 	$output      = '';
 	$event_id    = ( is_object( $event ) ) ? $event->event_post : $event;
 
-	if ( 'mc-events' == get_post_type( $event_id ) ) {
+	if ( 'mc-events' === get_post_type( $event_id ) ) {
 		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
 		if ( 'false' == $sell ) {
 			return $content;
 		}
 	}
 
-	if ( 'true' == get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false == $override ) {
+	if ( 'true' === get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false === $override ) {
 		return $content;
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
@@ -106,16 +106,16 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 		return $content;
 	}
 	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. '0' is a valid number of tickets, '' is not.
-	if ( ( isset( $registration['total'] ) && 'inherit' == $registration['total'] ) && ! mt_has_tickets( $registration['prices'] ) ) {
+	if ( ( isset( $registration['total'] ) && 'inherit' === $registration['total'] ) && ! mt_has_tickets( $registration['prices'] ) ) {
 		return $content;
 	}
 	// if total number of tickets is set but is an empty string or is not set; return.
-	if ( ( isset( $registration['total'] ) && '' == trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
+	if ( ( isset( $registration['total'] ) && '' === trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
 		return $content;
 	}
 	$expired   = mt_expired( $event_id, true );
 	$no_postal = mt_no_postal( $event_id );
-	if ( $no_postal && 1 == count( $options['mt_ticketing'] ) && in_array( 'postal', $options['mt_ticketing'] ) && ! ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) ) {
+	if ( $no_postal && 1 === count( $options['mt_ticketing'] ) && in_array( 'postal', $options['mt_ticketing'], true ) && ! ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) ) {
 		$expired = true;
 	}
 	$handling_notice = '';
@@ -135,7 +135,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 			if ( is_array( $pricing ) ) {
 				$available = $registration['total'];
 				// if multiple != true, use checkboxes.
-				$input_type = ( isset( $registration['multiple'] ) && 'true' == $registration['multiple'] ) ? 'number' : 'checkbox';
+				$input_type = ( isset( $registration['multiple'] ) && 'true' === $registration['multiple'] ) ? 'number' : 'checkbox';
 				// Figure out handling for radio input type.
 				$tickets_data      = mt_tickets_left( $pricing, $available );
 				$tickets_remaining = $tickets_data['remain'];
@@ -163,17 +163,17 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 							$handling_notice    = mt_handling_notice();
 							$ticket_price_label = apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling );
 							$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0' );
-							$value              = ( '' == $value ) ? 0 : $value;
+							$value              = ( '' === $value ) ? 0 : $value;
 							$order_value        = $value;
 							$attributes         = '';
-							if ( 'checkbox' == $input_type || 'radio' == $input_type ) {
-								if ( 1 == $value ) {
+							if ( 'checkbox' === $input_type || 'radio' === $input_type ) {
+								if ( 1 === $value ) {
 									$attributes = " checked='checked'";
 								}
 								$value       = 1;
 								$order_value = 0;
 							}
-							if ( 'inherit' == $available ) {
+							if ( 'inherit' === $available ) {
 								$tickets   = $settings['tickets'];
 								$sold      = $settings['sold'];
 								$remaining = ( $tickets - $sold );
@@ -184,9 +184,9 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									$max = $remaining;
 								}
 								$disable = ( $remaining < 1 ) ? ' disabled="disabled"' : '';
-								if ( '' == $attributes ) {
+								if ( '' === $attributes ) {
 									$attributes = " min='0' max='$max'";
-									if ( 0 == $remaining ) {
+									if ( 0 === $remaining ) {
 										$attributes .= ' readonly="readonly"';
 										$class       = 'mt-sold-out';
 									}
@@ -211,9 +211,9 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								$total_order = $total_order + $order_value;
 							} else {
 								$remaining = $tickets_remaining;
-								if ( '' == $attributes ) {
+								if ( '' === $attributes ) {
 									$attributes = " min='0' max='$remaining'";
-									if ( 0 == $remaining ) {
+									if ( 0 === $remaining ) {
 										$attributes .= ' readonly="readonly"';
 										$class       = 'mt-sold-out';
 									}
@@ -237,14 +237,14 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 						}
 					}
 				} else {
-					if ( 0 == $tickets_remaining ) {
+					if ( 0 === $tickets_remaining ) {
 						$sold_out = true;
 					} else {
 						$output = '<p>' . mt_tickets_remaining( $tickets_data, $event_id ) . '</p>';
 					}
 				}
 			}
-			if ( 'inherit' != $available ) {
+			if ( 'inherit' !== $available ) {
 				$hide_remaining = mt_hide_remaining( $tickets_remaining );
 				// Translators: tickets remaining.
 				$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( apply_filters( 'mt_tickets_remaining_continuous_text', __( '%s tickets remaining.', 'my-tickets' ) ), "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
@@ -252,10 +252,10 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				$remaining_notice = '';
 			}
 
-			if ( true == $has_tickets ) {
+			if ( true === $has_tickets ) {
 				$closing_time = mt_sales_close( $event_id, $registration['reg_expires'] );
-				$no_post      = ( $no_postal && in_array( 'postal', array_keys( $options['mt_ticketing'] ) ) ) ? "<p class='mt-no-post'>" . apply_filters( 'mt_cannot_send_by_email_text', __( 'Tickets for this event cannot be sent by mail.', 'my-tickets' ) ) . '</p>' : '';
-				$legend       = ( 'registration' == $registration['sales_type'] ) ? __( 'Register', 'my-tickets' ) : __( 'Buy Tickets', 'my-tickets' );
+				$no_post      = ( $no_postal && in_array( 'postal', array_keys( $options['mt_ticketing'] ), true ) ) ? "<p class='mt-no-post'>" . apply_filters( 'mt_cannot_send_by_email_text', __( 'Tickets for this event cannot be sent by mail.', 'my-tickets' ) ) . '</p>' : '';
+				$legend       = ( 'registration' === $registration['sales_type'] ) ? __( 'Register', 'my-tickets' ) : __( 'Buy Tickets', 'my-tickets' );
 				$legend       = apply_filters( 'mt_button_legend_text', $legend, $registration );
 				$disabled     = ( $total_order > $tickets_remaining ) ? " disabled='disabled'" : '';
 				$output       = "
@@ -287,12 +287,12 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 		$pricing             = $registration['prices'];
 		$tickets_remaining   = mt_tickets_left( $pricing, $available );
 		$tickets_remain_text = mt_tickets_remaining( $tickets_remaining, $event_id );
-		$sales_closed        = ( 'registration' == $registration['sales_type'] ) ? __( 'Online registration for this event is closed', 'my-tickets' ) : __( 'Online ticket sales for this event are closed.', 'my-tickets' );
+		$sales_closed        = ( 'registration' === $registration['sales_type'] ) ? __( 'Online registration for this event is closed', 'my-tickets' ) : __( 'Online ticket sales for this event are closed.', 'my-tickets' );
 		$output              = "<div class='mt-order mt-closed'><p>" . apply_filters( 'mt_sales_closed', $sales_closed ) . "$tickets_remain_text</p></div>";
 	}
 
-	if ( true == $sold_out && $tickets_sold > 0 ) {
-		$tickets_soldout = ( 'registration' == $registration['sales_type'] ) ? __( 'Registration for this event is full', 'my-tickets' ) : __( 'Tickets for this event are sold out.', 'my-tickets' );
+	if ( true === $sold_out && $tickets_sold > 0 ) {
+		$tickets_soldout = ( 'registration' === $registration['sales_type'] ) ? __( 'Registration for this event is full', 'my-tickets' ) : __( 'Tickets for this event are sold out.', 'my-tickets' );
 		$output          = "<div class='mt-order mt-soldout'><p>" . apply_filters( 'mt_tickets_soldout', $tickets_soldout ) . '</p></div>';
 		$soldout         = get_post_meta( $event, '_mt_event_soldout', true );
 		if ( ! $soldout ) {
@@ -323,14 +323,14 @@ function mt_event_status( $event_id = false ) {
 	if ( ! $event_id ) {
 		return '';
 	}
-	if ( 'mc-events' == get_post_type( $event_id ) ) {
+	if ( 'mc-events' === get_post_type( $event_id ) ) {
 		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
-		if ( 'false' == $sell ) {
+		if ( 'false' === $sell ) {
 			return '';
 		}
 	}
 
-	if ( 'true' == get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false == $override ) {
+	if ( 'true' === get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false === $override ) {
 		return '';
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
@@ -340,11 +340,11 @@ function mt_event_status( $event_id = false ) {
 	}
 
 	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. '0' is a valid number of tickets, '' is not.
-	if ( ( isset( $registration['total'] ) && 'inherit' == $registration['total'] ) && ! mt_has_tickets( $registration['prices'] ) ) {
+	if ( ( isset( $registration['total'] ) && 'inherit' === $registration['total'] ) && ! mt_has_tickets( $registration['prices'] ) ) {
 		return '';
 	}
 	// if total number of tickets is set but is an empty string or is not set; return.
-	if ( ( isset( $registration['total'] ) && '' == trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
+	if ( ( isset( $registration['total'] ) && '' === trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
 		return '';
 	}
 
@@ -353,8 +353,9 @@ function mt_event_status( $event_id = false ) {
 	$available         = $registration['total'];
 	$pricing           = $registration['prices'];
 	$tickets_remaining = mt_tickets_left( $pricing, $available );
-	$remaining         = ( 0 >= $tickets_remaining['remain'] ) ? $expired : sprintf( __( '%s tickets remaining', 'my-tickets' ), '<strong>' . $tickets_remaining['remain'] . '</strong>' );
-	$sold_out          = ( 0 >= $tickets_remaining['remain'] ) ? __( 'Sold out', 'my-tickets' ) : $remaining;
+	// Translators: Number of tickets remaining.
+	$remaining = ( 0 >= $tickets_remaining['remain'] ) ? $expired : sprintf( __( '%s tickets remaining', 'my-tickets' ), '<strong>' . $tickets_remaining['remain'] . '</strong>' );
+	$sold_out  = ( 0 >= $tickets_remaining['remain'] ) ? __( 'Sold out', 'my-tickets' ) : $remaining;
 
 	return $sold_out;
 }
@@ -369,7 +370,7 @@ function mt_event_status( $event_id = false ) {
 function mt_hide_remaining( $tickets_remaining ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	// If hide remaining is enabled, set as hidden.
-	$hide_remaining = ( isset( $options['mt_hide_remaining'] ) && 'true' == $options['mt_hide_remaining'] ) ? ' hiding' : '';
+	$hide_remaining = ( isset( $options['mt_hide_remaining'] ) && 'true' === $options['mt_hide_remaining'] ) ? ' hiding' : '';
 	// Hide tickets if there are more than x tickets available if limit is set.
 	$hide_limiting = ( isset( $options['mt_hide_remaining_limit'] ) && ( $tickets_remaining > absint( $options['mt_hide_remaining_limit'] ) ) ) ? ' hiding' : '';
 
@@ -383,7 +384,7 @@ function mt_hide_remaining( $tickets_remaining ) {
  * @return boolean
  */
 function mt_admin_only( $type ) {
-	if ( ( 'complementary' == $type || 'complimentary' == $type ) ) {
+	if ( ( 'complementary' === $type || 'complimentary' === $type ) ) {
 		return true;
 	}
 
@@ -512,7 +513,7 @@ function mt_sales_close( $event_id, $expires ) {
 		if ( isset( $event['event_begin'] ) && isset( $event['event_time'] ) ) {
 			$expiration = $expires * 60 * 60;
 			$begin      = strtotime( $event['event_begin'] . ' ' . $event['event_time'] ) - $expiration;
-			if ( date( 'Y-m-d', $begin ) == date( 'Y-m-d', current_time( 'timestamp' ) ) ) {
+			if ( date( 'Y-m-d', $begin ) === date( 'Y-m-d', current_time( 'timestamp' ) ) ) {
 				// Translators: time that ticket sales close today.
 				return '<p>' . sprintf( apply_filters( 'mt_ticket_sales_close_text', __( 'Ticket sales close at %s today', 'my-tickets' ), $event ), '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';
 			}
@@ -559,7 +560,7 @@ function mt_tickets_left( $pricing, $available ) {
 	$total = 0;
 	$sold  = 0;
 	foreach ( $pricing as $options ) {
-		if ( 'inherit' != $available ) {
+		if ( 'inherit' !== $available ) {
 			$sold = $sold + intval( $options['sold'] );
 		} else {
 			$tickets = intval( $options['tickets'] ) - intval( $options['sold'] );
@@ -567,7 +568,7 @@ function mt_tickets_left( $pricing, $available ) {
 			$sold    = $sold + intval( $options['sold'] );
 		}
 	}
-	if ( 'inherit' != $available ) {
+	if ( 'inherit' !== $available ) {
 		$total = $available - $sold;
 	}
 
@@ -598,7 +599,7 @@ function mt_add_to_cart() {
 			$data     = mt_get_data( 'cart' );
 			$event_id = intval( $_GET['event_id'] );
 			// todo: figure out how to set this up for mt_admin_only ticket types.
-			$type    = ( isset( $_GET['ticket_type'] ) && ( 'complementary' != $_GET['ticket_type'] && 'complimentary' != $_GET['ticket_type'] ) ) ? sanitize_key( $_GET['ticket_type'] ) : false;
+			$type    = ( isset( $_GET['ticket_type'] ) && ( 'complementary' !== $_GET['ticket_type'] && 'complimentary' !== $_GET['ticket_type'] ) ) ? sanitize_key( $_GET['ticket_type'] ) : false;
 			$count   = isset( $_GET['count'] ) ? intval( $_GET['count'] ) : 1;
 			$options = ( $type ) ? array( $type => $count ) : false;
 			if ( $data ) {
@@ -650,7 +651,7 @@ function mt_get_message( $context, $type, $payment_id ) {
 	$context = esc_attr( $context );
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$type    = esc_attr( $type );
-	if ( 'add_to_cart' == $context ) {
+	if ( 'add_to_cart' === $context ) {
 		$cart_url = get_permalink( $options['mt_purchase_page'] );
 		switch ( $type ) {
 			case 'success':
@@ -666,7 +667,7 @@ function mt_get_message( $context, $type, $payment_id ) {
 			default:
 				$return = '';
 		}
-	} elseif ( 'update_cart' == $context ) {
+	} elseif ( 'update_cart' === $context ) {
 		switch ( $type ) {
 			case 'success':
 				$return = __( 'Cart Updated.', 'my-tickets' );
@@ -680,12 +681,12 @@ function mt_get_message( $context, $type, $payment_id ) {
 			default:
 				$return = '';
 		}
-	} elseif ( 'payment_due' == $context ) {
+	} elseif ( 'payment_due' === $context ) {
 		switch ( $type ) {
 			case 'success':
 				if ( $payment_id ) {
 					$gateway = get_post_meta( $payment_id, '_gateway', true );
-					if ( 'offline' == $gateway ) {
+					if ( 'offline' === $gateway ) {
 						wp_publish_post( $payment_id );
 					}
 				}
@@ -694,7 +695,7 @@ function mt_get_message( $context, $type, $payment_id ) {
 			default:
 				$return = '';
 		}
-	} elseif ( 'cart_submitted' == $context ) {
+	} elseif ( 'cart_submitted' === $context ) {
 		switch ( $type ) {
 			case 'success':
 				$return = __( 'Cart Submitted.', 'my-tickets' );
@@ -740,7 +741,7 @@ function mt_display_message( $content ) {
 function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	mt_debug( print_r( $passed, 1 ), 'mt_save_data' );
 	$type = sanitize_title( $type );
-	if ( true == $override ) {
+	if ( true === $override ) {
 		$save = $passed;
 	} else {
 		switch ( $type ) {
@@ -868,7 +869,7 @@ function mt_update_cart( $post = array() ) {
 					}
 				}
 				$post_item = array_merge( $cart_item, $post_item );
-				if ( ! isset( $cart[ $id ] ) || ( $cart[ $id ] != $post_item ) ) {
+				if ( ! isset( $cart[ $id ] ) || ( $cart[ $id ] !== $post_item ) ) {
 					$cart[ $id ] = $post_item;
 				}
 			}
