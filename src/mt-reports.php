@@ -402,7 +402,7 @@ function mt_select_events() {
  * @return array
  */
 function mt_purchases( $event_id, $options = array( 'include_failed' => false ) ) {
-	if ( 'false' == $event_id ) {
+	if ( false === $event_id ) {
 		exit;
 	}
 	$query         = get_post_meta( $event_id, '_purchase' );
@@ -576,7 +576,7 @@ function mt_get_tickets( $event_id ) {
 		$first_name   = get_post_meta( $purchase_id, '_first_name', true );
 		$last_name    = get_post_meta( $purchase_id, '_last_name', true );
 		$seq_id       = mt_get_sequential_id( $ticket_id );
-		$used         = ( in_array( $ticket_id, $used_tickets ) ) ? '<span class="dashicons dashicons-tickets-alt" aria-hidden="true"></span> ' . __( 'Used', 'my-tickets' ) : '--';
+		$used         = ( in_array( $ticket_id, $used_tickets, true ) ) ? '<span class="dashicons dashicons-tickets-alt" aria-hidden="true"></span> ' . __( 'Used', 'my-tickets' ) : '--';
 		if ( ! $first_name || ! $last_name ) {
 			$name       = explode( ' ', $purchaser );
 			$first_name = $name[0];
@@ -769,19 +769,19 @@ function mt_get_report_by_time( $start, $end ) {
  * @return mixed
  */
 function mt_get_report_data_by_time() {
-	$start     = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
-	$end       = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : date( 'Y-m-d' );
-	$posts     = mt_get_report_by_time( $start, $end );
-	$total     = 0;
-	$alternate = 'even';
-	$html      = array();
-	$csv       = array();
+	$start          = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
+	$end            = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : date( 'Y-m-d' );
+	$posts          = mt_get_report_by_time( $start, $end );
+	$total          = 0;
+	$alternate      = 'even';
+	$html           = array();
+	$csv            = array();
 	$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
 	$custom_headers = '';
 	foreach ( $custom_fields as $name => $field ) {
 		$custom_headers .= ',"' . $field['title'] . '"';
 	}
-	$csv[]     = '"Last Name","First Name","Email","Ticket Type","Purchase Value","Status","Events","Date"' . $custom_headers . PHP_EOL;
+	$csv[] = '"Last Name","First Name","Email","Ticket Type","Purchase Value","Status","Events","Date"' . $custom_headers . PHP_EOL;
 	foreach ( $posts as $post ) {
 		$purchaser  = get_the_title( $post->ID );
 		$first_name = get_post_meta( $post->ID, '_first_name', true );
@@ -814,9 +814,9 @@ function mt_get_report_data_by_time() {
 				$raw_titles[] = get_the_title( $event );
 			}
 		}
-		$events     = implode( ', ', $titles );
-		$raw_events = implode( ', ', array_map( 'strip_tags', $titles ) );
-		$alternate  = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
+		$events        = implode( ', ', $titles );
+		$raw_events    = implode( ', ', array_map( 'strip_tags', $titles ) );
+		$alternate     = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 		$custom_fields = apply_filters( 'mt_custom_fields', array(), 'reports' );
 		$custom_cells  = '';
 		$custom_csv    = '';
@@ -842,7 +842,7 @@ function mt_get_report_data_by_time() {
 			$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
 			$custom_csv   .= ",\"$value\"";
 		}
-		$html[]     = "
+		$html[] = "
 			<tr class='$alternate'>
 				<td class='mt-purchaser'><a href='" . get_edit_post_link( $post->ID ) . "'>$purchaser</a></td>
 				<td class='mt-value'>$format_value</td>
@@ -852,7 +852,7 @@ function mt_get_report_data_by_time() {
 				<td class='mt-date'>$date $time</td>
 				$custom_cells
 			</tr>\n";
-		$csv[]      = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $date . ' ' . $time . '"' . $custom_csv . PHP_EOL;
+		$csv[] = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $date . ' ' . $time . '"' . $custom_csv . PHP_EOL;
 	}
 	$report['html']  = $html;
 	$report['csv']   = $csv;
@@ -869,10 +869,10 @@ function mt_get_report_data_by_time() {
 function mt_generate_report_by_time() {
 	$report = mt_get_report_data_by_time();
 	if ( is_array( $report ) && ! empty( $report ) ) {
-		$purchases = $report['html'];
-		$total     = $report['total'];
-		$start     = $report['start'];
-		$end       = $report['end'];
+		$purchases      = $report['html'];
+		$total          = $report['total'];
+		$start          = $report['start'];
+		$end            = $report['end'];
 		$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
 		$custom_headers = '';
 		foreach ( $custom_fields as $name => $field ) {
