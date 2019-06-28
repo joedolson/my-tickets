@@ -852,7 +852,7 @@ function mt_get_report_data_by_time() {
 				<td class='mt-date'>$date $time</td>
 				$custom_cells
 			</tr>\n";
-		$csv[] = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $date . ' ' . $time . '"' . $custom_csv . PHP_EOL;
+		$csv[]  = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $date . ' ' . $time . '"' . $custom_csv . PHP_EOL;
 	}
 	$report['html']  = $html;
 	$report['csv']   = $csv;

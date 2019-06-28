@@ -22,7 +22,7 @@ add_action( 'admin_menu', 'mt_add_ticket_box' );
 function mt_add_ticket_box() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	foreach ( $options['mt_post_types'] as $name ) {
-		if ( 'mc-events' != $name ) {
+		if ( 'mc-events' !== $name ) {
 			add_meta_box( 'mt_custom_div', __( 'My Tickets Purchase Data', 'my-tickets' ), 'mt_add_ticket_form', $name, 'normal', 'high' );
 		}
 	}
@@ -46,7 +46,7 @@ function mt_add_ticket_form() {
 	$receipt_page  = $options['mt_purchase_page'];
 	$tickets_page  = $options['mt_tickets_page'];
 	$current       = ( isset( $_GET['post'] ) ) ? intval( $_GET['post'] ) : false;
-	if ( ( $current == $purchase_page || $current == $receipt_page || $current == $tickets_page ) && empty( $data ) ) {
+	if ( ( $current === $purchase_page || $current === $receipt_page || $current === $tickets_page ) && empty( $data ) ) {
 		echo '<p>' . __( 'This is a core My Tickets page, used for processing transactions. You cannot use this page as an event.', 'my-tickets' ) . '</p>';
 		return;
 	}
@@ -138,7 +138,7 @@ function mt_get_prices( $event_id, $payment_id = false ) {
 		// logged-in users ordering from the front-end, only; in admin, no discount applied.
 		if ( is_user_logged_in() && is_array( $prices ) ) { // cycle only if pricing is being modified.
 			foreach ( $prices as $label => $options ) {
-				if ( 'sold' != $label ) {
+				if ( 'sold' !== $label ) {
 					$price      = isset( $prices[ $label ]['price'] ) ? $prices[ $label ]['price'] : false;
 					$orig_price = $price;
 					if ( ! $price ) {
@@ -180,7 +180,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
 		$discount = 0;
 	}
 	$discount   = apply_filters( 'mt_members_discount', $discount, $event_id, $payment_id );
-	$discounted = ( 0 != $discount ) ? $price - ( $price * ( $discount / 100 ) ) : $price;
+	$discounted = ( 0 !== $discount ) ? $price - ( $price * ( $discount / 100 ) ) : $price;
 	$discounted = apply_filters( 'mt_apply_event_discounts', $discounted, $event_id, $payment_id );
 	if ( mt_zerodecimal_currency() ) {
 		$discounted = round( $discounted, 0 );
@@ -215,7 +215,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
 		$description  = stripslashes( esc_attr( $data->event_registration ) );
-		$checked      = ( 'true' == get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
+		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
 	}
 	if ( is_int( $has_data ) ) {
@@ -223,14 +223,14 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
 		$description  = false;
-		$checked      = ( 'true' == get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
+		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
 	}
 	$expiration  = ( isset( $registration['reg_expires'] ) ) ? $registration['reg_expires'] : $options['defaults']['reg_expires'];
 	$multiple    = ( isset( $registration['multiple'] ) ) ? $registration['multiple'] : $options['defaults']['multiple'];
-	$is_multiple = ( 'true' == $multiple ) ? 'checked="checked"' : '';
+	$is_multiple = ( 'true' === $multiple ) ? 'checked="checked"' : '';
 	$type        = ( isset( $registration['sales_type'] ) ) ? $registration['sales_type'] : $options['defaults']['sales_type'];
-	if ( ! $type || 'tickets' == $type ) {
+	if ( ! $type || 'tickets' === $type ) {
 		$is_tickets      = ' checked="checked"';
 		$is_registration = '';
 	} else {
@@ -238,14 +238,14 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$is_registration = ' checked="checked"';
 	}
 	$method = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $options['defaults']['counting_method'];
-	if ( 'discrete' == $method ) {
+	if ( 'discrete' === $method ) {
 		$is_discrete   = ' checked="checked"';
 		$is_continuous = '';
 	} else {
 		$is_discrete   = '';
 		$is_continuous = ' checked="checked"';
 	}
-	if ( 'true' == $hide ) {
+	if ( 'true' === $hide ) {
 		$is_hidden = ' checked="checked"';
 	} else {
 		$is_hidden = '';
@@ -324,11 +324,11 @@ function mt_prices_table( $registration = array() ) {
 					</thead>
 					<tbody>';
 	$counting  = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $counting;
-	if ( 'discrete' == $counting ) {
+	if ( 'discrete' === $counting ) {
 		$available_empty = "<input type='text' name='mt_tickets[]' id='mt_tickets' value='' size='8' />";
 		$total           = '<input type="hidden" name="mt_tickets_total" value="inherit" />';
 	} else {
-		$value           = ( isset( $registration['total'] ) && 'inherit' != $registration['total'] ) ? $registration['total'] : $tickets;
+		$value           = ( isset( $registration['total'] ) && 'inherit' !== $registration['total'] ) ? $registration['total'] : $tickets;
 		$available_empty = "<input type='hidden' name='mt_tickets[]' id='mt_tickets' value='inherit' />";
 		$total           = "<p class='mt-available-tickets'><label for='mt_tickets_total'>" . __( 'Total Tickets Available', 'my-tickets' ) . ':</label> <input type="text" name="mt_tickets_total" id="mt_tickets_total" value="' . esc_attr( $value ) . '" /></p>';
 	}
@@ -336,14 +336,14 @@ function mt_prices_table( $registration = array() ) {
 	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $pricing; // array of prices; label => cost/available/sold.
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $label => $options ) {
-			if ( 'discrete' == $counting ) {
+			if ( 'discrete' === $counting ) {
 				$available = "<input type='text' name='mt_tickets[]' id='mt_tickets_$label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
 			} else {
 				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";
 			}
 			if ( $label ) {
-				$class   = ( 0 != $options['sold'] || 'complimentary' == sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
-				$sold    = ( isset( $_GET['mode'] ) && 'copy' == $_GET['mode'] ) ? 0 : $options['sold'];
+				$class   = ( 0 !== $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
+				$sold    = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
 				$return .= "
 				<tr class='$class'>
 					<td class='controls'>
@@ -363,7 +363,7 @@ function mt_prices_table( $registration = array() ) {
 
 		$has_comps = false;
 		$keys      = array_keys( $pricing );
-		if ( in_array( 'complementary', $keys ) || in_array( 'complimentary', $keys ) ) {
+		if ( in_array( 'complementary', $keys, true ) || in_array( 'complimentary', $keys, true ) ) {
 			$has_comps = true;
 		}
 		if ( ! $has_comps ) {
@@ -408,7 +408,7 @@ function mt_index_labels( $labels ) {
 	$index = is_array( $index ) ? $index : array();
 	$keys  = array_keys( $index );
 	foreach ( $labels as $name => $label ) {
-		if ( ! in_array( $name, $keys ) ) {
+		if ( ! in_array( $name, $keys, true ) ) {
 			$index[ $name ] = $label;
 		}
 	}
@@ -465,7 +465,7 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 		'total'           => $total_tickets,
 		'multiple'        => $multiple,
 	);
-	$updated_expire       = ( isset( $reg_data['reg_expires'] ) && $reg_data['reg_expires'] != $reg_expires ) ? true : false;
+	$updated_expire       = ( isset( $reg_data['reg_expires'] ) && $reg_data['reg_expires'] !== $reg_expires ) ? true : false;
 	if ( mt_date_comp( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ), $event_begin ) || $updated_expire ) {
 		// if the date changes, and is now in the future, re-open ticketing.
 		// also if the amount of time before closure changes.
