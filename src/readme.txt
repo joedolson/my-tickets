@@ -6,7 +6,7 @@ Requires at least: 4.7
 Tested up to: 5.2
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.3
+Stable tag: 1.8.4
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -68,7 +68,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 = 1.8.4 =
 
-* Discount notice showing when price unchanged [verify]
+* Discount notice showing when price unchanged
 * Add sequential ticket IDs to report
 * Add payment status to reports of tickets
 * Fix issue with remaining tickets in {ticket_status} template tag for My Calendar.
