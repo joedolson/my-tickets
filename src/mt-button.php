@@ -45,15 +45,16 @@ function mt_registration_form_post( $content ) {
  * @return bool
  */
 function mt_has_tickets( $pricing ) {
+	$return = false;
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $options ) {
 			$tickets = absint( $options['tickets'] );
-			if ( $tickets < 1 ) {
-				return false;
+			if ( $tickets > 0 ) {
+				$return = true;
 			}
 		}
 
-		return true;
+		return $return;
 	}
 
 	return false;
