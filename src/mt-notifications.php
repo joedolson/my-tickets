@@ -621,14 +621,14 @@ function mt_notify_admin( $event, $registration, $context ) {
 	$title    = get_the_title( $event );
 	$download = admin_url( "admin.php?page=mt-reports&amp;event_id=$event&amp;format=csv&amp;mt-event-report=purchases" );
 	$tickets  = admin_url( "admin.php?page=mt-reports&amp;event_id=$event&amp;format=csv&amp;mt-event-report=tickets" );
-	if ( 'closed' == $context ) {
+	if ( 'closed' === $context ) {
 		// Translators: Name of event being closed.
 		$subject = apply_filters( 'mt_closure_subject', sprintf( __( 'Ticket sales for %s are now closed', 'my-tickets' ), $title ), $event );
 		$subject = mb_encode_mimeheader( $subject );
 		// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
 		$body = apply_filters( 'mt_closure_body', sprintf( __( 'Online ticket sales for %1$s are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ), $title, $download, $tickets ), $event );
 	}
-	if ( 'soldout' == $context ) {
+	if ( 'soldout' === $context ) {
 		// Translators: Name of event soldout.
 		$subject = apply_filters( 'mt_soldout_subject', sprintf( __( '%s has sold out. Ticket sales are now closed.', 'my-tickets' ), $title ), $event );
 		$subject = mb_encode_mimeheader( $subject );
