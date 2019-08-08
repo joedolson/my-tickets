@@ -146,9 +146,12 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 			$status_types = array(
 				'completed' => __( 'Completed (%Completed)', 'my-tickets' ),
 				// Translators: percent signs, *not* placeholders.
-				'failed'    => __( 'Failed (%Failed)', 'my-tickets' ),
-				'refunded'  => __( 'Refunded (%Refunded)', 'my-tickets' ),
-				'pending'   => __( 'Pending (%Pending)', 'my-tickets' ),
+				'failed'      => __( 'Failed (%Failed)', 'my-tickets' ),
+				'refunded'    => __( 'Refunded (%Refunded)', 'my-tickets' ),
+				'pending'     => __( 'Pending (%Pending)', 'my-tickets' ),
+				'reserved'    => __( 'Reserved (%Reserved)', 'my-tickets' ),
+				'turned-back'  => __( 'Turned Back (%Turned Back)', 'my-tickets' ),
+				'waiting-list' => __( 'Waiting List (%Waiting List)', 'my-tickets' ),
 			);
 			foreach ( $status_types as $type => $status_type ) {
 				$tabs .= "<li><a href='#mt_$type'>$status_type</a></li>";
@@ -199,7 +202,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				}
 				$caption       = "$title: <em>$status</em>";
 				$use_table_top = str_replace( '%caption%', $caption, $table_top );
-				$out          .= "<div class='wptab wp_" . strtolower( $status ) . "' id='mt_" . strtolower( $status ) . "' aria-live='assertive'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
+				$out          .= "<div class='wptab wp_" . sanitize_title( $status ) . "' id='mt_" . sanitize_title( $status ) . "' aria-live='assertive'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
 			}
 
 			$output .= $out . '</div>';
