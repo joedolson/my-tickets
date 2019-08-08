@@ -535,6 +535,7 @@ function mt_no_postal( $event_id ) {
 	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$shipping_time = $options['mt_shipping_time'];
 	$event         = get_post_meta( $event_id, '_mc_event_data', true );
+	$no_postal     = false;
 	if ( $event && is_array( $event ) ) {
 		$date = ( isset( $event['event_begin'] ) ) ? $event['event_begin'] : false;
 		$time = ( isset( $event['event_time'] ) ) ? $event['event_time'] : false;
@@ -546,7 +547,7 @@ function mt_no_postal( $event_id ) {
 		}
 	}
 
-	return;
+	return $no_postal;
 }
 
 /**
@@ -628,9 +629,9 @@ function mt_add_to_cart() {
 /**
  * Register a message to be displayed following a cart or button action.
  *
- * @param string  $context Current message context.
- * @param string  $type Message type.
- * @param integer $payment_id Payment ID.
+ * @param string                $context Current message context.
+ * @param string                $type Message type.
+ * @param mixed boolean|integer $payment_id Payment ID.
  *
  * @return void
  */
