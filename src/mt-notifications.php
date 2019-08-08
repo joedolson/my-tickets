@@ -293,7 +293,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$purchased     = get_post_meta( $id, '_purchased' );
 	$purchase_data = get_post_meta( $id, '_purchase_data', true );
 	$ticket_array  = mt_setup_tickets( $purchased, $id, $resending );
-	$handling      = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
+	$handling      = ( isset( $options['mt_handling'] ) ) ? floatval( $options['mt_handling'] ) : 0;
 
 	$total = mt_calculate_cart_cost( $purchase_data, $id ) + $handling;
 	$hash  = md5(
