@@ -794,7 +794,7 @@ function mt_get_report_data_by_time() {
 			$first_name = $name[0];
 			$last_name  = end( $name );
 		}
-		$value        = get_post_meta( $post->ID, '_total_paid', true );
+		$value        = floatval( get_post_meta( $post->ID, '_total_paid', true ) );
 		$format_value = apply_filters( 'mt_money_format', $value );
 		$total        = $total + $value;
 		$status       = get_post_meta( $post->ID, '_is_paid', true );

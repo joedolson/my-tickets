@@ -71,6 +71,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Strict comparison requirement yielded incorrect check for sold out status.
 * Bug fix: Incorrect return value possible on sold out status
 * Bug fix: Show admin-only purchase statuses in Reports
+* Bug fix: Ensure handling is a float value so it can be operated on
 
 = 1.8.5 =
 
