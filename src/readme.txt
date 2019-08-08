@@ -66,6 +66,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.6 =
+
+* Bug fix: Strict comparison requirement yielded incorrect check for sold out status.
+* Bug fix: Incorrect return value possible on sold out status
+
 = 1.8.5 =
 
 * Bug fix: Flaw in mt_has_tickets() function triggered false if any type of tickets had 0 remaining.
