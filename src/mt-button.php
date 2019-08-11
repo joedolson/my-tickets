@@ -27,7 +27,7 @@ add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpauto
 function mt_registration_form_post( $content ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	global $post;
-	if ( in_array( get_post_type( $post ), $options['mt_post_types'] ) ) {
+	if ( in_array( get_post_type( $post ), $options['mt_post_types'], true ) ) {
 		$event = $post->ID;
 		if ( get_post_meta( $event, '_mc_event_data', true ) ) {
 			$content = mt_registration_form( $content, $event );
@@ -92,7 +92,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 
 	if ( 'mc-events' === get_post_type( $event_id ) ) {
 		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
-		if ( 'false' == $sell ) {
+		if ( 'false' === $sell ) {
 			return $content;
 		}
 	}

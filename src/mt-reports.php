@@ -144,12 +144,12 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				'include_failed' => true,
 			);
 			$status_types = array(
-				'completed' => __( 'Completed (%Completed)', 'my-tickets' ),
+				'completed'    => __( 'Completed (%Completed)', 'my-tickets' ),
 				// Translators: percent signs, *not* placeholders.
-				'failed'      => __( 'Failed (%Failed)', 'my-tickets' ),
-				'refunded'    => __( 'Refunded (%Refunded)', 'my-tickets' ),
-				'pending'     => __( 'Pending (%Pending)', 'my-tickets' ),
-				'reserved'    => __( 'Reserved (%Reserved)', 'my-tickets' ),
+				'failed'       => __( 'Failed (%Failed)', 'my-tickets' ),
+				'refunded'     => __( 'Refunded (%Refunded)', 'my-tickets' ),
+				'pending'      => __( 'Pending (%Pending)', 'my-tickets' ),
+				'reserved'     => __( 'Reserved (%Reserved)', 'my-tickets' ),
 				'turned-back'  => __( 'Turned Back (%Turned Back)', 'my-tickets' ),
 				'waiting-list' => __( 'Waiting List (%Waiting List)', 'my-tickets' ),
 			);

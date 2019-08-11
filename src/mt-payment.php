@@ -24,9 +24,9 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 	$txn_id         = $data['transaction_id'];
 	$purchase_id    = $data['purchase_id'];
 	$blogname       = get_option( 'blogname' );
-	if ( '200' == $response_code ) {
+	if ( 200 === absint( $response_code ) ) {
 		// Response must equal "Verified" to handle response.
-		if ( 'VERIFIED' == $response ) {
+		if ( 'VERIFIED' === $response ) {
 			switch ( $payment_status ) {
 				case 'Completed':
 					$status = 'Completed';

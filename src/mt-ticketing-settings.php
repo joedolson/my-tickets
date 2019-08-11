@@ -117,7 +117,7 @@ function mt_ticketing_settings() {
 								$ticketing    = $options['mt_ticketing'];
 								$form         = '<fieldset><legend>' . __( 'Available Ticket Types', 'my-calendar' ) . "</legend><ul class='ticket-type checkboxes'>";
 								foreach ( $mt_ticketing as $type => $label ) {
-									$checked = ( in_array( $type, array_keys( $ticketing ) ) ) ? ' checked="checked"' : '';
+									$checked = ( in_array( $type, array_keys( $ticketing ), true ) ) ? ' checked="checked"' : '';
 									$form   .= "<li><label for='mt_tickets_$type'>$label</label> <input name='mt_ticketing[$type]' id='mt_tickets_$type' type='checkbox' value='" . esc_attr( $label ) . "' $checked /></li>";
 								}
 								$form                  .= '</ul></fieldset>';
@@ -163,7 +163,7 @@ function mt_ticketing_settings() {
 									</select>
 								</p>';
 								echo $form;
-								$multiple = ( isset( $options['defaults']['multiple'] ) && 'true' == $options['defaults']['multiple'] ) ? true : false;
+								$multiple = ( isset( $options['defaults']['multiple'] ) && 'true' === $options['defaults']['multiple'] ) ? true : false;
 								?>
 							</div>
 						</div>
@@ -188,7 +188,7 @@ function mt_ticketing_settings() {
 									</p>
 									<?php
 									$type = $options['defaults']['sales_type'];
-									if ( ! $type || 'tickets' == $type ) {
+									if ( ! $type || 'tickets' === $type ) {
 										$is_tickets      = ' checked="checked"';
 										$is_registration = '';
 									} else {
@@ -196,7 +196,7 @@ function mt_ticketing_settings() {
 										$is_registration = ' checked="checked"';
 									}
 									$method = $options['defaults']['counting_method'];
-									if ( 'discrete' == $method ) {
+									if ( 'discrete' === $method ) {
 										$is_discrete   = ' checked="checked"';
 										$is_continuous = '';
 									} else {
