@@ -39,8 +39,8 @@ function mt_check_license( $key = false, $product, $store ) {
 		$response = wp_remote_post(
 			$store,
 			array(
-				'timeout'   => 15,
-				'body'      => $api_params,
+				'timeout' => 15,
+				'body'    => $api_params,
 			)
 		);
 		// make sure the response came back okay.

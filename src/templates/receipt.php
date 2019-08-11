@@ -35,7 +35,7 @@
 			<div class='post-content'>
 				<?php
 				$content = get_the_content();
-				if ( trim( strip_tags( $content ) ) == '' ) {
+				if ( trim( strip_tags( $content ) ) === '' ) {
 					$content = ( current_user_can( 'edit_pages' ) ) ? wpautop( __( 'Add your business name and address to the post content.', 'my-tickets' ) ) : '';
 				}
 				echo wpautop( $content );

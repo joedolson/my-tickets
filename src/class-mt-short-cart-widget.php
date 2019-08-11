@@ -53,7 +53,7 @@ class Mt_Short_Cart_Widget extends WP_Widget {
 
 		$the_title    = apply_filters( 'widget_title', $instance['title'] );
 		$widget_title = empty( $the_title ) ? '' : $the_title;
-		$widget_title = ( '' != $widget_title ) ? $before_title . $widget_title . $after_title : '';
+		$widget_title = ( '' !== $widget_title ) ? $before_title . $widget_title . $after_title : '';
 		$cart         = my_tickets_short_cart();
 		echo $before_widget;
 		echo $widget_title;

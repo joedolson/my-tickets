@@ -27,7 +27,7 @@ function mt_ajax_cart() {
 		echo 0;
 		die;
 	}
-	if ( 'mt_ajax_cart' == $_REQUEST['action'] ) {
+	if ( 'mt_ajax_cart' === $_REQUEST['action'] ) {
 		$post = $_REQUEST['data'];
 		$post = array(
 			$post['mt_event_id'] => array(
@@ -81,7 +81,7 @@ function mt_ajax_handler() {
 			)
 		);
 	}
-	if ( 'add_to_cart' == $_REQUEST['function'] ) {
+	if ( 'add_to_cart' === $_REQUEST['function'] ) {
 		$post = $_REQUEST['data'];
 		// reformat request data to multidimensional array.
 		$data   = explode( '&', $post );
@@ -131,7 +131,7 @@ function mt_ajax_handler() {
 		);
 		wp_send_json( $return );
 	}
-	if ( 'save_address' == $_REQUEST['function'] ) {
+	if ( 'save_address' === $_REQUEST['function'] ) {
 		$post         = $_REQUEST['data'];
 		$current_user = wp_get_current_user();
 		$saved        = update_user_meta( $current_user->ID, '_mt_shipping_address', $post );

@@ -25,7 +25,7 @@
 		if ( have_posts() ) {
 			while ( have_posts() ) {
 				the_post();
-				if ( 'eticket' != mt_get_ticket_method() ) {
+				if ( 'eticket' !== mt_get_ticket_method() ) {
 					?>
 				<div class='post-thumbnail'>
 					<?php mt_logo( array(), get_the_ID() ); ?>
@@ -57,7 +57,7 @@
 						<?php mt_ticket_venue(); ?>
 					</div>
 					<?php
-					if ( mt_get_ticket_method() != 'eticket' ) {
+					if ( mt_get_ticket_method() !== 'eticket' ) {
 						?>
 						<div class='ticket-qrcode'>
 							<img src="<?php mt_ticket_qrcode(); ?>" alt="QR Code Verification Link"/>
@@ -68,7 +68,7 @@
 					<div class='post-content'>
 					<?php
 					$content = get_the_content();
-					if ( '' == trim( strip_tags( $content ) ) ) {
+					if ( '' === trim( strip_tags( $content ) ) ) {
 						$content = ( current_user_can( 'edit_pages' ) ) ? __( 'Add your custom text into the post content.', 'my-tickets' ) : '';
 					}
 					echo $content;
@@ -76,7 +76,7 @@
 					<?php edit_post_link(); ?>
 					</div>
 					<?php
-					if ( 'eticket' == mt_get_ticket_method() ) {
+					if ( 'eticket' === mt_get_ticket_method() ) {
 						?>
 						<div class='post-thumbnail'>
 							<?php
@@ -103,7 +103,7 @@
 	</div>
 </div>
 <?php
-if ( 'printable' == mt_get_ticket_method() ) {
+if ( 'printable' === mt_get_ticket_method() ) {
 	?>
 	<a href="javascript:window.print()" class="print">Print</a>
 	<?php
