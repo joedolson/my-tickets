@@ -175,8 +175,8 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								$order_value = 0;
 							}
 							if ( 'inherit' === $available ) {
-								$tickets   = $settings['tickets'];
-								$sold      = $settings['sold'];
+								$tickets   = absint( $settings['tickets'] );
+								$sold      = absint( $settings['sold'] );
 								$remaining = ( $tickets - $sold );
 								$max_limit = apply_filters( 'mt_max_sale_per_event', false );
 								if ( $max_limit ) {
