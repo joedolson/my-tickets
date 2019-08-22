@@ -6,7 +6,7 @@ Requires at least: 4.7
 Tested up to: 5.2
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.6
+Stable tag: 1.8.7
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -69,7 +69,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.8.7 =
 
 * Bug fix: Non-numeric variable type used in math expression.
-* Bug fix: Ensure that default ticket logo is square, not overridden by theme's post thumbnail shappe.
+* Bug fix: Ensure that default ticket logo is square, not overridden by theme's post thumbnail shape.
 
 = 1.8.6 =
 
