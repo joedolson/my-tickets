@@ -141,3 +141,11 @@ function mt_get_ticket_ids( $atts, $content ) {
 
 	return $posts;
 }
+
+add_filter( 'after_setup_theme', 'my_tickets_ticket_image_size' );
+/**
+ * Add a custom thumbnail size for use by My Tickets.
+ */
+function my_tickets_ticket_image_size() {
+	add_image_size( 'my-tickets-logo', 300, 300, true );
+}
