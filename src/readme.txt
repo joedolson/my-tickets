@@ -66,6 +66,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.7 =
+
+* Bug fix: Non-numeric variable type used in math expression.
+* Bug fix: Ensure that default ticket logo is square, not overridden by theme's post thumbnail shappe.
+
 = 1.8.6 =
 
 * Bug fix: Strict comparison requirement yielded incorrect check for sold out status.
