@@ -157,17 +157,19 @@ function mt_payment_settings() {
 										<li>
 											<input type='checkbox' id='mt_gateway_$gateway' name='mt_gateway[]' value='$gateway'" . $gateway_enabled . " /> <label for='mt_gateway_$gateway'>$fields[label]</label>
 										</li>";
-										$settings          = $fields['fields'];
-										foreach ( $settings as $key => $label ) {
-											if ( is_array( $label ) ) {
-												$input_type   = $label['type'];
-												$text_label   = $label['label'];
-												$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
-												$checked      = ( 'checkbox' == $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] == $label['value'] ) ) ? 'checked="checked"' : '';
-												$pg_settings .= "<li><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /></li>";
-											} else {
-												$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
-												$pg_settings .= "<li><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
+										$settings          = isset( $fields['fields'] ) ? $fields['fields'] : false;
+										if ( $settings ) {
+											foreach ( $settings as $key => $label ) {
+												if ( is_array( $label ) ) {
+													$input_type  = $label['type'];
+													$text_label  = $label['label'];
+													$value       = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
+													$checked     = ( 'checkbox' == $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] == $label['value'] ) ) ? 'checked="checked"' : '';
+													$pg_settings .= "<li><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /></li>";
+												} else {
+													$value       = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
+													$pg_settings .= "<li><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
+												}
 											}
 										}
 										$notes = ( isset( $fields['note'] ) ) ? '<p>' . wp_kses(
