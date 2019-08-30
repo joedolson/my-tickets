@@ -66,6 +66,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.8 =
+
+* Bug fix: Need to support payment gateways with no field settings.
+
 = 1.8.7 =
 
 * Bug fix: Non-numeric variable type used in math expression.
