@@ -164,11 +164,15 @@ function mt_payment_settings() {
 													$input_type  = $label['type'];
 													$text_label  = $label['label'];
 													$value       = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
-													$checked     = ( 'checkbox' == $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] == $label['value'] ) ) ? 'checked="checked"' : '';
-													$pg_settings .= "<li><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /></li>";
+													$checked     = ( 'checkbox' === $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] == $label['value'] ) ) ? 'checked="checked"' : '';
+													if ( 'checkbox' === $input_type ) {
+														$pg_settings .= "<li class='$input_type'><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /> <label for='mt_$gateway-$key'>$text_label</label></li>";
+                                                    } else {
+														$pg_settings .= "<li class='$input_type'><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /></li>";
+                                                    }
 												} else {
 													$value       = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
-													$pg_settings .= "<li><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
+													$pg_settings .= "<li class='textfield'><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
 												}
 											}
 										}
