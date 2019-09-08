@@ -237,7 +237,7 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		$merchant       = $options['mt_gateways']['paypal']['merchant_id'];
 		$purchaser      = get_the_title( $payment_id );
 		// Translators: Site's name, purchaser name.
-		$item_name  = sprintf( __( '%1$s Order from %2$s', 'my-tickets' ), get_option( 'blogname' ), $purchaser );
+		$item_name  = apply_filters( 'mt_paypal_item_name', sprintf( __( '%1$s Order from %2$s', 'my-tickets' ), get_option( 'blogname' ), $purchaser ), $payment_id );
 		$return_url = add_query_arg(
 			array(
 				'response_code' => 'thanks',
