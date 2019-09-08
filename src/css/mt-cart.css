@@ -15,7 +15,8 @@
 .mt-message {
     background: #f0f0fa;
     color: #333;
-    padding: 1em;
+    padding: .75em 1em !important;
+    margin-bottom: .5em;
     font-size: 1.1em;
     border: 2px solid;
 }
