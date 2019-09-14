@@ -70,6 +70,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Bug fix: Need to support payment gateways with no field settings.
 * Bug fix: checkbox gateway settings should not have line breaks after label.
+* Bug fix: Fixed logic error impacting application of discount codes.
 * New filter: 'mt_paypal_item_name' to change the description passed to PayPal.
 
 = 1.8.7 =
