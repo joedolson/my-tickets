@@ -135,8 +135,7 @@ function mt_get_prices( $event_id, $payment_id = false ) {
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	if ( isset( $registration['prices'] ) ) {
 		$prices = $registration['prices'];
-		// logged-in users ordering from the front-end, only; in admin, no discount applied.
-		if ( is_user_logged_in() && is_array( $prices ) ) { // cycle only if pricing is being modified.
+		if ( is_array( $prices ) ) { // cycle only if pricing is being modified.
 			foreach ( $prices as $label => $options ) {
 				if ( 'sold' !== $label ) {
 					$price      = isset( $prices[ $label ]['price'] ) ? $prices[ $label ]['price'] : false;
