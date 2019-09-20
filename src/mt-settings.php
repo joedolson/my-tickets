@@ -206,6 +206,7 @@ function mt_settings() {
 										'amount_due',
 										'method',
 										'handling',
+										'shipping',
 										'phone',
 										'purchase_ID',
 										'purchase_edit',

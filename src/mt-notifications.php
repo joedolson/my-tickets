@@ -294,8 +294,9 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$purchase_data = get_post_meta( $id, '_purchase_data', true );
 	$ticket_array  = mt_setup_tickets( $purchased, $id, $resending );
 	$handling      = ( isset( $options['mt_handling'] ) ) ? floatval( $options['mt_handling'] ) : 0;
+	$shipping      = ( isset( $options['mt_shipping'] ) ) ? floatval( $options['mt_shipping'] ) : 0;
 
-	$total = mt_calculate_cart_cost( $purchase_data, $id ) + $handling;
+	$total = mt_calculate_cart_cost( $purchase_data, $id ) + $handling + $shipping;
 	$hash  = md5(
 		add_query_arg(
 			array(
@@ -352,6 +353,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		'transaction_id' => $transaction_id,
 		'amount_due'     => $amount_due,
 		'handling'       => apply_filters( 'mt_money_format', $handling ),
+		'shipping'       => apply_filters( 'mt_money_format', $shipping ),
 		'method'         => ucfirst( $ticketing_method ),
 		'phone'          => $phone,
 		'purchase_ID'    => $id,

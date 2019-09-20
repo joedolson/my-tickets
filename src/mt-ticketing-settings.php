@@ -131,7 +131,7 @@ function mt_ticketing_settings() {
 									$form    .= "<option value='$type'$selected>$label</option>";
 								}
 								$form .= '</select></p>';
-								// only show shipping field is postal mail ticket is selected.
+								// only show shipping field if postal mail ticket is selected.
 								$shipping                = $options['mt_shipping'];
 								$form                   .= "<p class='shipping'><label for='mt_shipping'>" . __( 'Shipping Cost for Postal Mail', 'my-tickets' ) . "</label> <input name='mt_shipping' id='mt_shipping' type='text' size='4' value='$shipping' /></p>";
 								$shipping_time           = $options['mt_shipping_time'];
