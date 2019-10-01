@@ -511,11 +511,11 @@ function mt_create_options( $choices, $selected ) {
 		foreach ( $choices as $key => $value ) {
 			if ( ! is_numeric( $key ) ) {
 				$k       = esc_attr( $key );
-				$chosen  = ( $k == $selected ) ? ' selected="selected"' : '';
+				$chosen  = ( $k === $selected ) ? ' selected="selected"' : '';
 				$return .= "<option value='$key'$chosen>$value</option>";
 			} else {
 				$v       = esc_attr( $value );
-				$chosen  = ( $v == $selected ) ? ' selected="selected"' : '';
+				$chosen  = ( $v === $selected ) ? ' selected="selected"' : '';
 				$return .= "<option value='$value'$chosen>$value</option>";
 			}
 		}
