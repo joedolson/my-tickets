@@ -37,7 +37,7 @@ function mt_update_payment_settings( $post ) {
 		$mt_default_gateway = ( isset( $post['mt_default_gateway'] ) ) ? $post['mt_default_gateway'] : 'offline';
 		$mt_gateway         = ( isset( $post['mt_gateway'] ) ) ? $post['mt_gateway'] : array( 'offline' );
 		// if a gateway is set as default that isn't enabled, enable it.
-		if ( ! ( in_array( $mt_default_gateway, $mt_gateway ) ) ) {
+		if ( ! ( in_array( $mt_default_gateway, $mt_gateway, true ) ) ) {
 			$mt_gateway[] = $mt_default_gateway;
 		}
 		$mt_gateways = ( isset( $post['mt_gateways'] ) ) ? $post['mt_gateways'] : array();
@@ -84,7 +84,7 @@ function mt_payment_settings() {
 	$defaults     = mt_default_settings();
 	$options      = array_merge( $defaults, $options );
 	$alert        = '';
-	$testing_mode = ( 'true' == $options['mt_use_sandbox'] ) ? true : false;
+	$testing_mode = ( 'true' === $options['mt_use_sandbox'] ) ? true : false;
 	if ( $testing_mode ) {
 		$alert = "<div class='notice updated'><p>" . __( 'Currently in testing mode. Use sandbox accounts when testing payment gateways.', 'my-tickets' ) . '</p></div>';
 	}
@@ -110,7 +110,7 @@ function mt_payment_settings() {
 										$mt_currency_codes = mt_currency();
 										echo "<select name='mt_currency' id='mt_currency'>";
 										foreach ( $mt_currency_codes as $code => $currency ) {
-											$selected = ( $options['mt_currency'] == $code ) ? " selected='selected'" : '';
+											$selected = ( $options['mt_currency'] === $code ) ? " selected='selected'" : '';
 											echo "<option value='$code'$selected>" . $currency['description'] . '</option>';
 										}
 										echo '</select>';
@@ -152,7 +152,7 @@ function mt_payment_settings() {
 									$mt_gateways      = mt_setup_gateways();
 									foreach ( $mt_gateways as $gateway => $fields ) {
 										$pg_settings       = '';
-										$gateway_enabled   = ( in_array( $gateway, $options['mt_gateway'] ) ) ? ' checked="checked"' : '';
+										$gateway_enabled   = ( in_array( $gateway, $options['mt_gateway'], true ) ) ? ' checked="checked"' : '';
 										$default_selector .= "
 										<li>
 											<input type='checkbox' id='mt_gateway_$gateway' name='mt_gateway[]' value='$gateway'" . $gateway_enabled . " /> <label for='mt_gateway_$gateway'>$fields[label]</label>
@@ -161,17 +161,17 @@ function mt_payment_settings() {
 										if ( $settings ) {
 											foreach ( $settings as $key => $label ) {
 												if ( is_array( $label ) ) {
-													$input_type  = $label['type'];
-													$text_label  = $label['label'];
-													$value       = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
-													$checked     = ( 'checkbox' === $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] == $label['value'] ) ) ? 'checked="checked"' : '';
+													$input_type = $label['type'];
+													$text_label = $label['label'];
+													$value      = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
+													$checked    = ( 'checkbox' === $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
 													if ( 'checkbox' === $input_type ) {
 														$pg_settings .= "<li class='$input_type'><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /> <label for='mt_$gateway-$key'>$text_label</label></li>";
-                                                    } else {
+													} else {
 														$pg_settings .= "<li class='$input_type'><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /></li>";
-                                                    }
+													}
 												} else {
-													$value       = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
+													$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
 													$pg_settings .= "<li class='textfield'><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
 												}
 											}
@@ -406,7 +406,7 @@ function mt_zerodecimal_currency() {
 	$currencies = mt_currency();
 	$data       = $currencies[ $currency ];
 
-	if ( isset( $data['zerodecimal'] ) && true == $data['zerodecimal'] ) {
+	if ( isset( $data['zerodecimal'] ) && true === $data['zerodecimal'] ) {
 		return true;
 	}
 
