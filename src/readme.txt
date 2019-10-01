@@ -6,7 +6,7 @@ Requires at least: 4.7
 Tested up to: 5.2
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.7
+Stable tag: 1.8.8
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -73,6 +73,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Fixed logic error impacting application of discount codes.
 * Bug fix: Shipping not available as template tag or included in notification totals.
 * New filter: 'mt_paypal_item_name' to change the description passed to PayPal.
+* Change: move custom fields output above ticket type selector.
 
 = 1.8.7 =
 
