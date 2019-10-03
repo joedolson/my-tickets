@@ -23,7 +23,7 @@ function mt_handle_cart() {
 			die;
 		}
 		// add filter here to handle required custom fields in cart TODO.
-		if ( ! isset( $_POST['mt_fname'] ) || '' == $_POST['mt_fname'] || ! isset( $_POST['mt_lname'] ) || '' == $_POST['mt_lname'] || ! isset( $_POST['mt_email'] ) || '' == $_POST['mt_email'] || ! isset( $_POST['mt_email2'] ) || $_POST['mt_email'] != $_POST['mt_email2'] ) {
+		if ( ! isset( $_POST['mt_fname'] ) || '' === $_POST['mt_fname'] || ! isset( $_POST['mt_lname'] ) || '' === $_POST['mt_lname'] || ! isset( $_POST['mt_email'] ) || '' === $_POST['mt_email'] || ! isset( $_POST['mt_email2'] ) || $_POST['mt_email'] !== $_POST['mt_email2'] ) {
 			$url = add_query_arg( 'response_code', 'required-fields', get_permalink( $options['mt_purchase_page'] ) );
 			wp_safe_redirect( $url );
 			exit;
@@ -66,7 +66,7 @@ function mt_delete_data( $data = 'cart' ) {
  */
 function mt_is_payment_completed( $payment ) {
 	$payment_status = get_post_meta( $payment, '_is_paid', true );
-	if ( 'Completed' == $payment_status ) {
+	if ( 'Completed' === $payment_status ) {
 		return true;
 	}
 	return false;
@@ -126,20 +126,20 @@ function mt_create_payment( $post ) {
 		$paid = $paid + $options['mt_handling'];
 		update_post_meta( $purchase_id, '_mt_handling', $options['mt_handling'] );
 	}
-	if ( isset( $options['mt_shipping'] ) && 'postal' == $post['ticketing_method'] ) {
+	if ( isset( $options['mt_shipping'] ) && 'postal' === $post['ticketing_method'] ) {
 		$paid = $paid + $options['mt_shipping'];
 		update_post_meta( $purchase_id, '_mt_shipping', $options['mt_shipping'] );
 	}
 	update_post_meta( $purchase_id, '_total_paid', $paid );
-	$payment_status = ( 0 == $paid ) ? 'Completed' : 'Pending';
+	$payment_status = ( 0 === (int) $paid ) ? 'Completed' : 'Pending';
 	update_post_meta( $purchase_id, '_is_paid', $payment_status );
-	if ( is_user_logged_in() && ! is_admin() && '' != $options['mt_members_discount'] ) {
+	if ( is_user_logged_in() && ! is_admin() && '' !== trim( $options['mt_members_discount'] ) ) {
 		update_post_meta( $purchase_id, '_discount', $options['mt_members_discount'] );
 	}
 	update_post_meta( $purchase_id, '_gateway', $post['mt_gateway'] );
 	update_post_meta( $purchase_id, '_purchase_data', $purchased );
 	update_post_meta( $purchase_id, '_ticketing_method', $post['ticketing_method'] );
-	if ( 'printable' == $post['ticketing_method'] || 'eticket' == $post['ticketing_method'] && ( 'Completed' == $payment_status ) ) {
+	if ( 'printable' === $post['ticketing_method'] || 'eticket' === $post['ticketing_method'] && ( 'Completed' === $payment_status ) ) {
 		update_post_meta( $purchase_id, '_is_delivered', 'true' );
 	}
 	// for pushing data into custom fields.
@@ -162,7 +162,7 @@ function mt_create_payment( $post ) {
 		)
 	);
 	update_post_meta( $purchase_id, '_receipt', $receipt_id );
-	if ( 'publish' == $status ) {
+	if ( 'publish' === $status ) {
 		wp_update_post(
 			array(
 				'ID'          => $purchase_id,
@@ -347,7 +347,7 @@ function mt_calculate_cart_cost( $purchased, $payment_id ) {
 function mt_check_payment_amount( $price, $purchase_id ) {
 	$total_paid = abs( get_post_meta( $purchase_id, '_total_paid', true ) );
 	$donation   = abs( get_post_meta( $purchase_id, '_donation', true ) );
-	if ( $price == $total_paid + $donation ) {
+	if ( $price === $total_paid + $donation ) {
 		return true;
 	}
 
