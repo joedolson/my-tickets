@@ -195,7 +195,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								$form .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
 								$form .= apply_filters(
 									'mt_add_to_cart_input',
-									"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type'$disable />",
+									"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />",
 									$input_type,
 									$type,
 									$value,
@@ -222,7 +222,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								$form       .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
 								$form       .= apply_filters(
 									'mt_add_to_cart_input',
-									"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type mt_tickets_data_$type' />",
+									"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />",
 									$input_type,
 									$type,
 									$value,

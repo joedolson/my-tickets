@@ -66,6 +66,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.9 =
+
+* Accessibility: Ticket input fields labelling pattern incorrect.
+
 = 1.8.8 =
 
 * Bug fix: Need to support payment gateways with no field settings.
