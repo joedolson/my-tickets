@@ -26,7 +26,7 @@ require_once( 'includes/phpqrcode/qrlib.php' );
 function mt_get_logo( $args = array(), $post_ID = false ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$ticket  = mt_get_ticket();
-	if ( isset( $options['mt_ticket_image'] ) && 'event' == $options['mt_ticket_image'] && $ticket ) {
+	if ( isset( $options['mt_ticket_image'] ) && 'event' === $options['mt_ticket_image'] && $ticket ) {
 		// if event has post thumbnail, use that.
 		if ( has_post_thumbnail( $ticket->ID ) ) {
 			return get_the_post_thumbnail( $ticket->ID );
@@ -46,7 +46,7 @@ function mt_get_logo( $args = array(), $post_ID = false ) {
 	);
 	$atts = '';
 	foreach ( $args as $att => $value ) {
-		if ( '' != $value ) {
+		if ( '' !== trim( $value ) ) {
 			$atts .= ' ' . esc_attr( $att ) . '=' . '"' . esc_attr( $value ) . '"';
 		}
 	}
@@ -231,7 +231,7 @@ function mt_get_payment_details() {
 	$receipt = mt_get_receipt();
 	if ( $receipt ) {
 		$paid = get_post_meta( $receipt->ID, '_is_paid', true );
-		if ( 'Completed' == $paid ) {
+		if ( 'Completed' === $paid ) {
 			$gateway       = get_post_meta( $receipt->ID, '_gateway', true );
 			$gateways      = mt_setup_gateways();
 			$gateway_label = isset( $gateways[ $gateway ] ) ? $gateways[ $gateway ]['label'] : $gateway;
@@ -252,11 +252,11 @@ function mt_get_payment_details() {
 		</ul>';
 
 			return $return;
-		} elseif ( 'Refunded' == $paid ) {
+		} elseif ( 'Refunded' === $paid ) {
 			return __( 'This payment has been refunded.', 'my-tickets' );
-		} elseif ( 'Failed' == $paid ) {
+		} elseif ( 'Failed' === $paid ) {
 			return __( 'Payment on this order failed.', 'my-tickets' );
-		} elseif ( 'Turned Back' == $paid ) {
+		} elseif ( 'Turned Back' === $paid ) {
 			return __( 'This purchase was cancelled and the tickets were returned to the seller.', 'my-tickets' );
 		} else {
 			$due = get_post_meta( $receipt->ID, '_total_paid', true );
@@ -600,7 +600,7 @@ function mt_get_ticket_price( $ticket_id = false ) {
 		$data    = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
 		$receipt = $data['purchase_id'];
 		$paid    = get_post_meta( $receipt, '_is_paid', true );
-		if ( 'Completed' != $paid ) {
+		if ( 'Completed' !== $paid ) {
 			$append = ': <em>' . __( 'Payment Due', 'my-tickets' ) . '</em>';
 		}
 		$type = apply_filters( 'mt_money_format', $data['price'] );
@@ -694,33 +694,33 @@ function mt_get_mc_location( $location, $location_id ) {
  * @return string
  */
 function mt_hcard( $location ) {
-	$url     = $location->location_url;
-	$label   = stripslashes( $location->location_label );
-	$street  = stripslashes( $location->location_street );
-	$street2 = stripslashes( $location->location_street2 );
-	$city    = stripslashes( $location->location_city );
-	$state   = stripslashes( $location->location_state );
-	$zip     = stripslashes( $location->location_postcode );
-	$country = stripslashes( $location->location_country );
-	$phone   = stripslashes( $location->location_phone );
+	$url     = trim( $location->location_url );
+	$label   = trim( stripslashes( $location->location_label ) );
+	$street  = trim( stripslashes( $location->location_street ) );
+	$street2 = trim( stripslashes( $location->location_street2 ) );
+	$city    = trim( stripslashes( $location->location_city ) );
+	$state   = trim( stripslashes( $location->location_state ) );
+	$zip     = trim( stripslashes( $location->location_postcode ) );
+	$country = trim( stripslashes( $location->location_country ) );
+	$phone   = trim( stripslashes( $location->location_phone ) );
 	if ( ! $url && ! $label && ! $street && ! $street2 && ! $city && ! $state && ! $zip && ! $country && ! $phone ) {
 		return '';
 	}
-	$link   = ( '' != $url ) ? "<a href='$url' class='location-link external'>$label</a>" : $label;
+	$link   = ( '' !== $url ) ? "<a href='$url' class='location-link external'>$label</a>" : $label;
 	$hcard  = '<div class="address vcard">';
 	$hcard .= '<div class="adr">';
-	$hcard .= ( '' != $label ) ? '<strong class="org">' . $link . '</strong><br />' : '';
-	$hcard .= ( '' == $street . $street2 . $city . $state . $zip . $country . $phone ) ? '' : "<div class='sub-address'>";
-	$hcard .= ( '' != $street ) ? '<div class="street-address">' . $street . '</div>' : '';
-	$hcard .= ( '' != $street2 ) ? '<div class="street-address">' . $street2 . '</div>' : '';
-	$hcard .= ( '' != $city . $state . $zip ) ? '<div>' : '';
-	$hcard .= ( '' != $city ) ? '<span class="locality">' . $city . "</span><span class='sep'>, </span>" : '';
-	$hcard .= ( '' != $state ) ? '<span class="region">' . $state . '</span> ' : '';
-	$hcard .= ( '' != $zip ) ? ' <span class="postal-code">' . $zip . '</span>' : '';
-	$hcard .= ( '' != $city . $state . $zip ) ? '</div>' : '';
-	$hcard .= ( '' != $country ) ? '<div class="country-name">' . $country . '</div>' : '';
-	$hcard .= ( '' != $phone ) ? '<div class="tel">' . $phone . '</div>' : '';
-	$hcard .= ( '' == $street . $street2 . $city . $state . $zip . $country . $phone ) ? '' : '</div>';
+	$hcard .= ( '' !== $label ) ? '<strong class="org">' . $link . '</strong><br />' : '';
+	$hcard .= ( '' === $street . $street2 . $city . $state . $zip . $country . $phone ) ? '' : "<div class='sub-address'>";
+	$hcard .= ( '' !== $street ) ? '<div class="street-address">' . $street . '</div>' : '';
+	$hcard .= ( '' !== $street2 ) ? '<div class="street-address">' . $street2 . '</div>' : '';
+	$hcard .= ( '' !== $city . $state . $zip ) ? '<div>' : '';
+	$hcard .= ( '' !== $city ) ? '<span class="locality">' . $city . "</span><span class='sep'>, </span>" : '';
+	$hcard .= ( '' !== $state ) ? '<span class="region">' . $state . '</span> ' : '';
+	$hcard .= ( '' !== $zip ) ? ' <span class="postal-code">' . $zip . '</span>' : '';
+	$hcard .= ( '' !== $city . $state . $zip ) ? '</div>' : '';
+	$hcard .= ( '' !== $country ) ? '<div class="country-name">' . $country . '</div>' : '';
+	$hcard .= ( '' !== $phone ) ? '<div class="tel">' . $phone . '</div>' : '';
+	$hcard .= ( '' === $street . $street2 . $city . $state . $zip . $country . $phone ) ? '' : '</div>';
 	$hcard .= '</div>';
 	$hcard .= '</div>';
 
@@ -757,14 +757,14 @@ function mt_get_verification( $ticket_id = false ) {
 		$due         = apply_filters( 'mt_money_format', $due );
 		$text        = ( $verified ) ? __( 'Ticket Verified', 'my-tickets' ) : __( 'Invalid Ticket ID', 'my-tickets' );
 		// Translators: Amount due on account.
-		$text        .= ( 'Pending' == $status ) ? ' - ' . sprintf( __( 'Payment pending: %s', 'my-tickets' ), $due ) : '';
+		$text        .= ( 'Pending' === $status ) ? ' - ' . sprintf( __( 'Payment pending: %s', 'my-tickets' ), $due ) : '';
 		$status_class = sanitize_title( $status );
 		$used         = get_post_meta( $purchase_id, '_tickets_used' );
 		if ( ! is_array( $used ) ) {
 			$used = array();
 		}
 		$is_used = false;
-		if ( in_array( $ticket_id, $used ) ) {
+		if ( in_array( $ticket_id, $used, true ) ) {
 			$is_used       = true;
 			$status_class .= ' used';
 			$text         .= ' (' . __( 'Ticket has been used.', 'my-tickets' ) . ')';
