@@ -128,7 +128,8 @@ function mt_cart_no_postal( $cart ) {
 /**
  * Incorporated basic required fields into cart data. Name, Email, ticket type selector.
  *
- * @param array $cart Cart data.
+ * @param array   $cart Cart data.
+ * @param string $custom_fields HTML for custom fields added by plugins.
  *
  * @return mixed|string
  */
