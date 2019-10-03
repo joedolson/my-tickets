@@ -63,7 +63,7 @@ function mt_import_gateways() {
 	// keep going until all files in directory have been read.
 	while ( $file = readdir( $handler ) ) {
 		// if $file isn't this directory or its parent add it to the results array.
-		if ( '.' != $file && '..' != $file ) {
+		if ( '.' !== $file && '..' !== $file ) {
 			$results[] = $file;
 		}
 	}
@@ -129,7 +129,7 @@ define( 'MT_DEBUG', false );
  * @param bool   $override Send message even if not enabled.
  */
 function mt_debug( $data, $subject = '', $override = false ) {
-	if ( true == MT_DEBUG || true == $override ) {
+	if ( true === MT_DEBUG || true === $override ) {
 		wp_mail( get_option( 'admin_email' ), "Debugging: $subject", $data );
 	}
 }
@@ -199,7 +199,7 @@ add_action( 'admin_init', 'mt_redirect_to_payments' );
  * Redirect users to payments section if they click on the Payments link under My Tickets menu.
  */
 function mt_redirect_to_payments() {
-	if ( isset( $_GET['page'] ) && 'mt-payments' == $_GET['page'] ) {
+	if ( isset( $_GET['page'] ) && 'mt-payments' === $_GET['page'] ) {
 		wp_safe_redirect( admin_url( 'edit.php?post_type=mt-payments' ) );
 		exit;
 	}
@@ -468,7 +468,7 @@ add_filter( 'template_include', 'mt_verify', 10, 1 );
  * @return string
  */
 function mt_verify( $template ) {
-	if ( isset( $_GET['ticket_id'] ) && isset( $_GET['action'] ) && 'mt-verify' == $_GET['action'] ) {
+	if ( isset( $_GET['ticket_id'] ) && isset( $_GET['action'] ) && 'mt-verify' === $_GET['action'] ) {
 		$template = locate_template( 'verify.php' );
 		if ( $template ) {
 			return $template;
@@ -486,7 +486,7 @@ add_action( 'init', 'mt_admin_delete' );
  * Give admins easy ability to delete cart from adminbar.
  */
 function mt_admin_delete() {
-	if ( is_user_logged_in() && isset( $_GET['mt_delete'] ) && 'true' == $_GET['mt_delete'] ) {
+	if ( is_user_logged_in() && isset( $_GET['mt_delete'] ) && 'true' === $_GET['mt_delete'] ) {
 		mt_delete_data( 'cart' );
 		mt_delete_data( 'payment' );
 		$redirect = wp_get_referer();
@@ -574,7 +574,7 @@ add_action( 'wp_footer', 'mt_test_mode' );
  */
 function mt_test_mode() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( 'true' == $options['mt_use_sandbox'] ) {
+	if ( 'true' === $options['mt_use_sandbox'] ) {
 		echo "<div class='mt_sandbox_enabled'>" . __( 'My Tickets is currently in testing mode. No financial transactions will be processed.', 'my-tickets' ) . '</div>';
 	}
 }
