@@ -94,7 +94,7 @@
                 $('td .count').each(function () {
                     if ($(this).is(':visible')) {
                         var count = $(this).text();
-                        var price = $(this).parent('td').siblings().children('.price').text();
+                        var price = $(this).parent('td').children('.price').text();
                         total += parseInt(count) * parseFloat(price);
                         tCount += parseInt(count);
                     }
