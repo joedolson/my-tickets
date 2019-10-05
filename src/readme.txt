@@ -69,6 +69,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.8.9 =
 
 * Accessibility: Ticket input fields labelling pattern incorrect.
+* Change: Change cart table to three columns, collapsing 'price' and 'count' into 'order'
 
 = 1.8.8 =
 

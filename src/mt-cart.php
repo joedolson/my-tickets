@@ -815,7 +815,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 	<table class="widefat' . $class . '"><caption>' . $caption . '</caption>
 			<thead>
 				<tr>
-					<th scope="col">' . __( 'Event', 'my-tickets' ) . '</th><th scope="col">' . __( 'Price', 'my-tickets' ) . '</th><th scope="col">' . __( 'Tickets', 'my-tickets' ) . '</th>';
+					<th scope="col">' . __( 'Event', 'my-tickets' ) . '</th><th scope="col">' . __( 'Order', 'my-tickets' ) . '</th>';
 	if ( 'cart' === $format ) {
 		$output .= '<th scope="col" class="mt-update-column">' . __( 'Update', 'my-tickets' ) . '</th>';
 	}
@@ -889,8 +889,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$output .= "
 											<tr id='mt_cart_order_$event_id" . '_' . "$type'>
 												<th scope='row'>$image$title: <em>$label</em><br />$datetime$hidden$custom</th>
-												<td>$currency " . apply_filters( 'mt_money_format', $price ) . "</td>
-												<td aria-live='assertive'><span class='count' data-limit='$max'>$count</span></td>";
+												<td aria-live='assertive'>" . sprintf( __( '%1$s at %2$s', 'my-tickets' ), "<span class='count' data-limit='$max'>$count</span>", $currency  . apply_filters( 'mt_money_format', $price ) ) . '</td>';
 								if ( 'cart' === $format && apply_filters( 'mt_include_update_column', true ) ) {
 									if ( 'true' === $registration['multiple'] ) {
 										$output .= "<td class='mt-update-column'><button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='more'>+<span class='screen-reader-text'> " . __( 'Add a ticket', 'my-tickets' ) . "</span></button> <button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='less'>-<span class='screen-reader-text'> " . __( 'Remove a ticket', 'my-tickets' ) . "</span></button> <button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='remove'>x<span class='screen-reader-text'> " . __( 'Remove from cart', 'my-tickets' ) . '</span></button></td>';
