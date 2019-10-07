@@ -23,7 +23,7 @@ function mt_paypal_ipn() {
 	if ( isset( $_REQUEST['mt_paypal_ipn'] ) && 'true' == $_REQUEST['mt_paypal_ipn'] ) {
 		if ( isset( $_POST['payment_status'] ) ) {
 			$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-			$receiver = ( isset( $options['mt_paypal_email'] ) ) ? strtolower( $options['mt_paypal_email'] ) : false;
+			$receiver = ( isset( $options['mt_gateways']['paypal']['email'] ) ) ? strtolower( $options['mt_gateways']['paypal']['email'] ) : false;
 			$url      = ( 'true' == $options['mt_use_sandbox'] ) ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' : 'https://ipnpb.paypal.com/cgi-bin/webscr';
 
 			$req = 'cmd=_notify-validate';
@@ -105,13 +105,13 @@ function mt_paypal_ipn() {
 			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || ! $value_match ) {
 				// Translators: Item Number of payment triggering error.
 				if ( ! $value_match ) {
-					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %s', 'my-tickets' ), $price );
+					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %1$s paid vs %2$s expected', 'my-tickets' ), $price, $value_match );
 				}
 				if ( strtolower( $receiver_email ) != $receiver ) {
-					$error_msg[] = sprintf( __( 'Receiver Email and PayPal Email did not match: %s vs %s', 'my-tickets' ), $receiver_email, $receiver );
+					$error_msg[] = sprintf( __( 'Receiver Email and PayPal Email did not match: %1$s vs %2$s', 'my-tickets' ), $receiver_email, $receiver );
 				}
 				if ( $payment_currency != $options['mt_currency'] ) {
-					$error_msg[] = sprintf( __( 'Currency received did not match the currency expected: %s vs %s', 'my-tickets' ), $payment_currency, $options['mt_currency'] );
+					$error_msg[] = sprintf( __( 'Currency received did not match the currency expected: %1$s vs %2$s', 'my-tickets' ), $payment_currency, $options['mt_currency'] );
 				}
 				foreach( $error_msg as $msg ) {
 					$messages .= "\n\n" . $msg;
