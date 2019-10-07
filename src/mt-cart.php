@@ -700,7 +700,7 @@ function mt_generate_cart( $user_ID = false ) {
 		$cart           = mt_get_cart( $user_ID );
 		$total          = apply_filters( 'mt_generate_cart_total', mt_total_cart( $cart ), $cart );
 		$count          = mt_count_cart( $cart );
-		$handling_total = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
+		$handling_total = ( isset( $options['mt_handling'] ) && '' !== $options['mt_handling'] ) ? $options['mt_handling'] : 0;
 		$handling       = apply_filters( 'mt_money_format', $handling_total );
 		$nonce          = wp_nonce_field( 'mt_cart_nonce', '_wpnonce', true, false );
 		$enabled        = $options['mt_gateway'];
