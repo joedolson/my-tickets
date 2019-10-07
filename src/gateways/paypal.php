@@ -105,13 +105,13 @@ function mt_paypal_ipn() {
 			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || false === $value_match ) {
 				// Translators: Item Number of payment triggering error.
 				if ( $price !== $value_match ) {
-					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %1$s paid vs %2$s expected', 'my-tickets' ), $price, $value_match );
+					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %1$s paid vs %2$s expected.', 'my-tickets' ), $price, $value_match );
 				}
 				if ( strtolower( $receiver_email ) != $receiver ) {
-					$error_msg[] = sprintf( __( 'Receiver Email and PayPal Email did not match: %1$s vs %2$s', 'my-tickets' ), $receiver_email, $receiver );
+					$error_msg[] = sprintf( __( 'Receiver Email and PayPal Email did not match: %1$s vs %2$s. Please check that the email in your My Tickets settings matches the primary email in your PayPal account.', 'my-tickets' ), $receiver_email, $receiver );
 				}
 				if ( $payment_currency != $options['mt_currency'] ) {
-					$error_msg[] = sprintf( __( 'Currency received did not match the currency expected: %1$s vs %2$s', 'my-tickets' ), $payment_currency, $options['mt_currency'] );
+					$error_msg[] = sprintf( __( 'Currency received did not match the currency expected: %1$s vs %2$s.', 'my-tickets' ), $payment_currency, $options['mt_currency'] );
 				}
 				foreach( $error_msg as $msg ) {
 					$messages .= "\n\n" . $msg;
