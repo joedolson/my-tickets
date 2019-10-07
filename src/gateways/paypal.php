@@ -100,9 +100,23 @@ function mt_paypal_ipn() {
 			} else {
 				$value_match = mt_check_payment_amount( $price, $item_number );
 			}
+			$error_msg = array();
+			$messages  = '';
 			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || ! $value_match ) {
 				// Translators: Item Number of payment triggering error.
-				wp_mail( $options['mt_to'], __( 'Payment Conditions Error', 'my-tickets' ), sprintf( __( 'PayPal receiver email did not match account or payment currency did not match payment on %s', 'my-tickets' ), $item_number ) . "\n" . print_r( $data, 1 ) );
+				if ( ! $value_match ) {
+					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %s', 'my-tickets' ), $price );
+				}
+				if ( strtolower( $receiver_email ) != $receiver ) {
+					$error_msg[] = sprintf( __( 'Receiver Email and PayPal Email did not match: %s vs %s', 'my-tickets' ), $receiver_email, $receiver );
+				}
+				if ( $payment_currency != $options['mt_currency'] ) {
+					$error_msg[] = sprintf( __( 'Currency received did not match the currency expected: %s vs %s', 'my-tickets' ), $payment_currency, $options['mt_currency'] );
+				}
+				foreach( $error_msg as $msg ) {
+					$messages .= "\n\n" . $msg;
+				}
+				wp_mail( $options['mt_to'], __( 'Payment Conditions Error', 'my-tickets' ), sprintf( __( 'There were errors processing payment on purchase ID %s:', 'my-tickets' ), $item_number ) . $messages . "\n" . print_r( $data, 1 ) );
 				status_header( 200 ); // Why 200? Because that's the only way to stop PayPal.
 				die;
 			}
