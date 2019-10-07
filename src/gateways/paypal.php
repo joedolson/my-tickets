@@ -113,7 +113,7 @@ function mt_paypal_ipn() {
 				if ( $payment_currency != $options['mt_currency'] ) {
 					$error_msg[] = sprintf( __( 'Currency received did not match the currency expected: %1$s vs %2$s.', 'my-tickets' ), $payment_currency, $options['mt_currency'] );
 				}
-				foreach( $error_msg as $msg ) {
+				foreach ( $error_msg as $msg ) {
 					$messages .= "\n\n" . $msg;
 				}
 				wp_mail( $options['mt_to'], __( 'Payment Conditions Error', 'my-tickets' ), sprintf( __( 'There were errors processing payment on purchase ID %s:', 'my-tickets' ), $item_number ) . $messages . "\n" . print_r( $data, 1 ) );
