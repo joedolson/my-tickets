@@ -105,17 +105,21 @@ function mt_paypal_ipn() {
 			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || false === $value_match ) {
 				// Translators: Item Number of payment triggering error.
 				if ( $price !== $value_match ) {
+					// Translators: price paid, price expected.
 					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %1$s paid vs %2$s expected.', 'my-tickets' ), $price, $value_match );
 				}
 				if ( strtolower( $receiver_email ) != $receiver ) {
+					// Translators: email provided by PayPal, email in My Tickets settings.
 					$error_msg[] = sprintf( __( 'Receiver Email and PayPal Email did not match: %1$s vs %2$s. Please check that the email in your My Tickets settings matches the primary email in your PayPal account.', 'my-tickets' ), $receiver_email, $receiver );
 				}
 				if ( $payment_currency != $options['mt_currency'] ) {
+					// Translators: currency received, currency expected.
 					$error_msg[] = sprintf( __( 'Currency received did not match the currency expected: %1$s vs %2$s.', 'my-tickets' ), $payment_currency, $options['mt_currency'] );
 				}
 				foreach ( $error_msg as $msg ) {
 					$messages .= "\n\n" . $msg;
 				}
+				// Translators: purchase ID.
 				wp_mail( $options['mt_to'], __( 'Payment Conditions Error', 'my-tickets' ), sprintf( __( 'There were errors processing payment on purchase ID %s:', 'my-tickets' ), $item_number ) . $messages . "\n" . print_r( $data, 1 ) );
 				status_header( 200 ); // Why 200? Because that's the only way to stop PayPal.
 				die;

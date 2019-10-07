@@ -133,16 +133,17 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				$tickets_list    = '';
 				foreach ( $tickets as $type => $ticket ) {
 					if ( $ticket['count'] > 0 ) {
-						$price         = $ticket['price'];
-						$type          = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
-						$price         = $price - $handling;
-						$discount      = mt_calculate_discount( $price, $event_id, $purchase_id );
-						$total         = ( $discount !== $price ) ? $total + $discount * $ticket['count'] : $total + $price * $ticket['count'];
-						$display_app   = '';
+						$price       = $ticket['price'];
+						$type        = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
+						$price       = $price - $handling;
+						$discount    = mt_calculate_discount( $price, $event_id, $purchase_id );
+						$total       = ( $discount !== $price ) ? $total + $discount * $ticket['count'] : $total + $price * $ticket['count'];
+						$display_app = '';
 						// Match formats so comparison is valid.
 						if ( sprintf( '%01.2f', $discount ) !== sprintf( '%01.2f', $price ) ) {
 							// Translators: original ticket price, before discounts.
-							$discount    = strip_tags( apply_filters( 'mt_money_format', $discount ) );
+							$discount = strip_tags( apply_filters( 'mt_money_format', $discount ) );
+							// Translators: discounted cost of ticket.
 							$display_app = ' (' . sprintf( __( 'Discounted to %s', 'my-tickets' ), $discount ) . ')';
 						}
 						$display_price = strip_tags( apply_filters( 'mt_money_format', $price ) ) . $display_app;

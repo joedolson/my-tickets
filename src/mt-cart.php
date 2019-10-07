@@ -884,8 +884,8 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								} else {
 									$hidden = '';
 								}
-								$total   = $total + ( $price * $count );
-								$custom  = apply_filters( 'mt_show_in_cart_fields', '', $event_id );
+								$total  = $total + ( $price * $count );
+								$custom = apply_filters( 'mt_show_in_cart_fields', '', $event_id );
 								// Translators: (number of tickets) at (price per ticket).
 								$cart_message = sprintf( __( '%1$s at %2$s', 'my-tickets' ), "<span class='count' data-limit='$max'>$count</span>", $currency . apply_filters( 'mt_money_format', $price ) );
 								$output      .= "
