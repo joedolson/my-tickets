@@ -102,9 +102,9 @@ function mt_paypal_ipn() {
 			}
 			$error_msg = array();
 			$messages  = '';
-			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || ! $value_match ) {
+			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || false === $value_match ) {
 				// Translators: Item Number of payment triggering error.
-				if ( ! $value_match ) {
+				if ( $price !== $value_match ) {
 					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %1$s paid vs %2$s expected', 'my-tickets' ), $price, $value_match );
 				}
 				if ( strtolower( $receiver_email ) != $receiver ) {
