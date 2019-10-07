@@ -342,14 +342,12 @@ function mt_calculate_cart_cost( $purchased, $payment_id ) {
  * @param float $price Total amount paid.
  * @param int   $purchase_id Payment ID to compare against.
  *
- * @return boolean False if not a match
+ * @return float Checked value
  */
 function mt_check_payment_amount( $price, $purchase_id ) {
-	$total_paid = abs( get_post_meta( $purchase_id, '_total_paid', true ) );
-	$donation   = abs( get_post_meta( $purchase_id, '_donation', true ) );
-	if ( $price === $total_paid + $donation ) {
-		return true;
-	}
+	$total_paid = get_post_meta( $purchase_id, '_total_paid', true );
+	$donation   = get_post_meta( $purchase_id, '_donation', true );
+	$total      = (float) ( $total_paid + $donation );
 
-	return false;
+	return $total;
 }
