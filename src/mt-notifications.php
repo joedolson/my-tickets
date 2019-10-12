@@ -19,7 +19,7 @@ add_action( 'wp_trash_post', 'mt_return_tickets_action' );
  */
 function mt_return_tickets_action( $id ) {
 	$type = get_post_type( $id );
-	if ( 'mt-payments' == $type && ( false !== get_post_status( $id ) ) ) {
+	if ( 'mt-payments' === $type && ( false !== get_post_status( $id ) ) ) {
 		mt_return_tickets( $id );
 	}
 }
@@ -34,18 +34,18 @@ add_action( 'save_post', 'mt_generate_notifications', 15 );
 function mt_generate_notifications( $id ) {
 	$type   = get_post_type( $id );
 	$status = 'quo';
-	if ( 'mt-payments' == $type ) {
+	if ( 'mt-payments' === $type ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE || wp_is_post_revision( $id ) ) {
 			return;
 		}
 		$post = get_post( $id );
-		if ( 'publish' != $post->post_status ) {
+		if ( 'publish' !== $post->post_status ) {
 			return;
 		}
 		$email_sent  = get_post_meta( $id, '_notified', true );
 		$last_status = get_post_meta( $id, '_last_status', true );
 		$paid        = get_post_meta( $id, '_is_paid', true );
-		if ( ! $email_sent || isset( $_POST['_send_email'] ) || ( 'Pending' == $last_status && 'Completed' == $paid ) ) {
+		if ( ! $email_sent || isset( $_POST['_send_email'] ) || ( 'Pending' === $last_status && 'Completed' === $paid ) ) {
 			$resend           = ( isset( $_POST['_send_email'] ) ) ? true : false;
 			$details['email'] = get_post_meta( $id, '_email', true );
 			$details['name']  = get_the_title( $id );
@@ -107,7 +107,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 	$output  = '';
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	// format purchase.
-	$is_html = ( 'true' == $options['mt_html_email'] || 'html' == $format ) ? true : false;
+	$is_html = ( 'true' === $options['mt_html_email'] || 'html' === $format ) ? true : false;
 	$sep     = ( $is_html ) ? '<br />' : "\n";
 	if ( ! $purchase ) {
 		$output = __( 'Your ticket information will be available once your payment is completed.', 'my-tickets' );
@@ -160,7 +160,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 						}
 					}
 				}
-				if ( '' != trim( $tickets_list ) ) {
+				if ( '' !== trim( $tickets_list ) ) {
 					$output .= $title . ' - ' . $date . ' @ ' . $time . $sep;
 					$output .= apply_filters( 'mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep );
 					$output .= $sep . $tickets_list;
@@ -192,13 +192,13 @@ function mt_format_address( $address, $format = false, $purchase_id ) {
 	$output = '';
 	if ( $address ) {
 		$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-		$sep     = ( 'true' == $options['mt_html_email'] ) ? '<br />' : PHP_EOL;
+		$sep     = ( 'true' === $options['mt_html_email'] ) ? '<br />' : PHP_EOL;
 		foreach ( $address as $value ) {
-			$separator = ( '' == trim( $value ) ) ? '' : $sep;
+			$separator = ( '' === trim( $value ) ) ? '' : $sep;
 			$output   .= $value . $separator;
 		}
 
-		return ( 'true' == $options['mt_html_email'] ) ? wpautop( $output ) : PHP_EOL . $output . PHP_EOL;
+		return ( 'true' === $options['mt_html_email'] ) ? wpautop( $output ) : PHP_EOL . $output . PHP_EOL;
 	}
 
 	return $output;
@@ -217,7 +217,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id ) {
 	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 	$output   = '';
 	$show     = '';
-	$is_html  = ( 'true' == $options['mt_html_email'] || 'html' == $type ) ? true : false;
+	$is_html  = ( 'true' === $options['mt_html_email'] || 'html' === $type ) ? true : false;
 	$sep      = ( $is_html ) ? '<br />' . "\r\n" : "\n";
 	$total    = count( $tickets );
 	$i        = 1;
@@ -232,11 +232,11 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id ) {
 		if ( $test_use ) {
 			if ( is_array( $used ) ) {
 				$ticket_id = str_replace( array( $ticket_url . '&ticket_id=', $ticket_url . '?ticket_id=' ), '', $ticket );
-				$is_used   = in_array( $ticket_id, $used );
+				$is_used   = in_array( $ticket_id, $used, true );
 				$show      = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span>" . __( 'Checked in', 'my-tickets' ) . ' ' : '';
 			}
 		}
-		if ( 'ids' == $type ) {
+		if ( 'ids' === $type ) {
 			$ticket_output = "$i/$total: $ticket" . $show . $sep;
 		} else {
 			$ticket        = ( $is_html ) ? "<a href='$ticket'>" . __( 'View Ticket', 'my-tickets' ) . " ($i/$total)</a>" : $ticket;
@@ -260,7 +260,7 @@ add_filter( 'mt_format_receipt', 'mt_format_receipt' );
  */
 function mt_format_receipt( $receipt ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( 'true' == $options['mt_html_email'] ) {
+	if ( 'true' === $options['mt_html_email'] ) {
 		$receipt = "<a href='$receipt'>" . __( 'View your receipt for this purchase', 'my-tickets' ) . '</a>';
 	}
 
@@ -288,7 +288,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$notes    = ( ! empty( $options['mt_gateways'][ $gateway ]['notes'] ) ) ? $options['mt_gateways'][ $gateway ]['notes'] : '';
 	$phone    = get_post_meta( $id, '_phone', true );
 	// Restructure post meta array to match cart array.
-	if ( ( 'Completed' == $status || ( 'Pending' == $status && 'offline' == $gateway ) ) && ! $resending ) {
+	if ( ( 'Completed' === $status || ( 'Pending' === $status && 'offline' === $gateway ) ) && ! $resending ) {
 		mt_create_tickets( $id );
 	}
 	$purchased     = get_post_meta( $id, '_purchased' );
@@ -311,7 +311,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$receipt        = add_query_arg( 'receipt_id', $hash, get_permalink( $options['mt_receipt_page'] ) );
 	$transaction_id = get_post_meta( $id, '_transaction_id', true );
 
-	if ( 'Completed' == $status ) {
+	if ( 'Completed' === $status ) {
 		$amount_due = '0.00';
 	} else {
 		$amount_due = $total;
@@ -323,15 +323,15 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$ticketing_method = get_post_meta( $id, '_ticketing_method', true );
 	$email            = $details['email'];
 
-	if ( 'eticket' == $ticketing_method || 'printable' == $ticketing_method ) {
+	if ( 'eticket' === $ticketing_method || 'printable' === $ticketing_method ) {
 		$tickets    = apply_filters( 'mt_format_array', '', 'tickets', $ticket_array, $transaction_id );
 		$ticket_ids = apply_filters( 'mt_format_array', '', 'ticket_ids', array_keys( $ticket_array ), $transaction_id );
 	} else {
-		$tickets    = ( 'willcall' == $ticketing_method ) ? __( 'Your tickets will be available at the box office.', 'my-tickets' ) : __( 'Your tickets will be mailed to you at the address provided.', 'my-tickets' );
-		$tickets    = ( 'true' == $options['mt_html_email'] ) ? '<p>' . $tickets . '</p>' : $tickets;
+		$tickets    = ( 'willcall' === $ticketing_method ) ? __( 'Your tickets will be available at the box office.', 'my-tickets' ) : __( 'Your tickets will be mailed to you at the address provided.', 'my-tickets' );
+		$tickets    = ( 'true' === $options['mt_html_email'] ) ? '<p>' . $tickets . '</p>' : $tickets;
 		$ticket_ids = '';
 	}
-	$bulk_tickets = ( 'printable' == $ticketing_method ) ? add_query_arg(
+	$bulk_tickets = ( 'printable' === $ticketing_method ) ? add_query_arg(
 		array(
 			'receipt_id' => $hash,
 			'multiple'   => true,
@@ -381,12 +381,12 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
 	$headers[] = "Reply-to: $options[mt_from]";
 
-	if ( 'Completed' == $status || ( 'Pending' == $status && 'offline' == $gateway ) ) {
+	if ( 'Completed' === $status || ( 'Pending' === $status && 'offline' === $gateway ) ) {
 		$append = '';
-		if ( 'invalid_email' == $error ) {
+		if ( 'invalid_email' === $error ) {
 			$append = __( 'Purchaser did not provide valid email', 'my-tickets' );
 		}
-		if ( ! empty( $options['messages']['interim']['purchaser']['subject'] ) && ! empty( $options['messages']['interim']['purchaser']['body'] ) && 'Pending' == $status && 'offline' == $gateway ) {
+		if ( ! empty( $options['messages']['interim']['purchaser']['subject'] ) && ! empty( $options['messages']['interim']['purchaser']['body'] ) && 'Pending' === $status && 'offline' === $gateway ) {
 			$purchaser_subject = $options['messages']['interim']['purchaser']['subject'];
 			$purchaser_body    = $options['messages']['interim']['purchaser']['body'];
 			$admin_subject     = $options['messages']['interim']['admin']['subject'];
@@ -405,7 +405,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		$body2 = mt_draw_template( $data, $admin_body );
 	}
 
-	if ( 'Refunded' == $status ) {
+	if ( 'Refunded' === $status ) {
 
 		$subject  = mt_draw_template( $data, $options['messages']['refunded']['purchaser']['subject'] );
 		$subject2 = mt_draw_template( $data, $options['messages']['refunded']['admin']['subject'] );
@@ -417,12 +417,12 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		mt_return_tickets( $id );
 	}
 
-	if ( 'Turned Back' == $status ) {
+	if ( 'Turned Back' === $status ) {
 		// No notifications, just cancelled.
 		mt_return_tickets( $id );
 	}
 
-	if ( 'Failed' == $status ) {
+	if ( 'Failed' === $status ) {
 
 		$subject  = mt_draw_template( $data, $options['messages']['failed']['purchaser']['subject'] );
 		$subject2 = mt_draw_template( $data, $options['messages']['failed']['admin']['subject'] );
@@ -431,8 +431,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		$body2 = mt_draw_template( $data, $options['messages']['failed']['admin']['body'] );
 	}
 
-	if ( 'Pending' == $status || ( false !== strpos( $status, 'Other' ) ) ) {
-		if ( 'Pending' == $status && 'offline' == $gateway ) {
+	if ( 'Pending' === $status || ( false !== strpos( $status, 'Other' ) ) ) {
+		if ( 'Pending' === $status && 'offline' === $gateway ) {
 			// For offline payments, we do send notifications.
 			$send = true;
 		} else {
@@ -442,7 +442,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	}
 
 	if ( $send ) {
-		if ( 'true' == $options['mt_html_email'] ) {
+		if ( 'true' === $options['mt_html_email'] ) {
 			add_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
 
@@ -470,7 +470,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 			// If mail sends, try without custom headers.
 			wp_mail( $options['mt_to'], $subject2, $body2 );
 		}
-		if ( 'true' == $options['mt_html_email'] ) {
+		if ( 'true' === $options['mt_html_email'] ) {
 			remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
 		update_post_meta( $id, '_notified', 'true' );
@@ -492,7 +492,7 @@ function mt_create_event_notes( $event_notes, $purchased, $payment_id ) {
 	if ( is_array( $purchased ) ) {
 		foreach ( $purchased as $event ) {
 			foreach ( $event as $event_id => $tickets ) {
-				if ( 'true' == $options['mt_html_email'] ) {
+				if ( 'true' === $options['mt_html_email'] ) {
 					$notes = wpautop( get_post_meta( $event_id, '_mt_event_notes', true ) );
 				} else {
 					$notes = get_post_meta( $event_id, '_mt_event_notes', true ) . PHP_EOL . PHP_EOL;
