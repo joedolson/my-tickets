@@ -72,7 +72,7 @@ function mt_verify_key( $option, $name, $store ) {
 	$key = strip_tags( $_POST[ $option ] );
 	update_option( $option, $key );
 
-	if ( '' != $key ) {
+	if ( '' !== $key ) {
 		$confirmation = mt_check_license( $key, $name, $store );
 	} else {
 		$confirmation = 'deleted';
@@ -80,24 +80,24 @@ function mt_verify_key( $option, $name, $store ) {
 
 	$previously = get_option( $option . '_valid' );
 	update_option( $option . '_valid', $confirmation );
-	if ( 'inactive' == $confirmation ) {
+	if ( 'inactive' === $confirmation ) {
 		// Translators: plugin name.
 		$message = sprintf( __( 'That %s key is not active.', 'my-tickets' ), $name );
-	} elseif ( 'active' == $confirmation || 'valid' == $confirmation ) {
-		if ( 'true' == $previously || 'active' == $previously || 'valid' == $previously ) {
+	} elseif ( 'active' === $confirmation || 'valid' === $confirmation ) {
+		if ( 'true' === $previously || 'active' === $previously || 'valid' === $previously ) {
 			$message = '';
 		} else {
 			// Translators: plugin name.
 			$message = sprintf( __( '%s key validated. Enjoy!', 'my-tickets' ), $name );
 		}
-	} elseif ( 'deleted' == $confirmation ) {
+	} elseif ( 'deleted' === $confirmation ) {
 		// Translators: plugin name.
 		$message = sprintf( __( 'You have deleted your %s license key.', 'my-tickets' ), $name );
 	} else {
 		// Translators: plugin name.
 		$message = sprintf( __( '%s received an unexpected message from the license server. Try again in a bit.', 'my-tickets' ), $name );
 	}
-	$message = ( '' != $message ) ? " $message " : $message; // just add a space.
+	$message = ( '' !== $message ) ? " $message " : $message; // just add a space.
 
 	return $message;
 }

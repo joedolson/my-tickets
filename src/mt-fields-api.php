@@ -47,7 +47,7 @@ function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
 	foreach ( $custom_fields as $name => $field ) {
 		$data   = get_post_meta( $payment_id, $name );
 		$return = apply_filters( 'mt_custom_ticket_display_field', '', $data, $name, $payment_id );
-		if ( ! empty( $data ) && '' == $return ) {
+		if ( ! empty( $data ) && '' === $return ) {
 
 			foreach ( $data as $d ) {
 				if ( ! isset( $field['display_callback'] ) ) {
@@ -84,7 +84,7 @@ function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
  */
 function mt_apply_custom_field( $field, $event_id ) {
 	$return = false;
-	if ( ! isset( $field['context'] ) || 'global' == $field['context'] ) {
+	if ( ! isset( $field['context'] ) || 'global' === $field['context'] ) {
 		$return = true;
 	}
 	if ( is_numeric( $field['context'] ) && (int) $field['context'] == $event_id ) {
