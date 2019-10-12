@@ -6,7 +6,7 @@ Requires at least: 4.7
 Tested up to: 5.2
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.10
+Stable tag: 1.8.11
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -65,6 +65,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 
 == Changelog ==
+
+
+= 1.8.11 =
+
+* Only changes are code standards changes with strict comparisons.
+* This release is only being shipped because the 1.8.10 update produced a bad installation file (because I made a mistake in the commit.)
 
 = 1.8.10 =
 
