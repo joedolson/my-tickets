@@ -930,7 +930,7 @@ function mt_get_purchasers( $event_id ) {
 				}
 				$status = get_post_meta( $purchase_id, '_is_paid', true );
 				// only send email to Completed payments.
-				if ( 'Failed' === $status || 'Refunded' === $status || 'Pending' === $status ) {
+				if ( 'Completed' !== $status ) {
 					continue;
 				}
 				$purchaser  = get_the_title( $purchase_id );
