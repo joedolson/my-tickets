@@ -66,6 +66,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.12 =
+
+* Bug fix: Mass emails should only send to sales with 'Completed' status.
+* New filter: 'mt_ticket_settngs' to filter configuration for a given ticket class on an event.
 
 = 1.8.11 =
 

@@ -146,6 +146,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 					$sold_out    = false;
 					$total_order = 0;
 					foreach ( $pricing as $type => $settings ) {
+						$settings = apply_filters( 'mt_ticket_settings', $settings, $pricing, $event_id );
 						if ( ! mt_can_order( $type ) ) {
 							continue;
 						}
