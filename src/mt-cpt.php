@@ -396,6 +396,10 @@ function mt_offline_transaction( $transaction, $gateway ) {
 		foreach ( $transaction as $key => $value ) {
 			if ( 'shipping' === $key ) {
 				foreach ( $value as $label => $field ) {
+					if ( 'status' === $label && isset( $_GET['post_id'] ) ) {
+						$post_id = (int) $_GET['post_id'];
+						$field   = get_post_meta( $post_id, '_is_paid', true );
+					}
 					$shipping .= '<li><strong>' . ucfirst( $label ) . "</strong> $field</li>";
 				}
 			} else {
