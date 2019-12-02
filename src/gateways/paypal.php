@@ -100,15 +100,17 @@ function mt_paypal_ipn() {
 			} else {
 				$value_match = mt_check_payment_amount( $price, $item_number );
 			}
-			$error_msg = array();
-			$messages  = '';
-			if ( ( $receiver && ( strtolower( $receiver_email ) != $receiver ) ) || $payment_currency != $options['mt_currency'] || false === $value_match ) {
+			$error_msg      = array();
+			$messages       = '';
+			$receiver       = strtolower( $receiver );
+			$receiver_email = strtolower( $receiver_email );
+			if ( ( $receiver && ( $receiver_email != $receiver ) ) || $payment_currency != $options['mt_currency'] || false === $value_match ) {
 				// Translators: Item Number of payment triggering error.
 				if ( $price != $value_match ) {
 					// Translators: price paid, price expected.
 					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %1$s paid vs %2$s expected.', 'my-tickets' ), $price, $value_match );
 				}
-				if ( strtolower( $receiver_email ) != $receiver ) {
+				if ( $receiver_email != $receiver ) {
 					// Translators: email provided by PayPal, email in My Tickets settings.
 					$error_msg[] = sprintf( __( 'Receiver Email and PayPal Email did not match: %1$s vs %2$s. Please check that the email in your My Tickets settings matches the primary email in your PayPal account.', 'my-tickets' ), $receiver_email, $receiver );
 				}
