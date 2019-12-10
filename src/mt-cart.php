@@ -736,13 +736,19 @@ function mt_generate_cart( $user_ID = false ) {
 			$_POST = array();
 			if ( isset( $_GET['payment_id'] ) ) {
 				$post_id  = absint( $_GET['payment_id'] );
-				$receipt  = get_post_meta( $post_id, '_receipt', true );
-				$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-				$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
-				$purchase = get_post_meta( $post_id, '_purchased' );
-				$append   = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
-				$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . $append . '</div></div>';
-				do_action( 'mt_purchase_completed', $post_id, $link, $purchase );
+				$date     = get_post_modified_time( 'U', false, $post_id );
+				if ( $date < ( current_time( 'timestamp' ) - 300 ) ) {
+					// This transaction data is only available publically for 5 minutes after post is updated.
+					return '';
+				} else {
+					$receipt  = get_post_meta( $post_id, '_receipt', true );
+					$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+					$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
+					$purchase = get_post_meta( $post_id, '_purchased' );
+					$append   = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
+					$output   = "<div class='transaction-purchase panel'><div class='inner'><h4>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h4>" . mt_format_purchase( $purchase, 'html', $post_id ) . $append . '</div></div>';
+					do_action( 'mt_purchase_completed', $post_id, $link, $purchase );
+				}
 			} else {
 				$output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
 			}
@@ -1017,7 +1023,7 @@ function mt_generate_gateway( $cart ) {
 			)
 		);
 
-		$form = apply_filters( 'mt_gateway', '', $mt_gateway, $args );
+		$form = apply_filters( ' mt_gateway', '', $mt_gateway, $args );
 		$form = apply_filters( 'mt_form_wrapper', $form );
 
 		return $link . $confirmation . "<div class='mt-after-cart'>" . $tick_handling . $shipping . $handling . $other_notices . $report_total . '</div>' . $form;
