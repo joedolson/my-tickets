@@ -63,7 +63,6 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
-
 == Changelog ==
 
 = 1.8.12 =
@@ -71,6 +70,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Mass emails should only send to sales with 'Completed' status.
 * Bug fix: Payment status on offline payments should reflect status as configured in admin.
 * Bug fix: Email addresses in PayPal should be compared with both converted to lower case.
+* Bug fix: Make purchase transaction notice only viewable for 5 minutes after purchase.
+* Change: Warn user if departing payment page without submitting purchase.
 * New filter: 'mt_ticket_settngs' to filter configuration for a given ticket class on an event.
 
 = 1.8.11 =
