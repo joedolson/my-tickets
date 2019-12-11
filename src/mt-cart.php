@@ -1023,8 +1023,9 @@ function mt_generate_gateway( $cart ) {
 			)
 		);
 
-		$form = apply_filters( ' mt_gateway', '', $mt_gateway, $args );
-		$form = apply_filters( 'mt_form_wrapper', $form );
+		$form  = apply_filters( 'mt_gateway', '', $mt_gateway, $args );
+		$form  = apply_filters( 'mt_form_wrapper', $form );
+		$form .= "<span id='mt_unsubmitted'></span>";
 
 		return $link . $confirmation . "<div class='mt-after-cart'>" . $tick_handling . $shipping . $handling . $other_notices . $report_total . '</div>' . $form;
 	} else {
