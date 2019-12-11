@@ -265,7 +265,7 @@ function mt_settings() {
 								<?php
 							} else {
 								// Translators: URL to purchase add-ons.
-								echo '<p>' . sprintf( __( 'If you install any <a href="%s">My Tickets Premium Add-ons</a>, the license fields will appear here.', 'my-tickets' ), '<a href="https://www.joedolson.com/my-tickets/add-ons/">' ) . '</p>';
+								echo '<p>' . sprintf( __( 'If you install any <a href="%s">My Tickets Premium Add-ons</a>, the license fields will appear here.', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' ) . '</p>';
 							}
 							?>
 						</div>
