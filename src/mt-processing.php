@@ -61,6 +61,7 @@ function mt_add_ticket_form() {
 		$event_time  = '';
 		$checked     = '';
 	}
+	$clear = '<p><input type="checkbox" class="mt-delete-data" name="mt-delete-data" id="mt-delete-data" /> <label for="mt-delete-data">' . __( 'Delete ticket sales data on this post', 'my-tickets' ) . '</label></p>';
 
 	$format .= "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label></p>';
 	if ( function_exists( 'mc_location_select' ) ) {
@@ -83,7 +84,7 @@ function mt_add_ticket_form() {
 					<p>
 						$selector
 					</p>
-			</div>" . apply_filters( 'mc_event_registration', '', $post_id, $data, 'admin' ) . '</div>';
+			</div>" . apply_filters( 'mc_event_registration', '', $post_id, $data, 'admin' ) . $clear . '</div>';
 	echo '<div class="mt_post_fields">' . $format . $form . '</div>';
 }
 
@@ -343,13 +344,14 @@ function mt_prices_table( $registration = array() ) {
 			if ( $label ) {
 				$class   = ( 0 !== $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
 				$sold    = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
+				$comps   = ( 'complimentary' === sanitize_title( $options['label'] ) ) ? '<br />' . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) : '';
 				$return .= "
 				<tr class='$class'>
 					<td class='controls'>
 						<button type='button' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "</span></button> 
 						<button type='button' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "</span></button>
 					</td>
-					<td><input type='text' name='mt_label[]' id='mt_label_$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' /></td>
+					<td><input type='text' name='mt_label[]' id='mt_label_$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps</td>
 					<td><input type='number' name='mt_price[]' step='0.01' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
 					<td><input type='hidden' name='mt_sold[]' value='" . $sold . "' />" . $sold . '</td>
@@ -456,6 +458,25 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	$counting_method      = ( isset( $post['mt_counting_method'] ) ) ? $post['mt_counting_method'] : 'discrete';
 	$sell                 = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
 	$notes                = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
+	$clear                = ( isset( $post['mt-delete-data'] ) ) ? true : false;
+	if ( $clear ) {
+		$pricing_array = mt_setup_pricing( $labels, $prices, $availability, array() );
+		$tickets       = get_post_meta( $post_id, '_ticket' );
+		foreach( $tickets as $ticket_id ) {
+			// Delete individual ticket IDs.
+			delete_post_meta( $post_id, '_' . $ticket_id );
+			// Delete sequential ids.
+			delete_post_meta( $post_id, '_' . $ticket_id . '_seq_id' );
+		}
+		wp_mail( 'joe@joedolson.com', 'Ticket Data', $email );
+		// Delete record of tickets.
+		delete_post_meta( $post_id, '_ticket' );
+		// Delete base enumerator for sequential ticket IDs.
+		delete_post_meta( $post_id, '_sequential_base' );
+		// Delete purchase records used for reporting.
+		delete_post_meta( $post_id, '_purchase' );
+		// retain payments (as they might apply to multiple events) but remove tickets from them.
+	}
 	$registration_options = array(
 		'reg_expires'     => $reg_expires,
 		'sales_type'      => $mt_sales_type,

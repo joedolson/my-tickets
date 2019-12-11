@@ -193,12 +193,12 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 		$created      = false;
 		add_post_meta( $purchase_id, '_purchased', array( $event_id => $purchase ) );
 		add_post_meta( $event_id, '_purchase', array( $purchase_id => $purchase ) );
-		add_post_meta( $event_id, '_receipt', $purchase_id );
+		//add_post_meta( $event_id, '_receipt', $purchase_id );
 		foreach ( $purchase as $type => $ticket ) {
 			// add ticket hash for each ticket.
 			$count                                   = $ticket['count'];
 			$price                                   = $ticket['price'];
-			$sold                                    = $registration['prices'][ $type ]['sold'];
+			$sold                                    = absint( $registration['prices'][ $type ]['sold'] );
 			$new_sold                                = $sold + $count;
 			$registration['prices'][ $type ]['sold'] = $new_sold;
 			for ( $i = 0; $i < $count; $i ++ ) {
@@ -255,6 +255,22 @@ function mt_ticket_exists( $purchase_id, $ticket_id ) {
 
 	return ( $value ) ? true : false;
 }
+
+/**
+ * Check whether this ticket ID exists in the event. (Handles tickets that have been removed from purchase pool.)
+ *
+ * @param int    $event_id Event ID.
+ * @param string $ticket_id Ticket ID string.
+ *
+ * @return boolean
+ */
+function mt_ticket_exists_on_event( $event_id, $ticket_id ) {
+	global $wpdb;
+	$value = $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE post_id = %d AND meta_value = %s", $event_id, $ticket_id ) );
+
+	return ( $value ) ? true : false;
+}
+
 /**
  * Generates the ticket ID from purchase ID, ticket type, number of ticket purchased of that time, and price.
  *

@@ -862,7 +862,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$label      = $prices[ $type ]['label'];
 								if ( 'discrete' === $registration['counting_method'] ) {
 									$available = $prices[ $type ]['tickets'];
-									$sold      = $prices[ $type ]['sold'];
+									$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
 								} else {
 									$available = $registration['total'];
 									$sold      = 0;
