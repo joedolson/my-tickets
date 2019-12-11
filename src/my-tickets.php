@@ -387,14 +387,24 @@ We\'ll see you soon!<br />
 		),
 		'refunded'  => array(
 			'purchaser' => array(
-				'subject' => 'Your purchased from {blogname} has been refunded.',
+				'subject' => 'Your purchase from {blogname} has been refunded.',
 				'body'    => 'Payment refunded on purchase: {receipt}',
 			),
 			'admin'     => array(
-				'subject' => 'Purchase from {blogname} has been refunded.',
+				'subject' => 'Purchase from {name} has been refunded.',
 				'body'    => 'Payment refunded on purchase: {receipt}',
 			),
 		),
+		'interim'  => array(
+			'purchaser' => array(
+				'subject' => 'Your purchase from {blogname} has been received and is pending payment.',
+				'body'    => 'Payment receipt: {receipt}',
+			),
+			'admin'     => array(
+				'subject' => 'Purchase from {name} has been received and is pending payment.',
+				'body'    => 'Payment receipt: {receipt}',
+			),
+		)
 	);
 	$ticketing = array(
 		'free'            => '',
