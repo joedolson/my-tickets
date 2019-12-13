@@ -735,8 +735,8 @@ function mt_generate_cart( $user_ID = false ) {
 			// clear POST data to prevent re-submission of data.
 			$_POST = array();
 			if ( isset( $_GET['payment_id'] ) ) {
-				$post_id  = absint( $_GET['payment_id'] );
-				$date     = get_post_modified_time( 'U', false, $post_id );
+				$post_id = absint( $_GET['payment_id'] );
+				$date    = get_post_modified_time( 'U', false, $post_id );
 				if ( $date < ( current_time( 'timestamp' ) - 300 ) ) {
 					// This transaction data is only available publically for 5 minutes after post is updated.
 					return '';

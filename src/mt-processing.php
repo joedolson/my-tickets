@@ -442,27 +442,27 @@ function mt_get_label( $key ) {
  * @param int    $event_id Event ID.
  */
 function mt_save_registration_data( $post_id, $post, $data = array(), $event_id = false ) {
-	$reg_data             = get_post_meta( $post_id, '_mt_registration_options', true );
-	$event_begin          = ( isset( $post['event_begin'] ) ) ? $post['event_begin'] : '';
-	$event_begin          = ( is_array( $event_begin ) ) ? $event_begin[0] : $event_begin;
-	$labels               = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
-	$prices               = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
-	$sold                 = ( isset( $post['mt_sold'] ) ) ? $post['mt_sold'] : array();
-	$hide                 = ( isset( $post['mt_hide_registration_form'] ) ) ? 'true' : 'false';
-	$availability         = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : 'inherit';
-	$total_tickets        = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
-	$pricing_array        = mt_setup_pricing( $labels, $prices, $availability, $sold );
-	$reg_expires          = ( isset( $post['reg_expires'] ) ) ? (int) $post['reg_expires'] : 0;
-	$multiple             = ( isset( $post['mt_multiple'] ) ) ? 'true' : 'false';
-	$mt_sales_type        = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
-	$counting_method      = ( isset( $post['mt_counting_method'] ) ) ? $post['mt_counting_method'] : 'discrete';
-	$sell                 = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
-	$notes                = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
-	$clear                = ( isset( $post['mt-delete-data'] ) ) ? true : false;
+	$reg_data        = get_post_meta( $post_id, '_mt_registration_options', true );
+	$event_begin     = ( isset( $post['event_begin'] ) ) ? $post['event_begin'] : '';
+	$event_begin     = ( is_array( $event_begin ) ) ? $event_begin[0] : $event_begin;
+	$labels          = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
+	$prices          = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
+	$sold            = ( isset( $post['mt_sold'] ) ) ? $post['mt_sold'] : array();
+	$hide            = ( isset( $post['mt_hide_registration_form'] ) ) ? 'true' : 'false';
+	$availability    = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : 'inherit';
+	$total_tickets   = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
+	$pricing_array   = mt_setup_pricing( $labels, $prices, $availability, $sold );
+	$reg_expires     = ( isset( $post['reg_expires'] ) ) ? (int) $post['reg_expires'] : 0;
+	$multiple        = ( isset( $post['mt_multiple'] ) ) ? 'true' : 'false';
+	$mt_sales_type   = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
+	$counting_method = ( isset( $post['mt_counting_method'] ) ) ? $post['mt_counting_method'] : 'discrete';
+	$sell            = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
+	$notes           = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
+	$clear           = ( isset( $post['mt-delete-data'] ) ) ? true : false;
 	if ( $clear ) {
 		$pricing_array = mt_setup_pricing( $labels, $prices, $availability, array() );
 		$tickets       = get_post_meta( $post_id, '_ticket' );
-		foreach( $tickets as $ticket_id ) {
+		foreach ( $tickets as $ticket_id ) {
 			// Delete individual ticket IDs.
 			delete_post_meta( $post_id, '_' . $ticket_id );
 			// Delete sequential ids.

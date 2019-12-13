@@ -193,7 +193,7 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 		$created      = false;
 		add_post_meta( $purchase_id, '_purchased', array( $event_id => $purchase ) );
 		add_post_meta( $event_id, '_purchase', array( $purchase_id => $purchase ) );
-		//add_post_meta( $event_id, '_receipt', $purchase_id );
+		// add_post_meta( $event_id, '_receipt', $purchase_id );
 		foreach ( $purchase as $type => $ticket ) {
 			// add ticket hash for each ticket.
 			$count                                   = $ticket['count'];

@@ -395,7 +395,7 @@ We\'ll see you soon!<br />
 				'body'    => 'Payment refunded on purchase: {receipt}',
 			),
 		),
-		'interim'  => array(
+		'interim'   => array(
 			'purchaser' => array(
 				'subject' => 'Your purchase from {blogname} has been received and is pending payment.',
 				'body'    => 'Payment receipt: {receipt}',
@@ -404,7 +404,7 @@ We\'ll see you soon!<br />
 				'subject' => 'Purchase from {name} has been received and is pending payment.',
 				'body'    => 'Payment receipt: {receipt}',
 			),
-		)
+		),
 	);
 	$ticketing = array(
 		'free'            => '',
