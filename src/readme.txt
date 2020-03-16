@@ -69,6 +69,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Bug fix: Ensure that available tickets is an integer.
 * Filter change: Pass $type variable to the mt cart default filter.
+* Replace usage of current_time( 'timestamp' ) & date()
 
 = 1.8.12 =
 
