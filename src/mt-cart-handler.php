@@ -94,7 +94,7 @@ function mt_create_payment( $post ) {
 	} else {
 		mt_delete_data( 'payment' );
 		$status      = 'draft';
-		$date        = mt_date( 'Y-m-d H:i:00', current_time( 'timestamp' ) );
+		$date        = mt_date( 'Y-m-d H:i:00', mt_current_time() );
 		$post_title  = $post['mt_fname'] . ' ' . $post['mt_lname'];
 		$my_post     = array(
 			'post_title'   => $post_title,

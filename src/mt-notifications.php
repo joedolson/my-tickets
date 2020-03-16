@@ -455,7 +455,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 			array(
 				'body'    => $body,
 				'subject' => $subject,
-				'date'    => current_time( 'timestamp' ),
+				'date'    => mt_current_time(),
 			)
 		);
 		$sent = wp_mail( $email, $subject, $body, $headers );

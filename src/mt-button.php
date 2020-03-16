@@ -515,7 +515,7 @@ function mt_sales_close( $event_id, $expires ) {
 		if ( isset( $event['event_begin'] ) && isset( $event['event_time'] ) ) {
 			$expiration = $expires * 60 * 60;
 			$begin      = strtotime( $event['event_begin'] . ' ' . $event['event_time'] ) - $expiration;
-			if ( mt_date( 'Y-m-d', $begin ) === mt_date( 'Y-m-d', current_time( 'timestamp' ) ) ) {
+			if ( mt_date( 'Y-m-d', $begin ) === mt_date( 'Y-m-d', mt_current_time() ) ) {
 				// Translators: time that ticket sales close today.
 				return '<p>' . sprintf( apply_filters( 'mt_ticket_sales_close_text', __( 'Ticket sales close at %s today', 'my-tickets' ), $event ), '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';
 			}
@@ -542,7 +542,7 @@ function mt_no_postal( $event_id ) {
 		$time = ( isset( $event['event_time'] ) ) ? $event['event_time'] : false;
 		if ( is_numeric( $date ) && is_numeric( $time ) ) {
 			$event_date = strtotime( absint( $date . ' ' . $time ) );
-			$no_postal  = ( $event_date <= ( current_time( 'timestamp' ) + ( 60 * 60 * 24 * $shipping_time ) ) ) ? true : false;
+			$no_postal  = ( $event_date <= ( mt_current_time() + ( 60 * 60 * 24 * $shipping_time ) ) ) ? true : false;
 
 			return $no_postal;
 		}
@@ -771,7 +771,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		if ( get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
 			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
-		set_transient( 'mt_' . $unique_id . '_' . $type, $save, current_time( 'timestamp' ) + WEEK_IN_SECONDS );
+		set_transient( 'mt_' . $unique_id . '_' . $type, $save, mt_current_time() + WEEK_IN_SECONDS );
 
 		return true;
 	}

@@ -130,7 +130,7 @@ function mt_get_ticket_ids( $atts, $content ) {
 				'relation' => 'AND',
 				'queries'  => array(
 					'key'     => '_mc_event_date',
-					'value'   => current_time( 'timestamp' ),
+					'value'   => mt_current_time(),
 					'compare' => '>',
 				),
 			),

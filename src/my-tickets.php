@@ -870,8 +870,21 @@ function mt_date( $format, $timestamp = false ) {
 	if ( ! $timestamp ) {
 		$timestamp = time();
 	}
-	$offset    = intval( get_option( 'gmt_offset', 0 ) );
+	$offset    = 60 * 60 * intval( get_option( 'gmt_offset', 0 ) );
 	$timestamp = $timestamp + $offset;
 
 	return gmdate( $format, $timestamp );
+}
+
+/**
+ *  Get current time in the format of timestamp.
+ *
+ * @return int timestamp-like data.
+ */
+function mt_current_time() {
+    $timestamp = time();
+	$offset    = 60 * 60 * intval( get_option( 'gmt_offset', 0 ) );
+	$timestamp = $timestamp + $offset;
+
+	return $timestamp;
 }

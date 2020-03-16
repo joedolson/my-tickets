@@ -737,7 +737,7 @@ function mt_generate_cart( $user_ID = false ) {
 			if ( isset( $_GET['payment_id'] ) ) {
 				$post_id = absint( $_GET['payment_id'] );
 				$date    = get_post_modified_time( 'U', false, $post_id );
-				if ( $date < ( current_time( 'timestamp' ) - 300 ) ) {
+				if ( $date < ( mt_current_time() - 300 ) ) {
 					// This transaction data is only available publically for 5 minutes after post is updated.
 					return '';
 				} else {
@@ -1088,7 +1088,7 @@ function mt_expired( $event, $react = false ) {
 			$expires    = ( isset( $options['reg_expires'] ) ) ? $options['reg_expires'] : 0;
 			$expiration = $expires * 60 * 60;
 			$begin      = strtotime( $data['event_begin'] . ' ' . $data['event_time'] ) - $expiration;
-			if ( mt_date_comp( mt_date( 'Y-m-d H:i:s', $begin ), mt_date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) ) && $react ) {
+			if ( mt_date_comp( mt_date( 'Y-m-d H:i:s', $begin ), mt_date( 'Y-m-d H:i:s', mt_current_time() ) ) && $react ) {
 				update_post_meta( $event, '_mt_event_expired', 'true' );
 				do_action( 'mt_ticket_sales_closed', $event, $options, 'closed' );
 

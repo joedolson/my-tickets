@@ -126,7 +126,7 @@ function mt_cpt_email_purchaser( $id ) {
 				array(
 					'body'    => $body,
 					'subject' => $subject,
-					'date'    => current_time( 'timestamp' ),
+					'date'    => mt_current_time(),
 				)
 			);
 		}

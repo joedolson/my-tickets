@@ -124,7 +124,7 @@ class EDD_SL_Plugin_Updater {
 
 			}
 
-			$_transient_data->last_checked           = current_time( 'timestamp' );
+			$_transient_data->last_checked           = mt_current_time();
 			$_transient_data->checked[ $this->name ] = $this->version;
 
 		}
@@ -183,7 +183,7 @@ class EDD_SL_Plugin_Updater {
 
 			}
 
-			$update_cache->last_checked = current_time( 'timestamp' );
+			$update_cache->last_checked = mt_current_time();
 			$update_cache->checked[ $this->name ] = $this->version;
 
 			set_site_transient( 'update_plugins', $update_cache );
@@ -467,7 +467,7 @@ class EDD_SL_Plugin_Updater {
 
 		$cache = get_option( $cache_key );
 
-		if( empty( $cache['timeout'] ) || current_time( 'timestamp' ) > $cache['timeout'] ) {
+		if( empty( $cache['timeout'] ) || mt_current_time() > $cache['timeout'] ) {
 			return false; // Cache is expired
 		}
 
@@ -482,7 +482,7 @@ class EDD_SL_Plugin_Updater {
 		}
 
 		$data = array(
-			'timeout' => strtotime( '+3 hours', current_time( 'timestamp' ) ),
+			'timeout' => strtotime( '+3 hours', mt_current_time() ),
 			'value'   => json_encode( $value )
 		);
 

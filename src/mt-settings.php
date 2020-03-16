@@ -329,7 +329,7 @@ function mt_wp_enqueue_scripts() {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', 'mt_completed' );
 	}
-	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'] ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
+	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script(
 			'mt.add',

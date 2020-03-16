@@ -385,7 +385,7 @@ function mt_select_events() {
 			$event_date   = strtotime( $event_data['event_begin'] );
 			$display_date = date_i18n( get_option( 'date_format' ), $event_date );
 			// if this event happened more than a month ago, don't show in list *unless* it's the currently selected report.
-			$report_age_limit = apply_filters( 'mt_reports_age_limit', current_time( 'timestamp' ) - MONTH_IN_SECONDS );
+			$report_age_limit = apply_filters( 'mt_reports_age_limit', mt_current_time() - MONTH_IN_SECONDS );
 			if ( $event_date > $report_age_limit || ' selected="selected"' === $selected ) {
 				$title    = apply_filters( 'mt_the_title', $post->post_title, $post );
 				$options .= "<option value='$post->ID'$selected>$title ($count); $display_date</option>\n";
@@ -1010,7 +1010,7 @@ function mt_mass_email( $event_id = false ) {
 					array(
 						'body'    => $body,
 						'subject' => $subject,
-						'date'    => current_time( 'timestamp' ),
+						'date'    => mt_current_time(),
 					)
 				);
 				$sent = wp_mail( $to, $subject, $body, $headers );
