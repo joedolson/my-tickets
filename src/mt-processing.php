@@ -486,7 +486,7 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 		'multiple'        => $multiple,
 	);
 	$updated_expire       = ( isset( $reg_data['reg_expires'] ) && $reg_data['reg_expires'] !== $reg_expires ) ? true : false;
-	if ( mt_date_comp( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ), $event_begin ) || $updated_expire ) {
+	if ( mt_date_comp( mt_date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ), $event_begin ) || $updated_expire ) {
 		// if the date changes, and is now in the future, re-open ticketing.
 		// also if the amount of time before closure changes.
 		delete_post_meta( $post_id, '_mt_event_expired' );

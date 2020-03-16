@@ -61,7 +61,7 @@ function mt_import_gateways() {
 	$directory = plugin_dir_path( __FILE__ ) . 'gateways';
 	$handler   = opendir( $directory );
 	// keep going until all files in directory have been read.
-	while ( $file = readdir( $handler ) ) {
+	while ( $file = readdir( $handler ) ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 		// if $file isn't this directory or its parent add it to the results array.
 		if ( '.' !== $file && '..' !== $file ) {
 			$results[] = $file;
@@ -751,7 +751,7 @@ function mt_money_format( $price ) {
  * @return string|void
  */
 function mt_is_checked( $field, $value, $options, $return = false ) {
-	if ( isset( $options[ $field ] ) && (str) $options[ $field ] === (str) $value ) {
+	if ( isset( $options[ $field ] ) && $options[ $field ] === $value ) {
 		$checked = ' checked="checked"';
 	} else {
 		$checked = '';
