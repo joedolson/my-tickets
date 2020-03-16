@@ -14,7 +14,7 @@ add_action( 'init', 'mt_handle_cart' );
  * Handle cart submission. Receive data, create payment, delete cart if applicable, register message.
  */
 function mt_handle_cart() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( ! isset( $_POST['mt_submit'] ) ) {
 		return;
 	} else {
@@ -80,7 +80,7 @@ function mt_is_payment_completed( $payment ) {
  * @return array|int|mixed|WP_Error
  */
 function mt_create_payment( $post ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	// save payment post.
 	$current_user = wp_get_current_user();
 	$purchaser    = ( is_user_logged_in() ) ? $current_user->ID : 1;

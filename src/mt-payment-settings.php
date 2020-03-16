@@ -65,7 +65,7 @@ function mt_update_payment_settings( $post ) {
 			),
 			$_POST
 		);
-		$settings = array_merge( get_option( 'mt_settings' ), $settings );
+		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
 		update_option( 'mt_settings', $settings );
 		$messages = apply_filters( 'mt_payment_update_settings', '', $post );
 

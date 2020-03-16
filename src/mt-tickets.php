@@ -14,7 +14,7 @@ add_filter( 'template_redirect', 'mt_ticket', 10, 1 );
  * If ticket_id is set and valid, load ticket template. Else, redirect to purchase page.
  */
 function mt_ticket() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$id      = ( '' !== $options['mt_tickets_page'] ) ? $options['mt_tickets_page'] : false;
 	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		if ( ! isset( $_GET['multiple'] ) ) {
@@ -118,7 +118,7 @@ add_filter( 'mt_default_ticketed_events', 'mt_get_ticket_ids', 10, 2 );
  */
 function mt_get_ticket_ids( $atts, $content ) {
 	// fetch posts with meta data for event sales.
-	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	// only show limit of 20 events.
 	$args  =
 		array(

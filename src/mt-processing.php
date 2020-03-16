@@ -20,7 +20,7 @@ add_action( 'admin_menu', 'mt_add_ticket_box' );
  * Add purchase data meta box to enabled post types.
  */
 function mt_add_ticket_box() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	foreach ( $options['mt_post_types'] as $name ) {
 		if ( 'mc-events' !== $name ) {
 			add_meta_box( 'mt_custom_div', __( 'My Tickets Purchase Data', 'my-tickets' ), 'mt_add_ticket_form', $name, 'normal', 'high' );
@@ -41,7 +41,7 @@ function mt_add_ticket_form() {
 	$data     = get_post_meta( $post_id, '_mc_event_data', true );
 	$location = get_post_meta( $post_id, '_mc_event_location', true );
 
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$purchase_page = $options['mt_purchase_page'];
 	$receipt_page  = $options['mt_purchase_page'];
 	$tickets_page  = $options['mt_tickets_page'];
@@ -169,7 +169,7 @@ function mt_get_prices( $event_id, $payment_id = false ) {
  * @return float
  */
 function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( is_user_logged_in() ) { // members discount.
 		if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			$discount = 0;
@@ -203,7 +203,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
  */
 function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	$original_form = $form;
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$registration  = false;
 	$event_id      = false;
 	$description   = false;
@@ -306,7 +306,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
  * @return string
  */
 function mt_prices_table( $registration = array() ) {
-	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$counting  = $options['defaults']['counting_method'];
 	$pricing   = $options['defaults']['pricing'];
 	$available = '';

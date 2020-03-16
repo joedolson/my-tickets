@@ -23,7 +23,7 @@ add_filter( 'milky_way_top_of_header', 'my_tickets_short_cart', 10, 1 );
  * @return string
  */
 function my_tickets_short_cart() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$cart    = mt_get_cart();
 	$total   = mt_total_cart( $cart );
 	$tickets = mt_count_cart( $cart );

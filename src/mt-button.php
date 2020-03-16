@@ -25,7 +25,7 @@ add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpauto
  * @return string
  */
 function mt_registration_form_post( $content ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	global $post;
 	if ( in_array( get_post_type( $post ), $options['mt_post_types'], true ) ) {
 		$event = $post->ID;
@@ -72,7 +72,7 @@ function mt_has_tickets( $pricing ) {
  * @return string
  */
 function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false ) {
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$purchase_page = $options['mt_purchase_page'];
 	$receipt_page  = $options['mt_purchase_page'];
 	$tickets_page  = $options['mt_tickets_page'];
@@ -315,7 +315,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
  */
 function mt_event_status( $event_id = false ) {
 	// Exit conditions.
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$purchase_page = $options['mt_purchase_page'];
 	$receipt_page  = $options['mt_purchase_page'];
 	$tickets_page  = $options['mt_tickets_page'];
@@ -370,7 +370,7 @@ function mt_event_status( $event_id = false ) {
  * @return string
  */
 function mt_hide_remaining( $tickets_remaining ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	// If hide remaining is enabled, set as hidden.
 	$hide_remaining = ( isset( $options['mt_hide_remaining'] ) && 'true' === $options['mt_hide_remaining'] ) ? ' hiding' : '';
 	// Hide tickets if there are more than x tickets available if limit is set.
@@ -447,7 +447,7 @@ add_filter( 'mt_tickets_close_value', 'mt_close_ticket_sales', 10, 3 );
  * @return integer new value where ticket sales are closed for an event.
  */
 function mt_close_ticket_sales( $limit, $event_id, $remaining ) {
-	$options            = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options            = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$tickets_close_at   = ( isset( $options['mt_tickets_close_value'] ) && is_numeric( $options['mt_tickets_close_value'] ) ) ? $options['mt_tickets_close_value'] : 0;
 	$tickets_close_type = ( isset( $options['mt_tickets_close_type'] ) ) ? $options['mt_tickets_close_type'] : 'integer';
 	switch ( $tickets_close_type ) {
@@ -476,7 +476,7 @@ function mt_handling_price( $price, $event, $type = 'standard' ) {
 	if ( mt_admin_only( $type ) ) {
 		return $price; // no handling on complimentary tickets.
 	}
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) ) {
 		$price = $price + apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event );
 	}
@@ -490,7 +490,7 @@ function mt_handling_price( $price, $event, $type = 'standard' ) {
  * @return string handling notice
  */
 function mt_handling_notice() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) && $options['mt_ticket_handling'] > 0 ) {
 		// Translators: amount of ticket handling charge.
 		$handling_notice = "<div class='mt-ticket-handling'>" . apply_filters( 'mt_ticket_handling_notice', sprintf( __( 'Tickets include a %s ticket handling charge.', 'my-tickets' ), apply_filters( 'mt_money_format', $options['mt_ticket_handling'] ) ) ) . '</div>';
@@ -533,7 +533,7 @@ function mt_sales_close( $event_id, $expires ) {
  * @return bool
  */
 function mt_no_postal( $event_id ) {
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$shipping_time = $options['mt_shipping_time'];
 	$event         = get_post_meta( $event_id, '_mc_event_data', true );
 	$no_postal     = false;
@@ -652,7 +652,7 @@ function mt_register_message( $context, $type, $payment_id = false ) {
  */
 function mt_get_message( $context, $type, $payment_id ) {
 	$context = esc_attr( $context );
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$type    = esc_attr( $type );
 	if ( 'add_to_cart' === $context ) {
 		$cart_url = get_permalink( $options['mt_purchase_page'] );

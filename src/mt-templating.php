@@ -24,7 +24,7 @@ require_once( 'includes/phpqrcode/qrlib.php' );
  * @return string
  */
 function mt_get_logo( $args = array(), $post_ID = false ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$ticket  = mt_get_ticket();
 	if ( isset( $options['mt_ticket_image'] ) && 'event' === $options['mt_ticket_image'] && $ticket ) {
 		// if event has post thumbnail, use that.

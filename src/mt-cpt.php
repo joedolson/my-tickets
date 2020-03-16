@@ -82,7 +82,7 @@ add_action( 'save_post', 'mt_cpt_email_purchaser', 10 );
  */
 function mt_cpt_email_purchaser( $id ) {
 	if ( isset( $_POST['mt-email-nonce'] ) ) {
-		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		$blogname = get_option( 'blogname' );
 		$nonce    = $_POST['mt-email-nonce'];
 		if ( ! wp_verify_nonce( $nonce, 'mt-email-nonce' ) ) {
@@ -273,7 +273,7 @@ function mt_add_uneditable() {
 		}
 
 		$receipt       = get_post_meta( $post_id, '_receipt', true );
-		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		$link          = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
 		$bulk_tickets  = add_query_arg(
 			array(
@@ -337,7 +337,7 @@ function mt_list_events( $purchase_id ) {
  * @return array
  */
 function mt_setup_tickets( $purchase, $id ) {
-	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$ticket_array = array();
 	foreach ( $purchase as $purch ) {
 		foreach ( $purch as $event => $tickets ) {
@@ -436,7 +436,7 @@ function mt_offline_transaction( $transaction, $gateway ) {
  * @return bool|string
  */
 function mt_create_field( $key, $label, $type, $post_id, $choices = false, $multiple = false, $notes = '', $field ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( isset( $field['context'] ) && 'edit' === $field['context'] && ! isset( $_GET['post'] ) ) {
 		return '';
 	}
@@ -669,7 +669,7 @@ add_action( 'admin_init', 'mt_add' );
  * Add custom columns to payments post type page.
  */
 function mt_add() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	add_action( 'admin_head', 'mt_css' );
 	add_filter( 'manage_mt-payments_posts_columns', 'mt_column' );
 	add_action( 'manage_mt-payments_posts_custom_column', 'mt_custom_column', 10, 2 );
@@ -984,7 +984,7 @@ add_filter( 'wp_list_pages_excludes', 'mt_exclude_pages', 10, 2 );
  */
 function mt_exclude_pages( $array ) {
 	if ( ! is_admin() ) {
-		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+		$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		$tickets  = $options['mt_tickets_page'];
 		$receipts = $options['mt_receipt_page'];
 		if ( $tickets && $receipts ) {

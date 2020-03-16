@@ -14,7 +14,7 @@ add_filter( 'template_redirect', 'mt_receipt', 10, 1 );
  * If a valid receipt, load receipt template. Else, redirect to purchase page.
  */
 function mt_receipt() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$id      = ( '' !== $options['mt_receipt_page'] && is_numeric( $options['mt_receipt_page'] ) ) ? absint( $options['mt_receipt_page'] ) : false;
 	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		if ( isset( $_GET['receipt_id'] ) ) {

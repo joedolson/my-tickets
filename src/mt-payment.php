@@ -18,7 +18,7 @@
  * @param array  $post data posted from gateway.
  */
 function mt_handle_payment( $response, $response_code, $data, $post ) {
-	$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options        = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$data           = apply_filters( 'mt_filter_payment_data', $data, $post );
 	$payment_status = $data['status'];
 	$txn_id         = $data['transaction_id'];

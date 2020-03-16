@@ -152,7 +152,7 @@ register_activation_hook( __FILE__, 'mt_activation' );
  * On plug-in activation, merge default settings and options, create purchase pages if necessary.
  */
 function mt_activation() {
-	$options = array_merge( mt_default_settings(), (array) get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( ! isset( $options['mt_purchase_page'] ) || ! is_numeric( $options['mt_purchase_page'] ) ) {
 		$purchase                    = mt_setup_page( 'purchase' );
 		$receipt                     = mt_setup_page( 'receipt' );
@@ -258,7 +258,7 @@ function mt_public_enqueue_scripts() {
 		$ticket_styles = plugins_url( '/css/mt-cart.css', __FILE__ );
 	}
 
-	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$symbol   = mt_symbols( $options['mt_currency'] );
 	$cart_url = esc_url( get_permalink( $options['mt_purchase_page'] ) );
 	$redirect = apply_filters( 'mt_redirect', '0' );
@@ -583,7 +583,7 @@ add_action( 'wp_footer', 'mt_test_mode' );
  * Display message if in testing mode.
  */
 function mt_test_mode() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( 'true' === $options['mt_use_sandbox'] ) {
 		echo "<div class='mt_sandbox_enabled'>" . __( 'My Tickets is currently in testing mode. No financial transactions will be processed.', 'my-tickets' ) . '</div>';
 	}
@@ -729,7 +729,7 @@ add_filter( 'mt_money_format', 'mt_money_format', 10, 1 );
  */
 function mt_money_format( $price ) {
 	if ( is_numeric( $price ) ) {
-		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
+		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		$symbol        = mt_symbols( $options['mt_currency'] );
 		$dec_point     = $options['mt_dec_point'];
 		$thousands_sep = $options['mt_thousands_sep'];
