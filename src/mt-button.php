@@ -164,7 +164,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 							$ticket_handling    = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event );
 							$handling_notice    = mt_handling_notice();
 							$ticket_price_label = apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling );
-							$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0' );
+							$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0', $type );
 							$value              = ( '' === $value ) ? 0 : $value;
 							$order_value        = $value;
 							$attributes         = '';
