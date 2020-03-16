@@ -56,7 +56,7 @@ function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
 					$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment', $field );
 				}
 
-				if ( '' !== $display_value && ( str ) $d['event_id'] === ( str ) $event_id ) {
+				if ( '' !== $display_value && (str) $d['event_id'] === (str) $event_id ) {
 					$added_value = $field['title'] . ' - ' . $display_value;
 					if ( $added_value === $last_value ) {
 						continue;
