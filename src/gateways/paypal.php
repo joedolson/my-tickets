@@ -106,7 +106,7 @@ function mt_paypal_ipn() {
 			$receiver_email = strtolower( $receiver_email );
 			if ( ( $receiver && ( $receiver_email !== $receiver ) ) || $payment_currency !== $options['mt_currency'] || false === $value_match ) {
 				// Translators: Item Number of payment triggering error.
-				if ( ( str ) $price !== ( str ) $value_match ) {
+				if ( (strng) $price !== (string) $value_match ) {
 					// Translators: price paid, price expected.
 					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %1$s paid vs %2$s expected.', 'my-tickets' ), $price, $value_match );
 				}
