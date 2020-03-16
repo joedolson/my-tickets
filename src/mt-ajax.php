@@ -115,7 +115,7 @@ function mt_ajax_handler() {
 		$saved = mt_update_cart( $save );
 		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
 		$url   = get_permalink( $options['mt_purchase_page'] );
-		if ( 1 == $saved['success'] ) {
+		if ( 1 === (int) $saved['success'] ) {
 			// Translators: Cart URL.
 			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. <a href='%s'>Go to cart</a>", 'my-tickets' ), $url ) );
 		} else {

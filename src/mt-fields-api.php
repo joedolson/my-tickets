@@ -56,9 +56,9 @@ function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
 					$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment', $field );
 				}
 
-				if ( '' != $display_value && $d['event_id'] == $event_id ) {
+				if ( '' !== $display_value && ( str ) $d['event_id'] === ( str ) $event_id ) {
 					$added_value = $field['title'] . ' - ' . $display_value;
-					if ( $added_value == $last_value ) {
+					if ( $added_value === $last_value ) {
 						continue;
 					} else {
 						$add_value  = apply_filters( 'mt_custom_ticket_format_output', $added_value . $sep, $payment_id, $name );
@@ -87,10 +87,10 @@ function mt_apply_custom_field( $field, $event_id ) {
 	if ( ! isset( $field['context'] ) || 'global' === $field['context'] ) {
 		$return = true;
 	}
-	if ( is_numeric( $field['context'] ) && (int) $field['context'] == $event_id ) {
+	if ( is_numeric( $field['context'] ) && (int) $field['context'] === (int) $event_id ) {
 		$return = true;
 	}
-	if ( is_array( $field['context'] ) && in_array( $event_id, $field['context'] ) ) {
+	if ( is_array( $field['context'] ) && in_array( $event_id, $field['context'], true ) ) {
 		$return = true;
 	}
 
@@ -132,7 +132,7 @@ function mt_custom_field( $fields, $event_id ) {
 						$output = "<select name='$name' id='$name'$required>";
 						foreach ( $field['input_values'] as $value ) {
 							$value = esc_attr( stripslashes( $value ) );
-							if ( $value == $user_value ) {
+							if ( $value === $user_value ) {
 								$selected = " selected='selected'";
 							} else {
 								$selected = '';
@@ -146,7 +146,7 @@ function mt_custom_field( $fields, $event_id ) {
 				case 'radio':
 					if ( isset( $field['input_values'] ) ) {
 						$value = $field['input_values'];
-						if ( '' != $user_value ) {
+						if ( '' !== $user_value ) {
 							$checked = ' checked="checked"';
 						} else {
 							$checked = '';
@@ -227,7 +227,7 @@ function mt_insert_custom_field( $payment_id, $post, $purchased ) {
 	foreach ( $custom_fields as $name => $field ) {
 		if ( isset( $post[ $name ] ) ) {
 			foreach ( $post[ $name ] as $key => $data ) {
-				if ( '' != $data ) {
+				if ( '' !== $data ) {
 					$data = array(
 						'event_id' => $key,
 						$name      => $data,
@@ -260,7 +260,7 @@ function mt_show_payment_field( $content, $payment_id ) {
 				} else {
 					$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment', $field );
 				}
-				if ( '' != $display_value ) {
+				if ( '' !== $display_value ) {
 					$event_title = get_the_title( $d['event_id'] );
 					$output     .= apply_filters( 'mt_custom_data_format_output', "<p><strong>$event_title</strong>:<br />$field[title] - $display_value</p>", $payment_id, $name );
 				}
@@ -285,7 +285,7 @@ function mt_show_custom_data( $payment_id, $custom_field = false ) {
 	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'receipt' );
 	$output        = '';
 	foreach ( $custom_fields as $name => $field ) {
-		if ( false == $custom_field || $custom_field == $name ) {
+		if ( false === $custom_field || $custom_field === $name ) {
 			$data   = get_post_meta( $payment_id, $name );
 			$return = apply_filters( 'mt_custom_display_field', '', $data, $name );
 			if ( '' === $return ) {
@@ -295,7 +295,7 @@ function mt_show_custom_data( $payment_id, $custom_field = false ) {
 					} else {
 						$display_value = call_user_func( $field['display_callback'], $d[ $name ], 'payment', $field );
 					}
-					if ( '' != $display_value ) {
+					if ( '' !== $display_value ) {
 						$event_title = get_the_title( $d['event_id'] );
 						$output     .= apply_filters( 'mt_custom_data_format_output', "<p><strong>$event_title</strong>:<br />$field[title] - $display_value</p>", $payment_id, $custom_field );
 					}

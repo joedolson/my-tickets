@@ -532,10 +532,10 @@ function mt_draw_template( $data, $template ) {
 								$before = $matches[1][ $i ];
 								$after  = $matches[2][ $i ];
 								$format = $matches[3][ $i ];
-								if ( '' != $format ) {
+								if ( '' !== $format ) {
 									$value = date_i18n( stripslashes( $format ), strtotime( stripslashes( $value ) ) );
 								}
-								$value    = ( '' == $value ) ? '' : $before . $value . $after;
+								$value    = ( '' === $value ) ? '' : $before . $value . $after;
 								$search   = $matches[0][ $i ];
 								$template = str_replace( $search, $value, $template );
 								$value    = $orig;

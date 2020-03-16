@@ -19,7 +19,7 @@ add_filter( 'mt_shipping_fields', 'mt_offline_shipping_fields', 10, 2 );
  * @return string
  */
 function mt_offline_shipping_fields( $form, $gateway ) {
-	if ( 'offline' == $gateway ) {
+	if ( 'offline' === $gateway ) {
 		$search  = array(
 			'mt_shipping_street',
 			'mt_shipping_city',
@@ -45,7 +45,7 @@ add_filter( 'mt_format_transaction', 'mt_format_offline_transaction', 10, 2 );
  * @return array
  */
 function mt_format_offline_transaction( $transaction, $gateway ) {
-	if ( 'offline' == $gateway ) {
+	if ( 'offline' === $gateway ) {
 		// alter return value if desired.
 	}
 
@@ -83,12 +83,12 @@ add_filter( 'mt_gateway', 'mt_gateway_offline', 10, 3 );
  * @return array
  */
 function mt_gateway_offline( $form, $gateway, $args ) {
-	if ( 'offline' == $gateway ) {
+	if ( 'offline' === $gateway ) {
 		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$payment_id     = $args['payment'];
 		$handling       = absint( ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0 );
 		$total          = $args['total'] + $handling;
-		$shipping_price = ( 'postal' == $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
+		$shipping_price = ( 'postal' === $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
 		$currency       = $options['mt_currency'];
 		// Translators: Site name.
 		$purchase = sprintf( __( '%s Order', 'my-tickets' ), get_option( 'blogname' ) );
@@ -114,7 +114,7 @@ add_action( 'wp_loaded', 'mt_offline_processor' );
  *  Process posted data from Offline payment.
  */
 function mt_offline_processor() {
-	if ( isset( $_POST['mt_gateway_offline'] ) && 'true' == $_POST['mt_gateway_offline'] ) {
+	if ( isset( $_POST['mt_gateway_offline'] ) && 'true' === $_POST['mt_gateway_offline'] ) {
 		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$response      = 'VERIFIED';
 		$response_code = 200;
@@ -137,7 +137,7 @@ function mt_offline_processor() {
 		);
 
 		// if the total price on this transaction is zero, mark as completed.
-		$payment_status = ( 0 == $_POST['mt_amount'] || '0.00' == $_POST['mt_amount'] ) ? 'Completed' : 'Pending';
+		$payment_status = ( '0' === $_POST['mt_amount'] || '0.00' === $_POST['mt_amount'] ) ? 'Completed' : 'Pending';
 
 		$data = array(
 			'transaction_id' => $txn_id,

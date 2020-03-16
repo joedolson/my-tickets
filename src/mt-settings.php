@@ -71,10 +71,10 @@ function mt_settings() {
 	$mt_post_type_options = '';
 
 	foreach ( $post_types as $type ) {
-		if ( 'mc-events' == $type->name ) {
+		if ( 'mc-events' === $type->name ) {
 			continue;
 		}
-		if ( in_array( $type->name, $mt_post_types ) ) {
+		if ( in_array( $type->name, $mt_post_types, true ) ) {
 			$selected = ' checked="checked"';
 		} else {
 			$selected = '';
@@ -111,11 +111,11 @@ function mt_settings() {
 								</p>
 								<p>
 									<label for="mt_to"><?php _e( 'Send to:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_to" id="mt_to" size="60" value="<?php echo ( '' == $options['mt_to'] ) ? get_bloginfo( 'admin_email' ) : esc_attr( $options['mt_to'] ); ?>"/>
+									<input type="text" name="mt_to" id="mt_to" size="60" value="<?php echo ( '' === $options['mt_to'] ) ? get_bloginfo( 'admin_email' ) : esc_attr( $options['mt_to'] ); ?>"/>
 								</p>
 								<p>
 									<label for="mt_from"><?php _e( 'Send from:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_from" id="mt_from" size="60" value="<?php echo ( '' == $options['mt_from'] ) ? get_bloginfo( 'admin_email' ) : esc_attr( $options['mt_from'] ); ?>"/>
+									<input type="text" name="mt_from" id="mt_from" size="60" value="<?php echo ( '' === $options['mt_from'] ) ? get_bloginfo( 'admin_email' ) : esc_attr( $options['mt_from'] ); ?>"/>
 								</p>
 								<?php
 								$tabs         = '';
@@ -250,7 +250,7 @@ function mt_settings() {
 						<div class="inside">
 							<?php
 							$fields = apply_filters( 'mt_license_fields', '' );
-							if ( '' != $fields ) {
+							if ( '' !== $fields ) {
 								?>
 							<form method="post" action="<?php echo admin_url( 'admin.php?page=my-tickets' ); ?>">
 								<div>
@@ -297,11 +297,11 @@ add_action( 'admin_enqueue_scripts', 'mt_wp_enqueue_scripts' );
 function mt_wp_enqueue_scripts() {
 	global $current_screen;
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
-	if ( isset( $_GET['page'] ) && 'my-tickets' == $_GET['page'] ) {
+	if ( isset( $_GET['page'] ) && 'my-tickets' === $_GET['page'] ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', 'completed' );
 	}
-	if ( isset( $_GET['page'] ) && 'mt-ticketing' == $_GET['page'] ) {
+	if ( isset( $_GET['page'] ) && 'mt-ticketing' === $_GET['page'] ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script(
 			'mt.add',
@@ -312,7 +312,7 @@ function mt_wp_enqueue_scripts() {
 			)
 		);
 	}
-	if ( isset( $_GET['page'] ) && 'mt-payment' == $_GET['page'] ) {
+	if ( isset( $_GET['page'] ) && 'mt-payment' === $_GET['page'] ) {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', $options['mt_default_gateway'] );
@@ -325,11 +325,11 @@ function mt_wp_enqueue_scripts() {
 			)
 		);
 		wp_localize_script( 'mt.functions', 'mt_ajax_action', 'mt_post_lookup' );
-	} elseif ( isset( $_GET['page'] ) && 'mt-reports' == $_GET['page'] ) {
+	} elseif ( isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script( 'mt.tabs', 'firstItem', 'mt_completed' );
 	}
-	if ( 'post' == $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'] ) || 'toplevel_page_my-calendar' == $current_screen->base ) {
+	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'] ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script(
 			'mt.add',

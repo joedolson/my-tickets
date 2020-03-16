@@ -20,11 +20,11 @@ add_action( 'mt_receive_ipn', 'mt_paypal_ipn' );
  * @return null
  */
 function mt_paypal_ipn() {
-	if ( isset( $_REQUEST['mt_paypal_ipn'] ) && 'true' == $_REQUEST['mt_paypal_ipn'] ) {
+	if ( isset( $_REQUEST['mt_paypal_ipn'] ) && 'true' === $_REQUEST['mt_paypal_ipn'] ) {
 		if ( isset( $_POST['payment_status'] ) ) {
 			$options  = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 			$receiver = ( isset( $options['mt_gateways']['paypal']['email'] ) ) ? strtolower( $options['mt_gateways']['paypal']['email'] ) : false;
-			$url      = ( 'true' == $options['mt_use_sandbox'] ) ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' : 'https://ipnpb.paypal.com/cgi-bin/webscr';
+			$url      = ( 'true' === $options['mt_use_sandbox'] ) ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' : 'https://ipnpb.paypal.com/cgi-bin/webscr';
 
 			$req = 'cmd=_notify-validate';
 			foreach ( $_POST as $key => $value ) {
@@ -95,7 +95,7 @@ function mt_paypal_ipn() {
 			// Die conditions for PayPal.
 			// If receiver email or currency are wrong, this is probably a fraudulent transaction.
 			// If no receiver email provided, that check will be skipped.
-			if ( 'Refunded' == $payment_status ) {
+			if ( 'Refunded' === $payment_status ) {
 				$value_match = true; // It won't match, and probably doesn't need to.
 			} else {
 				$value_match = mt_check_payment_amount( $price, $item_number );
@@ -104,17 +104,17 @@ function mt_paypal_ipn() {
 			$messages       = '';
 			$receiver       = strtolower( $receiver );
 			$receiver_email = strtolower( $receiver_email );
-			if ( ( $receiver && ( $receiver_email != $receiver ) ) || $payment_currency != $options['mt_currency'] || false === $value_match ) {
+			if ( ( $receiver && ( $receiver_email !== $receiver ) ) || $payment_currency !== $options['mt_currency'] || false === $value_match ) {
 				// Translators: Item Number of payment triggering error.
-				if ( $price != $value_match ) {
+				if ( ( str ) $price !== ( str ) $value_match ) {
 					// Translators: price paid, price expected.
 					$error_msg[] = sprintf( __( 'Price paid did not match the price expected: %1$s paid vs %2$s expected.', 'my-tickets' ), $price, $value_match );
 				}
-				if ( $receiver_email != $receiver ) {
+				if ( $receiver_email !== $receiver ) {
 					// Translators: email provided by PayPal, email in My Tickets settings.
 					$error_msg[] = sprintf( __( 'Receiver Email and PayPal Email did not match: %1$s vs %2$s. Please check that the email in your My Tickets settings matches the primary email in your PayPal account.', 'my-tickets' ), $receiver_email, $receiver );
 				}
-				if ( $payment_currency != $options['mt_currency'] ) {
+				if ( $payment_currency !== $options['mt_currency'] ) {
 					// Translators: currency received, currency expected.
 					$error_msg[] = sprintf( __( 'Currency received did not match the currency expected: %1$s vs %2$s.', 'my-tickets' ), $payment_currency, $options['mt_currency'] );
 				}
@@ -132,7 +132,7 @@ function mt_paypal_ipn() {
 		} else {
 			if ( isset( $_POST['txn_type'] ) ) {
 				// this is a transaction other than a purchase.
-				if ( 'dispute' == $_POST['case_type'] ) {
+				if ( 'dispute' === $_POST['case_type'] ) {
 					$posts = get_posts(
 						array(
 							'post_type'  => 'mt-payments',
@@ -176,7 +176,7 @@ add_filter( 'mt_shipping_fields', 'mt_paypal_shipping_fields', 10, 2 );
  * @return string
  */
 function mt_paypal_shipping_fields( $form, $gateway ) {
-	if ( 'paypal' == $gateway ) {
+	if ( 'paypal' === $gateway ) {
 		$search  = array(
 			'mt_shipping_street',
 			'mt_shipping_street2',
@@ -203,7 +203,7 @@ add_filter( 'mt_format_transaction', 'mt_paypal_transaction', 10, 2 );
  * @return array
  */
 function mt_paypal_transaction( $transaction, $gateway ) {
-	if ( 'paypal' == $gateway ) {
+	if ( 'paypal' === $gateway ) {
 		// alter return value if desired.
 	}
 
@@ -245,13 +245,13 @@ add_filter( 'mt_gateway', 'mt_gateway_paypal', 10, 3 );
  * @return array
  */
 function mt_gateway_paypal( $form, $gateway, $args ) {
-	if ( 'paypal' == $gateway ) {
+	if ( 'paypal' === $gateway ) {
 		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings' ) );
 		$payment_id     = $args['payment'];
 		$handling       = ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 		$total          = $args['total'] + $handling;
-		$shipping       = ( 'postal' == $args['method'] || 'true' == $options['mt_collect_shipping'] ) ? 2 : 1;
-		$shipping_price = ( 'postal' == $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
+		$shipping       = ( 'postal' === $args['method'] || 'true' === $options['mt_collect_shipping'] ) ? 2 : 1;
+		$shipping_price = ( 'postal' === $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
 		$use_sandbox    = $options['mt_use_sandbox'];
 		$currency       = $options['mt_currency'];
 		$merchant       = $options['mt_gateways']['paypal']['merchant_id'];
@@ -267,7 +267,7 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 			get_permalink( $options['mt_purchase_page'] )
 		);
 		$form       = "
-		<form action='" . ( 'true' != $use_sandbox ? 'https://www.paypal.com/cgi-bin/webscr' : 'https://www.sandbox.paypal.com/cgi-bin/webscr' ) . "' method='POST'>
+		<form action='" . ( 'true' !== $use_sandbox ? 'https://www.paypal.com/cgi-bin/webscr' : 'https://www.sandbox.paypal.com/cgi-bin/webscr' ) . "' method='POST'>
 		<input type='hidden' name='cmd' value='_xclick' />
 		<input type='hidden' name='business' value='" . esc_attr( $merchant ) . "' />
 		<input type='hidden' name='item_name' value='" . esc_attr( $item_name ) . "' />
@@ -313,12 +313,12 @@ function mt_paypal_currencies( $currencies ) {
 	$options     = array_merge( $defaults, $options );
 	$mt_gateways = $options['mt_gateway'];
 
-	if ( is_array( $mt_gateways ) && in_array( 'authorizenet', $mt_gateways ) ) {
+	if ( is_array( $mt_gateways ) && in_array( 'authorizenet', $mt_gateways, true ) ) {
 		$paypal = mt_paypal_supported();
 		$return = array();
 		foreach ( $paypal as $currency ) {
 			$keys = array_keys( $currencies );
-			if ( in_array( $currency, $keys ) ) {
+			if ( in_array( $currency, $keys, true ) ) {
 				$return[ $currency ] = $currencies[ $currency ];
 			}
 		}

@@ -1088,7 +1088,7 @@ function mt_expired( $event, $react = false ) {
 			$expires    = ( isset( $options['reg_expires'] ) ) ? $options['reg_expires'] : 0;
 			$expiration = $expires * 60 * 60;
 			$begin      = strtotime( $data['event_begin'] . ' ' . $data['event_time'] ) - $expiration;
-			if ( mt_date_comp( date( 'Y-m-d H:i:s', $begin ), date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) ) && $react ) {
+			if ( mt_date_comp( mt_date( 'Y-m-d H:i:s', $begin ), mt_date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) ) && $react ) {
 				update_post_meta( $event, '_mt_event_expired', 'true' );
 				do_action( 'mt_ticket_sales_closed', $event, $options, 'closed' );
 
