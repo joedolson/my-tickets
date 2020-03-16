@@ -882,7 +882,7 @@ function mt_date( $format, $timestamp = false ) {
  * @return int timestamp-like data.
  */
 function mt_current_time() {
-    $timestamp = time();
+	$timestamp = time();
 	$offset    = 60 * 60 * intval( get_option( 'gmt_offset', 0 ) );
 	$timestamp = $timestamp + $offset;
 
