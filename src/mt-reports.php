@@ -273,8 +273,8 @@ function mt_choose_report_by_event() {
  */
 function mt_choose_report_by_date() {
 	$selected = ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] ) ? " selected='selected'" : '';
-	$start    = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : date( 'Y-m-d', strtotime( '-1 month' ) );
-	$end      = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : date( 'Y-m-d' );
+	$start    = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : mt_date( 'Y-m-d', strtotime( '-1 month' ) );
+	$end      = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : mt_date( 'Y-m-d' );
 	$form     = "
 			<div class='report-by-date'>
 				<h3>" . __( 'Sales Report by Date', 'my-tickets' ) . "</h3>
@@ -675,7 +675,7 @@ function mt_download_csv_event() {
 				$csv .= $row;
 			}
 		}
-		$title = sanitize_title( $title ) . '-' . date( 'Y-m-d' );
+		$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
 		header( 'Content-Type: application/csv' );
 		header( "Content-Disposition: attachment; filename=$title.csv" );
 		header( 'Pragma: no-cache' );
@@ -703,7 +703,7 @@ function mt_download_csv_tickets() {
 		foreach ( $report as $row ) {
 			$csv .= "$row";
 		}
-		$title = sanitize_title( $title ) . '-' . date( 'Y-m-d' );
+		$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
 		header( 'Content-Type: application/csv' );
 		header( "Content-Disposition: attachment; filename=$title.csv" );
 		header( 'Pragma: no-cache' );
@@ -727,7 +727,7 @@ function mt_download_csv_time() {
 		foreach ( $csv as $row ) {
 			$output .= "$row";
 		}
-		$title = sanitize_title( $start . '_' . $end ) . '-' . date( 'Y-m-d' );
+		$title = sanitize_title( $start . '_' . $end ) . '-' . mt_date( 'Y-m-d' );
 		header( 'Content-Type: application/csv' );
 		header( "Content-Disposition: attachment; filename=$title.csv" );
 		header( 'Pragma: no-cache' );
@@ -746,7 +746,7 @@ function mt_download_csv_time() {
  */
 function mt_get_report_by_time( $start, $end ) {
 	$posts_per_page = -1;
-	if ( date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) ) === $start && date( 'Y-m-d' ) === $end ) {
+	if ( mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) ) === $start && mt_date( 'Y-m-d' ) === $end ) {
 		$posts_per_page = 50;
 	}
 
@@ -772,8 +772,8 @@ function mt_get_report_by_time( $start, $end ) {
  * @return mixed
  */
 function mt_get_report_data_by_time() {
-	$start          = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
-	$end            = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : date( 'Y-m-d' );
+	$start          = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
+	$end            = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : mt_date( 'Y-m-d' );
 	$posts          = mt_get_report_by_time( $start, $end );
 	$total          = 0;
 	$alternate      = 'even';

@@ -751,7 +751,7 @@ function mt_money_format( $price ) {
  * @return string|void
  */
 function mt_is_checked( $field, $value, $options, $return = false ) {
-	if ( isset( $options[ $field ] ) && $options[ $field ] == $value ) {
+	if ( isset( $options[ $field ] ) && (str) $options[ $field ] === (str) $value ) {
 		$checked = ' checked="checked"';
 	} else {
 		$checked = '';
@@ -855,4 +855,23 @@ function mt_check_permissions() {
 		$role->add_cap( 'mt-view-reports' );
 		$role->add_cap( 'mt-copy-cart' );
 	}
+}
+
+
+/**
+ * Wrapper for date()
+ *
+ * @param string $format Format to use.
+ * @param int    $timestamp Timestamp.
+ *
+ * @return string Formatted date.
+ */
+function mt_date( $format, $timestamp = false ) {
+	if ( ! $timestamp ) {
+		$timestamp = time();
+	}
+	$offset    = intval( get_option( 'gmt_offset', 0 ) );
+	$timestamp = $timestamp + $offset;
+
+	return gmdate( $format, $timestamp );
 }

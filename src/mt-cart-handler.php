@@ -94,7 +94,7 @@ function mt_create_payment( $post ) {
 	} else {
 		mt_delete_data( 'payment' );
 		$status      = 'draft';
-		$date        = date( 'Y-m-d H:i:00', current_time( 'timestamp' ) );
+		$date        = mt_date( 'Y-m-d H:i:00', current_time( 'timestamp' ) );
 		$post_title  = $post['mt_fname'] . ' ' . $post['mt_lname'];
 		$my_post     = array(
 			'post_title'   => $post_title,
@@ -193,7 +193,6 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 		$created      = false;
 		add_post_meta( $purchase_id, '_purchased', array( $event_id => $purchase ) );
 		add_post_meta( $event_id, '_purchase', array( $purchase_id => $purchase ) );
-		// add_post_meta( $event_id, '_receipt', $purchase_id );
 		foreach ( $purchase as $type => $ticket ) {
 			// add ticket hash for each ticket.
 			$count                                   = $ticket['count'];
