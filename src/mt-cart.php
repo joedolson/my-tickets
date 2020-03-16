@@ -861,10 +861,10 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$orig_price = ( isset( $prices[ $type ]['orig_price'] ) ) ? mt_handling_price( $prices[ $type ]['orig_price'], $event_id, $type ) : $price;
 								$label      = $prices[ $type ]['label'];
 								if ( 'discrete' === $registration['counting_method'] ) {
-									$available = $prices[ $type ]['tickets'];
+									$available = absint( $prices[ $type ]['tickets'] );
 									$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
 								} else {
-									$available = $registration['total'];
+									$available = absint( $registration['total'] );
 									$sold      = 0;
 									foreach ( $registration['prices'] as $pricetype ) {
 										$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
