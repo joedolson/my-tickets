@@ -65,6 +65,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.14 =
+
+* Add event ID in a class on shopping cart row.
+* Missing occurrences of stripslashes() in settings fields.
+
 = 1.8.13 =
 
 * Bug fix: Ensure that available tickets is an integer.
