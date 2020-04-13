@@ -165,7 +165,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 							$handling_notice    = mt_handling_notice();
 							$ticket_price_label = apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling );
 							$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0', $type );
-							$value              = ( '' === $value ) ? 0 : $value;
+							$value              = ( '' === $value ) ? 0 : absint( $value );
 							$order_value        = $value;
 							$attributes         = '';
 							if ( 'checkbox' === $input_type || 'radio' === $input_type ) {
@@ -220,6 +220,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 										$class       = 'mt-sold-out';
 									}
 								}
+
 								$form       .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
 								$form       .= apply_filters(
 									'mt_add_to_cart_input',
