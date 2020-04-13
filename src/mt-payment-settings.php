@@ -118,15 +118,15 @@ function mt_payment_settings() {
 									</li>
 									<li>
 										<label for="mt_dec_point"><?php _e( 'Decimal Point', 'my-tickets' ); ?></label>
-										<input type="text" name="mt_dec_point" id="mt_dec_point" size="3" value="<?php echo esc_attr( $options['mt_dec_point'] ); ?>"/>
+										<input type="text" name="mt_dec_point" id="mt_dec_point" size="3" value="<?php echo stripslashes( esc_attr( $options['mt_dec_point'] ) ); ?>"/>
 									</li>
 									<li>
 										<label for="mt_thousands_sep"><?php _e( 'Thousands separator', 'my-tickets' ); ?></label>
-										<input type="text" name="mt_thousands_sep" id="mt_thousands_sep" size="3" value="<?php echo esc_attr( $options['mt_thousands_sep'] ); ?>"/>
+										<input type="text" name="mt_thousands_sep" id="mt_thousands_sep" size="3" value="<?php echo stripslashes( esc_attr( $options['mt_thousands_sep'] ) ); ?>"/>
 									</li>
 									<li>
 										<label for="mt_members_discount"><?php _e( 'Member discount (%)', 'my-tickets' ); ?></label>
-										<input type="number" name="mt_members_discount" id="mt_members_discount" size="3" min='0' max='100' value="<?php echo esc_attr( $options['mt_members_discount'] ); ?>"/>
+										<input type="number" name="mt_members_discount" id="mt_members_discount" size="3" min='0' max='100' value="<?php echo stripslashes( esc_attr( $options['mt_members_discount'] ) ); ?>"/>
 									</li>
 									<li>
 										<label for="mt_phone"><?php _e( 'Require phone number on purchases', 'my-tickets' ); ?></label>
@@ -166,13 +166,13 @@ function mt_payment_settings() {
 													$value      = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
 													$checked    = ( 'checkbox' === $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
 													if ( 'checkbox' === $input_type ) {
-														$pg_settings .= "<li class='$input_type'><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /> <label for='mt_$gateway-$key'>$text_label</label></li>";
+														$pg_settings .= "<li class='$input_type'><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked /> <label for='mt_$gateway-$key'>$text_label</label></li>";
 													} else {
-														$pg_settings .= "<li class='$input_type'><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' $checked /></li>";
+														$pg_settings .= "<li class='$input_type'><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked /></li>";
 													}
 												} else {
 													$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
-													$pg_settings .= "<li class='textfield'><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . esc_attr( $value ) . "' /></li>";
+													$pg_settings .= "<li class='textfield'><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' /></li>";
 												}
 											}
 										}
@@ -229,17 +229,17 @@ function mt_payment_settings() {
 									?>
 									<ul>
 										<li>
-											<input type="text" size='6' class='suggest' id="mt_purchase_page" name="mt_purchase_page" value="<?php echo esc_attr( $options['mt_purchase_page'] ); ?>" required aria-required="true" />
+											<input type="text" size='6' class='suggest' id="mt_purchase_page" name="mt_purchase_page" value="<?php echo stripslashes( esc_attr( $options['mt_purchase_page'] ) ); ?>" required aria-required="true" />
 											<label for="mt_purchase_page"><?php _e( 'Shopping cart', 'my-tickets' ); ?>
 												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo $current_purchase_page; ?></em></label><br/>
 										</li>
 										<li>
-											<input type="text" size='6' class='suggest' id="mt_receipt_page" name="mt_receipt_page" value="<?php echo esc_attr( $options['mt_receipt_page'] ); ?>" required aria-required="true"/>
+											<input type="text" size='6' class='suggest' id="mt_receipt_page" name="mt_receipt_page" value="<?php echo stripslashes( esc_attr( $options['mt_receipt_page'] ) ); ?>" required aria-required="true"/>
 											<label for="mt_receipt_page"><?php _e( 'Receipt page', 'my-tickets' ); ?>
 												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo $current_receipt_page; ?></em></label><br/>
 										</li>
 										<li>
-											<input type="text" size='6' class='suggest' id="mt_tickets_page" name="mt_tickets_page" value="<?php echo esc_attr( $options['mt_tickets_page'] ); ?>" required aria-required="true"/>
+											<input type="text" size='6' class='suggest' id="mt_tickets_page" name="mt_tickets_page" value="<?php echo stripslashes( esc_attr( $options['mt_tickets_page'] ) ); ?>" required aria-required="true"/>
 											<label for="mt_tickets_page"><?php _e( 'Tickets page', 'my-tickets' ); ?>
 												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo $current_tickets_page; ?></em></label><br/>
 										</li>

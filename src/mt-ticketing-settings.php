@@ -118,7 +118,7 @@ function mt_ticketing_settings() {
 								$form         = '<fieldset><legend>' . __( 'Available Ticket Types', 'my-calendar' ) . "</legend><ul class='ticket-type checkboxes'>";
 								foreach ( $mt_ticketing as $type => $label ) {
 									$checked = ( in_array( $type, array_keys( $ticketing ), true ) ) ? ' checked="checked"' : '';
-									$form   .= "<li><label for='mt_tickets_$type'>$label</label> <input name='mt_ticketing[$type]' id='mt_tickets_$type' type='checkbox' value='" . esc_attr( $label ) . "' $checked /></li>";
+									$form   .= "<li><label for='mt_tickets_$type'>$label</label> <input name='mt_ticketing[$type]' id='mt_tickets_$type' type='checkbox' value='" . stripslashes( ( $label ) ) . "' $checked /></li>";
 								}
 								$form                  .= '</ul></fieldset>';
 								$form                  .= '
@@ -179,7 +179,7 @@ function mt_ticketing_settings() {
 									</p>
 									<p>
 										<label for='reg_expires'><?php _e( 'Stop online sales <em>x</em> hours before event', 'my-tickets' ); ?></label>
-										<input type='number' name='defaults[reg_expires]' id='reg_expires' value='<?php esc_attr( $options['defaults']['reg_expires'] ); ?>'/>
+										<input type='number' name='defaults[reg_expires]' id='reg_expires' value='<?php stripslashes( esc_attr( $options['defaults']['reg_expires'] ) ); ?>'/>
 									</p>
 
 									<p>

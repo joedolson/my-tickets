@@ -111,11 +111,11 @@ function mt_settings() {
 								</p>
 								<p>
 									<label for="mt_to"><?php _e( 'Send to:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_to" id="mt_to" size="60" value="<?php echo ( '' === $options['mt_to'] ) ? get_bloginfo( 'admin_email' ) : esc_attr( $options['mt_to'] ); ?>"/>
+									<input type="text" name="mt_to" id="mt_to" size="60" value="<?php echo ( '' === $options['mt_to'] ) ? get_bloginfo( 'admin_email' ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
 								</p>
 								<p>
 									<label for="mt_from"><?php _e( 'Send from:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_from" id="mt_from" size="60" value="<?php echo ( '' === $options['mt_from'] ) ? get_bloginfo( 'admin_email' ) : esc_attr( $options['mt_from'] ); ?>"/>
+									<input type="text" name="mt_from" id="mt_from" size="60" value="<?php echo ( '' === $options['mt_from'] ) ? get_bloginfo( 'admin_email' ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
 								</p>
 								<?php
 								$tabs         = '';
