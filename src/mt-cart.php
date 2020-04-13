@@ -895,7 +895,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								// Translators: (number of tickets) at (price per ticket).
 								$cart_message = sprintf( __( '%1$s at %2$s', 'my-tickets' ), "<span class='count' data-limit='$max'>$count</span>", $currency . apply_filters( 'mt_money_format', $price ) );
 								$output      .= "
-											<tr id='mt_cart_order_$event_id" . '_' . "$type'>
+											<tr id='mt_cart_order_$event_id" . '_' . "$type' class='mt_row_$event_id'>
 												<th scope='row'>$image$title: <em>$label</em><br />$datetime$hidden$custom</th>
 												<td aria-live='assertive'>" . $cart_message . '</td>';
 								if ( 'cart' === $format && apply_filters( 'mt_include_update_column', true ) ) {
