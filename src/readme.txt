@@ -68,6 +68,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.8.15 =
 
 * Don't double display currency symbol when symbol is same as currency code.
+* Add responsive table styles for cart.
 
 = 1.8.14 =
 

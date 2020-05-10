@@ -226,3 +226,47 @@ button[name="mt_add_to_cart"] img {
     color: #f2f2f2;
     background: #712121;
 }
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+    /* Force table to not be like tables anymore */
+    .mt_cart table, .mt_cart thead, .mt_cart tbody, .mt_cart th, .mt_cart td, .mt_cart tr, .mt_cart caption {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    .mt_cart thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .mt_cart tr { border: 1px solid #ccc; }
+
+    .mt_cart td, .mt_cart th {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 30%;
+    }
+    .mt_cart th:first-child {
+        padding-left: 30%;
+    }
+    .mt_cart td:before, .mt_cart th:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 30%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    /* Label the data. Override in CSS to change text. */
+    .mt_cart th:nth-of-type(1):before { content: "Event"; }
+    .mt_cart td:nth-of-type(1):before { content: "Order"; }
+    .mt_cart td:nth-of-type(2):before { content: "Update"; }
+}
