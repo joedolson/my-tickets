@@ -830,7 +830,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 	$currency = $options['mt_currency'];
 	$symbol   = mt_symbols( $currency );
 	// Don't display the currency code if the currency symbol is identical.
-	if ( trim($symbol ) === trim( $currency ) ) {
+	if ( trim( $symbol ) === trim( $currency ) ) {
 		$currency = '';
 	}
 	if ( is_array( $cart ) && ! empty( $cart ) ) {
