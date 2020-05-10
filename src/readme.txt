@@ -65,6 +65,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.15 =
+
+* Don't double display currency symbol when symbol is same as currency code.
+
 = 1.8.14 =
 
 * Add event ID in a class on shopping cart row.
