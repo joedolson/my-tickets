@@ -863,14 +863,19 @@ function mt_check_permissions() {
  *
  * @param string $format Format to use.
  * @param int    $timestamp Timestamp.
+ * @param bool   $offset False to not add offset; if already provided with offset.
  *
  * @return string Formatted date.
  */
-function mt_date( $format, $timestamp = false ) {
+function mt_date( $format, $timestamp = false, $offset = true ) {
 	if ( ! $timestamp ) {
 		$timestamp = time();
 	}
-	$offset    = 60 * 60 * intval( get_option( 'gmt_offset', 0 ) );
+	if ( $offset ) {
+		$offset = intval( get_option( 'gmt_offset', 0 ) ) * 60 * 60;
+	} else {
+		$offset = 0;
+	}
 	$timestamp = $timestamp + $offset;
 
 	return gmdate( $format, $timestamp );

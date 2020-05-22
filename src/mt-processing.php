@@ -100,8 +100,8 @@ function mt_ticket_meta( $post_id ) {
 		if ( ! wp_verify_nonce( $nonce, 'mt-tickets-nonce' ) ) {
 			wp_die( 'Invalid nonce' );
 		}
-		$event_begin = mt_date( 'Y-m-d', strtotime( $_POST['event_begin'] ) );
-		$event_time  = mt_date( 'H:i:s', strtotime( $_POST['event_time'] ) );
+		$event_begin = mt_date( 'Y-m-d', strtotime( $_POST['event_begin'] ), false );
+		$event_time  = mt_date( 'H:i:s', strtotime( $_POST['event_time'] ), false );
 		$data        = array(
 			'event_begin' => $event_begin,
 			'event_time'  => $event_time,

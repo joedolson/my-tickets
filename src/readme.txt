@@ -69,6 +69,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Don't double display currency symbol when symbol is same as currency code.
 * Add responsive table styles for cart.
+* Bug fix: don't add offset when time saved.
 
 = 1.8.14 =
 
