@@ -49,7 +49,7 @@ function mt_get_receipt() {
 				'post_status' => 'publish,draft',
 			)
 		);
-		$receipt = ( isset($posts[0] ) ) ? $posts[0] : false;
+		$receipt = ( isset( $posts[0] ) ) ? $posts[0] : false;
 	}
 
 	return $receipt;
