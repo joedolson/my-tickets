@@ -191,6 +191,8 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									if ( 0 === $remaining ) {
 										$attributes .= ' readonly="readonly"';
 										$class       = 'mt-sold-out';
+									} else {
+										$class = 'mt-available';
 									}
 								}
 								$form .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
@@ -208,7 +210,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 
 								$hide_remaining = mt_hide_remaining( $tickets_remaining );
 								// Translators: Ticket price label, number remaining.
-								$form       .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s<span class="tickets-remaining">, %2$s remaining</span>)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label, "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>' ) . '</span>';
+								$form       .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s, %2$s remaining%3$s)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-remaining">', "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>', '</span>' ) . '</span>';
 								$form       .= "<span class='mt-error-notice' aria-live='assertive'></span></div>";
 								$total_order = $total_order + $order_value;
 							} else {
@@ -607,7 +609,7 @@ function mt_add_to_cart() {
 			$count   = isset( $_GET['count'] ) ? intval( $_GET['count'] ) : 1;
 			$options = ( $type ) ? array( $type => $count ) : false;
 			if ( $data ) {
-				$event_options = isset( $data[ $event_id ] ) ? $data[ $event_id ] : array();
+				$event_options = isset( $data[ $event_id ] ) && is_array( $data[ $event_id ] ) ? $data[ $event_id ] : array();
 				$options       = array_merge( $event_options, $options );
 			}
 		} else {
