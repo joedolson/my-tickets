@@ -343,6 +343,7 @@ function mt_email_purchasers() {
 			<textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description'>" . esc_attr( $body ) . "</textarea><br />
 			<span id='body_description'>" . __( 'Use <code>{name}</code> to insert the recipient\'s name', 'my-tickets' ) . "</span>
 			</p>
+			<p><input type='checkbox' name='mt-test-email' value='test' id='mt_test_email'> <label for='mt_test_email'>" . __( 'Send test email', 'my-tickets' ) . "</label></p>
 			<p><input type='submit' name='mt-email-purchasers' class='button-primary' value='" . __( 'Send Email', 'my-tickets' ) . "' /></p>
 		</form>";
 
@@ -1013,15 +1014,21 @@ function mt_mass_email( $event_id = false ) {
 						'date'    => mt_current_time(),
 					)
 				);
-				$sent = wp_mail( $to, $subject, $body, $headers );
-				if ( ! $sent ) {
-					// If mail sends, try without custom headers.
-					wp_mail( $to, $subject, $body );
+				// For test emails, skip sending & reset values.
+				if ( isset( $_POST['mt-test-email'] ) ) {
+					$emails_sent ++;
+					$subject = $orig_subj;
+					$body    = $orig_body;
+				} else {
+					$sent = wp_mail( $to, $subject, $body, $headers );
+					if ( ! $sent ) {
+						// If mail sends, try without custom headers.
+						wp_mail( $to, $subject, $body );
+					}
+					$emails_sent ++;
+					$subject = $orig_subj;
+					$body    = $orig_body;
 				}
-				$emails_sent ++;
-				$subject = $orig_subj;
-				$body    = $orig_body;
-
 				if ( 'true' === $options['mt_html_email'] ) {
 					remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 				}

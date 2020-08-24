@@ -65,6 +65,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.16 =
+
+* Bug fix: notice thrown when event ID exists in array, but data is not an array.
+* Bug fix: mt-sold-out class needs to be reset in discrete counting.
+* Feature: Send test email from Reports screen before emailing whole event.
+
 = 1.8.15 =
 
 * Don't double display currency symbol when symbol is same as currency code.
