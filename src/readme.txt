@@ -3,10 +3,10 @@ Contributors: joedolson
 Donate link: http://www.joedolson.com/donate/
 Tags: events, ticket sales, tickets, ticketing, registration, reservations, event tickets, sell tickets, event registration, box office
 Requires at least: 4.7
-Tested up to: 5.4
+Tested up to: 5.5
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.15
+Stable tag: 1.8.16
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
