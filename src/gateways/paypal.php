@@ -105,6 +105,8 @@ function mt_paypal_ipn() {
 			$receiver       = strtolower( $receiver );
 			$receiver_email = strtolower( $receiver_email );
 			if ( ( $receiver && ( $receiver_email !== $receiver ) ) || $payment_currency !== $options['mt_currency'] || false === $value_match ) {
+				$price       = number_format( (float) $price, 2 );
+				$value_match = number_format( (float) $value_match, 2 );
 				// Translators: Item Number of payment triggering error.
 				if ( (string) $price !== (string) $value_match ) {
 					// Translators: price paid, price expected.
