@@ -43,6 +43,7 @@ function mt_help() {
 								<li><?php _e( 'Enable your preferred payment gateways', 'my-tickets' ); ?></li>
 								<li><?php _e( 'Add merchant data for your enabled gateways and set the default gateway.', 'my-tickets' ); ?>
 									<ul>
+										<li><a href="https://dashboard.stripe.com/account/apikeys"><?php _e( 'Find your Stripe API keys', 'my-tickets' ); ?></a></li>
 										<li><a href="https://www.authorize.net/support/CP/helpfiles/Account/Settings/Security_Settings/General_Settings/API_Login_ID_and_Transaction_Key.htm"><?php _e( 'How to get your Authorize.net API Login ID and Transaction Key', 'my-tickets' ); ?></a></li>
 										<li><a href="https://www.paypal.com/businessprofile/settings/"><?php _e( 'Find your PayPal primary email and merchant ID', 'my-tickets' ); ?></a></li>
 									</ul>
@@ -76,6 +77,12 @@ function mt_help() {
 							</p>
 
 							<label class="screen-reader-text" for="shortcode_2"><?php _e( 'Multiple ticket shortcode', 'my-tickets' ); ?></label><textarea readonly='readonly' id="shortcode_2">[tickets events="1,2" template="&lt;h3&gt;{post_title}&lt;/h3&gt;"]</textarea>
+
+							<p>
+								<?php _e( 'Display tickets remaining for an event.', 'my-tickets' ); ?>
+							</p>
+
+							<label class="screen-reader-text" for="shortcode_1"><?php _e( 'Single ticket shortcode', 'my-tickets' ); ?></label><textarea readonly='readonly' id="shortcode_1">[remaining event="1" template="&ltp&gt;{remain} tickets left of {total}&lt;/p&gt;"]</textarea>
 
 							<p>
 								<?php _e( 'Shows a reduced version of the cart with number of tickets, total value of cart, and a link to the shopping cart.', 'my-tickets' ); ?>

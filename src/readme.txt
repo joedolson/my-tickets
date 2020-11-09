@@ -65,6 +65,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.17 =
+
+* Ensure value matching uses the same variable type.
+* Query checked property instead of attribute.
+* Add [remaining] shortcode to display tickets remaining for an event.
+
 = 1.8.16 =
 
 * Bug fix: notice thrown when event ID exists in array, but data is not an array.

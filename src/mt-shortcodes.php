@@ -106,6 +106,51 @@ function mt_featured_tickets( $atts, $content = '' ) {
 	return "<div class='mt-event-list'>" . $content . '</div>';
 }
 
+add_shortcode( 'remaining', 'mt_remaining_tickets' );
+/**
+ * Display the number of tickets remaining for an event.
+ *
+ * @param array  $atts Shortcode attributes.
+ * @param string $content Contained content.
+ *
+ * @return string
+ */
+function mt_remaining_tickets( $atts, $content = '' ) {
+	$atts = shortcode_atts(
+		array(
+			'event'   => false,
+			'template' => '<p>{remain} tickets left of {total}</p>',
+		),
+		$atts
+	);
+	$template = $atts['template'];
+
+	if ( ! is_int( $atts['event'] ) ) {
+		global $post;
+		if ( is_object( $post ) ) {
+			$event_id = $post->ID;
+		} else {
+			return $content;
+		}
+	} else {
+		$event_id = $atts['event'];
+	}
+	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+	if ( is_array( $registration ) ) {
+		$pricing           = $registration['prices'];
+		$available         = $registration['total'];
+		$tickets_data      = mt_tickets_left( $pricing, $available );
+		$tickets_remaining = $tickets_data['remain'];
+		$tickets_sold      = $tickets_data['sold'];
+
+		return '<div class="mt-remaining-tickets">' . mt_draw_template( $tickets_data, $template ) . '</div>';
+	} else {
+		return $content;
+	}
+
+	return $content;
+}
+
 // Add {register} form to My Calendar templating for upcoming events lists, etc.
 add_filter( 'mc_filter_shortcodes', 'mt_add_shortcode', 5, 2 );
 /**
