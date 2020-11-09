@@ -69,7 +69,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Ensure value matching uses the same variable type.
 * Query checked property instead of attribute.
-* Add [remaining] shortcode to display tickets remaining for an event.
+* Add `[remaining]` shortcode to display tickets remaining for an event.
 
 = 1.8.16 =
 
