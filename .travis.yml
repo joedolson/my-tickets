@@ -1,4 +1,4 @@
-dist: xenial
+dist: trusty
 
 language: php
 
@@ -18,17 +18,17 @@ cache:
 
 matrix:
   include:
+    - php: 7.4
+      env: WP_VERSION=latest
     - php: 7.3
-      env: WP_VERSION=latest
-    - php: 7.2
-      env: WP_VERSION=latest
-    - php: 7.1
       env: WP_VERSION=latest
     - php: 7.0
       env: WP_VERSION=trunk
     - php: 7.0
       env: WP_TRAVISCI=phpcs
     - php: 7.0
+      env: WP_VERSION=latest
+    - php: 5.6
       env: WP_VERSION=latest
       dist: precise
 
@@ -43,7 +43,7 @@ before_script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      composer global require "phpunit/phpunit=6.1.*"
+      composer global require phpunit
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
