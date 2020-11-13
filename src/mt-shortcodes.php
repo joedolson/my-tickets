@@ -118,7 +118,7 @@ add_shortcode( 'remaining', 'mt_remaining_tickets' );
 function mt_remaining_tickets( $atts, $content = '' ) {
 	$atts = shortcode_atts(
 		array(
-			'event'   => false,
+			'event'    => false,
 			'template' => '<p>{remain} tickets left of {total}</p>',
 		),
 		$atts
@@ -140,8 +140,6 @@ function mt_remaining_tickets( $atts, $content = '' ) {
 		$pricing           = $registration['prices'];
 		$available         = $registration['total'];
 		$tickets_data      = mt_tickets_left( $pricing, $available );
-		$tickets_remaining = $tickets_data['remain'];
-		$tickets_sold      = $tickets_data['sold'];
 
 		return '<div class="mt-remaining-tickets">' . mt_draw_template( $tickets_data, $template ) . '</div>';
 	} else {
