@@ -62,8 +62,8 @@ function mt_add_ticket_form() {
 		$checked     = '';
 	}
 	$clear = '<p><input type="checkbox" class="mt-delete-data" name="mt-delete-data" id="mt-delete-data" /> <label for="mt-delete-data">' . __( 'Delete ticket sales data on this post', 'my-tickets' ) . '</label></p>';
-
-	$format .= "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label></p>';
+	// Show ticket selector checkbox on post types.
+	$format .= ( isset( $_GET['post'] ) || isset( $_GET['post_type'] ) ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label></p>' : '';
 	if ( function_exists( 'mc_location_select' ) ) {
 		$selector = "
 		<label for='mt-event-location'>" . __( 'Select a location', 'my-tickets' ) . "
@@ -255,8 +255,8 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	} else {
 		$shortcode = '';
 	}
-
-	$format  = ( isset( $_GET['post_type'] ) ) ? '' : "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label></p>';
+	// Appear on My Calendar events to toggle ticket sales.
+	$format  = ( isset( $_GET['page'] ) && 'my-calendar' == $_GET['page'] ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '</label></p>' : '';
 	$before  = "<div class='mt-ticket-form'>";
 	$after   = '</div>';
 	$reports = ( $event_id ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
