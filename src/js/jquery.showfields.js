@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
     var initial_status = $('.mt-trigger').prop('checked');
-    if (initial_status !== 'checked') {
+    if (initial_status !== true) {
         $('.mt-ticket-form').hide();
     }
     $('.mt-trigger').click(function () {
