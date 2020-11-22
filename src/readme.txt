@@ -6,7 +6,7 @@ Requires at least: 4.7
 Tested up to: 5.5
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.17
+Stable tag: 1.8.19
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -64,6 +64,15 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
 == Changelog ==
+
+= 1.8.19 =
+
+* Bug fix: 'Sell tickets on this post' showing up twice in some contexts.
+* Bug fix: Changed attr to prop, but didn't change the value checked.
+
+= 1.8.18 =
+
+* Version bump due to failing to add prior tag before committing.
 
 = 1.8.17 =
 
