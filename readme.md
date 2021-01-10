@@ -2,15 +2,15 @@
 
 Sell Event Tickets on any post
 
-[![Build Status](https://travis-ci.org/joedolson/my-tickets.svg)](https://travis-ci.org/joedolson/my-tickets) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-green.svg)](https://www.gnu.org/license/gpl-2.0.html)
+![PHP tests](https://github.com/joedolson/my-tickets/workflows/PHP%20tests/badge.svg) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-green.svg)](https://www.gnu.org/license/gpl-2.0.html)
 
 ## My Tickets Build Environment
 
 * Donate link: https://www.joedolson.com/donate/
 * Tags: tickets, events, WordPress
 * Requires at least: 4.7
-* Tested up to: 5.5
-* Stable tag: `1.8.17`
+* Tested up to: 5.6
+* Stable tag: `1.8.20`
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
