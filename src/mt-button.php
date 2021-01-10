@@ -829,12 +829,13 @@ function mt_get_data( $type, $user_ID = false ) {
 		} else {
 			$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
 			if ( $unique_id ) {
-				$cookie = get_transient( 'mt_' . $unique_id . '_' . $type );
+				$data = get_transient( 'mt_' . $unique_id . '_' . $type );
 			} else {
-				$cookie = '[]';
+				$data = '[]';
 			}
-			if ( $cookie ) {
-				if ( is_array( $cookie ) ) {
+			if ( $data ) {
+				if ( '' !== $data && ! is_array( $data ) ) {
+					// Data is probably JSON and needs to be decoded.
 					$data = json_decode( $cookie );
 				} else {
 					$data = $cookie;
