@@ -175,7 +175,10 @@ button[name="mt_add_to_cart"] img {
 }
 
 .mt-update-column button {
-    padding: 3px 5px 2px;
+    padding: 0;
+    height: 2rem;
+    font-size: 1rem;
+    line-height: 1;
 }
 
 .mt_purchase_path {
@@ -225,6 +228,12 @@ button[name="mt_add_to_cart"] img {
 .mt_email_check .mismatch {
     color: #f2f2f2;
     background: #712121;
+}
+
+.mt-update-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 2px;
 }
 
 @media
