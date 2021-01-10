@@ -116,7 +116,7 @@ add_shortcode( 'remaining', 'mt_remaining_tickets' );
  * @return string
  */
 function mt_remaining_tickets( $atts, $content = '' ) {
-	$atts    = shortcode_atts(
+	$atts     = shortcode_atts(
 		array(
 			'event'    => false,
 			'template' => '<p>{remain} tickets left of {total}</p>',
