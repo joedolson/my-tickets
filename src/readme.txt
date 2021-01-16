@@ -6,7 +6,7 @@ Requires at least: 4.7
 Tested up to: 5.6
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.20
+Stable tag: 1.8.19
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -65,15 +65,13 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
-= 1.8.20 =
-
-* Bug fix: Change cart update button CSS to better meet WCAG 2.1 requirements for click target size.
-* Bug fix: json_decode should only run on strings.
-
 = 1.8.19 =
 
 * Bug fix: 'Sell tickets on this post' showing up twice in some contexts.
 * Bug fix: Changed attr to prop, but didn't change the value checked.
+* Bug fix: Change cart update button CSS to better meet WCAG 2.1 requirements for click target size.
+* Bug fix: json_decode should only run on strings.
+* Bug fix: Verify variable type when checking availability.
 
 = 1.8.18 =
 
