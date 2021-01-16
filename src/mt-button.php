@@ -574,7 +574,7 @@ function mt_tickets_left( $pricing, $available ) {
 			$sold    = $sold + intval( $options['sold'] );
 		}
 	}
-	if ( 'inherit' !== $available ) {
+	if ( 'inherit' !== $available && is_int( $available ) ) {
 		$total = $available - $sold;
 	}
 
