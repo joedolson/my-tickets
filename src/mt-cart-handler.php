@@ -366,3 +366,49 @@ function mt_check_payment_amount( $price, $purchase_id ) {
 
 	return $total;
 }
+
+/**
+ * Execute a refresh of the My Tickets primary URL caches if caching plug-in installed.
+ */
+function mt_refresh_cache() {
+	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$receipts   = $options['mt_receipts_page'];
+	$tickets    = $options['mt_tickets_page'];
+	$purchase   = $options['mt_purchase_page'];
+	$to_refresh = apply_filters( 'mt_cached_pages_to_refresh', array( $receipts, $tickets, $purchase ) );
+
+	foreach ( $to_refresh as $calendar ) {
+		if ( ! $calendar || ! get_post( $calendar ) ) {
+			continue;
+		}
+		// W3 Total Cache.
+		if ( function_exists( 'w3tc_pgcache_flush_post' ) ) {
+			w3tc_pgcache_flush_post( $calendar );
+		}
+
+		// WP Super Cache.
+		if ( function_exists( 'wp_cache_post_change' ) ) {
+			wp_cache_post_change( $calendar );
+		}
+
+		// WP Rocket.
+		if ( function_exists( 'rocket_clean_post' ) ) {
+			rocket_clean_post( $calendar );
+		}
+
+		// WP Fastest Cache.
+		if ( isset( $GLOBALS['wp_fastest_cache'] ) && method_exists( $GLOBALS['wp_fastest_cache'], 'singleDeleteCache' ) ) {
+			$GLOBALS['wp_fastest_cache']->singleDeleteCache( false, $calendar );
+		}
+
+		// Comet Cache.
+		if ( class_exists( 'comet_cache' ) ) {
+			comet_cache::clearPost( $calendar );
+		}
+
+		// Cache Enabler.
+		if ( class_exists( 'Cache_Enabler' ) ) {
+			Cache_Enabler::clear_page_cache_by_post_id( $calendar );
+		}
+	}
+}
