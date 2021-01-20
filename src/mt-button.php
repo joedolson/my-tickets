@@ -335,7 +335,7 @@ function mt_event_status( $event_id = false ) {
 		}
 	}
 
-	if ( 'true' === get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false === $override ) {
+	if ( 'true' === get_post_meta( $event_id, '_mt_hide_registration_form', true ) ) {
 		return '';
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
