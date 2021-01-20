@@ -836,7 +836,7 @@ function mt_get_data( $type, $user_ID = false ) {
 			if ( $data ) {
 				if ( '' !== $data && ! is_numeric( $data ) && ! is_array( $data ) ) {
 					// Data is probably JSON and needs to be decoded.
-					$data = json_decode( $cookie );
+					$data = json_decode( $data );
 				}
 			} else {
 				$data = false;
