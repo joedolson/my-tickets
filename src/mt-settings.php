@@ -303,7 +303,7 @@ function mt_wp_enqueue_scripts() {
 			'mt.tabs',
 			'mtTabs',
 			array(
-				'firstItem' => 'completed'
+				'firstItem' => 'completed',
 			)
 		);
 	}
@@ -325,7 +325,7 @@ function mt_wp_enqueue_scripts() {
 			'mt.tabs',
 			'mtTabs',
 			array(
-				'firstItem' => $options['mt_default_gateway']
+				'firstItem' => $options['mt_default_gateway'],
 			)
 		);
 		wp_enqueue_script(
@@ -340,7 +340,7 @@ function mt_wp_enqueue_scripts() {
 			'mt.functions',
 			'mtAjax',
 			array(
-				'action' => 'mt_post_lookup'
+				'action' => 'mt_post_lookup',
 			)
 		);
 	} elseif ( isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] ) {
@@ -349,7 +349,7 @@ function mt_wp_enqueue_scripts() {
 			'mt.tabs',
 			'mtTabs',
 			array(
-				'firstItem' => 'mt_completed'
+				'firstItem' => 'mt_completed',
 			)
 		);
 	}
