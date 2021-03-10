@@ -790,7 +790,7 @@ function mt_set_user_unique_id() {
 		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
 		if ( ! $unique_id ) {
 			$unique_id = mt_generate_unique_id();
-			setcookie( 'mt_unique_id', $unique_id, time() + 60 * 60 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN, false, true );
+			setcookie( 'mt_unique_id', $unique_id, time() + 60 * 60 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN, false, true, array( 'SameSite' => 'Lax' ) );
 		}
 	}
 }
