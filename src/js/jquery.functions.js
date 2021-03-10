@@ -3,7 +3,7 @@
         $('.suggest').autocomplete({
                 minLength: 3,
                 source: function (req, response) {
-                    $.getJSON(ajaxurl + '?callback=?&action=' + mt_ajax_action, req, response);
+                    $.getJSON(ajaxurl + '?callback=?&action=' + mtAjax.action, req, response);
                 },
                 select: function (event, ui) {
                     var label = $(this).attr('id');

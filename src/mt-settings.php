@@ -299,7 +299,13 @@ function mt_wp_enqueue_scripts() {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( isset( $_GET['page'] ) && 'my-tickets' === $_GET['page'] ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
-		wp_localize_script( 'mt.tabs', 'firstItem', 'completed' );
+		wp_localize_script(
+			'mt.tabs',
+			'mtTabs',
+			array(
+				'firstItem' => 'completed'
+			)
+		);
 	}
 	if ( isset( $_GET['page'] ) && 'mt-ticketing' === $_GET['page'] ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
@@ -315,7 +321,13 @@ function mt_wp_enqueue_scripts() {
 	if ( isset( $_GET['page'] ) && 'mt-payment' === $_GET['page'] ) {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
-		wp_localize_script( 'mt.tabs', 'firstItem', $options['mt_default_gateway'] );
+		wp_localize_script(
+			'mt.tabs',
+			'mtTabs',
+			array(
+				'firstItem' => $options['mt_default_gateway']
+			)
+		);
 		wp_enqueue_script(
 			'mt.functions',
 			plugins_url( 'js/jquery.functions.js', __FILE__ ),
@@ -324,10 +336,22 @@ function mt_wp_enqueue_scripts() {
 				'jquery-ui-autocomplete',
 			)
 		);
-		wp_localize_script( 'mt.functions', 'mt_ajax_action', 'mt_post_lookup' );
+		wp_localize_script(
+			'mt.functions',
+			'mtAjax',
+			array(
+				'action' => 'mt_post_lookup'
+			)
+		);
 	} elseif ( isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
-		wp_localize_script( 'mt.tabs', 'firstItem', 'mt_completed' );
+		wp_localize_script(
+			'mt.tabs',
+			'mtTabs',
+			array(
+				'firstItem' => 'mt_completed'
+			)
+		);
 	}
 	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
