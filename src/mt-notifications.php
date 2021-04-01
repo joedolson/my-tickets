@@ -326,6 +326,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	if ( 'eticket' === $ticketing_method || 'printable' === $ticketing_method ) {
 		$tickets    = apply_filters( 'mt_format_array', '', 'tickets', $ticket_array, $transaction_id );
 		$ticket_ids = apply_filters( 'mt_format_array', '', 'ticket_ids', array_keys( $ticket_array ), $transaction_id );
+		update_post_meta( $id, '_is_delivered', 'true' );
 	} else {
 		$tickets    = ( 'willcall' === $ticketing_method ) ? __( 'Your tickets will be available at the box office.', 'my-tickets' ) : __( 'Your tickets will be mailed to you at the address provided.', 'my-tickets' );
 		$tickets    = ( 'true' === $options['mt_html_email'] ) ? '<p>' . $tickets . '</p>' : $tickets;
