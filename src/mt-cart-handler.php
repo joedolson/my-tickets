@@ -188,9 +188,15 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 	if ( ! is_array( $purchased ) || mt_purchase_has_tickets( $purchase_id ) ) {
 		return;
 	}
+	$ids = array();
 	foreach ( $purchased as $event_id => $purchase ) {
+		// It's possible for an event ID to appear in this list twice. If so, ignore the repetitions; they're duplicates.
+		if ( in_array( $ids, $event_id, true ) ) {
+			continue;
+		}
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		$created      = false;
+		$ids[] = $event_id;
 		add_post_meta( $purchase_id, '_purchased', array( $event_id => $purchase ) );
 		add_post_meta( $event_id, '_purchase', array( $purchase_id => $purchase ) );
 		foreach ( $purchase as $type => $ticket ) {
