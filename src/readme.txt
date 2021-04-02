@@ -73,6 +73,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Prevent submission of cart to payment if cart update still processing.
 * Change: Move marking of ticket delivery into notifications process.
 * Change: Support SameSite parameter when setting cookies on PHP 7.3.0+
+* Begin enriching debugging process.
 
 = 1.8.21 =
 

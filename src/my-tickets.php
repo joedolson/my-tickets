@@ -137,9 +137,9 @@ function mt_debug( $data, $subject = '', , $post_id = false, $override = false )
 				$post_id,
 				'_debug_data',
 				array(
-						'subject' => $subject,
-						'data' => $data,
-					)
+					'subject' => $subject,
+					'data' => $data,
+				)
 			);
 		}
 		wp_mail( get_option( 'admin_email' ), "Debugging: $subject", $data );
