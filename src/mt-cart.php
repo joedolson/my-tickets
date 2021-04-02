@@ -855,7 +855,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$date         = $data['event_begin'] . ' ' . $data['event_time'];
 				$dt_format    = apply_filters( 'mt_cart_datetime', get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ) );
 				$datetime     = "<span class='mt-datetime'>" . date_i18n( $dt_format, strtotime( $date ) ) . '</span>';
-				if ( is_array( $order ) ) {
+				if ( is_array( $order ) && ! empty( $order ) ) {
 					foreach ( $order as $type => $count ) {
 						if ( ! mt_can_order( $type ) ) {
 							continue;
