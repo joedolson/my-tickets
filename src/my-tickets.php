@@ -283,10 +283,11 @@ function mt_public_enqueue_scripts() {
 		'mt.public',
 		'mt_ajax_cart',
 		array(
-			'action'    => 'mt_ajax_cart',
-			'url'       => admin_url( 'admin-ajax.php' ),
-			'security'  => wp_create_nonce( 'mt-ajax-cart-nonce' ),
-			'max_limit' => __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
+			'action'     => 'mt_ajax_cart',
+			'url'        => admin_url( 'admin-ajax.php' ),
+			'security'   => wp_create_nonce( 'mt-ajax-cart-nonce' ),
+			'max_limit'  => __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
+			'processing' => __( 'Cart update processing', 'my-tickets' ),
 		)
 	);
 }

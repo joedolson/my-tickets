@@ -316,7 +316,7 @@ function mt_render_field( $field, $argument = false ) {
 				$fname      = get_post_meta( $payment_id, '_first_name', true );
 				$lname      = get_post_meta( $payment_id, '_last_name', true );
 			}
-			$output = '<p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" required aria-required="true" /> <label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" required aria-required="true" /></p>';
+			$output = '<div class="mt-names"><p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" required aria-required="true" /></p><p><label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" required aria-required="true" /></p></div>';
 			break;
 		case 'email':
 			$user_email = ( is_user_logged_in() ) ? $current_user->user_email : '';
@@ -325,9 +325,8 @@ function mt_render_field( $field, $argument = false ) {
 				$payment_id = (int) $_GET['payment'];
 				$email      = get_post_meta( $payment_id, '_email', true );
 			}
-			$output  = '<p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /></p>';
-			$output .= '<p><label for="mt_email2">' . __( 'E-mail (confirm)', 'my-tickets' ) . '</label> <input type="email" name="mt_email2" id="mt_email2" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /></p>';
-			$output .= '<p class="mt_email_check" aria-live="polite"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address matches', 'my-tickets' ) . '</span><span class="mismatch"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Email address does not match', 'my-tickets' ) . '</span></p>';
+			$output  = '<div class="mt-emails"><p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /></p>';
+			$output .= '<p><label for="mt_email2">' . __( 'E-mail (confirm)', 'my-tickets' ) . '</label> <input type="email" name="mt_email2" id="mt_email2" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /><span class="mt_email_check" aria-live="polite"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address matches', 'my-tickets' ) . '</span><span class="mismatch"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Email address does not match', 'my-tickets' ) . '</span></span></span></p></div>';
 			break;
 		case 'phone':
 			$user_phone = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, 'mt_phone', true ) : '';

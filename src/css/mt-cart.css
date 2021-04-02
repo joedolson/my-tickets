@@ -210,6 +210,21 @@ button[name="mt_add_to_cart"] img {
     font-style: italic;
 }
 
+.mt-emails, .mt-names {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: top;
+    column-gap: 20px;
+}
+
+.mt-emails input, .mt-names input {
+    width: 100%;
+}
+
+.mt_email_check {
+    display: block;
+}
+
 .mt_email_check span {
     font-weight: 700;
     padding: .33em;
@@ -234,6 +249,33 @@ button[name="mt_add_to_cart"] img {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 2px;
+}
+
+.mt-response-processing:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+    animation: ellipsis steps(4,end) 900ms infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    width: 0px;
+}
+
+@keyframes ellipsis {
+    to {
+        width: 20px;
+    }
+}
+
+@-webkit-keyframes ellipsis {
+    to {
+        width: 20px;
+    }
+}
+
+input[name="mt_submit"]:disabled {
+    opacity: .5;
+    cursor: text;
 }
 
 @media
