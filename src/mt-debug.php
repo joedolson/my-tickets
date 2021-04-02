@@ -25,7 +25,7 @@ function mt_show_debug_box() {
  */
 function mt_show_debug_data() {
 	global $post_ID;
-	$records = '';
+	$records                    = '';
 	$debug_log['Purchase Data'] = get_post_meta( $post_ID, '_purchase_data', true );
 	if ( is_array( $debug_log ) ) {
 		foreach ( $debug_log as $key => $entry ) {
