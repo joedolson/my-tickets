@@ -3,10 +3,11 @@ Contributors: joedolson
 Donate link: http://www.joedolson.com/donate/
 Tags: events, ticket sales, tickets, ticketing, registration, reservations, event tickets, sell tickets, event registration, box office
 Requires at least: 4.7
-Tested up to: 5.6
+Tested up to: 5.7
+Requires PHP: 5.6
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.21
+Stable tag: 1.8.22
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -64,6 +65,14 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
 == Changelog ==
+
+= 1.8.22 =
+
+* Bug fix: If purchase data array gets duplicated, can yield double-processing of tickets.
+* Bug fix: Ensure that event is removed from purchases when ticket count set to 0.
+* Bug fix: Prevent submission of cart to payment if cart update still processing.
+* Change: Move marking of ticket delivery into notifications process.
+* Change: Support SameSite parameter when setting cookies on PHP 7.3.0+
 
 = 1.8.21 =
 
