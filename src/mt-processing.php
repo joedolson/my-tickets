@@ -468,7 +468,6 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 			// Delete sequential ids.
 			delete_post_meta( $post_id, '_' . $ticket_id . '_seq_id' );
 		}
-		wp_mail( 'joe@joedolson.com', 'Ticket Data', $email );
 		// Delete record of tickets.
 		delete_post_meta( $post_id, '_ticket' );
 		// Delete base enumerator for sequential ticket IDs.

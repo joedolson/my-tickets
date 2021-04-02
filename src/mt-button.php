@@ -899,7 +899,6 @@ function mt_update_cart( $post = array() ) {
 				}
 			}
 		}
-		wp_mail( 'joe@joedolson.com', 'Cart Data Updated', print_r( $cart, 1 ) . "\n\n" . print_r( $post, 1 ) );
 		$updated = mt_save_data( $cart, 'cart', true );
 	}
 
