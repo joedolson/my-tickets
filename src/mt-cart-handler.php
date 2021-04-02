@@ -193,7 +193,7 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 		}
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		$created      = false;
-		$ids[] = $event_id;
+		$ids[]        = $event_id;
 		add_post_meta( $purchase_id, '_purchased', array( $event_id => $purchase ) );
 		add_post_meta( $event_id, '_purchase', array( $purchase_id => $purchase ) );
 		foreach ( $purchase as $type => $ticket ) {
