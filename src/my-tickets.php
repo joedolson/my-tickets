@@ -130,7 +130,7 @@ define( 'MT_DEBUG', false );
  * @param int|bool $post_id Post ID if available.
  * @param bool     $override Send message even if not enabled.
  */
-function mt_debug( $data, $subject = '', , $post_id = false, $override = false ) {
+function mt_debug( $data, $subject = '', $post_id = false, $override = false ) {
 	if ( true === MT_DEBUG || true === $override ) {
 		if ( $post_id ) {
 			update_post_meta(
