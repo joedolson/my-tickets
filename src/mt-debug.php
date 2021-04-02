@@ -25,8 +25,8 @@ function mt_show_debug_box() {
  */
 function mt_show_debug_data() {
 	global $post_ID;
-	$records   = '';
-	$debug_log[ 'Purchase Data' ] = get_post_meta( $post_ID, '_purchase_data', true );
+	$records = '';
+	$debug_log['Purchase Data'] = get_post_meta( $post_ID, '_purchase_data', true );
 	if ( is_array( $debug_log ) ) {
 		foreach ( $debug_log as $key => $entry ) {
 			$records .= "<li><button type='button' class='toggle-debug button-secondary' aria-expanded='false'><strong>$key</strong></button><pre class='wpt-debug-details'>" . esc_html( $entry ) . '</pre></li>';
