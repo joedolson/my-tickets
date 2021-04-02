@@ -138,7 +138,7 @@ function mt_debug( $data, $subject = '', , $post_id = false, $override = false )
 				'_debug_data',
 				array(
 					'subject' => $subject,
-					'data' => $data,
+					'data'    => $data,
 				)
 			);
 		}
