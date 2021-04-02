@@ -64,6 +64,8 @@
 			}
 		});
 		$('.mt_cart button:not(.mt-plugin)').on('click', function (e) {
+			$( 'input[name="mt_submit"]' ).prop( 'disabled', true );
+			$( '.mt-response' ).html( '<p class="mt-response-processing">' + mt_ajax_cart.processing + '</p>' ).show();
 			e.preventDefault();
 			var action = $(this).attr('class');
 			var target = $(this).attr('rel');
@@ -100,11 +102,6 @@
 					}
 				});
 				var mtTotal = parseFloat(total).toFixed(2).replace('/(\d)(?=(\d{3})+\.)/g', "$1,");
-				if ( mtTotal < 0 || tCount <= 0 ) {
-					$( 'input[name="mt_submit"]').prop( 'disabled', true );
-				} else {
-					$( 'input[name="mt_submit"]').prop( 'disabled', false );
-				}
 				$('.mt_total_number').text( mt_ajax.currency + mtTotal.toString());
 
 				var data = {
@@ -115,6 +112,11 @@
 				$.post(mt_ajax_cart.url, data, function (response) {
 					if (response.success == 1 ) {
 						$('.mt-response').html("<p>" + response.response + "</p>").show(300);
+						if ( !( mtTotal < 0 || tCount <= 0 ) ) {
+							$( 'input[name="mt_submit"]').prop( 'disabled', false );
+						}
+					} else {
+						$( '.mt-response' ).html( '<p class="mt-response-error">' + response.response + '</p>' ).show(300);
 					}
 				}, "json");
 			}
@@ -189,6 +191,7 @@
 			}, "json" );
 			$('.mt-processing').hide();
 		});
+		// Remove unsubmitted flag.
 		$( '.mt-payment-form form' ).on( 'submit', function(e) {
 			var unsubmitted = $( '#mt_unsubmitted' );
 			unsubmitted.remove();
