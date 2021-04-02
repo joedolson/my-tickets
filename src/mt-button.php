@@ -745,7 +745,11 @@ function mt_display_message( $content ) {
  * @return bool
  */
 function mt_save_data( $passed, $type = 'cart', $override = false ) {
-	mt_debug( print_r( $passed, 1 ), 'mt_save_data' );
+	if ( isset( $passed['event_id'] ) ) {
+		mt_debug( print_r( $passed, 1 ), 'mt_save_data', $passed['event_id'] );
+	} else {
+		mt_debug( print_r( $passed, 1 ), 'mt_save_data' );
+	}
 	$type = sanitize_title( $type );
 	if ( true === $override ) {
 		$save = $passed;

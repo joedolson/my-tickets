@@ -125,12 +125,23 @@ define( 'MT_DEBUG', false );
 /**
  * Send debugging data as needed.
  *
- * @param string $data Information used for debugging.
- * @param string $subject Message subject line.
- * @param bool   $override Send message even if not enabled.
+ * @param string   $data Information used for debugging.
+ * @param string   $subject Message subject line.
+ * @param int|bool $post_id Post ID if available.
+ * @param bool     $override Send message even if not enabled.
  */
-function mt_debug( $data, $subject = '', $override = false ) {
+function mt_debug( $data, $subject = '', , $post_id = false, $override = false ) {
 	if ( true === MT_DEBUG || true === $override ) {
+		if ( $post_id ) {
+			update_post_meta(
+				$post_id,
+				'_debug_data',
+				array(
+						'subject' => $subject,
+						'data' => $data,
+					)
+			);
+		}
 		wp_mail( get_option( 'admin_email' ), "Debugging: $subject", $data );
 	}
 }
