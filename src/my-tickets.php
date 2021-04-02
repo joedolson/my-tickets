@@ -108,6 +108,7 @@ include( plugin_dir_path( __FILE__ ) . 'mt-templating.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-settings.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-payment-settings.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-ticketing-settings.php' );
+include( plugin_dir_path( __FILE__ ) . 'mt-debug.php' );
 
 // Not used by core plug-in; only if premium add-ons are installed.
 if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
