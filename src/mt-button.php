@@ -888,20 +888,23 @@ function mt_update_cart( $post = array() ) {
 				$cart_item = isset( $cart[ $id ] ) ? $cart[ $id ] : array();
 				$post_item = array();
 				foreach ( $item as $type => $count ) {
-					if ( 0 === (int) $count['count'] ) {
-						unset( $cart[ $id ] );
-						$cart_item = array();
-						continue;
-					}
-					if ( is_numeric( $count['count'] ) ) {
-						$post_item[ $type ] = $count['count'];
-					}
+					$post_item[ $type ] = absint( $count['count'] );
 				}
 				$post_item = array_merge( $cart_item, $post_item );
 				if ( ! isset( $cart[ $id ] ) || ( $cart[ $id ] !== $post_item ) ) {
 					$cart[ $id ] = $post_item;
 				}
 			}
+		}
+		$has_contents = false;
+		// If any ticket type has a count, keep event in cart.
+		foreach( $cart[ $id ] as $type => $counted ) {
+			if ( 0 !== (int) $counted ) {
+				$has_contents = true;
+			}
+		}
+		if ( ! $has_contents ) {
+			unset( $cart[ $id ] );
 		}
 		$updated = mt_save_data( $cart, 'cart', true );
 	}
