@@ -113,8 +113,13 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 		$output = __( 'Your ticket information will be available once your payment is completed.', 'my-tickets' );
 	} else {
 		$total = 0;
+		$ids   = array();
 		foreach ( $purchase as $event ) {
 			foreach ( $event as $event_id => $tickets ) {
+				if ( in_array( $event_id, $ids, true ) ) {
+					continue;
+				}
+				$ids[] = $event_id;
 				if ( false === get_post_status( $event_id ) ) {
 					// This event does not exist.
 					return __( 'This event has been deleted.', 'my-tickets' );
