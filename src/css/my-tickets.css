@@ -11,6 +11,10 @@
     transition: background .5s ease-in-out;
 }
 
+.mt-debug-details {
+    display: none;
+}
+
 .mt-pricing tr.fade:hover {
     background: #ffe;
 }

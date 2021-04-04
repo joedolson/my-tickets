@@ -139,7 +139,7 @@ function mt_create_payment( $post ) {
 	}
 	update_post_meta( $purchase_id, '_gateway', $post['mt_gateway'] );
 	update_post_meta( $purchase_id, '_purchase_data', $purchased );
-	mt_debug( print_r( $purchased, 1 ), 'Purchase Data saved for payment at creation', $purchase_id );
+	mt_debug( print_r( $purchased, 1 ), 'Purchase Data saved at nav to payment screen', $purchase_id );
 	update_post_meta( $purchase_id, '_ticketing_method', $post['ticketing_method'] );
 	// for pushing data into custom fields.
 	do_action( 'mt_save_payment_fields', $purchase_id, $post, $purchased );

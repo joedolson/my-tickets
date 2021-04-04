@@ -29,24 +29,25 @@ function mt_show_debug_data() {
 	$debug_log = get_post_meta( $post_ID, '_debug_data' );
 	if ( is_array( $debug_log ) ) {
 		foreach ( $debug_log as $key => $entry ) {
-			$records .= "<li><button type='button' class='toggle-debug button-secondary' aria-expanded='false'><strong>" . $entry['subject'] . ' / ' . $entry['timestamp'] . "</strong></button><pre class='wpt-debug-details'>" . print_r( $entry['data'], 1 ) . '</pre></li>';
+			$datetime = get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' );
+			$records .= "<li><button type='button' class='toggle-debug button-secondary' aria-expanded='false'><strong>" . $entry['subject'] . ' / ' . date_i18n( $datetime, $entry['timestamp'] ) . "</strong></button><pre class='mt-debug-details'>" . print_r( $entry['data'], 1 ) . '</pre></li>';
 		}
 	}
 	$script = "
 <script>
 (function ($) {
-$(function() {
-	$( 'button.toggle-debug' ).on( 'click', function() {
-		var next = $( this ).next( 'pre' );
-		if ( $( this ).next( 'pre' ).is( ':visible' ) ) {
-			$( this ).next( 'pre' ).hide();
-			$( this ).attr( 'aria-expanded', 'false' );
-		} else {
-			$( this ).next( 'pre' ).show();
-			$( this ).attr( 'aria-expanded', 'true' );
-		}
-	});
-})
+	$(function() {
+		$( 'button.toggle-debug' ).on( 'click', function() {
+			var next = $( this ).next( 'pre' );
+			if ( $( this ).next( 'pre' ).is( ':visible' ) ) {
+				$( this ).next( 'pre' ).hide();
+				$( this ).attr( 'aria-expanded', 'false' );
+			} else {
+				$( this ).next( 'pre' ).show();
+				$( this ).attr( 'aria-expanded', 'true' );
+			}
+		});
+	})
 })(jQuery);
 </script>";
 
