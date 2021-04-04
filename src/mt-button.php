@@ -745,11 +745,6 @@ function mt_display_message( $content ) {
  * @return bool
  */
 function mt_save_data( $passed, $type = 'cart', $override = false ) {
-	if ( isset( $passed['event_id'] ) ) {
-		mt_debug( print_r( $passed, 1 ), 'mt_save_data', $passed['event_id'] );
-	} else {
-		mt_debug( print_r( $passed, 1 ), 'mt_save_data' );
-	}
 	$type = sanitize_title( $type );
 	if ( true === $override ) {
 		$save = $passed;
@@ -873,7 +868,6 @@ function mt_get_data( $type, $user_ID = false ) {
  */
 function mt_update_cart( $post = array() ) {
 	$cart = mt_get_cart();
-	mt_debug( print_r( $post, 1 ), 'mt_update_cart' );
 	if ( ! $cart ) {
 		$event_id = ( isset( $post['mt_event_id'] ) ) ? $post['mt_event_id'] : false;
 		$options  = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : false;

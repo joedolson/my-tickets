@@ -101,7 +101,6 @@ function mt_ajax_handler() {
 				$submit[ $item[0] ] = urldecode( $item[1] );
 			}
 		}
-		mt_debug( print_r( $submit, 1 ), 'mt_ajax_handler' );
 
 		// generate and submit cart data.
 		$save = array(
@@ -109,8 +108,6 @@ function mt_ajax_handler() {
 			'mt_event_id'          => $submit['mt_event_id'],
 			'mt_tickets'           => $submit['mt_tickets'],
 		);
-
-		mt_debug( print_r( $save, 1 ), 'mt_ajax_handler' );
 
 		$saved = mt_update_cart( $save );
 		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
