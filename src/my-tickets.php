@@ -133,16 +133,18 @@ define( 'MT_DEBUG', false );
 function mt_debug( $data, $subject = '', $post_id = false, $override = false ) {
 	if ( true === MT_DEBUG || true === $override ) {
 		if ( $post_id ) {
-			update_post_meta(
+			add_post_meta(
 				$post_id,
 				'_debug_data',
 				array(
-					'subject' => $subject,
-					'data'    => $data,
+					'subject'   => $subject,
+					'data'      => $data,
+					'timestamp' => mt_current_time(),
 				)
 			);
+		} else {
+			wp_mail( get_option( 'admin_email' ), "Debugging: $subject", $data );
 		}
-		wp_mail( get_option( 'admin_email' ), "Debugging: $subject", $data );
 	}
 }
 

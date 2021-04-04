@@ -25,11 +25,11 @@ function mt_show_debug_box() {
  */
 function mt_show_debug_data() {
 	global $post_ID;
-	$records                    = '';
-	$debug_log['Purchase Data'] = get_post_meta( $post_ID, '_purchase_data', true );
+	$records   = '';
+	$debug_log = get_post_meta( $post_ID, '_debug_data' );
 	if ( is_array( $debug_log ) ) {
 		foreach ( $debug_log as $key => $entry ) {
-			$records .= "<li><button type='button' class='toggle-debug button-secondary' aria-expanded='false'><strong>$key</strong></button><pre class='wpt-debug-details'>" . esc_html( $entry ) . '</pre></li>';
+			$records .= "<li><button type='button' class='toggle-debug button-secondary' aria-expanded='false'><strong>" . $entry['subject'] . ' / ' . $entry['timestamp'] . "</strong></button><pre class='wpt-debug-details'>" . print_r( $entry['data'], 1 ) . '</pre></li>';
 		}
 	}
 	$script = "
