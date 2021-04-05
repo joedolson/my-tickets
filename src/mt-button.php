@@ -799,9 +799,9 @@ function mt_set_user_unique_id() {
 					'httponly' => true,
 					'samesite' => 'Lax',
 				);
-				setcookie( 'mt_unique_id', 'true', $options );
+				setcookie( 'mt_unique_id', $unique_id, $options );
 			} else {
-				setcookie( 'mt_unique_id', 'true', time() + 60 * 60 * 24 * 7, SITECOOKIEPATH, COOKIE_DOMAIN, false, true );
+				setcookie( 'mt_unique_id', $unique_id, time() + 60 * 60 * 24 * 7, SITECOOKIEPATH, COOKIE_DOMAIN, false, true );
 			}
 		}
 	}
