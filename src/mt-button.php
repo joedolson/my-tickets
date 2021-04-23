@@ -48,7 +48,7 @@ function mt_has_tickets( $pricing ) {
 	$return = false;
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $options ) {
-			$tickets = absint( $options['tickets'] );
+			$tickets = (int) $options['tickets'];
 			if ( $tickets > 0 ) {
 				$return = true;
 			}
