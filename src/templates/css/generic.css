@@ -30,14 +30,25 @@ a.print {
     text-align: center;
 }
 
-.pending {
-    background: #ffa;
+.mt-verification div {
     padding: .5em;
 }
 
+.pending {
+    background: #f5e6ab;
+    border-left: 8px solid #755100;
+}
+
 .completed {
-    background: #afa;
-    padding: .5em;
+    background: #edfaef;
+    border-left: 8px solid #005c12;
+    font-weight: 700;
+}
+
+.completed.used {
+    background: #facfd2;
+    border-left: 8px solid #8a2424;
+    font-weight: 700;
 }
 
 .mt-verification {
