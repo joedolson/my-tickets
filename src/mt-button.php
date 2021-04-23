@@ -165,7 +165,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 							$handling_notice    = mt_handling_notice();
 							$ticket_price_label = apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling );
 							$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0', $type );
-							$value              = ( '' === $value ) ? 0 : absint( $value );
+							$value              = ( '' === $value ) ? 0 : (int) $value;
 							$order_value        = $value;
 							$attributes         = '';
 							if ( 'checkbox' === $input_type || 'radio' === $input_type ) {

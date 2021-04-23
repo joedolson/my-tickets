@@ -86,6 +86,10 @@
 				var newval = 0;
 				$(target).addClass('removed');
 			}
+			// Prevent setting negative values.
+			if ( 0 > newval ) {
+				newval = 0;
+			}
 			if ( newval > remain && action == 'more' ) {
 				$( '.mt-response').html("<p>" + mt_ajax_cart.max_limit + "</p>").show(300);
 			} else {
