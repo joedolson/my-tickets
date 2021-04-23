@@ -7,7 +7,7 @@ Tested up to: 5.7
 Requires PHP: 5.6
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.24
+Stable tag: 1.8.25
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -70,6 +70,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Bug fix: Use COOKIEPATH instead of SITECOOKIEPATH. (See also 1.0.5. D'oh.)
 * Bug fix: Handle situation where negative value ticket counts are passed to cart & payment.
+* Change: Ticket verification styles. (Core colors, font sizing, used indicator.)
 
 = 1.8.24 =
 

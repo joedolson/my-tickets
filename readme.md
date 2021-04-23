@@ -10,7 +10,7 @@ Sell Event Tickets on any post
 * Tags: tickets, events, WordPress
 * Requires at least: 4.7
 * Tested up to: 5.7
-* Stable tag: `1.8.24`
+* Stable tag: `1.8.25`
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
