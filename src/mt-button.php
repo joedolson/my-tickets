@@ -793,7 +793,7 @@ function mt_set_user_unique_id() {
 				// Fix syntax.
 				$options = array(
 					'expires'  => time() + 60 * 60 * 24 * 7,
-					'path'     => SITECOOKIEPATH,
+					'path'     => COOKIEPATH,
 					'domain'   => COOKIE_DOMAIN,
 					'secure'   => false,
 					'httponly' => true,
@@ -801,7 +801,7 @@ function mt_set_user_unique_id() {
 				);
 				setcookie( 'mt_unique_id', $unique_id, $options );
 			} else {
-				setcookie( 'mt_unique_id', $unique_id, time() + 60 * 60 * 24 * 7, SITECOOKIEPATH, COOKIE_DOMAIN, false, true );
+				setcookie( 'mt_unique_id', $unique_id, time() + 60 * 60 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN, false, true );
 			}
 		}
 	}
@@ -894,7 +894,7 @@ function mt_update_cart( $post = array() ) {
 		// If any ticket type has a count, keep event in cart.
 		foreach ( $cart as $id => $type ) {
 			foreach ( $type as $counted ) {
-				if ( 0 !== (int) $counted ) {
+				if ( 0 < (int) $counted ) {
 					$has_contents = true;
 				}
 			}
