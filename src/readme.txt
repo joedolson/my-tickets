@@ -70,6 +70,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Bug fix: Use COOKIEPATH instead of SITECOOKIEPATH. (See also 1.0.5. D'oh.)
 * Bug fix: Handle situation where negative value ticket counts are passed to cart & payment.
+* Bug fix: Don't cast ticket counts using absint
+* Bug fix: Don't allow setting ticket counts to negative values.
 * Change: Ticket verification styles. (Core colors, font sizing, used indicator.)
 
 = 1.8.24 =
