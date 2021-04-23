@@ -66,6 +66,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.25 =
+
+* Bug fix: Use COOKIEPATH instead of SITECOOKIEPATH. (See also 1.0.5. D'oh.)
+* Bug fix: Handle situation where negative value ticket counts are passed to cart & payment.
+
 = 1.8.24 =
 
 * Critical bug fix: error in unique ID cookie setting.
