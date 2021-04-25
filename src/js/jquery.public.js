@@ -8,10 +8,10 @@
 
 		$("input[type='number']").on('keydown', function (e) {
 			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-					// Allow: Ctrl+A
-				(e.keyCode == 65 && e.ctrlKey === true) ||
-					// Allow: home, end, left, right
-				(e.keyCode >= 35 && e.keyCode <= 39)) {
+					// Allow: Ctrl combinations. This allows pasting letters, but OH WELL.
+				( e.ctrlKey === true ) ||
+					// Allow: home, end, left, right, up, down
+				(e.keyCode >= 35 && e.keyCode <= 40 )) {
 				// let it happen, don't do anything
 				return;
 			}
@@ -114,6 +114,7 @@
 					'security': mt_ajax_cart.security
 				};
 				$.post(mt_ajax_cart.url, data, function (response) {
+					console.log( response );
 					if (response.success == 1 ) {
 						$('.mt-response').html("<p>" + response.response + "</p>").show(300);
 						if ( !( mtTotal < 0 || tCount <= 0 ) ) {
