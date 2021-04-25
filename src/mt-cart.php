@@ -335,7 +335,7 @@ function mt_render_field( $field, $argument = false ) {
 				$payment_id = (int) $_GET['payment'];
 				$phone      = get_post_meta( $payment_id, '_phone', true );
 			}
-			$output = '<p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" required aria-required="true"  /></p>';
+			$output = '<p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" autocomplete="tel" required aria-required="true"  /></p>';
 			break;
 	}
 
