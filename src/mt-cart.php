@@ -276,27 +276,27 @@ function mt_render_field( $field, $argument = false ) {
 					<legend>' . __( 'Shipping Address', 'my-tickets' ) . '</legend>
 					<p>
 						<label for="mt_address_street">' . __( 'Street', 'my-tickets' ) . '</label>
-						<input type="text" name="mt_shipping_street" id="mt_address_street" class="mt_street" value="' . esc_attr( stripslashes( $address['street'] ) ) . '" required />
+						<input type="text" name="mt_shipping_street" id="mt_address_street" class="mt_street" value="' . esc_attr( stripslashes( $address['street'] ) ) . '" autocomplete="address-line1" required />
 					</p>
 					<p>
 						<label for="mt_address_street2">' . __( 'Street (2)', 'my-tickets' ) . '</label>
-						<input type="text" name="mt_shipping_street2" id="mt_address_street2" class="mt_street2" value="' . esc_attr( stripslashes( $address['street2'] ) ) . '" />
+						<input type="text" name="mt_shipping_street2" id="mt_address_street2" class="mt_street2" value="' . esc_attr( stripslashes( $address['street2'] ) ) . '" autocomplete="address-line2" />
 					</p>
 					<p>
 						<label for="mt_address_city">' . __( 'City', 'my-tickets' ) . '</label>
-						<input type="text" name="mt_shipping_city" id="mt_address_city" class="mt_city" value="' . esc_attr( stripslashes( $address['city'] ) ) . '" required />
+						<input type="text" name="mt_shipping_city" id="mt_address_city" class="mt_city" value="' . esc_attr( stripslashes( $address['city'] ) ) . '" autocomplete="address-level2" required />
 					</p>
 					<p>
 						<label for="mt_address_state">' . __( 'State/Province', 'my-tickets' ) . '</label>
-						<input type="text" name="mt_shipping_state" id="mt_address_state" class="mt_state" value="' . esc_attr( stripslashes( $address['state'] ) ) . '" />
+						<input type="text" name="mt_shipping_state" id="mt_address_state" class="mt_state" value="' . esc_attr( stripslashes( $address['state'] ) ) . '" autocomplete="address-level1" />
 					</p>
 					<p>
 						<label for="mt_address_code">' . __( 'Postal Code', 'my-tickets' ) . '</label>
-						<input type="text" name="mt_shipping_code" size="10" id="mt_address_code" class="mt_code" value="' . esc_attr( stripslashes( $address['code'] ) ) . '" required />
+						<input type="text" name="mt_shipping_code" size="10" id="mt_address_code" class="mt_code" value="' . esc_attr( stripslashes( $address['code'] ) ) . '" autocomplete="postal-code" required />
 					</p>
 					<p>
 						<label for="mt_address_country">' . __( 'Country', 'my-tickets' ) . '</label>
-						<select name="mt_shipping_country" id="mt_address_country" class="mt_country">
+						<select name="mt_shipping_country" id="mt_address_country" class="mt_country" autocomplete="country">
 						<option value="">Select Country</option>
 						' . mt_shipping_country( $address['country'] ) . '
 						</select>
@@ -316,7 +316,7 @@ function mt_render_field( $field, $argument = false ) {
 				$fname      = get_post_meta( $payment_id, '_first_name', true );
 				$lname      = get_post_meta( $payment_id, '_last_name', true );
 			}
-			$output = '<div class="mt-names"><p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" required aria-required="true" /></p><p><label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" required aria-required="true" /></p></div>';
+			$output = '<div class="mt-names"><p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" autocomplete="given-name" required aria-required="true" /></p><p><label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" autocomplete="family-name" required aria-required="true" /></p></div>';
 			break;
 		case 'email':
 			$user_email = ( is_user_logged_in() ) ? $current_user->user_email : '';
@@ -325,7 +325,7 @@ function mt_render_field( $field, $argument = false ) {
 				$payment_id = (int) $_GET['payment'];
 				$email      = get_post_meta( $payment_id, '_email', true );
 			}
-			$output  = '<div class="mt-emails"><p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /></p>';
+			$output  = '<div class="mt-emails"><p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" autocomplete="email" required aria-required="true"  /></p>';
 			$output .= '<p><label for="mt_email2">' . __( 'E-mail (confirm)', 'my-tickets' ) . '</label> <input type="email" name="mt_email2" id="mt_email2" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /><span class="mt_email_check" aria-live="polite"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address matches', 'my-tickets' ) . '</span><span class="mismatch"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Email address does not match', 'my-tickets' ) . '</span></span></span></p></div>';
 			break;
 		case 'phone':
