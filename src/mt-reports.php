@@ -377,6 +377,13 @@ function mt_select_events() {
 	$query   = new WP_Query( $args );
 	$posts   = $query->posts;
 	$options = '<option value="false"> --- </option>';
+	if ( isset( $_GET['event_id'] ) ) {
+		$event_id = absint( $_GET['event_id'] );
+		$post     = get_post( $event_id );
+		if ( $post ) {
+			$posts[] = $post;
+		}
+	}
 	foreach ( $posts as $post ) {
 		$tickets    = get_post_meta( $post->ID, '_ticket' );
 		$count      = count( $tickets );
@@ -807,6 +814,15 @@ function mt_get_report_data_by_time() {
 		$titles       = array();
 		foreach ( $purchased as $purchase ) {
 			foreach ( $purchase as $event => $purch ) {
+				// If, after iterating over an event's tickets, there are none, don't include.
+				$total = 0;
+				foreach( $purch as $type => $values ) {
+					$count = (int) $values['count'];
+					$total = $total + $count;
+				}
+				if ( 0 === $total ) {
+					continue;
+				}
 				$post_type = get_post_type( $event );
 				if ( 'mc-events' === $post_type ) {
 					$mc_event = get_post_meta( $event, '_mc_event_id', true );
