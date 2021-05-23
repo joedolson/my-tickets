@@ -66,6 +66,14 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.26 =
+
+* Use autocomplete for name, email, and address fields.
+* Bug fix: Don't prevent down arrow in number fields.
+* Bug fix: Directly passed report IDs not shown in report dropdowns.
+* Add cache busting for common caching plugins whenever cart, user meta, or cookies are updated.
+*
+
 = 1.8.25 =
 
 * Bug fix: Use COOKIEPATH instead of SITECOOKIEPATH. (See also 1.0.5. D'oh.)
