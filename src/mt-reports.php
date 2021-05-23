@@ -816,7 +816,7 @@ function mt_get_report_data_by_time() {
 			foreach ( $purchase as $event => $purch ) {
 				// If, after iterating over an event's tickets, there are none, don't include.
 				$total = 0;
-				foreach( $purch as $type => $values ) {
+				foreach ( $purch as $type => $values ) {
 					$count = (int) $values['count'];
 					$total = $total + $count;
 				}

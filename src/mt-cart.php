@@ -258,9 +258,9 @@ function mt_render_field( $field, $argument = false ) {
 		'country' => '',
 		'code'    => '',
 	);
-	$payment_id = false;
+	$payment_id   = false;
 	if ( isset( $_GET['payment'] ) || mt_get_data( 'payment' ) ) {
-		$payment_id = ( isset( $_GET['payment'] ) ) ? (int) $_GET['payment'] : mt_get_data('payment' );
+		$payment_id = ( isset( $_GET['payment'] ) ) ? (int) $_GET['payment'] : mt_get_data( 'payment' );
 	}
 	switch ( $field ) {
 		case 'address':
