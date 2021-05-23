@@ -258,6 +258,10 @@ function mt_render_field( $field, $argument = false ) {
 		'country' => '',
 		'code'    => '',
 	);
+	$payment_id = false;
+	if ( isset( $_GET['payment'] ) || mt_get_data( 'payment' ) ) {
+		$payment_id = ( isset( $_GET['payment'] ) ) ? (int) $_GET['payment'] : mt_get_data('payment' );
+	}
 	switch ( $field ) {
 		case 'address':
 			// only show shipping fields if postal ticketing in use.
@@ -311,19 +315,17 @@ function mt_render_field( $field, $argument = false ) {
 			$user_lname = ( is_user_logged_in() ) ? $current_user->user_lastname : '';
 			$fname      = ( isset( $_POST['mt_fname'] ) ) ? $_POST['mt_fname'] : $user_fname;
 			$lname      = ( isset( $_POST['mt_lname'] ) ) ? $_POST['mt_lname'] : $user_lname;
-			if ( isset( $_GET['payment'] ) ) {
-				$payment_id = (int) $_GET['payment'];
-				$fname      = get_post_meta( $payment_id, '_first_name', true );
-				$lname      = get_post_meta( $payment_id, '_last_name', true );
+			if ( $payment_id ) {
+				$fname = get_post_meta( $payment_id, '_first_name', true );
+				$lname = get_post_meta( $payment_id, '_last_name', true );
 			}
 			$output = '<div class="mt-names"><p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" autocomplete="given-name" required aria-required="true" /></p><p><label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" autocomplete="family-name" required aria-required="true" /></p></div>';
 			break;
 		case 'email':
 			$user_email = ( is_user_logged_in() ) ? $current_user->user_email : '';
 			$email      = ( isset( $_POST['mt_email'] ) ) ? $_POST['mt_email'] : $user_email;
-			if ( isset( $_GET['payment'] ) ) {
-				$payment_id = (int) $_GET['payment'];
-				$email      = get_post_meta( $payment_id, '_email', true );
+			if ( $payment_id ) {
+				$email = get_post_meta( $payment_id, '_email', true );
 			}
 			$output  = '<div class="mt-emails"><p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" autocomplete="email" required aria-required="true"  /></p>';
 			$output .= '<p><label for="mt_email2">' . __( 'E-mail (confirm)', 'my-tickets' ) . '</label> <input type="email" name="mt_email2" id="mt_email2" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /><span class="mt_email_check" aria-live="polite"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address matches', 'my-tickets' ) . '</span><span class="mismatch"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Email address does not match', 'my-tickets' ) . '</span></span></span></p></div>';
@@ -331,9 +333,8 @@ function mt_render_field( $field, $argument = false ) {
 		case 'phone':
 			$user_phone = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, 'mt_phone', true ) : '';
 			$phone      = ( isset( $_POST['mt_phone'] ) ) ? $_POST['mt_phone'] : $user_phone;
-			if ( isset( $_GET['payment'] ) ) {
-				$payment_id = (int) $_GET['payment'];
-				$phone      = get_post_meta( $payment_id, '_phone', true );
+			if ( $payment_id ) {
+				$phone = get_post_meta( $payment_id, '_phone', true );
 			}
 			$output = '<p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" autocomplete="tel" required aria-required="true"  /></p>';
 			break;
