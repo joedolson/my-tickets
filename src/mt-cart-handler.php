@@ -384,38 +384,43 @@ function mt_refresh_cache() {
 	$purchase   = $options['mt_purchase_page'];
 	$to_refresh = apply_filters( 'mt_cached_pages_to_refresh', array( $receipts, $tickets, $purchase ) );
 
-	foreach ( $to_refresh as $calendar ) {
-		if ( ! $calendar || ! get_post( $calendar ) ) {
+	foreach ( $to_refresh as $post ) {
+		if ( ! $post || ! get_post( $post ) ) {
 			continue;
 		}
 		// W3 Total Cache.
 		if ( function_exists( 'w3tc_pgcache_flush_post' ) ) {
-			w3tc_pgcache_flush_post( $calendar );
+			w3tc_pgcache_flush_post( $post );
 		}
 
 		// WP Super Cache.
 		if ( function_exists( 'wp_cache_post_change' ) ) {
-			wp_cache_post_change( $calendar );
+			wp_cache_post_change( $post );
 		}
 
 		// WP Rocket.
 		if ( function_exists( 'rocket_clean_post' ) ) {
-			rocket_clean_post( $calendar );
+			rocket_clean_post( $post );
 		}
 
 		// WP Fastest Cache.
 		if ( isset( $GLOBALS['wp_fastest_cache'] ) && method_exists( $GLOBALS['wp_fastest_cache'], 'singleDeleteCache' ) ) {
-			$GLOBALS['wp_fastest_cache']->singleDeleteCache( false, $calendar );
+			$GLOBALS['wp_fastest_cache']->singleDeleteCache( false, $post );
 		}
 
 		// Comet Cache.
 		if ( class_exists( 'comet_cache' ) ) {
-			comet_cache::clearPost( $calendar );
+			comet_cache::clearPost( $post );
 		}
 
 		// Cache Enabler.
 		if ( class_exists( 'Cache_Enabler' ) ) {
-			Cache_Enabler::clear_page_cache_by_post_id( $calendar );
+			Cache_Enabler::clear_page_cache_by_post_id( $post );
+		}
+
+		// WP-Optimize.
+		if ( class_exists( 'WPO_Page_Cache' ) ) {
+			WPO_Page_Cache::delete_single_post_cache( $post );
 		}
 	}
 }
