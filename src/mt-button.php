@@ -764,6 +764,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		}
 	}
 	$current_user = wp_get_current_user();
+	mt_refresh_cache();
 	if ( is_user_logged_in() ) {
 		update_user_meta( $current_user->ID, "_mt_user_$type", $save );
 
