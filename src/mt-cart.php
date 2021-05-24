@@ -197,7 +197,7 @@ function mt_render_types( $types ) {
 	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$ticketing = apply_filters( 'mt_ticketing_availability', $options['mt_ticketing'], $types );
 	$default   = isset( $options['mt_ticket_type_default'] ) ? $options['mt_ticket_type_default'] : '';
-	$output    = '<p><label for="ticketing_method">' . __( 'Ticket Type', 'my-tickets' ) . '</label> <select name="ticketing_method" id="ticketing_method">';
+	$output    = '<p class="mt-ticket-type"><label for="ticketing_method">' . __( 'Ticket Type', 'my-tickets' ) . '</label> <select name="ticketing_method" id="ticketing_method">';
 	foreach ( $ticketing as $key => $method ) {
 		if ( in_array( $key, $types, true ) ) {
 			$selected = selected( $key, $default, false );

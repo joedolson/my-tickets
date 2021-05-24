@@ -73,7 +73,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Directly passed report IDs not shown in report dropdowns.
 * Add cache busting for common caching plugins whenever cart, user meta, or cookies are updated.
 * Bug fix: Retain name & email when a user goes back to edit their cart.
-*
+* Display: Stylesheet changes. Additional classes.
 
 = 1.8.25 =
 

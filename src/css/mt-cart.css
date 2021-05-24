@@ -215,6 +215,11 @@ button[name="mt_add_to_cart"] img {
     flex-wrap: wrap;
     align-items: top;
     column-gap: 20px;
+    margin-bottom: 20px;
+}
+
+.mt_submit {
+    margin-top: 20px;
 }
 
 .mt-emails input, .mt-names input {
