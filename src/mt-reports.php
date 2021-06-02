@@ -815,12 +815,12 @@ function mt_get_report_data_by_time() {
 		foreach ( $purchased as $purchase ) {
 			foreach ( $purchase as $event => $purch ) {
 				// If, after iterating over an event's tickets, there are none, don't include.
-				$total = 0;
+				$subtotal = 0;
 				foreach ( $purch as $type => $values ) {
 					$count = (int) $values['count'];
-					$total = $total + $count;
+					$subtotal = $subtotal + $count;
 				}
-				if ( 0 === $total ) {
+				if ( 0 === $subtotal ) {
 					continue;
 				}
 				$post_type = get_post_type( $event );
