@@ -66,6 +66,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.28 =
+
+* Bug fix: typo in option index for cache refreshing.
+
 = 1.8.27 =
 
 * Bug fix: Accidentally overwrote the total sales value when parsing sales by date.
