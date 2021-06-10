@@ -379,7 +379,7 @@ function mt_check_payment_amount( $price, $purchase_id ) {
  */
 function mt_refresh_cache() {
 	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-	$receipts   = $options['mt_receipts_page'];
+	$receipts   = $options['mt_receipt_page'];
 	$tickets    = $options['mt_tickets_page'];
 	$purchase   = $options['mt_purchase_page'];
 	$to_refresh = apply_filters( 'mt_cached_pages_to_refresh', array( $receipts, $tickets, $purchase ) );
