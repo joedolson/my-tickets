@@ -69,6 +69,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.8.28 =
 
 * Bug fix: typo in option index for cache refreshing.
+* Bug fix: reversed needle and haystack in in_array verification.
+* Change: default number of events shown in select list for reports from 50 to 100.
 
 = 1.8.27 =
 
