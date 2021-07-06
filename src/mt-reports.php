@@ -363,7 +363,7 @@ function mt_select_events() {
 	$args    =
 		array(
 			'post_type'      => $settings['mt_post_types'],
-			'posts_per_page' => apply_filters( 'mt_select_events_count', 50 ),
+			'posts_per_page' => apply_filters( 'mt_select_events_count', 100 ),
 			'post_status'    => array( 'publish', 'draft', 'private' ),
 			'meta_query'     => array(
 				'relation' => 'AND',
