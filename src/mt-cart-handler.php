@@ -192,7 +192,7 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 	$ids = array();
 	foreach ( $purchased as $event_id => $purchase ) {
 		// It's possible for an event ID to appear in this list twice. If so, ignore the repetitions; they're duplicates.
-		if ( in_array( $ids, $event_id, true ) ) {
+		if ( in_array( $event_id, $ids, true ) ) {
 			continue;
 		}
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
