@@ -32,6 +32,7 @@ function mt_update_payment_settings( $post ) {
 		$mt_currency         = $post['mt_currency'];
 		$mt_dec_point        = ( isset( $post['mt_dec_point'] ) ) ? $post['mt_dec_point'] : '.';
 		$mt_thousands_sep    = ( isset( $post['mt_thousands_sep'] ) ) ? $post['mt_thousands_sep'] : ',';
+		$symbol_order        = ( isset( $post['symbol_order'] ) ) ? $post['symbol_order'] : 'symbol-first';
 		$mt_phone            = ( isset( $post['mt_phone'] ) ) ? 'on' : 'off';
 
 		$mt_default_gateway = ( isset( $post['mt_default_gateway'] ) ) ? $post['mt_default_gateway'] : 'offline';
@@ -54,6 +55,7 @@ function mt_update_payment_settings( $post ) {
 				'mt_currency'         => $mt_currency,
 				'mt_dec_point'        => $mt_dec_point,
 				'mt_thousands_sep'    => $mt_thousands_sep,
+				'symbol_order'        => $symbol_order,
 				'mt_phone'            => $mt_phone,
 				'mt_gateway'          => $mt_gateway,
 				'mt_default_gateway'  => $mt_default_gateway,
@@ -104,6 +106,7 @@ function mt_payment_settings() {
 							<h2 class="hndle"><?php _e( 'Registration Payment Settings', 'my-tickets' ); ?></h2>
 
 							<div class="inside">
+								<p class="mt-money-format"><strong><?php _e( 'Current format', 'my-tickets' ); ?></strong><br /><?php echo mt_money_format( '25097.87' ); ?></p>
 								<ul>
 									<li><label for="mt_currency"><?php _e( 'Currency:', 'my-tickets' ); ?></label>
 										<?php
@@ -123,6 +126,15 @@ function mt_payment_settings() {
 									<li>
 										<label for="mt_thousands_sep"><?php _e( 'Thousands separator', 'my-tickets' ); ?></label>
 										<input type="text" name="mt_thousands_sep" id="mt_thousands_sep" size="3" value="<?php echo stripslashes( esc_attr( $options['mt_thousands_sep'] ) ); ?>"/>
+									</li>
+									<li>
+										<fieldset>
+											<legend><?php _e( 'Symbol Order', 'my-tickets' ); ?></legend>
+											<p>
+											<input type="radio" name="symbol_order" id="symbol_first" value="symbol-first" <?php checked( $options['symbol_order'], 'symbol-first' ); ?> /> <label for="symbol_first"><?php _e( 'Symbol first, number last', 'my-tickets' ); ?></label>
+											<input type="radio" name="symbol_order" id="symbol_last" value="symbol-last" <?php checked( $options['symbol_order'], 'symbol-last' ); ?> /> <label for="symbol_last"><?php _e( 'Number first, symbol last', 'my-tickets' ); ?></label>
+											</p>
+										</fieldset>
 									</li>
 									<li>
 										<label for="mt_members_discount"><?php _e( 'Member discount (%)', 'my-tickets' ); ?></label>
@@ -269,8 +281,10 @@ function mt_payment_settings() {
  */
 function mt_symbols( $currency ) {
 	$currencies = mt_currency();
+	$symbol     = $currencies[ $currency ]['symbol'];
+	$symbol     = ( ! $symbol ) ? $currency : $symbol;
 
-	return $currencies[ $currency ]['symbol'];
+	return $symbol;
 }
 
 /**
