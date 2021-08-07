@@ -51,6 +51,15 @@ legend {
     width: 20%;
 }
 
+.mt-money-format {
+    float: right;
+    margin: 0;
+    padding: .5em;
+    font-size: 1.2em;
+    border-radius: 5px;
+    background: #0000000a;
+}
+
 .mt-tabs .tabs {
     margin: 0 !important;
     padding: 0 4px;
