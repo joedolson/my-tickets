@@ -3,7 +3,7 @@ Contributors: joedolson
 Donate link: http://www.joedolson.com/donate/
 Tags: events, ticket sales, tickets, ticketing, registration, reservations, event tickets, sell tickets, event registration, box office
 Requires at least: 4.7
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.6
 License: GPLv2 or later
 Text domain: my-tickets
@@ -65,6 +65,14 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
 == Changelog ==
+
+= 1.8.29 =
+
+* Add important to some key mobile CSS.
+* New: Setting to configure symbol order in money formatting.
+* Bug fix: `[remaining]` shortcode incorrectly checked the variable type passed as event ID.
+* Bug fix: Add scripting to check and verify required fields when custom fields added.
+* Bug fix: Change time period for default reports lists from one month to two years.
 
 = 1.8.28 =
 
