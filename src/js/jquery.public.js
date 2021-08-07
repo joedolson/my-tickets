@@ -55,8 +55,6 @@
 					purchasing = purchasing + current_value;
 				}
 			});
-			console.log( "Purchasing: " + purchasing );
-			console.log( "Remaining: " + remaining );
 			if (purchasing > remaining) {
 				$('button[name="mt_add_to_cart"]').addClass('mt-invalid-purchase').attr('disabled', 'disabled');
 			} else {
@@ -114,7 +112,6 @@
 					'security': mt_ajax_cart.security
 				};
 				$.post(mt_ajax_cart.url, data, function (response) {
-					console.log( response );
 					if (response.success == 1 ) {
 						$('.mt-response').html("<p>" + response.response + "</p>").show(300);
 						if ( !( mtTotal < 0 || tCount <= 0 ) ) {
@@ -140,29 +137,63 @@
 			$('input[name="mt_gateway"]').val(gateway);
 		});
 
-		$('.ticket-orders button').on('click', function (e) {
-			$('.mt-processing').show();
-			e.preventDefault();
-			var post = $(this).closest('.ticket-orders').serialize();
-			var data = {
-				'action': mt_ajax.action,
-				'data': post,
-				'function': 'add_to_cart',
-				'security': mt_ajax.security
-			};
-			$.post(mt_ajax.url, data, function (response) {
-				$('#mt-response-' + response.event_id).html("<p>" + response.response + "</p>").show(300).attr('tabindex','-1').focus();
-				if ( response.success == 1 ) {
-					if ( mt_ajax.redirect == '0' ){
-						$('.mt_qc_tickets').text(response.count);
-						$('.mt_qc_total').text(parseFloat(response.total, 10).toFixed(2).replace('/(\d)(?=(\d{3})+\.)/g', "$1,").toString());
-					} else {
-						window.location.replace( mt_ajax.cart_url );
-					}
+		var orderButton = $( '.ticket-orders button' );
+	   orderButton.on( 'click', function(e) {
+		   var fields       = [];
+		   let allAreFilled = true;
+			$( ".ticket-orders *[required]").each(function(index,i) {
+				if ( !i.value ) {
+					allAreFilled = false;
+					fields.push( i );
 				}
-			}, "json");
-			$('.mt-processing').hide();
+				if ( i.type === 'radio' ) {
+					let radioValueCheck = false;
+					document.querySelectorAll(`.ticket-orders input[name=${i.name}]`).forEach(function(r) {
+						if (r.checked) {
+							radioValueCheck = true;
+						}
+					});
+					if ( ! radioValueCheck ) {
+						fields.push( i );
+					}
+					allAreFilled = radioValueCheck;
+				}
+			});
+			if ( !allAreFilled ) {
+				var response = $( this ).parents( '.mt-order' ).find( '.mt-response');
+				var list = '';
+				fields.forEach( function(index, e) {
+					var id = index.id;
+					var name = $( 'label[for=' + id + ']' ).text();
+					var error = '<li><a href="#' + id + '">' + name + '</a></li>';
+					list += error;
+				});
+				response.html( '<p>Please complete all required fields!</p><ul>' + list + '</ul>' );
+			} else {
+				$('.mt-processing').show();
+				e.preventDefault();
+				var post = $(this).closest('.ticket-orders').serialize();
+				var data = {
+					'action': mt_ajax.action,
+					'data': post,
+					'function': 'add_to_cart',
+					'security': mt_ajax.security
+				};
+				$.post(mt_ajax.url, data, function (response) {
+					$('#mt-response-' + response.event_id).html("<p>" + response.response + "</p>").show(300).attr('tabindex','-1').focus();
+					if ( response.success == 1 ) {
+						if ( mt_ajax.redirect == '0' ){
+							$('.mt_qc_tickets').text(response.count);
+							$('.mt_qc_total').text(parseFloat(response.total, 10).toFixed(2).replace('/(\d)(?=(\d{3})+\.)/g', "$1,").toString());
+						} else {
+							window.location.replace( mt_ajax.cart_url );
+						}
+					}
+				}, "json");
+				$('.mt-processing').hide();
+			}
 		});
+
 		// on checkbox, update private data
 		$('.mt_save_shipping').on('click', function (e) {
 			e.preventDefault();
