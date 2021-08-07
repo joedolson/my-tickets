@@ -125,7 +125,7 @@ function mt_remaining_tickets( $atts, $content = '' ) {
 	);
 	$template = $atts['template'];
 
-	if ( ! is_int( $atts['event'] ) ) {
+	if ( ! is_numeric( $atts['event'] ) ) {
 		global $post;
 		if ( is_object( $post ) ) {
 			$event_id = $post->ID;
@@ -133,7 +133,7 @@ function mt_remaining_tickets( $atts, $content = '' ) {
 			return $content;
 		}
 	} else {
-		$event_id = $atts['event'];
+		$event_id = (int) $atts['event'];
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	if ( is_array( $registration ) ) {
