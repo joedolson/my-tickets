@@ -827,12 +827,6 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 	}
 	$output  .= '</tr></thead><tbody>';
 	$total    = 0;
-	$currency = $options['mt_currency'];
-	$symbol   = mt_symbols( $currency );
-	// Don't display the currency code if the currency symbol is identical.
-	if ( trim( $symbol ) === trim( $currency ) ) {
-		$currency = '';
-	}
 	if ( is_array( $cart ) && ! empty( $cart ) ) {
 		foreach ( $cart as $event_id => $order ) {
 			// If this post doesn't exist, don't include in cart, e.g. event was deleted after being added to cart.
@@ -898,7 +892,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$total  = $total + ( $price * $count );
 								$custom = apply_filters( 'mt_show_in_cart_fields', '', $event_id );
 								// Translators: (number of tickets) at (price per ticket).
-								$cart_message = sprintf( __( '%1$s at %2$s', 'my-tickets' ), "<span class='count' data-limit='$max'>$count</span>", $currency . apply_filters( 'mt_money_format', $price ) );
+								$cart_message = sprintf( __( '%1$s at %2$s', 'my-tickets' ), "<span class='count' data-limit='$max'>$count</span>", apply_filters( 'mt_money_format', $price ) );
 								$output      .= "
 											<tr id='mt_cart_order_$event_id" . '_' . "$type' class='mt_row_$event_id'>
 												<th scope='row'>$image$title: <em>$label</em><br />$datetime$hidden$custom</th>
