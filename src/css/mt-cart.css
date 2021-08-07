@@ -305,10 +305,10 @@ only screen and (max-width: 760px),
         border: none;
         border-bottom: 1px solid #eee;
         position: relative;
-        padding-left: 30%;
+        padding-left: 30% !important;
     }
     .mt_cart th:first-child {
-        padding-left: 30%;
+        padding-left: 30% !important;
     }
     .mt_cart td:before, .mt_cart th:before {
         /* Now like a table header */
