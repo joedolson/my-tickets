@@ -479,6 +479,7 @@ We\'ll see you soon!<br />
 		'mt_tickets_close_value' => '',
 		'mt_tickets_close_type'  => 'integer',
 		'mt_ticket_image'        => 'ticket',
+		'symbol_order'           => 'symbol-first',
 	);
 
 	return $defaults;
@@ -748,8 +749,12 @@ function mt_money_format( $price ) {
 		$symbol        = mt_symbols( $options['mt_currency'] );
 		$dec_point     = $options['mt_dec_point'];
 		$thousands_sep = $options['mt_thousands_sep'];
+		$order         = $options['symbol_order'];
+		$price         = '<span class="price">' . number_format( $price, 2, $dec_point, $thousands_sep ) . '</span>';
+		$space         = ( 'symbol-first' === $order ) ? '' : ' ';
+		$space         = apply_filters( 'mt_money_format_spacer', $space, $price );
 
-		return $symbol . '<span class="price">' . number_format( $price, 2, $dec_point, $thousands_sep ) . '</span>';
+		return ( 'symbol-first' === $order ) ? $symbol . $space . $price : $price . $space . $symbol;
 	} else {
 		return '';
 	}

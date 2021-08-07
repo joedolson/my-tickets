@@ -28,14 +28,20 @@ function my_tickets_short_cart() {
 	$total   = mt_total_cart( $cart );
 	$tickets = mt_count_cart( $cart );
 	// Translators: Number of tickets.
-	$ticket_text = apply_filters( 'mt_quick_cart_ticket_text', sprintf( __( '%s tickets', 'my-tickets' ), "<span class='mt_qc_tickets'>$tickets</span>" ) );
-	$url         = get_permalink( $options['mt_purchase_page'] );
+	$ticket_text  = apply_filters( 'mt_quick_cart_ticket_text', sprintf( __( '%s tickets', 'my-tickets' ), "<span class='mt_qc_tickets'>$tickets</span>" ) );
+	$url          = get_permalink( $options['mt_purchase_page'] );
+	$symbol_order = $options['symbol_order'];
+	if ( 'symbol-first' === $symbol_order ) {
+		$currency = "<span class='mt_currency'>" . mt_symbols( $options['mt_currency'] ) . "</span><span class='mt_qc_total'>" . number_format( $total, 2 ) . '</span>';
+	} else {
+		$currency = "<span class='mt_qc_total'>" . number_format( $total, 2 ) . "</span> <span class='mt_currency'>" . mt_symbols( $options['mt_currency'] ) . '</span>';
+	}
 	// Translators: Checkout URL.
 	$checkout = apply_filters( 'mt_quick_cart_checkout', sprintf( __( '<a href="%s">Checkout</a>', 'my-tickets' ), $url ) );
 	return "
 		<div class='mt-quick-cart' aria-live='polite'>" . __( 'In your cart: ', 'my-tickets' ) . "$ticket_text
 			<span class='divider'>|</span> 
-			<span class='mt_currency'>" . mt_symbols( $options['mt_currency'] ) . "</span><span class='mt_qc_total'>" . number_format( $total, 2 ) . "</span>
+			$currency
 			<span class='divider'>|</span> 
 			$checkout
 		</div>";
