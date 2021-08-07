@@ -825,8 +825,8 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 	if ( 'cart' === $format ) {
 		$output .= '<th scope="col" class="mt-update-column">' . __( 'Update', 'my-tickets' ) . '</th>';
 	}
-	$output  .= '</tr></thead><tbody>';
-	$total    = 0;
+	$output .= '</tr></thead><tbody>';
+	$total   = 0;
 	if ( is_array( $cart ) && ! empty( $cart ) ) {
 		foreach ( $cart as $event_id => $order ) {
 			// If this post doesn't exist, don't include in cart, e.g. event was deleted after being added to cart.
