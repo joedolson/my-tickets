@@ -359,7 +359,7 @@ function mt_select_events() {
 	// fetch posts with meta data for event sales.
 	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	// add time query to this query after timestamp field has been in place for a few months.
-	// only show limit of 50 events.
+	// only show limit of 100 events.
 	$args    =
 		array(
 			'post_type'      => $settings['mt_post_types'],
@@ -392,8 +392,8 @@ function mt_select_events() {
 		if ( is_array( $event_data ) ) {
 			$event_date   = strtotime( $event_data['event_begin'] );
 			$display_date = date_i18n( get_option( 'date_format' ), $event_date );
-			// if this event happened more than a month ago, don't show in list *unless* it's the currently selected report.
-			$report_age_limit = apply_filters( 'mt_reports_age_limit', mt_current_time() - MONTH_IN_SECONDS );
+			// if this event happened more than 2 years ago, don't show in list *unless* it's the currently selected report.
+			$report_age_limit = apply_filters( 'mt_reports_age_limit', mt_current_time() - ( YEAR_IN_SECONDS * 2 ) );
 			if ( $event_date > $report_age_limit || ' selected="selected"' === $selected ) {
 				$title    = apply_filters( 'mt_the_title', $post->post_title, $post );
 				$options .= "<option value='$post->ID'$selected>$title ($count); $display_date</option>\n";
