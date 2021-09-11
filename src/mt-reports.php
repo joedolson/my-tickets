@@ -858,7 +858,7 @@ function mt_get_report_data_by_time() {
 					$cstring .= $v;
 				}
 			}
-            $c_value       = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
+			$c_value       = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
 			$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$c_value</td>\n";
 			$custom_csv   .= ",\"$c_value\"";
 		}
