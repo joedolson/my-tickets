@@ -841,9 +841,9 @@ function mt_get_report_data_by_time() {
 		$custom_cells  = '';
 		$custom_csv    = '';
 		foreach ( $custom_fields as $name => $field ) {
-			$value   = get_post_meta( $post->ID, $name );
+			$c_value = get_post_meta( $post->ID, $name );
 			$cstring = '';
-			foreach ( $value as $v ) {
+			foreach ( $c_value as $v ) {
 				if ( is_array( $v ) ) {
 					if ( absint( $v['event_id'] ) === absint( $post->ID ) ) {
 						$keys = array_keys( $v );
@@ -858,9 +858,9 @@ function mt_get_report_data_by_time() {
 					$cstring .= $v;
 				}
 			}
-			$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
-			$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
-			$custom_csv   .= ",\"$value\"";
+            $c_value       = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
+			$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$c_value</td>\n";
+			$custom_csv   .= ",\"$c_value\"";
 		}
 		$html[] = "
 			<tr class='$alternate'>

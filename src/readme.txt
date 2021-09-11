@@ -66,6 +66,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.30 =
+
+* Bug fix: Custom field values overwrite the purchase value field in reports.
+
 = 1.8.29 =
 
 * Add important to some key mobile CSS.
