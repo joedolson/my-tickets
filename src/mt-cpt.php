@@ -435,7 +435,7 @@ function mt_offline_transaction( $transaction, $gateway ) {
  *
  * @return bool|string
  */
-function mt_create_field( $key, $label, $type, $post_id, $choices = false, $multiple = false, $notes = '', $field ) {
+function mt_create_field( $key, $label, $type, $post_id, $choices = false, $multiple = false, $notes = '', $field = array() ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( isset( $field['context'] ) && 'edit' === $field['context'] && ! isset( $_GET['post'] ) ) {
 		return '';

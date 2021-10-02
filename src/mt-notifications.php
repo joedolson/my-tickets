@@ -192,7 +192,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
  *
  * @return string
  */
-function mt_format_address( $address, $format = false, $purchase_id ) {
+function mt_format_address( $address, $format = false, $purchase_id = false ) {
 	// format address.
 	$output = '';
 	if ( $address ) {
@@ -218,7 +218,10 @@ function mt_format_address( $address, $format = false, $purchase_id ) {
  *
  * @return string
  */
-function mt_format_tickets( $tickets, $type = 'text', $purchase_id ) {
+function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false ) {
+	if ( ! $purchase_id ) {
+		return '';
+	}
 	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$output   = '';
 	$show     = '';

@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return bool
  */
-function mt_check_license( $key = false, $product, $store ) {
+function mt_check_license( $key = false, $product = '', $store = '' ) {
 	// listen for our activate button to be clicked.
 	if ( isset( $_POST['mt_license_keys'] ) ) {
 		// retrieve the license from the database.
