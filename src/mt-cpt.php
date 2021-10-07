@@ -813,7 +813,7 @@ function mt_custom_column( $column_name, $id ) {
 			break;
 		case 'mt_payer_email':
 			$em   = get_post_meta( $id, '_email', true );
-			$show = "<code>$em</code>";
+			$show = '<code>' . sanitize_email( $em ) . '</code>';
 			echo $show;
 			break;
 	}

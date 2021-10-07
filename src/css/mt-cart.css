@@ -232,7 +232,7 @@ button[name="mt_add_to_cart"] img {
 
 .mt_email_check span {
     font-weight: 700;
-    padding: .33em;
+    padding: .33rem;
     display: none;
 }
 
@@ -245,6 +245,7 @@ button[name="mt_add_to_cart"] img {
     background: #217e21;
 }
 
+.mt_email_check .notemail,
 .mt_email_check .mismatch {
     color: #f2f2f2;
     background: #712121;

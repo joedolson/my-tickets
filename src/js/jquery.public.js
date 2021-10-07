@@ -22,17 +22,25 @@
 		});
 
 
+		function validateEmail(email) {
+			const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			return re.test(String(email).toLowerCase());
+		}
+
 		$( '.mt_email_check span' ).hide();
 
 		$( '#mt_email2' ).on( 'keyup', function() {
 			var email_one = $( '#mt_email' ).val();
 			var email_two = $( '#mt_email2' ).val();
-			if ( email_one == email_two ) {
+			if ( ! validateEmail( email_one ) ) {
+				$( '.mt_email_check .notemail' ).show();
+				$( '.mt_email_check .ok, .mt_email_check .mismatch' ).hide();
+			} else if ( email_one == email_two && validateEmail(emailOne) ) {
 				$( '.mt_email_check .ok' ).show();
-				$( '.mt_email_check .mismatch' ).hide();
+				$( '.mt_email_check .mismatch, .mt_email_check .notemail' ).hide();
 			} else {
 				$( '.mt_email_check .mismatch' ).show();
-				$( '.mt_email_check .ok' ).hide();
+				$( '.mt_email_check .ok, .mt_email_check .notemail' ).hide();
 			}
 		});
 

@@ -23,7 +23,8 @@ function mt_handle_cart() {
 			die;
 		}
 		// add filter here to handle required custom fields in cart TODO.
-		if ( ! isset( $_POST['mt_fname'] ) || '' === $_POST['mt_fname'] || ! isset( $_POST['mt_lname'] ) || '' === $_POST['mt_lname'] || ! isset( $_POST['mt_email'] ) || '' === $_POST['mt_email'] || ! isset( $_POST['mt_email2'] ) || $_POST['mt_email'] !== $_POST['mt_email2'] ) {
+        $email_valid = ( isset( $_POST['mt_email'] ) ) ? is_email( $_POST['mt_email'] ) : false;
+		if ( ! $email_valid || ! isset( $_POST['mt_fname'] ) || '' === $_POST['mt_fname'] || ! isset( $_POST['mt_lname'] ) || '' === $_POST['mt_lname'] || ! isset( $_POST['mt_email'] ) || '' === $_POST['mt_email'] || ! isset( $_POST['mt_email2'] ) || $_POST['mt_email'] !== $_POST['mt_email2'] ) {
 			$url = add_query_arg( 'response_code', 'required-fields', get_permalink( $options['mt_purchase_page'] ) );
 			wp_safe_redirect( $url );
 			exit;
@@ -96,7 +97,7 @@ function mt_create_payment( $post ) {
 		mt_delete_data( 'payment' );
 		$status      = 'draft';
 		$date        = mt_date( 'Y-m-d H:i:00', mt_current_time(), false );
-		$post_title  = $post['mt_fname'] . ' ' . $post['mt_lname'];
+		$post_title  = sanitize_text_field( $post['mt_fname'] . ' ' . $post['mt_lname'] );
 		$my_post     = array(
 			'post_title'   => $post_title,
 			'post_content' => json_encode( $post ),
@@ -108,17 +109,17 @@ function mt_create_payment( $post ) {
 		$purchase_id = wp_insert_post( $my_post );
 	}
 	do_action( 'mt_after_insert_payment', $purchase_id, $post );
-	update_post_meta( $purchase_id, '_first_name', $post['mt_fname'] );
-	update_post_meta( $purchase_id, '_last_name', $post['mt_lname'] );
+	update_post_meta( $purchase_id, '_first_name', sanitize_text_field( $post['mt_fname'] ) );
+	update_post_meta( $purchase_id, '_last_name', sanitize_text_field( $post['mt_lname'] ) );
 	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) ) {
 		update_post_meta( $purchase_id, '_ticket_handling', $options['mt_ticket_handling'] );
 	}
 	$email = $post['mt_email'];
-	update_post_meta( $purchase_id, '_email', $email );
+	update_post_meta( $purchase_id, '_email', sanitize_email( $email ) );
 	$phone = ( isset( $post['mt_phone'] ) ) ? $post['mt_phone'] : '';
-	update_post_meta( $purchase_id, '_phone', $phone );
+	update_post_meta( $purchase_id, '_phone', sanitize_text_field( $phone ) );
 	if ( is_user_logged_in() ) {
-		update_user_meta( $purchaser, 'mt_phone', $phone );
+		update_user_meta( $purchaser, 'mt_phone', sanitize_text_field( $phone ) );
 	}
 
 	$purchased = ( isset( $post['mt_cart_order'] ) ) ? $post['mt_cart_order'] : false;
@@ -137,7 +138,7 @@ function mt_create_payment( $post ) {
 	if ( is_user_logged_in() && ! is_admin() && '' !== trim( $options['mt_members_discount'] ) ) {
 		update_post_meta( $purchase_id, '_discount', $options['mt_members_discount'] );
 	}
-	update_post_meta( $purchase_id, '_gateway', $post['mt_gateway'] );
+	update_post_meta( $purchase_id, '_gateway', sanitize_text_field( $post['mt_gateway'] ) );
 	update_post_meta( $purchase_id, '_purchase_data', $purchased );
 	// Debugging.
 	mt_debug( print_r( $purchased, 1 ), 'Purchase Data saved at nav to payment screen', $purchase_id );
