@@ -69,7 +69,7 @@ function mt_check_license( $key = false, $product = '', $store = '' ) {
 function mt_verify_key( $option, $name, $store ) {
 	$message = '';
 
-	$key = strip_tags( $_POST[ $option ] );
+	$key = sanitize_text_field( $_POST[ $option ] );
 	update_option( $option, $key );
 
 	if ( '' !== $key ) {
