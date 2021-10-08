@@ -66,7 +66,7 @@ function mt_email_purchaser() {
 		}
 	}
 	$prior = ( $messages ) ? '<ul class="mt-message-log">' . $message . '</ul>' : '';
-	echo '<div class="mt_post_fields panels">' . $nonce . $form . $prior . '</div>';
+	echo wp_kses_post( '<div class="mt_post_fields panels">' . $nonce . $form . $prior . '</div>' );
 }
 
 add_action( 'save_post', 'mt_delete_error_log', 10 );
@@ -257,7 +257,7 @@ function mt_add_inner_box() {
 		$order = '';
 		$total = '';
 	}
-	echo '<div class="mt_post_fields">' . $format . $order . $total . '</div>';
+	echo wp_kses_post( '<div class="mt_post_fields">' . $format . $order . $total . '</div>' );
 }
 
 /**
@@ -310,7 +310,7 @@ function mt_add_uneditable() {
 		if ( '' !== $other_data ) {
 			$other_data = "<div class='custom-data panel'><div class='inner'><h3>" . __( 'Custom Field Data', 'my-tickets' ) . '</h3>' . $other_data . '</div></div>';
 		}
-		echo '<div class="mt_post_fields panels">' . $owed . $dispute_data . $transaction_data . $purchase_data . $ticket_data . $other_data . '</div>';
+		echo wp_kses_post( '<div class="mt_post_fields panels">' . $owed . $dispute_data . $transaction_data . $purchase_data . $ticket_data . $other_data . '</div>' );
 	}
 }
 
@@ -805,23 +805,23 @@ function mt_custom_column( $column_name, $id ) {
 			$pd_class = esc_attr( strtolower( $pd ) );
 			$pd_class = ( false !== strpos( $pd_class, 'other' ) ) ? 'other' : $pd_class;
 			$status   = "<span class='mt $pd_class'>$pd</span>";
-			echo $status;
+			echo wp_kses_post( $status );
 			break;
 		case 'mt_paid':
 			$pd   = get_post_meta( $id, '_total_paid', true );
 			$pd   = apply_filters( 'mt_money_format', $pd );
 			$paid = "<span>$pd</span>";
-			echo $paid;
+			echo wp_kses_post( $paid );
 			break;
 		case 'mt_receipt':
 			$pd      = get_post_meta( $id, '_receipt', true );
 			$receipt = "<code>$pd</code>";
-			echo $receipt;
+			echo wp_kses_post( $receipt );
 			break;
 		case 'mt_payer_email':
 			$em   = get_post_meta( $id, '_email', true );
 			$show = '<code>' . sanitize_email( $em ) . '</code>';
-			echo $show;
+			echo wp_kses_post( $show );
 			break;
 	}
 }
@@ -893,25 +893,15 @@ add_action( 'restrict_manage_posts', 'filter_mt_dropdown' );
 function filter_mt_dropdown() {
 	global $typenow;
 	if ( 'mt-payments' === $typenow ) {
-		if ( isset( $_GET['mt_filter'] ) ) {
-			$completed = ( 'Completed' === $_GET['mt_filter'] ) ? ' selected="selected"' : '';
-			$pending   = ( 'Pending' === $_GET['mt_filter'] ) ? ' selected="selected"' : '';
-			$refunded  = ( 'Refunded' === $_GET['mt_filter'] ) ? ' selected="selected"' : '';
-			$failed    = ( 'Failed' === $_GET['mt_filter'] ) ? ' selected="selected"' : '';
-		} else {
-			$completed = '';
-			$pending   = '';
-			$refunded  = '';
-			$failed    = '';
-		}
+		$mt_filter = isset( $_GET['mt_filter'] ) ? $_GET['mt_filter'] : '';
 		?>
 		<label for="mt_filter" class="screen-reader-text"><?php _e( 'Filter Payments', 'my-tickets' ); ?></label>
 		<select class="postform" id="mt_filter" name="mt_filter">
 			<option value="all"><?php _e( 'All Payments', 'my-tickets' ); ?></option>
-			<option value="Completed"<?php echo $completed; ?>><?php _e( 'Completed', 'my-tickets' ); ?></option>
-			<option value="Pending"<?php echo $pending; ?>><?php _e( 'Pending', 'my-tickets' ); ?></option>
-			<option value="Refunded"<?php echo $refunded; ?>><?php _e( 'Refunded', 'my-tickets' ); ?></option>
-			<option value="Failed"<?php echo $failed; ?>><?php _e( 'Failed', 'my-tickets' ); ?></option>
+			<option value="Completed"<?php selected( 'Completed', $mt_filter ); ?>><?php _e( 'Completed', 'my-tickets' ); ?></option>
+			<option value="Pending"<?php selected( 'Pending', $mt_filter ); ?>><?php _e( 'Pending', 'my-tickets' ); ?></option>
+			<option value="Refunded"<?php  selected( 'Refunded', $mt_filter ); ?>><?php _e( 'Refunded', 'my-tickets' ); ?></option>
+			<option value="Failed"<?php selected( 'Failed', $mt_filter ); ?>><?php _e( 'Failed', 'my-tickets' ); ?></option>
 		</select>
 		<?php
 	}
@@ -977,7 +967,7 @@ function mt_bulk_admin_notices() {
 	if ( 'edit.php' === $pagenow && 'mt-payments' === $post_type && isset( $_REQUEST['completed'] ) && (int) $_REQUEST['completed'] ) {
 		// Translators: Number of payments edited.
 		$message = sprintf( _n( '%s payment completed & ticket notification sent.', '%s payments completed and ticket notifications sent.', $_REQUEST['completed'], 'my-tickets' ), number_format_i18n( $_REQUEST['completed'] ) );
-		echo "<div class='updated'><p>$message</p></div>";
+		echo wp_kses_post( "<div class='updated'><p>$message</p></div>" );
 	}
 }
 
