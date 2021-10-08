@@ -568,7 +568,7 @@ function mt_post_meta( $id ) {
 					delete_post_meta( $id, '_' . $key );
 				}
 				if ( isset( $_POST[ '_' . $key ] ) ) {
-					$value = $_POST[ '_' . $key ];
+					$value = sanitize_text_field( $_POST[ '_' . $key ] );
 					if ( 'is_paid' === $key ) {
 						// Track last status.
 						update_post_meta( $id, '_last_status', get_post_meta( $id, '_is_paid', true ) );

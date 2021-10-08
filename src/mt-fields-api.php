@@ -178,7 +178,7 @@ function mt_handle_custom_field( $saved, $submit ) {
 		if ( isset( $submit[ $name ] ) ) {
 			if ( ! isset( $field['sanitize_callback'] ) || ( isset( $field['sanitize_callback'] ) && ! function_exists( $field['sanitize_callback'] ) ) ) {
 				// if no sanitization is provided, we'll prep it for SQL and strip tags.
-				$sanitized = esc_html( strip_tags( urldecode( $submit[ $name ] ) ) );
+				$sanitized = sanitize_text_field( $submit[ $name ] );
 			} else {
 				$sanitized = call_user_func( $field['sanitize_callback'], urldecode( $submit[ $name ] ) );
 			}
@@ -204,7 +204,7 @@ function mt_show_custom_field( $content, $event_id ) {
 	foreach ( $custom_fields as $name => $field ) {
 		$data = mt_get_data( $name . '_' . $event_id );
 		if ( ! isset( $field['display_callback'] ) || ( isset( $field['display_callback'] ) && ! function_exists( $field['display_callback'] ) ) ) {
-			$display_value = stripslashes( $data );
+			$display_value = sanitize_text_field( $data );
 		} else {
 			$display_value = call_user_func( $field['display_callback'], $data, 'cart', $field );
 		}
@@ -228,9 +228,15 @@ function mt_insert_custom_field( $payment_id, $post, $purchased ) {
 		if ( isset( $post[ $name ] ) ) {
 			foreach ( $post[ $name ] as $key => $data ) {
 				if ( '' !== $data ) {
+					if ( ! isset( $field['sanitize_callback'] ) || ( isset( $field['sanitize_callback'] ) && ! function_exists( $field['sanitize_callback'] ) ) ) {
+						// if no sanitization is provided, we'll prep it for SQL and strip tags.
+						$sanitized = sanitize_text_field( $data );
+					} else {
+						$sanitized = call_user_func( $field['sanitize_callback'], $data );
+					}
 					$data = array(
 						'event_id' => $key,
-						$name      => $data,
+						$name      => $sanitized,
 					);
 					add_post_meta( $payment_id, $name, $data );
 				}
