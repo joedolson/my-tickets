@@ -770,7 +770,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 
 		return true;
 	} else {
-		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
+		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
 		if ( get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
 			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
@@ -787,7 +787,7 @@ add_action( 'init', 'mt_set_user_unique_id' );
  */
 function mt_set_user_unique_id() {
 	if ( ! defined( 'DOING_CRON' ) ) {
-		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
+		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
 		if ( ! $unique_id ) {
 			$unique_id = mt_generate_unique_id();
 			if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
@@ -840,7 +840,7 @@ function mt_get_data( $type, $user_ID = false ) {
 			$current_user = wp_get_current_user();
 			$data         = get_user_meta( $current_user->ID, "_mt_user_$type", true );
 		} else {
-			$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
+			$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
 			if ( $unique_id ) {
 				$data = get_transient( 'mt_' . $unique_id . '_' . $type );
 			} else {
