@@ -613,8 +613,8 @@ function mt_add_to_cart() {
 				$options       = array_merge( $event_options, $options );
 			}
 		} else {
-			$event_id = ( isset( $_POST['mt_event_id'] ) ) ? $_POST['mt_event_id'] : false;
-			$options  = ( isset( $_POST['mt_tickets'] ) ) ? $_POST['mt_tickets'] : false;
+			$event_id = ( isset( $_POST['mt_event_id'] ) ) ? intval( $_POST['mt_event_id'] ) : false;
+			$options  = ( isset( $_POST['mt_tickets'] ) ) ? array_map( 'absint', $_POST['mt_tickets'] ) : false;
 		}
 		$saved = ( false !== $options ) ? mt_save_data(
 			array(
