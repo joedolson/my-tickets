@@ -645,9 +645,9 @@ function mt_printable_report() {
 	</head>
 	<body>
 		<a class='mt-back' href="<?php echo $back_url; ?>"><?php _e( 'Return to My Tickets Reports', 'my-tickets' ); ?></a>
-		<?php echo $report; ?>
 		<?php
-			do_action( 'admin_print_footer_scripts' );
+		echo wp_kses_post( $report );
+		do_action( 'admin_print_footer_scripts' );
 		?>
 		<p aria-live="polite"><button class="show-button"><?php _e( 'Show Hidden Columns', 'my-tickets' ); ?></button></p>
 	</body>
@@ -687,7 +687,7 @@ function mt_download_csv_event() {
 		header( 'Content-Type: application/csv' );
 		header( "Content-Disposition: attachment; filename=$title.csv" );
 		header( 'Pragma: no-cache' );
-		echo $csv;
+		echo wp_kses_post( $csv );
 		exit;
 	}
 }
@@ -715,7 +715,7 @@ function mt_download_csv_tickets() {
 		header( 'Content-Type: application/csv' );
 		header( "Content-Disposition: attachment; filename=$title.csv" );
 		header( 'Pragma: no-cache' );
-		echo $csv;
+		echo wp_kses_post( $csv );
 		exit;
 	}
 }
@@ -739,7 +739,7 @@ function mt_download_csv_time() {
 		header( 'Content-Type: application/csv' );
 		header( "Content-Disposition: attachment; filename=$title.csv" );
 		header( 'Pragma: no-cache' );
-		echo $output;
+		echo wp_kses_post( $output );
 		exit;
 	}
 }

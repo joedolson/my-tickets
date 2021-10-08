@@ -22,7 +22,7 @@ function mt_add_meta_boxes() {
 		global $post_id;
 		add_meta_box( 'mt_send_email', __( 'Contact Purchaser', 'my-tickets' ), 'mt_email_purchaser', 'mt-payments', 'normal', 'default' );
 		if ( get_post_meta( $post_id, '_error_log', true ) !== '' && current_user_can( 'manage_options' ) ) {
-			add_meta_box( 'mt_error_log', __( 'Error Data', 'my-tickets' ), 'mt_error_data', 'mt-payments', 'normal', 'default' );
+			add_meta_box( 'mt_error_log', __( 'Payment Log', 'my-tickets' ), 'mt_error_data', 'mt-payments', 'normal', 'default' );
 		}
 	}
 }
@@ -32,9 +32,16 @@ function mt_add_meta_boxes() {
  */
 function mt_error_data() {
 	global $post_id;
-	echo '<pre>';
-	print_r( get_post_meta( $post_id, '_error_log' ) );
-	echo '</pre>';
+	$logs   = get_post_meta( $post_id, '_error_log' );
+	$output = '';
+	foreach ( $logs as $log ) {
+		$data    = '<pre>' . print_r( array_map( 'sanitize_text_field', $log[2] ), 1 ) . '</pre>';
+		$submit  = '<pre>' . print_r( array_map( 'sanitize_text_field', $log[3] ), 1 ) . '</pre>';
+		$row     = sprintf( '<td scope="row">%1$s</td><td>%2$s</td><td>%3$s</td><td>%4$s</td>', $log[0], $log[1], $data, $submit );
+		$output .= $row;
+	}
+	$table = sprintf( '<table class="widefat"><thead><tr><th scope="col">' . __( 'Status', 'my-tickets' ) . '</th><th scope="col">' . __( 'HTTP', 'my-tickets' ) . '</th><th scope="col">' . __( 'Data', 'my-tickets' ) . '</th><th scope="col">' . __( 'Order', 'my-tickets' ) . '</th></tr></thead><tbody>%s</tbody></table>', $output );
+	echo wp_kses_post( $table );
 }
 
 /**
@@ -734,7 +741,7 @@ function mt_is_event_column( $column_name, $id ) {
 			} else {
 				$status = "<span class='mt not-event'>" . __( 'Not ticketed', 'my-tickets' ) . '</span>';
 			}
-			echo $status;
+			echo wp_kses_post( $status );
 			break;
 	}
 }

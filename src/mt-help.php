@@ -231,7 +231,6 @@ $plugins_string
 			die( 'Security check failed' );
 		}
 		$request      = ( ! empty( $_POST['support_request'] ) ) ? stripslashes( $_POST['support_request'] ) : false;
-		$has_read_faq = ( 'on' === $_POST['has_read_faq'] ) ? 'Read FAQ' : false;
 		$subject      = 'My Tickets support request.';
 		$message      = $request . "\n\n" . $data;
 		// Get the site domain and get rid of www. from pluggable.php.
@@ -241,11 +240,10 @@ $plugins_string
 		}
 		$from_email = 'wordpress@' . $sitename;
 		$from       = "From: $current_user->display_name <$from_email>\r\nReply-to: $current_user->display_name <$current_user->user_email>\r\n";
+		$notice     = '';
 
-		if ( ! $has_read_faq ) {
-			echo "<div class='message error'><p>" . __( 'Please read the FAQ and other Help documents before making a support request.', 'my-tickets' ) . '</p></div>';
-		} elseif ( ! $request ) {
-			echo "<div class='message error'><p>" . __( 'Please describe your problem. I\'m not psychic.', 'my-tickets' ) . '</p></div>';
+		if ( ! $request ) {
+			$notice = "<div class='message error'><p>" . __( 'Please describe your problem. I\'m not psychic.', 'my-tickets' ) . '</p></div>';
 		} else {
 			$sent = wp_mail( 'plugins@joedolson.com', $subject, $message, $from );
 			if ( ! $sent ) {
@@ -254,36 +252,31 @@ $plugins_string
 			}
 			if ( $sent ) {
 				// Translators: email address.
-				echo "<div class='message updated'><p>" . sprintf( __( 'Thank you for supporting the continuing development of this plug-in! I\'ll get back to you as soon as I can. Please ensure that you can receive email at <code>%s</code>.', 'my-tickets' ), $current_user->user_email ) . '</p></div>';
+				$notice = "<div class='message updated'><p>" . sprintf( __( 'Thank you for supporting the continuing development of this plug-in! I\'ll get back to you as soon as I can. Please ensure that you can receive email at <code>%s</code>.', 'my-tickets' ), $current_user->user_email ) . '</p></div>';
 			} else {
 				// Translators: Contact URL.
-				echo "<div class='message error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-calendar' ) . '</p><p>' . sprintf( __( '<a href="%s">Contact me here</a>, instead</p>', 'my-tickets' ), 'https://www.joedolson.com/contact/' ) . "<pre>$request</pre></div>";
+				$notice = "<div class='message error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-calendar' ) . '</p><p>' . sprintf( __( '<a href="%s">Contact me here</a>, instead', 'my-tickets' ), 'https://www.joedolson.com/contact/' ) . "</p><pre>$request</pre></div>";
 			}
 		}
+		echo wp_kses_post( $notice );
 	}
 	$admin_url = admin_url( 'admin.php?page=mt-help' );
-	echo "
-	<form method='post' action='$admin_url'>
-		<div><input type='hidden' name='_wpnonce' value='" . wp_create_nonce( 'my-tickets-nonce' ) . "' /></div>
-		<div>";
-	echo '
+	?>
+	<form method='post' action='<?php echo esc_url( $admin_url ); ?>'>
+		<div><input type='hidden' name='_wpnonce' value='<?php echo wp_create_nonce( 'my-tickets-nonce' ); ?>' /></div>
+		<div>
 		<p>
-		<code>' . __( 'Reply to:', 'my-tickets' ) . " \"$current_user->display_name\" &lt;$current_user->user_email&gt;</code>
+		<code><?php printf( __( 'Reply to: %s', 'my-tickets' ), "$current_user->display_name &lt;$current_user->user_email&gt;" ); ?></code>
 		</p>
 		<p>
-		<input type='checkbox' name='has_read_faq' id='has_read_faq' value='on' required='required' aria-required='true' /> <label for='has_read_faq'>";
-	// Translators: FAQ URL.
-	printf( __( 'I have read <a href="%s">the FAQ for this plug-in</a> <span>(required)</span>', 'my-tickets' ), '#faq' );
-	echo "</p>
-		<p>
-		<label for='support_request'>" . __( 'Support Request:', 'my-tickets' ) . "</label><br /><textarea class='support-request' name='support_request' id='support_request' cols='80' rows='10'>" . stripslashes( $request ) . "</textarea>
+		<label for='support_request'><?php _e( 'Support Request:', 'my-tickets' ); ?></label><br /><textarea class='support-request' name='support_request' id='support_request' cols='80' rows='10'><?php echo esc_textarea( $request ); ?></textarea>
 		</p>
 		<p>
-		<input type='submit' value='" . __( 'Send Support Request', 'my-tickets' ) . "' name='mt_support' class='button-primary' />
+		<input type='submit' value='<?php _e( 'Send Support Request', 'my-tickets' ); ?>' name='mt_support' class='button-primary' />
 		</p>
-		<p>" . __( 'The following additional information will be sent with your support request:', 'my-tickets' ) . "</p>
-		<div class='mt_support'>" . wpautop( $data ) . '
+		<p><?php _e( 'The following additional information will be sent with your support request:', 'my-tickets' ); ?></p>
+		<div class='mt_support'><?php echo wp_kses_post( wpautop( $data ) ); ?></div>
 		</div>
-		</div>
-	</form>';
+	</form>
+	<?php
 }

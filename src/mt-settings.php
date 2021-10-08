@@ -84,7 +84,7 @@ function mt_settings() {
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
 		<h1><?php _e( 'Event Registrations', 'my-tickets' ); ?></h1>
-		<?php echo $response; ?>
+		<?php echo wp_kses_post( $response ); ?>
 		<div class="postbox-container jcd-wide">
 			<div class="metabox-holder">
 

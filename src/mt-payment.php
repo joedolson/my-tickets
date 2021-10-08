@@ -71,6 +71,7 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 			$mail_body   .= print_r( $post, 1 );
 			wp_mail( $options['mt_to'], $mail_subject, $mail_body, $mail_from );
 		}
+		mt_log( $response, $response_code, $data, $post );
 	} else {
 		// If we're here, WP HTTP couldn't contact the payment gateway.
 		$mail_from = "From: $blogname Events <" . $options['mt_from'] . '>';
@@ -88,7 +89,7 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 /**
  * Log a payment error.
  *
- * @param array  $response Response.
+ * @param array  $reF_errorsponse Response.
  * @param string $response_code Response code.
  * @param array  $data Response data.
  * @param array  $post POST data.
