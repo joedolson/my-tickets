@@ -82,25 +82,24 @@ function mt_ajax_handler() {
 		);
 	}
 	if ( 'add_to_cart' === $_REQUEST['function'] ) {
-		$post = $_REQUEST['data'];
+		parse_str( $_REQUEST['data'], $data );
+		$data = map_deep(  $data, 'sanitize_text_field' );
 		// reformat request data to multidimensional array.
-		$data   = explode( '&', $post );
-		$submit = array();
-		$cart   = mt_get_cart();
-		foreach ( $data as $d ) {
-			$item = explode( '=', $d );
-			if ( false !== strpos( $item[0], '%5' ) ) {
-				$key   = str_replace( '%5D', '', $item[0] );
-				$array = explode( '%5B', $key );
-				if ( $cart ) {
-					$submit[ $array[0] ][ $array[1] ]['count'] = urldecode( intval( $item[1] ) );
-				} else {
-					$submit[ $array[0] ][ $array[1] ] = urldecode( $item[1] );
+		$cart = mt_get_cart();
+		foreach( $data as $k => $d ) {
+			if ( 'mt_tickets' === $k ) {
+				foreach ( $d as $n => $value ) {
+					if ( $cart ) {
+						$data[ $k ][ $n ] = array(
+							'count' => $value,
+						);
+					} else {
+						$data[ $k ][ $n ] = $value;
+					}
 				}
-			} else {
-				$submit[ $item[0] ] = urldecode( $item[1] );
 			}
 		}
+		$submit = $data;
 
 		// generate and submit cart data.
 		$save = array(
@@ -129,7 +128,7 @@ function mt_ajax_handler() {
 		wp_send_json( $return );
 	}
 	if ( 'save_address' === $_REQUEST['function'] ) {
-		$post         = $_REQUEST['data'];
+		$post         = array_map( 'sanitize_text_field', $_REQUEST['data'] );
 		$current_user = wp_get_current_user();
 		$saved        = update_user_meta( $current_user->ID, '_mt_shipping_address', $post );
 		if ( $saved ) {
