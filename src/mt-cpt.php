@@ -93,8 +93,8 @@ function mt_cpt_email_purchaser( $id ) {
 		}
 
 		if ( isset( $_POST['mt_send_email'] ) && '' !== $_POST['mt_send_email'] ) {
-			$body        = stripslashes( $_POST['mt_send_email'] );
-			$subject     = stripslashes( $_POST['mt_send_subject'] );
+			$body        = ( 'true' === $options['mt_html_email'] ) ? wp_kses_post( $_POST['mt_send_email'] ) : sanitize_textarea_field( $_POST['mt_send_email'] );
+			$subject     = ( 'true' === $options['mt_html_email'] ) ? wp_kses_post( $_POST['mt_send_subject'] ) : sanitize_text_field( $_POST['mt_send_subject'] );
 			$email       = get_post_meta( $id, '_email', true );
 			$opt_out_url = add_query_arg( 'opt_out', $id, home_url() );
 			// Translators: Link to stop email notices.
