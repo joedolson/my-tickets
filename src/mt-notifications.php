@@ -166,7 +166,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					}
 				}
 				if ( '' !== trim( $tickets_list ) ) {
-					$output .= $title . ' - ' . $date . ' @ ' . $time . $sep;
+					$output .= sprintf( apply_filters( 'mt_purchased_tickets_format', '%1$s - %2$s @ $3$s', $is_html, $event ), $title, $date, $time ) . $sep;
 					$output .= apply_filters( 'mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep );
 					$output .= $sep . $tickets_list;
 				}

@@ -13,7 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly.
 
-require_once( 'includes/phpqrcode/qrlib.php' );
+require_once( 'vendor/autoload.php' );
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 
 /**
  * Get logo for display on receipts and tickets.
@@ -622,15 +624,30 @@ function mt_ticket_price( $ticket_id = false ) {
 	echo mt_get_ticket_price( $ticket_id );
 }
 
-// no getter for qrcodes; produces an image directly.
 /**
  * Return image URL for printable/eticket QR codes.
  *
  * @param bool|string $ticket_id Ticket ID.
  */
 function mt_ticket_qrcode( $ticket_id = false ) {
-	$text = ( $ticket_id ) ? $ticket_id : mt_get_ticket_id();
-	echo esc_url( plugins_url( "my-tickets/includes/qrcode.php?mt=$text" ) );
+	$ticket_id = ( $ticket_id ) ? $ticket_id : mt_get_ticket_id();
+    $url    = esc_url_raw(
+        add_query_arg(
+            array(
+                'ticket_id' => $ticket_id,
+                'action'    => 'mt-verify',
+            ),
+            home_url()
+        )
+    );
+    $options = new QROptions( array(
+          'version'    => 6,
+          'outputType' => QRCODE::OUTPUT_IMAGE_PNG,
+          'eccLevel'   => QRCODE::ECC_M,
+        )
+    );
+    $code   = new QRCode( $options );
+    echo $code->render( esc_url( $url ) );
 }
 
 /**
