@@ -913,3 +913,41 @@ function mt_current_time() {
 
 	return $timestamp;
 }
+
+/**
+ * Custom KSES allowed elements for sanitizing input fields and forms.
+ *
+ * @return array
+ */
+function mt_kses_elements() {
+	$elements = array(
+		'label' => array(
+			'for' => array(),
+		),
+		'input' => array(
+			'id'               => array(),
+			'class'            => array(),
+			'aria-describedby' => array(),
+			'value'            => array(),
+			'type'             => array(),
+			'name'             => array(),
+			'size'             => array(),
+			'checked'          => array(),
+			'selected'         => array(),
+		),
+		'li'    => array(
+			'class' => array(),
+		),
+		'span'  => array(
+			'id'    => array(),
+			'class' => array(),
+		),
+		'p'     => array(
+			'class' => array(),
+		),
+		'div',
+		'br',
+	);
+
+	return $elements;
+}

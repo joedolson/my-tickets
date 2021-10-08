@@ -79,7 +79,7 @@ function mt_settings() {
 		} else {
 			$selected = '';
 		}
-		$mt_post_type_options .= "<li><input type='checkbox' name='mt_post_types[]' id='mt_$type->name' value='$type->name' $selected> <label for='mt_$type->name'>" . $type->labels->name . '</label></li>';
+		$mt_post_type_options .= "<li><input type='checkbox' name='mt_post_types[]' id='mt_$type->name' value='$type->name' $selected> <label for='mt_$type->name'>" . esc_html( $type->labels->name ) . '</label></li>';
 	}
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
@@ -93,12 +93,12 @@ function mt_settings() {
 						<h2 class="hndle"><?php _e( 'My Tickets Event Registration Settings', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
-							<form method="post" action="<?php echo admin_url( 'admin.php?page=my-tickets' ); ?>">
+							<form method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
 								<div><input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce( 'my-tickets' ); ?>" /></div>
 								<fieldset>
 									<legend><?php _e( 'Enable ticketing for these post types:', 'my-tickets' ); ?></legend>
 									<ul class="checkboxes">
-										<?php echo $mt_post_type_options; ?>
+										<?php echo wp_kses( $mt_post_type_options, mt_kses_elements() ); ?>
 									</ul>
 								</fieldset>
 								<h4><?php _e( 'Ticket Purchase Messages', 'my-tickets' ); ?></h4>
@@ -111,11 +111,11 @@ function mt_settings() {
 								</p>
 								<p>
 									<label for="mt_to"><?php _e( 'Send to:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_to" id="mt_to" size="60" value="<?php echo ( '' === $options['mt_to'] ) ? get_bloginfo( 'admin_email' ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
+									<input type="text" name="mt_to" id="mt_to" size="60" value="<?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
 								</p>
 								<p>
 									<label for="mt_from"><?php _e( 'Send from:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_from" id="mt_from" size="60" value="<?php echo ( '' === $options['mt_from'] ) ? get_bloginfo( 'admin_email' ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
+									<input type="text" name="mt_from" id="mt_from" size="60" value="<?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
 								</p>
 								<?php
 								$tabs         = '';
@@ -132,32 +132,32 @@ function mt_settings() {
 								<div class='mt-notifications'>
 									<div class='mt-tabs'>
 										<ul class='tabs'>
-											<?php echo $tabs; ?>
+											<?php echo wp_kses_post( $tabs ); ?>
 										</ul>
 										<?php
 										foreach ( $status_types as $type => $status_type ) {
 											?>
-											<div class='wptab mt_<?php echo $type; ?>' id='<?php echo $type; ?>' aria-live='assertive'>
+											<div class='wptab mt_<?php echo esc_html( $type ); ?>' id='<?php echo esc_html( $type ); ?>' aria-live='assertive'>
 												<fieldset>
 													<legend><?php _e( 'Sent to administrators', 'my-tickets' ); ?></legend>
 													<ul>
 														<li>
-															<label for="mt_messages_<?php echo $type; ?>_admin_subject">
+															<label for="mt_messages_<?php echo esc_html( $type ); ?>_admin_subject">
 																<?php
 																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
 																printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type );
 																?>
 															</label><br/>
-															<input type="text" name="mt_messages[<?php echo $type; ?>][admin][subject]" id="mt_messages_<?php echo $type; ?>_admin_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
+															<input type="text" name="mt_messages[<?php echo esc_html( $type ); ?>][admin][subject]" id="mt_messages_<?php echo esc_html( $type ); ?>_admin_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
 														</li>
 														<li>
-															<label for="mt_messages_<?php echo $type; ?>_admin_body">
+															<label for="mt_messages_<?php echo esc_html( $type ); ?>_admin_body">
 																<?php
 																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
 																printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type );
 																?>
 															</label><br/>
-															<textarea name="mt_messages[<?php echo $type; ?>][admin][body]" id="mt_messages_<?php echo $type; ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
+															<textarea name="mt_messages[<?php echo esc_html( $type ); ?>][admin][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
 														</li>
 													</ul>
 												</fieldset>
@@ -165,22 +165,22 @@ function mt_settings() {
 													<legend><?php _e( 'Sent to purchaser', 'my-tickets' ); ?></legend>
 													<ul>
 														<li>
-															<label for="mt_messages_<?php echo $type; ?>_purchaser_subject">
+															<label for="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_subject">
 																<?php
 																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
 																printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type );
 																?>
 															</label><br/>
-															<input type="text" name="mt_messages[<?php echo $type; ?>][purchaser][subject]" id="mt_messages_<?php echo $type; ?>_purchaser_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
+															<input type="text" name="mt_messages[<?php echo esc_html( $type ); ?>][purchaser][subject]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
 														</li>
 														<li>
-															<label for="mt_messages_<?php echo $type; ?>_purchaser_body">
+															<label for="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body">
 																<?php
 																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
 																printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type );
 																?>
 															</label><br/>
-															<textarea name="mt_messages[<?php echo $type; ?>][purchaser][body]" id="mt_messages_<?php echo $type; ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
+															<textarea name="mt_messages[<?php echo esc_html( $type ); ?>][purchaser][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
 														</li>
 													</ul>
 												</fieldset>
@@ -244,7 +244,7 @@ function mt_settings() {
 						<h2 class="hndle"><?php _e( 'Premium Add-on License Keys', 'my-tickets' ); ?></h2>
 						<?php
 						if ( isset( $_POST['mt_license_keys'] ) && wp_verify_nonce( $_POST['_wpnonce_tickets'], 'my-tickets-licensing' ) ) {
-							echo "<div class='updated'><ul>" . apply_filters( 'mt_save_license', '', $_POST ) . '</ul></div>';
+							echo wp_kses_post( "<div class='updated'><ul>" . apply_filters( 'mt_save_license', '', $_POST ) . '</ul></div>' );
 						}
 						?>
 						<div class="inside">
@@ -252,20 +252,20 @@ function mt_settings() {
 							$fields = apply_filters( 'mt_license_fields', '' );
 							if ( '' !== $fields ) {
 								?>
-							<form method="post" action="<?php echo admin_url( 'admin.php?page=my-tickets' ); ?>">
+							<form method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
 								<div>
 									<input type="hidden" name="mt_license_keys" value="saved" />
 									<input type="hidden" name="_wpnonce_tickets" value="<?php echo wp_create_nonce( 'my-tickets-licensing' ); ?>"/>
 								</div>
 							<ul>
-								<?php echo $fields; ?>
+								<?php echo wp_kses( $fields, mt_kses_elements() ); ?>
 							</ul>
 								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save License Keys', 'my-tickets' ); ?>"/></p>
 							</form>
 								<?php
 							} else {
 								// Translators: URL to purchase add-ons.
-								echo '<p>' . sprintf( __( 'If you install any <a href="%s">My Tickets Premium Add-ons</a>, the license fields will appear here.', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' ) . '</p>';
+								echo wp_kses_post( '<p>' . sprintf( __( 'If you install any <a href="%s">My Tickets Premium Add-ons</a>, the license fields will appear here.', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' ) . '</p>' );
 							}
 							?>
 						</div>
