@@ -378,11 +378,11 @@ function mt_report_scripts() {
 	if ( isset( $_GET['mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
 		wp_enqueue_script( 'mt.printable', plugins_url( 'js/report.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script(
-				'mt.printable',
-				'mtprint',
-				array(
-					'mt_action_text' => __( 'Hide', 'my-tickets' ),
-				)
+			'mt.printable',
+			'mtprint',
+			array(
+				'mt_action_text' => __( 'Hide', 'my-tickets' ),
+			)
 		);
 		wp_enqueue_style( 'mt.printable', plugins_url( 'css/report.css', __FILE__ ) );
 	}

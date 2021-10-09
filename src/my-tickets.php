@@ -928,11 +928,11 @@ function mt_kses_elements() {
 			'for' => array(),
 		),
 		'option'   => array(
-		  'value' => array(),
-			'selected'         => array(),
+			'value'    => array(),
+			'selected' => array(),
 		),
 		'select'   => array(
-		  'id' => array(),
+			'id'               => array(),
 			'aria-describedby' => array(),
 			'name'             => array(),
 			'disabled'         => array(),
@@ -964,13 +964,13 @@ function mt_kses_elements() {
 			'method' => array(),
 		),
 		'button'   => array(
-				'type' => array(),
-			'class' => array(),
-			'aria-expanded' => array(),
+			'type'             => array(),
+			'class'            => array(),
+			'aria-expanded'    => array(),
 			'aria-describedby' => array(),
 		),
-		'ul' => array(
-		  'class' => array(),
+		'ul'       => array(
+			'class' => array(),
 		),
 		'fieldset' => array(),
 		'legend'   => array(),
@@ -986,27 +986,27 @@ function mt_kses_elements() {
 		),
 		'div'      => array(
 			'class' => array(),
-			'id' => array(),
+			'id'    => array(),
 		),
-		'br'        => array(),
-		'table'     => array(
+		'br'       => array(),
+		'table'    => array(
+			'class' => array(),
+			'id'    => array(),
+		),
+		'caption'  => array(),
+		'thead'    => array(),
+		'tfoot'    => array(),
+		'tbody'    => array(),
+		'tr'       => array(
 				'class' => array(),
-			'id' => array(),
 		),
-		'caption'   => array(),
-		'thead'     => array(),
-		'tfoot'     => array(),
-		'tbody'     => array(),
-		'tr'        => array(
-				'class' => array(),
-		),
-		'th'        => array(
-				'scope' => array(),
+		'th'       => array(
+			'scope' => array(),
 			'class' => array(),
 		),
-		'td'        => array(
-				'class' => array(),
-		)
+		'td'       => array(
+			'class' => array(),
+		),
 	);
 
 	return $elements;

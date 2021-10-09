@@ -230,9 +230,9 @@ $plugins_string
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets-nonce' ) ) {
 			die( 'Security check failed' );
 		}
-		$request      = ( ! empty( $_POST['support_request'] ) ) ? sanitize_textarea_field( $_POST['support_request'] ) : false;
-		$subject      = 'My Tickets support request.';
-		$message      = $request . "\n\n" . $data;
+		$request = ( ! empty( $_POST['support_request'] ) ) ? sanitize_textarea_field( $_POST['support_request'] ) : false;
+		$subject = 'My Tickets support request.';
+		$message = $request . "\n\n" . $data;
 		// Get the site domain and get rid of www. from pluggable.php.
 		$sitename = strtolower( sanitize_text_field( $_SERVER['SERVER_NAME'] ) );
 		if ( substr( $sitename, 0, 4 ) === 'www.' ) {
@@ -266,7 +266,12 @@ $plugins_string
 		<div><input type='hidden' name='_wpnonce' value='<?php echo wp_create_nonce( 'my-tickets-nonce' ); ?>' /></div>
 		<div>
 		<p>
-		<code><?php printf( __( 'Reply to: %s', 'my-tickets' ), "$current_user->display_name &lt;$current_user->user_email&gt;" ); ?></code>
+		<code>
+		<?php
+		// Translators: current user's display name and email.
+		echo sanitize_text_field( sprintf( __( 'Reply to: %s', 'my-tickets' ), "$current_user->display_name &lt;$current_user->user_email&gt;" ) );
+		?>
+		</code>
 		</p>
 		<p>
 		<label for='support_request'><?php _e( 'Support Request:', 'my-tickets' ); ?></label><br /><textarea class='support-request' name='support_request' id='support_request' cols='80' rows='10'><?php echo esc_textarea( $request ); ?></textarea>

@@ -900,7 +900,7 @@ function filter_mt_dropdown() {
 			<option value="all"><?php _e( 'All Payments', 'my-tickets' ); ?></option>
 			<option value="Completed"<?php selected( 'Completed', $mt_filter ); ?>><?php _e( 'Completed', 'my-tickets' ); ?></option>
 			<option value="Pending"<?php selected( 'Pending', $mt_filter ); ?>><?php _e( 'Pending', 'my-tickets' ); ?></option>
-			<option value="Refunded"<?php  selected( 'Refunded', $mt_filter ); ?>><?php _e( 'Refunded', 'my-tickets' ); ?></option>
+			<option value="Refunded"<?php selected( 'Refunded', $mt_filter ); ?>><?php _e( 'Refunded', 'my-tickets' ); ?></option>
 			<option value="Failed"<?php selected( 'Failed', $mt_filter ); ?>><?php _e( 'Failed', 'my-tickets' ); ?></option>
 		</select>
 		<?php

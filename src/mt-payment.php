@@ -89,7 +89,7 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 /**
  * Log a payment error.
  *
- * @param array  $reF_errorsponse Response.
+ * @param array  $response Response.
  * @param string $response_code Response code.
  * @param array  $data Response data.
  * @param array  $post POST data.

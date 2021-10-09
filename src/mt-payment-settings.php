@@ -81,7 +81,7 @@ function mt_update_payment_settings( $post ) {
  * Payment settings form.
  */
 function mt_payment_settings() {
-	$post         = map_deep( $_POST,'sanitize_text_field' );
+	$post         = map_deep( $_POST, 'sanitize_text_field' );
 	$response     = mt_update_payment_settings( $post );
 	$options      = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
 	$defaults     = mt_default_settings();
@@ -112,7 +112,7 @@ function mt_payment_settings() {
 									<li><label for="mt_currency"><?php _e( 'Currency:', 'my-tickets' ); ?></label>
 										<?php
 										$mt_currency_codes = mt_currency();
-										$select = "<select name='mt_currency' id='mt_currency'>";
+										$select            = "<select name='mt_currency' id='mt_currency'>";
 										foreach ( $mt_currency_codes as $code => $currency ) {
 											$selected = ( $options['mt_currency'] === $code ) ? " selected='selected'" : '';
 											$select  .= "<option value='$code'$selected>" . $currency['description'] . '</option>';
