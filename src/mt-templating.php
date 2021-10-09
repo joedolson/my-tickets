@@ -66,7 +66,7 @@ function mt_get_logo( $args = array(), $post_ID = false ) {
  * @return void
  */
 function mt_logo( $args = array(), $post_ID = false ) {
-	echo mt_get_logo( $args, $post_ID );
+	echo wp_kses_post( mt_get_logo( $args, $post_ID ) );
 }
 
 // Template Functions for Receipts.
@@ -93,7 +93,7 @@ function mt_get_cart_order() {
  * @return void
  */
 function mt_cart_order() {
-	echo mt_get_cart_order();
+	echo wp_kses_post( mt_get_cart_order() );
 }
 
 /**
@@ -150,7 +150,7 @@ function mt_get_receipt_id() {
  * @return void
  */
 function mt_receipt_id() {
-	echo mt_get_receipt_id();
+	echo sanitize_text_field( mt_get_receipt_id() );
 }
 
 /**
@@ -171,7 +171,7 @@ function mt_get_receipt_purchase_id() {
  * @return void
  */
 function mt_receipt_purchase_id() {
-	echo mt_get_receipt_purchase_id();
+	echo sanitize_text_field( mt_get_receipt_purchase_id() );
 }
 
 /**
@@ -196,7 +196,7 @@ function mt_get_cart_purchaser() {
  * @return void
  */
 function mt_cart_purchaser() {
-	echo mt_get_cart_purchaser();
+	echo sanitize_text_field( mt_get_cart_purchaser() );
 }
 
 /**
@@ -207,7 +207,8 @@ function mt_cart_purchaser() {
 function mt_get_cart_purchase_date() {
 	$receipt = mt_get_receipt();
 	if ( $receipt ) {
-		$date = date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $receipt->post_date ) );
+		$format = apply_filters( 'mt_cart_purchase_date', '<span class="mt-cart-date">' . get_option( 'date_format' ) . '</span><span class="mt-date-separator"> @ </span><span class="mt-cart-time">' . get_option( 'time_format' ) . '</span>' );
+		$date   = date_i18n( $format, strtotime( $receipt->post_date ) );
 
 		return $date;
 	}
@@ -221,7 +222,7 @@ function mt_get_cart_purchase_date() {
  * @return void
  */
 function mt_cart_purchase_date() {
-	echo mt_get_cart_purchase_date();
+	echo wp_kses_post( mt_get_cart_purchase_date() );
 }
 
 /**
@@ -277,7 +278,7 @@ function mt_get_payment_details() {
  * @return void
  */
 function mt_payment_details() {
-	echo mt_get_payment_details();
+	echo wp_kses_post( mt_get_payment_details() );
 }
 
 /**
@@ -297,7 +298,7 @@ function mt_get_ticket_id() {
  * @return void
  */
 function mt_ticket_id() {
-	echo mt_get_ticket_id();
+	echo sanitize_text_field( mt_get_ticket_id() );
 }
 
 /**
@@ -324,7 +325,7 @@ function mt_get_sequential_id( $ticket_id = false ) {
  * @return void
  */
 function mt_sequential_id() {
-	echo mt_get_sequential_id();
+	echo sanitize_text_field( mt_get_sequential_id() );
 }
 
 /**
@@ -354,7 +355,7 @@ function mt_get_ticket_method( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_method( $ticket_id = false ) {
-	echo mt_get_ticket_method( $ticket_id );
+	echo sanitize_text_field( mt_get_ticket_method( $ticket_id ) );
 }
 
 /**
@@ -382,7 +383,7 @@ function mt_get_ticket_purchase_id( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_purchase_id( $ticket_id = false ) {
-	echo mt_get_ticket_purchase_id( $ticket_id );
+	echo sanitize_text_field( mt_get_ticket_purchase_id( $ticket_id ) );
 }
 
 /**
@@ -411,7 +412,7 @@ function mt_get_ticket_purchaser( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_purchaser( $ticket_id = false ) {
-	echo mt_get_ticket_purchaser( $ticket_id );
+	echo sanitize_text_field( mt_get_ticket_purchaser( $ticket_id ) );
 }
 
 /**
@@ -441,7 +442,7 @@ function mt_get_ticket_custom_fields( $custom_field = false, $ticket_id = false 
  * @return void
  */
 function mt_ticket_custom_fields( $custom_field = false, $ticket_id = false ) {
-	echo mt_get_ticket_custom_fields( $custom_field, $ticket_id );
+	echo wp_kses_post( mt_get_ticket_custom_fields( $custom_field, $ticket_id ) );
 }
 
 /**
@@ -476,7 +477,7 @@ function mt_get_event_date( $ticket_id = false ) {
  * @return void
  */
 function mt_event_date( $ticket_id = false ) {
-	echo mt_get_event_date( $ticket_id );
+	echo sanitize_text_field( mt_get_event_date( $ticket_id ) );
 }
 
 /**
@@ -509,7 +510,7 @@ function mt_get_event_title( $ticket_id = false ) {
  * @return void
  */
 function mt_event_title( $ticket_id = false ) {
-	echo mt_get_event_title( $ticket_id );
+	echo wp_kses_post( mt_get_event_title( $ticket_id ) );
 }
 
 /**
@@ -544,7 +545,7 @@ function mt_get_event_time( $ticket_id = false ) {
  * @return void
  */
 function mt_event_time( $ticket_id = false ) {
-	echo mt_get_event_time( $ticket_id );
+	echo sanitize_text_field( mt_get_event_time( $ticket_id ) );
 }
 
 /**
@@ -580,7 +581,7 @@ function mt_get_ticket_type( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_type( $ticket_id = false ) {
-	echo mt_get_ticket_type( $ticket_id );
+	echo sanitize_text_field( mt_get_ticket_type( $ticket_id ) );
 }
 
 /**
@@ -621,7 +622,7 @@ function mt_get_ticket_price( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_price( $ticket_id = false ) {
-	echo mt_get_ticket_price( $ticket_id );
+	echo wp_kses_post( mt_get_ticket_price( $ticket_id ) );
 }
 
 /**
@@ -630,25 +631,25 @@ function mt_ticket_price( $ticket_id = false ) {
  * @param bool|string $ticket_id Ticket ID.
  */
 function mt_get_ticket_qrcode( $ticket_id = false ) {
-    $ticket_id = ( $ticket_id ) ? $ticket_id : mt_get_ticket_id();
-    $url       = esc_url_raw(
-        add_query_arg(
-            array(
-                'ticket_id' => $ticket_id,
-                'action'    => 'mt-verify',
-            ),
-            home_url()
-        )
-    );
-    $options   = new QROptions(
-        array(
-            'version'    => 6,
-            'outputType' => QRCODE::OUTPUT_IMAGE_PNG,
-            'eccLevel'   => QRCODE::ECC_M,
-        )
-    );
-    $code      = new QRCode( $options );
-    echo $code->render( esc_url( $url ) );
+	$ticket_id = ( $ticket_id ) ? $ticket_id : mt_get_ticket_id();
+	$url       = esc_url_raw(
+		add_query_arg(
+			array(
+				'ticket_id' => $ticket_id,
+				'action'    => 'mt-verify',
+			),
+			home_url()
+		)
+	);
+	$options   = new QROptions(
+		array(
+			'version'    => 6,
+			'outputType' => QRCODE::OUTPUT_IMAGE_PNG,
+			'eccLevel'   => QRCODE::ECC_M,
+		)
+	);
+	$code      = new QRCode( $options );
+	return $code->render( esc_url( $url ) );
 }
 
 /**
@@ -657,7 +658,7 @@ function mt_get_ticket_qrcode( $ticket_id = false ) {
  * @param bool|string $ticket_id Ticket ID.
  */
 function mt_ticket_qrcode( $ticket_id = false ) {
-	echo mt_get_ticket_qrcode( $ticket_id );
+	echo esc_attr( mt_get_ticket_qrcode( $ticket_id ) );
 }
 
 /**
@@ -762,7 +763,7 @@ function mt_hcard( $location ) {
  * @return void
  */
 function mt_ticket_venue( $ticket_id = false ) {
-	echo mt_get_ticket_venue( $ticket_id );
+	echo wp_kses_post( mt_get_ticket_venue( $ticket_id ) );
 }
 
 /**
@@ -817,7 +818,7 @@ function mt_get_verification( $ticket_id = false ) {
  * @return void
  */
 function mt_verification( $ticket_id = false ) {
-	echo mt_get_verification( $ticket_id );
+	echo wp_kses_post( mt_get_verification( $ticket_id ) );
 }
 
 /**
@@ -844,7 +845,7 @@ function mt_get_ticket_custom_field( $field = false, $callback = false, $ticket_
 			if ( $callback ) {
 				return call_user_func( $callback, $meta );
 			} else {
-				return wp_kses_post( $meta[ $field ] );
+				return $meta[ $field ];
 			}
 		}
 	}
@@ -862,5 +863,5 @@ function mt_get_ticket_custom_field( $field = false, $callback = false, $ticket_
  * @return void
  */
 function mt_ticket_custom_field( $field = false, $ticket_id = false ) {
-	echo mt_get_ticket_custom_field( $field, false, $ticket_id );
+	echo wp_kses_post( mt_get_ticket_custom_field( $field, false, $ticket_id ) );
 }
