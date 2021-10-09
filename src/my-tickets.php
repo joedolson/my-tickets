@@ -941,6 +941,7 @@ function mt_kses_elements() {
 			'max'              => array(),
 			'required'         => array(),
 			'readonly'         => array(),
+			'autocomplete'     => array(),
 		),
 		'input'    => array(
 			'id'               => array(),
@@ -957,6 +958,7 @@ function mt_kses_elements() {
 			'max'              => array(),
 			'required'         => array(),
 			'readonly'         => array(),
+			'autocomplete'     => array(),
 		),
 		'textarea' => array(
 			'id'               => array(),
@@ -1017,7 +1019,7 @@ function mt_kses_elements() {
 			'id'       => true,
 			'longdesc' => true,
 			'tabindex' => true,
-		)
+		),
 		'br'       => array(),
 		'table'    => array(
 			'class' => array(),
@@ -1041,7 +1043,7 @@ function mt_kses_elements() {
 			'id'        => array(),
 			'aria-live' => array(),
 		),
-		a          => array(
+		'a'        => array(
 			'aria-labelledby'  => true,
 			'aria-describedby' => true,
 			'href'             => true,

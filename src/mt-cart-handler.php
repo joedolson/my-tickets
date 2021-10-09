@@ -29,7 +29,7 @@ function mt_handle_cart() {
 			wp_safe_redirect( $url );
 			exit;
 		}
-		$post    = map_deep( 'sanitize_text_field', $_POST );
+		$post    = map_deep( $_POST, 'sanitize_text_field' );
 		$payment = mt_create_payment( $post );
 		if ( $payment ) {
 			// Handle custom fields added to cart form.

@@ -275,11 +275,12 @@ function mt_render_field( $field, $argument = false ) {
 				$save_address = ( is_user_logged_in() ) ? '<p><a href="#" class="mt_save_shipping">' . $save_address_label . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></a></p>" : '';
 				$address      = ( isset( $_POST['mt_shipping']['address'] ) ) ? $_POST['mt_shipping']['address'] : (array) $user_address;
 				$address      = array_merge( $defaults, $address );
+				$required     = ' ' . __( '(required)', 'my-tickets' );
 				$output       = '
 				<fieldset class="mt-shipping-address">
 					<legend>' . __( 'Shipping Address', 'my-tickets' ) . '</legend>
 					<p>
-						<label for="mt_address_street">' . __( 'Street', 'my-tickets' ) . '</label>
+						<label for="mt_address_street">' . __( 'Street', 'my-tickets' ) . $required . '</label>
 						<input type="text" name="mt_shipping_street" id="mt_address_street" class="mt_street" value="' . esc_attr( stripslashes( $address['street'] ) ) . '" autocomplete="address-line1" required />
 					</p>
 					<p>
@@ -287,7 +288,7 @@ function mt_render_field( $field, $argument = false ) {
 						<input type="text" name="mt_shipping_street2" id="mt_address_street2" class="mt_street2" value="' . esc_attr( stripslashes( $address['street2'] ) ) . '" autocomplete="address-line2" />
 					</p>
 					<p>
-						<label for="mt_address_city">' . __( 'City', 'my-tickets' ) . '</label>
+						<label for="mt_address_city">' . __( 'City', 'my-tickets' ) . $required . '</label>
 						<input type="text" name="mt_shipping_city" id="mt_address_city" class="mt_city" value="' . esc_attr( stripslashes( $address['city'] ) ) . '" autocomplete="address-level2" required />
 					</p>
 					<p>
@@ -295,11 +296,11 @@ function mt_render_field( $field, $argument = false ) {
 						<input type="text" name="mt_shipping_state" id="mt_address_state" class="mt_state" value="' . esc_attr( stripslashes( $address['state'] ) ) . '" autocomplete="address-level1" />
 					</p>
 					<p>
-						<label for="mt_address_code">' . __( 'Postal Code', 'my-tickets' ) . '</label>
+						<label for="mt_address_code">' . __( 'Postal Code', 'my-tickets' ) . $required . '</label>
 						<input type="text" name="mt_shipping_code" size="10" id="mt_address_code" class="mt_code" value="' . esc_attr( stripslashes( $address['code'] ) ) . '" autocomplete="postal-code" required />
 					</p>
 					<p>
-						<label for="mt_address_country">' . __( 'Country', 'my-tickets' ) . '</label>
+						<label for="mt_address_country">' . __( 'Country', 'my-tickets' ) . $required . '</label>
 						<select name="mt_shipping_country" id="mt_address_country" class="mt_country" autocomplete="country">
 						<option value="">Select Country</option>
 						' . mt_shipping_country( $address['country'] ) . '

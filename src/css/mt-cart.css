@@ -245,6 +245,10 @@ button[name="mt_add_to_cart"] img {
     background: #217e21;
 }
 
+.mt-shipping-address label {
+    display: block;
+}
+
 .mt_email_check .notemail,
 .mt_email_check .mismatch {
     color: #f2f2f2;
