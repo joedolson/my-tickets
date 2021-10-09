@@ -83,10 +83,10 @@ function mt_ajax_handler() {
 	}
 	if ( 'add_to_cart' === $_REQUEST['function'] ) {
 		parse_str( $_REQUEST['data'], $data );
-		$data = map_deep(  $data, 'sanitize_text_field' );
+		$data = map_deep( $data, 'sanitize_text_field' );
 		// reformat request data to multidimensional array.
 		$cart = mt_get_cart();
-		foreach( $data as $k => $d ) {
+		foreach ( $data as $k => $d ) {
 			if ( 'mt_tickets' === $k ) {
 				foreach ( $d as $n => $value ) {
 					if ( $cart ) {

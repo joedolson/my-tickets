@@ -81,7 +81,7 @@ function mt_update_payment_settings( $post ) {
  * Payment settings form.
  */
 function mt_payment_settings() {
-    $post         = map_deep( $_POST,'sanitize_text_field' );
+	$post         = map_deep( $_POST,'sanitize_text_field' );
 	$response     = mt_update_payment_settings( $post );
 	$options      = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
 	$defaults     = mt_default_settings();
@@ -115,7 +115,7 @@ function mt_payment_settings() {
 										$select = "<select name='mt_currency' id='mt_currency'>";
 										foreach ( $mt_currency_codes as $code => $currency ) {
 											$selected = ( $options['mt_currency'] === $code ) ? " selected='selected'" : '';
-											$select .= "<option value='$code'$selected>" . $currency['description'] . '</option>';
+											$select  .= "<option value='$code'$selected>" . $currency['description'] . '</option>';
 										}
 										$select .= '</select>';
 										echo wp_kses( $select, mt_kses_elements() );
@@ -219,7 +219,9 @@ function mt_payment_settings() {
 											$pg_tabs
 										</ul>
 										$payment_gateways
-									</div></li>",  mt_kses_elements() );
+									</div></li>",
+										mt_kses_elements()
+									);
 									?>
 								</ul>
 								<ul>
