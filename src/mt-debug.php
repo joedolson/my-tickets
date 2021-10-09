@@ -33,23 +33,6 @@ function mt_show_debug_data() {
 			$records .= "<li><button type='button' class='toggle-debug button-secondary' aria-expanded='false'><strong>" . $entry['subject'] . ' / ' . date_i18n( $datetime, $entry['timestamp'] ) . "</strong></button><pre class='mt-debug-details'>" . print_r( $entry['data'], 1 ) . '</pre></li>';
 		}
 	}
-	$script = "
-<script>
-(function ($) {
-	$(function() {
-		$( 'button.toggle-debug' ).on( 'click', function() {
-			var next = $( this ).next( 'pre' );
-			if ( $( this ).next( 'pre' ).is( ':visible' ) ) {
-				$( this ).next( 'pre' ).hide();
-				$( this ).attr( 'aria-expanded', 'false' );
-			} else {
-				$( this ).next( 'pre' ).show();
-				$( this ).attr( 'aria-expanded', 'true' );
-			}
-		});
-	})
-})(jQuery);
-</script>";
 
-	echo ( '' !== $records ) ? "$script<div class='mtt-debug-log'><h3>Debugging Log:</h3><ul>$records</ul></div>" : '';
+	echo ( '' !== $records ) ? wp_kses_post( "<div class='mtt-debug-log'><h3>Debugging Log:</h3><ul>$records</ul></div>" ) : '';
 }
