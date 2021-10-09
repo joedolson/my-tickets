@@ -10,12 +10,95 @@
  */
 
 ?>
-<html>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
 <head>
 	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Receipts', 'my-tickets' ); ?> &bull; <?php mt_receipt_id(); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link type="text/css" rel="stylesheet" href="<?php echo plugins_url( 'css/generic.css', __FILE__ ); ?>"/>
-	<link type="text/css" rel="stylesheet" href="<?php echo plugins_url( 'css/receipt.css', __FILE__ ); ?>"/>
+	<style>
+		body {
+			font-family: HelveticaNeue, Arial, Verdana, sans-serif;
+		}
+
+		.panel {
+			padding: 1em;
+			margin: 0 auto;
+			border: 1px solid #999;
+		}
+
+		.panel img {
+			display: block;
+			margin: 0 auto;
+		}
+
+		.panel * {
+			word-wrap: breakword;
+		}
+
+		.panel .post-footer {
+			background: #eee;
+			padding: 1em;
+			margin: 0 -1em;
+			font-size: .8em;
+		}
+
+		a.print {
+			display: block;
+			width: 100%;
+			text-align: center;
+		}
+
+		.mt-verification div {
+			padding: .5em;
+		}
+
+		.pending {
+			background: #f5e6ab;
+			border-left: 8px solid #755100;
+		}
+
+		.completed {
+			background: #edfaef;
+			border-left: 8px solid #005c12;
+			font-weight: 700;
+		}
+
+		.completed.used {
+			background: #facfd2;
+			border-left: 8px solid #8a2424;
+			font-weight: 700;
+		}
+
+		.mt-verification {
+			font-size: 1.6em;
+		}
+
+		@media print {
+			a.print {
+				display: none;
+			}
+		}
+		.receipt {
+			width: 100%;
+			max-width: 400px;
+		}
+
+		.receipt .post-thumbnail .default {
+			width: 120px;
+			height: auto;
+			margin-bottom: 1em;
+		}
+
+		.receipt .post-content {
+			background: #eee;
+			padding: 1em;
+			margin: 0 -1em;
+		}
+
+		code {
+			font-size: 1.2em;
+		}
+	</style>
 </head>
 <body>
 <div class='panel receipt'>
