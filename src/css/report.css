@@ -1,3 +1,47 @@
+#adminmenumain, #wpadminbar, #screen-meta, .jcd-narrow, .jcd-wide form, .jcd-wide h3, #wpfooter {
+    display: none;
+}
+
+#wpcontent {
+    margin-left: 0;
+}
+
+.wrap {
+    margin: 0;
+}
+
+.jcd-wide {
+    width: 100%;
+}
+
+button.mt-hide-button {
+    margin-left: 4px;
+}
+
+button.mt-show-button {
+    display: block;
+}
+
+#wpcontent a.print-button {
+    display: none;
+}
+
+#wpcontent .postbox {
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+#wpcontent .inside {
+    padding: 0;
+}
+
+#wpcontent h2 {
+    padding: 0;
+    cursor: default;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -52,13 +96,6 @@ td.mt-post {
     display: none;
 }
 
-.mt-back {
-    float: right;
-    background: #f6f6f6;
-    display: inline-block;
-    padding: 6px;
-}
-
 .tabs {
     display: none;
 }
@@ -68,11 +105,14 @@ table a:hover, table a:focus {
 }
 
 @media print {
-    .mt-back {
+    .mt-back, .show-button, .jcd-wide h2.hndle {
         display: none;
     }
     td, th {
         border: 1px solid #f0f0f0;
+    }
+    tr:nth-of-type(odd) {
+        background: #fefefe;
     }
     button {
         display: none;

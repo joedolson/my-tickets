@@ -4,7 +4,8 @@ jQuery(document).ready(function ($) {
 
     cols.each( function() {
         var context = $( this ).attr( 'class' );
-        $( this ).append( '<br /><button data-context="' + context + '"><span class="hide">' + mt_action_text + '</span></button>' );
+        var target  = $( this ).attr( 'id' );
+        $( this ).append( '<button type="button" class="mt-hide-button" data-context="' + context + '" aria-describedby="' + target + '"><span class="dashicons dashicons-visibility" aria-hidden="true"></span><span class="screen-reader-text">' + mtprint.mt_action_text + '</span></button>' );
     });
 
     $( 'button' ).on( 'click', function(e) {

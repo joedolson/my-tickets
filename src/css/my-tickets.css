@@ -203,6 +203,10 @@ legend {
     width: 11em;
 }
 
+.mt-back, .show-button {
+    display: none;
+}
+
 .sales {
     background: #e25822;
     color: #fff;

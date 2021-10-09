@@ -30,6 +30,7 @@ function mt_reports_page() {
 
 					<div class="inside">
 						<?php
+						echo wp_kses( '<p><button class="show-button">' . __( 'Show Hidden Columns', 'my-tickets' ) . '</button></p>', mt_kses_elements() );
 						if ( isset( $_POST['event_id'] ) && is_numeric( $_POST['event_id'] ) ) {
 							if ( ! ( '' === strip_tags( $_POST['mt_subject'] ) || '' === strip_tags( $_POST['mt_body'] ) ) ) {
 								mt_mass_email();
@@ -46,7 +47,8 @@ function mt_reports_page() {
 							$event_id         = (int) $_GET['event_id'];
 							$report_type      = ( isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
 							$print_report_url = admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' );
-							echo '<p><a class="button" href="' . $print_report_url . '">' . __( 'Print this report', 'my-tickets' ) . '</a></p>';
+							$back_url         = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports' ) );
+							echo wp_kses_post( '<p><a class="button print-button" href="' . esc_url( $print_report_url ) . '">' . __( 'Print this report', 'my-tickets' ) . '</a><a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '</a></p>' );
 						}
 						?>
 						<div class="mt-report-selector">
@@ -87,14 +89,14 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 			$table_top    = "<table class='widefat'><caption>" . sprintf( __( 'Tickets Purchased for &ldquo;%s&rdquo;', 'my-tickets' ), $title ) . "</caption>
 						<thead>
 							<tr>
-								<th scope='col' class='mt-id'>" . __( 'Ticket ID', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-seqid'>" . __( 'Sequential ID', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-type'>" . __( 'Ticket Type', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-post'>" . __( 'Purchase ID', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-price'>" . __( 'Price', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-status'>" . __( 'Status', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-used'>" . __( 'Used', 'my-tickets' ) . '</th>
+								<th scope='col' class='mt-id' id='mt-id'>" . __( 'Ticket ID', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-seqid' id='mt-seqid'>" . __( 'Sequential ID', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-type' id='mt-type'>" . __( 'Ticket Type', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-purchaser' id='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-post' id='mt-post'>" . __( 'Purchase ID', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-price' id='mt-price'>" . __( 'Price', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-status' id='mt-status'>" . __( 'Status', 'my-tickets' ) . "</th>
+								<th scope='col' class='mt-used' id='mt-used'>" . __( 'Used', 'my-tickets' ) . '</th>
 							</tr>
 						</thead>
 						<tbody>';
@@ -110,14 +112,14 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 				return "<p class='totals'>" . sprintf( __( '%1$s tickets sold.', 'my-tickets' ), "<strong>$total_tickets</strong>" ) . '</p>' . $output;
 			} else {
 				// Translators: Number of tickets sold.
-				echo "<p class='totals'>" . sprintf( __( '%1$s tickets sold.', 'my-tickets' ), "<strong>$total_tickets</strong>" ) . '</p>' . $output;
+				echo wp_kses_post( "<p class='totals'>" . sprintf( __( '%1$s tickets sold.', 'my-tickets' ), "<strong>$total_tickets</strong>" ) . '</p>' . $output );
 			}
 		}
 	} else {
 		if ( $return ) {
 			return false;
 		} else {
-			echo "<div class='updated error'><p>" . __( 'You do not have sufficient permissions to view ticketing reports.', 'my-tickets' ) . '</p></div>';
+			echo wp_kses_post( "<div class='updated error'><p>" . __( 'You do not have sufficient permissions to view ticketing reports.', 'my-tickets' ) . '</p></div>' );
 		}
 	}
 }
@@ -202,7 +204,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				}
 				$caption       = "$title: <em>$status</em>";
 				$use_table_top = str_replace( '%caption%', $caption, $table_top );
-				$out          .= "<div class='wptab wp_" . sanitize_title( $status ) . "' id='mt_" . sanitize_title( $status ) . "' aria-live='assertive'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
+				$out          .= "<div class='wptab wp_" . sanitize_title( $status ) . "' id='mt_" . sanitize_title( $status ) . "'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
 			}
 
 			$output .= $out . '</div>';
@@ -212,14 +214,14 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 			if ( $return ) {
 				return  $total_line . $custom_line . $output;
 			} else {
-				echo $total_line . $custom_line . $output;
+				echo wp_kses_post( $total_line . $custom_line . $output );
 			}
 		}
 	} else {
 		if ( $return ) {
 			return false;
 		} else {
-			echo "<div class='updated error'><p>" . __( 'You do not have sufficient permissions to view sales reports.', 'my-tickets' ) . '</p></div>';
+			echo wp_kses_post( "<div class='updated error'><p>" . __( 'You do not have sufficient permissions to view sales reports.', 'my-tickets' ) . '</p></div>' );
 		}
 	}
 }
@@ -263,7 +265,7 @@ function mt_choose_report_by_event() {
 					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Event', 'my-tickets' ) . "' /></p>
 				</form>
 			</div>";
-	echo $form;
+	echo wp_kses( $form, mt_kses_elements() );
 }
 
 /**
@@ -300,7 +302,7 @@ function mt_choose_report_by_date() {
 					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Date', 'my-tickets' ) . "' /></p>
 				</form>
 			</div>";
-	echo $form;
+	echo wp_kses( $form, mt_kses_elements() );
 }
 
 /**
@@ -347,7 +349,7 @@ function mt_email_purchasers() {
 			<p><input type='submit' name='mt-email-purchasers' class='button-primary' value='" . __( 'Send Email', 'my-tickets' ) . "' /></p>
 		</form>";
 
-	echo $form;
+	echo wp_kses( $form, mt_kses_elements() );
 }
 
 /**
@@ -596,14 +598,14 @@ function mt_get_tickets( $event_id ) {
 		$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 		$row       = "
 		<tr class='$alternate'>
-			<th scope='row' class='mt-id'><a href='$ticket_url'>$ticket_id</a></th>
-			<td class='mt-seqid'>$seq_id</th>
-			<td class='mt-type'>$label</td>
-			<td class='mt-purchaser'>$purchaser</td>
-			<td class='mt-post'><a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id</a></td>
-			<td class='mt-price'>" . apply_filters( 'mt_money_format', $price ) . "</td>
-			<td class='mt-status'>$status</td>
-			<td class='mt-used'>$used</td>
+			<th scope='row' class='mt-id' id='mt-id'><a href='$ticket_url'>$ticket_id</a></th>
+			<td class='mt-seqid' id='mt-seqid'>$seq_id</th>
+			<td class='mt-type' id='mt-type'>$label</td>
+			<td class='mt-purchaser' id='mt-purchaser'>$purchaser</td>
+			<td class='mt-post' id='mt-post'><a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id</a></td>
+			<td class='mt-price' id='mt-price'>" . apply_filters( 'mt_money_format', $price ) . "</td>
+			<td class='mt-status' id='mt-status'>$status</td>
+			<td class='mt-used' id='mt-used'>$used</td>
 		</tr>";
 		// add split field to csv headers.
 		$csv              = "\"$ticket_id\",\"$seq_id\",\"$last_name\",\"$first_name\",\"$type\",\"$purchase_id\",\"$price\",\"$status\",\"$used\"" . PHP_EOL;
@@ -612,49 +614,6 @@ function mt_get_tickets( $event_id ) {
 	}
 
 	return $report;
-}
-
-add_action( 'admin_init', 'mt_printable_report' );
-/**
- * View printable version of table report.
- */
-function mt_printable_report() {
-	if ( isset( $_GET['mt_print'] ) ) {
-		$report   = apply_filters( 'mt_printable_report', false );
-		$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : false;
-		if ( ! $event_id && ! $report ) {
-			exit;
-		}
-		if ( ! $report ) {
-			if ( isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report'] ) {
-				$report = mt_generate_tickets_by_event( $event_id, true );
-			} else {
-				$report = mt_generate_report_by_event( $event_id, true );
-			}
-		}
-		$stylesheet_path = apply_filters( 'mt_printable_report_css', plugins_url( 'css/report.css', __FILE__ ) );
-		$back_url        = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports' ) );
-		?>
-<!DOCTYPE html>
-<html <?php language_attributes(); ?>>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo( 'charset' ); ?>" />
-		<meta name="viewport" content="width=device-width" />
-		<title><?php _e( 'Printable Sales Report', 'my-tickets' ); ?></title>
-		<link href="<?php echo $stylesheet_path; ?>" type="text/css" media="print,screen" rel="stylesheet" />
-	</head>
-	<body>
-		<a class='mt-back' href="<?php echo $back_url; ?>"><?php _e( 'Return to My Tickets Reports', 'my-tickets' ); ?></a>
-		<?php
-		echo wp_kses_post( $report );
-		do_action( 'admin_print_footer_scripts' );
-		?>
-		<p aria-live="polite"><button class="show-button"><?php _e( 'Show Hidden Columns', 'my-tickets' ); ?></button></p>
-	</body>
-</html>
-		<?php
-		exit;
-	}
 }
 
 add_action( 'admin_init', 'mt_download_csv_event' );
@@ -888,6 +847,7 @@ function mt_get_report_data_by_time() {
  */
 function mt_generate_report_by_time() {
 	$report = mt_get_report_data_by_time();
+	$output = '';
 	if ( is_array( $report ) && ! empty( $report ) ) {
 		$purchases      = $report['html'];
 		$total          = $report['total'];
@@ -899,8 +859,8 @@ function mt_generate_report_by_time() {
 			$custom_headers .= "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . "</th>\n";
 		}
 		// Translators: Starting date, ending date.
-		echo '<h3>' . sprintf( __( 'Sales from %1$s to %2$s', 'my-tickets' ), $start, $end ) . '</h3>';
-		echo "<table class='widefat'>
+		$output .= '<h3>' . sprintf( __( 'Sales from %1$s to %2$s', 'my-tickets' ), $start, $end ) . '</h3>';
+		$output .= "<table class='widefat'>
 			<thead>
 				<tr>
 					<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
@@ -915,18 +875,19 @@ function mt_generate_report_by_time() {
 			<tbody>';
 		if ( is_array( $purchases ) && ! empty( $purchases ) ) {
 			foreach ( $purchases as $row ) {
-				echo $row;
+				$output .= $row;
 			}
 		}
-		echo '</tbody>
+		$output .= '</tbody>
 		</table>';
 		// Translators: Time period.
-		printf( '<p>' . __( 'Total sales in period: %s', 'my-tickets' ) . '</p>', '<strong>' . apply_filters( 'mt_money_format', $total ) . '</strong>' );
+		$output     .= sprintf( '<p>' . __( 'Total sales in period: %s', 'my-tickets' ) . '</p>', '<strong>' . apply_filters( 'mt_money_format', $total ) . '</strong>' );
 		$custom_line = apply_filters( 'mt_custom_total_line_time', '', $start, $end );
-		echo $custom_line;
+		$output     .= $custom_line;
 	} else {
-		echo '<p>' . __( 'No sales in period.', 'my-tickets' ) . '</p>';
+		$output = '<p>' . __( 'No sales in period.', 'my-tickets' ) . '</p>';
 	}
+	echo wp_kses_post( $output );
 }
 
 /**
@@ -976,8 +937,8 @@ function mt_mass_email( $event_id = false ) {
 		$event_id = ( isset( $_POST['event_id'] ) ) ? (int) $_POST['event_id'] : false;
 	}
 	if ( $event_id ) {
-		$body      = ( ! empty( $_POST['mt_body'] ) ) ? stripslashes( $_POST['mt_body'] ) : false;
-		$subject   = ( ! empty( $_POST['mt_subject'] ) ) ? stripslashes( $_POST['mt_subject'] ) : false;
+		$body      = ( ! empty( $_POST['mt_body'] ) ) ? wp_kses_post( $_POST['mt_body'] ) : false;
+		$subject   = ( ! empty( $_POST['mt_subject'] ) ) ? wp_kses_post( $_POST['mt_subject'] ) : false;
 		$orig_subj = $subject;
 		$orig_body = $body;
 		// save email message to event post.
@@ -990,7 +951,7 @@ function mt_mass_email( $event_id = false ) {
 			)
 		);
 		if ( ! $body || ! $subject ) {
-			echo "<div class='updated error'><p>" . __( 'You must include a message subject and body to send mass email.', 'my-tickets' ) . '</p></div>';
+			echo wp_kses_post( "<div class='updated error'><p>" . __( 'You must include a message subject and body to send mass email.', 'my-tickets' ) . '</p></div>' );
 			return;
 		}
 		$event       = get_the_title( $event_id );
@@ -1065,7 +1026,7 @@ function mt_mass_email( $event_id = false ) {
 			remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
 		// Translators: Number of purchasers notified, total number of purchasers, number of purchasers opted out, name of event.
-		echo "<div class='updated'><p>" . sprintf( __( '%1$d/%2$d purchasers of tickets for "%4$s" have been emailed. %3$d/%2$d purchasers have opted out.', 'my-tickets' ), $emails_sent, $count, $opt_outs, $event ) . '</p></div>';
+		echo wp_kses_post( "<div class='updated'><p>" . sprintf( __( '%1$d/%2$d purchasers of tickets for "%4$s" have been emailed. %3$d/%2$d purchasers have opted out.', 'my-tickets' ), $emails_sent, $count, $opt_outs, $event ) . '</p></div>' );
 	}
 }
 
