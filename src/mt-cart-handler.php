@@ -29,12 +29,13 @@ function mt_handle_cart() {
 			wp_safe_redirect( $url );
 			exit;
 		}
-		$payment = mt_create_payment( $_POST );
+		$post    = map_deep( 'sanitize_text_field', $_POST );
+		$payment = mt_create_payment( $post );
 		if ( $payment ) {
 			// Handle custom fields added to cart form.
-			do_action( 'mt_handle_custom_cart_data', $payment, $_POST );
+			do_action( 'mt_handle_custom_cart_data', $payment, $post );
 			if ( ! ( mt_get_data( 'payment' ) ) ) {
-				mt_debug( print_r( $_POST, 1 ), 'Data passed from client at payment creation', $payment );
+				mt_debug( print_r( $post, 1 ), 'Data passed from client at payment creation', $payment );
 				mt_save_data( $payment, 'payment' );
 			}
 		} else {
@@ -142,7 +143,7 @@ function mt_create_payment( $post ) {
 	update_post_meta( $purchase_id, '_purchase_data', $purchased );
 	// Debugging.
 	mt_debug( print_r( $purchased, 1 ), 'Purchase Data saved at nav to payment screen', $purchase_id );
-	mt_debug( print_r( $_POST, 1 ), 'Data passed from client at nav to payment screen', $purchase_id );
+	mt_debug( print_r( $post, 1 ), 'Data passed from client at nav to payment screen', $purchase_id );
 	update_post_meta( $purchase_id, '_ticketing_method', $post['ticketing_method'] );
 	// for pushing data into custom fields.
 	do_action( 'mt_save_payment_fields', $purchase_id, $post, $purchased );

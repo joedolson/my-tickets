@@ -47,7 +47,7 @@ function mt_add_ticket_form() {
 	$tickets_page  = $options['mt_tickets_page'];
 	$current       = ( isset( $_GET['post'] ) ) ? intval( $_GET['post'] ) : false;
 	if ( ( $current === $purchase_page || $current === $receipt_page || $current === $tickets_page ) && empty( $data ) ) {
-		echo '<p>' . __( 'This is a core My Tickets page, used for processing transactions. You cannot use this page as an event.', 'my-tickets' ) . '</p>';
+		echo wp_kses_post( '<p>' . __( 'This is a core My Tickets page, used for processing transactions. You cannot use this page as an event.', 'my-tickets' ) . '</p>' );
 		return;
 	}
 
@@ -85,7 +85,7 @@ function mt_add_ticket_form() {
 						$selector
 					</p>
 			</div>" . apply_filters( 'mc_event_registration', '', $post_id, $data, 'admin' ) . $clear . '</div>';
-	echo '<div class="mt_post_fields">' . $format . $form . '</div>';
+	echo wp_kses( '<div class="mt_post_fields">' . $format . $form . '</div>', mt_kses_elements() );
 }
 
 add_action( 'save_post', 'mt_ticket_meta', 10 );
@@ -100,19 +100,20 @@ function mt_ticket_meta( $post_id ) {
 		if ( ! wp_verify_nonce( $nonce, 'mt-tickets-nonce' ) ) {
 			wp_die( 'Invalid nonce' );
 		}
-		$event_begin = mt_date( 'Y-m-d', strtotime( $_POST['event_begin'] ), false );
-		$event_time  = mt_date( 'H:i:s', strtotime( $_POST['event_time'] ), false );
+		$post        = map_deep( $_POST, 'sanitize_text_field' );
+		$event_begin = mt_date( 'Y-m-d', strtotime( $post['event_begin'] ), false );
+		$event_time  = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
 		$data        = array(
 			'event_begin' => $event_begin,
 			'event_time'  => $event_time,
 			'event_post'  => $post_id,
 		);
-		if ( isset( $_POST['mt-event-location'] ) && is_numeric( $_POST['mt-event-location'] ) ) {
-			update_post_meta( $post_id, '_mc_event_location', $_POST['mt-event-location'] );
+		if ( isset( $post['mt-event-location'] ) && is_numeric( $post['mt-event-location'] ) ) {
+			update_post_meta( $post_id, '_mc_event_location', $post['mt-event-location'] );
 		}
 		update_post_meta( $post_id, '_mc_event_data', $data );
-		update_post_meta( $post_id, '_mc_event_date', strtotime( $_POST['event_begin'] ) );
-		mt_save_registration_data( $post_id, $_POST );
+		update_post_meta( $post_id, '_mc_event_date', strtotime( $post['event_begin'] ) );
+		mt_save_registration_data( $post_id, $post );
 	} elseif ( isset( $_POST['mt-tickets-nonce'] ) && ! isset( $_POST['mt-trigger'] ) ) {
 		delete_post_meta( $post_id, '_mc_event_data' );
 		delete_post_meta( $post_id, '_mc_event_date' );

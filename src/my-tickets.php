@@ -921,10 +921,23 @@ function mt_current_time() {
  */
 function mt_kses_elements() {
 	$elements = array(
-		'label' => array(
+		'h2'       => array(),
+		'h3'       => array(),
+		'h4'       => array(),
+		'label'    => array(
 			'for' => array(),
 		),
-		'input' => array(
+		'option'   => array(
+		  'value' => array(),
+			'selected'         => array(),
+		),
+		'select'   => array(
+		  'id' => array(),
+			'aria-describedby' => array(),
+			'name'             => array(),
+			'disabled'         => array(),
+		),
+		'input'    => array(
 			'id'               => array(),
 			'class'            => array(),
 			'aria-describedby' => array(),
@@ -933,20 +946,67 @@ function mt_kses_elements() {
 			'name'             => array(),
 			'size'             => array(),
 			'checked'          => array(),
-			'selected'         => array(),
+			'disabled'         => array(),
 		),
-		'li'    => array(
+		'textarea' => array(
+			'id'               => array(),
+			'class'            => array(),
+			'cols'             => array(),
+			'rows'             => array(),
+			'aria-describedby' => array(),
+			'readonly'         => array(),
+			'disabled'         => array(),
+		),
+		'form'     => array(
+			'id'     => array(),
+			'name'   => array(),
+			'action' => array(),
+			'method' => array(),
+		),
+		'button'   => array(
+				'type' => array(),
+			'class' => array(),
+			'aria-expanded' => array(),
+			'aria-describedby' => array(),
+		),
+		'ul' => array(
+		  'class' => array(),
+		),
+		'fieldset' => array(),
+		'legend'   => array(),
+		'li'       => array(
 			'class' => array(),
 		),
-		'span'  => array(
+		'span'     => array(
 			'id'    => array(),
 			'class' => array(),
 		),
-		'p'     => array(
+		'p'        => array(
 			'class' => array(),
 		),
-		'div',
-		'br',
+		'div'      => array(
+			'class' => array(),
+			'id' => array(),
+		),
+		'br'        => array(),
+		'table'     => array(
+				'class' => array(),
+			'id' => array(),
+		),
+		'caption'   => array(),
+		'thead'     => array(),
+		'tfoot'     => array(),
+		'tbody'     => array(),
+		'tr'        => array(
+				'class' => array(),
+		),
+		'th'        => array(
+				'scope' => array(),
+			'class' => array(),
+		),
+		'td'        => array(
+				'class' => array(),
+		)
 	);
 
 	return $elements;

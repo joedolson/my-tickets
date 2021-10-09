@@ -81,7 +81,8 @@ function mt_update_payment_settings( $post ) {
  * Payment settings form.
  */
 function mt_payment_settings() {
-	$response     = mt_update_payment_settings( $_POST );
+    $post         = map_deep( $_POST,'sanitize_text_field' );
+	$response     = mt_update_payment_settings( $post );
 	$options      = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
 	$defaults     = mt_default_settings();
 	$options      = array_merge( $defaults, $options );
@@ -94,11 +95,11 @@ function mt_payment_settings() {
 	<div class="wrap my-tickets" id="mt_settings">
 		<div id="icon-options-general" class="icon32"><br/></div>
 		<h1><?php _e( 'Event Registrations', 'my-tickets' ); ?></h1>
-		<?php echo $response; ?>
-		<?php echo $alert; ?>
+		<?php echo wp_kses_post( $response ); ?>
+		<?php echo wp_kses_post( $alert ); ?>
 		<div class="postbox-container jcd-wide">
 			<div class="metabox-holder">
-				<form method="post" action="<?php echo admin_url( 'admin.php?page=mt-payment' ); ?>">
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=mt-payment' ) ); ?>">
 					<div><input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce( 'my-tickets' ); ?>"/>
 					</div>
 					<div class="ui-sortable meta-box-sortables">
@@ -106,17 +107,18 @@ function mt_payment_settings() {
 							<h2 class="hndle"><?php _e( 'Registration Payment Settings', 'my-tickets' ); ?></h2>
 
 							<div class="inside">
-								<p class="mt-money-format"><strong><?php _e( 'Current format', 'my-tickets' ); ?></strong><br /><?php echo mt_money_format( '25097.87' ); ?></p>
+								<p class="mt-money-format"><strong><?php _e( 'Current format', 'my-tickets' ); ?></strong><br /><?php echo sanitize_text_field( mt_money_format( '25097.87' ) ); ?></p>
 								<ul>
 									<li><label for="mt_currency"><?php _e( 'Currency:', 'my-tickets' ); ?></label>
 										<?php
 										$mt_currency_codes = mt_currency();
-										echo "<select name='mt_currency' id='mt_currency'>";
+										$select = "<select name='mt_currency' id='mt_currency'>";
 										foreach ( $mt_currency_codes as $code => $currency ) {
 											$selected = ( $options['mt_currency'] === $code ) ? " selected='selected'" : '';
-											echo "<option value='$code'$selected>" . $currency['description'] . '</option>';
+											$select .= "<option value='$code'$selected>" . $currency['description'] . '</option>';
 										}
-										echo '</select>';
+										$select .= '</select>';
+										echo wp_kses( $select, mt_kses_elements() );
 										?>
 									</li>
 									<li>
@@ -201,7 +203,7 @@ function mt_payment_settings() {
 										// Translators: Gateway settings.
 										$pg_tabs          .= "<li><a href='#$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '</a></li>';
 										$payment_gateways .= "
-										<div class='wptab mt_$gateway' id='$gateway' aria-live='assertive'>
+										<div class='wptab mt_$gateway' id='$gateway'>
 										<fieldset>
 											<legend>$fields[label]</legend>
 											<p><input type='radio' name='mt_default_gateway' id='mt_default_gateway_$gateway' value='$gateway'" . mt_is_checked( 'mt_default_gateway', $gateway, $options, true ) . " /> <label for='mt_default_gateway_$gateway'>" . __( 'Default gateway', 'my-tickets' ) . "</label></p>
@@ -210,13 +212,14 @@ function mt_payment_settings() {
 										</fieldset>
 										</div>";
 									}
-									echo '<li><fieldset><legend>' . __( 'Enabled Payment Gateways', 'my-tickets' ) . "</legend> $default_selector</fieldset>
+									echo wp_kses(
+										'<li><fieldset><legend>' . __( 'Enabled Payment Gateways', 'my-tickets' ) . "</legend> $default_selector</fieldset>
 									<div class='mt-tabs'>
 										<ul class='tabs'>
 											$pg_tabs
 										</ul>
 										$payment_gateways
-									</div></li>";
+									</div></li>",  mt_kses_elements() );
 									?>
 								</ul>
 								<ul>
@@ -244,17 +247,17 @@ function mt_payment_settings() {
 										<li>
 											<input type="text" size='6' class='suggest' id="mt_purchase_page" name="mt_purchase_page" value="<?php echo stripslashes( esc_attr( $options['mt_purchase_page'] ) ); ?>" required aria-required="true" />
 											<label for="mt_purchase_page"><?php _e( 'Shopping cart', 'my-tickets' ); ?>
-												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo $current_purchase_page; ?></em></label><br/>
+												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo wp_kses_post( $current_purchase_page ); ?></em></label><br/>
 										</li>
 										<li>
 											<input type="text" size='6' class='suggest' id="mt_receipt_page" name="mt_receipt_page" value="<?php echo stripslashes( esc_attr( $options['mt_receipt_page'] ) ); ?>" required aria-required="true"/>
 											<label for="mt_receipt_page"><?php _e( 'Receipt page', 'my-tickets' ); ?>
-												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo $current_receipt_page; ?></em></label><br/>
+												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo wp_kses_post( $current_receipt_page ); ?></em></label><br/>
 										</li>
 										<li>
 											<input type="text" size='6' class='suggest' id="mt_tickets_page" name="mt_tickets_page" value="<?php echo stripslashes( esc_attr( $options['mt_tickets_page'] ) ); ?>" required aria-required="true"/>
 											<label for="mt_tickets_page"><?php _e( 'Tickets page', 'my-tickets' ); ?>
-												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo $current_tickets_page; ?></em></label><br/>
+												<span class='new' aria-live="assertive"></span> <em class='current'><?php echo wp_kses_post( $current_tickets_page ); ?></em></label><br/>
 										</li>
 									</ul>
 								</fieldset>

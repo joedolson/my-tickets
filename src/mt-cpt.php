@@ -66,7 +66,7 @@ function mt_email_purchaser() {
 		}
 	}
 	$prior = ( $messages ) ? '<ul class="mt-message-log">' . $message . '</ul>' : '';
-	echo wp_kses_post( '<div class="mt_post_fields panels">' . $nonce . $form . $prior . '</div>' );
+	echo wp_kses( '<div class="mt_post_fields panels">' . $nonce . $form . $prior . '</div>', mt_kses_elements() );
 }
 
 add_action( 'save_post', 'mt_delete_error_log', 10 );
@@ -257,7 +257,7 @@ function mt_add_inner_box() {
 		$order = '';
 		$total = '';
 	}
-	echo wp_kses_post( '<div class="mt_post_fields">' . $format . $order . $total . '</div>' );
+	echo wp_kses( '<div class="mt_post_fields">' . $format . $order . $total . '</div>', mt_kses_elements() );
 }
 
 /**

@@ -353,6 +353,9 @@ function mt_wp_enqueue_scripts() {
 			)
 		);
 	}
+	if ( 'mt-payment' === $current_screen->post_type ) {
+		wp_enqueue_script( 'mt.payments', plugins_url( 'js/jquery.payments.js', __FILE__ ), array( 'jquery' ) );
+	}
 	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
 		wp_localize_script(
@@ -367,15 +370,21 @@ function mt_wp_enqueue_scripts() {
 	}
 }
 
-add_action( 'admin_print_footer_scripts', 'mt_report_scripts' );
+add_action( 'admin_enqueue_scripts', 'mt_report_scripts' );
 /**
  * Enqueue footer scripts in report view.
  */
 function mt_report_scripts() {
 	if ( isset( $_GET['mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
-		$script_path = apply_filters( 'mt_printable_report_js', plugins_url( 'js/report.js', __FILE__ ) );
-		echo "<script>mt_action_text = '" . __( 'Hide Column', 'my-tickets' ) . "';</script>";
-		echo "<script src='$script_path'></script>";
+		wp_enqueue_script( 'mt.printable', plugins_url( 'js/report.js', __FILE__ ), array( 'jquery' ) );
+		wp_localize_script(
+				'mt.printable',
+				'mtprint',
+				array(
+					'mt_action_text' => __( 'Hide', 'my-tickets' ),
+				)
+		);
+		wp_enqueue_style( 'mt.printable', plugins_url( 'css/report.css', __FILE__ ) );
 	}
 }
 

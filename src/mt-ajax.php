@@ -28,7 +28,7 @@ function mt_ajax_cart() {
 		die;
 	}
 	if ( 'mt_ajax_cart' === $_REQUEST['action'] ) {
-		$post = $_REQUEST['data'];
+		$post = map_deep( $_REQUEST['data'], 'sanitize_text_field' );
 		$post = array(
 			$post['mt_event_id'] => array(
 				$post['mt_event_type'] => array(

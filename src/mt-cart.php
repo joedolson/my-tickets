@@ -1141,7 +1141,7 @@ add_action( 'wp_head', 'mt_cart_meta', 1 );
  * Cart Data does not expose any user-specific information; contains only event ID and tickets selected.
  */
 function mt_cart_meta() {
-	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
+	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
 	if ( $unique_id ) {
 		echo "<meta name='cart_id' value='" . esc_attr( $unique_id ) . "' />\n";
 	}

@@ -38,7 +38,7 @@ function mt_receipt() {
  * @return bool|object
  */
 function mt_get_receipt() {
-	$receipt_id = isset( $_GET['receipt_id'] ) ? $_GET['receipt_id'] : false;
+	$receipt_id = isset( $_GET['receipt_id'] ) ? sanitize_text_field( $_GET['receipt_id'] ) : false;
 	$receipt    = false;
 	if ( $receipt_id ) {
 		$posts   = get_posts(

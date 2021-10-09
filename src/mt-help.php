@@ -230,11 +230,11 @@ $plugins_string
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets-nonce' ) ) {
 			die( 'Security check failed' );
 		}
-		$request      = ( ! empty( $_POST['support_request'] ) ) ? stripslashes( $_POST['support_request'] ) : false;
+		$request      = ( ! empty( $_POST['support_request'] ) ) ? sanitize_textarea_field( $_POST['support_request'] ) : false;
 		$subject      = 'My Tickets support request.';
 		$message      = $request . "\n\n" . $data;
 		// Get the site domain and get rid of www. from pluggable.php.
-		$sitename = strtolower( $_SERVER['SERVER_NAME'] );
+		$sitename = strtolower( sanitize_text_field( $_SERVER['SERVER_NAME'] ) );
 		if ( substr( $sitename, 0, 4 ) === 'www.' ) {
 			$sitename = substr( $sitename, 4 );
 		}
