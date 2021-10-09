@@ -69,6 +69,13 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.8.31 =
 
 * Security: XSS vulnerability due to unsanitized email address.
+* Security: Plug-in wide security review and hardening.
+* Standards: Use WordPress standard methods for stylesheets and scripts throughout plug-in.
+* Bug fix: Required address fields should be labeled as required.
+* Bug fix: Add language attributes and doctypes to custom templates.
+* Change: New QRCode library (https://github.com/chillerlan/php-qrcode)
+* Change: Transition error log to log all transactions.
+* Change: QRCode template function now has a getter (mt_get_ticket_qrcode()).
 
 = 1.8.30 =
 
