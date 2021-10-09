@@ -998,14 +998,17 @@ function mt_kses_elements() {
 		'tfoot'    => array(),
 		'tbody'    => array(),
 		'tr'       => array(
-				'class' => array(),
+			'class' => array(),
+			'id'    => array(),
 		),
 		'th'       => array(
 			'scope' => array(),
 			'class' => array(),
+			'id'    => array(),
 		),
 		'td'       => array(
 			'class' => array(),
+			'id'    => array(),
 		),
 	);
 
