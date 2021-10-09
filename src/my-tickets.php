@@ -941,7 +941,7 @@ function mt_kses_elements() {
 			'max'              => array(),
 			'required'         => array(),
 			'readonly'         => array(),
-		 ),
+		),
 		'input'    => array(
 			'id'               => array(),
 			'class'            => array(),
@@ -992,7 +992,7 @@ function mt_kses_elements() {
 		'li'       => array(
 			'class' => array(),
 		),
-		'span'          => array(
+		'span'     => array(
 			'id'        => array(),
 			'class'     => array(),
 			'itemprop'  => array(),
