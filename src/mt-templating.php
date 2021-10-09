@@ -649,7 +649,7 @@ function mt_get_ticket_qrcode( $ticket_id = false ) {
 		)
 	);
 	$code      = new QRCode( $options );
-	return $code->render( esc_url( $url ) );
+	return $code->render( esc_url_raw( $url ) );
 }
 
 /**
