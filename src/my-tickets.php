@@ -712,24 +712,6 @@ function mt_show_support_box( $add = false ) {
 				</div>
 			</div>
 		</div>
-
-		<?php
-		if ( is_array( $add ) ) {
-			foreach ( $add as $key => $value ) {
-				?>
-				<div class="ui-sortable meta-box-sortables">
-					<div class="postbox">
-						<h2 class="hndle"><?php echo $key; ?></h2>
-
-						<div class='<?php echo sanitize_title( $key ); ?> inside'>
-							<?php echo $value; ?>
-						</div>
-					</div>
-				</div>
-				<?php
-			}
-		}
-		?>
 	</div>
 	</div>
 	<?php
@@ -985,6 +967,9 @@ function mt_kses_elements() {
 			'class'            => array(),
 			'aria-expanded'    => array(),
 			'aria-describedby' => array(),
+			'role'             => array(),
+			'aria-selected'    => array(),
+			'aria-controls'    => array(),
 		),
 		'ul'       => array(
 			'class' => array(),
@@ -995,20 +980,24 @@ function mt_kses_elements() {
 			'class' => array(),
 		),
 		'span'     => array(
-			'id'        => array(),
-			'class'     => array(),
-			'itemprop'  => array(),
-			'itemscope' => array(),
-			'itemtype'  => array(),
-			'aria-live' => array(),
+			'id'          => array(),
+			'class'       => array(),
+			'itemprop'    => array(),
+			'itemscope'   => array(),
+			'itemtype'    => array(),
+			'aria-live'   => array(),
+			'aria-hidden' => array(),
 		),
 		'p'        => array(
 			'class' => array(),
 		),
 		'div'      => array(
-			'class'     => array(),
-			'aria-live' => array(),
-			'id'        => array(),
+			'class'           => array(),
+			'aria-live'       => array(),
+			'id'              => array(),
+			'role'            => array(),
+			'data-default'    => array(),
+			'aria-labelledby' => array(),
 		),
 		'img'      => array(
 			'class'    => true,

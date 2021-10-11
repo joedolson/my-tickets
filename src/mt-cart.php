@@ -55,11 +55,11 @@ function mt_response_messages() {
 	$message       = '';
 	$response_code = '';
 	if ( isset( $_GET['response_code'] ) ) {
-		$response_code = $_GET['response_code'];
-		if ( 'cancel' === $_GET['response_code'] ) {
+		$response_code = sanitize_text_field( $_GET['response_code'] );
+		if ( 'cancel' === $response_code ) {
 			$message = __( "We're sorry you were unable to complete your purchase! Please contact us if you had any issues in the purchase process.", 'my-tickets' );
 		}
-		if ( 'thanks' === $_GET['response_code'] ) {
+		if ( 'thanks' === $response_code ) {
 			$message = __( 'Thanks for your purchase!', 'my-tickets' );
 			if ( isset( $_GET['payment_id'] ) ) {
 				$payment_id = (int) $_GET['payment_id'];
@@ -70,13 +70,13 @@ function mt_response_messages() {
 				}
 			}
 		}
-		if ( 'required-fields' === $_GET['response_code'] ) {
+		if ( 'required-fields' === $response_code ) {
 			$message = __( 'First name, last name, and email are required fields. Please fill in these fields and submit again!', 'my-tickets' );
 		}
 		if ( ! $message ) {
-			$message = ( isset( $_GET['reason'] ) ) ? $_GET['reason'] : '';
+			$message = ( isset( $_GET['reason'] ) ) ? sanitize_text_field( $_GET['reason'] ) : '';
 			if ( ! $message ) {
-				$message = ( isset( $_GET['response_reason_text'] ) ) ? $_GET['response_reason_text'] : '';
+				$message = ( isset( $_GET['response_reason_text'] ) ) ? sanitize_text_field( $_GET['response_reason_text'] ) : '';
 			}
 			$message = sanitize_text_field( $message );
 		}

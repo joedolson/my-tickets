@@ -120,20 +120,20 @@ function mt_offline_processor() {
 		$response_code = 200;
 
 		// transaction variables to store.
-		$item_number = ( isset( $_POST['mt_item'] ) ) ? $_POST['mt_item'] : mt_get_data( 'offline-payment' );
+		$item_number = ( isset( $_POST['mt_item'] ) ) ? sanitize_text_field( $_POST['mt_item'] ) : mt_get_data( 'offline-payment' );
 		mt_delete_data( 'offline-payment' );
 		$price            = 0;
-		$payment_currency = $_POST['mt_currency'];
+		$payment_currency = sanitize_text_field( $_POST['mt_currency'] );
 		$txn_id           = 'offline';
 
 		// All gateways must map shipping addresses to this format.
 		$address = array(
-			'street'  => isset( $_POST['address'] ) ? $_POST['address'] : '',
-			'street2' => isset( $_POST['address2'] ) ? $_POST['address2'] : '',
-			'city'    => isset( $_POST['city'] ) ? $_POST['city'] : '',
-			'state'   => isset( $_POST['state'] ) ? $_POST['state'] : '',
-			'country' => isset( $_POST['address_country'] ) ? $_POST['address_country'] : '',
-			'code'    => isset( $_POST['zip'] ) ? $_POST['zip'] : '',
+			'street'  => isset( $_POST['address'] ) ? sanitize_text_field( $_POST['address'] ) : '',
+			'street2' => isset( $_POST['address2'] ) ? sanitize_text_field( $_POST['address2'] ) : '',
+			'city'    => isset( $_POST['city'] ) ? sanitize_text_field( $_POST['city'] ) : '',
+			'state'   => isset( $_POST['state'] ) ? sanitize_text_field( $_POST['state'] ) : '',
+			'country' => isset( $_POST['address_country'] ) ? sanitize_text_field( $_POST['address_country'] ) : '',
+			'code'    => isset( $_POST['zip'] ) ? sanitize_text_field( $_POST['zip'] ) : '',
 		);
 
 		// if the total price on this transaction is zero, mark as completed.

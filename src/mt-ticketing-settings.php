@@ -89,7 +89,7 @@ function mt_ticketing_settings() {
 	<div class="wrap my-tickets" id="mt_settings">
 		<div id="icon-options-general" class="icon32"><br/></div>
 		<h1 class="hndle"><?php _e( 'Event Ticket Settings', 'my-tickets' ); ?></h1>
-		<?php echo $response; ?>
+		<?php echo wp_kses_post( $response ); ?>
 		<div class="postbox-container jcd-wide">
 			<div class="metabox-holder">
 				<form method="post" action="<?php echo admin_url( 'admin.php?page=mt-ticketing' ); ?>">
@@ -162,7 +162,7 @@ function mt_ticketing_settings() {
 										apply_filters( 'mt_custom_ticket_image_option', '' ) . '
 									</select>
 								</p>';
-								echo $form;
+								echo wp_kses( $form, mt_kses_elements() );
 								$multiple = ( isset( $options['defaults']['multiple'] ) && 'true' === $options['defaults']['multiple'] ) ? true : false;
 								?>
 							</div>
@@ -189,37 +189,37 @@ function mt_ticketing_settings() {
 									<?php
 									$type = $options['defaults']['sales_type'];
 									if ( ! $type || 'tickets' === $type ) {
-										$is_tickets      = ' checked="checked"';
-										$is_registration = '';
+										$is_tickets      = true;
+										$is_registration = false;
 									} else {
-										$is_tickets      = '';
-										$is_registration = ' checked="checked"';
+										$is_tickets      = false;
+										$is_registration = true;
 									}
 									$method = $options['defaults']['counting_method'];
 									if ( 'discrete' === $method ) {
-										$is_discrete   = ' checked="checked"';
-										$is_continuous = '';
+										$is_discrete   = true;
+										$is_continuous = false;
 									} else {
-										$is_discrete   = '';
-										$is_continuous = ' checked="checked"';
+										$is_discrete   = false;
+										$is_continuous = true;
 									}
 									echo mt_prices_table();
 									?>
 									<fieldset>
 										<legend><?php _e( 'Type of Sale', 'my-tickets' ); ?></legend>
 										<p>
-											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_tickets' value='tickets'<?php echo $is_tickets; ?> />
+											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_tickets' value='tickets'<?php checked( $is_tickets, true ); ?> />
 											<label for='mt_sales_type_tickets'><?php _e( 'Ticket Sales', 'my-tickets' ); ?></label><br/>
-											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_registration' value='registration'<?php echo $is_registration; ?> />
+											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_registration' value='registration'<?php checked( $is_registration, true ); ?> />
 											<label for='mt_sales_type_registration'><?php _e( 'Event Registration', 'my-tickets' ); ?></label>
 										</p>
 									</fieldset>
 									<fieldset>
 										<legend><?php _e( 'Ticket Counting Method', 'my-tickets' ); ?></legend>
 										<p>
-											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_discrete' value='discrete' <?php echo $is_discrete; ?> />
+											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_discrete' value='discrete' <?php checked( $is_discrete, true ); ?> />
 											<label for='mt_counting_method_discrete'><?php _e( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ); ?></label><br/>
-											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_continuous' value='continuous'<?php echo $is_continuous; ?> />
+											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_continuous' value='continuous'<?php checked( $is_continuous, true ); ?> />
 											<label for='mt_counting_method_continuous'><?php _e( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ); ?></label>
 										</p>
 									</fieldset>

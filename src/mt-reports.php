@@ -739,8 +739,8 @@ function mt_get_report_by_time( $start, $end ) {
  * @return mixed
  */
 function mt_get_report_data_by_time() {
-	$start          = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
-	$end            = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : mt_date( 'Y-m-d' );
+	$start          = ( isset( $_GET['mt_start'] ) ) ? sanitize_text_field( $_GET['mt_start'] ) : mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
+	$end            = ( isset( $_GET['mt_end'] ) ) ? sanitize_text_field( $_GET['mt_end'] ) : mt_date( 'Y-m-d' );
 	$posts          = mt_get_report_by_time( $start, $end );
 	$total          = 0;
 	$alternate      = 'even';
