@@ -55,10 +55,7 @@ class Mt_Short_Cart_Widget extends WP_Widget {
 		$widget_title = empty( $the_title ) ? '' : $the_title;
 		$widget_title = ( '' !== $widget_title ) ? $before_title . $widget_title . $after_title : '';
 		$cart         = my_tickets_short_cart();
-		echo $before_widget;
-		echo $widget_title;
-		echo $cart;
-		echo $after_widget;
+		echo wp_kses_post( $before_widget . $widget_title . $cart . $after_widget );
 	}
 
 	/**
