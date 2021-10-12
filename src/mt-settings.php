@@ -106,7 +106,7 @@ function mt_settings() {
 									echo apply_filters( 'mt_settings_fields', '', $options );
 								?>
 								<p>
-									<input type="checkbox" id="mt_html_email" name="mt_html_email" <?php mt_is_checked( 'mt_html_email', 'true', $options ); ?> />
+									<input type="checkbox" id="mt_html_email" name="mt_html_email" <?php checked( true, mt_is_checked( 'mt_html_email', 'true', $options ) ); ?> />
 									<label for="mt_html_email"><?php _e( 'Send email as HTML.', 'my-tickets' ); ?></label>
 								</p>
 								<p>

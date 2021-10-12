@@ -247,7 +247,7 @@ function mt_add_inner_box() {
 			$cart_id = (int) $_GET['cart'];
 		}
 		if ( isset( $_GET['cart_id'] ) ) {
-			$cart_transient_id = esc_html( $_GET['cart_id'] );
+			$cart_transient_id = sanitize_text_field( $_GET['cart_id'] );
 		}
 		$cart = mt_get_cart( $cart_id, $cart_transient_id );
 		// Translators: link to public web site.
@@ -553,7 +553,7 @@ function mt_post_meta( $id ) {
 		}
 		// create new ticket purchase.
 		if ( isset( $_POST['mt_cart_order'] ) ) {
-			$purchased = $_POST['mt_cart_order'];
+			$purchased = map_deep( $_POST['mt_cart_order'], 'sanitize_text_field' );
 			mt_create_tickets( $id, $purchased );
 			// handle custom fields in custom orders.
 			do_action( 'mt_save_payment_fields', $id, $_POST, $purchased );

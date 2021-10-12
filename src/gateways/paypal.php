@@ -28,7 +28,8 @@ function mt_paypal_ipn() {
 
 			$req = 'cmd=_notify-validate';
 			foreach ( $_POST as $key => $value ) {
-				$value = urlencode( stripslashes( $value ) );
+				$value = sanitize_text_field( $value );
+				$key   = sanitize_text_field( $key );
 				$req  .= "&$key=$value";
 			}
 
@@ -44,7 +45,7 @@ function mt_paypal_ipn() {
 			$payment_status = sanitize_text_field( $_POST['payment_status'] );
 			if ( isset( $_POST['num_cart_items'] ) ) {
 				// My Tickets support for cart formatted requests. My Tickets only supports processing of a single order, however.
-				$item_number = $_POST['item_number1'];
+				$item_number = absint( $_POST['item_number1'] );
 			} else {
 				$item_number = absint( $_POST['item_number'] );
 			}
@@ -52,11 +53,11 @@ function mt_paypal_ipn() {
 			$payment_currency = sanitize_text_field( $_POST['mc_currency'] );
 			$receiver_email   = sanitize_email( $_POST['receiver_email'] );
 			$payer_email      = sanitize_email( $_POST['payer_email'] );
-			$payer_first_name = sanitize_text( $_POST['first_name'] );
-			$payer_last_name  = sanitize_text( $_POST['last_name'] );
-			$mc_fee           = sanitize_text( $_POST['mc_fee'] );
-			$txn_id           = sanitize_text( $_POST['txn_id'] );
-			$parent           = isset( $_POST['parent_txn_id'] ) ? sanitize_text( $_POST['parent_txn_id'] ) : '';
+			$payer_first_name = sanitize_text_field( $_POST['first_name'] );
+			$payer_last_name  = sanitize_text_field( $_POST['last_name'] );
+			$mc_fee           = sanitize_text_field( $_POST['mc_fee'] );
+			$txn_id           = sanitize_text_field( $_POST['txn_id'] );
+			$parent           = isset( $_POST['parent_txn_id'] ) ? sanitize_text_field( $_POST['parent_txn_id'] ) : '';
 			$ipn              = wp_remote_post( $url, $params );
 
 			if ( is_wp_error( $ipn ) ) {
@@ -71,12 +72,12 @@ function mt_paypal_ipn() {
 			// map paypal IPN format of address to MT format
 			// All gateways must map shipping addresses to this format.
 			$address = array(
-				'street'  => isset( $_POST['address_street'] ) ? sanitize_text( $_POST['address_street'] ) : '',
-				'street2' => isset( $_POST['address2'] ) ? sanitize_text( $_POST['address2'] ) : '',
-				'city'    => isset( $_POST['address_city'] ) ? sanitize_text( $_POST['address_city'] ) : '',
-				'state'   => isset( $_POST['address_state'] ) ? sanitize_text( $_POST['address_state'] ) : '',
-				'country' => isset( $_POST['address_country_code'] ) ? sanitize_text( $_POST['address_country_code'] ) : '',
-				'code'    => isset( $_POST['address_zip'] ) ? sanitize_text( $_POST['address_zip'] ) : '',
+				'street'  => isset( $_POST['address_street'] ) ? sanitize_text_field( $_POST['address_street'] ) : '',
+				'street2' => isset( $_POST['address2'] ) ? sanitize_text_field( $_POST['address2'] ) : '',
+				'city'    => isset( $_POST['address_city'] ) ? sanitize_text_field( $_POST['address_city'] ) : '',
+				'state'   => isset( $_POST['address_state'] ) ? sanitize_text_field( $_POST['address_state'] ) : '',
+				'country' => isset( $_POST['address_country_code'] ) ? sanitize_text_field( $_POST['address_country_code'] ) : '',
+				'code'    => isset( $_POST['address_zip'] ) ? sanitize_text_field( $_POST['address_zip'] ) : '',
 			);
 
 			$data = array(
@@ -139,13 +140,13 @@ function mt_paypal_ipn() {
 						array(
 							'post_type'  => 'mt-payments',
 							'meta_key'   => '_transaction_id',
-							'meta_value' => sanitize_text( $_POST['txn_id'] ),
+							'meta_value' => sanitize_text_field( $_POST['txn_id'] ),
 						)
 					);
 					if ( ! empty( $posts ) ) {
 						$post = $posts[0];
-						update_post_meta( $post->ID, '_dispute_reason', sanitize_text( $_POST['reason_code'] ) );
-						update_post_meta( $post->ID, '_dispute_message', sanitize_text( $_POST['buyer_additional_information'] ) );
+						update_post_meta( $post->ID, '_dispute_reason', sanitize_text_field( $_POST['reason_code'] ) );
+						update_post_meta( $post->ID, '_dispute_message', sanitize_text_field( $_POST['buyer_additional_information'] ) );
 					}
 				}
 				status_header( 200 );

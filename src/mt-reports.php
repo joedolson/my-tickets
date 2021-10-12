@@ -140,7 +140,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 			$title        = get_the_title( $event_id );
 			$tabs         = '';
 			$out          = '';
-			$options      = ( isset( $_GET['options'] ) ) ? $_GET['options'] : array(
+			$options      = ( isset( $_GET['options'] ) ) ? map_deep( $_GET['options'], 'sanitize_text_field' ) : array(
 				'type'           => 'html',
 				'output'         => 'payments',
 				'include_failed' => true,
@@ -234,11 +234,11 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 function mt_choose_report_by_event() {
 	$selector = mt_select_events();
 	$selected = ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] ) ? " selected='selected'" : '';
-	$report   = ( isset( $_GET['mt-event-report'] ) ) ? $_GET['mt-event-report'] : '';
+	$report   = ( isset( $_GET['mt-event-report'] ) ) ? sanitize_text_field( $_GET['mt-event-report'] ) : '';
 	$form     = "
 			<div class='report-by-event'>
 				<h3>" . __( 'Report by Event', 'my-tickets' ) . "</h3>
-				<form method='GET' action='" . admin_url( 'admin.php?page=mt-reports' ) . "'>
+				<form method='GET' action='" . esc_url( admin_url( 'admin.php?page=mt-reports' ) ) . "'>
 					<div>
 						<input type='hidden' name='page' value='mt-reports' />
 					</div>
@@ -275,8 +275,8 @@ function mt_choose_report_by_event() {
  */
 function mt_choose_report_by_date() {
 	$selected = ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] ) ? " selected='selected'" : '';
-	$start    = ( isset( $_GET['mt_start'] ) ) ? $_GET['mt_start'] : mt_date( 'Y-m-d', strtotime( '-1 month' ) );
-	$end      = ( isset( $_GET['mt_end'] ) ) ? $_GET['mt_end'] : mt_date( 'Y-m-d' );
+	$start    = ( isset( $_GET['mt_start'] ) ) ? sanitize_text_field( $_GET['mt_start'] ) : mt_date( 'Y-m-d', strtotime( '-1 month' ) );
+	$end      = ( isset( $_GET['mt_end'] ) ) ? sanitize_text_field( $_GET['mt_end'] ) : mt_date( 'Y-m-d' );
 	$form     = "
 			<div class='report-by-date'>
 				<h3>" . __( 'Sales Report by Date', 'my-tickets' ) . "</h3>
@@ -342,7 +342,7 @@ function mt_email_purchasers() {
 			</p>
 			<p>
 			<label for='mt_body' id='body_label'>" . __( 'Email Body', 'my-tickets' ) . "</label><br />
-			<textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description'>" . esc_attr( $body ) . "</textarea><br />
+			<textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description'>" . esc_textarea( stripslashes( $body ) ) . "</textarea><br />
 			<span id='body_description'>" . __( 'Use <code>{name}</code> to insert the recipient\'s name', 'my-tickets' ) . "</span>
 			</p>
 			<p><input type='checkbox' name='mt-test-email' value='test' id='mt_test_email'> <label for='mt_test_email'>" . __( 'Send test email', 'my-tickets' ) . "</label></p>
@@ -456,6 +456,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 			$types        = '';
 			$ticket_count = 0;
 			$subtotal     = 0;
+			// get total # tickets on purchase.
 			// get total # tickets on purchase.
 			// get count of tickets for *this* event on purchase.
 			// get total paid.

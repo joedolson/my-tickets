@@ -96,7 +96,7 @@ add_action( 'save_post', 'mt_ticket_meta', 10 );
  */
 function mt_ticket_meta( $post_id ) {
 	if ( isset( $_POST['mt-tickets-nonce'] ) && isset( $_POST['mt-trigger'] ) ) {
-		$nonce = $_POST['mt-tickets-nonce'];
+		$nonce = sanitize_text_field( $_POST['mt-tickets-nonce'] );
 		if ( ! wp_verify_nonce( $nonce, 'mt-tickets-nonce' ) ) {
 			wp_die( 'Invalid nonce' );
 		}

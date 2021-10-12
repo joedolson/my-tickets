@@ -750,21 +750,15 @@ function mt_money_format( $price ) {
  * @param array  $options Field options.
  * @param bool   $return Return or echo.
  *
- * @return string|void
+ * @return bool
  */
 function mt_is_checked( $field, $value, $options, $return = false ) {
 	if ( isset( $options[ $field ] ) && $options[ $field ] === $value ) {
-		$checked = ' checked="checked"';
+		$checked = true;
 	} else {
-		$checked = '';
+		$checked = false;
 	}
-	if ( $return ) {
-		return $checked;
-	} else {
-		echo $checked;
-	}
-
-	return '';
+	return $checked;
 }
 
 add_action( 'show_user_profile', 'mt_user_profile' );
@@ -782,7 +776,7 @@ function mt_user_profile() {
 		$edit_user    = $current_user->ID;
 	}
 	if ( current_user_can( 'manage_options' ) ) {
-		echo '<h3>' . __( 'Grant My Tickets Permissions', 'my-tickets' ) . '</h3>';
+		echo wp_kses_post( '<h3>' . __( 'Grant My Tickets Permissions', 'my-tickets' ) . '</h3>' );
 		$caps    = array(
 			'mt-verify-ticket' => __( 'Can verify tickets', 'my-tickets' ),
 			'mt-order-expired' => __( 'Can place orders after expiration dates.', 'my-tickets' ),
@@ -796,14 +790,13 @@ function mt_user_profile() {
 			$options .= "<li><input type='checkbox' name='mt_capabilities[]' value='$cap' id='mt_$cap' $checked /> <label for='mt_$cap'>$label</label></li>";
 		}
 		$options = "<ul>$options</ul>";
-		echo $options;
+		echo wp_kses( $options, mc_kses_elements() );
 	}
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'edit_user' ) ) {
-		echo '<h3>' . __( 'My Tickets Shopping Cart', 'my-tickets' ) . '</h3>';
+		echo wp_kses_post( '<h3>' . __( 'My Tickets Shopping Cart', 'my-tickets' ) . '</h3>' );
 		$cart         = mt_get_cart( $edit_user );
 		$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
-		echo $confirmation;
-		echo "<p><a href='" . admin_url( "post-new.php?post_type=mt-payments&amp;cart=$edit_user" ) . "'>" . __( 'Create new payment with this cart', 'my-tickets' ) . '</a></p>';
+		echo wp_kses( $confirmation . "<p><a href='" . admin_url( "post-new.php?post_type=mt-payments&amp;cart=$edit_user" ) . "'>" . __( 'Create new payment with this cart', 'my-tickets' ) . '</a></p>', mc_kses_elements() );
 	}
 }
 

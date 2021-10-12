@@ -50,7 +50,7 @@ function mt_handle_cart() {
  * @param string $data Type of data to delete.
  */
 function mt_delete_data( $data = 'cart' ) {
-	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
+	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
 	if ( is_user_logged_in() ) {
 		$current_user = wp_get_current_user();
 		delete_user_meta( $current_user->ID, "_mt_user_$data" );

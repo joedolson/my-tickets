@@ -138,7 +138,7 @@ function mt_get_payment_tickets() {
  */
 function mt_get_receipt_id() {
 	if ( isset( $_GET['receipt_id'] ) ) {
-		$receipt_id = esc_attr( $_GET['receipt_id'] );
+		$receipt_id = sanitize_text_field( $_GET['receipt_id'] );
 
 		return $receipt_id;
 	}
@@ -150,7 +150,7 @@ function mt_get_receipt_id() {
  * @return void
  */
 function mt_receipt_id() {
-	echo sanitize_text_field( mt_get_receipt_id() );
+	echo esc_html( mt_get_receipt_id() );
 }
 
 /**
@@ -171,7 +171,7 @@ function mt_get_receipt_purchase_id() {
  * @return void
  */
 function mt_receipt_purchase_id() {
-	echo sanitize_text_field( mt_get_receipt_purchase_id() );
+	echo esc_html( mt_get_receipt_purchase_id() );
 }
 
 /**
@@ -196,7 +196,7 @@ function mt_get_cart_purchaser() {
  * @return void
  */
 function mt_cart_purchaser() {
-	echo sanitize_text_field( mt_get_cart_purchaser() );
+	echo esc_html( mt_get_cart_purchaser() );
 }
 
 /**
@@ -287,7 +287,7 @@ function mt_payment_details() {
  * @return string
  */
 function mt_get_ticket_id() {
-	$ticket_id = esc_attr( $_GET['ticket_id'] );
+	$ticket_id = sanitize_text_field( $_GET['ticket_id'] );
 
 	return $ticket_id;
 }
@@ -298,7 +298,7 @@ function mt_get_ticket_id() {
  * @return void
  */
 function mt_ticket_id() {
-	echo sanitize_text_field( mt_get_ticket_id() );
+	echo esc_html( mt_get_ticket_id() );
 }
 
 /**
@@ -325,7 +325,7 @@ function mt_get_sequential_id( $ticket_id = false ) {
  * @return void
  */
 function mt_sequential_id() {
-	echo sanitize_text_field( mt_get_sequential_id() );
+	echo esc_html( mt_get_sequential_id() );
 }
 
 /**
@@ -355,7 +355,7 @@ function mt_get_ticket_method( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_method( $ticket_id = false ) {
-	echo sanitize_text_field( mt_get_ticket_method( $ticket_id ) );
+	echo esc_html( mt_get_ticket_method( $ticket_id ) );
 }
 
 /**
@@ -383,7 +383,7 @@ function mt_get_ticket_purchase_id( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_purchase_id( $ticket_id = false ) {
-	echo sanitize_text_field( mt_get_ticket_purchase_id( $ticket_id ) );
+	echo esc_html( mt_get_ticket_purchase_id( $ticket_id ) );
 }
 
 /**
@@ -412,7 +412,7 @@ function mt_get_ticket_purchaser( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_purchaser( $ticket_id = false ) {
-	echo sanitize_text_field( mt_get_ticket_purchaser( $ticket_id ) );
+	echo esc_html( mt_get_ticket_purchaser( $ticket_id ) );
 }
 
 /**
@@ -477,7 +477,7 @@ function mt_get_event_date( $ticket_id = false ) {
  * @return void
  */
 function mt_event_date( $ticket_id = false ) {
-	echo sanitize_text_field( mt_get_event_date( $ticket_id ) );
+	echo wp_kses_post( mt_get_event_date( $ticket_id ) );
 }
 
 /**
@@ -545,7 +545,7 @@ function mt_get_event_time( $ticket_id = false ) {
  * @return void
  */
 function mt_event_time( $ticket_id = false ) {
-	echo sanitize_text_field( mt_get_event_time( $ticket_id ) );
+	echo esc_html( mt_get_event_time( $ticket_id ) );
 }
 
 /**
@@ -581,7 +581,7 @@ function mt_get_ticket_type( $ticket_id = false ) {
  * @return void
  */
 function mt_ticket_type( $ticket_id = false ) {
-	echo sanitize_text_field( mt_get_ticket_type( $ticket_id ) );
+	echo esc_html( mt_get_ticket_type( $ticket_id ) );
 }
 
 /**

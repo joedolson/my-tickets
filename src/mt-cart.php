@@ -998,13 +998,13 @@ function mt_generate_gateway( $cart ) {
 	$total        = mt_total_cart( $cart, $payment );
 	$count        = mt_count_cart( $cart );
 	if ( $count > 0 ) {
-		$ticket_method  = ( isset( $_POST['ticketing_method'] ) ) ? $_POST['ticketing_method'] : 'willcall';
+		$ticket_method  = ( isset( $_POST['ticketing_method'] ) ) ? sanitize_text_field( $_POST['ticketing_method'] ) : 'willcall';
 		$shipping_total = ( 'postal' === $ticket_method && is_numeric( $options['mt_shipping'] ) ) ? $options['mt_shipping'] : 0;
 		$handling_total = ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 		$shipping       = ( $shipping_total ) ? "<div class='mt_cart_shipping mt_cart_label'>" . __( 'Shipping:', 'my-tickets' ) . " <span class='mt_shipping_number mt_cart_value'>" . apply_filters( 'mt_money_format', $shipping_total ) . '</span></div>' : '';
 		$handling       = ( $handling_total ) ? "<div class='mt_cart_handling mt_cart_label'>" . __( 'Handling:', 'my-tickets' ) . " <span class='mt_handling_number mt_cart_value'>" . apply_filters( 'mt_money_format', $handling_total ) . '</span></div>' : '';
 		$tick_handling  = mt_handling_notice();
-		$mt_gateway     = ( isset( $_POST['mt_gateway'] ) ) ? $_POST['mt_gateway'] : 'offline';
+		$mt_gateway     = ( isset( $_POST['mt_gateway'] ) ) ? sanitize_text_field( $_POST['mt_gateway'] ) : 'offline';
 		$other_charges  = apply_filters( 'mt_custom_charges', 0, $cart, $mt_gateway );
 		$other_notices  = apply_filters( 'mt_custom_notices', '', $cart, $mt_gateway );
 		// If everything in cart is free, don't pass through payment gateway.
@@ -1112,7 +1112,7 @@ function mt_expired( $event, $react = false ) {
  */
 function mt_get_cart( $user_ID = false, $cart_id = false ) {
 	$cart      = array();
-	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
+	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
 	if ( $user_ID ) {
 		$cart = get_user_meta( $user_ID, '_mt_user_cart', true );
 	} elseif ( ! $user_ID && $cart_id ) {

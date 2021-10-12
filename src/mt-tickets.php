@@ -18,7 +18,7 @@ function mt_ticket() {
 	$id      = ( '' !== $options['mt_tickets_page'] ) ? $options['mt_tickets_page'] : false;
 	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		if ( ! isset( $_GET['multiple'] ) ) {
-			if ( isset( $_GET['ticket_id'] ) && mt_verify_ticket( $_GET['ticket_id'] ) ) {
+			if ( isset( $_GET['ticket_id'] ) && mt_verify_ticket( sanitize_text_field( $_GET['ticket_id'] ) ) ) {
 				$template = locate_template( 'tickets.php' );
 				if ( $template ) {
 					load_template( $template );

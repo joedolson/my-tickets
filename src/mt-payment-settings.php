@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function mt_update_payment_settings( $post ) {
 	if ( isset( $post['mt-payment-settings'] ) ) {
-		$nonce = $_POST['_wpnonce'];
+		$nonce = sanitize_text_field( $_POST['_wpnonce'] );
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets' ) ) {
 			return '';
 		}
@@ -226,11 +226,11 @@ function mt_payment_settings() {
 								</ul>
 								<ul>
 									<li>
-										<input type="checkbox" id="mt_use_sandbox" name="mt_use_sandbox" <?php mt_is_checked( 'mt_use_sandbox', 'true', $options ); ?> />
+										<input type="checkbox" id="mt_use_sandbox" name="mt_use_sandbox" <?php checked( true, mt_is_checked( 'mt_use_sandbox', 'true', $options ) ); ?> />
 										<label for="mt_use_sandbox"><?php _e( 'Testing mode (no payments will be processed)', 'my-tickets' ); ?></label>
 									</li>
 									<li>
-										<input type="checkbox" id="mt_ssl" name="mt_ssl" value="true" aria-describedby="mt_ssl_note" <?php mt_is_checked( 'mt_ssl', 'true', $options ); ?> />
+										<input type="checkbox" id="mt_ssl" name="mt_ssl" value="true" aria-describedby="mt_ssl_note" <?php checked( true, mt_is_checked( 'mt_ssl', 'true', $options ) ); ?> />
 										<label for="mt_ssl"><?php _e( 'Use SSL for Payment pages.', 'my-tickets' ); ?></label><br/>
 										<span id="mt_ssl_note"><?php _e( 'You must have an SSL certificate to use this option', 'my-tickets' ); ?></span>
 									</li>
