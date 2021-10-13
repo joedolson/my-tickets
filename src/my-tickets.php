@@ -17,7 +17,7 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     1.8.31
+ * Version:     1.8.32
  */
 
 /*
@@ -46,7 +46,7 @@ load_plugin_textdomain( 'my-tickets', false, dirname( plugin_basename( __FILE__ 
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '1.8.31';
+	$mt_version = '1.8.32';
 
 	return $mt_version;
 }
