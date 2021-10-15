@@ -790,13 +790,13 @@ function mt_user_profile() {
 			$options .= "<li><input type='checkbox' name='mt_capabilities[]' value='$cap' id='mt_$cap' $checked /> <label for='mt_$cap'>$label</label></li>";
 		}
 		$options = "<ul>$options</ul>";
-		echo wp_kses( $options, mc_kses_elements() );
+		echo wp_kses( $options, mt_kses_elements() );
 	}
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'edit_user' ) ) {
 		echo wp_kses_post( '<h3>' . __( 'My Tickets Shopping Cart', 'my-tickets' ) . '</h3>' );
 		$cart         = mt_get_cart( $edit_user );
 		$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
-		echo wp_kses( $confirmation . "<p><a href='" . admin_url( "post-new.php?post_type=mt-payments&amp;cart=$edit_user" ) . "'>" . __( 'Create new payment with this cart', 'my-tickets' ) . '</a></p>', mc_kses_elements() );
+		echo wp_kses( $confirmation . "<p><a href='" . admin_url( "post-new.php?post_type=mt-payments&amp;cart=$edit_user" ) . "'>" . __( 'Create new payment with this cart', 'my-tickets' ) . '</a></p>', mt_kses_elements() );
 	}
 }
 

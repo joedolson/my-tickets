@@ -66,6 +66,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.33 =
+
+* Bug fix: two instances of a misnamed function.
+
 = 1.8.32 =
 
 * Bug fix: One string replacement placeholder mistyped in receipts template.
