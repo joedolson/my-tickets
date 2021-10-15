@@ -371,7 +371,7 @@ function mt_calculate_cart_cost( $purchased, $payment_id ) {
 function mt_check_payment_amount( $price, $purchase_id ) {
 	$total_paid = get_post_meta( $purchase_id, '_total_paid', true );
 	$donation   = get_post_meta( $purchase_id, '_donation', true );
-	$total      = (float) ( $total_paid + $donation );
+	$total      = (float) ( (float) $total_paid + (float) $donation );
 
 	return $total;
 }
