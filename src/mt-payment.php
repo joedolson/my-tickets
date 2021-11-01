@@ -25,8 +25,8 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 	$purchase_id    = $data['purchase_id'];
 	$blogname       = get_option( 'blogname' );
 	if ( 200 === absint( $response_code ) ) {
-		// Response must equal "Verified" to handle response.
-		if ( 'VERIFIED' === $response ) {
+		// Response must equal "verified" (not case sensitive) to handle response.
+		if ( 'verified' === strtolower( $response ) ) {
 			switch ( $payment_status ) {
 				case 'Completed':
 					$status = 'Completed';
@@ -68,7 +68,7 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 			// Translators: Response from My Tickets payment gateway.
 			$mail_subject = sprintf( __( 'INVALID Response from My Tickets Payment: %s', 'my-tickets' ), $response );
 			$mail_body    = __( 'Something went wrong. Hopefully this information will help:', 'my-tickets' ) . "\n\n";
-			$mail_body   .= print_r( $post, 1 );
+			$mail_body   .= print_r( map_deep( $post, 'sanitize_text_field' ), 1 );
 			wp_mail( $options['mt_to'], $mail_subject, $mail_body, $mail_from );
 		}
 		mt_log( $response, $response_code, $data, $post );
