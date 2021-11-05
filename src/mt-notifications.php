@@ -129,7 +129,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					$handling = 0;
 				}
 				$title = ( $is_html ) ? '<strong>' . get_the_title( $event_id ) . '</strong>' : get_the_title( $event_id );
-				$title = ( is_admin() ) ? "<a href='" . get_the_permalink( $event_id ) . "'>" . $title . '</a>' : $title;
+				$title = ( $is_html ) ? "<a href='" . get_the_permalink( $event_id ) . "'>" . $title . '</a>' : $title;
 				$event = get_post_meta( $event_id, '_mc_event_data', true );
 				$date  = date_i18n( get_option( 'date_format' ), strtotime( $event['event_begin'] ) );
 				$time  = date_i18n( get_option( 'time_format' ), strtotime( $event['event_time'] ) );
