@@ -67,6 +67,7 @@ function mt_update_payment_settings( $post ) {
 			),
 			$_POST
 		);
+
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
 		update_option( 'mt_settings', $settings );
 		$messages = apply_filters( 'mt_payment_update_settings', '', $post );
@@ -202,11 +203,12 @@ function mt_payment_settings() {
 										) . '</p>' : '';
 										// Translators: Gateway settings.
 										$pg_tabs          .= "<li><a href='#$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '</a></li>';
+										$checked           = ( mt_is_checked( 'mt_default_gateway', $gateway, $options, true ) ) ? ' checked="checked"' : '';
 										$payment_gateways .= "
 										<div class='wptab mt_$gateway' id='$gateway'>
 										<fieldset>
 											<legend>$fields[label]</legend>
-											<p><input type='radio' name='mt_default_gateway' id='mt_default_gateway_$gateway' value='$gateway'" . mt_is_checked( 'mt_default_gateway', $gateway, $options, true ) . " /> <label for='mt_default_gateway_$gateway'>" . __( 'Default gateway', 'my-tickets' ) . "</label></p>
+											<p><input type='radio' name='mt_default_gateway' id='mt_default_gateway_$gateway' value='$gateway'" . $checked . " /> <label for='mt_default_gateway_$gateway'>" . __( 'Default gateway', 'my-tickets' ) . "</label></p>
 												$pg_settings
 												$notes
 										</fieldset>
