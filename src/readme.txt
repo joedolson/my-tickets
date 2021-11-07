@@ -66,6 +66,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.36 =
+
+* Bug fix: Prefix generic CSS class 'controls'
+
 = 1.8.35 =
 
 * Bug fix: HTML wraps link in event title even when email HTML disabled.

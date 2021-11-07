@@ -38,8 +38,8 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    $('.deletable .controls').append( '<button type="button" class="button delete"><span class="dashicons dashicons-no"></span><span class="screen-reader-text">' + mt.delete + '</span></button>' );
-    $('.deletable .controls .delete').on( 'click', function(e) {
+    $('.deletable .mt-controls').append( '<button type="button" class="button delete"><span class="dashicons dashicons-no"></span><span class="screen-reader-text">' + mt.delete + '</span></button>' );
+    $('.deletable .mt-controls .delete').on( 'click', function(e) {
         var is_undo = $( this ).hasClass( 'undo' );
         var parent = $(this).parents('.deletable');
         if ( is_undo ) {
