@@ -284,13 +284,7 @@
 				if ( 'eticket' !== mt_get_ticket_method() ) {
 					?>
 				<div class='post-thumbnail'>
-					<?php
-					if ( has_post_thumbnail() ) {
-						the_post_thumbnail( 'my-tickets-logo' );
-					} else {
-						mt_logo( array(), get_the_ID() );
-					}
-					?>
+					<?php mt_logo( array(), get_the_ID() ); ?>
 				</div>
 					<?php
 				} else {

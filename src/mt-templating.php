@@ -35,7 +35,7 @@ function mt_get_logo( $args = array(), $post_ID = false ) {
 		}
 	}
 	if ( $post_ID && has_post_thumbnail( $post_ID ) ) {
-		return get_the_post_thumbnail( $post_ID );
+		return get_the_post_thumbnail( $post_ID, 'my-tickets-logo' );
 	}
 	$args = array_merge(
 		array(
