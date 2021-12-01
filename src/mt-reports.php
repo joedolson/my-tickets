@@ -311,8 +311,8 @@ function mt_choose_report_by_date() {
 function mt_email_purchasers() {
 	$selector = mt_select_events();
 	$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : false;
-	$body     = '';
-	$subject  = '';
+	$body     = ( isset( $_POST['mt_body'] ) ) ? sanitize_textarea_field( $_POST['mt_body'] ) : '';
+	$subject  = ( isset( $_POST['mt_subject'] ) ) ? sanitize_text_field( $_POST['mt_subject'] ) : '';
 	$email    = get_post_meta( $event_id, '_mass_email' );
 	if ( ! empty( $email ) ) {
 		if ( isset( $_GET['message'] ) ) {
@@ -940,8 +940,9 @@ function mt_mass_email( $event_id = false ) {
 	if ( $event_id ) {
 		$body      = ( ! empty( $_POST['mt_body'] ) ) ? wp_kses_post( $_POST['mt_body'] ) : false;
 		$subject   = ( ! empty( $_POST['mt_subject'] ) ) ? wp_kses_post( $_POST['mt_subject'] ) : false;
-		$orig_subj = $subject;
-		$orig_body = $body;
+		$orig_subj = stripslashes( $subject );
+		$orig_body = stripslashes( $body );
+		$message   = '';
 		// save email message to event post.
 		add_post_meta(
 			$event_id,
@@ -997,6 +998,7 @@ function mt_mass_email( $event_id = false ) {
 					$emails_sent ++;
 					$subject = $orig_subj;
 					$body    = $orig_body;
+					$message = __( 'Test Email Sent', 'my-tickets' );
 				} else {
 					$sent = wp_mail( $to, $subject, $body, $headers );
 					if ( ! $sent ) {
@@ -1027,7 +1029,8 @@ function mt_mass_email( $event_id = false ) {
 			remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
 		// Translators: Number of purchasers notified, total number of purchasers, number of purchasers opted out, name of event.
-		echo wp_kses_post( "<div class='updated'><p>" . sprintf( __( '%1$d/%2$d purchasers of tickets for "%4$s" have been emailed. %3$d/%2$d purchasers have opted out.', 'my-tickets' ), $emails_sent, $count, $opt_outs, $event ) . '</p></div>' );
+		$message = ( '' !== $message ) ? $message : sprintf( __( '%1$d/%2$d purchasers of tickets for "%4$s" have been emailed. %3$d/%2$d purchasers have opted out.', 'my-tickets' ), $emails_sent, $count, $opt_outs, $event );
+		echo wp_kses_post( "<div class='updated'><p>" . $message . '</p></div>' );
 	}
 }
 
