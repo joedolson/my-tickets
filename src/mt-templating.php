@@ -631,6 +631,8 @@ function mt_ticket_price( $ticket_id = false ) {
  * @param bool|string $ticket_id Ticket ID.
  */
 function mt_get_ticket_qrcode( $ticket_id = false ) {
+	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$id        = ( '' !== $options['mt_purchase_page'] && is_numeric( $options['mt_purchase_page'] ) ) ? absint( $options['mt_purchase_page'] ) : false;
 	$ticket_id = ( $ticket_id ) ? $ticket_id : mt_get_ticket_id();
 	$url       = esc_url_raw(
 		add_query_arg(
@@ -638,7 +640,7 @@ function mt_get_ticket_qrcode( $ticket_id = false ) {
 				'ticket_id' => $ticket_id,
 				'action'    => 'mt-verify',
 			),
-			home_url()
+			get_permalink( $id )
 		)
 	);
 	$options   = new QROptions(
