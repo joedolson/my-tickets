@@ -7,7 +7,7 @@ Tested up to: 5.8
 Requires PHP: 5.6
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.8.36
+Stable tag: 1.8.37
 
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Strip slashes in mass emails.
 * Bug fix: Better notification on mass email tests.
 * Bug fix: Show email text in fields after sending test.
+* Bug fix: Fix PayPal postback values.
+* Change: Handle PayPal IPN via purchase page, not home page.
 * Change: Render ticket verification via purchase page, not home page.
 
 = 1.8.36 =
