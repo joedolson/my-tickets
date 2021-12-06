@@ -28,9 +28,7 @@ function mt_paypal_ipn() {
 
 			$req = 'cmd=_notify-validate';
 			foreach ( $_POST as $key => $value ) {
-				$value = sanitize_text_field( $value );
-				$key   = sanitize_text_field( $key );
-				$req  .= "&$key=$value";
+				$req .= "&$key=$value"; // These values are sent back to PayPal for verification. Must match original values sent.
 			}
 
 			$args   = wp_parse_args( $req, array() );
@@ -281,7 +279,7 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		<input type='hidden' name='no_note' value='1' />
 		<input type='hidden' name='currency_code' value='" . esc_attr( $currency ) . "' />";
 		$form      .= "
-		<input type='hidden' name='notify_url' value='" . mt_replace_http( add_query_arg( 'mt_paypal_ipn', 'true', esc_url( home_url() ) . '/' ) ) . "' />
+		<input type='hidden' name='notify_url' value='" . mt_replace_http( add_query_arg( 'mt_paypal_ipn', 'true', esc_url( get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />
 		<input type='hidden' name='return' value='" . mt_replace_http( esc_url( $return_url ) ) . "' />
 		<input type='hidden' name='cancel_return' value='" . mt_replace_http( add_query_arg( 'response_code', 'cancel', esc_url( get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />";
 		$form      .= mt_render_field( 'address', 'paypal' );
