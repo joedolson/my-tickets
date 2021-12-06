@@ -66,6 +66,13 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.8.37 =
+
+* Bug fix: Strip slashes in mass emails.
+* Bug fix: Better notification on mass email tests.
+* Bug fix: Show email text in fields after sending test.
+* Change: Render ticket verification via purchase page, not home page.
+
 = 1.8.36 =
 
 * Bug fix: Prefix generic CSS class 'controls'
