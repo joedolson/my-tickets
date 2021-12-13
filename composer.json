@@ -3,7 +3,7 @@
     "description": "My Tickets WordPress Plugin",
     "keywords": ["wordpress", "plugin", "tickets", "events"],
     "homepage": "https://joedolson.com",
-    "license": "GPL-3.0+",
+    "license": "GPL-3.0-or-later",
     "authors": [{
         "name": "Joe Dolson",
         "email": "plugins@joedolson.com",
