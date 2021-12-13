@@ -222,9 +222,12 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 										$class       = 'mt-sold-out';
 									}
 								}
-
-								$form       .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
-								$form       .= apply_filters(
+								$price_in_label = apply_filters( 'mt_price_in_label', false, $event_id );
+								$price          = "<span id='mt_tickets_data_$type'>$ticket_price_label</span>";
+								$label_price    = ( $price_in_label ) ? $price : '';
+								$post_price     = ( ! $price_in_label ) ? $price : '';
+								$form          .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . $label_price . '</label>';
+								$form          .= apply_filters(
 									'mt_add_to_cart_input',
 									"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />",
 									$input_type,
@@ -235,8 +238,8 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 									$remaining,
 									$available
 								);
-								$form       .= "<span id='mt_tickets_data_$type'>$ticket_price_label</span><span class='mt-error-notice' aria-live='assertive'></span></div>";
-								$total_order = $total_order + $value;
+								$form          .= $post_price . "<span class='mt-error-notice' aria-live='assertive'></span></div>";
+								$total_order    = $total_order + $value;
 							}
 							$has_tickets = true;
 						}
