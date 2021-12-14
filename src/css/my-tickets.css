@@ -19,6 +19,11 @@
     background: #ffe;
 }
 
+.mt-trigger-container {
+    padding: .5em;
+    background: #00000007;
+    border-radius: 5px;
+}
 /* some plugins change this, but I need it at WP default. */
 .my-tickets .meta-box-sortables {
     min-height: 0
@@ -95,6 +100,11 @@ legend {
     padding: 12px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
+}
+
+.my-tickets .mt-ticket-data {
+    padding: .5em;
+    border: 1px solid #0000001a;
 }
 
 .my-tickets .checkboxes {

@@ -50,20 +50,42 @@ function mt_add_ticket_form() {
 		echo wp_kses_post( '<p>' . __( 'This is a core My Tickets page, used for processing transactions. You cannot use this page as an event.', 'my-tickets' ) . '</p>' );
 		return;
 	}
-
+	$options       = array(
+		'1 year'   => __( '1 year', 'my-tickets' ),
+		'1 month'  => __( '1 month', 'my-tickets' ),
+		'3 months' => __( '3 months', 'my-tickets' ),
+		'6 months' => __( '6 months', 'my-tickets' ),
+		'1 week'   => __( '1 week', 'my-tickets' ),
+		'2 weeks'  => __( '2 weeks', 'my-tickets' ),
+		'3 weeks'  => __( '3 weeks', 'my-tickets' ),
+		'4 weeks'  => __( '4 weeks', 'my-tickets' ),
+	);
+	$options       = apply_filters( 'mc_validity_options', $options );
+	$option_string = '';
+	foreach ( $options as $key => $option ) {
+		$option_string .= '<option value="' . esc_attr( $key ) . '">' . esc_html( $option ) . '</option>';
+	}
 	// add fields for event time and event date.
 	if ( isset( $data['event_begin'] ) ) {
 		$event_begin = $data['event_begin'];
 		$event_time  = $data['event_time'];
-		$checked     = ' checked="checked"';
+		$sell        = ' checked="checked"';
+		$general     = ( isset( $data['general-admission'] ) && 'on' === $data['general-admission'] ) ? ' checked="checked"' : '';
+		$dated       = ( isset( $data['general-admission'] ) && 'on' === $data['general-admission'] ) ? '' : ' checked="checked"';
 	} else {
 		$event_begin = '';
 		$event_time  = '';
-		$checked     = '';
+		$sell        = '';
+		$general     = '';
+		$dated       = '';
 	}
 	$clear = '<p><input type="checkbox" class="mt-delete-data" name="mt-delete-data" id="mt-delete-data" /> <label for="mt-delete-data">' . __( 'Delete ticket sales data on this post', 'my-tickets' ) . '</label></p>';
 	// Show ticket selector checkbox on post types.
-	$format .= ( isset( $_GET['post'] ) || isset( $_GET['post_type'] ) ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label></p>' : '';
+	if ( isset( $_GET['post'] ) || isset( $_GET['post_type'] ) ) {
+		$format .= "<p class='mt-trigger-container'>
+			<input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$sell /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label>
+			</p>';
+	}
 	if ( function_exists( 'mc_location_select' ) ) {
 		$selector = "
 		<label for='mt-event-location'>" . __( 'Select a location', 'my-tickets' ) . "
@@ -77,15 +99,28 @@ function mt_add_ticket_form() {
 	}
 	$form =
 		"<div class='mt-ticket-form'>
-			<div class='mt-ticket-dates'>
+			<ul class='checkboxes'>
+				<li><input type='radio' name='mt_general' value='dated' id='mt-general-dated'$dated /> <label for='mt-general-dated'>" . __( 'Date-based', 'my-tickets' ) . "</label></li>
+				<li><input type='radio' name='mt_general' value='general' id='mt-general-general'$general /> <label for='mt-general-general'>" . __( 'General Admission', 'my-tickets' ) . "</label></li>
+			</ul>
+			<div class='mt-ticket-data'>
+				<div class='mt-ticket-validity'>
+					<p>
+						<label for='event_valid'>" . __( 'Ticket validity', 'my-tickets' ) . "</label> <select name='event_valid' id='event_valid'>$option_string</select>
+					</p>
+				</div>
+				<div class='mt-ticket-dates'>
 					<p>
 						<label for='event_begin'>" . __( 'Event Date', 'my-tickets' ) . "</label> <input type='date' name='event_begin' id='event_begin' value='$event_begin' /> <label for='event_time'>" . __( 'Event Time', 'my-tickets' ) . "</label> <input type='time' name='event_time' id='event_time' value='$event_time' />
 					</p>
-					<p>
-						$selector
-					</p>
+				</div>
+			</div>
+			<div class='mt-ticket-location'>
+				<p>
+					$selector
+				</p>
 			</div>" . apply_filters( 'mc_event_registration', '', $post_id, $data, 'admin' ) . $clear . '</div>';
-	echo wp_kses( '<div class="mt_post_fields">' . $format . $form . '</div>', mt_kses_elements() );
+	echo wp_kses( '<div class="mt_post_fields my-tickets">' . $format . $form . '</div>', mt_kses_elements() );
 }
 
 add_action( 'save_post', 'mt_ticket_meta', 10 );
