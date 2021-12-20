@@ -985,6 +985,9 @@ function mt_kses_elements() {
 		'p'        => array(
 			'class' => array(),
 		),
+		'em'       => array(
+			'id' => array(),
+		),
 		'div'      => array(
 			'class'           => array(),
 			'aria-live'       => array(),

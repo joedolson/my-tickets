@@ -50,7 +50,7 @@ function mt_add_ticket_form() {
 		echo wp_kses_post( '<p>' . __( 'This is a core My Tickets page, used for processing transactions. You cannot use this page as an event.', 'my-tickets' ) . '</p>' );
 		return;
 	}
-	$options       = array(
+	$options = array(
 		'1 year'   => __( '1 year', 'my-tickets' ),
 		'1 month'  => __( '1 month', 'my-tickets' ),
 		'3 months' => __( '3 months', 'my-tickets' ),
@@ -60,7 +60,7 @@ function mt_add_ticket_form() {
 		'3 weeks'  => __( '3 weeks', 'my-tickets' ),
 		'4 weeks'  => __( '4 weeks', 'my-tickets' ),
 	);
-	$options       = apply_filters( 'mc_validity_options', $options );
+	$options = apply_filters( 'mc_validity_options', $options );
 	// add fields for event time and event date.
 	if ( isset( $data['event_begin'] ) ) {
 		$event_begin = $data['event_begin'];
@@ -370,9 +370,11 @@ function mt_prices_table( $registration = array() ) {
 		$available_empty = "<input type='text' name='mt_tickets[]' id='mt_tickets' value='' size='8' />";
 		$total           = '<input type="hidden" name="mt_tickets_total" value="inherit" />';
 	} else {
+		$disabled        = ( 'general' === $counting ) ? ' disabled="disabled"' : '';
+		$notice          = ( 'general' === $counting ) ? ' <em id="ticket-counting-status">' . __( 'Ticket counting is disabled for general admission events.', 'my-tickets' ) . '</em>' : '';
 		$value           = ( isset( $registration['total'] ) && 'inherit' !== $registration['total'] ) ? $registration['total'] : $tickets;
 		$available_empty = "<input type='hidden' name='mt_tickets[]' id='mt_tickets' value='inherit' />";
-		$total           = "<p class='mt-available-tickets'><label for='mt_tickets_total'>" . __( 'Total Tickets Available', 'my-tickets' ) . ':</label> <input type="text" name="mt_tickets_total" id="mt_tickets_total" value="' . esc_attr( $value ) . '" /></p>';
+		$total           = "<p class='mt-available-tickets'><label for='mt_tickets_total'>" . __( 'Total Tickets Available', 'my-tickets' ) . ':</label> <input ' . $disabled . ' type="text" name="mt_tickets_total" id="mt_tickets_total" aria-describedby="ticket-counting-status" value="' . esc_attr( $value ) . '" />' . $notice . '</p>';
 	}
 	$labels_index = array();
 	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $pricing; // array of prices; label => cost/available/sold.
@@ -498,6 +500,7 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	$multiple        = ( isset( $post['mt_multiple'] ) ) ? 'true' : 'false';
 	$mt_sales_type   = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
 	$counting_method = ( isset( $post['mt_counting_method'] ) ) ? $post['mt_counting_method'] : 'discrete';
+	$counting_method = ( isset( $post['mt_general'] ) ) ? 'general' : $counting_method;
 	$sell            = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
 	$notes           = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
 	$clear           = ( isset( $post['mt-delete-data'] ) ) ? true : false;
