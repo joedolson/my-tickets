@@ -61,23 +61,25 @@ function mt_add_ticket_form() {
 		'4 weeks'  => __( '4 weeks', 'my-tickets' ),
 	);
 	$options       = apply_filters( 'mc_validity_options', $options );
-	$option_string = '';
-	foreach ( $options as $key => $option ) {
-		$option_string .= '<option value="' . esc_attr( $key ) . '">' . esc_html( $option ) . '</option>';
-	}
 	// add fields for event time and event date.
 	if ( isset( $data['event_begin'] ) ) {
 		$event_begin = $data['event_begin'];
 		$event_time  = $data['event_time'];
 		$sell        = ' checked="checked"';
-		$general     = ( isset( $data['general-admission'] ) && 'on' === $data['general-admission'] ) ? ' checked="checked"' : '';
-		$dated       = ( isset( $data['general-admission'] ) && 'on' === $data['general-admission'] ) ? '' : ' checked="checked"';
+		$general     = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? ' checked="checked"' : '';
+		$dated       = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? '' : ' checked="checked"';
+		$valid       = ( isset( $data['event_valid'] ) ) ? $data['event_valid'] : '';
 	} else {
 		$event_begin = '';
 		$event_time  = '';
 		$sell        = '';
 		$general     = '';
 		$dated       = '';
+		$valid       = '';
+	}
+	$option_string = '';
+	foreach ( $options as $key => $option ) {
+		$option_string .= '<option value="' . esc_attr( $key ) . '"' . selected( $key, $valid, false ) . '>' . esc_html( $option ) . '</option>';
 	}
 	$clear = '<p><input type="checkbox" class="mt-delete-data" name="mt-delete-data" id="mt-delete-data" /> <label for="mt-delete-data">' . __( 'Delete ticket sales data on this post', 'my-tickets' ) . '</label></p>';
 	// Show ticket selector checkbox on post types.
@@ -106,7 +108,7 @@ function mt_add_ticket_form() {
 			<div class='mt-ticket-data'>
 				<div class='mt-ticket-validity'>
 					<p>
-						<label for='event_valid'>" . __( 'Ticket validity', 'my-tickets' ) . "</label> <select name='event_valid' id='event_valid'>$option_string</select>
+						<label for='mt_valid'>" . __( 'Ticket validity', 'my-tickets' ) . "</label> <select name='mt_valid' id='mt_valid'>$option_string</select>
 					</p>
 				</div>
 				<div class='mt-ticket-dates'>
@@ -138,10 +140,14 @@ function mt_ticket_meta( $post_id ) {
 		$post        = map_deep( $_POST, 'sanitize_text_field' );
 		$event_begin = mt_date( 'Y-m-d', strtotime( $post['event_begin'] ), false );
 		$event_time  = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
+		$general     = ( isset( $post['mt_general'] ) ) ? 'on' : '';
+		$valid       = ( isset( $post['mt_valid'] ) ) ? sanitize_text_field( $post['mt_valid'] ) : '';
 		$data        = array(
-			'event_begin' => $event_begin,
-			'event_time'  => $event_time,
-			'event_post'  => $post_id,
+			'event_begin'       => $event_begin,
+			'event_time'        => $event_time,
+			'event_post'        => $post_id,
+			'general_admission' => $general,
+			'event_valid'       => $valid,
 		);
 		if ( isset( $post['mt-event-location'] ) && is_numeric( $post['mt-event-location'] ) ) {
 			update_post_meta( $post_id, '_mc_event_location', $post['mt-event-location'] );
