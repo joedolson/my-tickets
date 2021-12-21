@@ -731,7 +731,7 @@ function mt_is_event_column( $column_name, $id ) {
 					$available = $registration['total'];
 					$pricing   = $registration['prices'];
 					$tickets   = mt_tickets_left( $pricing, $available );
-					$remain    = $tickets['remain'];
+					$remain    = ( 'general' === $registration['counting_method'] ) ? __( 'No limit', 'my-tickets' ) : $tickets['remain'];
 					$sold      = $tickets['sold'];
 					// Translators: Tickets remaining, total sold.
 					$status = "<span class='mt is-event'>" . sprintf( __( '%1$s (%2$s sold)', 'my-tickets' ), $remain, $sold ) . '</span>';

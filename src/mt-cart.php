@@ -864,14 +864,15 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 									$available = absint( $prices[ $type ]['tickets'] );
 									$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
 								} else {
-									$available = absint( $registration['total'] );
-									$sold      = 0;
+									$available         = absint( $registration['total'] );
+									$sold              = 0;
 									foreach ( $registration['prices'] as $pricetype ) {
 										$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
 									}
 								}
-								$remaining = $available - $sold;
-								$max_limit = apply_filters( 'mt_max_sale_per_event', false );
+								$default_available = apply_filters( 'mt_default_available', 100, $registration );
+								$remaining         = ( 'general' === $registration['counting_method'] ) ? $default_available: $available - $sold;
+								$max_limit         = apply_filters( 'mt_max_sale_per_event', false );
 								if ( $max_limit ) {
 									$max = ( $max_limit > $remaining ) ? $remaining : $max_limit;
 								} else {
@@ -1075,11 +1076,15 @@ function mt_expired( $event, $react = false ) {
 	if ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) {
 		return false;
 	}
+	$options = get_post_meta( $event, '_mt_registration_options', true );
+	if ( 'general' === $options['counting_method'] ) {
+		// General admissions sales do not expire.
+		return false;
+	}
 	$expired = get_post_meta( $event, '_mt_event_expired', true );
 	if ( 'true' === $expired ) {
 		return true;
 	} else {
-		$options = get_post_meta( $event, '_mt_registration_options', true );
 		$data    = get_post_meta( $event, '_mc_event_data', true );
 		if ( is_array( $data ) && is_array( $options ) && ! empty( $options ) ) {
 			if ( ! isset( $data['event_begin'] ) ) {

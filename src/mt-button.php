@@ -101,13 +101,12 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 		return $content;
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-
 	// if no 'total' is set at all, this is not an event with tickets.
 	if ( empty( $registration['prices'] ) ) {
 		return $content;
 	}
 	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. '0' is a valid number of tickets, '' is not.
-	if ( ( isset( $registration['total'] ) && 'inherit' === $registration['total'] ) && ! mt_has_tickets( $registration['prices'] ) ) {
+	if ( ( isset( $registration['total'] ) && 'inherit' === $registration['total'] ) && 'general' !== $registration['counting_method'] && ! mt_has_tickets( $registration['prices'] ) ) {
 		return $content;
 	}
 	// if total number of tickets is set but is an empty string or is not set; return.
@@ -134,12 +133,14 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				$permalink = get_the_permalink();
 			}
 			if ( is_array( $pricing ) ) {
-				$available = $registration['total'];
+				$default_available = apply_filters( 'mt_default_available', 100, $registration );
+				$available         = ( 'general' === $registration['counting_method'] ) ? $default_available : $registration['total'];
 				// if multiple != true, use checkboxes.
 				$input_type = ( isset( $registration['multiple'] ) && 'true' === $registration['multiple'] ) ? 'number' : 'checkbox';
 				// Figure out handling for radio input type.
 				$tickets_data      = mt_tickets_left( $pricing, $available );
-				$tickets_remaining = $tickets_data['remain'];
+				$default_available = apply_filters( 'mt_default_available', 100, $registration );
+				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : $tickets_data['remain'];
 				$tickets_sold      = $tickets_data['sold'];
 				$class             = 'mt-available';
 				if ( $tickets_remaining && $tickets_remaining > apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data ) ) {
