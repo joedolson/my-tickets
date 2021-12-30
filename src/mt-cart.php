@@ -864,14 +864,14 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 									$available = absint( $prices[ $type ]['tickets'] );
 									$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
 								} else {
-									$available         = absint( $registration['total'] );
-									$sold              = 0;
+									$available = absint( $registration['total'] );
+									$sold      = 0;
 									foreach ( $registration['prices'] as $pricetype ) {
 										$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
 									}
 								}
 								$default_available = apply_filters( 'mt_default_available', 100, $registration );
-								$remaining         = ( 'general' === $registration['counting_method'] ) ? $default_available: $available - $sold;
+								$remaining         = ( 'general' === $registration['counting_method'] ) ? $default_available : $available - $sold;
 								$max_limit         = apply_filters( 'mt_max_sale_per_event', false );
 								if ( $max_limit ) {
 									$max = ( $max_limit > $remaining ) ? $remaining : $max_limit;
@@ -1085,7 +1085,7 @@ function mt_expired( $event, $react = false ) {
 	if ( 'true' === $expired ) {
 		return true;
 	} else {
-		$data    = get_post_meta( $event, '_mc_event_data', true );
+		$data = get_post_meta( $event, '_mc_event_data', true );
 		if ( is_array( $data ) && is_array( $options ) && ! empty( $options ) ) {
 			if ( ! isset( $data['event_begin'] ) ) {
 				return false;
