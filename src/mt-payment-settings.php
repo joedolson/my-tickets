@@ -149,10 +149,10 @@ function mt_payment_settings() {
 										<label for="mt_phone"><?php _e( 'Require phone number on purchases', 'my-tickets' ); ?></label>
 										<input type="checkbox" name="mt_phone" id="mt_phone" value="on" <?php echo checked( $options['mt_phone'], 'on' ); ?> />
 									</li>
-                                    <li>
-                                        <label for="mt_vat"><?php _e( 'Collect VAT Number', 'my-tickets' ); ?></label>
-                                        <input type="checkbox" name="mt_vat" id="mt_vat" value="on" <?php echo checked( $options['mt_vat'], 'on' ); ?> />
-                                    </li>
+									<li>
+										<label for="mt_vat"><?php _e( 'Collect VAT Number', 'my-tickets' ); ?></label>
+										<input type="checkbox" name="mt_vat" id="mt_vat" value="on" <?php echo checked( $options['mt_vat'], 'on' ); ?> />
+									</li>
 									<?php
 										echo apply_filters( 'mt_payment_settings_fields', '', $options );
 									?>
