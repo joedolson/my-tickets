@@ -244,15 +244,19 @@ function mt_get_payment_details() {
 			$handling      = ( $hand_total ) ? '<li>' . __( 'Handling:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $hand_total ) . '</li>' : '';
 			$ship_total    = get_post_meta( $receipt->ID, '_mt_shipping', true );
 			$shipping      = ( $ship_total ) ? '<li>' . __( 'Shipping:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $ship_total ) . '</li>' : '';
-			$return        = __( 'This receipt is paid in full.', 'my-tickets' );
-			$return       .= '
+			$vat           = get_post_meta( $receipt->ID, '_vat', true );
+			// Translators: VAT ID.
+			$vat     = ( $vat ) ? '<li>' . sprintf( __( 'VAT Number: %s', 'my-tickets' ), '<code>' . $vat . '</code>' ) . '</li>' : '';
+			$return  = __( 'This receipt is paid in full.', 'my-tickets' );
+			$return .= '
 		<ul>
 			<li>' . __( 'Payment through:', 'my-tickets' ) . " $gateway_label</li>
 			<li>" . __( 'Transaction ID:', 'my-tickets' ) . " <code>$transaction</code></li>
 			$handling
 			$shipping
-			<li>" . __( 'Amount Paid:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $total ) . '</li>
-		</ul>';
+			<li>" . __( 'Amount Paid:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $total ) . "</li>
+			$vat
+		</ul>";
 
 			return $return;
 		} elseif ( 'Refunded' === $paid ) {
