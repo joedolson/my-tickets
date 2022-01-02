@@ -295,6 +295,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$gateway  = get_post_meta( $id, '_gateway', true );
 	$notes    = ( ! empty( $options['mt_gateways'][ $gateway ]['notes'] ) ) ? $options['mt_gateways'][ $gateway ]['notes'] : '';
 	$phone    = get_post_meta( $id, '_phone', true );
+	$vat      = get_post_meta( $id, '_vat', true );
 	// Restructure post meta array to match cart array.
 	if ( ( 'Completed' === $status || ( 'Pending' === $status && 'offline' === $gateway ) ) && ! $resending ) {
 		mt_create_tickets( $id );
@@ -366,6 +367,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		'shipping'       => apply_filters( 'mt_money_format', $shipping ),
 		'method'         => ucfirst( $ticketing_method ),
 		'phone'          => $phone,
+		'vat'            => $vat,
 		'purchase_ID'    => $id,
 		'purchase_edit'  => get_edit_post_link( $id, 'email' ),
 		'gateway_notes'  => $notes,

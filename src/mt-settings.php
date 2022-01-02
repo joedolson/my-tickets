@@ -208,6 +208,7 @@ function mt_settings() {
 										'handling',
 										'shipping',
 										'phone',
+										'vat',
 										'purchase_ID',
 										'purchase_edit',
 										'buyer_email',

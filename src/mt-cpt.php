@@ -194,6 +194,11 @@ function mt_default_fields() {
 				'input'   => 'text',
 				'default' => '',
 			),
+			'vat'               => array(
+				'label'   => __( 'Purchaser VAT Number', 'my-tickets' ),
+				'input'   => 'text',
+				'default' => '',
+			),
 			'notes'             => array(
 				'label' => __( 'Payment Notes', 'my-tickets' ),
 				'input' => 'textarea',
