@@ -41,6 +41,7 @@ For sellers:
 * Send email to a single purchaser with questions about their ticket purchase, or mass email all purchasers for an event.
 * Define either continuous (Adult, Student, Child) or discrete (Section 1, Section 2, Section 3) ticket classes for any event
 * Offer member-only discounts for your registered members
+* General Admission tickets: Sell tickets for events without dates, valid for days, weeks, or months after purchase.
 
 My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com/my-tickets/add-ons/">library of Premium add-ons</a>!
 
@@ -65,6 +66,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
 == Changelog ==
+
+= 1.9.0 =
+
+* New: General Admission ticketing.
+* New: Collect VAT numbers at checkout.
+* Filter: `mt_price_in_label` move ticket price into label element.
 
 = 1.8.37 =
 
