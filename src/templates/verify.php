@@ -73,6 +73,10 @@
 			font-size: 1.6em;
 		}
 
+		.mt-verification span {
+			font-weight: 400;
+		}
+
 		@media print {
 			a.print {
 				display: none;

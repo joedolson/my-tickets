@@ -301,7 +301,15 @@
 					</h1>
 
 					<div class='event-date'>
-						<?php mt_event_date(); ?> @ <span class='time'><?php mt_event_time(); ?></span>
+						<?php
+						if ( mt_get_ticket_validity() ) {
+							echo mt_ticket_validity();
+						} else {
+							?>
+							<?php mt_event_date(); ?> @ <span class='time'><?php mt_event_time(); ?></span>
+							<?php
+						}
+						?>
 					</div>
 					<div class='ticket-type'>
 						<?php mt_ticket_type(); ?>
