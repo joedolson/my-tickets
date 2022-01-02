@@ -122,7 +122,11 @@ function mt_create_payment( $post ) {
 	if ( is_user_logged_in() ) {
 		update_user_meta( $purchaser, 'mt_phone', sanitize_text_field( $phone ) );
 	}
-
+	$vat = ( isset( $post['mt_vat'] ) ) ? $post['mt_vat'] : '';
+	update_post_meta( $purchase_id, '_vat', sanitize_text_field( $vat ) );
+	if ( is_user_logged_in() ) {
+		update_user_meta( $purchaser, 'mt_vat', sanitize_text_field( $vat ) );
+	}
 	$purchased = ( isset( $post['mt_cart_order'] ) ) ? $post['mt_cart_order'] : false;
 	$paid      = mt_calculate_cart_cost( $purchased, $purchase_id );
 	if ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) {

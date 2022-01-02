@@ -34,6 +34,7 @@ function mt_update_payment_settings( $post ) {
 		$mt_thousands_sep    = ( isset( $post['mt_thousands_sep'] ) ) ? $post['mt_thousands_sep'] : ',';
 		$symbol_order        = ( isset( $post['symbol_order'] ) ) ? $post['symbol_order'] : 'symbol-first';
 		$mt_phone            = ( isset( $post['mt_phone'] ) ) ? 'on' : 'off';
+		$mt_vat              = ( isset( $post['mt_vat'] ) ) ? 'on' : 'off';
 
 		$mt_default_gateway = ( isset( $post['mt_default_gateway'] ) ) ? $post['mt_default_gateway'] : 'offline';
 		$mt_gateway         = ( isset( $post['mt_gateway'] ) ) ? $post['mt_gateway'] : array( 'offline' );
@@ -57,6 +58,7 @@ function mt_update_payment_settings( $post ) {
 				'mt_thousands_sep'    => $mt_thousands_sep,
 				'symbol_order'        => $symbol_order,
 				'mt_phone'            => $mt_phone,
+				'mt_vat'              => $mt_vat,
 				'mt_gateway'          => $mt_gateway,
 				'mt_default_gateway'  => $mt_default_gateway,
 				'mt_gateways'         => $mt_gateways,
@@ -147,6 +149,10 @@ function mt_payment_settings() {
 										<label for="mt_phone"><?php _e( 'Require phone number on purchases', 'my-tickets' ); ?></label>
 										<input type="checkbox" name="mt_phone" id="mt_phone" value="on" <?php echo checked( $options['mt_phone'], 'on' ); ?> />
 									</li>
+                                    <li>
+                                        <label for="mt_vat"><?php _e( 'Collect VAT Number', 'my-tickets' ); ?></label>
+                                        <input type="checkbox" name="mt_vat" id="mt_vat" value="on" <?php echo checked( $options['mt_vat'], 'on' ); ?> />
+                                    </li>
 									<?php
 										echo apply_filters( 'mt_payment_settings_fields', '', $options );
 									?>

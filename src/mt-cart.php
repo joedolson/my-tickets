@@ -138,6 +138,7 @@ function mt_required_fields( $cart, $custom_fields ) {
 	$output    = mt_render_field( 'name' );
 	$output   .= mt_render_field( 'email' );
 	$output   .= ( isset( $options['mt_phone'] ) && 'on' === $options['mt_phone'] ) ? mt_render_field( 'phone' ) : '';
+	$output   .= ( isset( $options['mt_vat'] ) && 'on' === $options['mt_vat'] ) ? mt_render_field( 'vat' ) : '';
 	$output   .= apply_filters( 'mt_filter_custom_field_output', $custom_fields, $cart );
 	$opt_types = $options['mt_ticketing'];
 	if ( isset( $opt_types['postal'] ) ) {
@@ -314,8 +315,8 @@ function mt_render_field( $field, $argument = false ) {
 		case 'name':
 			$user_fname = ( is_user_logged_in() ) ? $current_user->user_firstname : '';
 			$user_lname = ( is_user_logged_in() ) ? $current_user->user_lastname : '';
-			$fname      = ( isset( $_POST['mt_fname'] ) ) ? $_POST['mt_fname'] : $user_fname;
-			$lname      = ( isset( $_POST['mt_lname'] ) ) ? $_POST['mt_lname'] : $user_lname;
+			$fname      = ( isset( $_POST['mt_fname'] ) ) ? sanitize_text_field( $_POST['mt_fname'] ) : $user_fname;
+			$lname      = ( isset( $_POST['mt_lname'] ) ) ? sanitize_text_field( $_POST['mt_lname'] ) : $user_lname;
 			if ( $payment_id ) {
 				$fname = get_post_meta( $payment_id, '_first_name', true );
 				$lname = get_post_meta( $payment_id, '_last_name', true );
@@ -324,7 +325,7 @@ function mt_render_field( $field, $argument = false ) {
 			break;
 		case 'email':
 			$user_email = ( is_user_logged_in() ) ? $current_user->user_email : '';
-			$email      = ( isset( $_POST['mt_email'] ) ) ? $_POST['mt_email'] : $user_email;
+			$email      = ( isset( $_POST['mt_email'] ) ) ? sanitize_text_field( $_POST['mt_email'] ) : $user_email;
 			if ( $payment_id ) {
 				$email = get_post_meta( $payment_id, '_email', true );
 			}
@@ -333,11 +334,19 @@ function mt_render_field( $field, $argument = false ) {
 			break;
 		case 'phone':
 			$user_phone = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, 'mt_phone', true ) : '';
-			$phone      = ( isset( $_POST['mt_phone'] ) ) ? $_POST['mt_phone'] : $user_phone;
+			$phone      = ( isset( $_POST['mt_phone'] ) ) ? sanitize_text_field( $_POST['mt_phone'] ) : $user_phone;
 			if ( $payment_id ) {
 				$phone = get_post_meta( $payment_id, '_phone', true );
 			}
 			$output = '<p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" autocomplete="tel" required aria-required="true"  /></p>';
+			break;
+		case 'vat':
+			$user_vat = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, 'mt_vat', true ) : '';
+			$vat      = ( isset( $_POST['mt_vat'] ) ) ? sanitize_text_field( $_POST['mt_vat'] ) : $user_vat;
+			if ( $payment_id ) {
+				$vat = get_post_meta( $payment_id, '_vat', true );
+			}
+			$output = '<p><label for="mt_vat">' . __( 'VAT Number', 'my-tickets' ) . '</label> <input type="text" name="mt_vat" id="mt_vat" value="' . esc_attr( stripslashes( $vat ) ) . '" required aria-required="true"  /></p>';
 			break;
 	}
 

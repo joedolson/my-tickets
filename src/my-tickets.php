@@ -463,6 +463,7 @@ We\'ll see you soon!<br />
 		'mt_dec_point'           => '.',
 		'mt_thousands_sep'       => ',',
 		'mt_phone'               => 'off',
+		'mt_vat'                 => 'off',
 		'mt_members_discount'    => '',
 		'mt_ssl'                 => 'false',
 		'mt_gateway'             => array( 'offline' ),
