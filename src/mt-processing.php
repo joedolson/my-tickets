@@ -50,7 +50,7 @@ function mt_add_ticket_form() {
 		echo wp_kses_post( '<p>' . __( 'This is a core My Tickets page, used for processing transactions. You cannot use this page as an event.', 'my-tickets' ) . '</p>' );
 		return;
 	}
-	$options = array(
+	$validity = array(
 		'1 year'   => __( '1 year', 'my-tickets' ),
 		'1 month'  => __( '1 month', 'my-tickets' ),
 		'3 months' => __( '3 months', 'my-tickets' ),
@@ -60,7 +60,7 @@ function mt_add_ticket_form() {
 		'3 weeks'  => __( '3 weeks', 'my-tickets' ),
 		'4 weeks'  => __( '4 weeks', 'my-tickets' ),
 	);
-	$options = apply_filters( 'mc_validity_options', $options );
+	$validity = apply_filters( 'mt_validity_options', $validity );
 	// add fields for event time and event date.
 	if ( isset( $data['event_begin'] ) ) {
 		$event_begin = $data['event_begin'];
@@ -78,7 +78,7 @@ function mt_add_ticket_form() {
 		$valid       = '';
 	}
 	$option_string = '';
-	foreach ( $options as $key => $option ) {
+	foreach ( $validity as $key => $option ) {
 		$option_string .= '<option value="' . esc_attr( $key ) . '"' . selected( $key, $valid, false ) . '>' . esc_html( $option ) . '</option>';
 	}
 	$clear = '<p><input type="checkbox" class="mt-delete-data" name="mt-delete-data" id="mt-delete-data" /> <label for="mt-delete-data">' . __( 'Delete ticket sales data on this post', 'my-tickets' ) . '</label></p>';
