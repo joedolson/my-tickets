@@ -831,8 +831,8 @@ function mt_get_ticket_validity( $ticket = false ) {
 	if ( ! is_int( $ticket ) ) {
 		$ticket = $ticket->ID;
 	}
-	$ticket_id = mt_get_ticket_id();
-	$text      = '';
+	$ticket_id  = mt_get_ticket_id();
+	$text       = '';
 	$event_data = get_post_meta( $ticket, '_mc_event_data', true );
 	if ( $event_data ) {
 		$validity = ( isset( $event_data['event_valid'] ) ) ? $event_data['event_valid'] : false;
@@ -843,9 +843,9 @@ function mt_get_ticket_validity( $ticket = false ) {
 			$format       = apply_filters( 'mt_validity_date_format', $format, $event_data );
 			$date_of_sale = get_the_date( $format, $sale_id );
 			$status       = mt_date( $format, strtotime( $date_of_sale . ' + ' . $validity ) );
-			// Translators: Purchase date
+			// Translators: Purchase date.
 			$text .= wpautop( sprintf( apply_filters( 'mt_ticket_validity_sale_date', __( '<strong>Purchased:</strong> %s', 'my-tickets' ), $event_data ), '<span class="mt-date-of-sale">' . $date_of_sale . '</span>' ) );
-			// Translators: Expiration date
+			// Translators: Expiration date.
 			$text .= wpautop( sprintf( apply_filters( 'mt_ticket_validity_expiration_date', __( '<strong>Expires:</strong> %s', 'my-tickets' ), $event_data ), '<span class="mt-date-of-validity">' . $status . '</span>' ) );
 			if ( strtotime( $date_of_sale . ' + ' . $validity ) < time() ) {
 				$text .= '<p class="mt-expired">' . __( 'Ticket has expired', 'my-tickets' ) . '</p>';
