@@ -401,7 +401,7 @@ function mt_prices_table( $registration = array() ) {
 					<td><input type='number' name='mt_price[]' step='0.01' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
 					<td><input type='hidden' name='mt_sold[]' value='" . $sold . "' />" . $sold . '</td>
-					<td><input type="date" name="mt_close[]" value="' . ( ( $close ) ? date( 'Y-m-d', $close ) : '' ) . '" /></td>
+					<td><input type="date" name="mt_close[]" value="' . ( ( $close ) ? gmdate( 'Y-m-d', $close ) : '' ) . '" /></td>
 				</tr>';
 
 				$labels_index[ $label ] = $options['label'];
@@ -573,8 +573,8 @@ function mt_setup_pricing( $labels, $prices, $availability, $close, $sold = arra
 				} else {
 					$tickets = '';
 				}
-				$sold_tickets = ( isset( $sold[ $i ] ) ) ? (int) $sold[ $i ] : '';
-				$closing      = ( isset( $close[ $i ] ) ) ? strtotime( $close[ $i ] ) : '';
+				$sold_tickets              = ( isset( $sold[ $i ] ) ) ? (int) $sold[ $i ] : '';
+				$closing                   = ( isset( $close[ $i ] ) ) ? strtotime( $close[ $i ] ) : '';
 				$return[ $internal_label ] = array(
 					'label'   => $label,
 					'price'   => $price,
