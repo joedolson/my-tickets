@@ -506,7 +506,7 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	$multiple        = ( isset( $post['mt_multiple'] ) ) ? 'true' : 'false';
 	$mt_sales_type   = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
 	$counting_method = ( isset( $post['mt_counting_method'] ) ) ? $post['mt_counting_method'] : 'discrete';
-	$counting_method = ( isset( $post['mt_general'] ) ) ? 'general' : $counting_method;
+	$counting_method = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'general' : $counting_method;
 	$sell            = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
 	$notes           = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
 	$clear           = ( isset( $post['mt-delete-data'] ) ) ? true : false;
