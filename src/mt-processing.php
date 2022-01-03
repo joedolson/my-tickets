@@ -246,7 +246,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
 function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	$original_form = $form;
 	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-	$registration  = false;
+	$registration  = array();
 	$event_id      = false;
 	$description   = false;
 	$hide          = false;
@@ -260,7 +260,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
 	}
-	if ( is_int( $has_data ) ) {
+	if ( is_int( $has_data ) && $has_data ) {
 		$event_id     = $has_data;
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
@@ -301,7 +301,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	$format  = ( isset( $_GET['page'] ) && 'my-calendar' === $_GET['page'] ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '</label></p>' : '';
 	$before  = "<div class='mt-ticket-form'>";
 	$after   = '</div>';
-	$reports = ( $event_id ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
+	$reports = ( $event_id && ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
 
 	$form  = $reports . $format . $before . $shortcode;
 	$form .= mt_prices_table( $registration );
