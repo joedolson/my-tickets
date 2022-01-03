@@ -1100,7 +1100,7 @@ function mt_expired( $event, $react = false ) {
 	} else {
 		$data = get_post_meta( $event, '_mc_event_data', true );
 		if ( is_array( $data ) && is_array( $options ) && ! empty( $options ) ) {
-			if ( ! isset( $data['event_begin'] ) ) {
+			if ( ! isset( $data['event_begin'] ) || ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ) {
 				return false;
 			}
 			$expires    = ( isset( $options['reg_expires'] ) ) ? $options['reg_expires'] : 0;
