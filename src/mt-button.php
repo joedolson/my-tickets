@@ -524,6 +524,10 @@ function mt_handling_notice() {
 function mt_sales_close( $event_id, $expires ) {
 	$event = get_post_meta( $event_id, '_mc_event_data', true );
 	if ( $event && is_array( $event ) ) {
+		if ( isset( $event['general_admission'] ) && 'on' === $event['general_admission'] ) {
+			// Don't display closing information on General Admission events.
+			return '';
+		}
 		if ( isset( $event['event_begin'] ) && isset( $event['event_time'] ) ) {
 			$expiration = $expires * 60 * 60;
 			$begin      = strtotime( $event['event_begin'] . ' ' . $event['event_time'] ) - $expiration;
