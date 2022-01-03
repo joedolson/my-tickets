@@ -856,9 +856,13 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$image        = ( has_post_thumbnail( $event_id ) ) ? get_the_post_thumbnail( $event_id, array( 80, 80 ) ) : '';
 				$data         = get_post_meta( $event_id, '_mc_event_data', true );
 				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-				$date         = $data['event_begin'] . ' ' . $data['event_time'];
-				$dt_format    = apply_filters( 'mt_cart_datetime', get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ) );
-				$datetime     = "<span class='mt-datetime'>" . date_i18n( $dt_format, strtotime( $date ) ) . '</span>';
+				$general      = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? true : false;
+				$validity     = ( isset( $data['event_valid'] ) ) ? $data['event_valid'] : 0;
+				$valid_til    = mt_date( get_option( 'date_format' ), strtotime( '+ ' . $validity ) );
+				// Translators: Date ticket valid until.
+				$date      = ( $general ) ? sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til ) : $data['event_begin'] . ' ' . $data['event_time'];
+				$dt_format = apply_filters( 'mt_cart_datetime', get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ) );
+				$datetime  = "<span class='mt-datetime'>" . ( ( $general ) ? $date : date_i18n( $dt_format, strtotime( $date ) ) ) . '</span>';
 				if ( is_array( $order ) && ! empty( $order ) ) {
 					foreach ( $order as $type => $count ) {
 						if ( ! mt_can_order( $type ) ) {
