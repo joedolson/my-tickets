@@ -140,7 +140,7 @@ function mt_ticket_meta( $post_id ) {
 		$post        = map_deep( $_POST, 'sanitize_text_field' );
 		$event_begin = mt_date( 'Y-m-d', strtotime( $post['event_begin'] ), false );
 		$event_time  = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
-		$general     = ( isset( $post['mt_general'] ) ) ? 'on' : '';
+		$general     = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'on' : '';
 		$valid       = ( isset( $post['mt_valid'] ) ) ? sanitize_text_field( $post['mt_valid'] ) : '';
 		$data        = array(
 			'event_begin'       => $event_begin,
