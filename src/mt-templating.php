@@ -821,6 +821,7 @@ function mt_get_verification( $ticket_id = false ) {
  * Get the validity for a general admission ticket.
  *
  * @param int|object $ticket Ticket object or ID.
+ * @param string     $format Full validity statement or expiration only.
  *
  * @return string
  */
@@ -855,13 +856,14 @@ function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 		}
 	}
 
-	return ( 'full' === $format ) ? $text : strip_tags( $expires );
+	return ( 'full' === $format ) ? $text : $expires;
 }
 
 /**
  * Echo ticket validity.
  *
  * @param int|object $ticket Ticket object or ID.
+ * @param string     $format Full validity statement or expiration only.
  */
 function mt_ticket_validity( $ticket = false, $format = 'full' ) {
 	echo mt_get_ticket_validity( $ticket, $format );
