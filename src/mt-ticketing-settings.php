@@ -206,6 +206,7 @@ function mt_ticketing_settings() {
 									}
 									echo mt_prices_table();
 									?>
+								<div class="ticket-sale-types">
 									<fieldset>
 										<legend><?php _e( 'Type of Sale', 'my-tickets' ); ?></legend>
 										<p>
@@ -224,6 +225,7 @@ function mt_ticketing_settings() {
 											<label for='mt_counting_method_continuous'><?php _e( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ); ?></label>
 										</p>
 									</fieldset>
+								</div>
 							</div>
 						</div>
 					</div>

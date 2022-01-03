@@ -313,7 +313,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		<label for='mt_multiple'>" . __( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ) . "</label> <input type='checkbox' name='mt_multiple' id='mt_multiple' value='true' $is_multiple />
 	</p>";
 	$form .= '
-		<fieldset><legend>' . __( 'Type of Sale', 'my-tickets' ) . "</legend>
+		<div class="ticket-sale-types"><fieldset><legend>' . __( 'Type of Sale', 'my-tickets' ) . "</legend>
 		<p>
 			<input type='radio' name='mt_sales_type' id='mt_sales_type_tickets' value='tickets' $is_tickets /> <label for='mt_sales_type_tickets'>" . __( 'Ticket Sales', 'my-tickets' ) . "</label><br />
 			<input type='radio' name='mt_sales_type' id='mt_sales_type_registration' value='registration' $is_registration /> <label for='mt_sales_type_registration'>" . __( 'Event Registration', 'my-tickets' ) . '</label>
@@ -324,7 +324,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 				<input type='radio' name='mt_counting_method' id='mt_counting_method_discrete' value='discrete' $is_discrete /> <label for='mt_counting_method_discrete'>" . __( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ) . "</label><br />
 				<input type='radio' name='mt_counting_method' id='mt_counting_method_continuous' value='continuous' $is_continuous /> <label for='mt_counting_method_continuous'>" . __( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ) . '</label>
 			</p>
-		</fieldset>';
+		</fieldset></div>';
 	if ( false !== $description ) {
 		$form .= "<p><label for='event_registration'>" . __( 'Registration Information', 'my-tickets' ) . "</label> <textarea name='event_registration' id='event_registration' cols='40' rows='4'/>$description</textarea></p>";
 	}

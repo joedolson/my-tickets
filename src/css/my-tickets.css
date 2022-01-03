@@ -138,6 +138,12 @@ legend {
     margin: 0 auto 1em;
 }
 
+.ticket-sale-types {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 20px;
+}
+
 .mt-report-selector > div {
     max-width: 48%;
 }
