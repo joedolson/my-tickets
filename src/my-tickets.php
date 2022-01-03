@@ -983,6 +983,14 @@ function mt_kses_elements() {
 			'aria-live'   => array(),
 			'aria-hidden' => array(),
 		),
+		'strong'   => array(
+			'id'    => array(),
+			'class' => array(),
+		),
+		'code'     => array(
+			'id'    => array(),
+			'class' => array(),
+		),
 		'p'        => array(
 			'class' => array(),
 		),
