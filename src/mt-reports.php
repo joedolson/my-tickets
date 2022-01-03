@@ -389,6 +389,7 @@ function mt_select_events() {
 	foreach ( $posts as $post ) {
 		$tickets    = get_post_meta( $post->ID, '_ticket' );
 		$count      = count( $tickets );
+		$show_event = false;
 		$selected   = ( isset( $_GET['event_id'] ) && absint( $_GET['event_id'] ) === $post->ID ) ? ' selected="selected"' : '';
 		$event_data = get_post_meta( $post->ID, '_mc_event_data', true );
 		if ( is_array( $event_data ) ) {
@@ -396,7 +397,10 @@ function mt_select_events() {
 			$display_date = date_i18n( get_option( 'date_format' ), $event_date );
 			// if this event happened more than 2 years ago, don't show in list *unless* it's the currently selected report.
 			$report_age_limit = apply_filters( 'mt_reports_age_limit', mt_current_time() - ( YEAR_IN_SECONDS * 2 ) );
-			if ( $event_date > $report_age_limit || ' selected="selected"' === $selected ) {
+			if ( isset( $event_data['general_admission'] ) && 'on' === $event_data['general_admission'] ) {
+				$show_event = true;
+			}
+			if ( $event_date > $report_age_limit || ' selected="selected"' === $selected || $show_event ) {
 				$title    = apply_filters( 'mt_the_title', $post->post_title, $post );
 				$options .= "<option value='$post->ID'$selected>$title ($count); $display_date</option>\n";
 			}
