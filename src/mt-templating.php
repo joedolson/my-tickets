@@ -824,7 +824,7 @@ function mt_get_verification( $ticket_id = false ) {
  *
  * @return string
  */
-function mt_get_ticket_validity( $ticket = false ) {
+function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 	if ( ! $ticket ) {
 		$ticket = mt_get_ticket();
 	}
@@ -833,6 +833,7 @@ function mt_get_ticket_validity( $ticket = false ) {
 	}
 	$ticket_id  = mt_get_ticket_id();
 	$text       = '';
+	$expires    = '';
 	$event_data = get_post_meta( $ticket, '_mc_event_data', true );
 	if ( $event_data ) {
 		$validity = ( isset( $event_data['event_valid'] ) ) ? $event_data['event_valid'] : false;
@@ -846,14 +847,15 @@ function mt_get_ticket_validity( $ticket = false ) {
 			// Translators: Purchase date.
 			$text .= wpautop( sprintf( apply_filters( 'mt_ticket_validity_sale_date', __( '<strong>Purchased:</strong> %s', 'my-tickets' ), $event_data ), '<span class="mt-date-of-sale">' . $date_of_sale . '</span>' ) );
 			// Translators: Expiration date.
-			$text .= wpautop( sprintf( apply_filters( 'mt_ticket_validity_expiration_date', __( '<strong>Expires:</strong> %s', 'my-tickets' ), $event_data ), '<span class="mt-date-of-validity">' . $status . '</span>' ) );
+			$expires = wpautop( sprintf( apply_filters( 'mt_ticket_validity_expiration_date', __( '<strong>Expires:</strong> %s', 'my-tickets' ), $event_data ), '<span class="mt-date-of-validity">' . $status . '</span>' ) );
+			$text   .= $expires;
 			if ( strtotime( $date_of_sale . ' + ' . $validity ) < time() ) {
 				$text .= '<p class="mt-expired">' . __( 'Ticket has expired', 'my-tickets' ) . '</p>';
 			}
 		}
 	}
 
-	return $text;
+	return ( 'full' === $format ) ? $text : strip_tags( $expires );
 }
 
 /**
@@ -861,8 +863,8 @@ function mt_get_ticket_validity( $ticket = false ) {
  *
  * @param int|object $ticket Ticket object or ID.
  */
-function mt_ticket_validity( $ticket = false ) {
-	echo mt_get_ticket_validity( $ticket );
+function mt_ticket_validity( $ticket = false, $format = 'full' ) {
+	echo mt_get_ticket_validity( $ticket, $format );
 }
 
 /**

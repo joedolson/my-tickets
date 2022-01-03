@@ -134,6 +134,12 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				$date  = date_i18n( get_option( 'date_format' ), strtotime( $event['event_begin'] ) );
 				$time  = date_i18n( get_option( 'time_format' ), strtotime( $event['event_time'] ) );
 
+				$general       = ( isset( $event['general_admission'] ) && 'on' === $event['general_admission'] ) ? true : false;
+				$validity      = ( isset( $event['event_valid'] ) ) ? $event['event_valid'] : 0;
+				$purchase_date = get_the_date( 'Y-m-d', $purchase_id );
+				$valid_til     = mt_date( get_option( 'date_format' ), strtotime( $purchase_date . ' + ' . $validity ) );
+				// Translators: Date ticket valid until.
+				$valid_til       = sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til );
 				$handling_notice = '';
 				$tickets_list    = '';
 				foreach ( $tickets as $type => $ticket ) {
@@ -166,7 +172,11 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					}
 				}
 				if ( '' !== trim( $tickets_list ) ) {
-					$output .= sprintf( apply_filters( 'mt_purchased_tickets_format', '%1$s - %2$s @ %3$s', $is_html, $event ), $title, $date, $time ) . $sep;
+					if ( $general ) {
+						$output .= sprintf( apply_filters( 'mt_purchased_ga_tickets_format', '%1$s - %2$s', $is_html, $event ), $title, $valid_til ) . $sep;
+					} else {
+						$output .= sprintf( apply_filters( 'mt_purchased_tickets_format', '%1$s - %2$s @ %3$s', $is_html, $event ), $title, $date, $time ) . $sep;
+					}
 					$output .= apply_filters( 'mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep );
 					$output .= $sep . $tickets_list;
 				}
