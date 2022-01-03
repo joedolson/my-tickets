@@ -122,10 +122,6 @@ legend {
     background: #fff;
 }
 
-.my-tickets textarea[readonly=readonly] {
-    width: 90%;
-}
-
 .my-tickets dt {
     font-weight: 700;
     margin-bottom: 10px;
