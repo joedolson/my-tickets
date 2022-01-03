@@ -251,7 +251,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 						}
 					}
 				} else {
-					if ( 0 === $tickets_remaining ) {
+					if ( 0 >= $tickets_remaining ) {
 						$sold_out = true;
 					} else {
 						$output = '<p>' . mt_tickets_remaining( $tickets_data, $event_id ) . '</p>';
@@ -308,7 +308,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 	if ( true === $sold_out && $tickets_sold > 0 ) {
 		$tickets_soldout = ( 'registration' === $registration['sales_type'] ) ? __( 'Registration for this event is full', 'my-tickets' ) : __( 'Tickets for this event are sold out.', 'my-tickets' );
 		$output          = "<div class='mt-order mt-soldout'><p>" . apply_filters( 'mt_tickets_soldout', $tickets_soldout ) . '</p></div>';
-		$output         .= apply_filters( 'mt_tickets_soldout_content', $event_id, $registration );
+		$output         .= apply_filters( 'mt_tickets_soldout_content', '', $event_id, $registration );
 		$soldout         = get_post_meta( $event_id, '_mt_event_soldout', true );
 		if ( 'true' !== $soldout ) {
 			update_post_meta( $event_id, '_mt_event_soldout', 'true' );
