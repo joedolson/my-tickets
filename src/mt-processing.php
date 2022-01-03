@@ -307,7 +307,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	$form .= mt_prices_table( $registration );
 	$form .= "
 	<p>
-		<label for='reg_expires'>" . __( 'Allow sales until', 'my-tickets' ) . "</label> <input type='number' name='reg_expires' id='reg_expires' value='$expiration' aria-labelledby='reg_expires reg_expires_label' size='3' /> <strong class='label' id='reg_expires_label'>" . __( 'hours before the event', 'my-tickets' ) . "</strong>
+		<label for='reg_expires'>" . __( 'Allow sales until', 'my-tickets' ) . "</label> <input type='number' name='reg_expires' id='reg_expires' value='$expiration' aria-labelledby='reg_expires reg_expires_label' size='3' /> <span class='label' id='reg_expires_label'>" . __( 'hours before the event', 'my-tickets' ) . "</span>
 	</p>
 	<p>
 		<label for='mt_multiple'>" . __( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ) . "</label> <input type='checkbox' name='mt_multiple' id='mt_multiple' value='true' $is_multiple />
@@ -331,8 +331,8 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	$form .= "<p>
 		<label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "</label><br />
 		<textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_attr( $notes ) ) . "</textarea><br />
-		<span id='template_tag'><strong>Template tag: </strong><code>{event_notes}</code></span>
-	</p>";
+		<span id='template_tag'><strong>" . __( 'Template tag:', 'my-tickets' ) . ' </strong><code>{event_notes}</code></span>
+	</p>';
 	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '</label></p>';
 	$form .= apply_filters( 'mt_custom_data_fields', '', $registration, $data );
 	$form .= $after;
