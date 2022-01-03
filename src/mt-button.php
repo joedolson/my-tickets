@@ -169,6 +169,11 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 							$value              = ( '' === $value ) ? 0 : (int) $value;
 							$order_value        = $value;
 							$attributes         = '';
+							$close              = ( isset( $settings['close'] ) && ! empty( $settings['close'] ) ) ? $settings['close'] : '';
+							if ( $close && $close < time() ) {
+								// If this ticket type is no longer available, skip.
+								continue;
+							}
 							if ( 'checkbox' === $input_type || 'radio' === $input_type ) {
 								if ( 1 === $value ) {
 									$attributes = " checked='checked'";

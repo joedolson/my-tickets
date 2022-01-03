@@ -39,11 +39,12 @@ function mt_update_ticketing_settings( $post ) {
 		$defaults                = ( isset( $post['defaults'] ) ) ? $post['defaults'] : array();
 		$labels                  = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
 		$prices                  = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
+		$close                   = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : array();
 		$availability            = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : array();
 		$close_value             = ( isset( $post['mt_tickets_close_value'] ) ) ? $post['mt_tickets_close_value'] : '';
 		$close_type              = ( isset( $post['mt_tickets_close_type'] ) ) ? $post['mt_tickets_close_type'] : 'integer';
 		$mt_ticket_image         = ( isset( $post['mt_ticket_image'] ) ) ? $post['mt_ticket_image'] : 'ticket';
-		$pricing_array           = mt_setup_pricing( $labels, $prices, $availability );
+		$pricing_array           = mt_setup_pricing( $labels, $prices, $availability, $close );
 		$defaults['pricing']     = $pricing_array;
 		$defaults['tickets']     = $mt_total_tickets;
 		$defaults['multiple']    = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';

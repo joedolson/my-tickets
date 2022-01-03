@@ -361,7 +361,8 @@ function mt_prices_table( $registration = array() ) {
 							<th scope='col'>" . __( 'Label', 'my-tickets' ) . "</th>
 							<th scope='col'>" . __( 'Price', 'my-tickets' ) . "</th>
 							<th scope='col'>" . __( 'Available', 'my-tickets' ) . "</th>
-							<th scope='col'>" . __( 'Sold', 'my-tickets' ) . '</th>
+							<th scope='col'>" . __( 'Sold', 'my-tickets' ) . "</th>
+							<th scope='col'>" . __( 'Close Sales', 'my-tickets' ) . '</th>
 						</tr>
 					</thead>
 					<tbody>';
@@ -388,6 +389,7 @@ function mt_prices_table( $registration = array() ) {
 			if ( $label ) {
 				$class   = ( 0 !== $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
 				$sold    = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
+				$close   = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? '' : ( isset( $options['close'] ) ? $options['close'] : '' );
 				$comps   = ( 'complimentary' === sanitize_title( $options['label'] ) ) ? '<br />' . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) : '';
 				$return .= "
 				<tr class='$class'>
@@ -399,6 +401,7 @@ function mt_prices_table( $registration = array() ) {
 					<td><input type='number' name='mt_price[]' step='0.01' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
 					<td><input type='hidden' name='mt_sold[]' value='" . $sold . "' />" . $sold . '</td>
+					<td><input type="date" name="mt_close[]" value="' . ( ( $close ) ? date( 'Y-m-d', $close ) : '' ) . '" /></td>
 				</tr>';
 
 				$labels_index[ $label ] = $options['label'];
@@ -419,6 +422,7 @@ function mt_prices_table( $registration = array() ) {
 					<td><input type='text' readonly name='mt_price[]' id='mt_price_complimentary' value='0' size='8' /></td>
 					<td>$available</td>
 					<td></td>
+					<td></td>
 				</tr>";
 		}
 	}
@@ -429,6 +433,7 @@ function mt_prices_table( $registration = array() ) {
 			<td><input type='text' name='mt_price[]' id='mt_price' size='8' /></td>
 			<td>$available_empty</td>
 			<td></td>
+			<td><input type='date' name='mt_close[]' value='' /></td>
 		</tr>";
 	$return   .= '</tbody></table>';
 	$add_field = __( 'Add a price group', 'my-tickets' );
@@ -492,10 +497,11 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	$labels          = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
 	$prices          = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
 	$sold            = ( isset( $post['mt_sold'] ) ) ? $post['mt_sold'] : array();
+	$close           = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : array();
 	$hide            = ( isset( $post['mt_hide_registration_form'] ) ) ? 'true' : 'false';
 	$availability    = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : 'inherit';
 	$total_tickets   = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
-	$pricing_array   = mt_setup_pricing( $labels, $prices, $availability, $sold );
+	$pricing_array   = mt_setup_pricing( $labels, $prices, $availability, $close, $sold );
 	$reg_expires     = ( isset( $post['reg_expires'] ) ) ? (int) $post['reg_expires'] : 0;
 	$multiple        = ( isset( $post['mt_multiple'] ) ) ? 'true' : 'false';
 	$mt_sales_type   = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
@@ -505,7 +511,7 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	$notes           = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
 	$clear           = ( isset( $post['mt-delete-data'] ) ) ? true : false;
 	if ( $clear ) {
-		$pricing_array = mt_setup_pricing( $labels, $prices, $availability, array() );
+		$pricing_array = mt_setup_pricing( $labels, $prices, $availability, $close, array() );
 		$tickets       = get_post_meta( $post_id, '_ticket' );
 		foreach ( $tickets as $ticket_id ) {
 			// Delete individual ticket IDs.
@@ -548,11 +554,12 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
  * @param array $labels Price labels.
  * @param array $prices Prices.
  * @param array $availability Availability for tickets.
+ * @param array $close Dates when specific ticket types could go off sale.
  * @param array $sold array - empty when event is created.
  *
  * @return array ticket data
  */
-function mt_setup_pricing( $labels, $prices, $availability, $sold = array() ) {
+function mt_setup_pricing( $labels, $prices, $availability, $close, $sold = array() ) {
 	$return = array();
 	if ( is_array( $labels ) ) {
 		$i = 0;
@@ -567,12 +574,13 @@ function mt_setup_pricing( $labels, $prices, $availability, $sold = array() ) {
 					$tickets = '';
 				}
 				$sold_tickets = ( isset( $sold[ $i ] ) ) ? (int) $sold[ $i ] : '';
-
+				$closing      = ( isset( $close[ $i ] ) ) ? strtotime( $close[ $i ] ) : '';
 				$return[ $internal_label ] = array(
 					'label'   => $label,
 					'price'   => $price,
 					'tickets' => $tickets,
 					'sold'    => $sold_tickets,
+					'close'   => $closing,
 				);
 			}
 			$i ++;
