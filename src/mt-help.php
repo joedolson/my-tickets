@@ -232,7 +232,7 @@ $plugins_string
 		}
 		$request = ( ! empty( $_POST['support_request'] ) ) ? sanitize_textarea_field( $_POST['support_request'] ) : false;
 		$subject = 'My Tickets support request.';
-		$message = $request . "\n\n" . $data;
+		$message = stripslashes( $request . "\n\n" . $data );
 		// Get the site domain and get rid of www. from pluggable.php.
 		$sitename = strtolower( sanitize_text_field( $_SERVER['SERVER_NAME'] ) );
 		if ( substr( $sitename, 0, 4 ) === 'www.' ) {
@@ -274,7 +274,7 @@ $plugins_string
 		</code>
 		</p>
 		<p>
-		<label for='support_request'><?php _e( 'Support Request:', 'my-tickets' ); ?></label><br /><textarea class='support-request' name='support_request' id='support_request' cols='80' rows='10'><?php echo esc_textarea( $request ); ?></textarea>
+		<label for='support_request'><?php _e( 'Support Request:', 'my-tickets' ); ?></label><br /><textarea class='support-request' name='support_request' id='support_request' cols='80' rows='10'><?php echo esc_textarea( stripslashes( $request ) ); ?></textarea>
 		</p>
 		<p>
 		<input type='submit' value='<?php _e( 'Send Support Request', 'my-tickets' ); ?>' name='mt_support' class='button-primary' />
