@@ -525,6 +525,10 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 		delete_post_meta( $post_id, '_sequential_base' );
 		// Delete purchase records used for reporting.
 		delete_post_meta( $post_id, '_purchase' );
+		// Delete sold out flag.
+		delete_post_meta( $post_id, '_mt_event_soldout' );
+		// Delete event expiration notice.
+		delete_post_meta( $post_id, '_mt_event_expired' );
 		// retain payments (as they might apply to multiple events) but remove tickets from them.
 	}
 	$registration_options = array(
