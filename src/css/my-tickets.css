@@ -246,3 +246,81 @@ legend {
         margin: 1em 0;
     }
 }
+
+
+/* Responsive tables */
+@media screen and ( max-width: 720px ) {
+    table.mt-pricing,
+    table.mt-pricing thead,
+    table.mt-pricing tbody,
+    table.mt-pricing tr,
+    table.mt-pricing td,
+    table.mt-pricing caption {
+        display: block;
+        height: auto;
+        min-height: 0;
+        border: none;
+    }
+
+    table.mt-pricing thead,
+    table.mt-pricing tbody,
+    table.mt-pricing caption  {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    table.mt-pricing caption {
+        font-weight: 700;
+    }
+
+    table.mt-pricing tr {
+        margin: 1em 0;
+        padding-bottom: 1em;
+        border-bottom: 1px solid #c3c4c7;
+        display: flex;
+        align-items: end;
+        flex-wrap: wrap;
+    }
+
+    table.mt-pricing .mt-controls  .button {
+        margin-bottom: 0;
+    }
+
+    table.mt-pricing tr td:before {
+        display: block;
+    }
+
+    table.mt-pricing tr td:nth-of-type(2):before {
+        content: 'Ticket Type';
+    }
+
+    table.mt-pricing tr td:nth-of-type(3):before {
+        content: 'Price';
+    }
+
+    table.mt-pricing tr td:nth-of-type(4):before {
+        content: 'Available';
+    }
+
+    table.mt-pricing tr td:nth-of-type(6):before {
+        content: 'Close Date';
+    }
+
+    table.mt-pricing td {
+        padding: 4px;
+    }
+
+    table.mt-pricing th {
+        border: 0;
+        clip: rect(1px, 1px, 1px, 1px);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute !important;
+        width: 1px;
+        word-wrap: normal !important;
+    }
+}
