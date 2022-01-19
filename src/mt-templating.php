@@ -647,13 +647,13 @@ function mt_get_ticket_qrcode( $ticket_id = false ) {
 			get_permalink( $id )
 		)
 	);
-	$options   = new QROptions(
-		array(
-			'version'    => 6,
-			'outputType' => QRCODE::OUTPUT_IMAGE_PNG,
-			'eccLevel'   => QRCODE::ECC_M,
-		)
+	$qrcode    = array(
+		'version'    => 9,
+		'outputType' => QRCODE::OUTPUT_IMAGE_PNG,
+		'eccLevel'   => QRCODE::ECC_M,
 	);
+	$qrcode    = apply_filters( 'mt_qrcode_options', $qrcode, $ticket_id );
+	$options   = new QROptions( $qrcode );
 	$code      = new QRCode( $options );
 	return $code->render( esc_url_raw( $url ) );
 }
