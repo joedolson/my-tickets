@@ -199,13 +199,13 @@ function mt_admin_state( $states, $post ) {
 	if ( is_admin() ) {
 		$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		if ( $post->ID === absint( $options['mt_purchase_page'] ) ) {
-			$states[] .= __( 'Shopping Cart Page', 'my-calendar' );
+			$states[] = __( 'Shopping Cart Page', 'my-calendar' );
 		}
 		if ( $post->ID === absint( $options['mt_receipt_page'] ) ) {
-			$states[] .= __( 'Receipt Page', 'my-calendar' );
+			$states[] = __( 'Receipt Page', 'my-calendar' );
 		}
 		if ( $post->ID === absint( $options['mt_purchase_page'] ) ) {
-			$states[] .= __( 'Ticket Page', 'my-calendar' );
+			$states[] = __( 'Ticket Page', 'my-calendar' );
 		}
 	}
 
