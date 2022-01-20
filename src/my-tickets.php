@@ -187,6 +187,32 @@ function mt_plugin_deactivated() {
 	flush_rewrite_rules();
 }
 
+/**
+ * Label My Tickets pages in the admin.
+ *
+ * @param array $states States for post.
+ * @param int   $post_id The post ID.
+ *
+ * @return array
+ */
+function mt_admin_state( $states, $post ) {
+	if ( is_admin() ) {
+		$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		if ( $post->ID === absint( $options['mt_purchase_page'] ) ) {
+			$states[] .= __( 'Shopping Cart Page', 'my-calendar' );
+		}
+		if ( $post->ID === absint( $options['mt_receipt_page'] ) ) {
+			$states[] .= __( 'Receipt Page', 'my-calendar' );
+		}
+		if ( $post->ID === absint( $options['mt_purchase_page'] ) ) {
+			$states[] .= __( 'Ticket Page', 'my-calendar' );
+		}
+	}
+
+	return $states;
+}
+add_filter( 'display_post_states', 'mt_admin_state', 10, 2 );
+
 add_action( 'admin_menu', 'my_tickets_menu' );
 /**
  * Add submenus.
