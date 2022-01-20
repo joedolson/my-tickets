@@ -190,8 +190,8 @@ function mt_plugin_deactivated() {
 /**
  * Label My Tickets pages in the admin.
  *
- * @param array $states States for post.
- * @param int   $post_id The post ID.
+ * @param array  $states States for post.
+ * @param object $post The post object.
  *
  * @return array
  */
