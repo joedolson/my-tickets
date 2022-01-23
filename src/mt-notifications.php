@@ -654,10 +654,10 @@ function mt_notify_admin( $event, $registration, $context ) {
 	}
 	if ( 'soldout' === $context ) {
 		// Translators: Name of event soldout.
-		$subject = apply_filters( 'mt_soldout_subject', sprintf( __( '%s has sold out. Ticket sales are now closed.', 'my-tickets' ), $title ), $event );
+		$subject = apply_filters( 'mt_soldout_subject', sprintf( __( '%s has sold out. Ticket sales are now closed.', 'my-tickets' ), strip_tags( $title ) ), $event );
 		$subject = mb_encode_mimeheader( $subject );
 		// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
-		$body = apply_filters( 'mt_soldout_body', sprintf( __( '%1$s has sold out, and ticket sales are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ), $title, $download, $tickets ), $event );
+		$body = apply_filters( 'mt_soldout_body', sprintf( __( '%1$s has sold out, and ticket sales are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ), strip_tags( $title ), $download, $tickets ), $event );
 
 	}
 	$to = apply_filters( 'mt_closure_recipient', $email );
