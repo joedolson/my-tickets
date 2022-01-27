@@ -775,7 +775,7 @@ function mt_generate_cart( $user_ID = false ) {
  */
 function mt_copy_cart() {
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'manage_options' ) ) {
-		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? $_COOKIE['mt_unique_id'] : false;
+		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
 		if ( $unique_id ) {
 			return "<p><a href='" . esc_url( admin_url( "post-new.php?post_type=mt-payments&amp;cart=$unique_id" ) ) . "'>" . __( 'Create new admin payment with this cart', 'my-tickets' ) . '</a></p>';
 		}
