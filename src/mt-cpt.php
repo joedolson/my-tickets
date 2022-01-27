@@ -315,7 +315,9 @@ function mt_add_uneditable() {
 		if ( '' !== $other_data ) {
 			$other_data = "<div class='custom-data panel'><div class='inner'><h3>" . __( 'Custom Field Data', 'my-tickets' ) . '</h3>' . $other_data . '</div></div>';
 		}
-		echo wp_kses_post( '<div class="mt_post_fields panels">' . $owed . $dispute_data . $transaction_data . $purchase_data . $ticket_data . $other_data . '</div>' );
+		$top    = apply_filters( 'mt_payment_purchase_information_top', '', $post_id );
+		$bottom = apply_filters( 'mt_payment_purchase_information_bottom', '', $post_id );
+		echo wp_kses_post( '<div class="mt_post_fields panels">' . $top . $owed . $dispute_data . $transaction_data . $purchase_data . $ticket_data . $other_data . $bottom . '</div>' );
 	}
 }
 
