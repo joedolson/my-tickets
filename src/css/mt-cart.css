@@ -288,6 +288,33 @@ input[name="mt_submit"]:disabled {
     cursor: text;
 }
 
+.mt-payment-details {
+    display: none;
+}
+
+.mt-payments {
+    position: relative;
+}
+
+.mt-payment-details {
+    position:absolute;
+    left: 0;
+    width: 100%;
+    background: #fefefe;
+    color: #333;
+    padding: 2rem;
+    box-shadow: 3px 3px 3px #ccc;
+}
+
+.mt-payment-details .mt_cart_label {
+    text-align: left;
+}
+
+.mt-payments .mt-payment-details h3 {
+    font-size: 2rem;
+    margin: 1rem 0;
+}
+
 @media
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {

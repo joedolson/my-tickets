@@ -71,8 +71,8 @@ function mt_registration_form_shortcode( $atts, $content = '' ) {
 
 	return '';
 }
-
 add_shortcode( 'tickets', 'mt_featured_tickets' );
+
 /**
  * Produce a list of featured tickets with a custom template and registration forms.
  *
@@ -111,8 +111,8 @@ function mt_featured_tickets( $atts, $content = '' ) {
 
 	return "<div class='mt-event-list'>" . $content . '</div>';
 }
-
 add_shortcode( 'remaining', 'mt_remaining_tickets' );
+
 /**
  * Display the number of tickets remaining for an event.
  *
@@ -170,4 +170,98 @@ function mt_add_shortcode( $e, $event ) {
 	$e['ticket_status'] = mt_event_status( $event->event_post );
 
 	return $e;
+}
+
+/**
+ * Shortcode to output a user's purchases and tickets.
+ *
+ * @param array  $atts Array of shortcode attributes.
+ * @param string $content Contained content.
+ *
+ * @return string
+ */
+function mt_user_purchases( $atts, $content ) {
+	$atts   = shortcode_atts(
+		array(
+			'user_id'    => false,
+			'count'      => 10,
+			'user_email' => '',
+		),
+		$atts
+	);
+	$output = mt_display_payments( $atts['user_id'], $atts['count'], $atts['user_email'] );
+
+	return $output;
+}
+add_shortcode( 'my-payments', 'mt_user_purchases' );
+
+/**
+ * Fetch a user's payment history and output on the front-end.
+ *
+ * @param int    $user_id User ID.
+ * @param int    $count Number of payments to display by default.
+ * @param string $user_email User email. If provided, fetch payments by email supplied rather than user ID. Ignores User ID.
+ *
+ * @return string
+ */
+function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) {
+	$output = '';
+	if ( is_user_logged_in() ) {
+		$user  = ( ! $user_id ) ? wp_get_current_user()->ID : $user_id;
+		$count = ( ! $count ) ? 10 : absint( $count );
+		if ( $user && ! $user_email ) {
+			$payments = get_posts(
+				array(
+					'post_type'    => 'mt-payments',
+					'post_author'  => $user,
+					'number_posts' => $count,
+				)
+			);
+		} elseif ( $user_email && is_email( $user_email ) ) {
+			$payments = get_posts(
+				array(
+					'post_type'    => 'mt-payments',
+					'number_posts' => $count,
+					'meta_query' => array(
+						array(
+							'key'     => 'email',
+							'value'   => $user_email,
+							'compare' => '=',
+						)
+					),
+				)
+			);
+		} else {
+			$payments = array();
+		}
+		if ( ! empty( $payments ) ) {
+			$thead = '<table class="widefat mt-payments striped">
+						<caption>' . __( 'Your Payments', 'my-tickets' ) . '</caption>
+						<thead>
+							<tr>
+								<th scope="col">' . __( 'Payment ID', 'my-tickets' ) . '</th>
+								<th scope="col">' . __( 'Payment Name', 'my-tickets' ) . '</th>
+								<th scope="col">' . __( 'Payment Date', 'my-tickets' ) . '</th>
+								<th scope="col">' . __( 'Show Details', 'my-tickets' ) . '</th>
+							</tr>
+						</thead>
+						<tbody>';
+			$tfoot = '</tbody>
+				</table>';
+			foreach ( $payments as $payment ) {
+				$details  = '<div class="mt-payment-details">';
+				$details .= mt_payment_data( $payment->ID, array( 'dispute', 'other', 'purchase', 'ticket' ) );
+				$details .= '</div>';
+				$output  .= '<tr>
+					<td>' . $payment->ID . '</td>
+					<td>' . get_the_title( $payment->ID ) . '</td>
+					<td>' . get_the_date( 'Y-m-d H:i', $payment->ID ) . '</td>
+					<td><button type="button" class="mt-show-payment-details" aria-expanded="false">' . __( 'Payment Details', 'my-tickets' ) . '</button>' . $details . '</td>
+				</tr>';
+			}
+			$output = $thead . $output . $tfoot;
+		}
+	}
+
+	return $output;
 }

@@ -271,54 +271,82 @@ function mt_add_inner_box() {
 function mt_add_uneditable() {
 	global $post_id;
 	if ( isset( $_GET['post'] ) && isset( $_GET['action'] ) ) {
-
-		$dispute        = get_post_meta( $post_id, '_dispute_reason', true );
-		$dispute_reason = get_post_meta( $post_id, '_dispute_message', true );
-
-		if ( $dispute ) {
-			$dispute_data  = "<div class='mt-dispute'><h3>" . __( 'Ticket Dispute: ', 'my-tickets' ) . '</h3><ul>';
-			$dispute_data .= "<li>$dispute</li>";
-			$dispute_data .= "<li>$dispute_reason</li>";
-			$dispute_data .= '</ul></div>';
-		} else {
-			$dispute_data = '';
-		}
-
-		$receipt       = get_post_meta( $post_id, '_receipt', true );
-		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-		$link          = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
-		$bulk_tickets  = add_query_arg(
-			array(
-				'receipt_id' => $receipt,
-				'multiple'   => true,
-			),
-			get_permalink( $options['mt_tickets_page'] )
-		);
-		$purchase      = get_post_meta( $post_id, '_purchased' );
-		$discount      = get_post_meta( $post_id, '_discount', true );
-		$discount_text = '';
-		if ( get_post_meta( $post_id, '_mtdi_discount', true ) ) {
-			// Translators: Quantity of member discount.
-			$discount_text = ( '' !== trim( $discount ) ) ? sprintf( __( ' @ %d&#37; member discount', 'my-tickets' ), $discount ) : '';
-		}
-
-		$status = get_post_meta( $post_id, '_is_paid', true );
-		$total  = mt_money_format( get_post_meta( $post_id, '_total_paid', true ) );
-		// Translators: Amount still owed on this transaction.
-		$owed             = ( 'Pending' === $status ) ? "<div class='mt-owed'>" . sprintf( __( 'Owed: %s', 'my-tickets' ), $total ) . '</div>' : '';
-		$tickets          = mt_setup_tickets( $purchase, $post_id );
-		$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h3>" . __( 'Tickets', 'my-tickets' ) . '</h3>' . mt_format_tickets( $tickets, 'html', $post_id ) . '<br /><a href="' . $bulk_tickets . '">View All Tickets</a></div></div>';
-		$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h3>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h3>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
-		$gateway          = get_post_meta( $post_id, '_gateway', true );
-		$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h3>" . __( 'Gateway:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h3>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . '</div></div>';
-		$other_data       = apply_filters( 'mt_show_in_payment_fields', '', $post_id );
-		if ( '' !== $other_data ) {
-			$other_data = "<div class='custom-data panel'><div class='inner'><h3>" . __( 'Custom Field Data', 'my-tickets' ) . '</h3>' . $other_data . '</div></div>';
-		}
-		$top    = apply_filters( 'mt_payment_purchase_information_top', '', $post_id );
-		$bottom = apply_filters( 'mt_payment_purchase_information_bottom', '', $post_id );
-		echo wp_kses_post( '<div class="mt_post_fields panels">' . $top . $owed . $dispute_data . $transaction_data . $purchase_data . $ticket_data . $other_data . $bottom . '</div>' );
+		$data = mt_payment_data( $post_id );
+		echo wp_kses_post( $data );
 	}
+}
+
+/**
+ * Get payment purchase data for payment sidebar.
+ *
+ * @param int   $post_id Post ID.
+ * @param array $sections Sections to include in output.
+ *
+ * @return string
+ */
+function mt_payment_data( $post_id, $sections = array() ) {
+	$dispute        = get_post_meta( $post_id, '_dispute_reason', true);
+	$dispute_reason = get_post_meta( $post_id, '_dispute_message', true);
+
+	if ( $dispute ) {
+		$dispute_data = "<div class='mt-dispute'><h3>" . __('Ticket Dispute: ', 'my-tickets') . '</h3><ul>';
+		$dispute_data .= "<li>$dispute</li>";
+		$dispute_data .= "<li>$dispute_reason</li>";
+		$dispute_data .= '</ul></div>';
+	} else {
+		$dispute_data = '';
+	}
+	$receipt       = get_post_meta( $post_id, '_receipt', true );
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$link          = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
+	$bulk_tickets  = add_query_arg(
+		array(
+			'receipt_id' => $receipt,
+			'multiple'   => true,
+		),
+		get_permalink( $options['mt_tickets_page'] )
+	);
+	$purchase      = get_post_meta( $post_id, '_purchased' );
+	$discount      = get_post_meta( $post_id, '_discount', true );
+	$discount_text = '';
+	if ( get_post_meta( $post_id, '_mtdi_discount', true ) ) {
+		// Translators: Quantity of member discount.
+		$discount_text = ( '' !== trim( $discount ) ) ? sprintf( __( ' @ %d&#37; member discount', 'my-tickets' ), $discount ) : '';
+	}
+
+	$status = get_post_meta( $post_id, '_is_paid', true );
+	$total  = mt_money_format( get_post_meta( $post_id, '_total_paid', true ) );
+	// Translators: Amount still owed on this transaction.
+	$owed             = ( 'Pending' === $status ) ? "<div class='mt-owed'>" . sprintf( __( 'Owed: %s', 'my-tickets' ), $total ) . '</div>' : '';
+	$tickets          = mt_setup_tickets( $purchase, $post_id );
+	$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h3>" . __( 'Tickets', 'my-tickets' ) . '</h3>' . mt_format_tickets( $tickets, 'html', $post_id ) . '<br /><a href="' . $bulk_tickets . '">View All Tickets</a></div></div>';
+	$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h3>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h3>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
+	$gateway          = get_post_meta( $post_id, '_gateway', true );
+	$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h3>" . __( 'Gateway:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h3>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . '</div></div>';
+	$other_data       = apply_filters( 'mt_show_in_payment_fields', '', $post_id );
+	if ( '' !== $other_data ) {
+		$other_data = "<div class='custom-data panel'><div class='inner'><h3>" . __( 'Custom Field Data', 'my-tickets' ) . '</h3>' . $other_data . '</div></div>';
+	}
+	$top    = apply_filters( 'mt_payment_purchase_information_top', '', $post_id );
+	$bottom = apply_filters( 'mt_payment_purchase_information_bottom', '', $post_id );
+
+	if ( ! in_array( 'dispute', $sections, true ) && ! empty( $sections ) ) {
+		$dispute_data = '';
+	}
+	if ( ! in_array( 'transaction', $sections, true ) && ! empty( $sections ) ) {
+		$transaction_data = '';
+	}
+	if ( ! in_array( 'purchase', $sections, true ) && ! empty( $sections ) ) {
+		$purchase_data = '';
+	}
+	if ( ! in_array( 'ticket', $sections, true ) && ! empty( $sections ) ) {
+		$ticket_data = '';
+	}
+	if ( ! in_array( 'other', $sections, true ) && ! empty( $sections ) ) {
+		$other_data = '';
+	}
+
+	return '<div class="mt_post_fields panels">' . $top . $owed . $dispute_data . $transaction_data . $purchase_data . $ticket_data . $other_data . $bottom . '</div>';
 }
 
 /**
