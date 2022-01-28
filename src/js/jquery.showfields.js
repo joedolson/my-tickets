@@ -4,7 +4,7 @@ jQuery(document).ready(function ($) {
 		$('.mt-ticket-form').hide();
 	}
 	var general_status = $('input[name=mt_general]:checked').val();
-	if (general_status !== 'general') {
+	if ( general_status !== 'general' && initial_status !== true ) {
 		$('.mt-ticket-dates input').attr('required', 'required').attr('aria-required', 'true');
 		$('.mt-available-tickets input').attr( 'required', 'required' ).attr( 'aria-required', 'true' );
 		$('.mt-ticket-validity').hide();
