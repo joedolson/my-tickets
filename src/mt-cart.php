@@ -715,6 +715,7 @@ function mt_generate_cart( $user_ID = false ) {
 		$nonce          = wp_nonce_field( 'mt_cart_nonce', '_wpnonce', true, false );
 		$enabled        = $options['mt_gateway'];
 		$current_gate   = ( isset( $_GET['mt_gateway'] ) && in_array( $_GET['mt_gateway'], $enabled, true ) ) ? $_GET['mt_gateway'] : $options['mt_default_gateway'];
+		$current_gate   = ( ! $total ) ? 'offline' : $current_gate; // Must be offline gateway if price is free.
 		$gateway        = "<input type='hidden' name='mt_gateway' value='" . esc_attr( $current_gate ) . "' />";
 		$cart_page      = get_permalink( $options['mt_purchase_page'] );
 		if ( is_array( $cart ) && ! empty( $cart ) && $count > 0 ) {
