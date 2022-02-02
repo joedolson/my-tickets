@@ -222,12 +222,12 @@ function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) 
 				array(
 					'post_type'    => 'mt-payments',
 					'number_posts' => $count,
-					'meta_query' => array(
+					'meta_query'   => array(
 						array(
 							'key'     => 'email',
 							'value'   => $user_email,
 							'compare' => '=',
-						)
+						),
 					),
 				)
 			);

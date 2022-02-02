@@ -285,11 +285,11 @@ function mt_add_uneditable() {
  * @return string
  */
 function mt_payment_data( $post_id, $sections = array() ) {
-	$dispute        = get_post_meta( $post_id, '_dispute_reason', true);
-	$dispute_reason = get_post_meta( $post_id, '_dispute_message', true);
+	$dispute        = get_post_meta( $post_id, '_dispute_reason', true );
+	$dispute_reason = get_post_meta( $post_id, '_dispute_message', true );
 
 	if ( $dispute ) {
-		$dispute_data = "<div class='mt-dispute'><h3>" . __('Ticket Dispute: ', 'my-tickets') . '</h3><ul>';
+		$dispute_data  = "<div class='mt-dispute'><h3>" . __( 'Ticket Dispute: ', 'my-tickets' ) . '</h3><ul>';
 		$dispute_data .= "<li>$dispute</li>";
 		$dispute_data .= "<li>$dispute_reason</li>";
 		$dispute_data .= '</ul></div>';
