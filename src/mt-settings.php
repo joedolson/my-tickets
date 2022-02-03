@@ -367,7 +367,7 @@ function mt_wp_enqueue_scripts() {
 				'undo'   => __( 'Undo Deletion', 'my-tickets' ),
 			)
 		);
-		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
 	}
 }
 
