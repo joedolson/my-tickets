@@ -854,9 +854,9 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 					// this is coming from a deleted event.
 					continue;
 				}
-				$title        = apply_filters( 'mt_link_title', $event->post_title, $event );
-				$image        = ( has_post_thumbnail( $event_id ) ) ? get_the_post_thumbnail( $event_id, array( 80, 80 ) ) : '';
-				$data         = get_post_meta( $event_id, '_mc_event_data', true );
+				$title = apply_filters( 'mt_link_title', $event->post_title, $event );
+				$image = ( has_post_thumbnail( $event_id ) ) ? get_the_post_thumbnail( $event_id, array( 80, 80 ) ) : '';
+				$data  = get_post_meta( $event_id, '_mc_event_data', true );
 				if ( ! is_array( $data ) || empty( $data ) ) {
 					continue;
 				}
