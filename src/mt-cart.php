@@ -841,7 +841,8 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 	if ( is_array( $cart ) && ! empty( $cart ) ) {
 		foreach ( $cart as $event_id => $order ) {
 			// If this post doesn't exist, don't include in cart, e.g. event was deleted after being added to cart.
-			if ( false === get_post_status( $event_id ) ) {
+			// Also omit trashed status.
+			if ( false === get_post_status( $event_id ) || 'trash' === get_post_status( $event_id ) ) {
 				continue;
 			}
 			$expired = mt_expired( $event_id );
@@ -856,6 +857,9 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$title        = apply_filters( 'mt_link_title', $event->post_title, $event );
 				$image        = ( has_post_thumbnail( $event_id ) ) ? get_the_post_thumbnail( $event_id, array( 80, 80 ) ) : '';
 				$data         = get_post_meta( $event_id, '_mc_event_data', true );
+				if ( ! is_array( $data ) || empty( $data ) ) {
+					continue;
+				}
 				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 				$general      = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? true : false;
 				$validity     = ( isset( $data['event_valid'] ) ) ? $data['event_valid'] : 0;
