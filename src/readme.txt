@@ -72,6 +72,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * New: General Admission ticketing.
 * New: Collect VAT numbers at checkout.
 * New: Set close date to take a ticket type off sale. E.g. early bird sales.
+* Change: allow multiple email addresses in 'Send to' field.
 * Filter: `mt_price_in_label` move ticket price into label element.
 TODO: automatically toggle to offline gateway for 100% member discounts.
 

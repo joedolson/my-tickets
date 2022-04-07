@@ -26,7 +26,7 @@ function mt_update_settings( $post ) {
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets' ) ) {
 			return false;
 		}
-		$mt_to         = is_email( $post['mt_to'] ); // send to.
+		$mt_to         = sanitize_text_field( $post['mt_to'] ); // send to.
 		$mt_from       = is_email( $post['mt_from'] ); // send from.
 		$mt_html_email = ( isset( $post['mt_html_email'] ) ) ? 'true' : 'false'; // send as HTML.
 		$mt_post_types = ( isset( $post['mt_post_types'] ) ) ? $post['mt_post_types'] : array();
