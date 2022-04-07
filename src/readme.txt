@@ -72,9 +72,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * New: General Admission ticketing.
 * New: Collect VAT numbers at checkout.
 * New: Set close date to take a ticket type off sale. E.g. early bird sales.
+* New: shortcode `[my-payments]` to allow logged-in purchaser to view their ticket history.
+* Bug fix: Automatically enable offline payment if cart price is 0.
 * Change: allow multiple email addresses in 'Send to' field.
 * Filter: `mt_price_in_label` move ticket price into label element.
-TODO: automatically toggle to offline gateway for 100% member discounts.
 
 = 1.8.37 =
 
