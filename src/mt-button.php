@@ -264,9 +264,9 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				if ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) {
 					$remaining_notice = '';
 				} else {
-					$hide_remaining = mt_hide_remaining($tickets_remaining);
+					$hide_remaining = mt_hide_remaining( $tickets_remaining );
 					// Translators: tickets remaining.
-					$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf(apply_filters('mt_tickets_remaining_continuous_text', __('%s tickets remaining.', 'my-tickets')), "<span class='value'>" . $tickets_remaining . '</span>') . '</p>';
+					$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( apply_filters( 'mt_tickets_remaining_continuous_text', __( '%s tickets remaining.', 'my-tickets' ) ), "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
 				}
 			} else {
 				$remaining_notice = '';
