@@ -259,9 +259,15 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				}
 			}
 			if ( 'inherit' !== $available ) {
-				$hide_remaining = mt_hide_remaining( $tickets_remaining );
-				// Translators: tickets remaining.
-				$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( apply_filters( 'mt_tickets_remaining_continuous_text', __( '%s tickets remaining.', 'my-tickets' ) ), "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
+				// If this event is general admission, then never show number of tickets remaining or status.
+				$data = get_post_meta( $event_id, '_mc_event_data', true );
+				if ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) {
+					$remaining_notice = '';
+				} else {
+					$hide_remaining = mt_hide_remaining($tickets_remaining);
+					// Translators: tickets remaining.
+					$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf(apply_filters('mt_tickets_remaining_continuous_text', __('%s tickets remaining.', 'my-tickets')), "<span class='value'>" . $tickets_remaining . '</span>') . '</p>';
+				}
 			} else {
 				$remaining_notice = '';
 			}
@@ -358,8 +364,15 @@ function mt_event_status( $event_id = false ) {
 	if ( ( isset( $registration['total'] ) && 'inherit' === $registration['total'] ) && ! mt_has_tickets( $registration['prices'] ) ) {
 		return '';
 	}
+
 	// if total number of tickets is set but is an empty string or is not set; return.
 	if ( ( isset( $registration['total'] ) && '' === trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
+		return '';
+	}
+
+	// If this event is general admission, then never show number of tickets remaining or status.
+	$data = get_post_meta( $event_id, '_mc_event_data', true );
+	if ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) {
 		return '';
 	}
 
