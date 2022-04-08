@@ -4,7 +4,7 @@
  *
  * @package     My Tickets
  * @author      Joe Dolson
- * @copyright   2014-2021 Joe Dolson
+ * @copyright   2014-2022 Joe Dolson
  * @license     GPL-2.0+
  *
  * @wordpress-plugin
@@ -17,11 +17,11 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     1.9.0-beta1
+ * Version:     1.9.0
  */
 
 /*
-	Copyright 2014-2021  Joe Dolson (email : joe@joedolson.com)
+	Copyright 2014-2022  Joe Dolson (email : joe@joedolson.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ load_plugin_textdomain( 'my-tickets', false, dirname( plugin_basename( __FILE__ 
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '1.9.0-beta1';
+	$mt_version = '1.9.0';
 
 	return $mt_version;
 }
