@@ -1027,7 +1027,7 @@ function mt_generate_gateway( $cart ) {
 		$other_charges  = apply_filters( 'mt_custom_charges', 0, $cart, $mt_gateway );
 		$other_notices  = apply_filters( 'mt_custom_notices', '', $cart, $mt_gateway );
 		// If everything in cart is free, don't pass through payment gateway.
-		if ( 0 === $total + $shipping_total + $handling_total + $other_charges && 'offline' !== $mt_gateway ) {
+		if ( 0 === (int) ( $total + $shipping_total + $handling_total + $other_charges ) && 'offline' !== $mt_gateway ) {
 			$mt_gateway = 'offline';
 		}
 
