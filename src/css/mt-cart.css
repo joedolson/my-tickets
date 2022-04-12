@@ -218,6 +218,10 @@ button[name="mt_add_to_cart"] img {
     margin-bottom: 20px;
 }
 
+.mt-waiting-list-tickets label {
+    display: block;
+}
+
 .mt_submit {
     margin-top: 20px;
 }
