@@ -251,7 +251,7 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		$payment_id     = $args['payment'];
 		$handling       = ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 		$total          = $args['total'] + $handling;
-		$shipping       = ( 'postal' === $args['method'] || 'true' === $options['mt_collect_shipping'] ) ? 2 : 1;
+		$shipping       = ( 'postal' === $args['method'] || ( isset( $options['mt_collect_shipping'] ) && 'true' === $options['mt_collect_shipping'] ) ) ? 2 : 1;
 		$shipping_price = ( 'postal' === $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
 		$use_sandbox    = $options['mt_use_sandbox'];
 		$currency       = $options['mt_currency'];

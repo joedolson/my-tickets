@@ -68,6 +68,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.9.1 =
+
+* Bug fix: undefined array key in cart if collect shipping not set.
+* 
+
 = 1.9.0 =
 
 * New: General Admission ticketing.
