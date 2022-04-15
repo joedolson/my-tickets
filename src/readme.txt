@@ -71,7 +71,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.9.1 =
 
 * Bug fix: undefined array key in cart if collect shipping not set.
-* 
+* Bug fix: Checkbox event to sell tickets only registered if tickets panel open.
+* Change: CSS updates for premium plugin features
 
 = 1.9.0 =
 
