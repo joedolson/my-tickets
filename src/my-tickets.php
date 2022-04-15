@@ -673,6 +673,7 @@ function mt_show_support_box( $add = false ) {
 					<ul>
 						<li><a href="https://www.joedolson.com/awesome/my-tickets-discounts/">My Tickets: Discounts</a></li>
 						<li><a href="https://www.joedolson.com/awesome/my-tickets-donations/">My Tickets: Donations</a></li>
+						<li><a href="https://www.joedolson.com/awesome/my-tickets-waiting-list/">My Tickets: Waiting List</a></li>
 						<li><a href="https://www.joedolson.com/awesome/my-tickets-stripe/">My Tickets: Stripe</a></li>
 						<li><a href="https://www.joedolson.com/awesome/tickets-authorize-net/">My Tickets: Authorize.net</a></li>
 					</ul>
