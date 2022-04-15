@@ -34,6 +34,14 @@
     line-height: 1;
 }
 
+.widefat.mt-discounts .delete-code .dashicons {
+    color: #c00;
+}
+
+.widefat.mt-discounts tbody th {
+    vertical-align: top;
+}
+
 legend {
     font-weight: 700;
     padding: 0;
