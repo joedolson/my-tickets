@@ -68,6 +68,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.9.2 =
+
+* Bug fix: Checkbox to sell tickets only appeared if GET parameter set.
+
 = 1.9.1 =
 
 * Bug fix: undefined array key in cart if collect shipping not set.
