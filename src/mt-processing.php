@@ -84,7 +84,7 @@ function mt_add_ticket_form() {
 	$clear = '<p><input type="checkbox" class="mt-delete-data" name="mt-delete-data" id="mt-delete-data" /> <label for="mt-delete-data">' . __( 'Delete ticket sales data on this post', 'my-tickets' ) . '</label></p>';
 	// Show ticket selector checkbox on post types.
 	global $current_screen;
-	if ( 'post' == $current_screen->base ) {
+	if ( 'post' === $current_screen->base ) {
 		$format .= "<p class='mt-trigger-container'>
 			<input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$sell /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label>
 			</p>';
