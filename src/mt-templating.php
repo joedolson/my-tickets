@@ -837,7 +837,8 @@ function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 	$expires    = '';
 	$event_data = get_post_meta( $ticket, '_mc_event_data', true );
 	if ( $event_data ) {
-		$validity = ( isset( $event_data['event_valid'] ) ) ? $event_data['event_valid'] : false;
+		$general  = ( isset( $event_data['general_admission'] ) && ! empty( $event_data['general_admission'] ) ) ? true : false;
+		$validity = ( isset( $event_data['event_valid'] ) && $general ) ? trim( $event_data['event_valid'] ) : false;
 		if ( $validity ) {
 			$data         = get_post_meta( $ticket, '_' . $ticket_id, true );
 			$sale_id      = $data['purchase_id'];

@@ -68,7 +68,7 @@ function mt_add_ticket_form() {
 		$sell        = ' checked="checked"';
 		$general     = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? ' checked="checked"' : '';
 		$dated       = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? '' : ' checked="checked"';
-		$valid       = ( isset( $data['event_valid'] ) ) ? $data['event_valid'] : '';
+		$valid       = ( isset( $data['event_valid'] ) && $general ) ? $data['event_valid'] : '';
 	} else {
 		$event_begin = '';
 		$event_time  = '';
