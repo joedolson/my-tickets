@@ -68,6 +68,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.9.3 =
+
+* Bug fix: trim() called on array value PHP error fixed.
+* Bug fix: Error in test to determine whether a ticket is General Admission or not.
+* Bug fix: Don't set a default value for event validity if ticket is not General Admission.
+
 = 1.9.2 =
 
 * Bug fix: Checkbox to sell tickets only appeared if GET parameter set.
