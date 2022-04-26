@@ -28,7 +28,7 @@ function mt_paypal_ipn() {
 
 			$req = 'cmd=_notify-validate';
 			foreach ( $_POST as $key => $value ) {
-				$req .= "&$key=$value"; // These values are sent back to PayPal for verification. Must match original values sent.
+				$req .= "&$key=" . urlencode( $value ); // These values are sent back to PayPal for verification. Must match original values sent.
 			}
 
 			$args   = wp_parse_args( $req, array() );
