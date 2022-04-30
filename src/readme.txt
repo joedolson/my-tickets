@@ -7,8 +7,7 @@ Tested up to: 5.9
 Requires PHP: 7.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.9.2
-
+Stable tag: 1.9.3
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -73,6 +72,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: trim() called on array value PHP error fixed.
 * Bug fix: Error in test to determine whether a ticket is General Admission or not.
 * Bug fix: Don't set a default value for event validity if ticket is not General Admission.
+* Bug fix: URL Encode postback to PayPal to support special characters stored at PayPal.
 
 = 1.9.2 =
 
