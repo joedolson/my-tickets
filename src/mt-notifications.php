@@ -134,8 +134,8 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				if ( ! is_array( $event ) ) {
 					continue; // This event may no longer have event data on it, and needs to be skipped.
 				}
-				$date  = date_i18n( get_option( 'date_format' ), strtotime( $event['event_begin'] ) );
-				$time  = date_i18n( get_option( 'time_format' ), strtotime( $event['event_time'] ) );
+				$date = date_i18n( get_option( 'date_format' ), strtotime( $event['event_begin'] ) );
+				$time = date_i18n( get_option( 'time_format' ), strtotime( $event['event_time'] ) );
 
 				$general       = ( isset( $event['general_admission'] ) && 'on' === $event['general_admission'] ) ? true : false;
 				$validity      = ( isset( $event['event_valid'] ) ) ? $event['event_valid'] : 0;
