@@ -131,6 +131,9 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				$title = ( $is_html ) ? '<strong>' . get_the_title( $event_id ) . '</strong>' : get_the_title( $event_id );
 				$title = ( $is_html ) ? "<a href='" . get_the_permalink( $event_id ) . "'>" . $title . '</a>' : $title;
 				$event = get_post_meta( $event_id, '_mc_event_data', true );
+				if ( ! is_array( $event ) ) {
+					continue; // This event may no longer have event data on it, and needs to be skipped.
+				}
 				$date  = date_i18n( get_option( 'date_format' ), strtotime( $event['event_begin'] ) );
 				$time  = date_i18n( get_option( 'time_format' ), strtotime( $event['event_time'] ) );
 
