@@ -175,9 +175,8 @@ button[name="mt_add_to_cart"] img {
 }
 
 .mt-update-column button {
-    padding: 0;
-    height: 2rem;
-    font-size: 1rem;
+    padding: .25rem 0;
+    font-size: 2rem;
     line-height: 1;
 }
 
