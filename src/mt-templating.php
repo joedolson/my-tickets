@@ -131,6 +131,7 @@ function mt_get_payment_tickets() {
 
 	return false;
 }
+
 /**
  * Return receipt ID.
  *
@@ -482,6 +483,33 @@ function mt_get_event_date( $ticket_id = false ) {
  */
 function mt_event_date( $ticket_id = false ) {
 	echo wp_kses_post( mt_get_event_date( $ticket_id ) );
+}
+
+/**
+ *  Get event notes.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return string
+ */
+function mt_get_ticket_event_notes( $ticket_id = false ) {
+	if ( ! $ticket_id ) {
+		$ticket = mt_get_ticket();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
+	$notes = wpautop( get_post_meta( $ticket->ID, '_mt_event_notes', true ) );
+
+	return $notes;
+}
+
+/**
+ * Echo event notes.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ */
+function mt_ticket_event_notes( $ticket_id ) {
+	echo wp_kses_post( mt_get_ticket_event_notes( $ticket_id ) );
 }
 
 /**

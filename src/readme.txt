@@ -67,6 +67,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.9.4 =
+
+* Feature: Setting to configure redirecting to cart after add to cart.
+* Change: Minor style change to front-end button CSS.
+
 = 1.9.3 =
 
 * Bug fix: trim() called on array value PHP error fixed.
