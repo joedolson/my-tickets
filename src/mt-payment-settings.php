@@ -35,6 +35,7 @@ function mt_update_payment_settings( $post ) {
 		$symbol_order        = ( isset( $post['symbol_order'] ) ) ? $post['symbol_order'] : 'symbol-first';
 		$mt_phone            = ( isset( $post['mt_phone'] ) ) ? 'on' : 'off';
 		$mt_vat              = ( isset( $post['mt_vat'] ) ) ? 'on' : 'off';
+		$mt_redirect         = ( isset( $post['mt_redirect'] ) ) ? '1' : '0';
 
 		$mt_default_gateway = ( isset( $post['mt_default_gateway'] ) ) ? $post['mt_default_gateway'] : 'offline';
 		$mt_gateway         = ( isset( $post['mt_gateway'] ) ) ? $post['mt_gateway'] : array( 'offline' );
@@ -66,6 +67,7 @@ function mt_update_payment_settings( $post ) {
 				'mt_purchase_page'    => $mt_purchase_page,
 				'mt_receipt_page'     => $mt_receipt_page,
 				'mt_tickets_page'     => $mt_tickets_page,
+				'mt_redirect'         => $mt_redirect,
 			),
 			$_POST
 		);
@@ -136,8 +138,10 @@ function mt_payment_settings() {
 										<fieldset>
 											<legend><?php _e( 'Symbol Order', 'my-tickets' ); ?></legend>
 											<p>
-											<input type="radio" name="symbol_order" id="symbol_first" value="symbol-first" <?php checked( $options['symbol_order'], 'symbol-first' ); ?> /> <label for="symbol_first"><?php _e( 'Symbol first, number last', 'my-tickets' ); ?></label>
-											<input type="radio" name="symbol_order" id="symbol_last" value="symbol-last" <?php checked( $options['symbol_order'], 'symbol-last' ); ?> /> <label for="symbol_last"><?php _e( 'Number first, symbol last', 'my-tickets' ); ?></label>
+												<input type="radio" name="symbol_order" id="symbol_first" value="symbol-first" <?php checked( $options['symbol_order'], 'symbol-first' ); ?> /> <label for="symbol_first"><?php _e( 'Symbol first, number last', 'my-tickets' ); ?></label>
+											</p>
+											<p>
+												<input type="radio" name="symbol_order" id="symbol_last" value="symbol-last" <?php checked( $options['symbol_order'], 'symbol-last' ); ?> /> <label for="symbol_last"><?php _e( 'Number first, symbol last', 'my-tickets' ); ?></label>
 											</p>
 										</fieldset>
 									</li>
@@ -146,12 +150,16 @@ function mt_payment_settings() {
 										<input type="number" name="mt_members_discount" id="mt_members_discount" size="3" min='0' max='100' value="<?php echo stripslashes( esc_attr( $options['mt_members_discount'] ) ); ?>"/>
 									</li>
 									<li>
-										<label for="mt_phone"><?php _e( 'Require phone number on purchases', 'my-tickets' ); ?></label>
 										<input type="checkbox" name="mt_phone" id="mt_phone" value="on" <?php echo checked( $options['mt_phone'], 'on' ); ?> />
+										<label for="mt_phone"><?php _e( 'Require phone number on purchases', 'my-tickets' ); ?></label>
 									</li>
 									<li>
-										<label for="mt_vat"><?php _e( 'Collect VAT Number', 'my-tickets' ); ?></label>
 										<input type="checkbox" name="mt_vat" id="mt_vat" value="on" <?php echo checked( $options['mt_vat'], 'on' ); ?> />
+										<label for="mt_vat"><?php _e( 'Collect VAT Number', 'my-tickets' ); ?></label>
+									</li>
+									<li>
+										<input type="checkbox" name="mt_redirect" id="mt_redirect" value="on" <?php echo checked( $options['mt_redirect'], '1' ); ?> />
+										<label for="mt_redirect"><?php _e( 'Redirect to cart when tickets added', 'my-tickets' ); ?></label>
 									</li>
 									<?php
 										echo apply_filters( 'mt_payment_settings_fields', '', $options );

@@ -301,7 +301,8 @@ function mt_public_enqueue_scripts() {
 	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$symbol   = mt_symbols( $options['mt_currency'] );
 	$cart_url = esc_url( get_permalink( $options['mt_purchase_page'] ) );
-	$redirect = apply_filters( 'mt_redirect', '0' );
+	$redirect = isset( $options['mt_redirect'] ) ? $options['mt_redirect'] : '0';
+	$redirect = apply_filters( 'mt_redirect', $redirect );
 
 	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ) );
 	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ) );
@@ -490,6 +491,7 @@ We\'ll see you soon!<br />
 		'mt_thousands_sep'       => ',',
 		'mt_phone'               => 'off',
 		'mt_vat'                 => 'off',
+		'mt_redirect'            => '0',
 		'mt_members_discount'    => '',
 		'mt_ssl'                 => 'false',
 		'mt_gateway'             => array( 'offline' ),
