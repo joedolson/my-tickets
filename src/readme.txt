@@ -70,6 +70,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.9.4 =
 
 * Feature: Setting to configure redirecting to cart after add to cart.
+* Feature: New template function `mt_ticket_event_notes()` to get event-specific notes on ticket templates.
 * Change: Minor style change to front-end button CSS.
 
 = 1.9.3 =
