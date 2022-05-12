@@ -604,11 +604,19 @@ add_action( 'init', 'mt_register_actions', 20 );
  */
 function mt_register_actions() {
 	apply_filters( 'debug', 'my tickets add actions/filters' );
+	$is_group_editing = false;
+	if ( isset( $_GET['group_id'] ) ) {
+		$is_group_editing = true;
+	}
 	if ( function_exists( 'my_calendar' ) ) {
 		remove_filter( 'mc_event_registration', 'mc_standard_event_registration', 10, 4 );
-		add_action( 'mc_update_event_post', 'mt_save_registration_data', 10, 4 );
+		if ( ! $is_group_editing ) {
+			add_action('mc_update_event_post', 'mt_save_registration_data', 10, 4);
+		}
 	}
-	add_filter( 'mc_event_registration', 'mt_registration_fields', 10, 4 );
+	if ( ! $is_group_editing ) {
+		add_filter('mc_event_registration', 'mt_registration_fields', 10, 4);
+	}
 	add_filter( 'template_include', 'mt_receive_ipn' );
 }
 

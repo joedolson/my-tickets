@@ -69,6 +69,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 = 1.9.4 =
 
+* Bug fix: Block ticket settings from being edited on My Calendar group editing screen
 * Feature: Setting to configure redirecting to cart after add to cart.
 * Feature: New template function `mt_ticket_event_notes()` to get event-specific notes on ticket templates.
 * Change: Minor style change to front-end button CSS.
