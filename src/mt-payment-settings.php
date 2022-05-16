@@ -257,9 +257,9 @@ function mt_payment_settings() {
 									// Translators: Current purchase page, 2: post status.
 									$current_purchase_page = ( is_numeric( $options['mt_purchase_page'] ) ) ? sprintf( __( 'Currently: %1$s (%2$s)', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_purchase_page'] ) . "'>" . get_the_title( $options['mt_purchase_page'] ) . '</a>', get_post_status( $options['mt_purchase_page'] ) ) : __( 'Not defined', 'my-tickets' );
 									// Translators: Current receipts page, 2: post status.
-									$current_receipt_page = ( is_numeric( $options['mt_receipt_page'] ) ) ? sprintf( __( 'Currently: %1$s (%2$s)', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_receipt_page'] ) . "'>" . get_the_title( $options['mt_receipt_page'] ) . '</a>', get_post_status( $options['mt_receipt_page'] )  ) : __( 'Not defined', 'my-tickets' );
+									$current_receipt_page = ( is_numeric( $options['mt_receipt_page'] ) ) ? sprintf( __( 'Currently: %1$s (%2$s)', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_receipt_page'] ) . "'>" . get_the_title( $options['mt_receipt_page'] ) . '</a>', get_post_status( $options['mt_receipt_page'] ) ) : __( 'Not defined', 'my-tickets' );
 									// Translators: Current ticket display page.
-									$current_tickets_page = ( is_numeric( $options['mt_tickets_page'] ) ) ? sprintf( __( 'Currently: %1$s (%2$s)', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_tickets_page'] ) . "'>" . get_the_title( $options['mt_tickets_page'] ) . '</a>', get_post_status( $options['mt_tickets_page'] )  ) : __( 'Not defined', 'my-tickets' );
+									$current_tickets_page = ( is_numeric( $options['mt_tickets_page'] ) ) ? sprintf( __( 'Currently: %1$s (%2$s)', 'my-tickets' ), "<a href='" . get_the_permalink( $options['mt_tickets_page'] ) . "'>" . get_the_title( $options['mt_tickets_page'] ) . '</a>', get_post_status( $options['mt_tickets_page'] ) ) : __( 'Not defined', 'my-tickets' );
 									?>
 									<ul>
 										<li>

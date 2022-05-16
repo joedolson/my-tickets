@@ -61,27 +61,34 @@ function mt_status_notice() {
 		$purchase = ( isset( $options['mt_purchase_page'] ) ) ? $options['mt_purchase_page'] : false;
 		$receipt  = ( isset( $options['mt_receipt_page'] ) ) ? $options['mt_receipt_page'] : false;
 		$tickets  = ( isset( $options['mt_tickets_page'] ) ) ? $options['mt_tickets_page'] : false;
-		// Translators: URL to settings page.
 		$settings = admin_url( 'admin.php?page=mt-payment#mt-required' );
 		if ( ! $purchase || 'publish' !== get_post_status( $purchase ) ) {
 			if ( ! $purchase ) {
+				// Translators: URL to settings page.
 				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets cart page is not assigned. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
 			} else {
+				// Translators: URL to settings page.
 				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets cart page is not publicly available. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
 			}
 		}
 		if ( ! $receipt || 'publish' !== get_post_status( $receipt ) ) {
 			if ( ! $receipt ) {
+				// Translators: URL to settings page.
 				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets receipts page is not assigned. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
 			} else {
+				// Translators: URL to settings page.
 				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets receipts page is not publicly available. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
-			}		}
+			}
+		}
 		if ( ! $tickets || 'publish' !== get_post_status( $tickets ) ) {
 			if ( ! $tickets ) {
+				// Translators: URL to settings page.
 				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets tickets page is not assigned. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
 			} else {
+				// Translators: URL to settings page.
 				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets tickets page is not publicly available. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
-			}		}
+			}
+		}
 	}
 }
 
