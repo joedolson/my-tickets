@@ -17,7 +17,7 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     1.9.3
+ * Version:     1.9.4
  */
 
 /*
@@ -46,9 +46,43 @@ load_plugin_textdomain( 'my-tickets', false, dirname( plugin_basename( __FILE__ 
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '1.9.3';
+	$mt_version = '1.9.4';
 
 	return $mt_version;
+}
+
+add_action( 'admin_notices', 'mt_status_notice', 10 );
+/**
+ * Display promotion notice to admin users who have not donated or purchased WP Tweets PRO.
+ */
+function mt_status_notice() {
+	if ( current_user_can( 'activate_plugins' ) ) {
+		$options  = get_option( 'mt_settings' );
+		$purchase = ( isset( $options['mt_purchase_page'] ) ) ? $options['mt_purchase_page'] : false;
+		$receipt  = ( isset( $options['mt_receipt_page'] ) ) ? $options['mt_receipt_page'] : false;
+		$tickets  = ( isset( $options['mt_tickets_page'] ) ) ? $options['mt_tickets_page'] : false;
+		// Translators: URL to settings page.
+		$settings = admin_url( 'admin.php?page=mt-payment#mt-required' );
+		if ( ! $purchase || 'publish' !== get_post_status( $purchase ) ) {
+			if ( ! $purchase ) {
+				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets cart page is not assigned. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
+			} else {
+				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets cart page is not publicly available. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
+			}
+		}
+		if ( ! $receipt || 'publish' !== get_post_status( $receipt ) ) {
+			if ( ! $receipt ) {
+				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets receipts page is not assigned. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
+			} else {
+				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets receipts page is not publicly available. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
+			}		}
+		if ( ! $tickets || 'publish' !== get_post_status( $tickets ) ) {
+			if ( ! $tickets ) {
+				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets tickets page is not assigned. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
+			} else {
+				echo "<div class='error notice'><p>" . sprintf( __( 'The required My Tickets tickets page is not publicly available. <a href="%s" class="button-secondary">Check settings</a>', 'my-tickets' ), $settings ) . '</p></div>';
+			}		}
+	}
 }
 
 /**

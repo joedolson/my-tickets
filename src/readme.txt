@@ -7,7 +7,7 @@ Tested up to: 5.9
 Requires PHP: 7.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.9.3
+Stable tag: 1.9.4
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -73,6 +73,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Feature: Setting to configure redirecting to cart after add to cart.
 * Feature: New template function `mt_ticket_event_notes()` to get event-specific notes on ticket templates.
 * Change: Minor style change to front-end button CSS.
+* Change: Admin notice if any of the core display pages are not published or assigned.
 
 = 1.9.3 =
 

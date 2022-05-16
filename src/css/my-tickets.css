@@ -56,6 +56,10 @@ legend {
     max-width: 100%;
 }
 
+.error.notice .button-secondary {
+    vertical-align: initial;
+}
+
 .jcd-wide {
     width: 75%;
 }
