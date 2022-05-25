@@ -244,6 +244,14 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false ) {
 	$i        = 1;
 	$test_use = false;
 	if ( ( current_user_can( 'mt-verify-tickets' ) || current_user_can( 'manage_options' ) ) && is_admin() ) {
+		if ( isset( $_GET['ticket-action'] ) && isset( $_GET['ticket'] ) ) {
+			$ticket_id = sanitize_text_field( $_GET['ticket'] );
+			if ( 'checkin' === $_GET['ticket-action'] ) {
+				add_post_meta( $purchase_id, '_tickets_used', $ticket_id );
+			} else {
+				delete_post_meta( $purchase_id, '_tickets_used', $ticket_id );
+			}
+		}
 		$used     = get_post_meta( $purchase_id, '_tickets_used' );
 		$test_use = true;
 	}
@@ -254,7 +262,17 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false ) {
 			if ( is_array( $used ) ) {
 				$ticket_id = str_replace( array( $ticket_url . '&ticket_id=', $ticket_url . '?ticket_id=' ), '', $ticket );
 				$is_used   = in_array( $ticket_id, $used, true );
-				$show      = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span>" . __( 'Checked in', 'my-tickets' ) . ' ' : '';
+				$action    = add_query_arg(
+					array(
+						'action' => 'edit',
+						'post'   => $purchase_id,
+						'ticket' => $ticket_id,
+					),
+					admin_url( 'post.php' )
+				);
+				$checkin   = add_query_arg( 'ticket-action', 'checkin', $action );
+				$undo      = add_query_arg( 'ticket-action', 'undo', $action );
+				$show      = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span><a href='" . esc_url( $undo ) . "'>" . __( 'Checked in', 'my-tickets' ) . '</a> ' : " <span class='dashicons dashicons-edit' aria-hidden='true'></span><a href='" . esc_url( $checkin ) . "'>" . __( 'Check-in', 'my-tickets' ) . '</a> ';
 			}
 		}
 		if ( 'ids' === $type ) {
