@@ -67,6 +67,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.9.6 =
+
+* Bug fix: If ticket price is greater than 1,000, cart calculations broke due to thousands separator.
+* Bug fix: PHP warning thrown if $type not an array.
+
 = 1.9.5 =
 
 * Feature: Change ticket check-in status from Payment admin.
