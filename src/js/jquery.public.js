@@ -107,6 +107,7 @@
 					if ($(this).is(':visible')) {
 						var count = $(this).text();
 						var price = $(this).parent('td').children('.price').text();
+						price = price.replace( mt_ajax_cart.thousands, '' );
 						total += parseInt(count) * parseFloat(price);
 						tCount += parseInt(count);
 					}
