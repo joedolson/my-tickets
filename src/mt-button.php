@@ -922,8 +922,8 @@ function mt_update_cart( $post = array() ) {
 		// If any ticket type has a count, keep event in cart.
 		foreach ( $cart as $id => $type ) {
 			if ( is_array( $type ) ) {
-				foreach ($type as $counted) {
-					if (0 < (int)$counted) {
+				foreach ( $type as $counted ) {
+					if ( 0 < (int) $counted ) {
 						$has_contents = true;
 					}
 				}

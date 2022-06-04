@@ -369,7 +369,7 @@ function mt_public_enqueue_scripts() {
 			'security'   => wp_create_nonce( 'mt-ajax-cart-nonce' ),
 			'max_limit'  => __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
 			'processing' => __( 'Cart update processing', 'my-tickets' ),
-            'thousands'  => $options['mt_thousands_sep'],
+			'thousands'  => $options['mt_thousands_sep'],
 		)
 	);
 }
