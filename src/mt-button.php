@@ -262,12 +262,12 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				// If this event is general admission, then never show number of tickets remaining or status.
 				$data = get_post_meta( $event_id, '_mc_event_data', true );
 				if ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) {
-					$remaining_notice = '';
+					$hide_remaining = ' hiding';
 				} else {
 					$hide_remaining = mt_hide_remaining( $tickets_remaining );
-					// Translators: tickets remaining.
-					$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( apply_filters( 'mt_tickets_remaining_continuous_text', __( '%s tickets remaining.', 'my-tickets' ) ), "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
 				}
+				// Translators: tickets remaining.
+				$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( apply_filters( 'mt_tickets_remaining_continuous_text', __( '%s tickets remaining.', 'my-tickets' ) ), "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
 			} else {
 				$remaining_notice = '';
 			}
