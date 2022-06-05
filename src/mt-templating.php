@@ -834,6 +834,7 @@ function mt_get_verification( $ticket_id = false ) {
 
 		$text .= wpautop( mt_get_ticket_validity( $ticket ) );
 		if ( ( current_user_can( 'mt-verify-ticket' ) || current_user_can( 'manage_options' ) ) && ! $is_used ) {
+			$text .= wpautop( __( 'Ticket usage recorded', 'my-tickets' ) );
 			add_post_meta( $purchase_id, '_tickets_used', $ticket_id );
 		}
 
