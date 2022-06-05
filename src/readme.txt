@@ -7,7 +7,7 @@ Tested up to: 6.0
 Requires PHP: 7.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.9.5
+Stable tag: 1.9.6
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -71,6 +71,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Bug fix: If ticket price is greater than 1,000, cart calculations broke due to thousands separator.
 * Bug fix: PHP warning thrown if $type not an array.
+* Bug fix: Tickets remaining needs to be present in DOM for JS calculation purposes, even if hidden.
+* Change: Confirmation message that ticket usage has been saved.
 
 = 1.9.5 =
 
