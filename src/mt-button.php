@@ -193,7 +193,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								}
 								$disable = ( $remaining < 1 ) ? ' disabled="disabled"' : '';
 								if ( '' === $attributes ) {
-									$attributes = " min='0' max='$max'";
+									$attributes = " min='0' max='$max' inputmode='numeric' pattern='[0-9]*'";
 									if ( 0 === $remaining ) {
 										$attributes .= ' readonly="readonly"';
 										$class       = 'mt-sold-out';
