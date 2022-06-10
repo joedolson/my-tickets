@@ -116,7 +116,7 @@ function mt_ticketing_settings() {
 									)
 								);
 								$ticketing    = $options['mt_ticketing'];
-								$form         = '<fieldset><legend>' . __( 'Available Ticket Types', 'my-calendar' ) . "</legend><ul class='ticket-type checkboxes'>";
+								$form         = '<fieldset><legend>' . __( 'Available Ticket Types', 'my-tickets' ) . "</legend><ul class='ticket-type checkboxes'>";
 								foreach ( $mt_ticketing as $type => $label ) {
 									$checked = ( in_array( $type, array_keys( $ticketing ), true ) ) ? ' checked="checked"' : '';
 									$form   .= "<li><label for='mt_tickets_$type'>$label</label> <input name='mt_ticketing[$type]' id='mt_tickets_$type' type='checkbox' value='" . stripslashes( ( $label ) ) . "' $checked /></li>";
