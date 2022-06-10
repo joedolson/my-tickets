@@ -325,7 +325,7 @@ function mt_ticketing_help_tab() {
  * Enqueue admin styles.
  */
 function mt_reg_styles() {
-	wp_enqueue_style( 'mt-styles', plugins_url( '/css/my-tickets.css', __FILE__ ) );
+	wp_enqueue_style( 'mt-styles', plugins_url( '/css/my-tickets.css', __FILE__ ), array(), mt_get_current_version() );
 }
 
 add_action( 'wp_enqueue_scripts', 'mt_public_enqueue_scripts' );
@@ -338,16 +338,16 @@ function mt_public_enqueue_scripts() {
 	} else {
 		$ticket_styles = plugins_url( '/css/mt-cart.css', __FILE__ );
 	}
-
 	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$symbol   = mt_symbols( $options['mt_currency'] );
 	$cart_url = esc_url( get_permalink( $options['mt_purchase_page'] ) );
 	$redirect = isset( $options['mt_redirect'] ) ? $options['mt_redirect'] : '0';
 	$redirect = apply_filters( 'mt_redirect', $redirect );
+	$version  = mt_get_current_version();
 
-	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ) );
-	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ) );
-	wp_enqueue_style( 'mt-styles', $ticket_styles );
+	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ), $version );
+	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ), $version );
+	wp_enqueue_style( 'mt-styles', $ticket_styles, array(), $version );
 	wp_localize_script(
 		'mt.public',
 		'mt_ajax',

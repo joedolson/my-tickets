@@ -299,7 +299,7 @@ function mt_wp_enqueue_scripts() {
 	global $current_screen;
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( isset( $_GET['page'] ) && 'my-tickets' === $_GET['page'] ) {
-		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ), mt_get_current_version() );
 		wp_localize_script(
 			'mt.tabs',
 			'mtTabs',
@@ -309,7 +309,7 @@ function mt_wp_enqueue_scripts() {
 		);
 	}
 	if ( isset( $_GET['page'] ) && 'mt-ticketing' === $_GET['page'] ) {
-		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ), mt_get_current_version() );
 		wp_localize_script(
 			'mt.add',
 			'mt',
@@ -321,7 +321,7 @@ function mt_wp_enqueue_scripts() {
 	}
 	if ( isset( $_GET['page'] ) && 'mt-payment' === $_GET['page'] ) {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
-		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ), mt_get_current_version() );
 		wp_localize_script(
 			'mt.tabs',
 			'mtTabs',
@@ -335,7 +335,8 @@ function mt_wp_enqueue_scripts() {
 			array(
 				'jquery',
 				'jquery-ui-autocomplete',
-			)
+			),
+			mt_get_current_version()
 		);
 		wp_localize_script(
 			'mt.functions',
@@ -345,7 +346,7 @@ function mt_wp_enqueue_scripts() {
 			)
 		);
 	} elseif ( isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] ) {
-		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ), mt_get_current_version() );
 		wp_localize_script(
 			'mt.tabs',
 			'mtTabs',
@@ -355,10 +356,10 @@ function mt_wp_enqueue_scripts() {
 		);
 	}
 	if ( 'mt-payment' === $current_screen->post_type ) {
-		wp_enqueue_script( 'mt.payments', plugins_url( 'js/jquery.payments.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'mt.payments', plugins_url( 'js/jquery.payments.js', __FILE__ ), array( 'jquery' ), mt_get_current_version() );
 	}
 	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
-		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ), mt_get_current_version() );
 		wp_localize_script(
 			'mt.add',
 			'mt',
@@ -367,7 +368,7 @@ function mt_wp_enqueue_scripts() {
 				'undo'   => __( 'Undo Deletion', 'my-tickets' ),
 			)
 		);
-		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
+		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ), mt_get_current_version(), true );
 	}
 }
 
@@ -377,7 +378,7 @@ add_action( 'admin_enqueue_scripts', 'mt_report_scripts' );
  */
 function mt_report_scripts() {
 	if ( isset( $_GET['mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
-		wp_enqueue_script( 'mt.printable', plugins_url( 'js/report.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'mt.printable', plugins_url( 'js/report.js', __FILE__ ), array( 'jquery' ), mt_get_current_version() );
 		wp_localize_script(
 			'mt.printable',
 			'mtprint',
@@ -385,7 +386,7 @@ function mt_report_scripts() {
 				'mt_action_text' => __( 'Hide', 'my-tickets' ),
 			)
 		);
-		wp_enqueue_style( 'mt.printable', plugins_url( 'css/report.css', __FILE__ ) );
+		wp_enqueue_style( 'mt.printable', plugins_url( 'css/report.css', __FILE__ ), array(), mt_get_current_version() );
 	}
 }
 
