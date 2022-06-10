@@ -682,7 +682,7 @@ function mt_posttypes_messages( $messages ) {
 		7  => __( 'Payment saved.', 'my-tickets' ),
 		8  => __( 'Payment submitted.', 'my-tickets' ),
 		// Translators: %s: date scheduled to publish.
-		9  => sprintf( __( 'Payment scheduled for: <strong>%s</strong>.', 'my-tickets' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ) ),
+		9  => sprintf( __( 'Payment scheduled for: <strong>%s</strong>.', 'my-tickets' ), date_i18n( __( 'M j, Y @ G:i', 'my-tickets' ), strtotime( $post->post_date ) ) ),
 		10 => __( 'Payment draft updated.', 'my-tickets' ),
 	);
 
@@ -729,7 +729,7 @@ function mt_add() {
  * @return mixed
  */
 function mt_is_event( $cols ) {
-	$cols['mt_is_event'] = __( 'Tickets', 'my-ticket' );
+	$cols['mt_is_event'] = __( 'Tickets', 'my-tickets' );
 
 	return $cols;
 }

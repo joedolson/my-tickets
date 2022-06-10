@@ -240,13 +240,13 @@ function mt_admin_state( $states, $post ) {
 	if ( is_admin() ) {
 		$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		if ( absint( $options['mt_purchase_page'] ) === $post->ID ) {
-			$states[] = __( 'Shopping Cart Page', 'my-calendar' );
+			$states[] = __( 'Shopping Cart Page', 'my-tickets' );
 		}
 		if ( absint( $options['mt_receipt_page'] ) === $post->ID ) {
-			$states[] = __( 'Receipt Page', 'my-calendar' );
+			$states[] = __( 'Receipt Page', 'my-tickets' );
 		}
 		if ( absint( $options['mt_purchase_page'] ) === $post->ID ) {
-			$states[] = __( 'Ticket Page', 'my-calendar' );
+			$states[] = __( 'Ticket Page', 'my-tickets' );
 		}
 	}
 
@@ -304,14 +304,14 @@ function mt_ticketing_help_tab() {
 		array(
 			'id'      => 'mt_ticketing_help_tab_1',
 			'title'   => __( 'Ticket Options', 'my-tickets' ),
-			'content' => '<p><strong>' . __( 'General Ticketing Options' ) . '</strong><br />' . __( 'These options are global to all tickets. They include shipping rates, administrative fees, types of tickets available to your customers, and how you reserve tickets for sales at your ticket office.', 'my-tickets' ) . '</p>',
+			'content' => '<p><strong>' . __( 'General Ticketing Options', 'my-tickets' ) . '</strong><br />' . __( 'These options are global to all tickets. They include shipping rates, administrative fees, types of tickets available to your customers, and how you reserve tickets for sales at your ticket office.', 'my-tickets' ) . '</p>',
 		)
 	);
 	$screen->add_help_tab(
 		array(
 			'id'      => 'mt_ticketing_help_tab_2',
 			'title'   => __( 'Ticket Defaults', 'my-tickets' ),
-			'content' => '<p><strong>' . __( 'Ticket Defaults' ) . '</strong><br />' . __( 'Ticket defaults are settings that are specific to events. These values are what will be set up by default when you create a new event, but can be changed within the event. Only events that have a value entered for the number of tickets available for purchase will show up for sale on your site.', 'my-tickets' ) . '</p>',
+			'content' => '<p><strong>' . __( 'Ticket Defaults', 'my-tickets' ) . '</strong><br />' . __( 'Ticket defaults are settings that are specific to events. These values are what will be set up by default when you create a new event, but can be changed within the event. Only events that have a value entered for the number of tickets available for purchase will show up for sale on your site.', 'my-tickets' ) . '</p>',
 		)
 	);
 	$resources  = '<p>' . __( 'More Help', 'my-tickets' ) . '</p>';

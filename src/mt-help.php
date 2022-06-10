@@ -255,7 +255,7 @@ $plugins_string
 				$notice = "<div class='message updated'><p>" . sprintf( __( 'Thank you for supporting the continuing development of this plug-in! I\'ll get back to you as soon as I can. Please ensure that you can receive email at <code>%s</code>.', 'my-tickets' ), $current_user->user_email ) . '</p></div>';
 			} else {
 				// Translators: Contact URL.
-				$notice = "<div class='message error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-calendar' ) . '</p><p>' . sprintf( __( '<a href="%s">Contact me here</a>, instead', 'my-tickets' ), 'https://www.joedolson.com/contact/' ) . "</p><pre>$request</pre></div>";
+				$notice = "<div class='message error'><p>" . __( "Sorry! I couldn't send that message. Here's the text of your request:", 'my-tickets' ) . '</p><p>' . sprintf( __( '<a href="%s">Contact me here</a>, instead', 'my-tickets' ), 'https://www.joedolson.com/contact/' ) . "</p><pre>$request</pre></div>";
 			}
 		}
 		echo wp_kses_post( $notice );
