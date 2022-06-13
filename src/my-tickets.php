@@ -121,6 +121,15 @@ add_action( 'init', 'mt_build_gateways' );
  * @uses filter mt_import_gateways
  */
 function mt_build_gateways() {
+	/**
+	 * Internal use only: register an additional payment gateway for My Tickets.
+	 *
+	 * @hook mt_import_gateways
+	 *
+	 * @param {array} Associative array of strings identifying the gateway's loading file without the .php extension.
+	 *
+	 * @return {array}
+	 */
 	$gateways = apply_filters( 'mt_import_gateways', mt_import_gateways() );
 	foreach ( $gateways as $gateway ) {
 		if ( false !== strpos( $gateway, '.php' ) ) {
@@ -259,7 +268,16 @@ add_action( 'admin_menu', 'my_tickets_menu' );
  * Add submenus.
  */
 function my_tickets_menu() {
-	$icon_path  = plugins_url( '/my-tickets/images' );
+	$icon_path = plugins_url( '/my-tickets/images' );
+	/**
+	 * Set capability required to manage My Tickets settings. Default `manage_options`.
+	 *
+	 * @hook mt_registration_permissions
+	 *
+	 * @param {string} $permission WordPress capability string.
+	 *
+	 * @return {string} WordPress capability string.
+	 */
 	$permission = apply_filters( 'mt_registration_permissions', 'manage_options' );
 	if ( function_exists( 'add_menu_page' ) ) {
 		add_menu_page( __( 'My Tickets', 'my-tickets' ), __( 'My Tickets', 'my-tickets' ), $permission, 'my-tickets', 'mt_settings', $icon_path . '/tickets.png' );
