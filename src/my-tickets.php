@@ -360,6 +360,15 @@ function mt_public_enqueue_scripts() {
 	$symbol   = mt_symbols( $options['mt_currency'] );
 	$cart_url = esc_url( get_permalink( $options['mt_purchase_page'] ) );
 	$redirect = isset( $options['mt_redirect'] ) ? $options['mt_redirect'] : '0';
+	/**
+	 * Force add to cart redirect. Return 1 to override plugin settings and redirect to the shopping cart after tickets are added to the cart.
+	 *
+	 * @hook mt_redirect
+	 *
+	 * @param {string} $redirect Boolean value as string: 1 or 0.
+	 *
+	 * @return {string} Boolean value as string: 1 or 0.
+	 */
 	$redirect = apply_filters( 'mt_redirect', $redirect );
 	$version  = mt_get_current_version();
 
