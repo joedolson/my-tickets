@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_import_gateways - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_redirect - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_import_gateways</h1></header>
+    <header><h1 class="page-title">Filter: mt_redirect</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_import_gateways">apply_filters( 'mt_import_gateways', <span class="signature">Associative )</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id="mt_redirect">apply_filters( 'mt_redirect', <span class="signature">$redirect )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Internal use only: register an additional payment gateway for My Tickets.</p>
+    <p>Force add to cart redirect. Return 1 to override plugin settings and redirect to the shopping cart after tickets are added to the cart.</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>Associative</code></td>
+                <td class="name"><code>$redirect</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">string</span>
 
 
             
@@ -93,7 +93,7 @@
 
             
 
-            <td class="description last"><p>array of strings identifying the gateway's loading file without the .php extension.</p></td>
+            <td class="description last"><p>Boolean value as string: 1 or 0.</p></td>
         </tr>
 
     
@@ -134,7 +134,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_my-tickets.php.html">src/my-tickets.php</a>, <a href="src_my-tickets.php.html#line124">line 124</a>
+        <a href="src_my-tickets.php.html">src/my-tickets.php</a>, <a href="src_my-tickets.php.html#line363">line 363</a>
     </li></ul></dd>
     
 
@@ -160,6 +160,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <p>Boolean value as string: 1 or 0.</p>
+</div>
+
 
 
 <dl>
@@ -168,7 +172,7 @@
     </dt>
     <dd>
         
-<span class="param-type">array</span>
+<span class="param-type">string</span>
 
 
     </dd>
