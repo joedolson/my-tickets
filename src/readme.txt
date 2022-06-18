@@ -67,6 +67,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.9.7 =
+
+* Bug fix: Possible fatal error if total_paid is not a float value.
+* Bug fix: 
+
 = 1.9.6 =
 
 * Bug fix: If ticket price is greater than 1,000, cart calculations broke due to thousands separator.
