@@ -37,7 +37,7 @@ function mt_error_data() {
 	foreach ( $logs as $log ) {
 		$data    = '<pre>' . print_r( array_map( 'sanitize_text_field', $log[2] ), 1 ) . '</pre>';
 		$submit  = '<pre>' . print_r( array_map( 'sanitize_text_field', $log[3] ), 1 ) . '</pre>';
-		$row     = sprintf( '<td scope="row">%1$s</td><td>%2$s</td><td>%3$s</td><td>%4$s</td>', $log[0], $log[1], $data, $submit );
+		$row     = sprintf( '<tr><td scope="row">%1$s</td><td>%2$s</td><td>%3$s</td><td>%4$s</td></tr>', $log[0], $log[1], $data, $submit );
 		$output .= $row;
 	}
 	$table = sprintf( '<table class="widefat"><thead><tr><th scope="col">' . __( 'Status', 'my-tickets' ) . '</th><th scope="col">' . __( 'HTTP', 'my-tickets' ) . '</th><th scope="col">' . __( 'Data', 'my-tickets' ) . '</th><th scope="col">' . __( 'Order', 'my-tickets' ) . '</th></tr></thead><tbody>%s</tbody></table>', $output );
