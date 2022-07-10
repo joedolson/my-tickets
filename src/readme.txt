@@ -70,7 +70,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.9.7 =
 
 * Bug fix: Possible fatal error if total_paid is not a float value.
-* Bug fix: 
+* Bug fix: Missing `tr` in error log entries.
 
 = 1.9.6 =
 

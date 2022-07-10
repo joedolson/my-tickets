@@ -843,10 +843,12 @@ function mt_custom_column( $column_name, $id ) {
 			echo wp_kses_post( $status );
 			break;
 		case 'mt_paid':
-			$pd   = get_post_meta( $id, '_total_paid', true );
-			$pd   = apply_filters( 'mt_money_format', $pd );
-			$paid = "<span>$pd</span>";
-			echo wp_kses_post( $paid );
+			$pd      = get_post_meta( $id, '_total_paid', true );
+			$pd      = apply_filters( 'mt_money_format', $pd );
+			$gateway = get_post_meta( $id, '_gateway', true );
+			$paid    = "<span>$pd</span>";
+			$gate    = "<div class='mt-gateway-used'>$gateway</div>";
+			echo wp_kses_post( $paid . $gate );
 			break;
 		case 'mt_receipt':
 			$pd      = get_post_meta( $id, '_receipt', true );
