@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: mt-tickets.php - My Tickets Hook Doumentation</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles-docs.css?v=0.1.1">
+</head>
+
+<body>
+
+<div id="main">
+
+    <header><h1 class="page-title">Source: mt-tickets.php</h1></header>
+	<main>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;?php
+/**
+ * Ticket display and verification handlers.
+ *
+ * @category Core
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
+add_filter( 'template_redirect', 'mt_ticket', 10, 1 );
+/**
+ * If ticket_id is set and valid, load ticket template. Else, redirect to purchase page.
+ */
+function mt_ticket() {
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$id      = ( '' !== $options['mt_tickets_page'] ) ? $options['mt_tickets_page'] : false;
+	if ( $id &amp;&amp; ( is_single( $id ) || is_page( $id ) ) ) {
+		if ( ! isset( $_GET['multiple'] ) ) {
+			if ( isset( $_GET['ticket_id'] ) &amp;&amp; mt_verify_ticket( sanitize_text_field( $_GET['ticket_id'] ) ) ) {
+				$template = locate_template( 'tickets.php' );
+				if ( $template ) {
+					load_template( $template );
+				} else {
+					load_template( dirname( __FILE__ ) . '/templates/tickets.php' );
+				}
+			} else {
+				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+				exit;
+			}
+		} else {
+			if ( isset( $_GET['receipt_id'] ) ) {
+				$template = locate_template( 'bulk-tickets.php' );
+				if ( $template ) {
+					load_template( $template );
+				} else {
+					load_template( dirname( __FILE__ ) . '/templates/bulk-tickets.php' );
+				}
+			} else {
+				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+				exit;
+			}
+		}
+		exit;
+	}
+}
+
+/**
+ * Verify that ticket is valid. (Does not check whether ticket is for current or future event.)
+ *
+ * @param string $ticket_id Ticket ID.
+ * @param string $return type of data to return.
+ *
+ * @return array|bool
+ */
+function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
+	if ( $ticket_id ) {
+		$ticket = mt_get_ticket( $ticket_id );
+	} else {
+		$ticket = mt_get_ticket();
+	}
+	if ( $ticket ) {
+		$data = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
+		if ( empty( $data ) ) {
+			// This ticket does not exist.
+			return false;
+		}
+		$purchase_id = $data['purchase_id'];
+		$status      = get_post_meta( $purchase_id, '_is_paid', true );
+		$gateway     = get_post_meta( $purchase_id, '_gateway', true );
+		if ( 'Completed' === $status || ( 'Pending' === $status &amp;&amp; 'offline' === $gateway ) ) {
+			return ( 'full' === $return ) ? array(
+				'status' => true,
+				'ticket' => $ticket,
+			) : true;
+		}
+	}
+
+	return ( 'full' === $return ) ? array(
+		'status' => false,
+		'ticket' => false,
+	) : false;
+}
+
+/**
+ * Get ticket object for use in ticket template if ticket ID is set and valid.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return bool
+ */
+function mt_get_ticket( $ticket_id = false ) {
+	global $wpdb;
+
+	$ticket_id = isset( $_GET['ticket_id'] ) ? $_GET['ticket_id'] : $ticket_id;
+	// sanitize ticket id.
+	$ticket_id = strtolower( preg_replace( '/[^a-z0-9\-]+/i', '', $ticket_id ) );
+	$ticket    = false;
+	if ( $ticket_id ) {
+		$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_ticket' AND meta_value = %s", $ticket_id ) );
+		$post    = get_post( $post_id );
+		$ticket  = ( $post ) ? $post : false;
+	}
+
+	return $ticket;
+}
+
+
+add_filter( 'mt_default_ticketed_events', 'mt_get_ticket_ids', 10, 2 );
+/**
+ * Get an array of IDs for live ticketed events.
+ *
+ * @param array  $atts Array of attributes passed to [tickets] shortcode.
+ * @param string $content Contained content wrapped in [tickets] shortcode.
+ *
+ * @return array
+ */
+function mt_get_ticket_ids( $atts, $content ) {
+	// fetch posts with meta data for event sales.
+	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	/**
+	 * Filter number of events to show by default in the list of current events.
+	 *
+	 * @hook mt_get_events_count
+	 *
+	 * @param {int} $count Number of events to show.
+	 *
+	 * @return {int}
+	 */
+	$count = apply_filters( 'mt_get_events_count', 20 );
+	$args  =
+		array(
+			'post_type'      => $settings['mt_post_types'],
+			'posts_per_page' => $count,
+			'post_status'    => array( 'publish' ),
+			'fields'         => 'ids',
+			'meta_query'     => array(
+				'relation' => 'AND',
+				'queries'  => array(
+					'key'     => '_mc_event_date',
+					'value'   => mt_current_time(),
+					'compare' => '>',
+				),
+			),
+		);
+	/**
+	 * Customize arguments for events to show with the [tickets] shortcode.
+	 *
+	 * @hook mt_get_ticket_ids_query
+	 *
+	 * @param {array} $args An array of arguments passed to WP_Query.
+	 *
+	 * @return {array}
+	 */
+	$args  = apply_filters( 'mt_get_ticket_ids_query', $args );
+	$query = new WP_Query( $args );
+	$posts = $query->posts;
+
+	return $posts;
+}
+
+add_filter( 'after_setup_theme', 'my_tickets_ticket_image_size' );
+/**
+ * Add a custom thumbnail size for use by My Tickets.
+ */
+function my_tickets_ticket_image_size() {
+	add_image_size( 'my-tickets-logo', 300, 300, true );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+	</main>
+    <footer>
+		<a href="https://docs.joedolson.com/my-tickets">My Tickets User Documentation</a> &bull;
+		<a href="https://github.com/joedolson/my-tickets/">My Tickets on GitHub</a> &bull;
+		<a href="https://www.joedolson.com/my-tickets/add-ons/">Buy My Tickets Premium Add-ons</a>
+	</footer>
+
+	
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="mt_setup_gateways.html">mt_setup_gateways</a></li></ul><h3>Filters</h3><ul><li><a href="mt_get_events_count.html">mt_get_events_count</a></li><li><a href="mt_get_ticket_ids_query.html">mt_get_ticket_ids_query</a></li><li><a href="mt_import_gateways.html">mt_import_gateways</a></li><li><a href="mt_money_format_spacer.html">mt_money_format_spacer</a></li><li><a href="mt_redirect.html">mt_redirect</a></li><li><a href="mt_registration_permissions.html">mt_registration_permissions</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
