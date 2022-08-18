@@ -108,7 +108,7 @@ function mt_cpt_email_purchaser( $id ) {
 			$opt_out   = PHP_EOL . PHP_EOL . '<p><small>' . sprintf( __( "Don't want to receive email from us? Follow this link: %s", 'my-tickets' ), $opt_out_url ) . '</small></p>';
 			$opt_out   = apply_filters( 'mt_opt_out_text', $opt_out, $opt_out_url, $id, 'single' );
 			$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
-			$headers[] = "Reply-to: $options[mt_from]";
+			$headers[] = 'Reply-to: ' . $options['mt_from'];
 			if ( 'true' === $options['mt_html_email'] ) {
 				add_filter( 'wp_mail_content_type', 'mt_html_type' );
 				$body = wpautop( $body . $opt_out );
