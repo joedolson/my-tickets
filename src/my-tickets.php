@@ -414,7 +414,13 @@ function mt_setup_gateways() {
 			'fields' => array( 'forms' => __( 'Payment Forms Accepted', 'my-tickets' ) ),
 		),
 	);
-
+	/**
+	 * Filter gateway settings fields.
+	 *
+	 * @hook mt_setup_gateways
+	 *
+	 * @param {array} $gateways Array holding custom fields relevant to each payment gateway.
+	 */
 	return apply_filters( 'mt_setup_gateways', $gateways );
 }
 
@@ -672,7 +678,6 @@ add_action( 'init', 'mt_register_actions', 20 );
  * Register and deregister key actions in My Calendar.
  */
 function mt_register_actions() {
-	apply_filters( 'debug', 'my tickets add actions/filters' );
 	$is_group_editing = false;
 	if ( isset( $_GET['group_id'] ) ) {
 		$is_group_editing = true;
@@ -841,7 +846,17 @@ function mt_money_format( $price ) {
 		$order         = $options['symbol_order'];
 		$price         = '<span class="price">' . number_format( $price, 2, $dec_point, $thousands_sep ) . '</span>';
 		$space         = ( 'symbol-first' === $order ) ? '' : ' ';
-		$space         = apply_filters( 'mt_money_format_spacer', $space, $price );
+		/**
+		 * Filter the character used to separate the currency symbol from the value.
+		 *
+		 * @hook mt_money_format_spacer
+		 *
+		 * @param {string} $space Spacing character. Default empty string or single space.
+		 * @param {string} $price Formatted price without currency symbols.
+		 *
+		 * @return {string}
+		 */
+		$space = apply_filters( 'mt_money_format_spacer', $space, $price );
 
 		return ( 'symbol-first' === $order ) ? $symbol . $space . $price : $price . $space . $symbol;
 	} else {
