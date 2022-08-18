@@ -119,11 +119,20 @@ add_filter( 'mt_default_ticketed_events', 'mt_get_ticket_ids', 10, 2 );
 function mt_get_ticket_ids( $atts, $content ) {
 	// fetch posts with meta data for event sales.
 	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-	// only show limit of 20 events.
+	/**
+	 * Filter number of events to show by default in the list of current events.
+	 *
+	 * @hook mt_get_events_count
+	 *
+	 * @param {int} $count Number of events to show.
+	 *
+	 * @return {int}
+	 */
+	$count = apply_filters( 'mt_get_events_count', 20 );
 	$args  =
 		array(
 			'post_type'      => $settings['mt_post_types'],
-			'posts_per_page' => apply_filters( 'mt_get_events_count', 20 ),
+			'posts_per_page' => $count,
 			'post_status'    => array( 'publish' ),
 			'fields'         => 'ids',
 			'meta_query'     => array(
@@ -135,7 +144,16 @@ function mt_get_ticket_ids( $atts, $content ) {
 				),
 			),
 		);
-	$args  = apply_filters( 'mt_get_ticket_ids', $args );
+	/**
+	 * Customize arguments for events to show with the [tickets] shortcode.
+	 *
+	 * @hook mt_get_ticket_ids_query
+	 *
+	 * @param {array} $args An array of arguments passed to WP_Query.
+	 *
+	 * @return {array}
+	 */
+	$args  = apply_filters( 'mt_get_ticket_ids_query', $args );
 	$query = new WP_Query( $args );
 	$posts = $query->posts;
 
