@@ -639,13 +639,13 @@ function mt_download_csv_event() {
 		$custom_headings = '';
 		/**
 		 * Filter custom fields array for reports.
-         *
-         * @hook mt_custom_fields
-         *
-         * @param {array} $custom_fields Array of custom fields.
-         * @param {string} $context Current context of filter. ('reports')
-         *
-         * @return {array}
+		 *
+		 * @hook mt_custom_fields
+		 *
+		 * @param {array} $custom_fields Array of custom fields.
+		 * @param {string} $context Current context of filter. ('reports')
+		 *
+		 * @return {array}
 		 */
 		$custom_fields   = apply_filters( 'mt_custom_fields', array(), 'reports' );
 		foreach ( $custom_fields as $name => $field ) {
@@ -730,12 +730,12 @@ function mt_get_report_by_time( $start, $end ) {
 	$posts_per_page = -1;
 	/**
 	 * Set default report start date for initial view on reports by time.
-     *
-     * @hook mt_default_report_start_date
-     *
-     * @param {string} $modifier A date modifier string; default '-1 week'.
-     *
-     * @return {string}
+	 *
+	 * @hook mt_default_report_start_date
+	 *
+	 * @param {string} $modifier A date modifier string; default '-1 week'.
+	 *
+	 * @return {string}
 	 */
 	if ( mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) ) === $start && mt_date( 'Y-m-d' ) === $end ) {
 		$posts_per_page = 50;
@@ -843,15 +843,15 @@ function mt_get_report_data_by_time() {
 			}
 			/**
 			 * Apply custom formatting on a custom field value in reports.
-             *
-             * @hook mt_format_report_field
-             *
-             * @param {string}       $cstring Custom value as a string.
-             * @param {string|array} $meta Stored meta value.
-             * @param {int}          $post_id Post ID.
-             * @param {string}       $name Name of custom field.
-             *
-             * @return {string}
+			 *
+			 * @hook mt_format_report_field
+			 *
+			 * @param {string}       $cstring Custom value as a string.
+			 * @param {string|array} $meta Stored meta value.
+			 * @param {int}          $post_id Post ID.
+			 * @param {string}       $name Name of custom field.
+			 *
+			 * @return {string}
 			 */
 			$c_value       = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
 			$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$c_value</td>\n";
