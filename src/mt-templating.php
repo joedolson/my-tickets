@@ -208,6 +208,15 @@ function mt_cart_purchaser() {
 function mt_get_cart_purchase_date() {
 	$receipt = mt_get_receipt();
 	if ( $receipt ) {
+		/**
+		 * HTML formatting of purchase date on receipts.
+		 *
+		 * @hook mt_cart_purchase_date
+		 *
+		 * @param {string} $format HTML formatted string with date format placeholders.
+		 *
+		 * @return {string}
+		 */
 		$format = apply_filters( 'mt_cart_purchase_date', '<span class="mt-cart-date">' . get_option( 'date_format' ) . '</span><span class="mt-date-separator"> @ </span><span class="mt-cart-time">' . get_option( 'time_format' ) . '</span>' );
 		$date   = date_i18n( $format, strtotime( $receipt->post_date ) );
 

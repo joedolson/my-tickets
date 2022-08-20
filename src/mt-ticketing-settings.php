@@ -136,7 +136,13 @@ function mt_ticketing_settings() {
 								?>
 								<?php
 								/**
-								 * Filter 
+								 * Filter ticketing options available.
+								 *
+								 * @hook mt_registration_tickets_options
+								 *
+								 * @param {array} $options Array of available ticket types.
+								 *
+								 * @return {array}
 								 */
 								$mt_ticketing = apply_filters(
 									'mt_registration_tickets_options',
