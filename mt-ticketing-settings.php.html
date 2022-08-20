@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: mt-ticketing-settings.php - My Tickets Hook Doumentation</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles-docs.css?v=0.1.1">
+</head>
+
+<body>
+
+<div id="main">
+
+    <header><h1 class="page-title">Source: mt-ticketing-settings.php</h1></header>
+	<main>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;?php
+/**
+ * Ticket settings.
+ *
+ * @category Settings
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
+/**
+ * Update ticketing settings.
+ *
+ * @param array $post POST data.
+ *
+ * @return bool|string
+ */
+function mt_update_ticketing_settings( $post ) {
+	if ( isset( $post['mt-ticketing-settings'] ) ) {
+		$nonce = $_POST['_wpnonce'];
+		if ( ! wp_verify_nonce( $nonce, 'my-tickets' ) ) {
+			return '';
+		}
+		$mt_handling             = ( isset( $post['mt_handling'] ) ) ? $post['mt_handling'] : 0;
+		$mt_ticket_handling      = ( isset( $post['mt_ticket_handling'] ) ) ? $post['mt_ticket_handling'] : 0;
+		$mt_shipping             = ( isset( $post['mt_shipping'] ) ) ? $post['mt_shipping'] : 0;
+		$mt_ticketing            = ( isset( $post['mt_ticketing'] ) ) ? $post['mt_ticketing'] : array();
+		$mt_ticket_type_default  = ( isset( $post['mt_ticket_type_default'] ) ) ? $post['mt_ticket_type_default'] : '';
+		$mt_total_tickets        = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
+		$mt_shipping_time        = ( isset( $post['mt_shipping_time'] ) ) ? $post['mt_shipping_time'] : '3-5';
+		$mt_hide_remaining       = ( isset( $post['mt_hide_remaining'] ) ) ? 'true' : 'false';
+		$mt_hide_remaining_limit = ( isset( $post['mt_hide_remaining_limit'] ) ) ? intval( $post['mt_hide_remaining_limit'] ) : 0;
+		$mt_collect_shipping     = ( isset( $post['mt_collect_shipping'] ) ) ? 'true' : 'false';
+		$defaults                = ( isset( $post['defaults'] ) ) ? $post['defaults'] : array();
+		$labels                  = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
+		$prices                  = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
+		$close                   = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : array();
+		$availability            = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : array();
+		$close_value             = ( isset( $post['mt_tickets_close_value'] ) ) ? $post['mt_tickets_close_value'] : '';
+		$close_type              = ( isset( $post['mt_tickets_close_type'] ) ) ? $post['mt_tickets_close_type'] : 'integer';
+		$mt_ticket_image         = ( isset( $post['mt_ticket_image'] ) ) ? $post['mt_ticket_image'] : 'ticket';
+		$pricing_array           = mt_setup_pricing( $labels, $prices, $availability, $close );
+		$defaults['pricing']     = $pricing_array;
+		$defaults['tickets']     = $mt_total_tickets;
+		$defaults['multiple']    = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';
+
+		/**
+		 * Filter settings array before saving option.
+         *
+         * @hook mt_settings
+         *
+         * @param {array} $settings Array of settings with values set by user prior to save to database.
+         * @param {array} $_POST Post data array.
+         *
+         * @return {array}
+		 */
+		$settings = apply_filters(
+			'mt_settings',
+			array(
+				'defaults'                => $defaults,
+				'mt_shipping'             => $mt_shipping,
+				'mt_handling'             => $mt_handling,
+				'mt_ticket_handling'      => $mt_ticket_handling,
+				'mt_ticketing'            => $mt_ticketing,
+				'mt_ticket_type_default'  => $mt_ticket_type_default,
+				'mt_shipping_time'        => $mt_shipping_time,
+				'mt_tickets_close_value'  => $close_value,
+				'mt_tickets_close_type'   => $close_type,
+				'mt_ticket_image'         => $mt_ticket_image,
+				'mt_hide_remaining'       => $mt_hide_remaining,
+				'mt_hide_remaining_limit' => $mt_hide_remaining_limit,
+				'mt_collect_shipping'     => $mt_collect_shipping,
+			),
+			$_POST
+		);
+		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
+		update_option( 'mt_settings', $settings );
+		/**
+		 * Filter updated settings messages appended to the 'My Tickets Ticketing Defaults saved' message.
+         *
+         * @hook mt_ticketing_update_settings
+         *
+         * @param {string} $messages Text string with updated settings messages. Default empty string.
+         * @param {array}  $post Array of settings passed to function.
+         *
+         * @return {string}
+		 */
+		$messages = apply_filters( 'mt_ticketing_update_settings', '', $post );
+
+		return '&lt;div class="updated">&lt;p>&lt;strong>' . __( 'My Tickets Ticketing Defaults saved', 'my-tickets' ) . "&lt;/strong>&lt;/p>$messages&lt;/div>";
+	}
+
+	return false;
+}
+
+/**
+ * Form to update ticketing settings.
+ */
+function mt_ticketing_settings() {
+	$response = mt_update_ticketing_settings( $_POST );
+	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
+	$defaults = mt_default_settings();
+	$options  = array_merge( $defaults, $options );
+	?>
+	&lt;div class="wrap my-tickets" id="mt_settings">
+		&lt;div id="icon-options-general" class="icon32">&lt;br/>&lt;/div>
+		&lt;h1 class="hndle">&lt;?php _e( 'Event Ticket Settings', 'my-tickets' ); ?>&lt;/h1>
+		&lt;?php echo wp_kses_post( $response ); ?>
+		&lt;div class="postbox-container jcd-wide">
+			&lt;div class="metabox-holder">
+				&lt;form method="post" action="&lt;?php echo admin_url( 'admin.php?page=mt-ticketing' ); ?>">
+					&lt;div>&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo wp_create_nonce( 'my-tickets' ); ?>"/>
+					&lt;/div>
+					&lt;div class="ui-sortable meta-box-sortables">
+						&lt;div class="postbox">
+							&lt;h2 id="mt-ticketing-options" class="hndle">&lt;?php _e( 'Global Ticketing Options', 'my-tickets' ); ?>&lt;/h2>
+
+							&lt;div class="inside">
+								&lt;?php
+								/**
+								 *  Insert additional settings fields at top of global ticketing options.
+                                 *
+                                 * @hook mt_ticketing_settings_fields
+                                 *
+                                 * @param {string} $fields HTML output of settings fields. Default empty.
+                                 * @param {array} $options Array of option keys and values.
+                                 *
+                                 * @return {string}
+								 */
+								echo apply_filters( 'mt_ticketing_settings_fields', '', $options );
+								?>
+								&lt;?php
+								/**
+								 * Filter 
+								 */
+								$mt_ticketing = apply_filters(
+									'mt_registration_tickets_options',
+									array(
+										'printable' => __( 'Printable', 'my-tickets' ),
+										'eticket'   => __( 'E-tickets', 'my-tickets' ),
+										'postal'    => __( 'Postal Mail', 'my-tickets' ),
+										'willcall'  => __( 'Pick up at box office', 'my-tickets' ),
+									)
+								);
+								$ticketing    = $options['mt_ticketing'];
+								$form         = '&lt;fieldset>&lt;legend>' . __( 'Available Ticket Types', 'my-tickets' ) . "&lt;/legend>&lt;ul class='ticket-type checkboxes'>";
+								foreach ( $mt_ticketing as $type => $label ) {
+									$checked = ( in_array( $type, array_keys( $ticketing ), true ) ) ? ' checked="checked"' : '';
+									$form   .= "&lt;li>&lt;label for='mt_tickets_$type'>$label&lt;/label> &lt;input name='mt_ticketing[$type]' id='mt_tickets_$type' type='checkbox' value='" . stripslashes( ( $label ) ) . "' $checked />&lt;/li>";
+								}
+								$form                  .= '&lt;/ul>&lt;/fieldset>';
+								$form                  .= '
+									&lt;p>
+										&lt;label for="mt_ticket_type_default">' . __( 'Default ticket type', 'my-tickets' ) . '&lt;/label>
+										&lt;select name="mt_ticket_type_default" id="mt_ticket_type_default">';
+								$mt_ticket_type_default = isset( $options['mt_ticket_type_default'] ) ? $options['mt_ticket_type_default'] : '';
+								foreach ( $mt_ticketing as $type => $label ) {
+									$selected = selected( $type, $mt_ticket_type_default, false );
+									$form    .= "&lt;option value='$type'$selected>$label&lt;/option>";
+								}
+								$form .= '&lt;/select>&lt;/p>';
+								// only show shipping field if postal mail ticket is selected.
+								$shipping                = $options['mt_shipping'];
+								$form                   .= "&lt;p class='shipping'>&lt;label for='mt_shipping'>" . __( 'Shipping Cost for Postal Mail', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_shipping' id='mt_shipping' type='text' size='4' value='$shipping' />&lt;/p>";
+								$shipping_time           = $options['mt_shipping_time'];
+								$form                   .= "&lt;p class='shipping'>&lt;label for='mt_shipping_time'>" . __( 'Approximate Shipping Time for Postal Mail (days)', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_shipping_time' id='mt_shipping_time' type='text' value='$shipping_time' />&lt;/p>";
+								$mt_collect_shipping     = ( isset( $options['mt_collect_shipping'] ) ) ? $options['mt_collect_shipping'] : 'false';
+								$form                   .= "&lt;p class='handling ticket-collect-shipping'>&lt;label for='mt_collect_shipping'>" . __( 'Always collect shipping address', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_collect_shipping' id='mt_collect_shipping' type='checkbox' value='true'" . checked( $mt_collect_shipping, 'true', false ) . ' />&lt;/p>';
+								$handling                = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : '';
+								$form                   .= "&lt;p class='handling cart-handling'>&lt;label for='mt_handling'>" . __( 'Handling/Administrative Fee (per Cart)', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_handling' id='mt_handling' type='text' size='4' value='$handling' />&lt;/p>";
+								$ticket_handling         = ( isset( $options['mt_ticket_handling'] ) ) ? $options['mt_ticket_handling'] : '';
+								$form                   .= "&lt;p class='handling ticket-handling'>&lt;label for='mt_ticket_handling'>" . __( 'Handling/Administrative Fee (per Ticket)', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_ticket_handling' id='mt_ticket_handling' type='text' size='4' value='$ticket_handling' />&lt;/p>";
+								$mt_tickets_close_value  = ( isset( $options['mt_tickets_close_value'] ) ) ? $options['mt_tickets_close_value'] : '';
+								$form                   .= "&lt;p class='handling ticket-close-value'>&lt;label for='mt_tickets_close_value'>" . __( 'Tickets reserved for sale at the door', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_tickets_close_value' id='mt_tickets_close_value' type='number' size='4' value='$mt_tickets_close_value' />&lt;/p>";
+								$mt_hide_remaining       = ( isset( $options['mt_hide_remaining'] ) ) ? $options['mt_hide_remaining'] : 'false';
+								$form                   .= "&lt;p class='handling ticket-hide-remaining'>&lt;label for='mt_tickets_hide_remaining'>" . __( 'Hide number of tickets remaining', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_hide_remaining' id='mt_tickets_hide_remaining' type='checkbox' value='true'" . checked( $mt_hide_remaining, 'true', false ) . ' />&lt;/p>';
+								$mt_hide_remaining_limit = ( isset( $options['mt_hide_remaining_limit'] ) ) ? $options['mt_hide_remaining_limit'] : 0;
+								$form                   .= "&lt;p class='handling ticket-hide-remaining-limit'>&lt;label for='mt_tickets_hide_remaining_limit'>" . __( 'Show number of tickets remaining when available tickets falls below:', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_hide_remaining_limit' id='mt_tickets_hide_remaining_limit' type='number' value='" . $mt_hide_remaining_limit . "' />&lt;/p>";
+								$mt_tickets_close_type   = ( isset( $options['mt_tickets_close_type'] ) ) ? $options['mt_tickets_close_type'] : '';
+								$form                   .= "&lt;p class='close ticket-close-type'>&lt;label for='mt_tickets_close_type'>" . __( 'Reserve tickets based on', 'my-tickets' ) . "&lt;/label>&lt;select name='mt_tickets_close_type' id='mt_tickets_close_type' />
+											&lt;option value='integer'" . selected( $mt_tickets_close_type, 'integer', false ) . '>' . __( 'Specific number of tickets', 'my-tickets' ) . "&lt;/option>
+											&lt;option value='percent'" . selected( $mt_tickets_close_type, 'percent', false ) . '>' . __( 'Percentage of available tickets', 'my-tickets' ) . '&lt;/option>
+										&lt;/select>&lt;/p>';
+								$mt_ticket_image         = ( isset( $options['mt_ticket_image'] ) ) ? $options['mt_ticket_image'] : '';
+								$form                   .= "&lt;p class='image ticket-image-type'>
+									&lt;label for='mt_ticket_image'>" . __( 'Image shown on tickets', 'my-tickets' ) . "&lt;/label>
+									&lt;select name='mt_ticket_image' id='mt_ticket_image' />
+										&lt;option value='ticket'" . selected( $mt_ticket_image, 'ticket', false ) . '>' . __( 'Featured image on Ticket Page', 'my-tickets' ) . "&lt;/option>
+										&lt;option value='event'" . selected( $mt_ticket_image, 'event', false ) . '>' . __( 'Featured image for Event', 'my-tickets' ) . '&lt;/option>' .
+										apply_filters( 'mt_custom_ticket_image_option', '' ) . '
+									&lt;/select>
+								&lt;/p>';
+								echo wp_kses( $form, mt_kses_elements() );
+								$multiple = ( isset( $options['defaults']['multiple'] ) &amp;&amp; 'true' === $options['defaults']['multiple'] ) ? true : false;
+								?>
+							&lt;/div>
+						&lt;/div>
+					&lt;/div>
+
+					&lt;div class="ui-sortable meta-box-sortables">
+						&lt;div class="postbox">
+							&lt;h2 id="mt-ticketing-options" class="hndle">&lt;?php _e( 'Default Ticket Settings', 'my-tickets' ); ?>&lt;/h2>
+
+							&lt;div class="inside">
+									&lt;p>
+										&lt;em>&lt;?php _e( 'Changing these settings does not impact events that have already been created.', 'my-tickets' ); ?>&lt;/em>
+									&lt;/p>
+									&lt;p>
+										&lt;label for='reg_expires'>&lt;?php _e( 'Stop online sales &lt;em>x&lt;/em> hours before event', 'my-tickets' ); ?>&lt;/label>
+										&lt;input type='number' name='defaults[reg_expires]' id='reg_expires' value='&lt;?php stripslashes( esc_attr( $options['defaults']['reg_expires'] ) ); ?>'/>
+									&lt;/p>
+
+									&lt;p>
+										&lt;label for='multiple'>&lt;?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?>&lt;/label>
+										&lt;input type='checkbox' name='defaults[multiple]' id='multiple' value='true' &lt;?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
+									&lt;/p>
+									&lt;?php
+									$type = $options['defaults']['sales_type'];
+									if ( ! $type || 'tickets' === $type ) {
+										$is_tickets      = true;
+										$is_registration = false;
+									} else {
+										$is_tickets      = false;
+										$is_registration = true;
+									}
+									$method = $options['defaults']['counting_method'];
+									if ( 'discrete' === $method ) {
+										$is_discrete   = true;
+										$is_continuous = false;
+									} else {
+										$is_discrete   = false;
+										$is_continuous = true;
+									}
+									echo mt_prices_table();
+									?>
+								&lt;div class="ticket-sale-types">
+									&lt;fieldset>
+										&lt;legend>&lt;?php _e( 'Type of Sale', 'my-tickets' ); ?>&lt;/legend>
+										&lt;p>
+											&lt;input type='radio' name='defaults[sales_type]' id='mt_sales_type_tickets' value='tickets'&lt;?php checked( $is_tickets, true ); ?> />
+											&lt;label for='mt_sales_type_tickets'>&lt;?php _e( 'Ticket Sales', 'my-tickets' ); ?>&lt;/label>&lt;br/>
+											&lt;input type='radio' name='defaults[sales_type]' id='mt_sales_type_registration' value='registration'&lt;?php checked( $is_registration, true ); ?> />
+											&lt;label for='mt_sales_type_registration'>&lt;?php _e( 'Event Registration', 'my-tickets' ); ?>&lt;/label>
+										&lt;/p>
+									&lt;/fieldset>
+									&lt;fieldset>
+										&lt;legend>&lt;?php _e( 'Ticket Counting Method', 'my-tickets' ); ?>&lt;/legend>
+										&lt;p>
+											&lt;input type='radio' name='defaults[counting_method]' id='mt_counting_method_discrete' value='discrete' &lt;?php checked( $is_discrete, true ); ?> />
+											&lt;label for='mt_counting_method_discrete'>&lt;?php _e( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ); ?>&lt;/label>&lt;br/>
+											&lt;input type='radio' name='defaults[counting_method]' id='mt_counting_method_continuous' value='continuous'&lt;?php checked( $is_continuous, true ); ?> />
+											&lt;label for='mt_counting_method_continuous'>&lt;?php _e( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ); ?>&lt;/label>
+										&lt;/p>
+									&lt;/fieldset>
+								&lt;/div>
+							&lt;/div>
+						&lt;/div>
+					&lt;/div>
+					&lt;p>&lt;input type="submit" name="mt-ticketing-settings" class="button-primary" value="&lt;?php _e( 'Save Ticket Defaults', 'my-tickets' ); ?>"/>&lt;/p>
+				&lt;/form>
+			&lt;/div>
+		&lt;/div>
+		&lt;?php mt_show_support_box(); ?>
+	&lt;/div>
+	&lt;?php
+	// creates settings page for My tickets.
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+	</main>
+    <footer>
+		<a href="https://docs.joedolson.com/my-tickets">My Tickets User Documentation</a> &bull;
+		<a href="https://github.com/joedolson/my-tickets/">My Tickets on GitHub</a> &bull;
+		<a href="https://www.joedolson.com/my-tickets/add-ons/">Buy My Tickets Premium Add-ons</a>
+	</footer>
+
+	
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="mt_setup_gateways.html">mt_setup_gateways</a></li></ul><h3>Filters</h3><ul><li><a href="mt_get_events_count.html">mt_get_events_count</a></li><li><a href="mt_get_ticket_ids_query.html">mt_get_ticket_ids_query</a></li><li><a href="mt_import_gateways.html">mt_import_gateways</a></li><li><a href="mt_money_format_spacer.html">mt_money_format_spacer</a></li><li><a href="mt_redirect.html">mt_redirect</a></li><li><a href="mt_registration_permissions.html">mt_registration_permissions</a></li><li><a href="mt_settings.html">mt_settings</a></li><li><a href="mt_ticketing_settings_fields.html">mt_ticketing_settings_fields</a></li><li><a href="mt_ticketing_update_settings.html">mt_ticketing_update_settings</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_redirect - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_ticketing_update_settings - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_redirect</h1></header>
+    <header><h1 class="page-title">Filter: mt_ticketing_update_settings</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_redirect">apply_filters( 'mt_redirect', <span class="signature">$redirect )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_ticketing_update_settings">apply_filters( 'mt_ticketing_update_settings', <span class="signature">$messages, $post )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Force add to cart redirect. Return 1 to override plugin settings and redirect to the shopping cart after tickets are added to the cart.</p>
+    <p>Filter updated settings messages appended to the 'My Tickets Ticketing Defaults saved' message.</p>
 </div>
 
 
@@ -77,7 +77,7 @@
 
         <tr>
             
-                <td class="name"><code>$redirect</code></td>
+                <td class="name"><code>$messages</code></td>
             
 
             <td class="type">
@@ -93,7 +93,30 @@
 
             
 
-            <td class="description last"><p>Boolean value as string: 1 or 0.</p></td>
+            <td class="description last"><p>Text string with updated settings messages. Default empty string.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$post</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Array of settings passed to function.</p></td>
         </tr>
 
     
@@ -134,7 +157,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="my-tickets.php.html">my-tickets.php</a>, <a href="my-tickets.php.html#line363">line 363</a>
+        <a href="mt-ticketing-settings.php.html">mt-ticketing-settings.php</a>, <a href="mt-ticketing-settings.php.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -160,10 +183,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>Boolean value as string: 1 or 0.</p>
-</div>
-
 
 
 <dl>
