@@ -94,6 +94,17 @@ function mt_featured_tickets( $atts, $content = '' ) {
 	if ( $atts['events'] ) {
 		$events = explode( ',', $atts['events'] );
 	} else {
+		/**
+		 * Set an array of default event IDs to show in the [tickets] shortcode. Only runs if the 'events' shortcode attribute is false.
+		 *
+		 * @hook mt_default_ticketed_events
+		 *
+		 * @param {array} $events Array of event IDs.
+		 * @param {array} $atts Shortcode attributes.
+		 * @param {string} $content Shortcode contents.
+		 *
+		 * @return {array}
+		 */
 		$events = apply_filters( 'mt_default_ticketed_events', array(), $atts, $content );
 	}
 	$content = '';
@@ -102,6 +113,15 @@ function mt_featured_tickets( $atts, $content = '' ) {
 			$event_data = get_post_meta( $event, '_mc_event_data', true );
 			$post       = get_post( $event, ARRAY_A );
 			if ( is_array( $post ) && is_array( $event_data ) ) {
+				/**
+				 * Filter the data used to draw event templates in the [tickets] shortcode.
+				 *
+				 * @hook mt_ticket_template_array
+				 *
+				 * @param {array} $data Merged array of stored event data and post object as array.
+				 *
+				 * @return {array}
+				 */
 				$data       = apply_filters( 'mt_ticket_template_array', array_merge( $event_data, $post ) );
 				$event_data = "<div class='mt-event-details'>" . mt_draw_template( $data, $atts['template'] ) . '</div>';
 				$content   .= "<div class='mt-event-item'>" . $event_data . mt_registration_form( '', $event, $atts['view'], $atts['time'], true ) . '</div>';
