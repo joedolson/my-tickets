@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_get_ticket_ids_query - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_max_sale_per_event - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_get_ticket_ids_query</h1></header>
+    <header><h1 class="page-title">Filter: mt_max_sale_per_event</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_get_ticket_ids_query">apply_filters( 'mt_get_ticket_ids_query', <span class="signature">$args )</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id="mt_max_sale_per_event">apply_filters( 'mt_max_sale_per_event', <span class="signature">$max_limit )</span><span class="type-signature"> &rarr; {bool|int}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Customize arguments for events to show with the [tickets] shortcode.</p>
+    <p>Filter maximum sale per event. Limits number of tickets that can be purchased at a time.</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>$args</code></td>
+                <td class="name"><code>$max_limit</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">bool</span>
 
 
             
@@ -93,7 +93,7 @@
 
             
 
-            <td class="description last"><p>An array of arguments passed to WP_Query.</p></td>
+            <td class="description last"><p>Default false.</p></td>
         </tr>
 
     
@@ -134,7 +134,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-tickets.php.html">mt-tickets.php</a>, <a href="mt-tickets.php.html#line147">line 147</a>
+        <a href="mt-button.php.html">mt-button.php</a>, <a href="mt-button.php.html#line239">line 239</a>
     </li></ul></dd>
     
 
@@ -160,6 +160,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <p>Number of tickets that can be purchased at once or false.</p>
+</div>
+
 
 
 <dl>
@@ -168,7 +172,10 @@
     </dt>
     <dd>
         
-<span class="param-type">array</span>
+<span class="param-type">bool</span>
+|
+
+<span class="param-type">int</span>
 
 
     </dd>

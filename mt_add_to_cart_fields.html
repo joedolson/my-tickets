@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_get_ticket_ids_query - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_add_to_cart_fields - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_get_ticket_ids_query</h1></header>
+    <header><h1 class="page-title">Filter: mt_add_to_cart_fields</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_get_ticket_ids_query">apply_filters( 'mt_get_ticket_ids_query', <span class="signature">$args )</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id="mt_add_to_cart_fields">apply_filters( 'mt_add_to_cart_fields', <span class="signature">$fields, $event_id )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Customize arguments for events to show with the [tickets] shortcode.</p>
+    <p>Filter visible fields added to My Tickets add to cart form. Inserted between standard fields and submit button.</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>$args</code></td>
+                <td class="name"><code>$fields</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">string</span>
 
 
             
@@ -93,7 +93,30 @@
 
             
 
-            <td class="description last"><p>An array of arguments passed to WP_Query.</p></td>
+            <td class="description last"><p>HTML output. Default empty.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$event_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Event ID.</p></td>
         </tr>
 
     
@@ -134,7 +157,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-tickets.php.html">mt-tickets.php</a>, <a href="mt-tickets.php.html#line147">line 147</a>
+        <a href="mt-button.php.html">mt-button.php</a>, <a href="mt-button.php.html#line362">line 362</a>
     </li></ul></dd>
     
 
@@ -168,7 +191,7 @@
     </dt>
     <dd>
         
-<span class="param-type">array</span>
+<span class="param-type">string</span>
 
 
     </dd>

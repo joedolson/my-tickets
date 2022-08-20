@@ -561,6 +561,16 @@ function mt_get_event_title( $ticket_id = false ) {
 		$ticket = mt_get_ticket( $ticket_id );
 	}
 	if ( $ticket ) {
+		/**
+		 * Filter the event title as shown on tickets.
+		 *
+		 * @hook mt_the_title
+		 *
+		 * @param {string} $post_title The event title.
+		 * @param {object} $ticket The ticket object.
+		 *
+		 * @return {string}
+		 */
 		$title = apply_filters( 'the_title', apply_filters( 'mt_the_title', $ticket->post_title, $ticket ), $ticket_id );
 
 		return $title;
@@ -634,6 +644,16 @@ function mt_get_ticket_type( $ticket_id = false ) {
 		$type  = $type['type'];
 		$label = mt_get_label( $type );
 
+		/**
+		 * Filter the ticket type label shown on tickets.
+		 *
+		 * @hook mt_ticket_type
+		 *
+		 * @param {string} $label Label defined from settings.
+		 * @param {string} $type Ticket type key.
+		 *
+		 * @return {string}
+		 */
 		return apply_filters( 'mt_ticket_type', $label, $type );
 	}
 
@@ -673,6 +693,7 @@ function mt_get_ticket_price( $ticket_id = false ) {
 		if ( 'Completed' !== $paid ) {
 			$append = ': &lt;em>' . __( 'Payment Due', 'my-tickets' ) . '&lt;/em>';
 		}
+
 		$type = apply_filters( 'mt_money_format', $data['price'] );
 
 		return $type . $append;
@@ -715,6 +736,16 @@ function mt_get_ticket_qrcode( $ticket_id = false ) {
 		'outputType' => QRCODE::OUTPUT_IMAGE_PNG,
 		'eccLevel'   => QRCODE::ECC_M,
 	);
+	/**
+	 * Filter QRCode configuration options passed to QROptions. See https://github.com/chillerlan/php-qrcode/wiki/Advanced-usage.
+	 *
+	 * @hook mt_qrcode_options
+	 *
+	 * @param {array} $qrcode Array of configuration options.
+	 * @param {string} $ticket_id ID of the current ticket.
+	 *
+	 * @return {array}
+	 */
 	$qrcode    = apply_filters( 'mt_qrcode_options', $qrcode, $ticket_id );
 	$options   = new QROptions( $qrcode );
 	$code      = new QRCode( $options );
@@ -748,6 +779,16 @@ function mt_get_ticket_venue( $ticket_id = false ) {
 		$location_id = get_post_meta( $ticket->ID, '_mc_event_location', true );
 		$html        = false;
 		if ( $location_id ) {
+			/**
+			 * Filter location objects saved with events. Expects a My Calendar structured location object.
+			 *
+			 * @hook mt_create_location_object
+			 *
+			 * @param {false} $location Default location object.
+			 * @param {int}   $location_id ID value saved in post meta _mc_event_location.
+			 *
+			 * @return {object|false}
+			 */
 			$location = apply_filters( 'mt_create_location_object', false, $location_id );
 			if ( ! $location ) {
 				return '';
@@ -755,6 +796,17 @@ function mt_get_ticket_venue( $ticket_id = false ) {
 				$html = mt_hcard( $location, true );
 			}
 		}
+		/**
+		 * Filter the hcard output in My Tickets.
+		 *
+		 * @hook mt_hcard
+		 *
+		 * @param {string} $html HTML output of an hCard.
+		 * @param {int}    $location_id Location ID.
+		 * @param {object} $ticket Ticket object.
+		 *
+		 * @return {string}
+		 */
 		$html = apply_filters( 'mt_hcard', $html, $location_id, $ticket );
 		if ( $html ) {
 			return $html;
@@ -904,9 +956,19 @@ function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 		$general  = ( isset( $event_data['general_admission'] ) &amp;&amp; ! empty( $event_data['general_admission'] ) ) ? true : false;
 		$validity = ( isset( $event_data['event_valid'] ) &amp;&amp; $general ) ? trim( $event_data['event_valid'] ) : false;
 		if ( $validity ) {
-			$data         = get_post_meta( $ticket, '_' . $ticket_id, true );
-			$sale_id      = $data['purchase_id'];
-			$format       = ( '' === get_option( 'date_format' ) ) ? 'Y-m-d' : get_option( 'date_format' );
+			$data    = get_post_meta( $ticket, '_' . $ticket_id, true );
+			$sale_id = $data['purchase_id'];
+			$format  = ( '' === get_option( 'date_format' ) ) ? 'Y-m-d' : get_option( 'date_format' );
+			/**
+			 * PHP Date format string used for the date general admission tickets are valid until.
+			 *
+			 * @hook mt_validity_date_format
+			 *
+			 * @param {string} $format Default format from WordPress date_format option.
+			 * @param {array}  $event_data Saved data about this event.
+			 *
+			 * @return {string}
+			 */
 			$format       = apply_filters( 'mt_validity_date_format', $format, $event_data );
 			$date_of_sale = get_the_date( $format, $sale_id );
 			$status       = mt_date( $format, strtotime( $date_of_sale . ' + ' . $validity ) );
@@ -1007,7 +1069,7 @@ function mt_ticket_custom_field( $field = false, $ticket_id = false ) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="mt_setup_gateways.html">mt_setup_gateways</a></li></ul><h3>Filters</h3><ul><li><a href="mt_cart_purchase_date.html">mt_cart_purchase_date</a></li><li><a href="mt_get_events_count.html">mt_get_events_count</a></li><li><a href="mt_get_ticket_ids_query.html">mt_get_ticket_ids_query</a></li><li><a href="mt_import_gateways.html">mt_import_gateways</a></li><li><a href="mt_money_format_spacer.html">mt_money_format_spacer</a></li><li><a href="mt_redirect.html">mt_redirect</a></li><li><a href="mt_registration_permissions.html">mt_registration_permissions</a></li><li><a href="mt_registration_tickets_options.html">mt_registration_tickets_options</a></li><li><a href="mt_settings.html">mt_settings</a></li><li><a href="mt_ticketing_settings_fields.html">mt_ticketing_settings_fields</a></li><li><a href="mt_ticketing_update_settings.html">mt_ticketing_update_settings</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="mt_setup_gateways.html">mt_setup_gateways</a></li><li><a href="mt_ticket_handling_price.html">mt_ticket_handling_price</a></li><li><a href="mt_ticket_settings.html">mt_ticket_settings</a></li></ul><h3>Filters</h3><ul><li><a href="mt_add_to_cart_fields.html">mt_add_to_cart_fields</a></li><li><a href="mt_add_to_cart_hidden_fields.html">mt_add_to_cart_hidden_fields</a></li><li><a href="mt_admin_only_ticket.html">mt_admin_only_ticket</a></li><li><a href="mt_cart_purchase_date.html">mt_cart_purchase_date</a></li><li><a href="mt_create_location_object.html">mt_create_location_object</a></li><li><a href="mt_default_available.html">mt_default_available</a></li><li><a href="mt_extra_label.html">mt_extra_label</a></li><li><a href="mt_get_events_count.html">mt_get_events_count</a></li><li><a href="mt_get_ticket_ids_query.html">mt_get_ticket_ids_query</a></li><li><a href="mt_hcard.html">mt_hcard</a></li><li><a href="mt_import_gateways.html">mt_import_gateways</a></li><li><a href="mt_max_sale_per_event.html">mt_max_sale_per_event</a></li><li><a href="mt_money_format_spacer.html">mt_money_format_spacer</a></li><li><a href="mt_price_in_label.html">mt_price_in_label</a></li><li><a href="mt_qrcode_options.html">mt_qrcode_options</a></li><li><a href="mt_redirect.html">mt_redirect</a></li><li><a href="mt_registration_permissions.html">mt_registration_permissions</a></li><li><a href="mt_registration_tickets_options.html">mt_registration_tickets_options</a></li><li><a href="mt_settings.html">mt_settings</a></li><li><a href="mt_the_title.html">mt_the_title</a></li><li><a href="mt_ticket_type.html">mt_ticket_type</a></li><li><a href="mt_ticketing_settings_fields.html">mt_ticketing_settings_fields</a></li><li><a href="mt_ticketing_update_settings.html">mt_ticketing_update_settings</a></li><li><a href="mt_tickets_close_value.html">mt_tickets_close_value</a></li><li><a href="mt_tickets_soldout_content.html">mt_tickets_soldout_content</a></li><li><a href="mt_validity_date_format.html">mt_validity_date_format</a></li></ul>
 </nav>
 
 <br class="clear">
