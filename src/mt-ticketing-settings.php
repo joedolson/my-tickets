@@ -49,6 +49,16 @@ function mt_update_ticketing_settings( $post ) {
 		$defaults['tickets']     = $mt_total_tickets;
 		$defaults['multiple']    = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';
 
+		/**
+		 * Filter settings array before saving option.
+         *
+         * @hook mt_settings
+         *
+         * @param {array} $settings Array of settings with values set by user prior to save to database.
+         * @param {array} $_POST Post data array.
+         *
+         * @return {array}
+		 */
 		$settings = apply_filters(
 			'mt_settings',
 			array(
@@ -70,6 +80,16 @@ function mt_update_ticketing_settings( $post ) {
 		);
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
 		update_option( 'mt_settings', $settings );
+		/**
+		 * Filter updated settings messages appended to the 'My Tickets Ticketing Defaults saved' message.
+         *
+         * @hook mt_ticketing_update_settings
+         *
+         * @param {string} $messages Text string with updated settings messages. Default empty string.
+         * @param {array}  $post Array of settings passed to function.
+         *
+         * @return {string}
+		 */
 		$messages = apply_filters( 'mt_ticketing_update_settings', '', $post );
 
 		return '<div class="updated"><p><strong>' . __( 'My Tickets Ticketing Defaults saved', 'my-tickets' ) . "</strong></p>$messages</div>";
@@ -102,10 +122,22 @@ function mt_ticketing_settings() {
 
 							<div class="inside">
 								<?php
-									echo apply_filters( 'mt_ticketing_settings_fields', '', $options );
+								/**
+								 *  Insert additional settings fields at top of global ticketing options.
+                                 *
+                                 * @hook mt_ticketing_settings_fields
+                                 *
+                                 * @param {string} $fields HTML output of settings fields. Default empty.
+                                 * @param {array} $options Array of option keys and values.
+                                 *
+                                 * @return {string}
+								 */
+								echo apply_filters( 'mt_ticketing_settings_fields', '', $options );
 								?>
 								<?php
-								// array of ticket options. Need to also be registered as ticket action.
+								/**
+								 * Filter 
+								 */
 								$mt_ticketing = apply_filters(
 									'mt_registration_tickets_options',
 									array(
