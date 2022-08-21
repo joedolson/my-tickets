@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: mt-payment.php - My Tickets Hook Doumentation</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles-docs.css?v=0.1.1">
+</head>
+
+<body>
+
+<div id="main">
+
+    <header><h1 class="page-title">Source: mt-payment.php</h1></header>
+	<main>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;?php
+/**
+ * Handle payment gateways and transact payment data into DB.
+ *
+ * @category Payments
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
+/**
+ * Any gateway can call this function to handle inserting payment data into DB
+ *
+ * @param string $response string -- 'VERIFIED' to continue.
+ * @param string $response_code HTTP CODE - must be 200 to continue.
+ * @param array  $data payment details array.
+ * @param array  $post data posted from gateway.
+ */
+function mt_handle_payment( $response, $response_code, $data, $post ) {
+	$options        = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	/**
+	 * Filter payment data before saving results into database and sending notifications.
+	 *
+	 * @hook mt_filter_payment_data
+	 *
+	 * @param {array} $data Payment Details.
+	 * @param {array} $post Data sent to My Tickets from payment gateway.
+	 *
+	 * @return {array}
+	 */
+	$data           = apply_filters( 'mt_filter_payment_data', $data, $post );
+	$payment_status = $data['status'];
+	$txn_id         = $data['transaction_id'];
+	$purchase_id    = $data['purchase_id'];
+	$blogname       = get_option( 'blogname' );
+	if ( 200 === absint( $response_code ) ) {
+		// Response must equal "verified" (not case sensitive) to handle response.
+		if ( 'verified' === strtolower( $response ) ) {
+			switch ( $payment_status ) {
+				case 'Completed':
+					$status = 'Completed';
+					break;
+				case 'Processed':
+				case 'Created':
+				case 'Pending':
+					$status = 'Pending';
+					break;
+				case 'Denied':
+				case 'Expired':
+				case 'Voided':
+				case 'Reversed':
+				case 'Canceled_Reversal':
+				case 'Failed':
+					$status = 'Failed';
+					break;
+				case 'Refunded':
+					$status = 'Refunded';
+					break;
+				default:
+					$status = "Other: $payment_status";
+			}
+
+			update_post_meta( $purchase_id, '_transaction_id', $txn_id );
+			update_post_meta( $purchase_id, '_transaction_data', $data );
+			update_post_meta( $purchase_id, '_is_paid', $status );
+			do_action( 'mt_successful_payment', $purchase_id, $response, $data, $post );
+			wp_update_post(
+				array(
+					'ID'          => $purchase_id,
+					'post_status' => 'publish',
+				)
+			); // trigger notifications.
+		} else {
+			// If we're here, there was an invalid payment response detected.
+			// log for manual investigation.
+			$mail_from = "From: $blogname Events &lt;" . $options['mt_from'] . '>';
+			// Translators: Response from My Tickets payment gateway.
+			$mail_subject = sprintf( __( 'INVALID Response from My Tickets Payment: %s', 'my-tickets' ), $response );
+			$mail_body    = __( 'Something went wrong. Hopefully this information will help:', 'my-tickets' ) . "\n\n";
+			$mail_body   .= print_r( map_deep( $post, 'sanitize_text_field' ), 1 );
+			wp_mail( $options['mt_to'], $mail_subject, $mail_body, $mail_from );
+		}
+		mt_log( $response, $response_code, $data, $post );
+	} else {
+		// If we're here, WP HTTP couldn't contact the payment gateway.
+		$mail_from = "From: $blogname Events &lt;" . $options['mt_from'] . '>';
+		// Translators: Response code provided by payment gateway on failed connection.
+		$mail_subject = sprintf( __( 'WP HTTP Failed to contact the payment gateway: %s', 'my-tickets' ), $response_code );
+		$mail_body    = __( 'Something went wrong. Hopefully this information will help:', 'my-tickets' ) . "\n\n";
+		$mail_body   .= print_r( $data, 1 );
+		$mail_body   .= print_r( $post, 1 );
+		$mail_body   .= print_r( $response, 1 );
+		wp_mail( $options['mt_to'], $mail_subject, $mail_body, $mail_from );
+		mt_log( $response, $response_code, $data, $post );
+	}
+}
+
+/**
+ * Log a payment error.
+ *
+ * @param array  $response Response.
+ * @param string $response_code Response code.
+ * @param array  $data Response data.
+ * @param array  $post POST data.
+ */
+function mt_log( $response, $response_code, $data, $post ) {
+	// log errors.
+	// if there is no purchase ID, then there's nowhere to log this data.
+	$purchase_id = ( isset( $data['purchase_id'] ) ) ? $data['purchase_id'] : false;
+	if ( $purchase_id ) {
+		// could have more than one error.
+		add_post_meta( $purchase_id, '_error_log', array( $response, $response_code, $data, $post ) );
+	}
+}
+
+/**
+ * Delete error logs for a given payment.
+ *
+ * @param int $purchase_id Payment ID.
+ */
+function mt_delete_log( $purchase_id ) {
+	delete_post_meta( $purchase_id, '_error_log' );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+	</main>
+    <footer>
+		<a href="https://docs.joedolson.com/my-tickets">My Tickets User Documentation</a> &bull;
+		<a href="https://github.com/joedolson/my-tickets/">My Tickets on GitHub</a> &bull;
+		<a href="https://www.joedolson.com/my-tickets/add-ons/">Buy My Tickets Premium Add-ons</a>
+	</footer>
+
+	
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="mt_setup_gateways.html">mt_setup_gateways</a></li><li><a href="mt_ticket_handling_price.html">mt_ticket_handling_price</a></li><li><a href="mt_ticket_settings.html">mt_ticket_settings</a></li></ul><h3>Filters</h3><ul><li><a href="mc_event_registration_form.html">mc_event_registration_form</a></li><li><a href="mt_add_to_cart_fields.html">mt_add_to_cart_fields</a></li><li><a href="mt_add_to_cart_hidden_fields.html">mt_add_to_cart_hidden_fields</a></li><li><a href="mt_admin_only_ticket.html">mt_admin_only_ticket</a></li><li><a href="mt_cart_purchase_date.html">mt_cart_purchase_date</a></li><li><a href="mt_create_location_object.html">mt_create_location_object</a></li><li><a href="mt_currencies.html">mt_currencies</a></li><li><a href="mt_custom_data_fields.html">mt_custom_data_fields</a></li><li><a href="mt_custom_fields.html">mt_custom_fields</a></li><li><a href="mt_default_available.html">mt_default_available</a></li><li><a href="mt_default_report_start_date.html">mt_default_report_start_date</a></li><li><a href="mt_default_ticketed_events.html">mt_default_ticketed_events</a></li><li><a href="mt_extra_label.html">mt_extra_label</a></li><li><a href="mt_filter_payment_data.html">mt_filter_payment_data</a></li><li><a href="mt_format_report_field.html">mt_format_report_field</a></li><li><a href="mt_get_events_count.html">mt_get_events_count</a></li><li><a href="mt_get_ticket_ids_query.html">mt_get_ticket_ids_query</a></li><li><a href="mt_hcard.html">mt_hcard</a></li><li><a href="mt_import_gateways.html">mt_import_gateways</a></li><li><a href="mt_max_sale_per_event.html">mt_max_sale_per_event</a></li><li><a href="mt_money_format_spacer.html">mt_money_format_spacer</a></li><li><a href="mt_payment_settings_fields.html">mt_payment_settings_fields</a></li><li><a href="mt_payment_update_settings.html">mt_payment_update_settings</a></li><li><a href="mt_price_in_label.html">mt_price_in_label</a></li><li><a href="mt_qrcode_options.html">mt_qrcode_options</a></li><li><a href="mt_redirect.html">mt_redirect</a></li><li><a href="mt_registration_options.html">mt_registration_options</a></li><li><a href="mt_registration_permissions.html">mt_registration_permissions</a></li><li><a href="mt_registration_tickets_options.html">mt_registration_tickets_options</a></li><li><a href="mt_settings.html">mt_settings</a></li><li><a href="mt_the_title.html">mt_the_title</a></li><li><a href="mt_ticket_template_array.html">mt_ticket_template_array</a></li><li><a href="mt_ticket_type.html">mt_ticket_type</a></li><li><a href="mt_ticketing_settings_fields.html">mt_ticketing_settings_fields</a></li><li><a href="mt_ticketing_update_settings.html">mt_ticketing_update_settings</a></li><li><a href="mt_tickets_close_value.html">mt_tickets_close_value</a></li><li><a href="mt_tickets_soldout_content.html">mt_tickets_soldout_content</a></li><li><a href="mt_validity_date_format.html">mt_validity_date_format</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
