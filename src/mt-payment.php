@@ -19,6 +19,16 @@
  */
 function mt_handle_payment( $response, $response_code, $data, $post ) {
 	$options        = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	/**
+	 * Filter payment data before saving results into database and sending notifications.
+	 *
+	 * @hook mt_filter_payment_data
+	 *
+	 * @param {array} $data Payment Details.
+	 * @param {array} $post Data sent to My Tickets from payment gateway.
+	 *
+	 * @return {array}
+	 */
 	$data           = apply_filters( 'mt_filter_payment_data', $data, $post );
 	$payment_status = $data['status'];
 	$txn_id         = $data['transaction_id'];
