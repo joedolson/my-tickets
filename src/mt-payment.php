@@ -18,7 +18,7 @@
  * @param array  $post data posted from gateway.
  */
 function mt_handle_payment( $response, $response_code, $data, $post ) {
-	$options        = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	/**
 	 * Filter payment data before saving results into database and sending notifications.
 	 *
