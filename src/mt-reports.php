@@ -647,7 +647,7 @@ function mt_download_csv_event() {
 		 *
 		 * @return {array}
 		 */
-		$custom_fields   = apply_filters( 'mt_custom_fields', array(), 'reports' );
+		$custom_fields = apply_filters( 'mt_custom_fields', array(), 'reports' );
 		foreach ( $custom_fields as $name => $field ) {
 			$custom_headings .= ",\"$name\"";
 		}

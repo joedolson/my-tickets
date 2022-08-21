@@ -49,6 +49,16 @@ function mt_update_payment_settings( $post ) {
 		$mt_receipt_page  = (int) $post['mt_receipt_page'];
 		$mt_tickets_page  = (int) $post['mt_tickets_page'];
 
+		/**
+		 * Filter My Tickets payment settings before saving.
+		 *
+		 * @hook mt_settings
+		 *
+		 * @param {array} $settings Settings after changes provided by admin but before saving.
+		 * @param {array} $post     $POST data.
+		 *
+		 * @return {array}
+		 */
 		$settings = apply_filters(
 			'mt_settings',
 			array(
@@ -69,11 +79,21 @@ function mt_update_payment_settings( $post ) {
 				'mt_tickets_page'     => $mt_tickets_page,
 				'mt_redirect'         => $mt_redirect,
 			),
-			$_POST
+			$post
 		);
 
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
 		update_option( 'mt_settings', $settings );
+		/**
+		 * Filter message appended to settings updated notification.
+		 *
+		 * @hook mt_payment_update_settings
+		 *
+		 * @param {string} $messages HTML output of messages.
+		 * @param {array}  $post POST data.
+		 *
+		 * @return {string}
+		 */
 		$messages = apply_filters( 'mt_payment_update_settings', '', $post );
 
 		return '<div class="updated"><p><strong>' . __( 'My Tickets Payment Settings saved', 'my-tickets' ) . "</strong></p>$messages</div>";
@@ -162,7 +182,17 @@ function mt_payment_settings() {
 										<label for="mt_redirect"><?php _e( 'Redirect to cart when tickets added', 'my-tickets' ); ?></label>
 									</li>
 									<?php
-										echo apply_filters( 'mt_payment_settings_fields', '', $options );
+									/**
+									 * Add payment settings fields.
+									 *
+									 * @hook mt_payment_settings_fields
+									 *
+									 * @param {string} $fields HTML output of fields.
+									 * @param {array}  $options Saved settings data.
+									 *
+									 * @return {string}
+									 */
+									echo apply_filters( 'mt_payment_settings_fields', '', $options );
 									?>
 								</ul>
 							</div>
@@ -314,6 +344,15 @@ function mt_symbols( $currency ) {
  * @return array
  */
 function mt_currency() {
+	/**
+	 * Filter array of available currencies. Currencies available vary depending on payment gateway used.
+	 *
+	 * @hook mt_currencies
+	 *
+	 * @param {array} $currencies Array of currencies available.
+	 *
+	 * @return {array}
+	 */
 	$currencies = apply_filters(
 		'mt_currencies',
 		array(
