@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Action: mt_setup_gateways - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_currencies - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Action: mt_setup_gateways</h1></header>
+    <header><h1 class="page-title">Filter: mt_currencies</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_setup_gateways">do_action( 'mt_setup_gateways', <span class="signature">$gateways )</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="mt_currencies">apply_filters( 'mt_currencies', <span class="signature">$currencies )</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter gateway settings fields.</p>
+    <p>Filter array of available currencies. Currencies available vary depending on payment gateway used.</p>
 </div>
 
 
@@ -77,7 +77,7 @@
 
         <tr>
             
-                <td class="name"><code>$gateways</code></td>
+                <td class="name"><code>$currencies</code></td>
             
 
             <td class="type">
@@ -93,7 +93,7 @@
 
             
 
-            <td class="description last"><p>Array holding custom fields relevant to each payment gateway.</p></td>
+            <td class="description last"><p>Array of currencies available.</p></td>
         </tr>
 
     
@@ -134,7 +134,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="my-tickets.php.html">my-tickets.php</a>, <a href="my-tickets.php.html#line417">line 417</a>
+        <a href="mt-payment-settings.php.html">mt-payment-settings.php</a>, <a href="mt-payment-settings.php.html#line347">line 347</a>
     </li></ul></dd>
     
 
@@ -157,6 +157,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 

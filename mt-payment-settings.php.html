@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: mt-payment-settings.php - My Tickets Hook Doumentation</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles-docs.css?v=0.1.1">
+</head>
+
+<body>
+
+<div id="main">
+
+    <header><h1 class="page-title">Source: mt-payment-settings.php</h1></header>
+	<main>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;?php
+/**
+ * Payment related settings
+ *
+ * @category Settings
+ * @package  My Tickets
+ * @author   Joe Dolson
+ * @license  GPLv2 or later
+ * @link     https://www.joedolson.com/my-tickets/
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
+/**
+ * Update settings for payments.
+ *
+ * @param array $post POST data.
+ *
+ * @return string
+ */
+function mt_update_payment_settings( $post ) {
+	if ( isset( $post['mt-payment-settings'] ) ) {
+		$nonce = sanitize_text_field( $_POST['_wpnonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'my-tickets' ) ) {
+			return '';
+		}
+		$mt_use_sandbox      = ( isset( $post['mt_use_sandbox'] ) ) ? 'true' : 'false';
+		$mt_ssl              = ( isset( $post['mt_ssl'] ) ) ? 'true' : 'false';
+		$mt_members_discount = (int) preg_replace( '/\D/', '', $post['mt_members_discount'] );
+		$mt_currency         = $post['mt_currency'];
+		$mt_dec_point        = ( isset( $post['mt_dec_point'] ) ) ? $post['mt_dec_point'] : '.';
+		$mt_thousands_sep    = ( isset( $post['mt_thousands_sep'] ) ) ? $post['mt_thousands_sep'] : ',';
+		$symbol_order        = ( isset( $post['symbol_order'] ) ) ? $post['symbol_order'] : 'symbol-first';
+		$mt_phone            = ( isset( $post['mt_phone'] ) ) ? 'on' : 'off';
+		$mt_vat              = ( isset( $post['mt_vat'] ) ) ? 'on' : 'off';
+		$mt_redirect         = ( isset( $post['mt_redirect'] ) ) ? '1' : '0';
+
+		$mt_default_gateway = ( isset( $post['mt_default_gateway'] ) ) ? $post['mt_default_gateway'] : 'offline';
+		$mt_gateway         = ( isset( $post['mt_gateway'] ) ) ? $post['mt_gateway'] : array( 'offline' );
+		// if a gateway is set as default that isn't enabled, enable it.
+		if ( ! ( in_array( $mt_default_gateway, $mt_gateway, true ) ) ) {
+			$mt_gateway[] = $mt_default_gateway;
+		}
+		$mt_gateways = ( isset( $post['mt_gateways'] ) ) ? $post['mt_gateways'] : array();
+
+		$mt_purchase_page = (int) $post['mt_purchase_page'];
+		$mt_receipt_page  = (int) $post['mt_receipt_page'];
+		$mt_tickets_page  = (int) $post['mt_tickets_page'];
+
+		/**
+		 * Filter My Tickets payment settings before saving.
+		 *
+		 * @hook mt_settings
+		 *
+		 * @param {array} $settings Settings after changes provided by admin but before saving.
+		 * @param {array} $post     $POST data.
+		 *
+		 * @return {array}
+		 */
+		$settings = apply_filters(
+			'mt_settings',
+			array(
+				'mt_use_sandbox'      => $mt_use_sandbox,
+				'mt_members_discount' => $mt_members_discount,
+				'mt_currency'         => $mt_currency,
+				'mt_dec_point'        => $mt_dec_point,
+				'mt_thousands_sep'    => $mt_thousands_sep,
+				'symbol_order'        => $symbol_order,
+				'mt_phone'            => $mt_phone,
+				'mt_vat'              => $mt_vat,
+				'mt_gateway'          => $mt_gateway,
+				'mt_default_gateway'  => $mt_default_gateway,
+				'mt_gateways'         => $mt_gateways,
+				'mt_ssl'              => $mt_ssl,
+				'mt_purchase_page'    => $mt_purchase_page,
+				'mt_receipt_page'     => $mt_receipt_page,
+				'mt_tickets_page'     => $mt_tickets_page,
+				'mt_redirect'         => $mt_redirect,
+			),
+			$post
+		);
+
+		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
+		update_option( 'mt_settings', $settings );
+		/**
+		 * Filter message appended to settings updated notification.
+		 *
+		 * @hook mt_payment_update_settings
+		 *
+		 * @param {string} $messages HTML output of messages.
+		 * @param {array}  $post POST data.
+		 *
+		 * @return {string}
+		 */
+		$messages = apply_filters( 'mt_payment_update_settings', '', $post );
+
+		return '&lt;div class="updated">&lt;p>&lt;strong>' . __( 'My Tickets Payment Settings saved', 'my-tickets' ) . "&lt;/strong>&lt;/p>$messages&lt;/div>";
+	}
+
+	return '';
+}
+
+/**
+ * Payment settings form.
+ */
+function mt_payment_settings() {
+	$post         = map_deep( $_POST, 'sanitize_text_field' );
+	$response     = mt_update_payment_settings( $post );
+	$options      = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
+	$defaults     = mt_default_settings();
+	$options      = array_merge( $defaults, $options );
+	$alert        = '';
+	$testing_mode = ( 'true' === $options['mt_use_sandbox'] ) ? true : false;
+	if ( $testing_mode ) {
+		$alert = "&lt;div class='notice updated'>&lt;p>" . __( 'Currently in testing mode. Use sandbox accounts when testing payment gateways.', 'my-tickets' ) . '&lt;/p>&lt;/div>';
+	}
+	?>
+	&lt;div class="wrap my-tickets" id="mt_settings">
+		&lt;div id="icon-options-general" class="icon32">&lt;br/>&lt;/div>
+		&lt;h1>&lt;?php _e( 'Event Registrations', 'my-tickets' ); ?>&lt;/h1>
+		&lt;?php echo wp_kses_post( $response ); ?>
+		&lt;?php echo wp_kses_post( $alert ); ?>
+		&lt;div class="postbox-container jcd-wide">
+			&lt;div class="metabox-holder">
+				&lt;form method="post" action="&lt;?php echo esc_url( admin_url( 'admin.php?page=mt-payment' ) ); ?>">
+					&lt;div>&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo wp_create_nonce( 'my-tickets' ); ?>"/>
+					&lt;/div>
+					&lt;div class="ui-sortable meta-box-sortables">
+						&lt;div class="postbox">
+							&lt;h2 class="hndle">&lt;?php _e( 'Registration Payment Settings', 'my-tickets' ); ?>&lt;/h2>
+
+							&lt;div class="inside">
+								&lt;p class="mt-money-format">&lt;strong>&lt;?php _e( 'Current format', 'my-tickets' ); ?>&lt;/strong>&lt;br />&lt;?php echo sanitize_text_field( mt_money_format( '25097.87' ) ); ?>&lt;/p>
+								&lt;ul>
+									&lt;li>&lt;label for="mt_currency">&lt;?php _e( 'Currency:', 'my-tickets' ); ?>&lt;/label>
+										&lt;?php
+										$mt_currency_codes = mt_currency();
+										$select            = "&lt;select name='mt_currency' id='mt_currency'>";
+										foreach ( $mt_currency_codes as $code => $currency ) {
+											$selected = ( $options['mt_currency'] === $code ) ? " selected='selected'" : '';
+											$select  .= "&lt;option value='$code'$selected>" . $currency['description'] . '&lt;/option>';
+										}
+										$select .= '&lt;/select>';
+										echo wp_kses( $select, mt_kses_elements() );
+										?>
+									&lt;/li>
+									&lt;li>
+										&lt;label for="mt_dec_point">&lt;?php _e( 'Decimal Point', 'my-tickets' ); ?>&lt;/label>
+										&lt;input type="text" name="mt_dec_point" id="mt_dec_point" size="3" value="&lt;?php echo stripslashes( esc_attr( $options['mt_dec_point'] ) ); ?>"/>
+									&lt;/li>
+									&lt;li>
+										&lt;label for="mt_thousands_sep">&lt;?php _e( 'Thousands separator', 'my-tickets' ); ?>&lt;/label>
+										&lt;input type="text" name="mt_thousands_sep" id="mt_thousands_sep" size="3" value="&lt;?php echo stripslashes( esc_attr( $options['mt_thousands_sep'] ) ); ?>"/>
+									&lt;/li>
+									&lt;li>
+										&lt;fieldset>
+											&lt;legend>&lt;?php _e( 'Symbol Order', 'my-tickets' ); ?>&lt;/legend>
+											&lt;p>
+												&lt;input type="radio" name="symbol_order" id="symbol_first" value="symbol-first" &lt;?php checked( $options['symbol_order'], 'symbol-first' ); ?> /> &lt;label for="symbol_first">&lt;?php _e( 'Symbol first, number last', 'my-tickets' ); ?>&lt;/label>
+											&lt;/p>
+											&lt;p>
+												&lt;input type="radio" name="symbol_order" id="symbol_last" value="symbol-last" &lt;?php checked( $options['symbol_order'], 'symbol-last' ); ?> /> &lt;label for="symbol_last">&lt;?php _e( 'Number first, symbol last', 'my-tickets' ); ?>&lt;/label>
+											&lt;/p>
+										&lt;/fieldset>
+									&lt;/li>
+									&lt;li>
+										&lt;label for="mt_members_discount">&lt;?php _e( 'Member discount (%)', 'my-tickets' ); ?>&lt;/label>
+										&lt;input type="number" name="mt_members_discount" id="mt_members_discount" size="3" min='0' max='100' value="&lt;?php echo stripslashes( esc_attr( $options['mt_members_discount'] ) ); ?>"/>
+									&lt;/li>
+									&lt;li>
+										&lt;input type="checkbox" name="mt_phone" id="mt_phone" value="on" &lt;?php echo checked( $options['mt_phone'], 'on' ); ?> />
+										&lt;label for="mt_phone">&lt;?php _e( 'Require phone number on purchases', 'my-tickets' ); ?>&lt;/label>
+									&lt;/li>
+									&lt;li>
+										&lt;input type="checkbox" name="mt_vat" id="mt_vat" value="on" &lt;?php echo checked( $options['mt_vat'], 'on' ); ?> />
+										&lt;label for="mt_vat">&lt;?php _e( 'Collect VAT Number', 'my-tickets' ); ?>&lt;/label>
+									&lt;/li>
+									&lt;li>
+										&lt;input type="checkbox" name="mt_redirect" id="mt_redirect" value="on" &lt;?php echo checked( $options['mt_redirect'], '1' ); ?> />
+										&lt;label for="mt_redirect">&lt;?php _e( 'Redirect to cart when tickets added', 'my-tickets' ); ?>&lt;/label>
+									&lt;/li>
+									&lt;?php
+									/**
+									 * Add payment settings fields.
+									 *
+									 * @hook mt_payment_settings_fields
+									 *
+									 * @param {string} $fields HTML output of fields.
+									 * @param {array}  $options Saved settings data.
+									 *
+									 * @return {string}
+									 */
+									echo apply_filters( 'mt_payment_settings_fields', '', $options );
+									?>
+								&lt;/ul>
+							&lt;/div>
+						&lt;/div>
+					&lt;/div>
+					&lt;div class="ui-sortable meta-box-sortables">
+						&lt;div class="postbox">
+							&lt;h2 class="hndle">&lt;?php _e( 'Payment Gateways', 'my-tickets' ); ?>&lt;/h2>
+
+							&lt;div class="inside">
+								&lt;ul>
+									&lt;?php
+									$default_selector = '';
+									$pg_tabs          = '';
+									$payment_gateways = '';
+									$mt_gateways      = mt_setup_gateways();
+									foreach ( $mt_gateways as $gateway => $fields ) {
+										$pg_settings       = '';
+										$gateway_enabled   = ( in_array( $gateway, $options['mt_gateway'], true ) ) ? ' checked="checked"' : '';
+										$default_selector .= "
+										&lt;li>
+											&lt;input type='checkbox' id='mt_gateway_$gateway' name='mt_gateway[]' value='$gateway'" . $gateway_enabled . " /> &lt;label for='mt_gateway_$gateway'>$fields[label]&lt;/label>
+										&lt;/li>";
+										$settings          = isset( $fields['fields'] ) ? $fields['fields'] : false;
+										if ( $settings ) {
+											foreach ( $settings as $key => $label ) {
+												if ( is_array( $label ) ) {
+													$input_type = $label['type'];
+													$text_label = $label['label'];
+													$value      = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
+													$checked    = ( 'checkbox' === $input_type &amp;&amp; ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) &amp;&amp; $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
+													if ( 'checkbox' === $input_type ) {
+														// Checkboxes with empty values will stay unchecked on save.
+														$pg_settings .= "&lt;li class='$input_type'>&lt;input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked /> &lt;label for='mt_$gateway-$key'>$text_label&lt;/label>&lt;/li>";
+													} else {
+														$pg_settings .= "&lt;li class='$input_type'>&lt;label for='mt_$gateway-$key'>$text_label&lt;/label>&lt;br /> &lt;input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked />&lt;/li>";
+													}
+												} else {
+													$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
+													$pg_settings .= "&lt;li class='textfield'>&lt;label for='mt_$gateway-$key'>$label&lt;/label>&lt;br /> &lt;input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' />&lt;/li>";
+												}
+											}
+										}
+										$notes = ( isset( $fields['note'] ) ) ? '&lt;p>' . wp_kses(
+											$fields['note'],
+											array(
+												'strong' => array(),
+												'code'   => array(),
+												'em'     => array(),
+												'a'      => array( 'href' ),
+											)
+										) . '&lt;/p>' : '';
+										// Translators: Gateway settings.
+										$pg_tabs          .= "&lt;li>&lt;a href='#$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '&lt;/a>&lt;/li>';
+										$checked           = ( mt_is_checked( 'mt_default_gateway', $gateway, $options, true ) ) ? ' checked="checked"' : '';
+										$payment_gateways .= "
+										&lt;div class='wptab mt_$gateway' id='$gateway'>
+										&lt;fieldset>
+											&lt;legend>$fields[label]&lt;/legend>
+											&lt;p>&lt;input type='radio' name='mt_default_gateway' id='mt_default_gateway_$gateway' value='$gateway'" . $checked . " /> &lt;label for='mt_default_gateway_$gateway'>" . __( 'Default gateway', 'my-tickets' ) . "&lt;/label>&lt;/p>
+												$pg_settings
+												$notes
+										&lt;/fieldset>
+										&lt;/div>";
+									}
+									echo wp_kses(
+										'&lt;li>&lt;fieldset>&lt;legend>' . __( 'Enabled Payment Gateways', 'my-tickets' ) . "&lt;/legend>&lt;ul class='checkboxes'>$default_selector&lt;/ul>&lt;/fieldset>
+									&lt;div class='mt-tabs'>
+										&lt;ul class='tabs'>
+											$pg_tabs
+										&lt;/ul>
+										$payment_gateways
+									&lt;/div>&lt;/li>",
+										mt_kses_elements()
+									);
+									?>
+								&lt;/ul>
+								&lt;ul>
+									&lt;li>
+										&lt;input type="checkbox" id="mt_use_sandbox" name="mt_use_sandbox" &lt;?php checked( true, mt_is_checked( 'mt_use_sandbox', 'true', $options ) ); ?> />
+										&lt;label for="mt_use_sandbox">&lt;?php _e( 'Testing mode (no payments will be processed)', 'my-tickets' ); ?>&lt;/label>
+									&lt;/li>
+									&lt;li>
+										&lt;input type="checkbox" id="mt_ssl" name="mt_ssl" value="true" aria-describedby="mt_ssl_note" &lt;?php checked( true, mt_is_checked( 'mt_ssl', 'true', $options ) ); ?> />
+										&lt;label for="mt_ssl">&lt;?php _e( 'Use SSL for Payment pages.', 'my-tickets' ); ?>&lt;/label>&lt;br/>
+										&lt;span id="mt_ssl_note">&lt;?php _e( 'You must have an SSL certificate to use this option', 'my-tickets' ); ?>&lt;/span>
+									&lt;/li>
+								&lt;/ul>
+								&lt;fieldset id="mt-required">
+									&lt;legend>&lt;?php _e( 'My Tickets Payment and Ticket Handling Pages', 'my-tickets' ); ?>&lt;/legend>
+									&lt;?php
+									// Translators: Current purchase page, 2: post status.
+									$current_purchase_page = ( is_numeric( $options['mt_purchase_page'] ) ) ? sprintf( __( 'Currently: %1$s (%2$s)', 'my-tickets' ), "&lt;a href='" . get_the_permalink( $options['mt_purchase_page'] ) . "'>" . get_the_title( $options['mt_purchase_page'] ) . '&lt;/a>', get_post_status( $options['mt_purchase_page'] ) ) : __( 'Not defined', 'my-tickets' );
+									// Translators: Current receipts page, 2: post status.
+									$current_receipt_page = ( is_numeric( $options['mt_receipt_page'] ) ) ? sprintf( __( 'Currently: %1$s (%2$s)', 'my-tickets' ), "&lt;a href='" . get_the_permalink( $options['mt_receipt_page'] ) . "'>" . get_the_title( $options['mt_receipt_page'] ) . '&lt;/a>', get_post_status( $options['mt_receipt_page'] ) ) : __( 'Not defined', 'my-tickets' );
+									// Translators: Current ticket display page.
+									$current_tickets_page = ( is_numeric( $options['mt_tickets_page'] ) ) ? sprintf( __( 'Currently: %1$s (%2$s)', 'my-tickets' ), "&lt;a href='" . get_the_permalink( $options['mt_tickets_page'] ) . "'>" . get_the_title( $options['mt_tickets_page'] ) . '&lt;/a>', get_post_status( $options['mt_tickets_page'] ) ) : __( 'Not defined', 'my-tickets' );
+									?>
+									&lt;ul>
+										&lt;li>
+											&lt;input type="text" size='6' class='suggest' id="mt_purchase_page" name="mt_purchase_page" value="&lt;?php echo stripslashes( esc_attr( $options['mt_purchase_page'] ) ); ?>" required aria-required="true" />
+											&lt;label for="mt_purchase_page">&lt;?php _e( 'Shopping cart', 'my-tickets' ); ?>
+												&lt;span class='new' aria-live="assertive">&lt;/span> &lt;em class='current'>&lt;?php echo wp_kses_post( $current_purchase_page ); ?>&lt;/em>&lt;/label>&lt;br/>
+										&lt;/li>
+										&lt;li>
+											&lt;input type="text" size='6' class='suggest' id="mt_receipt_page" name="mt_receipt_page" value="&lt;?php echo stripslashes( esc_attr( $options['mt_receipt_page'] ) ); ?>" required aria-required="true"/>
+											&lt;label for="mt_receipt_page">&lt;?php _e( 'Receipt page', 'my-tickets' ); ?>
+												&lt;span class='new' aria-live="assertive">&lt;/span> &lt;em class='current'>&lt;?php echo wp_kses_post( $current_receipt_page ); ?>&lt;/em>&lt;/label>&lt;br/>
+										&lt;/li>
+										&lt;li>
+											&lt;input type="text" size='6' class='suggest' id="mt_tickets_page" name="mt_tickets_page" value="&lt;?php echo stripslashes( esc_attr( $options['mt_tickets_page'] ) ); ?>" required aria-required="true"/>
+											&lt;label for="mt_tickets_page">&lt;?php _e( 'Tickets page', 'my-tickets' ); ?>
+												&lt;span class='new' aria-live="assertive">&lt;/span> &lt;em class='current'>&lt;?php echo wp_kses_post( $current_tickets_page ); ?>&lt;/em>&lt;/label>&lt;br/>
+										&lt;/li>
+									&lt;/ul>
+								&lt;/fieldset>
+							&lt;/div>
+						&lt;/div>
+					&lt;/div>
+					&lt;p>&lt;input type="submit" name="mt-payment-settings" class="button-primary" value="&lt;?php _e( 'Save Payment Settings', 'my-tickets' ); ?>"/>&lt;/p>
+				&lt;/form>
+			&lt;/div>
+		&lt;/div>
+		&lt;?php mt_show_support_box(); ?>
+	&lt;/div>
+	&lt;?php
+	// creates settings page for My tickets.
+}
+
+
+/**
+ * Return current currency symbol.
+ *
+ * @param array $currency Currencies.
+ *
+ * @return string
+ */
+function mt_symbols( $currency ) {
+	$currencies = mt_currency();
+	$symbol     = $currencies[ $currency ]['symbol'];
+	$symbol     = ( ! $symbol ) ? $currency : $symbol;
+
+	return $symbol;
+}
+
+/**
+ * All currencies.
+ *
+ * @return array
+ */
+function mt_currency() {
+	/**
+	 * Filter array of available currencies. Currencies available vary depending on payment gateway used.
+	 *
+	 * @hook mt_currencies
+	 *
+	 * @param {array} $currencies Array of currencies available.
+	 *
+	 * @return {array}
+	 */
+	$currencies = apply_filters(
+		'mt_currencies',
+		array(
+			'USD' => array(
+				'symbol'      => '$',
+				'description' => __( 'U.S. Dollars ($)', 'my-tickets' ),
+			),
+			'EUR' => array(
+				'symbol'      => '€',
+				'description' => __( 'Euros (€)', 'my-tickets' ),
+			),
+			'AUD' => array(
+				'symbol'      => 'A $',
+				'description' => __( 'Australian Dollars (A $)', 'my-tickets' ),
+			),
+			'CAD' => array(
+				'symbol'      => 'C $',
+				'description' => __( 'Canadian Dollars (C $)', 'my-tickets' ),
+			),
+			'GBP' => array(
+				'symbol'      => '£',
+				'description' => __( 'Pounds Sterling (£)', 'my-tickets' ),
+			),
+			'INR' => array(
+				'symbol'      => '₹',
+				'description' => __( 'Indian Rupees (₹)', 'my-tickets' ),
+			),
+			'JPY' => array(
+				'symbol'      => '¥',
+				'description' => __( 'Yen (¥)', 'my-tickets' ),
+				'zerodecimal' => true,
+			),
+			'NZD' => array(
+				'symbol'      => '$',
+				'description' => __( 'New Zealand Dollar ($)', 'my-tickets' ),
+			),
+			'CHF' => array(
+				'symbol'      => 'CHF ',
+				'description' => __( 'Swiss Franc', 'my-tickets' ),
+			),
+			'HKD' => array(
+				'symbol'      => '$',
+				'description' => __( 'Hong Kong Dollar ($)', 'my-tickets' ),
+			),
+			'SGD' => array(
+				'symbol'      => '$',
+				'description' => __( 'Singapore Dollar ($)', 'my-tickets' ),
+			),
+			'SEK' => array(
+				'symbol'      => 'kr ',
+				'description' => __( 'Swedish Krona', 'my-tickets' ),
+			),
+			'DKK' => array(
+				'symbol'      => 'kr ',
+				'description' => __( 'Danish Krone', 'my-tickets' ),
+			),
+			'PLN' => array(
+				'symbol'      => 'zł',
+				'description' => __( 'Polish Zloty', 'my-tickets' ),
+			), // this is triggedec9decring an error. Why.
+			'NOK' => array(
+				'symbol'      => 'kr ',
+				'description' => __( 'Norwegian Krone', 'my-tickets' ),
+			),
+			'HUF' => array(
+				'symbol'      => 'Ft ',
+				'description' => __( 'Hungarian Forint', 'my-tickets' ),
+				'zerodecimal' => true,
+			),
+			'ILS' => array(
+				'symbol'      => '₪',
+				'description' => __( 'Israeli Shekel', 'my-tickets' ),
+			),
+			'MXN' => array(
+				'symbol'      => '$',
+				'description' => __( 'Mexican Peso', 'my-tickets' ),
+			),
+			'BRL' => array(
+				'symbol'      => 'R$',
+				'description' => __( 'Brazilian Real', 'my-tickets' ),
+			),
+			'MYR' => array(
+				'symbol'      => 'RM',
+				'description' => __( 'Malaysian Ringgits', 'my-tickets' ),
+			),
+			'PHP' => array(
+				'symbol'      => '₱',
+				'description' => __( 'Philippine Pesos', 'my-tickets' ),
+			),
+			'TWD' => array(
+				'symbol'      => 'NT$',
+				'description' => __( 'Taiwan New Dollars', 'my-tickets' ),
+				'zerodecimal' => true,
+			),
+			'THB' => array(
+				'symbol'      => '฿',
+				'description' => __( 'Thai Baht', 'my-tickets' ),
+			),
+			'TRY' => array(
+				'symbol'      => 'TRY ',
+				'description' => __( 'Turkish Lira', 'my-tickets' ),
+			),
+			'ZAR' => array(
+				'symbol'      => 'R',
+				'description' => __( 'South African Rand', 'my-tickets' ),
+			),
+		)
+	);
+
+	ksort( $currencies );
+
+	return $currencies;
+}
+
+/**
+ * Is the current currency a zerodecimal type.
+ *
+ * @return bool
+ */
+function mt_zerodecimal_currency() {
+	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
+	$defaults = mt_default_settings();
+	$options  = array_merge( $defaults, $options );
+
+	$currency   = $options['mt_currency'];
+	$currencies = mt_currency();
+	$data       = $currencies[ $currency ];
+
+	if ( isset( $data['zerodecimal'] ) &amp;&amp; true === $data['zerodecimal'] ) {
+		return true;
+	}
+
+	return false;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+	</main>
+    <footer>
+		<a href="https://docs.joedolson.com/my-tickets">My Tickets User Documentation</a> &bull;
+		<a href="https://github.com/joedolson/my-tickets/">My Tickets on GitHub</a> &bull;
+		<a href="https://www.joedolson.com/my-tickets/add-ons/">Buy My Tickets Premium Add-ons</a>
+	</footer>
+
+	
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="mt_setup_gateways.html">mt_setup_gateways</a></li><li><a href="mt_ticket_handling_price.html">mt_ticket_handling_price</a></li><li><a href="mt_ticket_settings.html">mt_ticket_settings</a></li></ul><h3>Filters</h3><ul><li><a href="mc_event_registration_form.html">mc_event_registration_form</a></li><li><a href="mt_add_to_cart_fields.html">mt_add_to_cart_fields</a></li><li><a href="mt_add_to_cart_hidden_fields.html">mt_add_to_cart_hidden_fields</a></li><li><a href="mt_admin_only_ticket.html">mt_admin_only_ticket</a></li><li><a href="mt_cart_purchase_date.html">mt_cart_purchase_date</a></li><li><a href="mt_create_location_object.html">mt_create_location_object</a></li><li><a href="mt_currencies.html">mt_currencies</a></li><li><a href="mt_custom_data_fields.html">mt_custom_data_fields</a></li><li><a href="mt_custom_fields.html">mt_custom_fields</a></li><li><a href="mt_default_available.html">mt_default_available</a></li><li><a href="mt_default_report_start_date.html">mt_default_report_start_date</a></li><li><a href="mt_default_ticketed_events.html">mt_default_ticketed_events</a></li><li><a href="mt_extra_label.html">mt_extra_label</a></li><li><a href="mt_format_report_field.html">mt_format_report_field</a></li><li><a href="mt_get_events_count.html">mt_get_events_count</a></li><li><a href="mt_get_ticket_ids_query.html">mt_get_ticket_ids_query</a></li><li><a href="mt_hcard.html">mt_hcard</a></li><li><a href="mt_import_gateways.html">mt_import_gateways</a></li><li><a href="mt_max_sale_per_event.html">mt_max_sale_per_event</a></li><li><a href="mt_money_format_spacer.html">mt_money_format_spacer</a></li><li><a href="mt_payment_settings_fields.html">mt_payment_settings_fields</a></li><li><a href="mt_payment_update_settings.html">mt_payment_update_settings</a></li><li><a href="mt_price_in_label.html">mt_price_in_label</a></li><li><a href="mt_qrcode_options.html">mt_qrcode_options</a></li><li><a href="mt_redirect.html">mt_redirect</a></li><li><a href="mt_registration_options.html">mt_registration_options</a></li><li><a href="mt_registration_permissions.html">mt_registration_permissions</a></li><li><a href="mt_registration_tickets_options.html">mt_registration_tickets_options</a></li><li><a href="mt_settings.html">mt_settings</a></li><li><a href="mt_the_title.html">mt_the_title</a></li><li><a href="mt_ticket_template_array.html">mt_ticket_template_array</a></li><li><a href="mt_ticket_type.html">mt_ticket_type</a></li><li><a href="mt_ticketing_settings_fields.html">mt_ticketing_settings_fields</a></li><li><a href="mt_ticketing_update_settings.html">mt_ticketing_update_settings</a></li><li><a href="mt_tickets_close_value.html">mt_tickets_close_value</a></li><li><a href="mt_tickets_soldout_content.html">mt_tickets_soldout_content</a></li><li><a href="mt_validity_date_format.html">mt_validity_date_format</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
