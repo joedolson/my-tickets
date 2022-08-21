@@ -239,7 +239,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
  *
  * @param string $form Form html.
  * @param bool   $has_data Does this form contain data.
- * @param object $data object Datacontained.
+ * @param object $data object Data contained.
  * @param string $public Admin or public context.
  *
  * @return string
@@ -335,9 +335,33 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		<span id='template_tag'><strong>" . __( 'Template tag:', 'my-tickets' ) . ' </strong><code>{event_notes}</code></span>
 	</p>';
 	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '</label></p>';
+	/**
+	 * Show custom fields/content in event creation inside My Calendar. Inserted at the end of the form.
+	 *
+	 * @hook mt_custom_data_fields
+	 *
+	 * @param {string} $form HTML Output. Default empty.
+	 * @param {array}  $registration Saved event data.
+	 * @param {object} $data Event data.
+	 *
+	 * @return {string}
+	 */
 	$form .= apply_filters( 'mt_custom_data_fields', '', $registration, $data );
 	$form .= $after;
 
+	/**
+	 * Filter generated form for event creation inside My Calendar.
+	 *
+	 * @hook mc_event_registration_form
+	 *
+	 * @param {string} $form Form HTML.
+	 * @param {bool}   $has_data Whether this form has data.
+	 * @param {object} $data Event object.
+	 * @param {string} $context Public or admin view.
+	 * @param {string} $original_form Form output before filter modifications.
+	 *
+	 * @return {string}
+	 */
 	return apply_filters( 'mc_event_registration_form', $form, $has_data, $data, $public, $original_form );
 }
 
@@ -546,6 +570,17 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 		// also if the amount of time before closure changes.
 		delete_post_meta( $post_id, '_mt_event_expired' );
 	}
+	/**
+	 * Filter event registration options for an event before saving.
+	 *
+	 * @hook mt_registration_options
+	 *
+	 * @param {array}  $registration_options Saved options for this event.
+	 * @param {array}  $post POST data passed to function.
+	 * @param {object} $data Event object.
+	 *
+	 * @return {array}
+	 */
 	$registration_options = apply_filters( 'mt_registration_options', $registration_options, $post, $data );
 	update_post_meta( $post_id, '_mt_registration_options', $registration_options );
 	update_post_meta( $post_id, '_mt_hide_registration_form', $hide );
