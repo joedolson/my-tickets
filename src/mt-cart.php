@@ -609,8 +609,18 @@ function mt_shipping_country( $country = '' ) {
 		'ZM' => __( 'Zambia', 'my-tickets' ),
 		'ZW' => __( 'Zimbabwe', 'my-tickets' ),
 	);
-
-	$options = '';
+	/**
+	 * Filter the available array of countries for shipping addresses.
+	 *
+	 * @hook {mt_shipping_countries}
+	 *
+	 * @param {array}  $countries Array of available countries.
+	 * @param {string} $selected Currently selected country, if any.
+	 *
+	 * @return {array}
+	 */
+	$countries = apply_filter( 'mt_shipping_countries', $countries, $selected );
+	$options   = '';
 	foreach ( $countries as $key => $value ) {
 		$selected = ( $country === $key || $country === $value ) ? ' selected="selected"' : '';
 		$options .= '<option value="' . esc_attr( $key ) . '"' . $selected . '>' . esc_html( $value ) . '</option>';
