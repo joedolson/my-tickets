@@ -89,7 +89,13 @@
 
 	<h1 class='event-title'><?php mt_event_title(); ?></h1>
 
-	<p><?php mt_event_date(); ?> @ <span class='time'><?php mt_event_time(); ?></span></p>
+	<?php
+	if ( ! mt_get_ticket_validity() ) {
+		?>
+		<p><?php mt_event_date(); ?> @ <span class='time'><?php mt_event_time(); ?></span></p>
+		<?php
+	}
+	?>
 
 	<div class='mt-verification'><?php mt_verification(); ?></div>
 
