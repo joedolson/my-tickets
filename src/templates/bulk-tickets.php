@@ -355,7 +355,7 @@ if ( have_posts() ) {
 						<div class='ticket_id'>
 							<?php echo $ticket_id; ?>
 						</div>
-						<?php echo apply_filters( 'mt_custom_ticket', '', $ticket_id, mt_get_ticket_method() ); ?>
+						<?php echo apply_filters( 'mt_custom_ticket', '', $ticket_id, mt_get_ticket_method( $ticket_id ) ); ?>
 					</div>
 
 				</div>
