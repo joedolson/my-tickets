@@ -7,7 +7,7 @@ Tested up to: 6.0
 Requires PHP: 7.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.9.6
+Stable tag: 1.9.7
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -71,6 +71,16 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Bug fix: Possible fatal error if total_paid is not a float value.
 * Bug fix: Missing `tr` in error log entries.
+* Bug fix: Set version numbers for all scripts and styles.
+* Bug fix: Correct missing & incorrect textdomains.
+* Bug fix: Show payment gateway used in payments list.
+* Bug fix: When a general admissions ticket is verified, don't display internal event date value.
+* Bug fix: Undefined key in bulk ticket views.
+* Bug fix: Unpassed required variable in bulk ticket views.
+* Change: Set input mode on numeric entries to triger iOS keypads
+* Change: Order general admission ticket validity lengths in time order.
+* New: Start documenting actions and filters.
+* New: filter on shipping countries array.
 
 = 1.9.6 =
 
