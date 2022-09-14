@@ -51,6 +51,8 @@ function mt_add_ticket_form() {
 		return;
 	}
 	$validity = array(
+		'3 years'  => __( '3 years', 'my-tickets' ),
+		'2 years'  => __( '2 years', 'my-tickets' ),
 		'1 year'   => __( '1 year', 'my-tickets' ),
 		'6 months' => __( '6 months', 'my-tickets' ),
 		'3 months' => __( '3 months', 'my-tickets' ),
