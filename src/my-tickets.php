@@ -46,7 +46,7 @@ load_plugin_textdomain( 'my-tickets', false, dirname( plugin_basename( __FILE__ 
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '1.9.7';
+	$mt_version = '1.9.7.1';
 
 	return $mt_version;
 }
