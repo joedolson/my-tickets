@@ -52,13 +52,13 @@ function mt_add_ticket_form() {
 	}
 	$validity = array(
 		'1 year'   => __( '1 year', 'my-tickets' ),
-		'1 month'  => __( '1 month', 'my-tickets' ),
-		'3 months' => __( '3 months', 'my-tickets' ),
 		'6 months' => __( '6 months', 'my-tickets' ),
-		'1 week'   => __( '1 week', 'my-tickets' ),
-		'2 weeks'  => __( '2 weeks', 'my-tickets' ),
-		'3 weeks'  => __( '3 weeks', 'my-tickets' ),
+		'3 months' => __( '3 months', 'my-tickets' ),
+		'1 month'  => __( '1 month', 'my-tickets' ),
 		'4 weeks'  => __( '4 weeks', 'my-tickets' ),
+		'3 weeks'  => __( '3 weeks', 'my-tickets' ),
+		'2 weeks'  => __( '2 weeks', 'my-tickets' ),
+		'1 week'   => __( '1 week', 'my-tickets' ),
 	);
 	$validity = apply_filters( 'mt_validity_options', $validity );
 	// add fields for event time and event date.
