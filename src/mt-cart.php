@@ -619,7 +619,7 @@ function mt_shipping_country( $country = '' ) {
 	 *
 	 * @return {array}
 	 */
-	$countries = apply_filter( 'mt_shipping_countries', $countries, $selected );
+	$countries = apply_filters( 'mt_shipping_countries', $countries, $selected );
 	$options   = '';
 	foreach ( $countries as $key => $value ) {
 		$selected = ( $country === $key || $country === $value ) ? ' selected="selected"' : '';
