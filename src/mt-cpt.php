@@ -318,8 +318,12 @@ function mt_payment_data( $post_id, $sections = array() ) {
 	$total  = mt_money_format( get_post_meta( $post_id, '_total_paid', true ) );
 	// Translators: Amount still owed on this transaction.
 	$owed             = ( 'Pending' === $status ) ? "<div class='mt-owed'>" . sprintf( __( 'Owed: %s', 'my-tickets' ), $total ) . '</div>' : '';
-	$tickets          = mt_setup_tickets( $purchase, $post_id );
-	$ticket_data      = "<div class='ticket-data panel'><div class='inner'><h3>" . __( 'Tickets', 'my-tickets' ) . '</h3>' . mt_format_tickets( $tickets, 'html', $post_id ) . '<br /><a href="' . $bulk_tickets . '">View All Tickets</a></div></div>';
+	if ( ( ! is_admin() && 'Completed' === $status ) || is_admin() ) {
+		$tickets     = mt_setup_tickets( $purchase, $post_id );
+		$ticket_data = "<div class='ticket-data panel'><div class='inner'><h3>" . __( 'Tickets', 'my-tickets' ) . '</h3>' . mt_format_tickets( $tickets, 'html', $post_id ) . '<br /><a href="' . $bulk_tickets . '">View All Tickets</a></div></div>';
+	} else {
+	    $ticket_data = '<h3>' . __( 'Tickets', 'my-tickets' ) . '</h3>' . wpautop( __( 'Tickets Pending Payment', 'my-tickets' ) );
+    }
 	$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h3>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h3>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
 	$gateway          = get_post_meta( $post_id, '_gateway', true );
 	$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h3>" . __( 'Gateway:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h3>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . '</div></div>';
