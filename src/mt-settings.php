@@ -220,6 +220,11 @@ function mt_settings() {
 									foreach ( $custom_fields as $name => $field ) {
 										$tags[] = $name;
 									}
+									// Add custom cart fields to display of template tags.
+									$cart_custom_fields = apply_filters( 'mt_cart_custom_fields', array(), array(), 'tags' );
+									foreach ( $cart_custom_fields as $name => $field ) {
+										$tags[] = $name;
+									}
 									// Add custom tags that are not also custom fields.
 									$tags      = apply_filters( 'mt_display_tags', $tags );
 									$tags      = array_map( 'mt_array_code', $tags );
