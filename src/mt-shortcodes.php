@@ -275,7 +275,7 @@ function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) 
 				$details  = '<div class="mt-payment-details">';
 				$details .= mt_payment_data( $payment->ID, array( 'dispute', 'other', 'purchase', 'ticket' ) );
 				$details .= '</div>';
-				$classes  = implode( ' ', array( $payment->post_status, sanitize_title( get_post_meta( $payment->ID, '_is_paid', true ) )));
+				$classes  = implode( ' ', array( $payment->post_status, sanitize_title( get_post_meta( $payment->ID, '_is_paid', true ) ) ) );
 				$output  .= '<tr class="' . $classes . '">
 					<td>' . $payment->ID . '</td>
 					<td>' . esc_html( get_the_title( $payment->ID ) ) . '</td>
