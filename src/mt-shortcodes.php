@@ -232,17 +232,19 @@ function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) 
 		if ( $user && ! $user_email ) {
 			$payments = get_posts(
 				array(
-					'post_type'    => 'mt-payments',
-					'post_author'  => $user,
-					'number_posts' => $count,
+					'post_type'   => 'mt-payments',
+					'post_status' => array( 'draft, publish' ),
+					'author'      => $user,
+					'numberposts' => $count,
 				)
 			);
 		} elseif ( $user_email && is_email( $user_email ) ) {
 			$payments = get_posts(
 				array(
-					'post_type'    => 'mt-payments',
-					'number_posts' => $count,
-					'meta_query'   => array(
+					'post_type'   => 'mt-payments',
+					'post_status' => array( 'draft', 'publish' ),
+					'numberposts' => $count,
+					'meta_query'  => array(
 						array(
 							'key'     => 'email',
 							'value'   => $user_email,
@@ -259,10 +261,11 @@ function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) 
 						<caption>' . __( 'Your Payments', 'my-tickets' ) . '</caption>
 						<thead>
 							<tr>
-								<th scope="col">' . __( 'Payment ID', 'my-tickets' ) . '</th>
-								<th scope="col">' . __( 'Payment Name', 'my-tickets' ) . '</th>
-								<th scope="col">' . __( 'Payment Date', 'my-tickets' ) . '</th>
-								<th scope="col">' . __( 'Show Details', 'my-tickets' ) . '</th>
+								<th scope="col">' . __( 'ID', 'my-tickets' ) . '</th>
+								<th scope="col">' . __( 'Name', 'my-tickets' ) . '</th>
+								<th scope="col">' . __( 'Date', 'my-tickets' ) . '</th>
+								<th scope="col">' . __( 'Status', 'my-tickets' ) . '</th>
+								<th scope="col">' . __( 'Details', 'my-tickets' ) . '</th>
 							</tr>
 						</thead>
 						<tbody>';
@@ -272,10 +275,12 @@ function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) 
 				$details  = '<div class="mt-payment-details">';
 				$details .= mt_payment_data( $payment->ID, array( 'dispute', 'other', 'purchase', 'ticket' ) );
 				$details .= '</div>';
-				$output  .= '<tr>
+				$classes  = implode( ' ', array( $payment->post_status, sanitize_title( get_post_meta( $payment->ID, '_is_paid', true ) )));
+				$output  .= '<tr class="' . $classes . '">
 					<td>' . $payment->ID . '</td>
-					<td>' . get_the_title( $payment->ID ) . '</td>
+					<td>' . esc_html( get_the_title( $payment->ID ) ) . '</td>
 					<td>' . get_the_date( 'Y-m-d H:i', $payment->ID ) . '</td>
+					<td>' . get_post_meta( $payment->ID, '_is_paid', true ) . '</td>
 					<td><button type="button" class="mt-show-payment-details" aria-expanded="false">' . __( 'Payment Details', 'my-tickets' ) . '</button>' . $details . '</td>
 				</tr>';
 			}
