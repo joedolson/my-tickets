@@ -988,8 +988,12 @@ function mt_get_data( $type, $user_ID = false ) {
 			}
 			if ( $data ) {
 				if ( '' !== $data && ! is_numeric( $data ) && ! is_array( $data ) ) {
-					// Data is probably JSON and needs to be decoded.
-					$data = json_decode( $data );
+					// Data could be JSON and needs to be decoded.
+					$decoded = json_decode( $data );
+					// If it was valid JSON, use the decoded value. Otherwise, use the original.
+					if ( JSON_ERROR_NONE === json_last_error() ) {
+						$data = $decoded;
+					}
 				}
 			} else {
 				$data = false;
