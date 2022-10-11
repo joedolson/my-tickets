@@ -7,7 +7,7 @@ Tested up to: 6.0
 Requires PHP: 7.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.9.8
+Stable tag: 1.9.9
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -66,6 +66,15 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
 == Changelog ==
+
+= 1.9.9 =
+
+* Bug fix: Verify is_main_query() before displaying the cart.
+* Bug fix: [my-payments] shortcode had misnamed parameters, breaking shortcode attributes and default values.
+* Bug fix: [my-payments] shortcode allowed users to access tickets before payment was completed.
+* Bug fix: Custom fields added through `mt_cart_custom_fields` filter not shown in email templates.
+* Bug fix: Current value incorrect in `mt_shipping_countries` filter.
+* Added: Support for Czech Koruna in default currencies.
 
 = 1.9.8 =
 
