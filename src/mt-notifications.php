@@ -62,31 +62,32 @@ function mt_generate_notifications( $id ) {
 	return;
 }
 
-add_filter( 'mt_format_array', 'mt_format_array', 10, 4 );
+add_filter( 'mt_format_array', 'mt_format_array', 10, 5 );
 /**
  * Format array data for use in email notifications.
  *
  * @param string $output text output.
  * @param string $type Type of display.
  * @param array  $data Data to display.
- * @param int    $transaction_id Payment ID.
+ * @param int    $purchase_id Payment ID.
+ * @param string $context Admin or email.
  *
  * @return string
  */
-function mt_format_array( $output, $type, $data, $transaction_id ) {
+function mt_format_array( $output, $type, $data, $purchase_id, $context = 'admin' ) {
 	if ( is_array( $data ) ) {
 		switch ( $type ) {
 			case 'purchase':
-				$output = mt_format_purchase( $data, false, $transaction_id );
+				$output = mt_format_purchase( $data, false, $purchase_id );
 				break;
 			case 'address':
-				$output = mt_format_address( $data, false, $transaction_id );
+				$output = mt_format_address( $data, false, $purchase_id );
 				break;
 			case 'tickets':
-				$output = mt_format_tickets( $data, 'text', $transaction_id );
+				$output = mt_format_tickets( $data, 'text', $purchase_id, $context );
 				break;
 			case 'ticket_ids':
-				$output = mt_format_tickets( $data, 'ids', $transaction_id );
+				$output = mt_format_tickets( $data, 'ids', $purchase_id, $context );
 				break;
 		}
 	}
@@ -228,10 +229,11 @@ function mt_format_address( $address, $format = false, $purchase_id = false ) {
  * @param array  $tickets Tickets to format.
  * @param string $type Type of display.
  * @param int    $purchase_id Payment ID.
+ * @param string $context Admin or email.
  *
  * @return string
  */
-function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false ) {
+function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $context = 'admin' ) {
 	if ( ! $purchase_id ) {
 		return '';
 	}
@@ -272,7 +274,9 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false ) {
 				);
 				$checkin   = add_query_arg( 'ticket-action', 'checkin', $action );
 				$undo      = add_query_arg( 'ticket-action', 'undo', $action );
-				$show      = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span><a href='" . esc_url( $undo ) . "'>" . __( 'Checked in', 'my-tickets' ) . '</a> ' : " <span class='dashicons dashicons-edit' aria-hidden='true'></span><a href='" . esc_url( $checkin ) . "'>" . __( 'Check-in', 'my-tickets' ) . '</a> ';
+				if ( 'admin' === $context ) {
+					$show = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span><a href='" . esc_url( $undo ) . "'>" . __( 'Checked in', 'my-tickets' ) . '</a> ' : " <span class='dashicons dashicons-edit' aria-hidden='true'></span><a href='" . esc_url( $checkin ) . "'>" . __( 'Check-in', 'my-tickets' ) . '</a> ';
+				}
 			}
 		}
 		if ( 'ids' === $type ) {
@@ -322,7 +326,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$subject2 = '';
 	$body2    = '';
 	$send     = true;
-	$id       = $details['id'];
+	$id       = $details['id']; // Purchase id.
 	$gateway  = get_post_meta( $id, '_gateway', true );
 	$notes    = ( ! empty( $options['mt_gateways'][ $gateway ]['notes'] ) ) ? $options['mt_gateways'][ $gateway ]['notes'] : '';
 	$phone    = get_post_meta( $id, '_phone', true );
@@ -333,7 +337,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	}
 	$purchased     = get_post_meta( $id, '_purchased' );
 	$purchase_data = get_post_meta( $id, '_purchase_data', true );
-	$ticket_array  = mt_setup_tickets( $purchased, $id, $resending );
+	$ticket_array  = mt_setup_tickets( $purchased, $id );
 	$handling      = ( isset( $options['mt_handling'] ) ) ? floatval( $options['mt_handling'] ) : 0;
 	$shipping      = ( isset( $options['mt_shipping'] ) ) ? floatval( $options['mt_shipping'] ) : 0;
 
@@ -364,8 +368,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$email            = $details['email'];
 
 	if ( 'eticket' === $ticketing_method || 'printable' === $ticketing_method ) {
-		$tickets    = apply_filters( 'mt_format_array', '', 'tickets', $ticket_array, $transaction_id );
-		$ticket_ids = apply_filters( 'mt_format_array', '', 'ticket_ids', array_keys( $ticket_array ), $transaction_id );
+		$tickets    = apply_filters( 'mt_format_array', '', 'tickets', $ticket_array, $id, 'email' );
+		$ticket_ids = apply_filters( 'mt_format_array', '', 'ticket_ids', array_keys( $ticket_array ), $id, 'email' );
 		update_post_meta( $id, '_is_delivered', 'true' );
 	} else {
 		$tickets    = ( 'willcall' === $ticketing_method ) ? __( 'Your tickets will be available at the box office.', 'my-tickets' ) : __( 'Your tickets will be mailed to you at the address provided.', 'my-tickets' );
@@ -380,7 +384,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		get_permalink( $options['mt_tickets_page'] )
 	) : '';
 
-	$purchases = apply_filters( 'mt_format_array', '', 'purchase', $purchased, $id );
+	$purchases = apply_filters( 'mt_format_array', '', 'purchase', $purchased, $id, 'email' );
 	$data      = array(
 		'receipt'        => apply_filters( 'mt_format_receipt', $receipt ),
 		'tickets'        => $tickets,
@@ -390,8 +394,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		'total'          => $total,
 		'key'            => $hash,
 		'purchase'       => $purchases,
-		'address'        => apply_filters( 'mt_format_array', '', 'address', $address, $transaction_id ),
-		'transaction'    => apply_filters( 'mt_format_array', '', 'transaction', $transaction_data, $transaction_id ),
+		'address'        => apply_filters( 'mt_format_array', '', 'address', $address, $id, 'email' ),
+		'transaction'    => apply_filters( 'mt_format_array', '', 'transaction', $transaction_data, $id, 'email' ),
 		'transaction_id' => $transaction_id,
 		'amount_due'     => $amount_due,
 		'handling'       => apply_filters( 'mt_money_format', $handling ),
