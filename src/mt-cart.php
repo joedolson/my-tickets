@@ -20,7 +20,7 @@ add_filter( 'the_content', 'my_tickets_cart', 20, 2 );
 function my_tickets_cart( $content ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$id      = ( '' !== $options['mt_purchase_page'] ) ? $options['mt_purchase_page'] : false;
-	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
+	if ( is_main_query() && $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		// by default, any page content is appended after the cart. This can be changed.
 		$content_before = apply_filters( 'mt_content_before_cart', '' );
 		$content_after  = apply_filters( 'mt_content_after_cart', $content );
