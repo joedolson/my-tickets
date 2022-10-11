@@ -656,7 +656,7 @@ add_action( 'admin_bar_menu', 'mt_admin_bar', 200 );
  * Add delete to admin bar.
  */
 function mt_admin_bar() {
-	if ( current_user_can( 'mt-copy-cart') ) {
+	if ( current_user_can( 'mt-copy-cart' ) ) {
 		global $wp_admin_bar;
 		$url  = add_query_arg( 'mt_delete', 'true', home_url() );
 		$args = array(
@@ -666,7 +666,7 @@ function mt_admin_bar() {
 		);
 		$wp_admin_bar->add_node( $args );
 		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-		$purchase_page =( $options['mt_purchase_page'] ) ? esc_url( get_permalink( $options['mt_purchase_page'] ) ) : '';
+		$purchase_page = ( $options['mt_purchase_page'] ) ? esc_url( get_permalink( $options['mt_purchase_page'] ) ) : '';
 		if ( $purchase_page ) {
 			$args = array(
 				'id'     => 'mt-view-cart',
@@ -674,7 +674,7 @@ function mt_admin_bar() {
 				'href'   => $purchase_page,
 				'parent' => 'mt_delete',
 			);
-			$wp_admin_bar->add_node($args);
+			$wp_admin_bar->add_node( $args );
 		}
 	}
 }
