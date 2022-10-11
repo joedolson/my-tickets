@@ -385,13 +385,14 @@ function mt_list_events( $purchase_id ) {
 function mt_setup_tickets( $purchase, $id ) {
 	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$ticket_array = array();
+
 	foreach ( $purchase as $purch ) {
 		foreach ( $purch as $event => $tickets ) {
 			$purchases[ $event ] = $tickets;
 			$ticket_meta         = get_post_meta( $event, '_ticket' );
 			foreach ( $tickets as $type => $details ) {
 				// add ticket hash for each ticket.
-				$count = $details['count'];
+				$count = absint( $details['count'] );
 				// only add tickets if count of tickets is more than 0.
 				if ( $count >= 1 ) {
 					$price = $details['price'];
