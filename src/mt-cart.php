@@ -1123,6 +1123,15 @@ function mt_expired( $event, $react = false ) {
 			$begin      = strtotime( $data['event_begin'] . ' ' . $data['event_time'] ) - $expiration;
 			if ( mt_date_comp( mt_date( 'Y-m-d H:i:s', $begin ), mt_date( 'Y-m-d H:i:s', mt_current_time() ) ) && $react ) {
 				update_post_meta( $event, '_mt_event_expired', 'true' );
+				/**
+				 * Executed an action when ticket sales are transitioned from open to closed.
+				 *
+				 * @hook mt_ticket_sales_closed
+				 *
+				 * @param {int} $event Event ID.
+				 * @param {array} $options Registration options array for this event.
+				 * @param {string} $closed The string 'closed'.
+				 */
 				do_action( 'mt_ticket_sales_closed', $event, $options, 'closed' );
 
 				return true;
