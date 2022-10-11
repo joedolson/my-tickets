@@ -245,7 +245,6 @@
 		$('.mt-payments button').on( 'click', function (e) {
 			var expanded = ( $( this ).attr( 'aria-expanded' ) == 'true' ) ? true : false;
 			var controls = $( this ).next( '.mt-payment-details' );
-			console.log( {expanded, controls} );
 			if ( expanded ) {
 				controls.hide();
 				$( this ).attr( 'aria-expanded', 'false' );
