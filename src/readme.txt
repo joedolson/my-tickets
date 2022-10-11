@@ -75,7 +75,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Custom fields added through `mt_cart_custom_fields` filter not shown in email templates.
 * Bug fix: Current value incorrect in `mt_shipping_countries` filter.
 * Bug fix: Custom field data for public users did not save string values correctly, only arrays and integers.
+* Bug fix: Wrong variable passed to format tickets prevented ticket generation during notification creation.
 * Added: Support for Czech Koruna in default currencies.
+* Added: Link to view cart in admin bar.
+* Change: Admin bar links only visible to users with cart management capabilities.
 
 = 1.9.8 =
 
