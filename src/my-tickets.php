@@ -630,14 +630,27 @@ add_action( 'admin_bar_menu', 'mt_admin_bar', 200 );
  * Add delete to admin bar.
  */
 function mt_admin_bar() {
-	global $wp_admin_bar;
-	$url  = add_query_arg( 'mt_delete', 'true', home_url() );
-	$args = array(
-		'id'    => 'mt_delete',
-		'title' => __( 'Empty Cart', 'my-tickets' ),
-		'href'  => $url,
-	);
-	$wp_admin_bar->add_node( $args );
+	if ( current_user_can( 'mt-copy-cart') ) {
+		global $wp_admin_bar;
+		$url  = add_query_arg( 'mt_delete', 'true', home_url() );
+		$args = array(
+			'id'    => 'mt_delete',
+			'title' => __( 'Empty Cart', 'my-tickets' ),
+			'href'  => $url,
+		);
+		$wp_admin_bar->add_node( $args );
+		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$purchase_page =( $options['mt_purchase_page'] ) ? esc_url( get_permalink( $options['mt_purchase_page'] ) ) : '';
+		if ( $purchase_page ) {
+			$args = array(
+				'id'     => 'mt-view-cart',
+				'title'  => __( 'View Cart', 'my-tickets' ),
+				'href'   => $purchase_page,
+				'parent' => 'mt_delete',
+			);
+			$wp_admin_bar->add_node($args);
+		}
+	}
 }
 
 /**
