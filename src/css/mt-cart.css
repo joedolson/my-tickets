@@ -46,10 +46,28 @@
     padding: 2px;
 }
 
-.ticket-orders label {
-    display: inline-block;
-    width: 10em;
-    margin-right: .5em;
+.mt-ticket-field {
+    display: grid;
+    grid-template-columns: 10em 1fr 3em;
+    column-gap: 12px;
+    align-items: center;
+    margin-bottom: .5rem;
+}
+
+fieldset .mt-ticket-field input:not([type=submit]), fieldset .mt-ticket-field select {
+    margin: 0;
+    margin-bottom: 0;
+}
+
+.mt-ticket-field.mt-price-in-label {
+    grid-template-columns: 9em 1fr;
+}
+
+@media only screen and (max-width:782px) {
+    .mt-ticket-field {
+        grid-template-columns: 1fr;
+        margin-bottom: 1rem;
+    }
 }
 
 .mt_cart caption {
