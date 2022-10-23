@@ -325,10 +325,11 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 								 * @return {bool}
 								 */
 								$price_in_label = apply_filters( 'mt_price_in_label', false, $event_id );
+								$price_class    = ( $price_in_label ) ? 'mt-price-in-label' : '';
 								$price          = "&lt;span id='mt_tickets_data_$type'>$ticket_price_label&lt;/span>";
 								$label_price    = ( $price_in_label ) ? ' &lt;span class="mt-label-price">' . strip_tags( $price ) . '&lt;/span>' : '';
 								$post_price     = ( ! $price_in_label ) ? $price : '';
-								$form          .= "&lt;div class='mt-ticket-field mt-ticket-$type $class'>&lt;label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . $label_price . '&lt;/label>';
+								$form          .= "&lt;div class='mt-ticket-field mt-ticket-$type $class $price_class'>&lt;label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . $label_price . '&lt;/label>';
 								$form          .= apply_filters(
 									'mt_add_to_cart_input',
 									"&lt;input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />",
