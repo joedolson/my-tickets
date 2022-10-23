@@ -183,7 +183,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 						}
 						$extra_label = '';
 						if ( mt_admin_only( $type ) ) {
-							$extra_label = '<span class="mt-admin-only">(' . __( 'Administrators only', 'my-tickets' ) . ')</span>';
+							$extra_label = ' <span class="mt-admin-only">(' . __( 'Administrators only', 'my-tickets' ) . ')</span>';
 						}
 						/**
 						 * Add additional labeling appended to ticket type information.
