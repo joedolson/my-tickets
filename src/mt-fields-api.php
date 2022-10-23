@@ -157,7 +157,8 @@ function mt_custom_field( $fields, $event_id ) {
 				default:
 					$output = "<input type='text' name='$name' id='$name' value='$user_value' $required />";
 			}
-			$fields .= "<p><label for='$name'>" . $field['title'] . $req_label . '</label> ' . $output . '</p>';
+			$class   = 'mt-' . sanitize_html_class( $field['title'] );
+			$fields .= "<div class='mt-ticket-field $class'><label for='$name'>" . $field['title'] . $req_label . '</label> ' . $output . '</div>';
 		}
 	}
 
