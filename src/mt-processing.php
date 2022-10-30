@@ -140,7 +140,7 @@ function mt_ticket_meta( $post_id ) {
 		if ( ! wp_verify_nonce( $nonce, 'mt-tickets-nonce' ) ) {
 			wp_die( 'Invalid nonce' );
 		}
-		$post        = map_deep( $_POST, 'sanitize_text_field' );
+		$post        = map_deep( $_POST, 'sanitize_textarea_field' );
 		$event_begin = mt_date( 'Y-m-d', strtotime( $post['event_begin'] ), false );
 		$event_time  = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
 		$general     = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'on' : '';
@@ -333,7 +333,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	}
 	$form .= "<p>
 		<label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "</label><br />
-		<textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_attr( $notes ) ) . "</textarea><br />
+		<textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_textarea( $notes ) ) . "</textarea><br />
 		<span id='template_tag'><strong>" . __( 'Template tag:', 'my-tickets' ) . ' </strong><code>{event_notes}</code></span>
 	</p>';
 	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '</label></p>';
