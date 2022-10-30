@@ -67,6 +67,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.9.10 =
+
+* Bug fix: textarea field in event data sanitized as text input, removing line breaks.
+
 = 1.9.9 =
 
 * Bug fix: Verify is_main_query() before displaying the cart.
