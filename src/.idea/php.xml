@@ -2,7 +2,6 @@
 <project version="4">
   <component name="PhpIncludePathManager">
     <include_path>
-      <path value="$PROJECT_DIR$/../../../wp-subversion/wordpress" />
     </include_path>
   </component>
 </project>
