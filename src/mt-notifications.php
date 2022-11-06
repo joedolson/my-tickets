@@ -383,6 +383,9 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		),
 		get_permalink( $options['mt_tickets_page'] )
 	) : '';
+	// Get translatable name of ticketing method.
+	$method_options  = mt_default_fields()['ticketing_method']['choices'];
+	$friendly_method = ( isset( $method_options[ $ticketing_method ] ) ) ? $method_options[ $ticketing_method ] : $ticketing_method;
 
 	$purchases = apply_filters( 'mt_format_array', '', 'purchase', $purchased, $id, 'email' );
 	$data      = array(
@@ -400,7 +403,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		'amount_due'     => $amount_due,
 		'handling'       => apply_filters( 'mt_money_format', $handling ),
 		'shipping'       => apply_filters( 'mt_money_format', $shipping ),
-		'method'         => ucfirst( $ticketing_method ),
+		'method'         => $friendly_method,
 		'phone'          => $phone,
 		'vat'            => $vat,
 		'purchase_ID'    => $id,
