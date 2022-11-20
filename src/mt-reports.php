@@ -828,13 +828,11 @@ function mt_get_report_data_by_time() {
 			$cstring = '';
 			foreach ( $c_value as $v ) {
 				if ( is_array( $v ) ) {
-					if ( absint( $v['event_id'] ) === absint( $post->ID ) ) {
-						$keys = array_keys( $v );
-						foreach ( $keys as $val ) {
-							if ( 'event_id' !== $val ) {
-								$cstring .= ( '' !== $cstring ) ? '; ' : '';
-								$cstring .= esc_html( $v[ $val ] );
-							}
+					$keys = array_keys( $v );
+					foreach ( $keys as $val ) {
+						if ( 'event_id' !== $val ) {
+							$cstring .= ( '' !== $cstring ) ? '; ' : '';
+							$cstring .= esc_html( $v[ $val ] );
 						}
 					}
 				} elseif ( ! is_object( $v ) ) {

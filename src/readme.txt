@@ -71,6 +71,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Change: Modernize CSS & HTML wrappers for custom and native add to cart fields.
 * Bug fix: textarea field in event data sanitized as text input, removing line breaks.
+* Bug fix: custom field data not showing in reports by date range.
+* Security: Prevent ticket forging by displaying ticket type and price on QR code verification. Props Michael Jaegers.
 
 = 1.9.9 =
 
