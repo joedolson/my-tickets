@@ -926,8 +926,10 @@ function mt_get_verification( $ticket_id = false ) {
 		}
 
 		do_action( 'mt_ticket_verified', $verified, $is_used, $purchase_id, $ticket_id );
+		$ticket_info  = "&lt;div class='ticket-type'>" . mt_get_ticket_type( $ticket_id ) . '&lt;/div>';
+		$ticket_info .= "&lt;div class='ticket-price'>" . mt_get_ticket_price( $ticket_id ) . '&lt;/div>';
 
-		return "&lt;div class='$status_class'>" . $text . '&lt;/div>';
+		return "&lt;div class='$status_class'>" . $text . '&lt;/div>' . $ticket_info;
 	}
 
 	return '&lt;div class="invalid">' . __( 'Not a valid ticket ID', 'my-tickets' ) . '&lt;/div>';
