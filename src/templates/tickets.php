@@ -205,7 +205,7 @@
 			bottom: 0;
 		}
 
-		.printable .ticket-qrcode img, .willcall .ticket-qrcode img {
+		.ticket-qrcode img {
 			max-width: 96px;
 		}
 
