@@ -88,7 +88,7 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
  *
  * @param bool|string $ticket_id Ticket ID.
  *
- * @return bool
+ * @return bool|object
  */
 function mt_get_ticket( $ticket_id = false ) {
 	global $wpdb;
