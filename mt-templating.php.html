@@ -543,7 +543,7 @@ function mt_get_ticket_event_notes( $ticket_id = false ) {
  *
  * @param bool|string $ticket_id Ticket ID.
  */
-function mt_ticket_event_notes( $ticket_id ) {
+function mt_ticket_event_notes( $ticket_id = false ) {
 	echo wp_kses_post( mt_get_ticket_event_notes( $ticket_id ) );
 }
 
