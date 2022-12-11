@@ -50,8 +50,64 @@ function mt_update_settings( $post ) {
 
 		return '<div class="updated"><p><strong>' . __( 'My Tickets Settings saved', 'my-tickets' ) . "</strong></p>$messages</div>";
 	}
-
+	$return = mt_import_settings();
+	if ( $return ) {
+		return '<div class="updated"><p>' . $return . '</p></div>';
+	}
+ 
 	return false;
+}
+
+/**
+ * Generate URL to export settings.
+ */
+function mt_export_settings_url() {
+	$nonce = wp_create_nonce( 'mt-export-settings' );
+	$url   = add_query_arg( 'mt-export-settings', $nonce, admin_url( 'admin.php?my-tickets' ) );
+
+	return $url;
+}
+
+/**
+ * Export settings
+ */
+function mt_export_settings() {
+	if ( isset( $_GET['mt-export-settings'] ) ) {
+		$nonce = wp_verify_nonce( $_GET['mt-export-settings'], 'mt-export-settings' );
+		if ( $nonce ) {
+			$date     = gmdate( 'Y-m-d', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+			$settings = get_option( 'mt_settings' );
+			header( 'Content-Type: application/json' );
+			header( 'Content-Disposition: attachment; filename=my-tickets-' . sanitize_title( get_bloginfo( 'name' ) ) . '-' . $date . '.json' );
+			header( 'Pragma: no-cache' );
+			wp_send_json( $settings, 200 );
+		}
+	}
+}
+add_action( 'admin_init', 'mt_export_settings' );
+
+/**
+ * Import settings
+ */
+function mt_import_settings() {
+	if ( isset( $_FILES['mt-import-settings'] ) ) {
+		$nonce = wp_verify_nonce( $_POST['_wpnonce'], 'my-tickets-nonce' );
+		if ( $nonce ) {
+			$settings = file_get_contents( $_FILES['mt-import-settings']['tmp_name'] );
+			print_r( $_FILES );
+			print_r( $settings );
+			$settings = json_decode( $settings, ARRAY_A );
+			print_r( $settings );
+			if ( null === $settings ) {
+				$return = json_last_error();
+			} else {
+				update_option( 'mt_settings', $settings );
+				$return = __( 'My Tickets settings have been replaced with the imported values.', 'my-tickets' );
+			}
+			return $return;
+		}
+	}
+	return '';
 }
 
 /**
@@ -239,6 +295,24 @@ function mt_settings() {
 								</div>
 
 								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="metabox-holder">
+				<div class="ui-sortable meta-box-sortables">
+					<div class="postbox">
+						<h2 class="hndle"><?php _e( 'Import and Export Settings', 'my-tickets' ); ?></h2>
+						<div class="inside">
+							<p><a href="<?php echo mt_export_settings_url(); ?>"><?php _e( 'Export settings', 'my-tickets' ); ?></a></p>
+							<form method="POST" enctype="multipart/form-data" action="<?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
+								<input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce( 'my-tickets-nonce' ); ?>" />
+								<p class="mt-input-settings">
+									<label for="mt-import-settings"><?php _e( 'Import Settings', 'my-tickets' ); ?></label>
+									<input type="file" name="mt-import-settings" id="mt-import-settings" accept="application/json" /> 
+									<input type="submit" class="button-secondary" value="<?php _e( 'Import Settings', 'my-tickets' ); ?>">	
+								</p>
 							</form>
 						</div>
 					</div>

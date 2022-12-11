@@ -43,3 +43,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 include( dirname( __FILE__ ) . '/src/my-tickets.php' );
+
+register_activation_hook( __FILE__, 'mt_activation' );
+register_deactivation_hook( __FILE__, 'mt_plugin_deactivated' );
