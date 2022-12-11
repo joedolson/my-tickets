@@ -67,6 +67,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= In process =
+
+* Feature: import and export settings.
+
 = 1.9.10 =
 
 * Change: Modernize CSS & HTML wrappers for custom and native add to cart fields.

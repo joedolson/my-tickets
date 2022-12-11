@@ -54,7 +54,7 @@ function mt_update_settings( $post ) {
 	if ( $return ) {
 		return '<div class="updated"><p>' . $return . '</p></div>';
 	}
- 
+
 	return false;
 }
 
@@ -94,7 +94,6 @@ function mt_import_settings() {
 		$nonce = wp_verify_nonce( $_POST['_wpnonce'], 'my-tickets-nonce' );
 		if ( $nonce ) {
 			$settings = file_get_contents( $_FILES['mt-import-settings']['tmp_name'] );
-			print_r( $_FILES );
 			print_r( $settings );
 			$settings = json_decode( $settings, ARRAY_A );
 			print_r( $settings );
