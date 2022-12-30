@@ -33,7 +33,12 @@ function mt_reports_page() {
 						echo wp_kses( '<p><button class="show-button">' . __( 'Show Hidden Columns', 'my-tickets' ) . '</button></p>', mt_kses_elements() );
 						if ( isset( $_POST['event_id'] ) && is_numeric( $_POST['event_id'] ) ) {
 							if ( ! ( '' === strip_tags( $_POST['mt_subject'] ) || '' === strip_tags( $_POST['mt_body'] ) ) ) {
-								mt_mass_email();
+								$verify = wp_verify_nonce( $_POST['mt-email-nonce'], 'mt-email-purchasers' );
+								if ( $verify ) {
+									mt_mass_email();
+								} else {
+									wp_die( __( 'My Tickets email security not verified.', 'my-tickets' ) );
+								}
 							}
 						}
 						if ( ! isset( $_GET['event_id'] ) ) {
@@ -310,6 +315,7 @@ function mt_choose_report_by_date() {
  */
 function mt_email_purchasers() {
 	$selector = mt_select_events();
+	$nonce    = wp_nonce_field( 'mt-email-purchasers', 'mt-email-nonce' );
 	$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : false;
 	$body     = ( isset( $_POST['mt_body'] ) ) ? sanitize_textarea_field( $_POST['mt_body'] ) : '';
 	$subject  = ( isset( $_POST['mt_subject'] ) ) ? sanitize_text_field( $_POST['mt_subject'] ) : '';
@@ -330,6 +336,7 @@ function mt_email_purchasers() {
 	$form = '
 		<h3>' . __( 'Email Purchasers of Tickets by Event', 'my-tickets' ) . "</h3>
 		<form method='POST' action='" . admin_url( 'admin.php?page=mt-reports' ) . "'>
+			$nonce
 			<p>
 			<label for='mt_select_event_for_email'>" . __( 'Select Event', 'my-tickets' ) . "</label>
 			<select name='event_id' id='mt_select_event_for_email'>
