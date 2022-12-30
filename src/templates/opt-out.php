@@ -57,6 +57,7 @@
 		$nonce = wp_create_nonce( 'mt_resubscribe' );
 		$url   = add_query_arg( 'opt_out', absint( $_GET['opt_out'] ), home_url() );
 		$url   = add_query_arg( 'oops', $nonce, $url );
+		// Translators: URL to resubscribe.
 		printf( __( 'Whoops! I didn\'t mean to do that. <a href="%s">Resubscribe me</a>', 'my-tickets' ), $url );
 		?>
 		</p>
