@@ -209,20 +209,25 @@ button[name="mt_add_to_cart"] img {
     margin-bottom: 1em;
 }
 
+.mt_purchase_path {
+	display: grid;
+	grid-template-columns: repeat( 3, auto );
+	align-items: center;
+}
+
 .mt_purchase_path span {
-    display: inline-block;
-    width: 33.33333333%;
-    padding: .5em 0;
-    text-align: center;
-    background: rgba( 255,255,255,.1 );
+    padding: .5em;
+    background: rgba( 255,255,255,.7 );
+	border-bottom: 4px solid transparent;
 }
 
 .mt_purchase_path .inactive {
-    background: rgba( 0,0,0,.3 );
+    background: rgba( 0,0,0,.15 );
 }
 
 .mt_purchase_path .active {
     background: rgba( 0,0,0,.1 );
+	border-bottom: 4px solid;
 }
 
 #x_card_code {
