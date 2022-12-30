@@ -1074,6 +1074,31 @@ function mt_mass_email( $event_id = false ) {
 	}
 }
 
+add_action( 'init', 'mt_record_opt_out' );
+/**
+ * Set a cookie when a user is opting out of emails. Used to prevent users from unsubscribing other users.
+ */
+function mt_record_opt_out() {
+	if ( isset( $_GET['opt_out'] ) && ! isset( $_COOKIE['mt_opting_out'] ) ) {
+		$opt_out = absint( $_GET['opt_out'] );
+		$opt_out = md5( $opt_out );
+		if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
+			// Fix syntax.
+			$options = array(
+				'expires'  => time() + 60 * 60 * 24 * 7,
+				'path'     => COOKIEPATH,
+				'domain'   => COOKIE_DOMAIN,
+				'secure'   => false,
+				'httponly' => true,
+				'samesite' => 'Lax',
+			);
+			setcookie( 'mt_opting_out', $opt_out, $options );
+		} else {
+			setcookie( 'mt_opting_out', $opt_out, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, false, true );
+		}
+	}
+}
+
 add_action( 'template_include', 'mt_opt_out' );
 /**
  * Receive opt-out data so purchasers can opt out of receiving email.
@@ -1085,7 +1110,13 @@ add_action( 'template_include', 'mt_opt_out' );
 function mt_opt_out( $template ) {
 	if ( isset( $_GET['opt_out'] ) && is_numeric( $_GET['opt_out'] ) ) {
 		$post_id = (int) $_GET['opt_out'];
-		update_post_meta( $post_id, '_opt_out', 'true' );
+		$opting  = ( isset( $_COOKIE['mt_opting_out'] ) ) ? sanitize_text_field( $_COOKIE['mt_opting_out'] ) : '';
+		if ( md5( $post_id ) === $opting ) {
+			update_post_meta( $post_id, '_opt_out', 'true' );
+		}
+		if ( isset( $_GET['oops'] ) && wp_verify_nonce( $_GET['oops'], 'mt_resubscribe' ) && md5( $post_id ) === $opting ) {
+			delete_post_meta( $post_id, '_opt_out' );
+		}
 		$template = locate_template( 'opt_out.php' );
 		if ( $template ) {
 			return $template;

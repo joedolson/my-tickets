@@ -18,75 +18,51 @@
 	<style>
 		body {
 			font-family: HelveticaNeue, Arial, Verdana, sans-serif;
+			background: #e6efee;
 		}
 
 		.panel {
-			padding: 1em;
+			padding: 1.5em;
 			margin: 0 auto;
+			max-width: 650px;
 			border: 1px solid #999;
-		}
-
-		.panel img {
-			display: block;
-			margin: 0 auto;
+			box-shadow: 3px 3px 3px #999;
+			background: #f6f6f6;
+			color: #323232;
 		}
 
 		.panel * {
+			margin-top: 0;
+			margin-bottom: 1em;
 			word-wrap: breakword;
-		}
-
-		.panel .post-footer {
-			background: #eee;
-			padding: 1em;
-			margin: 0 -1em;
-			font-size: .8em;
-		}
-
-		a.print {
-			display: block;
-			width: 100%;
-			text-align: center;
-		}
-
-		.mt-verification div {
-			padding: .5em;
-		}
-
-		.pending {
-			background: #f5e6ab;
-			border-left: 8px solid #755100;
-		}
-
-		.completed {
-			background: #edfaef;
-			border-left: 8px solid #005c12;
-			font-weight: 700;
-		}
-
-		.completed.used {
-			background: #facfd2;
-			border-left: 8px solid #8a2424;
-			font-weight: 700;
-		}
-
-		.mt-verification {
-			font-size: 1.6em;
-		}
-
-		@media print {
-			a.print {
-				display: none;
-			}
 		}
 	</style>
 </head>
 <body>
 <div class='panel opt_out'>
-
-	<h1 class='event-title'><?php _e( "You've opted out!", 'my-tickets' ); ?></h1>
-
-	<p><?php _e( "We're sorry you don't want to hear from us about your purchase, and you won't hear from us again about this purchase, although we will still notify you about any future purchases. Thanks for your business!", 'my-tickets' ); ?></p>
-
+	<?php
+	if ( isset( $_GET['oops'] ) ) {
+		?>
+		<h1 class="site-title"><?php bloginfo( 'blogname' ); ?></h1>
+		<h2 class='event-title'><?php _e( "You've opted in!", 'my-tickets' ); ?></h2>
+		<p><?php _e( 'You are now resubscribed to notifications about your ticket purchase!', 'my-tickets' ); ?></p>
+		<?php
+	} else {
+		?>
+		<h1 class="site-title"><?php bloginfo( 'blogname' ); ?></h1>
+		<h2 class='event-title'><?php _e( "You've opted out!", 'my-tickets' ); ?></h2>
+		<p><?php _e( "We're sorry you don't want to hear from us about your ticket purchase, and you won't hear from us again about this purchase, although we will still notify you about any future purchases. Thanks for your business!", 'my-tickets' ); ?></p>
+		<p>
+		<?php
+		$nonce = wp_create_nonce( 'mt_resubscribe' );
+		$url   = add_query_arg( 'opt_out', absint( $_GET['opt_out'] ), home_url() );
+		$url   = add_query_arg( 'oops', $nonce, $url );
+		printf( __( 'Whoops! I didn\'t mean to do that. <a href="%s">Resubscribe me</a>', 'my-tickets' ), $url );
+		?>
+		</p>
+		<?php
+	}
+	?>
 </div>
 
 </body>
