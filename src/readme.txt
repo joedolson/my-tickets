@@ -79,6 +79,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Change: Use dashicons for cart buttons instead of characters.
 * Bug fix: Payments post type should only be viewable to users with `mt-view-reports`.
 * Bug fix: ticket ID should not be a required function parameter in `mt_ticket_event_notes()`.
+* Bug fix: If required pages are not publicly available, direct user to edit screen, not settings.
 
 = 1.9.10 =
 
