@@ -43,7 +43,7 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     1.9.10
+ * Version:     1.9.10add_
  */
 
 /*
@@ -93,8 +93,9 @@ function mt_status_notice() {
 				// Translators: URL to settings page.
 				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets cart page is not assigned. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
 			} else {
-				// Translators: URL to settings page.
-				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets cart page is not publicly available. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
+				$edit = get_edit_post_link( $purchase );
+				// Translators: URL to edit post page.
+				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets cart page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the cart page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
 			}
 		}
 		if ( ! $receipt || 'publish' !== get_post_status( $receipt ) ) {
@@ -102,8 +103,9 @@ function mt_status_notice() {
 				// Translators: URL to settings page.
 				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets receipts page is not assigned. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
 			} else {
-				// Translators: URL to settings page.
-				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets receipts page is not publicly available. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
+				$edit = get_edit_post_link( $receipt );
+				// Translators: URL to edit post page.
+				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets receipts page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the receipts page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
 			}
 		}
 		if ( ! $tickets || 'publish' !== get_post_status( $tickets ) ) {
@@ -111,8 +113,9 @@ function mt_status_notice() {
 				// Translators: URL to settings page.
 				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets tickets page is not assigned. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
 			} else {
-				// Translators: URL to settings page.
-				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets tickets page is not publicly available. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
+				$edit = get_edit_post_link( $tickets );
+				// Translators: URL to edit post page.
+				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets tickets page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the tickets page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
 			}
 		}
 	}
