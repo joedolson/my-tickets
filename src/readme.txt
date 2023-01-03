@@ -7,7 +7,7 @@ Tested up to: 6.1
 Requires PHP: 7.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.9.10
+Stable tag: 1.9.11
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -924,4 +924,4 @@ Yes. My Tickets won't sell an unlimited number of tickets for an event; in order
 
 == Upgrade Notice ==
 
-1.8.31 - Important: Security update.
+1.9.11 - Important: Security update.
