@@ -94,12 +94,11 @@ function mt_import_settings() {
 		$nonce = wp_verify_nonce( $_POST['_wpnonce'], 'my-tickets-nonce' );
 		if ( $nonce ) {
 			$settings = file_get_contents( $_FILES['mt-import-settings']['tmp_name'] );
-			print_r( $settings );
 			$settings = json_decode( $settings, ARRAY_A );
-			print_r( $settings );
 			if ( null === $settings ) {
 				$return = json_last_error();
 			} else {
+				$settings = map_deep( $settings, 'sanitize_textarea_field' );
 				update_option( 'mt_settings', $settings );
 				$return = __( 'My Tickets settings have been replaced with the imported values.', 'my-tickets' );
 			}
