@@ -67,12 +67,9 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
-= In process =
-
-* Feature: import and export settings.
-
 = 1.9.11 =
 
+* Security: CSRF vulnerability in bulk emailing. Props @rezaduty/Patchstack Alliance.
 * Feature: Allow users who have unsubscribed to event notifications to resubscribe.
 * Feature: Import/export plugin settings.
 * Change: Modernize some display CSS.
