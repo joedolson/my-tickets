@@ -377,7 +377,7 @@ function mt_public_enqueue_scripts() {
 
 	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ), $version );
 	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ), $version );
-	wp_enqueue_style( 'mt-styles', $ticket_styles, array(), $version );
+	wp_enqueue_style( 'mt-styles', $ticket_styles, array( 'dashicons' ), $version );
 	wp_localize_script(
 		'mt.public',
 		'mt_ajax',
