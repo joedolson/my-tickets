@@ -123,7 +123,7 @@ function mt_offline_processor() {
 		$amount        = (float) $_POST['mt_amount'];
 		$shipping      = (float) $_POST['mt_shipping'];
 		// Check whether the total value for the cart matches the amounts submitted.
-		if ( (float) $total !== ( $amount + $shipping ) ) {
+		if ( ( $amount + $shipping ) !== (float) $total ) {
 			wp_die( 'My Tickets: Amount submitted to cart does not match payment.', 'my-tickets' );
 		}
 
@@ -143,7 +143,6 @@ function mt_offline_processor() {
 			'country' => isset( $_POST['address_country'] ) ? sanitize_text_field( $_POST['address_country'] ) : '',
 			'code'    => isset( $_POST['zip'] ) ? sanitize_text_field( $_POST['zip'] ) : '',
 		);
-
 
 		// if the total price on this transaction is zero, mark as completed.
 		$payment_status = ( '0' === (string) $total || '0.00' === (string) $total ) ? 'Completed' : 'Pending';
