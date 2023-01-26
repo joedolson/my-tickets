@@ -118,6 +118,14 @@ function mt_offline_processor() {
 		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		$response      = 'VERIFIED';
 		$response_code = 200;
+		$cart          = mt_get_cart();
+		$total         = mt_total_cart( $cart );
+		$amount        = (float) $_POST['mt_amount'];
+		$shipping      = (float) $_POST['mt_shipping'];
+		// Check whether the total value for the cart matches the amounts submitted.
+		if ( (float) $total !== ( $amount + $shipping ) ) {
+			wp_die( 'My Tickets: Amount submitted to cart does not match payment.', 'my-tickets' );
+		}
 
 		// transaction variables to store.
 		$item_number = ( isset( $_POST['mt_item'] ) ) ? sanitize_text_field( $_POST['mt_item'] ) : mt_get_data( 'offline-payment' );
@@ -136,8 +144,9 @@ function mt_offline_processor() {
 			'code'    => isset( $_POST['zip'] ) ? sanitize_text_field( $_POST['zip'] ) : '',
 		);
 
+
 		// if the total price on this transaction is zero, mark as completed.
-		$payment_status = ( '0' === $_POST['mt_amount'] || '0.00' === $_POST['mt_amount'] ) ? 'Completed' : 'Pending';
+		$payment_status = ( '0' === (string) $total || '0.00' === (string) $total ) ? 'Completed' : 'Pending';
 
 		$data = array(
 			'transaction_id' => $txn_id,
