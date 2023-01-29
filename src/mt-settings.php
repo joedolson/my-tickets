@@ -165,11 +165,11 @@ function mt_settings() {
 								</p>
 								<p>
 									<label for="mt_to"><?php _e( 'Send to:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_to" id="mt_to" size="60" value="<?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
+									<input type="text" name="mt_to" id="mt_to" class="widefat" value="<?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
 								</p>
 								<p>
 									<label for="mt_from"><?php _e( 'Send from:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_from" id="mt_from" size="60" value="<?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
+									<input type="text" name="mt_from" id="mt_from" class="widefat" value="<?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
 								</p>
 								<?php
 								$tabs         = '';
@@ -202,7 +202,7 @@ function mt_settings() {
 																printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type );
 																?>
 															</label><br/>
-															<input type="text" name="mt_messages[<?php echo esc_html( $type ); ?>][admin][subject]" id="mt_messages_<?php echo esc_html( $type ); ?>_admin_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
+															<input type="text" name="mt_messages[<?php echo esc_html( $type ); ?>][admin][subject]" id="mt_messages_<?php echo esc_html( $type ); ?>_admin_subject" class="widefat" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
 														</li>
 														<li>
 															<label for="mt_messages_<?php echo esc_html( $type ); ?>_admin_body">
@@ -211,7 +211,7 @@ function mt_settings() {
 																printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type );
 																?>
 															</label><br/>
-															<textarea name="mt_messages[<?php echo esc_html( $type ); ?>][admin][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
+															<textarea class="widefat" name="mt_messages[<?php echo esc_html( $type ); ?>][admin][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
 														</li>
 													</ul>
 												</fieldset>
@@ -225,7 +225,7 @@ function mt_settings() {
 																printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type );
 																?>
 															</label><br/>
-															<input type="text" name="mt_messages[<?php echo esc_html( $type ); ?>][purchaser][subject]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_subject" size="60" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
+															<input type="text" name="mt_messages[<?php echo esc_html( $type ); ?>][purchaser][subject]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_subject" class="widefat" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
 														</li>
 														<li>
 															<label for="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body">
@@ -234,7 +234,7 @@ function mt_settings() {
 																printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type );
 																?>
 															</label><br/>
-															<textarea name="mt_messages[<?php echo esc_html( $type ); ?>][purchaser][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
+															<textarea class="widefat" name="mt_messages[<?php echo esc_html( $type ); ?>][purchaser][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
 														</li>
 													</ul>
 												</fieldset>
