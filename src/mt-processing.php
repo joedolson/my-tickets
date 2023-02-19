@@ -414,7 +414,7 @@ function mt_prices_table( $registration = array() ) {
 				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";
 			}
 			if ( $label ) {
-				$class   = ( 0 !== $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
+				$class   = ( 0 !== (int) $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
 				$sold    = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
 				$close   = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? '' : ( isset( $options['close'] ) ? $options['close'] : '' );
 				$comps   = ( 'complimentary' === sanitize_title( $options['label'] ) ) ? '<br />' . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) : '';
