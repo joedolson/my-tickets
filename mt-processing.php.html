@@ -263,7 +263,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
 }
 
 /**
- * Add registration fields for My Calendar events
+ * Add registration fields for My Calendar events &amp; posts.
  *
  * @param string $form Form html.
  * @param bool   $has_data Does this form contain data.
@@ -440,7 +440,7 @@ function mt_prices_table( $registration = array() ) {
 				$available = "&lt;input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";
 			}
 			if ( $label ) {
-				$class   = ( 0 !== $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
+				$class   = ( 0 !== (int) $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
 				$sold    = ( isset( $_GET['mode'] ) &amp;&amp; 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
 				$close   = ( isset( $_GET['mode'] ) &amp;&amp; 'copy' === $_GET['mode'] ) ? '' : ( isset( $options['close'] ) ? $options['close'] : '' );
 				$comps   = ( 'complimentary' === sanitize_title( $options['label'] ) ) ? '&lt;br />' . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) : '';
@@ -470,7 +470,10 @@ function mt_prices_table( $registration = array() ) {
 		if ( ! $has_comps ) {
 			$return .= "
 				&lt;tr class='undeletable'>
-					&lt;td class='mt-controls'>&lt;button href='#' class='button up'>&lt;span class='dashicons dashicons-arrow-up-alt'>&lt;/span>&lt;span class='screen-reader-text'>Move Up&lt;/span>&lt;/button> &lt;button href='#' class='button down'>&lt;span class='dashicons dashicons-arrow-down-alt'>&lt;/span>&lt;span class='screen-reader-text'>Move Down&lt;/span>&lt;/button>&lt;/td>
+					&lt;td class='mt-controls'>
+						&lt;button type='button' class='button up'>&lt;span class='dashicons dashicons-arrow-up-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "&lt;/span>&lt;/button> 
+						&lt;button type='button' class='button down'>&lt;span class='dashicons dashicons-arrow-down-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "&lt;/span>&lt;/button>
+					&lt;/td>
 					&lt;td>&lt;input type='text' readonly name='mt_label[]' id='mt_label_complimentary' value='Complimentary' />&lt;br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "&lt;/td>
 					&lt;td>&lt;input type='text' readonly name='mt_price[]' id='mt_price_complimentary' value='0' size='8' />&lt;/td>
 					&lt;td>$available&lt;/td>
@@ -483,7 +486,7 @@ function mt_prices_table( $registration = array() ) {
 		&lt;tr class='clonedPrice' id='price1'>
 			&lt;td>&lt;/td>
 			&lt;td>&lt;input type='text' name='mt_label[]' id='mt_label' />&lt;/td>
-			&lt;td>&lt;input type='text' name='mt_price[]' id='mt_price' size='8' />&lt;/td>
+			&lt;td>&lt;input type='text' name='mt_price[]' id='mt_price' step='0.01' size='8' />&lt;/td>
 			&lt;td>$available_empty&lt;/td>
 			&lt;td>&lt;/td>
 			&lt;td>&lt;input type='date' name='mt_close[]' value='' />&lt;/td>
