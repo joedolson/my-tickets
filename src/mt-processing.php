@@ -237,7 +237,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
 }
 
 /**
- * Add registration fields for My Calendar events
+ * Add registration fields for My Calendar events & posts.
  *
  * @param string $form Form html.
  * @param bool   $has_data Does this form contain data.
@@ -457,7 +457,7 @@ function mt_prices_table( $registration = array() ) {
 		<tr class='clonedPrice' id='price1'>
 			<td></td>
 			<td><input type='text' name='mt_label[]' id='mt_label' /></td>
-			<td><input type='text' name='mt_price[]' id='mt_price' size='8' /></td>
+			<td><input type='text' name='mt_price[]' id='mt_price' step='0.01' size='8' /></td>
 			<td>$available_empty</td>
 			<td></td>
 			<td><input type='date' name='mt_close[]' value='' /></td>
