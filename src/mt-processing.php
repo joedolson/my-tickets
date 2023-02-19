@@ -444,7 +444,10 @@ function mt_prices_table( $registration = array() ) {
 		if ( ! $has_comps ) {
 			$return .= "
 				<tr class='undeletable'>
-					<td class='mt-controls'><button href='#' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>Move Up</span></button> <button href='#' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>Move Down</span></button></td>
+					<td class='mt-controls'>
+						<button type='button' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "</span></button> 
+						<button type='button' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "</span></button>
+					</td>
 					<td><input type='text' readonly name='mt_label[]' id='mt_label_complimentary' value='Complimentary' /><br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "</td>
 					<td><input type='text' readonly name='mt_price[]' id='mt_price_complimentary' value='0' size='8' /></td>
 					<td>$available</td>
