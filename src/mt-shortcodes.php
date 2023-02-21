@@ -28,7 +28,7 @@ function my_tickets_short_cart() {
 	$total   = mt_total_cart( $cart );
 	$tickets = mt_count_cart( $cart );
 	// Translators: Number of tickets.
-	$ticket_text  = apply_filters( 'mt_quick_cart_ticket_text', sprintf( __( '%s tickets', 'my-tickets' ), "<span class='mt_qc_tickets'>$tickets</span>" ) );
+	$ticket_text  = apply_filters( 'mt_quick_cart_ticket_text', sprintf( _n( '%s ticket', '%s tickets', $tickets, 'my-tickets' ), "<span class='mt_qc_tickets'>$tickets</span>" ) );
 	$url          = get_permalink( $options['mt_purchase_page'] );
 	$symbol_order = $options['symbol_order'];
 	if ( 'symbol-first' === $symbol_order ) {
