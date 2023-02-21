@@ -37,7 +37,10 @@ function my_tickets_short_cart() {
 		$currency = "<span class='mt_qc_total'>" . number_format( $total, 2 ) . "</span> <span class='mt_currency'>" . mt_symbols( $options['mt_currency'] ) . '</span>';
 	}
 	// Translators: Checkout URL.
-	$checkout = apply_filters( 'mt_quick_cart_checkout', sprintf( __( '<a href="%s">Checkout</a>', 'my-tickets' ), $url ) );
+	$checkout = apply_filters( 'mt_quick_cart_checkout', sprintf( __( '<a href="%s">Checkout</a>', 'my-tickets' ), esc_url( $url ) ) );
+	if ( $tickets < 1 && 'true' === $options['mt_hide_empty_short_cart'] ) {
+		return '';
+	}
 	return "
 		<div class='mt-quick-cart' aria-live='polite'>" . __( 'In your cart: ', 'my-tickets' ) . "$ticket_text
 			<span class='divider'>|</span> 
