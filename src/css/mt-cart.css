@@ -56,7 +56,7 @@
 
 .mt-ticket-field {
     display: grid;
-    grid-template-columns: 10em 1fr 3em;
+    grid-template-columns: 10em 1fr 4em;
     column-gap: 12px;
     align-items: center;
     margin-bottom: .5rem;
