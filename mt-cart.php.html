@@ -1131,6 +1131,10 @@ function mt_expired( $event, $react = false ) {
 		return false;
 	}
 	$options = get_post_meta( $event, '_mt_registration_options', true );
+	if ( ! $options ) {
+		// If there are no ticketing options, treat as if expired and exit early.
+		return true;
+	}
 	if ( 'general' === $options['counting_method'] ) {
 		// General admissions sales do not expire.
 		return false;
