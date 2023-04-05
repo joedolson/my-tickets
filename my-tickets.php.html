@@ -94,8 +94,14 @@ function mt_status_notice() {
 				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets cart page is not assigned. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
 			} else {
 				$edit = get_edit_post_link( $purchase );
-				// Translators: URL to edit post page.
-				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets cart page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the cart page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
+				if ( $edit ) {
+					// Translators: URL to edit post page.
+					echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets cart page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the cart page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
+				} else {
+					$admin_url = str_replace( 'mt-required', 'mt_purchase_page', $settings );
+					// Translators: URL to My Tickets settings.
+					echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The assigned My Tickets cart page does not exist. &lt;a href="%s">', 'my-tickets' ), $admin_url ) . '&lt;/p>&lt;/div>';
+				}
 			}
 		}
 		if ( ! $receipt || 'publish' !== get_post_status( $receipt ) ) {
@@ -104,8 +110,14 @@ function mt_status_notice() {
 				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets receipts page is not assigned. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
 			} else {
 				$edit = get_edit_post_link( $receipt );
-				// Translators: URL to edit post page.
-				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets receipts page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the receipts page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
+				if ( $edit ) {
+					// Translators: URL to edit post page.
+					echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets receipts page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the receipts page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
+				} else {
+					$admin_url = str_replace( 'mt-required', 'mt_receipt_page', $settings );
+					// Translators: URL to My Tickets settings.
+					echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The assigned My Tickets receipt display page does not exist. &lt;a href="%s">Check settings&lt;/a>', 'my-tickets' ), $admin_url ) . '&lt;/p>&lt;/div>';
+				}
 			}
 		}
 		if ( ! $tickets || 'publish' !== get_post_status( $tickets ) ) {
@@ -114,8 +126,14 @@ function mt_status_notice() {
 				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets tickets page is not assigned. &lt;a href="%s" class="button-secondary">Check settings&lt;/a>', 'my-tickets' ), $settings ) . '&lt;/p>&lt;/div>';
 			} else {
 				$edit = get_edit_post_link( $tickets );
-				// Translators: URL to edit post page.
-				echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets tickets page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the tickets page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
+				if ( $edit ) {
+					// Translators: URL to edit post page.
+					echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The required My Tickets tickets page is not publicly available. &lt;a href="%s" class="button-secondary">Edit the tickets page&lt;/a>', 'my-tickets' ), $edit ) . '&lt;/p>&lt;/div>';
+				} else {
+					$admin_url = str_replace( 'mt-required', 'mt_tickets_page', $settings );
+					// Translators: URL to My Tickets settings.
+					echo "&lt;div class='error notice'>&lt;p>" . sprintf( __( 'The assigned My Tickets ticket display page does not exist. &lt;a href="%s">Check settings&lt;/a>', 'my-tickets' ), $admin_url ) . '&lt;/p>&lt;/div>';
+				}
 			}
 		}
 	}
