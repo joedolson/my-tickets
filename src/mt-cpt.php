@@ -272,7 +272,7 @@ function mt_add_uneditable() {
 	global $post_id;
 	if ( isset( $_GET['post'] ) && isset( $_GET['action'] ) ) {
 		$data = mt_payment_data( $post_id );
-		echo wp_kses_post( $data );
+		echo wp_kses( $data, mt_kses_elements() );
 	}
 }
 
