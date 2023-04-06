@@ -56,23 +56,23 @@
     border: 1px solid #f3f3f3;
 }
 
-.pending {
+.mt.pending {
     background: #009;
 }
 
-.refunded {
+.mt.refunded {
     background: #900;
 }
 
-.failed {
+.mt.failed {
     background: #f00;
 }
 
-.completed {
+.mt.completed {
     background: #070;
 }
 
-.other {
+.mt.other {
     background: #555;
 }
 
