@@ -84,7 +84,7 @@ fieldset .mt-ticket-field input:not([type=submit]), fieldset .mt-ticket-field se
     font-size: 1.2em;
 }
 
-.mt_cart table {
+table.mt_cart {
     width: 100%;
     margin: 0;
 }
@@ -101,6 +101,10 @@ fieldset .mt-ticket-field input:not([type=submit]), fieldset .mt-ticket-field se
 
 .mt_cart th[scope="row"] {
     text-align: left;
+}
+
+.mt_cart td.mt-order {
+	text-align: end;
 }
 
 .mt_cart th .mt-datetime {
