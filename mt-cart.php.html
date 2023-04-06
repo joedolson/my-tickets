@@ -855,7 +855,6 @@ function mt_core_link_title( $event_title, $event ) {
  * @return string
  */
 function mt_generate_cart_table( $cart, $format = 'cart' ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( ! is_admin() ) {
 		$caption = ( 'confirmation' === $format ) ? __( 'Review and Purchase', 'my-tickets' ) : __( 'Shopping Cart', 'my-tickets' );
 		$class   = ' mt_cart';
@@ -952,7 +951,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$output      .= "
 											&lt;tr id='mt_cart_order_$event_id" . '_' . "$type' class='mt_row_$event_id'>
 												&lt;th scope='row'>$image$title: &lt;em>$label&lt;/em>&lt;br />$datetime$hidden$custom&lt;/th>
-												&lt;td aria-live='assertive'>" . $cart_message . '&lt;/td>';
+												&lt;td class='mt-order' aria-live='assertive'>" . $cart_message . '&lt;/td>';
 								if ( 'cart' === $format &amp;&amp; apply_filters( 'mt_include_update_column', true ) ) {
 									if ( 'true' === $registration['multiple'] ) {
 										$output .= "&lt;td class='mt-update-column'>&lt;div class='mt-update-buttons'>&lt;button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='more'>&lt;span aria-hidden='true' class='dashicons dashicons-plus'>&lt;/span>&lt;span class='screen-reader-text'> " . __( 'Add a ticket', 'my-tickets' ) . "&lt;/span>&lt;/button> &lt;button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='less'>&lt;span aria-hidden='true' class='dashicons dashicons-minus'>&lt;/span>&lt;span class='screen-reader-text'> " . __( 'Remove a ticket', 'my-tickets' ) . "&lt;/span>&lt;/button> &lt;button data-id='$event_id' data-type='$type' rel='#mt_cart_order_$event_id" . '_' . "$type' class='remove'>&lt;span aria-hidden='true' class='dashicons dashicons-no'>&lt;/span>&lt;span class='screen-reader-text'> " . __( 'Remove from cart', 'my-tickets' ) . '&lt;/span>&lt;/button>&lt;/div>&lt;/td>';
