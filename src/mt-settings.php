@@ -435,6 +435,14 @@ function mt_wp_enqueue_scripts() {
 	}
 	if ( 'mt-payments' === $current_screen->post_type ) {
 		wp_enqueue_script( 'mt.payments', plugins_url( 'js/jquery.payments.js', __FILE__ ), array( 'jquery' ), $version );
+		wp_localize_script(
+			'mt.payments',
+			'mt_data',
+			array(
+				'action'   => 'move_ticket',
+				'security' => wp_create_nonce( 'mt-move-ticket' ),
+			)
+		);
 	}
 	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ), $version );
@@ -448,6 +456,201 @@ function mt_wp_enqueue_scripts() {
 		);
 		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ), $version, true );
 	}
+}
+
+add_action( 'wp_ajax_move_ticket', 'mt_ajax_move_ticket' );
+/**
+ * Delete a single occurrence of an event from the event manager.
+ */
+function mt_ajax_move_ticket() {
+	$event_id   = (int) $_REQUEST['event_id'];
+	$target     = (int) $_REQUEST['target'];
+	$payment_id = (int) $_REQUEST['payment_id'];
+	$ticket     = sanitize_text_field( $_REQUEST['ticket'] );
+
+	if ( ! check_ajax_referer( 'mt-move-ticket', 'security', false ) ) {
+		wp_send_json(
+			array(
+				'success'  => 0,
+				'response' => __( 'Invalid Security Check', 'my-tickets' ),
+			)
+		);
+	}
+
+	if ( ! $event_id || ! $target || ! $ticket ) {
+		wp_send_json(
+			array(
+				'success'  => 0,
+				'response' => __( 'An event ID is required.', 'my-tickets' ),
+			)
+		);
+	}
+
+	if ( current_user_can( 'mt-view-reports' ) ) {
+		$result  = mt_move_ticket( $payment_id, $event_id, $target, $ticket );
+		$new     = get_the_title( $target );
+		$added   = $result['added'];
+		$removed = $result['removed'];
+		$success = ( $added && $removed ) ? 1 : 0;
+		if ( $success ) {
+			wp_send_json(
+				array(
+					'success'  => $success,
+					// translators: Title of new event for ticket.
+					'response' => esc_html( sprintf( __( 'Ticket moved to %s', 'my-tickets' ), $new ) ),
+					'result'   => $result,
+				)
+			);
+		} else {
+			$message = ( ! $added ) ? __( 'Unable to add ticket to the new event.', 'my-tickets' ) : __( 'Ticket was not moved successfully.', 'my-tickets' );
+			wp_send_json(
+				array(
+					'success'  => $success,
+					'response' => esc_html( $message ),
+					'result'   => $result,
+				)
+			);
+		}
+	} else {
+		wp_send_json(
+			array(
+				'success'  => 0,
+				'response' => esc_html__( 'You are not authorized to perform this action', 'my-tickets' ),
+			)
+		);
+	}
+}
+
+/**
+ * Move ticket from one event to another.
+ *
+ * @param int    $payment_id ID for the payment this ticket is from.
+ * @param int    $event_id ID for the event a ticket is currently attached to.
+ * @param int    $target_id ID for the event a ticket needs to be attached to.
+ * @param string $ticket Ticket ID to be moved.
+ *
+ * @return bool
+ */
+function mt_move_ticket( $payment_id, $event_id, $target_id, $ticket ) {
+	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+	$ticket_data  = get_post_meta( $event_id, '_' . $ticket, true );
+	$removed      = false;
+
+	$added = mt_add_ticket( $target_id, $ticket, $ticket_data, $payment_id );
+	if ( $added ) {
+		$removed  = mt_remove_ticket( $event_id, $ticket, $ticket_data, $payment_id );
+	}
+
+	$response = array(
+		'registration' => $registration,
+		'ticket_data'  => $ticket_data,
+		'event_id'     => $event_id,
+		'target'       => $target_id,
+		'ticket'       => $ticket,
+		'removed'      => $removed,
+		'added'        => $added,
+		'purchase'     => get_post_meta( $payment_id, '_purchased' ),
+	);
+
+	return $response;
+}
+
+/**
+ * Add a ticket to an event.
+ *
+ * @param int    $event_id ID for an event.
+ * @param string $ticket Ticket ID to be added.
+ * @param array  $data Ticket data to add.
+ * @param int    $payment_id Associated payment post.
+ */
+function mt_add_ticket( $event_id, $ticket, $data, $payment_id ) {
+	// Exit early if the data passed isn't valid.
+	if ( ! is_array( $data ) ) {
+		return false;
+	}
+	$ticket_type  = $data['type'];
+	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+	// Exit early if this ticket type doesn't exist on the current event.
+	if ( ! isset( $registration['prices'][ $ticket_type ] ) ) {
+		return false;
+	}
+	$registration['prices'][ $ticket_type ]['sold'] = $registration['prices'][ $ticket_type ]['sold'] + 1;
+	$registration['total']                          = ( 'inherit' !== $registration['total'] ) ? $registration['total'] + 1 : 'inherit';
+	update_post_meta( $event_id, '_mt_registration_options', $registration );
+	add_post_meta( $event_id, '_ticket', $ticket );
+	update_post_meta( $event_id, '_' . $ticket, $data );
+	$purchase       = get_post_meta( $payment_id, '_purchased' );
+	$ids            = array();
+	// See whether this event already exists in the purchase.
+	foreach ( $purchase as $item ) {
+		foreach ( $item as $k => $p ) {
+			$ids[] = (int) $k;
+			$n     = $p;
+			if ( $event_id === $k ) {
+				if ( isset( $n[ $ticket_type ] ) ) {
+					$n[ $ticket_type ]['count'] = $n[ $ticket_type ]['count'] + 1;
+				} else {
+					$n[ $ticket_type ] = array( 'count' => 1, 'price' => $data['price'] );
+				}
+				$nitem = array( $k => $n );
+				update_post_meta( $payment_id, '_purchased', $nitem, $item );
+			}
+		}
+	}
+	// If not, add a new item.
+	if ( ! in_array( (int) $event_id, $ids, true ) ) {
+		add_post_meta(
+			$payment_id,
+			'_purchased',
+			array(
+				$event_id => array(
+					$ticket_type => array(
+						'count' => 1,
+						'price' => $data['price'],
+					)
+				)
+			)
+		);
+	}
+
+	return true;
+}
+
+/**
+ * Remove a ticket from an event.
+ *
+ * @param int    $event_id ID for an event.
+ * @param string $ticket Ticket ID to be removed.
+ * @param array  $data Ticket data to remove.
+ * @parma int    $payment_id Associated payment post.
+ */
+function mt_remove_ticket( $event_id, $ticket, $data, $payment_id ) {
+	// Remove ticket from event.
+	$registration                                   = get_post_meta( $event_id, '_mt_registration_options', true );
+	$ticket_type                                    = $data['type'];
+	$tickets_sold                                   = $registration['prices'][ $ticket_type ]['sold'];
+	$new_sold                                       = $tickets_sold - 1;
+	$registration['prices'][ $ticket_type ]['sold'] = $new_sold;
+	$registration['total']                           = ( 'inherit' !== $registration['total'] ) ? $registration['total'] - 1 : 'inherit';
+
+	update_post_meta( $event_id, '_mt_registration_options', $registration );
+	$meta_deleted   = delete_post_meta( $event_id, '_ticket', $ticket );
+	$ticket_deleted = delete_post_meta( $event_id, '_' . $ticket );
+	$purchase       = get_post_meta( $payment_id, '_purchased' );
+	foreach ( $purchase as $item ) {
+		foreach ( $item as $k => $p ) {
+			if ( (int) $event_id === (int) $k ) {
+				if ( ! isset( $p[ $ticket_type ] ) ) {
+					continue;
+				}
+				$p[ $ticket_type ]['count'] = $p[ $ticket_type ]['count'] - 1;
+				$nitem = array( $k => $p );
+				update_post_meta( $payment_id, '_purchased', $nitem, $item );
+			}
+		}
+	}
+
+	return ( $meta_deleted && $ticket_deleted ) ? true : false;
 }
 
 add_action( 'admin_enqueue_scripts', 'mt_report_scripts' );

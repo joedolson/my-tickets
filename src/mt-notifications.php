@@ -81,7 +81,7 @@ function mt_format_array( $output, $type, $data, $purchase_id, $context = 'admin
 				$output = mt_format_purchase( $data, false, $purchase_id );
 				break;
 			case 'address':
-				$output = mt_format_address( $data, false, $purchase_id );
+				$output = mt_format_address( $data );
 				break;
 			case 'tickets':
 				$output = mt_format_tickets( $data, 'text', $purchase_id, $context );
@@ -201,12 +201,10 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
  * Format shipping address data for use in email notifications.
  *
  * @param array $address Address data.
- * @param bool  $format Format to use.
- * @param int   $purchase_id Payment ID.
  *
  * @return string
  */
-function mt_format_address( $address, $format = false, $purchase_id = false ) {
+function mt_format_address( $address ) {
 	// format address.
 	$output = '';
 	if ( $address ) {
@@ -240,6 +238,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$output   = '';
 	$show     = '';
+	$move     = '';
 	$is_html  = ( 'true' === $options['mt_html_email'] || 'html' === $type ) ? true : false;
 	$sep      = ( $is_html ) ? '<br />' . "\r\n" : "\n";
 	$total    = count( $tickets );
@@ -261,8 +260,8 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 	$ticket_url = get_permalink( $options['mt_tickets_page'] );
 	foreach ( $tickets as $ticket ) {
 		if ( $test_use ) {
+			$ticket_id = str_replace( array( $ticket_url . '&ticket_id=', $ticket_url . '?ticket_id=' ), '', $ticket );
 			if ( is_array( $used ) ) {
-				$ticket_id = str_replace( array( $ticket_url . '&ticket_id=', $ticket_url . '?ticket_id=' ), '', $ticket );
 				$is_used   = in_array( $ticket_id, $used, true );
 				$action    = add_query_arg(
 					array(
@@ -275,20 +274,41 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 				$checkin   = add_query_arg( 'ticket-action', 'checkin', $action );
 				$undo      = add_query_arg( 'ticket-action', 'undo', $action );
 				if ( 'admin' === $context ) {
-					$show = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span><a href='" . esc_url( $undo ) . "'>" . __( 'Checked in', 'my-tickets' ) . '</a> ' : " <span class='dashicons dashicons-edit' aria-hidden='true'></span><a href='" . esc_url( $checkin ) . "'>" . __( 'Check-in', 'my-tickets' ) . '</a> ';
+					$show      = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span><a href='" . esc_url( $undo ) . "'>" . __( 'Checked in', 'my-tickets' ) . '</a> ' : " <span class='dashicons dashicons-edit' aria-hidden='true'></span><a href='" . esc_url( $checkin ) . "'>" . __( 'Check-in', 'my-tickets' ) . '</a>';
+					$show      = '<div>' . $show . '</div>';
 				}
+			}
+			if ( 'admin' === $context ) {
+				$event_id = mt_get_ticket( $ticket_id )->ID;
+				// Translators: 1) type of ticket, 2) event ticket sold for, 3) Event time.
+				$status    = sprintf( __( 'Move %1$s ticket (%2$s, %3$s) to a different event', 'my-tickets' ), mt_get_ticket_type( $ticket_id ), get_the_title( $event_id ), mt_get_event_time( $ticket_id ) );
+				$move      = "<button type='button' class='move-ticket button-secondary' aria-expanded='false' aria-controls='mt-move-tickets-$i'>" . __( 'Move', 'my-tickets' ) . '</button>';
+				$move_form = '<div class="mt-move-tickets-wrapper">
+						<div class="mt-move-tickets" id="mt-move-tickets-' . $i . '">
+							<div class="mt-ticket-moved-response" aria-live="polite">' . $status . '</div>
+							<div class="mt-move-tickets-inner">
+								<div>
+									<label for="mt-move-tickets-choose-' . $i . '">New Event ID</label> 
+									<input type="number" id="mt-move-tickets-choose-' . $i . '" class="widefat mt-move-tickets-target" name="mt-event-target" value="" />
+								</div>
+								<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-move-tickets-button button-secondary">' . __( 'Move Ticket', 'my-tickets' ) . '</button>
+							</div>
+						</div>
+					</div>';
 			}
 		}
 		if ( 'ids' === $type ) {
-			$ticket_output = "$i/$total: $ticket" . $show . $sep;
+			$ticket_output = "$i/$total: $ticket" . $show . $move . $sep;
 		} else {
 			$ticket        = ( $is_html ) ? "<a href='$ticket'>" . __( 'View Ticket', 'my-tickets' ) . " ($i/$total)</a>" : $ticket;
-			$ticket_output = "$i/$total: " . $ticket . $show . $sep;
+			$ticket_output = "$i/$total: " . $ticket . $show . $move . $sep;
+			$ticket_output = ( 'admin' === $context ) ? '<li><div class="controls">' . $ticket . $show . $move . '</div>' . $move_form . '</li>' : $ticket_output;
 		}
 
 		$output .= apply_filters( 'mt_custom_ticket_output', $ticket_output, $purchase_id, $sep );
 		$i ++;
 	}
+	$output = ( 'admin' === $context ) ? '<ul class="admin-tickets">' . $output . '</ul>' : $output;
 
 	return $output;
 }

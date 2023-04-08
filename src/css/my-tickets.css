@@ -6,6 +6,46 @@
     overflow: visible !important
 }
 
+.admin-tickets li .controls {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	align-items: center;
+	column-gap: 5px;
+}
+
+.mt-move-tickets {
+	position: relative;
+	display: none;
+	margin-bottom: 24px;
+}
+
+.wrap .admin-tickets .mt-ticket-moved-response {
+	padding: 12px;
+	margin: 12px -12px 12px;
+	font-weight: 700;
+	border: 0;
+}
+
+.mt-ticket-moved-response.error {
+	background-color: #8a2424;
+	color: #fff;
+}
+
+.mt-ticket-moved-response.success {
+	background-color: #007017;
+	color: #fff;
+}
+
+.mt-move-tickets-inner {
+	display: grid;
+	grid-template-columns: auto auto;
+	align-items: end;
+}
+
+.mt-move-tickets-inner button {
+	height: 1.2rem;
+}
+
 .mt-pricing tr.fade {
     background: #ff9;
     transition: background .5s ease-in-out;

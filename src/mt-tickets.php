@@ -93,14 +93,14 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
 function mt_get_ticket( $ticket_id = false ) {
 	global $wpdb;
 
-	$ticket_id = isset( $_GET['ticket_id'] ) ? $_GET['ticket_id'] : $ticket_id;
+	$ticket_id = isset( $_GET['ticket_id'] ) ? sanitize_text_field( $_GET['ticket_id'] ) : $ticket_id;
 	// sanitize ticket id.
 	$ticket_id = strtolower( preg_replace( '/[^a-z0-9\-]+/i', '', $ticket_id ) );
 	$ticket    = false;
 	if ( $ticket_id ) {
-		$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_ticket' AND meta_value = %s", $ticket_id ) );
-		$post    = get_post( $post_id );
-		$ticket  = ( $post ) ? $post : false;
+		$event_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_ticket' AND meta_value = %s", $ticket_id ) );
+		$event    = get_post( $event_id );
+		$ticket  = ( $event ) ? $event : false;
 	}
 
 	return $ticket;
