@@ -482,13 +482,11 @@ function mt_ajax_delete_ticket() {
 		$removed     = mt_remove_ticket( $event_id, $ticket, $ticket_data, $payment_id );
 		if ( $removed ) {
 			$tickets = get_post_meta( $payment_id, '_tickets', true );
-			wp_mail( 'joe@joedolson.com', 'Tickets before unset', print_r( $tickets, 1 ) );
 			foreach ( $tickets as $key => $tick ) {
 				if ( $tick === $ticket ) {
 					unset( $tickets[ $key ] );
 				}
 			}
-			wp_mail( 'joe@joedolson.com', 'Tickets after unset', print_r( $tickets, 1 ) );
 			update_post_meta( $payment_id, '_tickets', $tickets );
 			wp_send_json(
 				array(
