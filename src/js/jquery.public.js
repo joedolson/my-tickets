@@ -69,7 +69,7 @@
 				$('button[name="mt_add_to_cart"]').removeClass('mt-invalid-purchase').removeAttr('disabled');
 			}
 		});
-		$('.mt_cart button:not(.mt-plugin)').on('click', function (e) {
+		$('.mt_cart button:not(.mt-plugin,.mt-gateway-selector)').on('click', function (e) {
 			$( 'input[name="mt_submit"]' ).prop( 'disabled', true );
 			$( '.mt-response' ).html( '<p class="mt-response-processing">' + mt_ajax_cart.processing + '</p>' ).show();
 			e.preventDefault();
@@ -131,16 +131,13 @@
 					}
 				}, "json");
 			}
-		   // $( '#mtd_donation').on( 'change', function(e) {
-
-		  //  });
 		});
 
-		$('.gateway-selector a').on('click', function (e) {
+		$('.gateway-selector button').on('click', function (e) {
 			e.preventDefault();
 			$('.gateway-selector li').removeClass('active');
 			$(this).parent('li').addClass('active');
-			$('.gateway-selector a' ).removeAttr( 'aria-current' );
+			$('.gateway-selector button' ).removeAttr( 'aria-current' );
 			$(this).attr( 'aria-current', 'true' );
 			var gateway = $(this).attr('data-assign');
 			$('input[name="mt_gateway"]').val(gateway);

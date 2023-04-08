@@ -169,14 +169,13 @@ button[name="mt_add_to_cart"] img {
     background: rgba(0, 0, 0, .075);
 }
 
+.gateway-selector button {
+	all: unset;
+}
+
 .gateway-selector .active {
     font-weight: 700;
     background: rgba(0, 0, 0, .001);
-}
-
-.gateway-selector .active a {
-    text-decoration: none;
-    cursor: text;
 }
 
 .mt_sandbox_enabled {
