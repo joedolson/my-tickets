@@ -282,9 +282,9 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 				$event_id = mt_get_ticket( $ticket_id )->ID;
 				// Translators: 1) type of ticket, 2) event ticket sold for, 3) Event time.
 				$status    = sprintf( __( 'Move %1$s ticket (%2$s, %3$s) to a different event', 'my-tickets' ), mt_get_ticket_type( $ticket_id ), get_the_title( $event_id ), mt_get_event_time( $ticket_id ) );
-				$move      = "<button type='button' class='move-ticket button-secondary' aria-expanded='false' aria-controls='mt-move-tickets-$i'>" . __( 'Move', 'my-tickets' ) . '</button>';
+				$move      = "<button type='button' class='edit-ticket button-secondary' aria-expanded='false' aria-controls='mt-edit-tickets-$i'>" . __( 'Edit', 'my-tickets' ) . '</button>';
 				$move_form = '<div class="mt-move-tickets-wrapper">
-						<div class="mt-move-tickets" id="mt-move-tickets-' . $i . '">
+						<div class="mt-move-tickets" id="mt-edit-tickets-' . $i . '">
 							<div class="mt-ticket-moved-response" aria-live="polite">' . $status . '</div>
 							<div class="mt-move-tickets-inner">
 								<div>
@@ -293,6 +293,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 								</div>
 								<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-move-tickets-button button-secondary">' . __( 'Move Ticket', 'my-tickets' ) . '</button>
 							</div>
+							<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-delete-ticket-button button-secondary"><span class="dashicons dashicons-no" aria-hidden="true"></span> ' . __( 'Delete Ticket', 'my-tickets' ) . '</button>
 						</div>
 					</div>';
 			}

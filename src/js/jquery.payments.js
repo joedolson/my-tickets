@@ -10,7 +10,7 @@
             }
         });
 
-		$( 'button.move-ticket' ).on( 'click', function() {
+		$( 'button.edit-ticket' ).on( 'click', function() {
             var controls = $( this ).attr( 'aria-controls' );
 			var target   = $( '#' + controls );
             if ( target.is( ':visible' ) ) {
@@ -43,6 +43,34 @@
 				if ( response.success == 1 ) {
 					responseField.removeClass( 'error' ).addClass( 'success' );
 					button.attr( 'data-event', target );
+				} else {
+					responseField.removeClass( 'success' ).addClass( 'error' );
+				}
+				responseField.text( response.response ).show( 300 );
+			}, "json" );
+		});
+
+		$( 'button.mt-delete-ticket-button' ).on( 'click', function() {
+			var button     = $(this);
+			var container  = button.parents( '.mt-move-tickets' );
+			var event_id   = button.attr( 'data-event' );
+			var payment_id = button.attr( 'data-payment' );
+			var ticket     = button.attr( 'data-ticket' );
+			var data = {
+				'action': mt_data.deleteaction,
+				'event_id': event_id,
+				'payment_id': payment_id,
+				'ticket': ticket,
+				'security': mt_data.security
+			};
+			$.post( ajaxurl, data, function (response) {
+				console.log( response );
+				var responseField = container.find( '.mt-ticket-moved-response' );
+				if ( response.success == 1 ) {
+					responseField.removeClass( 'error' ).addClass( 'success' );
+					setTimeout( function() {
+						container.parents( 'li' ).hide( 500 ).remove();
+					}, 5000 );
 				} else {
 					responseField.removeClass( 'success' ).addClass( 'error' );
 				}

@@ -439,8 +439,9 @@ function mt_wp_enqueue_scripts() {
 			'mt.payments',
 			'mt_data',
 			array(
-				'action'   => 'move_ticket',
-				'security' => wp_create_nonce( 'mt-move-ticket' ),
+				'action'       => 'move_ticket',
+				'deleteaction' => 'delete_ticket',
+				'security'     => wp_create_nonce( 'mt-move-ticket' ),
 			)
 		);
 	}
@@ -455,6 +456,54 @@ function mt_wp_enqueue_scripts() {
 			)
 		);
 		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ), $version, true );
+	}
+}
+
+add_action( 'wp_ajax_delete_ticket', 'mt_ajax_delete_ticket' );
+/**
+ * Delete a single occurrence of an event from the event manager.
+ */
+function mt_ajax_delete_ticket() {
+	$event_id   = (int) $_REQUEST['event_id'];
+	$payment_id = (int) $_REQUEST['payment_id'];
+	$ticket     = sanitize_text_field( $_REQUEST['ticket'] );
+
+	if ( ! check_ajax_referer( 'mt-move-ticket', 'security', false ) ) {
+		wp_send_json(
+			array(
+				'success'  => 0,
+				'response' => __( 'Invalid Security Check', 'my-tickets' ),
+			)
+		);
+	}
+
+	if ( current_user_can( 'mt-view-reports' ) ) {
+		$ticket_data  = get_post_meta( $event_id, '_' . $ticket, true );
+		$removed      = mt_remove_ticket( $event_id, $ticket, $ticket_data, $payment_id );
+		if ( $removed ) {
+			wp_send_json(
+				array(
+					'success'  => 1,
+					'response' => esc_html( __( 'Ticket permanently deleted.', 'my-tickets' ) ),
+					'result'   => $removed,
+				)
+			);
+		} else {
+			wp_send_json(
+				array(
+					'success'  => 0,
+					'response' => esc_html( __( 'Ticket could not be deleted.', 'my-tickets' ) ),
+					'result'   => $removed,
+				)
+			);
+		}
+	} else {
+		wp_send_json(
+			array(
+				'success'  => 0,
+				'response' => esc_html__( 'You are not authorized to perform this action', 'my-tickets' ),
+			)
+		);
 	}
 }
 

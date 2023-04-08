@@ -26,6 +26,22 @@
 	border: 0;
 }
 
+.mt-move-tickets-wrapper .mt-delete-ticket-button {
+	margin-top: .25rem;
+}
+
+.mt-move-tickets-wrapper .mt-delete-ticket-button .dashicons {
+	vertical-align: text-top;
+	margin-top: -1px;
+}
+
+.mt-move-tickets-wrapper .mt-delete-ticket-button:focus,
+.mt-move-tickets-wrapper .mt-delete-ticket-button:hover {
+	background-color: #8a2424;
+	border-color: #8a2424;
+	color: #fff;
+}
+
 .mt-ticket-moved-response.error {
 	background-color: #8a2424;
 	color: #fff;
