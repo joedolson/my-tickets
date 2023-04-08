@@ -378,16 +378,18 @@ function mt_list_events( $purchase_id ) {
  * Generate tickets for a given purchase.
  *
  * @param array  $purchase Purchase data.
- * @param int    $id Payment ID.
+ * @param int    $payment_id Payment ID.
  * @param string $return Links or IDs.
  *
  * @return array
  */
-function mt_setup_tickets( $purchase, $id, $return = 'links' ) {
-	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-	$ticket_array = array();
-	$ticket_list  = array();
-
+function mt_setup_tickets( $purchase, $payment_id, $return = 'links' ) {
+	$stored     = get_post_meta( $payment_id, '_tickets', true );
+	$tickets    = ( ! empty( $stored ) ) ? mt_ticket_list( $stored, $return ) : false;
+	if ( $tickets ) {
+		return $tickets;
+	}
+	$ticket_ids = array();
 	foreach ( $purchase as $purch ) {
 		foreach ( $purch as $event => $tickets ) {
 			$purchases[ $event ] = $tickets;
@@ -399,34 +401,48 @@ function mt_setup_tickets( $purchase, $id, $return = 'links' ) {
 				if ( $count >= 1 ) {
 					$price = $details['price'];
 					for ( $i = 0; $i < $count; $i ++ ) {
-						$ticket_id = mt_generate_ticket_id( $id, $event, $type, $i, $price );
+						$ticket_id = mt_generate_ticket_id( $payment_id, $event, $type, $i, $price );
 						// check for existing ticket data.
-						$meta = get_post_meta( $id, $ticket_id, true );
+						$meta = get_post_meta( $payment_id, $ticket_id, true );
 						// if ticket data doesn't exist, create it.
 						if ( ! $meta ) {
 							if ( ! in_array( $ticket_id, $ticket_meta, true ) ) {
 								add_post_meta( $event, '_ticket', $ticket_id );
 							}
 							update_post_meta(
-								$id,
+								$payment_id,
 								$ticket_id,
 								array(
 									'type'        => $type,
 									'price'       => $price,
-									'purchase_id' => $id,
+									'purchase_id' => $payment_id,
 								)
 							);
 						}
+						$ticket_ids[] = $ticket_id;
 					}
 				}
 			}
-			// Get updated ticket meta.
-			$ticket_meta = get_post_meta( $event, '_ticket' );
-			$ticket_list = array_merge( $ticket_list, $ticket_meta );
 		}
+		update_post_meta( $payment_id, '_tickets', $ticket_ids );
 	}
+
+	return mt_ticket_list( $ticket_ids, $return );
+}
+
+/**
+ * Return tickets as IDs or links.
+ *
+ * @param array  $ticket_ids Array of ticket IDs.
+ * @param string $return Return format; ids or links.
+ *
+ * @return array
+ */
+function mt_ticket_list( $ticket_ids, $return = 'links' ) {
+	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$ticket_array = array();
 	// Reassemble data.
-	foreach ( $ticket_list as $ticket ) {
+	foreach ( $ticket_ids as $ticket ) {
 		// If ticket has a valid type, display.
 		if ( mt_get_ticket_type( $ticket ) ) {
 			if ( 'links' === $return ) {
@@ -883,7 +899,7 @@ function mt_custom_column( $column_name, $id ) {
 		case 'mt_checkins':
 			$used     = get_post_meta( $id, '_tickets_used' );
 			$purchase = get_post_meta( $id, '_purchased' );
-			$tickets  = mt_setup_tickets( $purchase, $id, 'ids' );
+			$tickets  = mt_setup_tickets( $purchase, $id );	
 			if ( ! is_array( $used ) ) {
 				$used = array();
 			}
