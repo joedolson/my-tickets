@@ -750,7 +750,7 @@ function mt_generate_cart( $user_ID = false ) {
 				$custom_output .= $field;
 			}
 			$button  = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Review cart and make payment', 'my-tickets' ), $current_gate ) . "' /></p>";
-			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_total_content', '', $current_gate, $cart ) . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" .  mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
+			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_total_content', '', $current_gate, $cart ) . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
 		} else {
 			do_action( 'mt_cart_is_empty' );
 			// clear POST data to prevent re-submission of data.
