@@ -615,7 +615,7 @@ function mt_get_ticket_type( $ticket_id = false ) {
 	}
 	if ( $ticket ) {
 		$type  = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
-		$type  = $type['type'];
+		$type  = isset( $type['type'] ) ? $type['type'] : '';
 		$label = mt_get_label( $type );
 
 		/**
