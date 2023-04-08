@@ -422,6 +422,9 @@ function mt_public_enqueue_scripts() {
 	 */
 	$redirect = apply_filters( 'mt_redirect', $redirect );
 	$version  = mt_get_current_version();
+	if ( SCRIPT_DEBUG ) {
+		$version = $version . '-' . mt_rand( 10000, 99999 );
+	}
 
 	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ), $version );
 	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ), $version );
@@ -1152,6 +1155,9 @@ function mt_kses_elements() {
 			'role'             => array(),
 			'aria-selected'    => array(),
 			'aria-controls'    => array(),
+			'data-event'       => array(),
+			'data-ticket'      => array(),
+			'data-payment'     => array(),
 		),
 		'ul'       => array(
 			'class' => array(),
@@ -1231,6 +1237,7 @@ function mt_kses_elements() {
 			'href'             => true,
 			'class'            => true,
 		),
+		'pre'      => array(),
 	);
 
 	return $elements;
