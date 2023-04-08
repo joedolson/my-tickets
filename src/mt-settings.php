@@ -478,8 +478,8 @@ function mt_ajax_delete_ticket() {
 	}
 
 	if ( current_user_can( 'mt-view-reports' ) ) {
-		$ticket_data  = get_post_meta( $event_id, '_' . $ticket, true );
-		$removed      = mt_remove_ticket( $event_id, $ticket, $ticket_data, $payment_id );
+		$ticket_data = get_post_meta( $event_id, '_' . $ticket, true );
+		$removed     = mt_remove_ticket( $event_id, $ticket, $ticket_data, $payment_id );
 		if ( $removed ) {
 			wp_send_json(
 				array(

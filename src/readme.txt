@@ -71,6 +71,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Feature: UI to move tickets from one event to another on a payment.
 * Feature: Show tickets used in payments view.
+* Feature: Remove tickets from a payment.
 * Bug fix: Minor styling improvements for shopping cart.
 * Bug fix: Exit early if ticketing options do not exist.
 * Bug fix: Hide short cart when empty.
