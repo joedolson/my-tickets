@@ -132,6 +132,7 @@ function mt_get_payment_tickets() {
 	if ( $receipt ) {
 		$purchase = get_post_meta( $receipt->ID, '_purchased' );
 		$id       = $receipt->ID;
+
 		return mt_setup_tickets( $purchase, $id, 'ids' );
 	}
 
