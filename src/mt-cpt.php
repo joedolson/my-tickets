@@ -384,8 +384,8 @@ function mt_list_events( $purchase_id ) {
  * @return array
  */
 function mt_setup_tickets( $purchase, $payment_id, $return = 'links' ) {
-	$stored     = get_post_meta( $payment_id, '_tickets', true );
-	$tickets    = ( ! empty( $stored ) ) ? mt_ticket_list( $stored, $return ) : false;
+	$stored  = get_post_meta( $payment_id, '_tickets', true );
+	$tickets = ( ! empty( $stored ) ) ? mt_ticket_list( $stored, $return ) : false;
 	if ( $tickets ) {
 		return $tickets;
 	}
@@ -899,7 +899,7 @@ function mt_custom_column( $column_name, $id ) {
 		case 'mt_checkins':
 			$used     = get_post_meta( $id, '_tickets_used' );
 			$purchase = get_post_meta( $id, '_purchased' );
-			$tickets  = mt_setup_tickets( $purchase, $id );	
+			$tickets  = mt_setup_tickets( $purchase, $id );
 			if ( ! is_array( $used ) ) {
 				$used = array();
 			}

@@ -7,7 +7,7 @@ Tested up to: 6.2
 Requires PHP: 7.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.10.0
+Stable tag: 1.10.1
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -66,6 +66,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
 
 == Changelog ==
+
+= 1.10.1 =
+
+* Bug fix: List of payment tickets sourced from event instead of payment.
+* Change: refactor payment storage of ticket IDs.
 
 = 1.10.0 =
 
