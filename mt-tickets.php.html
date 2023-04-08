@@ -126,7 +126,7 @@ function mt_get_ticket( $ticket_id = false ) {
 	if ( $ticket_id ) {
 		$event_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_ticket' AND meta_value = %s", $ticket_id ) );
 		$event    = get_post( $event_id );
-		$ticket  = ( $event ) ? $event : false;
+		$ticket   = ( $event ) ? $event : false;
 	}
 
 	return $ticket;
