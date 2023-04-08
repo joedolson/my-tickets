@@ -262,8 +262,8 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 		if ( $test_use ) {
 			$ticket_id = str_replace( array( $ticket_url . '&ticket_id=', $ticket_url . '?ticket_id=' ), '', $ticket );
 			if ( is_array( $used ) ) {
-				$is_used   = in_array( $ticket_id, $used, true );
-				$action    = add_query_arg(
+				$is_used = in_array( $ticket_id, $used, true );
+				$action  = add_query_arg(
 					array(
 						'action' => 'edit',
 						'post'   => $purchase_id,
@@ -271,11 +271,11 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 					),
 					admin_url( 'post.php' )
 				);
-				$checkin   = add_query_arg( 'ticket-action', 'checkin', $action );
-				$undo      = add_query_arg( 'ticket-action', 'undo', $action );
+				$checkin = add_query_arg( 'ticket-action', 'checkin', $action );
+				$undo    = add_query_arg( 'ticket-action', 'undo', $action );
 				if ( 'admin' === $context ) {
-					$show      = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span><a href='" . esc_url( $undo ) . "'>" . __( 'Checked in', 'my-tickets' ) . '</a> ' : " <span class='dashicons dashicons-edit' aria-hidden='true'></span><a href='" . esc_url( $checkin ) . "'>" . __( 'Check-in', 'my-tickets' ) . '</a>';
-					$show      = '<div>' . $show . '</div>';
+					$show = ( $is_used ) ? " <span class='dashicons dashicons-yes' aria-hidden='true'></span><a href='" . esc_url( $undo ) . "'>" . __( 'Checked in', 'my-tickets' ) . '</a> ' : " <span class='dashicons dashicons-edit' aria-hidden='true'></span><a href='" . esc_url( $checkin ) . "'>" . __( 'Check-in', 'my-tickets' ) . '</a>';
+					$show = '<div>' . $show . '</div>';
 				}
 			}
 			if ( 'admin' === $context ) {

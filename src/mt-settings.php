@@ -538,7 +538,7 @@ function mt_move_ticket( $payment_id, $event_id, $target_id, $ticket ) {
 
 	$added = mt_add_ticket( $target_id, $ticket, $ticket_data, $payment_id );
 	if ( $added ) {
-		$removed  = mt_remove_ticket( $event_id, $ticket, $ticket_data, $payment_id );
+		$removed = mt_remove_ticket( $event_id, $ticket, $ticket_data, $payment_id );
 	}
 
 	$response = array(
@@ -579,8 +579,8 @@ function mt_add_ticket( $event_id, $ticket, $data, $payment_id ) {
 	update_post_meta( $event_id, '_mt_registration_options', $registration );
 	add_post_meta( $event_id, '_ticket', $ticket );
 	update_post_meta( $event_id, '_' . $ticket, $data );
-	$purchase       = get_post_meta( $payment_id, '_purchased' );
-	$ids            = array();
+	$purchase = get_post_meta( $payment_id, '_purchased' );
+	$ids      = array();
 	// See whether this event already exists in the purchase.
 	foreach ( $purchase as $item ) {
 		foreach ( $item as $k => $p ) {
@@ -590,7 +590,10 @@ function mt_add_ticket( $event_id, $ticket, $data, $payment_id ) {
 				if ( isset( $n[ $ticket_type ] ) ) {
 					$n[ $ticket_type ]['count'] = $n[ $ticket_type ]['count'] + 1;
 				} else {
-					$n[ $ticket_type ] = array( 'count' => 1, 'price' => $data['price'] );
+					$n[ $ticket_type ] = array(
+						'count' => 1,
+						'price' => $data['price'],
+					);
 				}
 				$nitem = array( $k => $n );
 				update_post_meta( $payment_id, '_purchased', $nitem, $item );
@@ -607,8 +610,8 @@ function mt_add_ticket( $event_id, $ticket, $data, $payment_id ) {
 					$ticket_type => array(
 						'count' => 1,
 						'price' => $data['price'],
-					)
-				)
+					),
+				),
 			)
 		);
 	}
@@ -622,7 +625,7 @@ function mt_add_ticket( $event_id, $ticket, $data, $payment_id ) {
  * @param int    $event_id ID for an event.
  * @param string $ticket Ticket ID to be removed.
  * @param array  $data Ticket data to remove.
- * @parma int    $payment_id Associated payment post.
+ * @param int    $payment_id Associated payment post.
  */
 function mt_remove_ticket( $event_id, $ticket, $data, $payment_id ) {
 	// Remove ticket from event.
@@ -631,7 +634,7 @@ function mt_remove_ticket( $event_id, $ticket, $data, $payment_id ) {
 	$tickets_sold                                   = $registration['prices'][ $ticket_type ]['sold'];
 	$new_sold                                       = $tickets_sold - 1;
 	$registration['prices'][ $ticket_type ]['sold'] = $new_sold;
-	$registration['total']                           = ( 'inherit' !== $registration['total'] ) ? $registration['total'] - 1 : 'inherit';
+	$registration['total']                          = ( 'inherit' !== $registration['total'] ) ? $registration['total'] - 1 : 'inherit';
 
 	update_post_meta( $event_id, '_mt_registration_options', $registration );
 	$meta_deleted   = delete_post_meta( $event_id, '_ticket', $ticket );
@@ -644,7 +647,7 @@ function mt_remove_ticket( $event_id, $ticket, $data, $payment_id ) {
 					continue;
 				}
 				$p[ $ticket_type ]['count'] = $p[ $ticket_type ]['count'] - 1;
-				$nitem = array( $k => $p );
+				$nitem                      = array( $k => $p );
 				update_post_meta( $payment_id, '_purchased', $nitem, $item );
 			}
 		}
