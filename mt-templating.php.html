@@ -132,27 +132,7 @@ function mt_get_payment_tickets() {
 	if ( $receipt ) {
 		$purchase = get_post_meta( $receipt->ID, '_purchased' );
 		$id       = $receipt->ID;
-
-		$ticket_array = array();
-		foreach ( $purchase as $purch ) {
-			foreach ( $purch as $event => $tickets ) {
-				$purchases[ $event ] = $tickets;
-				foreach ( $tickets as $type => $details ) {
-					// add ticket hash for each ticket.
-					$count = $details['count'];
-					// only add tickets if count of tickets is more than 0.
-					if ( $count >= 1 ) {
-						$price = $details['price'];
-						for ( $i = 0; $i &lt; $count; $i ++ ) {
-							$ticket_id      = mt_generate_ticket_id( $id, $event, $type, $i, $price );
-							$ticket_array[] = $ticket_id;
-						}
-					}
-				}
-			}
-		}
-
-		return $ticket_array;
+		return mt_setup_tickets( $purchase, $id, 'ids' );
 	}
 
 	return false;
