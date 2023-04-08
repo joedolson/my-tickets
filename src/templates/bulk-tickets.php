@@ -282,6 +282,9 @@ if ( have_posts() ) {
 		// load data from the Tickets Page.
 		$purchases = mt_get_payment_tickets();
 		foreach ( $purchases as $ticket_id ) {
+			if ( ! mt_get_ticket_type( $ticket_id ) ) {
+				continue;
+			}
 			?>
 			<div class='panel ticket <?php mt_ticket_method( $ticket_id ); ?>'>
 				<div class='inside'>
@@ -360,12 +363,6 @@ if ( have_posts() ) {
 
 				</div>
 			</div>
-			<?php
-		}
-
-		if ( 'printable' === mt_get_ticket_method( $ticket_id ) ) {
-			?>
-			<a href="javascript:window.print()" class="print">Print</a>
 			<?php
 		}
 	}

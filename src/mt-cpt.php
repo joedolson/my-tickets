@@ -377,12 +377,13 @@ function mt_list_events( $purchase_id ) {
 /**
  * Generate tickets for a given purchase.
  *
- * @param array $purchase Purchase data.
- * @param int   $id Payment ID.
+ * @param array  $purchase Purchase data.
+ * @param int    $id Payment ID.
+ * @param string $return Links or IDs.
  *
  * @return array
  */
-function mt_setup_tickets( $purchase, $id ) {
+function mt_setup_tickets( $purchase, $id, $return = 'links' ) {
 	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$ticket_array = array();
 	$ticket_list  = array();
@@ -428,7 +429,11 @@ function mt_setup_tickets( $purchase, $id ) {
 	foreach ( $ticket_list as $ticket ) {
 		// If ticket has a valid type, display.
 		if ( mt_get_ticket_type( $ticket ) ) {
-			$ticket_array[ $ticket ] = add_query_arg( 'ticket_id', $ticket, get_permalink( $options['mt_tickets_page'] ) );
+			if ( 'links' === $return ) {
+				$ticket_array[ $ticket ] = add_query_arg( 'ticket_id', $ticket, get_permalink( $options['mt_tickets_page'] ) );
+			} else {
+				$ticket_array[] = $ticket;
+			}
 		}
 	}
 
@@ -760,6 +765,7 @@ function mt_column( $cols ) {
 	$cols['mt_paid']        = __( 'Cart Total', 'my-tickets' );
 	$cols['mt_receipt']     = __( 'Receipt ID', 'my-tickets' );
 	$cols['mt_payer_email'] = __( 'Email', 'my-tickets' );
+	$cols['mt_checkins']    = __( 'Tickets Used', 'my-tickets' );
 
 	return $cols;
 }
@@ -873,6 +879,17 @@ function mt_custom_column( $column_name, $id ) {
 			$em   = get_post_meta( $id, '_email', true );
 			$show = '<code>' . sanitize_email( $em ) . '</code>';
 			echo wp_kses_post( $show );
+			break;
+		case 'mt_checkins':
+			$used     = get_post_meta( $id, '_tickets_used' );
+			$purchase = get_post_meta( $id, '_purchased' );
+			$tickets  = mt_setup_tickets( $purchase, $id, 'ids' );
+			if ( ! is_array( $used ) ) {
+				$used = array();
+			}
+			$num_used = count( $used );
+			$total    = count( $tickets );
+			echo "$num_used/$total";	
 			break;
 	}
 }
