@@ -889,7 +889,7 @@ function mt_custom_column( $column_name, $id ) {
 			}
 			$num_used = count( $used );
 			$total    = count( $tickets );
-			echo "$num_used/$total";	
+			echo "$num_used/$total";
 			break;
 	}
 }
