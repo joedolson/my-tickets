@@ -385,6 +385,7 @@ function mt_list_events( $purchase_id ) {
 function mt_setup_tickets( $purchase, $id ) {
 	$options      = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$ticket_array = array();
+	$ticket_list  = array();
 
 	foreach ( $purchase as $purch ) {
 		foreach ( $purch as $event => $tickets ) {
@@ -415,11 +416,19 @@ function mt_setup_tickets( $purchase, $id ) {
 								)
 							);
 						}
-
-						$ticket_array[ $ticket_id ] = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
 					}
 				}
 			}
+			// Get updated ticket meta.
+			$ticket_meta = get_post_meta( $event, '_ticket' );
+			$ticket_list = array_merge( $ticket_list, $ticket_meta );
+		}
+	}
+	// Reassemble data.
+	foreach ( $ticket_list as $ticket ) {
+		// If ticket has a valid type, display.
+		if ( mt_get_ticket_type( $ticket ) ) {
+			$ticket_array[ $ticket ] = add_query_arg( 'ticket_id', $ticket, get_permalink( $options['mt_tickets_page'] ) );
 		}
 	}
 
@@ -890,8 +899,9 @@ function mt_return_value( $value, $column_name, $id ) {
  */
 function mt_css() {
 	global $current_screen;
+	$version = ( true === SCRIPT_DEBUG ) ? mt_rand( 10000, 100000 ) : mt_get_current_version();
 	if ( 'mt-payments' === $current_screen->id || 'edit-mt-payments' === $current_screen->id ) {
-		wp_enqueue_style( 'mt.posts', plugins_url( 'css/mt-post.css', __FILE__ ), array(), mt_get_current_version() );
+		wp_enqueue_style( 'mt.posts', plugins_url( 'css/mt-post.css', __FILE__ ), array(), $version );
 	}
 }
 
