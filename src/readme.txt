@@ -78,6 +78,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Correctly handle singular/plural values in quick cart.
 * Change: Add script debugging to break caches on styles and scripts.
 * Change: Style - wider price column.
+* Change: Expand information shown on verification views. Props @masonwolf.
 
 = 1.9.13 =
 

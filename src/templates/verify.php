@@ -95,7 +95,7 @@
 		<p><?php mt_event_date(); ?> @ <span class='time'><?php mt_event_time(); ?></span></p>
 		<?php
 	}
-	
+
 	$ticket_id = mt_get_ticket_id();
 	?>
 	<div class='purchaser'>
@@ -107,11 +107,11 @@
 			$purchase_id = mt_get_ticket_purchase_id();
 			$date        = get_post_field( 'post_date', $purchase_id );
 			$date        = date_i18n( get_option( 'date_format' ), strtotime( $date ) );
-			echo esc_html( $date ); 
+			echo esc_html( $date );
 		?>
 		</h2>
 	</div>
-	
+
 	<div class='mt-verification'><?php mt_verification(); ?></div>
 
 </div>
