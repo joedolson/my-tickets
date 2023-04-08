@@ -880,8 +880,8 @@ function mt_get_verification( $ticket_id = false ) {
 		}
 
 		do_action( 'mt_ticket_verified', $verified, $is_used, $purchase_id, $ticket_id );
-		$ticket_info  = "<div class='ticket-type'>" . mt_get_ticket_type( $ticket_id ) . '</div>';
-		$ticket_info .= "<div class='ticket-price'>" . mt_get_ticket_price( $ticket_id ) . '</div>';
+		$ticket_info  = "<ul><li class='ticket-type'>" . mt_get_ticket_type( $ticket_id ) . '</li>';
+		$ticket_info .= "<li class='ticket-price'>" . mt_get_ticket_price( $ticket_id ) . '</li></ul>';
 
 		return "<div class='$status_class'>" . $text . '</div>' . $ticket_info;
 	}

@@ -18,34 +18,29 @@
 	<style>
 		body {
 			font-family: HelveticaNeue, Arial, Verdana, sans-serif;
+			padding: 0;
+			margin: 0;
+			background: #fff;
 		}
 
-		.panel {
+		h1 {
+			margin: 0;
+		}
+
+		.panel main {
 			padding: 1em;
 			margin: 0 auto;
-			border: 1px solid #999;
 		}
 
 		.panel img {
+			max-width: 100%;
+			height: auto;
 			display: block;
 			margin: 0 auto;
 		}
 
 		.panel * {
 			word-wrap: breakword;
-		}
-
-		.panel .post-footer {
-			background: #eee;
-			padding: 1em;
-			margin: 0 -1em;
-			font-size: .8em;
-		}
-
-		a.print {
-			display: block;
-			width: 100%;
-			text-align: center;
 		}
 
 		.mt-verification div {
@@ -70,7 +65,11 @@
 		}
 
 		.mt-verification {
-			font-size: 1.6em;
+			font-size: 1.5em;
+		}
+
+		.ticket-data {
+			font-size: 1.2em;
 		}
 
 		.mt-verification span {
@@ -86,34 +85,33 @@
 </head>
 <body>
 <div class='panel verify <?php mt_ticket_method(); ?>'>
+	<header><?php mt_logo( array( 'alt' => mt_get_event_title() ) ); ?></header>
+	<main>
+		<h1 class='event-title'><?php mt_event_title(); ?></h1>
+		<div class="ticket-data">
+			<?php
+			if ( ! mt_get_ticket_validity() ) {
+				?>
+				<p><?php mt_event_date(); ?> @ <span class='time'><?php mt_event_time(); ?></span></p>
+				<?php
+			}
+			?>
+			<p class='purchaser'>
+				<strong><?php _e( 'Purchaser:', 'my-tickets' ); ?></strong> <?php mt_ticket_purchaser(); ?>
+			</p>
+			<p class='purchase-date'>
+				<strong><?php _e( 'Purchased on:', 'my-tickets' ); ?></strong>
+				<?php
+					$purchase_id = mt_get_ticket_purchase_id();
+					$date        = get_post_field( 'post_date', $purchase_id );
+					$date        = date_i18n( get_option( 'date_format' ), strtotime( $date ) );
+					echo esc_html( $date );
+				?>
+			</p>
+		</div>
+		<div class='mt-verification'><?php mt_verification(); ?></div>
 
-	<h1 class='event-title'><?php mt_event_title(); ?></h1>
-
-	<?php
-	if ( ! mt_get_ticket_validity() ) {
-		?>
-		<p><?php mt_event_date(); ?> @ <span class='time'><?php mt_event_time(); ?></span></p>
-		<?php
-	}
-
-	$ticket_id = mt_get_ticket_id();
-	?>
-	<div class='purchaser'>
-		<h2><strong><?php _e( 'Purchaser:', 'my-tickets' ); ?></strong> <?php mt_ticket_purchaser(); ?></h2>
-	</div>
-	<div class='purchase-date'><h2>
-		<strong><?php _e( 'Purchased on:', 'my-tickets' ); ?></strong>
-		<?php
-			$purchase_id = mt_get_ticket_purchase_id();
-			$date        = get_post_field( 'post_date', $purchase_id );
-			$date        = date_i18n( get_option( 'date_format' ), strtotime( $date ) );
-			echo esc_html( $date );
-		?>
-		</h2>
-	</div>
-
-	<div class='mt-verification'><?php mt_verification(); ?></div>
-
+	</main>
 </div>
 
 </body>
