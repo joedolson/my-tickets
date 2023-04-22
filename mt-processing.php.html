@@ -164,7 +164,7 @@ function mt_ticket_meta( $post_id ) {
 	if ( isset( $_POST['mt-tickets-nonce'] ) &amp;&amp; isset( $_POST['mt-trigger'] ) ) {
 		$nonce = sanitize_text_field( $_POST['mt-tickets-nonce'] );
 		if ( ! wp_verify_nonce( $nonce, 'mt-tickets-nonce' ) ) {
-			wp_die( 'Invalid nonce' );
+			wp_die( 'My Tickets: Invalid meta nonce' );
 		}
 		$post        = map_deep( $_POST, 'sanitize_textarea_field' );
 		$event_begin = mt_date( 'Y-m-d', strtotime( $post['event_begin'] ), false );
