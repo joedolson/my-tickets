@@ -93,7 +93,7 @@ function mt_cpt_email_purchaser( $id ) {
 		$blogname = get_option( 'blogname' );
 		$nonce    = $_POST['mt-email-nonce'];
 		if ( ! wp_verify_nonce( $nonce, 'mt-email-nonce' ) ) {
-			wp_die( 'Invalid nonce' );
+			wp_die( 'My Tickets: Invalid email nonce' );
 		}
 		if ( isset( $_POST['_inline_edit'] ) ) {
 			return;
@@ -616,7 +616,7 @@ function mt_post_meta( $id ) {
 	if ( isset( $_POST['mt-meta-nonce'] ) ) {
 		$nonce = $_POST['mt-meta-nonce'];
 		if ( ! wp_verify_nonce( $nonce, 'mt-meta-nonce' ) ) {
-			wp_die( 'Invalid nonce' );
+			wp_die( 'My Tickets: Invalid meta nonce' );
 		}
 		if ( isset( $_POST['_inline_edit'] ) ) {
 			return;
