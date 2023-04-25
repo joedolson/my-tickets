@@ -67,6 +67,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.10.2 =
+
+* Bug fix: Stripslashes before sending payment confirmation to PayPal.
+* Improve: Prefix some invalid nonce errors.
+
 = 1.10.1 =
 
 * Bug fix: List of payment tickets sourced from event instead of payment.
