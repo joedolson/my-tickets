@@ -244,7 +244,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 	$total    = count( $tickets );
 	$i        = 1;
 	$test_use = false;
-	if ( ( current_user_can( 'mt-verify-tickets' ) || current_user_can( 'manage_options' ) ) && is_admin() ) {
+	if ( is_admin() && ( current_user_can( 'mt-verify-ticket' ) || current_user_can( 'manage_options' ) ) ) {
 		if ( isset( $_GET['ticket-action'] ) && isset( $_GET['ticket'] ) ) {
 			$ticket_id = sanitize_text_field( $_GET['ticket'] );
 			if ( 'checkin' === $_GET['ticket-action'] ) {
