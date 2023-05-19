@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly.
 
-
 // begin add boxes.
 add_action( 'admin_menu', 'mt_add_ticket_box' );
 /**
