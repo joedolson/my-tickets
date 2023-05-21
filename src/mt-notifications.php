@@ -140,8 +140,13 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 
 				$general       = ( isset( $event['general_admission'] ) && 'on' === $event['general_admission'] ) ? true : false;
 				$validity      = ( isset( $event['event_valid'] ) ) ? $event['event_valid'] : 0;
-				$purchase_date = get_the_date( 'Y-m-d', $purchase_id );
-				$valid_til     = mt_date( get_option( 'date_format' ), strtotime( $purchase_date . ' + ' . $validity ) );
+				if ( isset( $event['expire_date'] ) && ! empty( $event['expire_date'] ) ) {
+					$valid_dt = $event['expire_date'];
+				} else {
+					$purchase_date = get_the_date( 'Y-m-d', $purchase_id );
+					$valid_dt      = strtotime( $purchase_date . ' + ' . $validity );
+				}
+				$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
 				// Translators: Date ticket valid until.
 				$valid_til       = sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til );
 				$handling_notice = '';

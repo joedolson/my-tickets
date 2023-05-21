@@ -70,6 +70,7 @@ function mt_add_ticket_form() {
 		$general     = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? ' checked="checked"' : '';
 		$dated       = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? '' : ' checked="checked"';
 		$valid       = ( isset( $data['event_valid'] ) && $general ) ? $data['event_valid'] : '';
+		$expire      = ( isset( $data['expire_date'] ) && $general ) ? gmdate( 'Y-m-d', $data['expire_date'] ) : '';
 	} else {
 		$event_begin = '';
 		$event_time  = '';
@@ -77,8 +78,10 @@ function mt_add_ticket_form() {
 		$general     = '';
 		$dated       = '';
 		$valid       = '';
+		$expire      = '';
 	}
-	$option_string = '<option value="">' . __( 'Select a value', 'my-tickets' ) . '</option>';
+	$option_string = '<option value="">' . __( 'Select a value', 'my-tickets' ) . '</option>
+	<option value="expire">' . __( 'Set an expiration date', 'my-tickets' ) . '</option>';
 	foreach ( $validity as $key => $option ) {
 		$option_string .= '<option value="' . esc_attr( $key ) . '"' . selected( $key, $valid, false ) . '>' . esc_html( $option ) . '</option>';
 	}
@@ -112,6 +115,9 @@ function mt_add_ticket_form() {
 					<p>
 						<label for='mt_valid'>" . __( 'Ticket validity', 'my-tickets' ) . "</label> <select name='mt_valid' id='mt_valid'>$option_string</select>
 					</p>
+					<p class='expire_date'>
+						<label for='expire_date'>" . __( 'Ticket Expiration Date', 'my-tickets' ) . "</label> <input type='date' name='expire_date' id='expire_date' value='$expire' />
+					</p>
 				</div>
 				<div class='mt-ticket-dates'>
 					<p>
@@ -144,12 +150,14 @@ function mt_ticket_meta( $post_id ) {
 		$event_time  = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
 		$general     = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'on' : '';
 		$valid       = ( isset( $post['mt_valid'] ) ) ? sanitize_text_field( $post['mt_valid'] ) : '';
+		$expire      = ( isset( $post['expire_date'] ) ) ? strtotime( $post['expire_date'] ) : '';
 		$data        = array(
 			'event_begin'       => $event_begin,
 			'event_time'        => $event_time,
 			'event_post'        => $post_id,
 			'general_admission' => $general,
 			'event_valid'       => $valid,
+			'expire_date'       => $expire,
 		);
 		if ( isset( $post['mt-event-location'] ) && is_numeric( $post['mt-event-location'] ) ) {
 			update_post_meta( $post_id, '_mc_event_location', $post['mt-event-location'] );

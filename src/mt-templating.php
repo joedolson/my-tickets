@@ -927,8 +927,13 @@ function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 			 * @return {string}
 			 */
 			$format       = apply_filters( 'mt_validity_date_format', $format, $event_data );
-			$date_of_sale = get_the_date( $format, $sale_id );
-			$status       = mt_date( $format, strtotime( $date_of_sale . ' + ' . $validity ) );
+			$date_of_sale = get_the_date( $format, $sale_id );			
+			if ( isset( $event['expire_date'] ) && ! empty( $event['expire_date'] ) ) {
+				$valid_dt = $event['expire_date'];
+			} else {
+				$valid_dt = strtotime( $date_of_sale . ' + ' . $validity );
+			}
+			$status = mt_date( $format, $valid_dt );
 			// Translators: Purchase date.
 			$text .= wpautop( sprintf( apply_filters( 'mt_ticket_validity_sale_date', __( '<strong>Purchased:</strong> %s', 'my-tickets' ), $event_data ), '<span class="mt-date-of-sale">' . $date_of_sale . '</span>' ) );
 			// Translators: Expiration date.
