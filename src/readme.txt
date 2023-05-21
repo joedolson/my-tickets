@@ -67,6 +67,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.10.3 =
+
+* Feature change: Extend General Admission tickets to set specific expiration dates.
+* Bug fix: No default padding on cart handling costs.
+
 = 1.10.2 =
 
 * Bug fix: Stripslashes before sending payment confirmation to PayPal.
