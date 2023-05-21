@@ -468,10 +468,9 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 			$ticket_count = 0;
 			$subtotal     = 0;
 			// get total # tickets on purchase.
-			// get total # tickets on purchase.
 			// get count of tickets for *this* event on purchase.
 			// get total paid.
-			// get total price to get owed (on purchase).
+			// get total price owed (on purchase).
 			foreach ( $details as $type => $tickets ) {
 				$count = isset( $details[ $type ]['count'] ) ? $details[ $type ]['count'] : 0;
 				// THIS results in only getting the details for one type listed; need all types for this to be valid.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Add to Cart data.
+ * Add to Cart form.
  *
  * @category Core
  * @package  My Tickets
