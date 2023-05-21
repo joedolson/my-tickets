@@ -506,6 +506,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 					$first_name = get_post_meta( $purchase_id, '_first_name', true );
 					$last_name  = get_post_meta( $purchase_id, '_last_name', true );
 					$email      = get_post_meta( $purchase_id, '_email', true );
+					$gateway    = get_post_meta( $purchase_id, '_gateway', true );
 					if ( ! $first_name || ! $last_name ) {
 						$name       = explode( ' ', $purchaser );
 						$first_name = $name[0];
@@ -585,7 +586,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						  &lt;/tr>";
 				// add split field to csv headers.
 				$types                       = str_replace( PHP_EOL, ', ', $types );
-				$csv                         = "\"$last_name\",\"$first_name\",\"$email\",\"$types\",\"$ticket_count\",\"$owed\",\"$paid\",\"$fee\",\"$ticket_type\",\"$date\",\"$time\",\"$purchase_id\",\"$phone\",\"$street\",\"$street2\",\"$city\",\"$state\",\"$code\",\"$country\"$custom_csv" . PHP_EOL;
+				$csv                         = "\"$last_name\",\"$first_name\",\"$email\",\"$types\",\"$ticket_count\",\"$owed\",\"$paid\",\"$fee\",\"$ticket_type\",\"$date\",\"$time\",\"$gateway\",\"$purchase_id\",\"$phone\",\"$street\",\"$street2\",\"$city\",\"$state\",\"$code\",\"$country\"$custom_csv" . PHP_EOL;
 				$report['html'][ $status ][] = $row;
 				$report['csv'][ $status ][]  = $csv;
 			}
@@ -684,7 +685,7 @@ function mt_download_csv_event() {
 		foreach ( $custom_fields as $name => $field ) {
 			$custom_headings .= ",\"$name\"";
 		}
-		$csv = __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Email', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchased', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Paid', 'my-tickets' ) . ',' . __( 'Fees', 'my-tickets' ) . ',' . __( 'Ticket Method', 'my-tickets' ) . ',' . __( 'Date', 'my-tickets' ) . ',' . __( 'Time', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Phone', 'my-tickets' ) . ',' . __( 'Street', 'my-tickets' ) . ',' . __( 'Street (2)', 'my-tickets' ) . ',' . __( 'City', 'my-tickets' ) . ',' . __( 'State', 'my-tickets' ) . ',' . __( 'Postal Code', 'my-tickets' ) . ',' . __( 'Country', 'my-tickets' ) . $custom_headings . PHP_EOL;
+		$csv = __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Email', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchased', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Paid', 'my-tickets' ) . ',' . __( 'Fees', 'my-tickets' ) . ',' . __( 'Ticket Method', 'my-tickets' ) . ',' . __( 'Date', 'my-tickets' ) . ',' . __( 'Time', 'my-tickets' ) . ',' . __( 'Payment Gateway', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Phone', 'my-tickets' ) . ',' . __( 'Street', 'my-tickets' ) . ',' . __( 'Street (2)', 'my-tickets' ) . ',' . __( 'City', 'my-tickets' ) . ',' . __( 'State', 'my-tickets' ) . ',' . __( 'Postal Code', 'my-tickets' ) . ',' . __( 'Country', 'my-tickets' ) . $custom_headings . PHP_EOL;
 		foreach ( $report as $status => $rows ) {
 			foreach ( $rows as $type => $row ) {
 				$csv .= $row;
