@@ -3,6 +3,10 @@
     padding: .25em 0;
 }
 
+.mt_cart_handling {
+	padding: .5rem;
+}
+
 .mt-order input,
 .mt-order button,
 .mt_cart button,
