@@ -903,7 +903,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				} else {
 					$valid_dt = strtotime( ' + ' . $validity );
 				}
-				$valid_til    = mt_date( get_option( 'date_format' ), $valid_dt );
+				$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
 				// Translators: Date ticket valid until.
 				$date      = ( $general ) ? sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til ) : $data['event_begin'] . ' ' . $data['event_time'];
 				$dt_format = apply_filters( 'mt_cart_datetime', get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ) );
