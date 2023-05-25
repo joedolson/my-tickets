@@ -589,7 +589,10 @@ function mt_get_tickets( $event_id ) {
 	$options   = get_option( 'mt_settings', array() );
 	$alternate = 'even';
 	foreach ( $query as $ticket_id ) {
-		$ticket       = get_post_meta( $event_id, '_' . $ticket_id, true );
+		$ticket = get_post_meta( $event_id, '_' . $ticket_id, true );
+		if ( ! is_array( $ticket ) ) {
+			continue;
+		}
 		$ticket_url   = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
 		$purchase_id  = $ticket['purchase_id'];
 		$type         = $ticket['type'];
