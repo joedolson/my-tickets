@@ -928,7 +928,7 @@ function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 			 */
 			$format       = apply_filters( 'mt_validity_date_format', $format, $event_data );
 			$date_of_sale = get_the_date( $format, $sale_id );
-			if ( isset( $event['expire_date'] ) && ! empty( $event['expire_date'] ) ) {
+			if ( 'expire' === $validity && isset( $event['expire_date'] ) && ! empty( $event['expire_date'] ) ) {
 				$valid_dt = $event['expire_date'];
 			} else {
 				$valid_dt = strtotime( $date_of_sale . ' + ' . $validity );

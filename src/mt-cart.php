@@ -872,7 +872,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 				$general      = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? true : false;
 				$validity     = ( isset( $data['event_valid'] ) ) ? $data['event_valid'] : 0;
-				if ( isset( $data['expire_date'] ) && ! empty( $data['expire_date'] ) ) {
+				if ( 'expire' === $validity && isset( $data['expire_date'] ) && ! empty( $data['expire_date'] ) ) {
 					$valid_dt = $data['expire_date'];
 				} else {
 					$valid_dt = strtotime( ' + ' . $validity );

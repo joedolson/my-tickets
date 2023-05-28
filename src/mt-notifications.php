@@ -139,7 +139,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				$time     = date_i18n( get_option( 'time_format' ), strtotime( $event['event_time'] ) );
 				$general  = ( isset( $event['general_admission'] ) && 'on' === $event['general_admission'] ) ? true : false;
 				$validity = ( isset( $event['event_valid'] ) ) ? $event['event_valid'] : 0;
-				if ( isset( $event['expire_date'] ) && ! empty( $event['expire_date'] ) ) {
+				if ( 'expire' === $validity && isset( $event['expire_date'] ) && ! empty( $event['expire_date'] ) ) {
 					$valid_dt = $event['expire_date'];
 				} else {
 					$purchase_date = get_the_date( 'Y-m-d', $purchase_id );
