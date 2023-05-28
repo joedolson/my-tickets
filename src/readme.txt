@@ -7,7 +7,7 @@ Tested up to: 6.2
 Requires PHP: 7.0
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.10.2
+Stable tag: 1.11.0
 My Tickets is an simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -67,10 +67,13 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
-= 1.10.3 =
+= 1.11.0 =
 
 * Feature change: Extend General Admission tickets to set specific expiration dates.
 * Bug fix: No default padding on cart handling costs.
+* Bug fix: Incorrect permission check for ticket check-in in admin.
+* Change: Add payment gateway into purchase report download.
+* Change: Change default colors to use WordPress palette colors.
 
 = 1.10.2 =
 
