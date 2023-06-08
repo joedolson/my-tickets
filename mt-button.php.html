@@ -673,12 +673,12 @@ function mt_handling_notice() {
  * @param array  $options Array of My Tickets options.
  * @param string $gateway Currently selected gateway.
  *
- * @return float|int 
+ * @return float|int
  */
 function mt_get_cart_handling( $options, $gateway ) {
 	$handling = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
 	$original = $handling;
-	$ignored = ( isset( $options['mt_gateways'][ $gateway ]['mt_handling'] ) &amp;&amp; 'true' === $options['mt_gateways'][ $gateway ]['mt_handling'] ) ? true : false;
+	$ignored  = ( isset( $options['mt_gateways'][ $gateway ]['mt_handling'] ) &amp;&amp; 'true' === $options['mt_gateways'][ $gateway ]['mt_handling'] ) ? true : false;
 	if ( $ignored ) {
 		$handling = 0;
 	}
