@@ -548,7 +548,6 @@ function mt_create_field( $key, $label, $type, $post_id, $choices = false, $mult
 				}
 			} else {
 				if ( 'total_paid' === $key && '' !== $custom ) {
-					$custom = number_format( floatval( $custom ), 2 );
 					$label .= ' (' . $options['mt_currency'] . ')';
 				}
 				$value = "<label for='_$key'>$label</label><br /><input class='widefat' type='text' name='_$key' id='_$key' value='$custom' $disabled />";
