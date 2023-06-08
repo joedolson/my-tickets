@@ -70,8 +70,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 = 1.11.0 =
 
 * Feature change: Extend General Admission tickets to set specific expiration dates.
+* Feature: Option to ignore cart-wide ticket handling fees for specific gateways.
 * Bug fix: No default padding on cart handling costs.
 * Bug fix: Incorrect permission check for ticket check-in in admin.
+* Bug fix: Setting the number format in the total paid field breaks values with thousands separators.
 * Change: Add payment gateway into purchase report download.
 * Change: Change default colors to use WordPress palette colors.
 
