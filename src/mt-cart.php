@@ -708,7 +708,6 @@ function mt_generate_cart( $user_ID = false ) {
 	// if submitted successfully & payment required, toggle to payment form.
 	$options     = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$gateway     = isset( $_POST['mt_gateway'] ) ? $_POST['mt_gateway'] : false;
-	$type        = isset( $_POST['ticketing_method'] ) ? $_POST['ticketing_method'] : false;
 	$breadcrumbs = mt_generate_path( $gateway );
 	// TODO: If gateway is offline, mt_generate_gateway is never run. Use mt_generate_gateway to create button in both cases.
 	// Need to handle the case where multiple gateways are available, however; can't display the gateway until after gateway is selected.
