@@ -221,8 +221,8 @@ function mt_payment_settings() {
 											'label' => __( 'Ignore cart-wide ticket handling fees with this gateway.', 'my-tickets' ),
 											'value' => 'true',
 										);
+
 										$fields['fields']['mt_handling'] = $handling_fees;
-										$settings          = isset( $fields['fields'] ) ? $fields['fields'] : false;
 										if ( $settings ) {
 											foreach ( $settings as $key => $label ) {
 												if ( is_array( $label ) ) {

@@ -130,9 +130,9 @@ function mt_create_payment( $post ) {
 	$purchased = ( isset( $post['mt_cart_order'] ) ) ? $post['mt_cart_order'] : false;
 	$paid      = mt_calculate_cart_cost( $purchased, $purchase_id );
 	$gateway   = sanitize_text_field( $post['mt_gateway'] );
-	if ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) {	
+	if ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) {
 		$handling_total = mt_get_cart_handling( $options, $gateway );
-		$paid = $paid + $handling_total;
+		$paid           = $paid + $handling_total;
 		update_post_meta( $purchase_id, '_mt_handling', $handling_total );
 	}
 	if ( isset( $options['mt_shipping'] ) && 'postal' === $post['ticketing_method'] ) {
