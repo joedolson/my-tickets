@@ -129,9 +129,11 @@ function mt_create_payment( $post ) {
 	}
 	$purchased = ( isset( $post['mt_cart_order'] ) ) ? $post['mt_cart_order'] : false;
 	$paid      = mt_calculate_cart_cost( $purchased, $purchase_id );
-	if ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) {
-		$paid = $paid + $options['mt_handling'];
-		update_post_meta( $purchase_id, '_mt_handling', $options['mt_handling'] );
+	$gateway   = sanitize_text_field( $post['mt_gateway'] );
+	if ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) {	
+		$handling_total = mt_get_cart_handling( $options, $gateway );
+		$paid = $paid + $handling_total;
+		update_post_meta( $purchase_id, '_mt_handling', $handling_total );
 	}
 	if ( isset( $options['mt_shipping'] ) && 'postal' === $post['ticketing_method'] ) {
 		$paid = $paid + $options['mt_shipping'];
@@ -143,7 +145,7 @@ function mt_create_payment( $post ) {
 	if ( is_user_logged_in() && ! is_admin() && '' !== trim( $options['mt_members_discount'] ) ) {
 		update_post_meta( $purchase_id, '_discount', $options['mt_members_discount'] );
 	}
-	update_post_meta( $purchase_id, '_gateway', sanitize_text_field( $post['mt_gateway'] ) );
+	update_post_meta( $purchase_id, '_gateway', $gateway );
 	update_post_meta( $purchase_id, '_purchase_data', $purchased );
 	// Debugging.
 	mt_debug( print_r( $purchased, 1 ), 'Purchase Data saved at nav to payment screen', $purchase_id );

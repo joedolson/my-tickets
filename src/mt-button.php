@@ -625,7 +625,7 @@ function mt_handling_price( $price, $event, $type = 'standard' ) {
 }
 
 /**
- * Produce price if a per-ticket handling charge is being applied.
+ * Produce notice if a per-ticket handling charge is being applied.
  *
  * @return string handling notice
  */
@@ -639,6 +639,38 @@ function mt_handling_notice() {
 	}
 
 	return $handling_notice;
+}
+
+/**
+ * Get the handling costs for a cart purchase.
+ *
+ * @param array  $options Array of My Tickets options.
+ * @param string $gateway Currently selected gateway.
+ *
+ * @return float|int 
+ */
+function mt_get_cart_handling( $options, $gateway ) {
+	$handling = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
+	$original = $handling;
+	$ignored = ( isset( $options['mt_gateways'][ $gateway ]['mt_handling'] ) && 'true' === $options['mt_gateways'][ $gateway ]['mt_handling'] ) ? true : false;
+	if ( $ignored ) {
+		$handling = 0;
+	}
+	/**
+	 * Filter the handling ticket based on gateway selected.
+	 *
+	 * @hook mt_handling_total
+	 *
+	 * @param {float|int} $handling Cart handling fee after gateway settings applied.
+	 * @param {float|int} $original Cart handling fee from settings.
+	 * @param {string}    $gateway Selected gateway.
+	 *
+	 * @return {float|int}
+	 */
+	$handling = apply_filters( 'mt_handling_total', $handling, $original, $gateway );
+	$handling = ( is_numeric( $handling ) ) ? floatval( $handling ) : 0;
+
+	return $handling;
 }
 
 /**

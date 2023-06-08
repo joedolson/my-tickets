@@ -216,6 +216,12 @@ function mt_payment_settings() {
 										<li>
 											<input type='checkbox' id='mt_gateway_$gateway' name='mt_gateway[]' value='$gateway'" . $gateway_enabled . " /> <label for='mt_gateway_$gateway'>$fields[label]</label>
 										</li>";
+										$handling_fees     = array(
+											'type'  => 'checkbox',
+											'label' => __( 'Ignore cart-wide ticket handling fees with this gateway.', 'my-tickets' ),
+											'value' => 'true',
+										);
+										$fields['fields']['mt_handling'] = $handling_fees;
 										$settings          = isset( $fields['fields'] ) ? $fields['fields'] : false;
 										if ( $settings ) {
 											foreach ( $settings as $key => $label ) {

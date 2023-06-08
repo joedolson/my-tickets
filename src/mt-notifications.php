@@ -363,7 +363,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$purchased     = get_post_meta( $id, '_purchased' );
 	$purchase_data = get_post_meta( $id, '_purchase_data', true );
 	$ticket_array  = mt_setup_tickets( $purchased, $id );
-	$handling      = ( isset( $options['mt_handling'] ) ) ? floatval( $options['mt_handling'] ) : 0;
+	$handling      = mt_get_cart_handling( $options, $gateway );
 	$shipping      = ( isset( $options['mt_shipping'] ) ) ? floatval( $options['mt_shipping'] ) : 0;
 
 	$total = mt_calculate_cart_cost( $purchase_data, $id ) + $handling + $shipping;

@@ -86,7 +86,7 @@ function mt_gateway_offline( $form, $gateway, $args ) {
 	if ( 'offline' === $gateway ) {
 		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		$payment_id     = $args['payment'];
-		$handling       = absint( ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0 );
+		$handling       = mt_get_cart_handling( $options, $gateway );
 		$total          = $args['total'] + $handling;
 		$shipping_price = ( 'postal' === $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
 		$currency       = $options['mt_currency'];

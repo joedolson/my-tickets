@@ -415,6 +415,11 @@ function mt_public_enqueue_scripts() {
 			'redirect' => $redirect,
 		)
 	);
+	$enabled  = $options['mt_gateway'];
+	$handling = array();
+	foreach ( $enabled as $gate ) {
+		$handling[ $gate ] = mt_get_cart_handling( $options, $gate );
+	}
 	wp_localize_script(
 		'mt.public',
 		'mt_ajax_cart',
@@ -425,6 +430,7 @@ function mt_public_enqueue_scripts() {
 			'max_limit'  => __( "You've reached the maximum number of tickets available for this purchase.", 'my-tickets' ),
 			'processing' => __( 'Cart update processing', 'my-tickets' ),
 			'thousands'  => $options['mt_thousands_sep'],
+			'handling'   => $handling,
 		)
 	);
 }

@@ -140,6 +140,8 @@
 			$('.gateway-selector button' ).removeAttr( 'aria-current' );
 			$(this).attr( 'aria-current', 'true' );
 			var gateway = $(this).attr('data-assign');
+			var handling = mt_ajax_cart.handling[gateway];
+			$( '.mt_cart_handling .price' ).text( handling );
 			$('input[name="mt_gateway"]').val(gateway);
 		});
 

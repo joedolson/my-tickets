@@ -249,7 +249,7 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 	if ( 'paypal' === $gateway ) {
 		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 		$payment_id     = $args['payment'];
-		$handling       = ( isset( $options['mt_handling'] ) && is_numeric( $options['mt_handling'] ) ) ? $options['mt_handling'] : 0;
+		$handling       = mt_get_cart_handling( $options, $gateway );
 		$total          = $args['total'] + $handling;
 		$shipping       = ( 'postal' === $args['method'] || ( isset( $options['mt_collect_shipping'] ) && 'true' === $options['mt_collect_shipping'] ) ) ? 2 : 1;
 		$shipping_price = ( 'postal' === $args['method'] ) ? number_format( $options['mt_shipping'], 2 ) : 0;
