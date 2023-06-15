@@ -385,8 +385,9 @@ function mt_select_events() {
 	$args    = apply_filters( 'mt_select_events_args', $args );
 	$query   = new WP_Query( $args );
 	$posts   = $query->posts;
+	$ids     = wp_list_pluck( $posts, 'ID' );
 	$options = '<option value="false"> --- </option>';
-	if ( isset( $_GET['event_id'] ) ) {
+	if ( isset( $_GET['event_id'] ) && ! in_array( (int) $_GET['event_id'], $ids, true ) ) {
 		$event_id = absint( $_GET['event_id'] );
 		$post     = get_post( $event_id );
 		if ( $post ) {
