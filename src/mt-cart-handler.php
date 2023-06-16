@@ -193,6 +193,7 @@ function mt_create_payment( $post ) {
  * @return null
  */
 function mt_create_tickets( $purchase_id, $purchased = false, $resending = false ) {
+	// _purchase_data contains the original purchase info; it's not updated when something is moved.
 	$purchased = ( $purchased ) ? $purchased : get_post_meta( $purchase_id, '_purchase_data', true );
 	if ( ! is_array( $purchased ) || mt_purchase_has_tickets( $purchase_id ) ) {
 		return;
