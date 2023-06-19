@@ -71,6 +71,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 * Feature change: Extend General Admission tickets to set specific expiration dates.
 * Feature: Option to ignore cart-wide ticket handling fees for specific gateways.
+* Feature: Add autocomplete on move ticket feature.
 * Bug fix: No default padding on cart handling costs.
 * Bug fix: Incorrect permission check for ticket check-in in admin.
 * Bug fix: Setting the number format in the total paid field breaks values with thousands separators.
