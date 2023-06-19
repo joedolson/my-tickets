@@ -555,7 +555,7 @@ function mt_ajax_move_ticket() {
 				'success'  => 0,
 				'response' => __( 'The new event provided is the same as the current event.', 'my-tickets' ),
 			)
-		);		
+		);
 	}
 
 	if ( ! $event_id || ! $target || ! $ticket ) {
