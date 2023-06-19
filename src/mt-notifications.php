@@ -291,12 +291,10 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 						<div class="mt-move-tickets" id="mt-edit-tickets-' . $i . '">
 							<div class="mt-ticket-moved-response" aria-live="polite">' . $status . '</div>
 							<div class="mt-move-tickets-inner">
-								<div>
-									<label for="mt-move-tickets-choose-' . $i . '">New Event ID</label> 
-									<input type="number" id="mt-move-tickets-choose-' . $i . '" class="widefat mt-move-tickets-target" name="mt-event-target" value="" />
-								</div>
-								<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-move-tickets-button button-secondary">' . __( 'Move Ticket', 'my-tickets' ) . '</button>
+								<label for="mt-move-tickets-choose-' . $i . '">Move to Event <i><span aria-live="assertive"></span></i></label> 
+								<input type="text" placeholder="Search term" id="mt-move-tickets-choose-' . $i . '" class="suggest widefat mt-move-tickets-target" name="mt-event-target" value="" />
 							</div>
+							<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-move-tickets-button button-secondary">' . __( 'Move Ticket', 'my-tickets' ) . '</button>
 							<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-delete-ticket-button button-secondary"><span class="dashicons dashicons-no" aria-hidden="true"></span> ' . __( 'Delete Ticket', 'my-tickets' ) . '</button>
 						</div>
 					</div>';

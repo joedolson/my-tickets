@@ -1105,6 +1105,7 @@ function mt_kses_elements() {
 			'readonly'         => array(),
 			'autocomplete'     => array(),
 			'step'             => array(),
+			'placeholder'      => array(),
 		),
 		'textarea' => array(
 			'id'               => array(),

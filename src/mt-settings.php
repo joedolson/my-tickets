@@ -444,6 +444,22 @@ function mt_wp_enqueue_scripts() {
 				'security'     => wp_create_nonce( 'mt-move-ticket' ),
 			)
 		);
+		wp_enqueue_script(
+			'mt.functions',
+			plugins_url( 'js/jquery.functions.js', __FILE__ ),
+			array(
+				'jquery',
+				'jquery-ui-autocomplete',
+			),
+			$version
+		);
+		wp_localize_script(
+			'mt.functions',
+			'mtAjax',
+			array(
+				'action' => 'mt_event_lookup',
+			)
+		);
 	}
 	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
 		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ), $version );
@@ -533,11 +549,20 @@ function mt_ajax_move_ticket() {
 		);
 	}
 
+	if ( $event_id === $target ) {
+		wp_send_json(
+			array(
+				'success'  => 0,
+				'response' => __( 'The new event provided is the same as the current event.', 'my-tickets' ),
+			)
+		);		
+	}
+
 	if ( ! $event_id || ! $target || ! $ticket ) {
 		wp_send_json(
 			array(
 				'success'  => 0,
-				'response' => __( 'An event ID is required.', 'my-tickets' ),
+				'response' => __( 'Please provide an ID for a post configured to sell tickets.', 'my-tickets' ),
 			)
 		);
 	}
@@ -604,8 +629,38 @@ function mt_post_lookup() {
 	if ( isset( $_REQUEST['term'] ) ) {
 		$posts       = get_posts(
 			array(
-				's'         => $_REQUEST['term'],
+				's'         => sanitize_text_field( $_REQUEST['term'] ),
 				'post_type' => array( 'post', 'page' ),
+			)
+		);
+		$suggestions = array();
+		global $post;
+		foreach ( $posts as $post ) {
+			setup_postdata( $post );
+			$suggestion          = array();
+			$suggestion['value'] = esc_html( $post->post_title );
+			$suggestion['id']    = $post->ID;
+			$suggestions[]       = $suggestion;
+		}
+
+		echo esc_html( $_GET['callback'] ) . '(' . json_encode( $suggestions ) . ')';
+		exit;
+	}
+}
+
+
+add_action( 'wp_ajax_mt_event_lookup', 'mt_event_lookup' );
+/**
+ * AJAX event lookup.
+ */
+function mt_event_lookup() {
+	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$post_types = $options['mt_post_types'];
+	if ( isset( $_REQUEST['term'] ) ) {
+		$posts       = get_posts(
+			array(
+				's'         => sanitize_text_field( $_REQUEST['term'] ),
+				'post_type' => $post_types,
 			)
 		);
 		$suggestions = array();

@@ -26,10 +26,6 @@
 	border: 0;
 }
 
-.mt-move-tickets-wrapper .mt-delete-ticket-button {
-	margin-top: .25rem;
-}
-
 .mt-move-tickets-wrapper .mt-delete-ticket-button .dashicons {
 	vertical-align: text-top;
 	margin-top: -1px;
@@ -53,9 +49,7 @@
 }
 
 .mt-move-tickets-inner {
-	display: grid;
-	grid-template-columns: auto auto;
-	align-items: end;
+	margin-bottom: .25em;
 }
 
 .mt-move-tickets-inner button {
