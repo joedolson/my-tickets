@@ -238,7 +238,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
  */
 function mt_choose_report_by_event() {
 	$selector = mt_select_events();
-	$selected = ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] ) ? " selected='selected'" : '';
+	$selected = ( isset( $_GET['format'] ) && 'view' === $_GET['format'] ) ? " selected='selected'" : '';
 	$report   = ( isset( $_GET['mt-event-report'] ) ) ? sanitize_text_field( $_GET['mt-event-report'] ) : '';
 	$form     = "
 			<div class='report-by-event'>
@@ -256,15 +256,15 @@ function mt_choose_report_by_event() {
 					<p>
 					<label for='mt_select_report_type'>" . __( 'Select Report Type', 'my-tickets' ) . "</label>
 					<select name='mt-event-report' id='mt_select_report_type'>
-						<option value='tickets'" . selected( $report, 'tickets', false ) . '>' . __( 'List of Tickets', 'my-tickets' ) . "</option>
 						<option value='purchases'" . selected( $report, 'purchases', false ) . '>' . __( 'List of Purchases', 'my-tickets' ) . "</option>
+						<option value='tickets'" . selected( $report, 'tickets', false ) . '>' . __( 'List of Tickets', 'my-tickets' ) . "</option>
 					</select>
 					</p>
 					<p>
 					<label for='mt_select_format_event'>" . __( 'Report Format', 'my-tickets' ) . "</label>
 					<select name='format' id='mt_select_format_event'>
-						<option value='view'>" . __( 'View Report', 'my-tickets' ) . "</option>
-						<option value='csv'$selected>" . __( 'Download CSV', 'my-tickets' ) . "</option>
+						<option value='csv'>" . __( 'Download CSV', 'my-tickets' ) . "</option>
+						<option value='view'$selected>" . __( 'View Report', 'my-tickets' ) . "</option>
 					</select>
 					</p>
 					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Event', 'my-tickets' ) . "' /></p>
