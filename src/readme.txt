@@ -78,6 +78,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Bug fix: Counting error after moving tickets between events.
 * Change: Add payment gateway into purchase report download.
 * Change: Change default colors to use WordPress palette colors.
+* Change: Default event report changed to purchases & download instead of tickets & view.
 
 = 1.10.2 =
 
