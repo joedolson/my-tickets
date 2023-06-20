@@ -223,6 +223,7 @@ function mt_payment_settings() {
 										);
 
 										$fields['fields']['mt_handling'] = $handling_fees;
+										$settings                        = isset( $fields['fields'] ) ? $fields['fields'] : false;
 										if ( $settings ) {
 											foreach ( $settings as $key => $label ) {
 												if ( is_array( $label ) ) {
