@@ -122,9 +122,11 @@ function mt_offline_processor() {
 		$total         = mt_total_cart( $cart );
 		$amount        = (float) $_POST['mt_amount'];
 		$shipping      = (float) $_POST['mt_shipping'];
+		$handling      = mt_get_cart_handling( $options, 'offline' );
 		$other_charges = apply_filters( 'mt_custom_charges', 0, $cart, 'offline' );
 		// Check whether the total value for the cart matches the amounts submitted.
-		if ( ( $amount + $shipping ) !== (float) $total + $shipping + $other_charges ) {
+		if ( ( $amount + $shipping ) !== (float) $total + $shipping + $handling + $other_charges ) {
+			echo "$amount; $shipping; $total; $shipping; $other_charges;";
 			wp_die( 'My Tickets: Amount submitted to cart does not match payment.', 'my-tickets' );
 		}
 
