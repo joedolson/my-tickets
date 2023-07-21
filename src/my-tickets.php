@@ -743,6 +743,26 @@ function mt_register_actions() {
 }
 
 /**
+ * Pass no-store cache rules for My Tickets cart page.
+ *
+ * @param array $headers array of header strings.
+ * @param WP    $wp Current WP environment.
+ *
+ * @return array
+ */
+function mt_headers( $headers, $wp ) {
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$purchase_page = $options['mt_purchase_page'];
+	if ( is_page( $purchase_page ) ) {
+		$headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0';
+	}
+	print_r( $headers );
+
+	return $headers;
+}
+add_filter( 'wp_headers', 'mt_headers', 100, 2 );
+
+/**
  * Define custom action processed at the time of template include.
  *
  * @param string $template Template name.
@@ -963,7 +983,7 @@ function mt_user_profile() {
 		echo wp_kses( $options, mt_kses_elements() );
 	}
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'edit_user' ) ) {
-		echo wp_kses_post( '<h3>' . __( 'My Tickets Shopping Cart', 'my-tickets' ) . '</h3>' );
+		echo '<h3>' . esc_html__( 'My Tickets Shopping Cart', 'my-tickets' ) . '</h3>';
 		$cart         = mt_get_cart( $edit_user );
 		$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
 		echo wp_kses( $confirmation . "<p><a href='" . admin_url( "post-new.php?post_type=mt-payments&amp;cart=$edit_user" ) . "'>" . __( 'Create new payment with this cart', 'my-tickets' ) . '</a></p>', mt_kses_elements() );
