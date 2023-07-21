@@ -74,7 +74,7 @@ function mt_has_tickets( $pricing ) {
 function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false ) {
 	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$purchase_page = $options['mt_purchase_page'];
-	$receipt_page  = $options['mt_purchase_page'];
+	$receipt_page  = $options['mt_receipt_page'];
 	$tickets_page  = $options['mt_tickets_page'];
 	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) ) {
 		return $content;
