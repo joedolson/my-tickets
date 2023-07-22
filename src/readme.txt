@@ -67,6 +67,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
+= 1.11.2 =
+
+* Change: Add cache-control headers to prevent browser caching of cart pages.
+* Bug fix: Fix minor misnamed variable reference.
+
 = 1.11.1 =
 
 * Bug fix: Misnamed variable in ticket templates displayed wrong expiration date for fixed date events.
