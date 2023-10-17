@@ -129,9 +129,10 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				if ( ! ( $handling && is_numeric( $handling ) ) ) {
 					$handling = 0;
 				}
-				$title = ( $is_html ) ? '<strong>' . get_the_title( $event_id ) . '</strong>' : get_the_title( $event_id );
-				$title = ( $is_html ) ? "<a href='" . get_the_permalink( $event_id ) . "'>" . $title . '</a>' : $title;
-				$event = get_post_meta( $event_id, '_mc_event_data', true );
+				$handling = (float) $handling;
+				$title    = ( $is_html ) ? '<strong>' . get_the_title( $event_id ) . '</strong>' : get_the_title( $event_id );
+				$title    = ( $is_html ) ? "<a href='" . get_the_permalink( $event_id ) . "'>" . $title . '</a>' : $title;
+				$event    = get_post_meta( $event_id, '_mc_event_data', true );
 				if ( ! is_array( $event ) ) {
 					continue; // This event may no longer have event data on it, and needs to be skipped.
 				}
@@ -152,7 +153,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				$tickets_list    = '';
 				foreach ( $tickets as $type => $ticket ) {
 					if ( $ticket['count'] > 0 ) {
-						$price       = $ticket['price'];
+						$price       = (float) $ticket['price'];
 						$type        = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
 						$price       = $price - $handling;
 						$discount    = mt_calculate_discount( $price, $event_id, $purchase_id );
