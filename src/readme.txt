@@ -1,4 +1,4 @@
-=== My Tickets ===
+=== My Tickets - Accessible Event Ticketing ===
 Contributors: joedolson
 Donate link: http://www.joedolson.com/donate/
 Tags: events, ticket sales, tickets, ticketing, registration, reservations, event tickets, sell tickets, event registration, box office
