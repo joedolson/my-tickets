@@ -366,7 +366,7 @@ function mt_ticketing_help_tab() {
 function mt_reg_styles() {
 	$version = mt_get_current_version();
 	if ( SCRIPT_DEBUG ) {
-		$version = $version . '-' . mt_rand( 10000, 99999 );
+		$version = $version . '-' . wp_rand( 10000, 99999 );
 	}
 	wp_enqueue_style( 'mt-styles', plugins_url( '/css/my-tickets.css', __FILE__ ), array(), $version );
 }
@@ -397,7 +397,7 @@ function mt_public_enqueue_scripts() {
 	$redirect = apply_filters( 'mt_redirect', $redirect );
 	$version  = mt_get_current_version();
 	if ( SCRIPT_DEBUG ) {
-		$version = $version . '-' . mt_rand( 10000, 99999 );
+		$version = $version . '-' . wp_rand( 10000, 99999 );
 	}
 
 	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ), $version );
