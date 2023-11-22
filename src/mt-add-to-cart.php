@@ -157,13 +157,14 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				 *
 				 * @hook mt_tickets_close_value
 				 *
-				 * @param {int} $tickets_close_value Number of tickets remaining that triggers sold out condition.
-				 * @param {int} $event_id Event ID.
+				 * @param {int}   $tickets_close_value Number of tickets remaining that triggers sold out condition.
+				 * @param {int}   $event_id Event ID.
 				 * @param {array} $tickets_data Data about sold and available tickets.
 				 *
 				 * @return {int}
 				 */
-				if ( $tickets_remaining && $tickets_remaining > apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data ) ) {
+				$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
+				if ( $tickets_remaining && $tickets_remaining > $close_value ) {
 					$sold_out    = false;
 					$total_order = 0;
 					foreach ( $pricing as $type => $settings ) {
@@ -329,19 +330,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 					}
 				}
 			}
-			if ( 'inherit' !== $available ) {
-				// If this event is general admission, then never show number of tickets remaining or status.
-				$data = get_post_meta( $event_id, '_mc_event_data', true );
-				if ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) {
-					$hide_remaining = ' hiding';
-				} else {
-					$hide_remaining = mt_hide_remaining( $tickets_remaining );
-				}
-				// Translators: tickets remaining.
-				$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( apply_filters( 'mt_tickets_remaining_continuous_text', __( '%s tickets remaining.', 'my-tickets' ) ), "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
-			} else {
-				$remaining_notice = '';
-			}
+			$remaining_notice = mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining );
 
 			if ( true === $has_tickets ) {
 				$closing_time = mt_sales_close( $event_id, $registration['reg_expires'] );
@@ -427,6 +416,32 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 	}
 
 	return $content . $output;
+}
+
+/**
+ * Return the remaining tickets notice for an event.
+ *
+ * @param int        $event_id Event post ID.
+ * @param string|int $available Number of tickets available or type of availability if inherited.
+ * @param int        $tickets_remaining Number of tickets remaining.
+ *
+ * @return string
+ */
+function mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining ) {
+	$remaining_notice = '';
+	if ( 'inherit' !== $available ) {
+		// If this event is general admission, then never show number of tickets remaining or status.
+		$data = get_post_meta( $event_id, '_mc_event_data', true );
+		if ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) {
+			$hide_remaining = ' hiding';
+		} else {
+			$hide_remaining = mt_hide_remaining( $tickets_remaining );
+		}
+		// Translators: tickets remaining.
+		$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( apply_filters( 'mt_tickets_remaining_continuous_text', __( '%s tickets remaining.', 'my-tickets' ) ), "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
+	}
+
+	return $remaining_notice;
 }
 
 /**
@@ -562,7 +577,19 @@ function mt_can_order( $type ) {
  */
 function mt_tickets_remaining( $tickets_data, $event_id ) {
 	$tickets_remaining = $tickets_data['remain'];
-	if ( $tickets_remaining && $tickets_remaining > apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data ) ) {
+	/**
+	 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
+	 *
+	 * @hook mt_tickets_close_value
+	 *
+	 * @param {int}   $tickets_close_value Number of tickets remaining that triggers sold out condition.
+	 * @param {int}   $event_id Event ID.
+	 * @param {array} $tickets_data Data about sold and available tickets.
+	 *
+	 * @return {int}
+	 */
+	$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
+	if ( $tickets_remaining && $tickets_remaining > $close_value ) {
 		$tickets_remain_text = '';
 	} else {
 		if ( $tickets_remaining > 0 ) {
@@ -966,10 +993,10 @@ function mt_update_cart( $post = array() ) {
 /**
  * Checks whether a given event is currently represented in user's cart.
  *
- * @param Integer $event_id event ID.
- * @param Integer $user_ID user ID.
+ * @param int $event_id event ID.
+ * @param int $user_ID user ID.
  *
- * @return bool
+ * @return bool|int
  */
 function mt_in_cart( $event_id, $user_ID = false ) {
 	$cart = mt_get_cart( $user_ID );
