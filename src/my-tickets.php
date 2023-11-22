@@ -56,6 +56,21 @@ add_action( 'admin_notices', 'mt_status_notice', 10 );
  * Display promotion notice to admin users who have not donated or purchased WP Tweets PRO.
  */
 function mt_status_notice() {
+	// Only shown when in the Playground preview.
+	if ( 'true' === get_option( 'mc_show_playground_intro', '' ) ) {
+		echo '<div class="notice notice-info">';
+		echo '<h3>' . __( 'Thanks for trying out My Tickets!', 'my-tickets' ) . '</h3>';
+		echo '<p>' . __( "Let me give you a few quick things to try out while you're here:", 'my-tickets' ) . '</p>';
+		echo '<ol>';
+		// translators: Post edit link.
+		echo '<li>' . sprintf( __( 'Visit <a href="%s">the playground example event</a> to test setting up ticketing.', 'my-tickets' ), get_edit_post_link( 5 ) ) . '</li>';
+		echo '<li>' . __( 'Explore the Payment and Ticket settings to try different options.', 'my-tickets' ) . '</li>';
+		echo '<li>' . __( "Payment gateways aren't available in the playground, but you can test Offline payments.", 'my-tickets' ) . '</li>';
+		echo '</ol>';
+		// translators: link to plugin documentation.
+		echo '<p>' . sprintf( __( 'To learn more, check out the <a href="%s">plugin documentation</a>.', 'my-tickets' ), 'https://docs.joedolson.com/my-tickets/' ) . '</p>';
+		echo '</div>';
+	}
 	if ( current_user_can( 'activate_plugins' ) ) {
 		$options  = get_option( 'mt_settings' );
 		$purchase = ( isset( $options['mt_purchase_page'] ) ) ? $options['mt_purchase_page'] : false;
