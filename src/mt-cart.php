@@ -786,7 +786,7 @@ function mt_generate_cart( $user_ID = false ) {
  */
 function mt_copy_cart() {
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'manage_options' ) ) {
-		$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
+		$unique_id = mt_get_unique_id();
 		if ( $unique_id ) {
 			return "<p><a href='" . esc_url( admin_url( "post-new.php?post_type=mt-payments&amp;cart=$unique_id" ) ) . "'>" . __( 'Create new admin payment with this cart', 'my-tickets' ) . '</a></p>';
 		}
@@ -1162,7 +1162,7 @@ function mt_expired( $event, $react = false ) {
  */
 function mt_get_cart( $user_ID = false, $cart_id = false ) {
 	$cart      = array();
-	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
+	$unique_id = mt_get_unique_id();
 	if ( $user_ID ) {
 		$cart = get_user_meta( $user_ID, '_mt_user_cart', true );
 	} elseif ( ! $user_ID && $cart_id ) {
@@ -1192,7 +1192,7 @@ add_action( 'wp_head', 'mt_cart_meta', 1 );
  * Cart Data does not expose any user-specific information; contains only event ID and tickets selected.
  */
 function mt_cart_meta() {
-	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
+	$unique_id = mt_get_unique_id();
 	if ( $unique_id ) {
 		echo "<meta name='cart_id' value='" . esc_attr( $unique_id ) . "' />\n";
 	}
