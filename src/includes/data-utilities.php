@@ -39,22 +39,26 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	}
 	$current_user = wp_get_current_user();
 	mt_refresh_cache();
+	/**
+	 * Filter the length of time transient data (shopping carts) are stored for non-logged in users.
+	 *
+	 * @hook mt_cart_expiration_window
+	 *
+	 * @param {int}    $time Number of seconds before cart data will expire. Default WEEK_IN_SECONDS.
+	 *
+	 * @return {int}
+	 */
+	$expiration = apply_filters( 'mt_cart_expiration_window', WEEK_IN_SECONDS );
 	if ( is_user_logged_in() ) {
+		$data_age = get_user_meta( $current_user->ID, "_mt_user_init_$type", true );
+		if ( ! $data_age ) {
+			update_user_meta( $current_user->ID, "_mt_user_init_$type", time() + $expiration );
+		}
 		update_user_meta( $current_user->ID, "_mt_user_$type", $save );
 
 		return true;
 	} else {
 		$unique_id = mt_get_unique_id();
-		/**
-		 * Filter the length of time transient data (shopping carts) are stored for non-logged in users.
-		 *
-		 * @hook mt_cart_expiration_window
-		 *
-		 * @param {int}    $time Number of seconds before cart data will expire. Default WEEK_IN_SECONDS.
-		 *
-		 * @return {int}
-		 */
-		$expiration = apply_filters( 'mt_cart_expiration_window', WEEK_IN_SECONDS );
 		if ( get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
 			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
@@ -95,7 +99,25 @@ function mt_get_data( $type, $user_ID = false ) {
 	} else {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
-			$data         = get_user_meta( $current_user->ID, "_mt_user_$type", true );
+			$data_age     = get_user_meta( $current_user->ID, "_mt_user_init_$type", true );
+			if ( ! $data_age ) {
+				/**
+				 * Filter the length of time transient data (shopping carts) are stored for non-logged in users.
+				 *
+				 * @hook mt_cart_expiration_window
+				 *
+				 * @param {int}    $time Number of seconds before cart data will expire. Default WEEK_IN_SECONDS.
+				 *
+				 * @return {int}
+				 */
+				$expiration = apply_filters( 'mt_cart_expiration_window', WEEK_IN_SECONDS );
+				update_user_meta( $current_user->ID, "_mt_user_init_$type", time() + $expiration );
+			}
+			if ( time() > $data_age ) {
+				// Expire user's cart after the data ages out.
+				delete_user_meta( $current_user->ID, "_mt_user_$type" );
+			}
+			$data = get_user_meta( $current_user->ID, "_mt_user_$type", true );
 		} else {
 			$unique_id = mt_get_unique_id();
 			if ( $unique_id ) {
