@@ -45,10 +45,20 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		return true;
 	} else {
 		$unique_id = mt_get_unique_id();
+		/**
+		 * Filter the length of time transient data (shopping carts) are stored for non-logged in users.
+		 *
+		 * @hook mt_cart_expiration_window
+		 *
+		 * @param {int}    $time Number of seconds before cart data will expire. Default WEEK_IN_SECONDS.
+		 *
+		 * @return {int}
+		 */
+		$expiration = apply_filters( 'mt_cart_expiration_window', WEEK_IN_SECONDS );
 		if ( get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
 			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
-		set_transient( 'mt_' . $unique_id . '_' . $type, $save, mt_current_time() + WEEK_IN_SECONDS );
+		set_transient( 'mt_' . $unique_id . '_' . $type, $save, time() + $expiration );
 
 		return true;
 	}
@@ -119,12 +129,22 @@ add_action( 'init', 'mt_set_user_unique_id' );
 function mt_set_user_unique_id() {
 	if ( ! defined( 'DOING_CRON' ) ) {
 		$unique_id = mt_get_unique_id();
+		/**
+		 * Filter the length of time unique ID cookies are stored for non-logged in users.
+		 *
+		 * @hook mt_id_expiration_window
+		 *
+		 * @param {int}    $time Number of seconds before cart data will expire. Default WEEK_IN_SECONDS.
+		 *
+		 * @return {int}
+		 */
+		$expiration = apply_filters( 'mt_id_expiration_window', WEEK_IN_SECONDS );
 		if ( ! $unique_id ) {
 			$unique_id = mt_generate_unique_id();
 			if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
 				// Fix syntax.
 				$options = array(
-					'expires'  => time() + 60 * 60 * 24 * 7,
+					'expires'  => time() + $expiration,
 					'path'     => COOKIEPATH,
 					'domain'   => COOKIE_DOMAIN,
 					'secure'   => false,
@@ -133,7 +153,7 @@ function mt_set_user_unique_id() {
 				);
 				setcookie( 'mt_unique_id', $unique_id, $options );
 			} else {
-				setcookie( 'mt_unique_id', $unique_id, time() + 60 * 60 * 24 * 7, COOKIEPATH, COOKIE_DOMAIN, false, true );
+				setcookie( 'mt_unique_id', $unique_id, time() + $expiration, COOKIEPATH, COOKIE_DOMAIN, false, true );
 			}
 		}
 	}
