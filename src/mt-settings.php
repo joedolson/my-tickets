@@ -374,7 +374,7 @@ add_action( 'admin_enqueue_scripts', 'mt_wp_enqueue_scripts' );
  */
 function mt_wp_enqueue_scripts() {
 	global $current_screen;
-	$version = ( true === SCRIPT_DEBUG ) ? mt_rand( 10000, 100000 ) : mt_get_current_version();
+	$version = ( true === SCRIPT_DEBUG ) ? wp_rand( 10000, 100000 ) : mt_get_current_version();
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	if ( isset( $_GET['page'] ) && 'my-tickets' === $_GET['page'] ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ), $version );
@@ -607,7 +607,7 @@ add_action( 'admin_enqueue_scripts', 'mt_report_scripts' );
  * Enqueue footer scripts in report view.
  */
 function mt_report_scripts() {
-	$version = ( true === SCRIPT_DEBUG ) ? mt_rand( 10000, 100000 ) : mt_get_current_version();
+	$version = ( true === SCRIPT_DEBUG ) ? wp_rand( 10000, 100000 ) : mt_get_current_version();
 	if ( isset( $_GET['mt-event-report'] ) && isset( $_GET['mt_print'] ) ) {
 		wp_enqueue_script( 'mt.printable', plugins_url( 'js/report.js', __FILE__ ), array( 'jquery' ), $version );
 		wp_localize_script(
