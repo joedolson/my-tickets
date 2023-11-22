@@ -171,29 +171,35 @@ function mt_ticketing_settings() {
 									$selected = selected( $type, $mt_ticket_type_default, false );
 									$form    .= "<option value='$type'$selected>$label</option>";
 								}
-								$form .= '</select></p>';
-								// only show shipping field if postal mail ticket is selected.
+								$form                    .= '</select></p>';
+								$form                    .= '<fieldset><legend>' . __( 'Ticket Shipping', 'my-tickets' ) . '</legend>';
 								$shipping                 = $options['mt_shipping'];
 								$form                    .= "<p class='shipping'><label for='mt_shipping'>" . __( 'Shipping Cost for Postal Mail', 'my-tickets' ) . "</label> <input name='mt_shipping' id='mt_shipping' type='text' size='4' value='$shipping' /></p>";
 								$shipping_time            = $options['mt_shipping_time'];
 								$form                    .= "<p class='shipping'><label for='mt_shipping_time'>" . __( 'Approximate Shipping Time for Postal Mail (days)', 'my-tickets' ) . "</label> <input name='mt_shipping_time' id='mt_shipping_time' type='text' value='$shipping_time' /></p>";
 								$mt_collect_shipping      = ( isset( $options['mt_collect_shipping'] ) ) ? $options['mt_collect_shipping'] : 'false';
 								$form                    .= "<p class='handling ticket-collect-shipping'><label for='mt_collect_shipping'>" . __( 'Always collect shipping address', 'my-tickets' ) . "</label> <input name='mt_collect_shipping' id='mt_collect_shipping' type='checkbox' value='true'" . checked( $mt_collect_shipping, 'true', false ) . ' /></p>';
+								$form                    .= '</fieldset>';
+								$form                    .= '<fieldset><legend>' . __( 'Administrative Fees', 'my-tickets' ) . '</legend>';
 								$handling                 = ( isset( $options['mt_handling'] ) ) ? $options['mt_handling'] : '';
 								$form                    .= "<p class='handling cart-handling'><label for='mt_handling'>" . __( 'Handling/Administrative Fee (per Cart)', 'my-tickets' ) . "</label> <input name='mt_handling' id='mt_handling' type='text' size='4' value='$handling' /></p>";
 								$ticket_handling          = ( isset( $options['mt_ticket_handling'] ) ) ? $options['mt_ticket_handling'] : '';
 								$form                    .= "<p class='handling ticket-handling'><label for='mt_ticket_handling'>" . __( 'Handling/Administrative Fee (per Ticket)', 'my-tickets' ) . "</label> <input name='mt_ticket_handling' id='mt_ticket_handling' type='text' size='4' value='$ticket_handling' /></p>";
+								$form                    .= '</fieldset>';
+								$form                    .= '<fieldset><legend>' . __( 'Display & sales limits', 'my-tickets' ) . '</legend>';
 								$mt_tickets_close_value   = ( isset( $options['mt_tickets_close_value'] ) ) ? $options['mt_tickets_close_value'] : '';
 								$form                    .= "<p class='handling ticket-close-value'><label for='mt_tickets_close_value'>" . __( 'Tickets reserved for sale at the door', 'my-tickets' ) . "</label> <input name='mt_tickets_close_value' id='mt_tickets_close_value' type='number' size='4' value='$mt_tickets_close_value' /></p>";
-								$mt_hide_remaining        = ( isset( $options['mt_hide_remaining'] ) ) ? $options['mt_hide_remaining'] : 'false';
-								$form                    .= "<p class='handling ticket-hide-remaining'><label for='mt_tickets_hide_remaining'>" . __( 'Hide number of tickets remaining', 'my-tickets' ) . "</label> <input name='mt_hide_remaining' id='mt_tickets_hide_remaining' type='checkbox' value='true'" . checked( $mt_hide_remaining, 'true', false ) . ' /></p>';
-								$mt_hide_remaining_limit  = ( isset( $options['mt_hide_remaining_limit'] ) ) ? $options['mt_hide_remaining_limit'] : 0;
-								$form                    .= "<p class='handling ticket-hide-remaining-limit'><label for='mt_tickets_hide_remaining_limit'>" . __( 'Show number of tickets remaining when available tickets falls below:', 'my-tickets' ) . "</label> <input name='mt_hide_remaining_limit' id='mt_tickets_hide_remaining_limit' type='number' value='" . $mt_hide_remaining_limit . "' /></p>";
 								$mt_tickets_close_type    = ( isset( $options['mt_tickets_close_type'] ) ) ? $options['mt_tickets_close_type'] : '';
 								$form                    .= "<p class='close ticket-close-type'><label for='mt_tickets_close_type'>" . __( 'Reserve tickets based on', 'my-tickets' ) . "</label><select name='mt_tickets_close_type' id='mt_tickets_close_type' />
 											<option value='integer'" . selected( $mt_tickets_close_type, 'integer', false ) . '>' . __( 'Specific number of tickets', 'my-tickets' ) . "</option>
 											<option value='percent'" . selected( $mt_tickets_close_type, 'percent', false ) . '>' . __( 'Percentage of available tickets', 'my-tickets' ) . '</option>
 										</select></p>';
+								$mt_hide_remaining        = ( isset( $options['mt_hide_remaining'] ) ) ? $options['mt_hide_remaining'] : 'false';
+								$form                    .= "<p class='handling ticket-hide-remaining'><label for='mt_tickets_hide_remaining'>" . __( 'Hide number of tickets remaining', 'my-tickets' ) . "</label> <input name='mt_hide_remaining' id='mt_tickets_hide_remaining' type='checkbox' value='true'" . checked( $mt_hide_remaining, 'true', false ) . ' /></p>';
+								$mt_hide_remaining_limit  = ( isset( $options['mt_hide_remaining_limit'] ) ) ? $options['mt_hide_remaining_limit'] : 0;
+								$form                    .= "<p class='handling ticket-hide-remaining-limit'><label for='mt_tickets_hide_remaining_limit'>" . __( 'Show number of tickets remaining when available tickets falls below:', 'my-tickets' ) . "</label> <input name='mt_hide_remaining_limit' id='mt_tickets_hide_remaining_limit' type='number' value='" . $mt_hide_remaining_limit . "' /></p>";
+								$form                    .= '</fieldset>';
+								$form                    .= '<fieldset><legend>' . __( 'Miscellaneous', 'my-tickets' ) . '</legend>';
 								$mt_ticket_image          = ( isset( $options['mt_ticket_image'] ) ) ? $options['mt_ticket_image'] : '';
 								$form                    .= "<p class='image ticket-image-type'>
 									<label for='mt_ticket_image'>" . __( 'Image shown on tickets', 'my-tickets' ) . "</label>
@@ -205,7 +211,7 @@ function mt_ticketing_settings() {
 								</p>';
 								$mt_hide_empty_short_cart = ( isset( $options['mt_hide_empty_short_cart'] ) ) ? $options['mt_hide_empty_short_cart'] : 'false';
 								$form                    .= "<p class='handling ticket-hide-empty-short-cart'><label for='mt_hide_empty_short_cart'>" . __( 'Hide short cart widget when empty', 'my-tickets' ) . "</label> <input name='mt_hide_empty_short_cart' id='mt_hide_empty_short_cart' type='checkbox' value='true'" . checked( $mt_hide_empty_short_cart, 'true', false ) . ' /></p>';
-
+								$form                    .= '</fieldset>';
 								echo wp_kses( $form, mt_kses_elements() );
 								$multiple = ( isset( $options['defaults']['multiple'] ) && 'true' === $options['defaults']['multiple'] ) ? true : false;
 								?>
