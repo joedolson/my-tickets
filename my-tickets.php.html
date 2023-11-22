@@ -301,7 +301,7 @@ function mt_admin_state( $states, $post ) {
 		if ( absint( $options['mt_receipt_page'] ) === $post->ID ) {
 			$states[] = __( 'Receipt Page', 'my-tickets' );
 		}
-		if ( absint( $options['mt_purchase_page'] ) === $post->ID ) {
+		if ( absint( $options['mt_tickets_page'] ) === $post->ID ) {
 			$states[] = __( 'Ticket Page', 'my-tickets' );
 		}
 	}
