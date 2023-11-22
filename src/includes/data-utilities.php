@@ -187,11 +187,11 @@ function mt_set_user_unique_id() {
  * @return string
  */
 function mt_generate_unique_id() {
-	$length     = 16;
+	$length     = 32;
 	$characters = '0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz-_';
 	$string     = '';
 	for ( $p = 0; $p < $length; $p++ ) {
-		$string .= $characters[ mt_rand( 0, strlen( $characters ) - 1 ) ];
+		$string .= $characters[ wp_rand( 0, strlen( $characters ) - 1 ) ];
 	}
 
 	return $string;
