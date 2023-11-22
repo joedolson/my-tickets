@@ -71,7 +71,7 @@ function mt_has_tickets( $pricing ) {
 	$purchase_page = $options['mt_purchase_page'];
 	$receipt_page  = $options['mt_receipt_page'];
 	$tickets_page  = $options['mt_tickets_page'];
-	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) || ! $event ) {
+	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) || ! $event_id ) {
 		return false;
 	}
 	if ( 'mc-events' === get_post_type( $event_id ) ) {
