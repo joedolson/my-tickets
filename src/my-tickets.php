@@ -589,7 +589,7 @@ We\'ll see you soon!<br />
 		// Messages following registration/ticket order & payment.
 		'defaults'                 => $ticketing,
 		'messages'                 => $messages,
-		'mt_post_types'            => array( 'mc-events' ),
+		'mt_post_types'            => array( 'mc-events', 'page' ),
 		'mt_license_key'           => '',
 		'mt_html_email'            => 'true',
 		'mt_to'                    => get_bloginfo( 'admin_email' ),
