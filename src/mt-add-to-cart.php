@@ -13,9 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly.
 
-add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
-add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpautop.
-
 /**
  * Appends a registration form to post content for posts with defined event data.
  *
@@ -36,6 +33,7 @@ function mt_registration_form_post( $content ) {
 
 	return $content;
 }
+add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpautop.
 
 /**
  * Test whether a price set for an event has any tickets available for purchase.
@@ -61,6 +59,49 @@ function mt_has_tickets( $pricing ) {
 }
 
 /**
+ * Check add to cart form exit conditions. Returns the event registration array if all conditions pass.
+ *
+ * @param int $event_id Event post ID.
+ * @param bool $override Is the add to cart form output being overridden.
+ *
+ * @return bool|array
+ */
+ function mt_check_early_returns( $event_id, $override) {
+	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$purchase_page = $options['mt_purchase_page'];
+	$receipt_page  = $options['mt_receipt_page'];
+	$tickets_page  = $options['mt_tickets_page'];
+	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) || ! $event ) {
+		return false;
+	}
+	if ( 'mc-events' === get_post_type( $event_id ) ) {
+		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
+		if ( 'false' === $sell ) {
+			return false;
+		}
+	}
+	if ( 'true' === get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false === $override ) {
+		return false;
+	}
+	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+	// if no 'total' is set at all, this is not an event with tickets.
+	if ( empty( $registration['prices'] ) ) {
+		return false;
+	}
+	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. '0' is a valid number of tickets, '' is not.
+	if ( ( isset( $registration['total'] ) && 'inherit' === $registration['total'] ) && 'general' !== $registration['counting_method'] && ! mt_has_tickets( $registration['prices'] ) ) {
+		return false;
+	}
+
+	// if total number of tickets is set but is an empty string or is not set; return.
+	if ( ( isset( $registration['total'] ) && '' === trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
+		return false;
+	}
+
+	return $registration;
+}
+
+/**
  * Generates event registration form.
  *
  * @param string                $content Page content.
@@ -72,49 +113,21 @@ function mt_has_tickets( $pricing ) {
  * @return string
  */
 function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false ) {
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-	$purchase_page = $options['mt_purchase_page'];
-	$receipt_page  = $options['mt_receipt_page'];
-	$tickets_page  = $options['mt_tickets_page'];
-	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) ) {
+	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$continue = mt_check_early_returns( $event, $override );
+	if ( ! $continue ) {
 		return $content;
-	}
-	if ( ! $event ) {
-		return $content;
+	} else {
+		$registration = $continue;
 	}
 
 	$form        = '';
-	$cart_data   = '';
 	$sold_out    = '';
 	$has_tickets = '';
 	$output      = '';
 	$event_id    = ( is_object( $event ) ) ? $event->event_post : $event;
-
-	if ( 'mc-events' === get_post_type( $event_id ) ) {
-		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
-		if ( 'false' === $sell ) {
-			return $content;
-		}
-	}
-
-	if ( 'true' === get_post_meta( $event_id, '_mt_hide_registration_form', true ) && false === $override ) {
-		return $content;
-	}
-	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-	// if no 'total' is set at all, this is not an event with tickets.
-	if ( empty( $registration['prices'] ) ) {
-		return $content;
-	}
-	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. '0' is a valid number of tickets, '' is not.
-	if ( ( isset( $registration['total'] ) && 'inherit' === $registration['total'] ) && 'general' !== $registration['counting_method'] && ! mt_has_tickets( $registration['prices'] ) ) {
-		return $content;
-	}
-	// if total number of tickets is set but is an empty string or is not set; return.
-	if ( ( isset( $registration['total'] ) && '' === trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
-		return $content;
-	}
-	$expired   = mt_expired( $event_id, true );
-	$no_postal = mt_no_postal( $event_id );
+	$expired     = mt_expired( $event_id, true );
+	$no_postal   = mt_no_postal( $event_id );
 	if ( $no_postal && 1 === count( $options['mt_ticketing'] ) && in_array( 'postal', $options['mt_ticketing'], true ) && ! ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) ) {
 		$expired = true;
 	}
@@ -123,9 +136,6 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 		if ( is_array( $registration ) ) {
 			$pricing = $registration['prices'];
 			$nonce   = wp_nonce_field( 'mt-cart-nonce', '_wpnonce', true, false );
-			if ( is_array( mt_in_cart( $event_id ) ) ) {
-				$cart_data = mt_in_cart( $event_id );
-			}
 			if ( isset( $_GET['mc_id'] ) ) {
 				$mc_id     = (int) $_GET['mc_id'];
 				$permalink = add_query_arg( 'mc_id', $mc_id, get_the_permalink() );
@@ -145,13 +155,10 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				 */
 				$default_available = apply_filters( 'mt_default_available', 100, $registration );
 				$available         = ( 'general' === $registration['counting_method'] ) ? $default_available : $registration['total'];
-				// if multiple != true, use checkboxes.
-				$input_type = ( isset( $registration['multiple'] ) && 'true' === $registration['multiple'] ) ? 'number' : 'checkbox';
 				// Figure out handling for radio input type.
 				$tickets_data      = mt_tickets_left( $pricing, $available );
 				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : $tickets_data['remain'];
 				$tickets_sold      = $tickets_data['sold'];
-				$class             = 'mt-available';
 				/**
 				 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
 				 *
@@ -168,158 +175,12 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 					$sold_out    = false;
 					$total_order = 0;
 					foreach ( $pricing as $type => $settings ) {
-						/**
-						 * Filter value data about a specific type of ticket.
-						 *
-						 * @hook mt_ticket_settings
-						 *
-						 * @param {array}  $settings Price and availability for a ticket type.
-						 * @param {array}  $pricing Full pricing array being iterated.
-						 * @param {int}    $event_id Event ID.
-						 * @param {strnig} $type Current ticket type.
-						 */
-						$settings = apply_filters( 'mt_ticket_settings', $settings, $pricing, $event_id, $type );
-						if ( ! mt_can_order( $type ) ) {
-							continue;
-						}
-						$extra_label = '';
-						if ( mt_admin_only( $type ) ) {
-							$extra_label = ' <span class="mt-admin-only">(' . __( 'Administrators only', 'my-tickets' ) . ')</span>';
-						}
-						/**
-						 * Add additional labeling appended to ticket type information.
-						 *
-						 * @hook mt_extra_label
-						 *
-						 * @param {string}     $extra_label Default empty string; 'Administrators only' for complimentary tickets.
-						 * @param {int|object} $event Event post object or event ID.
-						 * @param {string}     $type Ticket type.
-						 *
-						 * @return {string}
-						 */
-						$extra_label = apply_filters( 'mt_extra_label', $extra_label, $event, $type );
-						if ( $type ) {
-							if ( ! isset( $settings['price'] ) ) {
-								continue;
-							}
-							$price = mt_calculate_discount( $settings['price'], $event_id );
-							$price = mt_handling_price( $price, $event, $type );
-							$price = apply_filters( 'mt_money_format', $price );
-							/**
-							 * Filter ticket handling price.
-							 *
-							 * @hook mt_ticket_handling_price
-							 *
-							 * @param {string}     $ticket_handling Handling price from settings.
-							 * @param {int}object} $event Event ID or event post object.
-							 * @param {string}     $type Ticket type.
-							 */
-							$ticket_handling    = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event, $type );
-							$handling_notice    = mt_handling_notice();
-							$ticket_price_label = apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling );
-							$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0', $type );
-							$value              = ( '' === $value ) ? 0 : (int) $value;
-							$order_value        = $value;
-							$attributes         = '';
-							$close              = ( isset( $settings['close'] ) && ! empty( $settings['close'] ) ) ? $settings['close'] : '';
-							if ( $close && $close < time() ) {
-								// If this ticket type is no longer available, skip.
-								continue;
-							}
-							if ( 'checkbox' === $input_type || 'radio' === $input_type ) {
-								if ( 1 === $value ) {
-									$attributes = " checked='checked'";
-								}
-								$value       = 1;
-								$order_value = 0;
-							}
-							if ( 'inherit' === $available ) {
-								$tickets   = absint( $settings['tickets'] );
-								$sold      = absint( $settings['sold'] );
-								$remaining = ( $tickets - $sold );
-								/**
-								 * Filter maximum sale per event. Limits number of tickets that can be purchased at a time.
-								 *
-								 * @hook mt_max_sale_per_event
-								 *
-								 * @param {bool} $max_limit Default false.
-								 *
-								 * @return {bool|int} Number of tickets that can be purchased at once or false.
-								 */
-								$max_limit = apply_filters( 'mt_max_sale_per_event', false );
-								if ( $max_limit ) {
-									$max = ( $max_limit > $remaining ) ? $remaining : $max_limit;
-								} else {
-									$max = $remaining;
-								}
-								$disable = ( $remaining < 1 ) ? ' disabled="disabled"' : '';
-								if ( '' === $attributes ) {
-									$attributes = " min='0' max='$max' inputmode='numeric' pattern='[0-9]*'";
-									if ( 0 === $remaining ) {
-										$attributes .= ' readonly="readonly"';
-										$class       = 'mt-sold-out';
-									} else {
-										$class = 'mt-available';
-									}
-								}
-								$form .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
-								$form .= apply_filters(
-									'mt_add_to_cart_input',
-									"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />",
-									$input_type,
-									$type,
-									$value,
-									$attributes,
-									$disable,
-									$max,
-									$available
-								);
-
-								$hide_remaining = mt_hide_remaining( $tickets_remaining );
-								// Translators: Ticket price label, number remaining.
-								$form       .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s, %2$s remaining%3$s)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-remaining">', "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>', '</span>' ) . '</span>';
-								$form       .= "<span class='mt-error-notice' aria-live='assertive'></span></div>";
-								$total_order = $total_order + $order_value;
-							} else {
-								$remaining = $tickets_remaining;
-								if ( '' === $attributes ) {
-									$attributes = " min='0' max='$remaining'";
-									if ( 0 === $remaining ) {
-										$attributes .= ' readonly="readonly"';
-										$class       = 'mt-sold-out';
-									}
-								}
-								/**
-								 * Filter whether the price should be shown in the label or as an aria-described field after the input.
-								 *
-								 * @hook mt_price_in_label
-								 *
-								 * @param {false} $price_in_label Default false.
-								 * @param {int}   $event_id Event ID.
-								 *
-								 * @return {bool}
-								 */
-								$price_in_label = apply_filters( 'mt_price_in_label', false, $event_id );
-								$price_class    = ( $price_in_label ) ? 'mt-price-in-label' : '';
-								$price          = "<span id='mt_tickets_data_$type'>$ticket_price_label</span>";
-								$label_price    = ( $price_in_label ) ? ' <span class="mt-label-price">' . strip_tags( $price ) . '</span>' : '';
-								$post_price     = ( ! $price_in_label ) ? $price : '';
-								$form          .= "<div class='mt-ticket-field mt-ticket-$type $class $price_class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . $label_price . '</label>';
-								$form          .= apply_filters(
-									'mt_add_to_cart_input',
-									"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />",
-									$input_type,
-									$type,
-									$value,
-									$attributes,
-									'',
-									$remaining,
-									$available
-								);
-								$form          .= $post_price . "<span class='mt-error-notice' aria-live='assertive'></span></div>";
-								$total_order    = $total_order + $value;
-							}
-							$has_tickets = true;
+						$row             = mt_ticket_row( $event_id, $registration, $settings, $type, $available, $tickets_remaining );
+						if ( $row ) {
+							$form           .= $row['form'];
+							$handling_notice = $row['handling'];
+							$total_order    += (int) $row['value'];
+							$has_tickets     = $row['has_tickets'];
 						}
 					}
 				} else {
@@ -416,6 +277,188 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 	}
 
 	return $content . $output;
+}
+add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
+
+/**
+ * Generate a single row in the add to cart form.
+ *
+ * @param int        $event_id Event post ID.
+ * @param array      $registration Registration settings for this event.
+ * @param array      $settings Settings for this row.
+ * @param string     $type Type of ticket.
+ * @param int|string $available Number of tickets available or 'inherit'.
+ *
+ * @return array|bool 'false' if ticket is not purchaseable.
+ */
+function mt_ticket_row( $event_id, $registration, $settings, $type, $available, $tickets_remaining ) {
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$pricing = $registration['prices'];
+	if ( is_array( mt_in_cart( $event_id ) ) ) {
+		$cart_data = mt_in_cart( $event_id );
+	}
+	// if multiple != true, use checkboxes.
+	$input_type = ( isset( $registration['multiple'] ) && 'true' === $registration['multiple'] ) ? 'number' : 'checkbox';
+	$class      = 'mt-available';
+	$form       = '';
+	/**
+	 * Filter value data about a specific type of ticket.
+	 *
+	 * @hook mt_ticket_settings
+	 *
+	 * @param {array}  $settings Price and availability for a ticket type.
+	 * @param {array}  $pricing Full pricing array being iterated.
+	 * @param {int}    $event_id Event ID.
+	 * @param {strnig} $type Current ticket type.
+	 */
+	$settings = apply_filters( 'mt_ticket_settings', $settings, $pricing, $event_id, $type );
+	if ( ! mt_can_order( $type ) ) {
+		return false;
+	}
+	$extra_label = '';
+	if ( mt_admin_only( $type ) ) {
+		$extra_label = ' <span class="mt-admin-only">(' . __( 'Administrators only', 'my-tickets' ) . ')</span>';
+	}
+	/**
+	 * Add additional labeling appended to ticket type information.
+	 *
+	 * @hook mt_extra_label
+	 *
+	 * @param {string}     $extra_label Default empty string; 'Administrators only' for complimentary tickets.
+	 * @param {int|object} $event Event post ID.
+	 * @param {string}     $type Ticket type.
+	 *
+	 * @return {string}
+	 */
+	$extra_label = apply_filters( 'mt_extra_label', $extra_label, $event_id, $type );
+	if ( $type ) {
+		if ( ! isset( $settings['price'] ) ) {
+			return false;
+		}
+		$price = mt_calculate_discount( $settings['price'], $event_id );
+		$price = mt_handling_price( $price, $event_id, $type );
+		$price = apply_filters( 'mt_money_format', $price );
+		/**
+		 * Filter ticket handling price.
+		 *
+		 * @hook mt_ticket_handling_price
+		 *
+		 * @param {string}     $ticket_handling Handling price from settings.
+		 * @param {int}object} $event Event post ID.
+		 * @param {string}     $type Ticket type.
+		 */
+		$ticket_handling    = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event_id, $type );
+		$handling_notice    = mt_handling_notice();
+		$ticket_price_label = apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling );
+		$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0', $type );
+		$value              = ( '' === $value ) ? 0 : (int) $value;
+		$order_value        = $value;
+		$attributes         = '';
+		$close              = ( isset( $settings['close'] ) && ! empty( $settings['close'] ) ) ? $settings['close'] : '';
+		if ( $close && $close < time() ) {
+			// If this ticket type is no longer available, skip.
+			return false;
+		}
+		if ( 'checkbox' === $input_type || 'radio' === $input_type ) {
+			if ( 1 === $value ) {
+				$attributes = " checked='checked'";
+			}
+			$value       = 1;
+			$order_value = 0;
+		}
+		if ( 'inherit' === $available ) {
+			$tickets   = absint( $settings['tickets'] );
+			$sold      = absint( $settings['sold'] );
+			$remaining = ( $tickets - $sold );
+			/**
+			 * Filter maximum sale per event. Limits number of tickets that can be purchased at a time.
+			 *
+			 * @hook mt_max_sale_per_event
+			 *
+			 * @param {bool} $max_limit Default false.
+			 *
+			 * @return {bool|int} Number of tickets that can be purchased at once or false.
+			 */
+			$max_limit = apply_filters( 'mt_max_sale_per_event', false );
+			if ( $max_limit ) {
+				$max = ( $max_limit > $remaining ) ? $remaining : $max_limit;
+			} else {
+				$max = $remaining;
+			}
+			$disable = ( $remaining < 1 ) ? ' disabled="disabled"' : '';
+			if ( '' === $attributes ) {
+				$attributes = " min='0' max='$max' inputmode='numeric' pattern='[0-9]*'";
+				if ( 0 === $remaining ) {
+					$attributes .= ' readonly="readonly"';
+					$class       = 'mt-sold-out';
+				} else {
+					$class = 'mt-available';
+				}
+			}
+			$form .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
+			$form .= apply_filters(
+				'mt_add_to_cart_input',
+				"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />",
+				$input_type,
+				$type,
+				$value,
+				$attributes,
+				$disable,
+				$max,
+				$available
+			);
+
+			$hide_remaining = mt_hide_remaining( $tickets_remaining );
+			// Translators: Ticket price label, number remaining.
+			$form .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s, %2$s remaining%3$s)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-remaining">', "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>', '</span>' ) . '</span>';
+			$form .= "<span class='mt-error-notice' aria-live='assertive'></span></div>";
+		} else {
+			$remaining = $tickets_remaining;
+			if ( '' === $attributes ) {
+				$attributes = " min='0' max='$remaining'";
+				if ( 0 === $remaining ) {
+					$attributes .= ' readonly="readonly"';
+					$class       = 'mt-sold-out';
+				}
+			}
+			/**
+			 * Filter whether the price should be shown in the label or as an aria-described field after the input.
+			 *
+			 * @hook mt_price_in_label
+			 *
+			 * @param {false} $price_in_label Default false.
+			 * @param {int}   $event_id Event ID.
+			 *
+			 * @return {bool}
+			 */
+			$price_in_label = apply_filters( 'mt_price_in_label', false, $event_id );
+			$price_class    = ( $price_in_label ) ? 'mt-price-in-label' : '';
+			$price          = "<span id='mt_tickets_data_$type'>$ticket_price_label</span>";
+			$label_price    = ( $price_in_label ) ? ' <span class="mt-label-price">' . strip_tags( $price ) . '</span>' : '';
+			$post_price     = ( ! $price_in_label ) ? $price : '';
+			$form          .= "<div class='mt-ticket-field mt-ticket-$type $class $price_class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . $label_price . '</label>';
+			$form          .= apply_filters(
+				'mt_add_to_cart_input',
+				"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />",
+				$input_type,
+				$type,
+				$value,
+				$attributes,
+				'',
+				$remaining,
+				$available
+			);
+			$form          .= $post_price . "<span class='mt-error-notice' aria-live='assertive'></span></div>";
+		}
+		$has_tickets = true;
+	}
+
+	return array(
+		'form'        => $form,
+		'value'       => $order_value,
+		'has_tickets' => $has_tickets,
+		'handling'    => $handling_notice,
+	);
 }
 
 /**
