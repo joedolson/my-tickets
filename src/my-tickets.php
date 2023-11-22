@@ -174,6 +174,8 @@ function mt_build_gateways() {
 	}
 }
 
+include( plugin_dir_path( __FILE__ ) . 'includes/data-utilities.php' );
+include( plugin_dir_path( __FILE__ ) . 'includes/date-utilities.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-common.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-cpt.php' );
 include( plugin_dir_path( __FILE__ ) . 'mt-fields-api.php' );
@@ -1054,43 +1056,6 @@ function mt_check_permissions() {
 		$role->add_cap( 'mt-view-reports' );
 		$role->add_cap( 'mt-copy-cart' );
 	}
-}
-
-
-/**
- * Wrapper for date()
- *
- * @param string $format Format to use.
- * @param int    $timestamp Timestamp.
- * @param bool   $offset False to not add offset; if already provided with offset.
- *
- * @return string Formatted date.
- */
-function mt_date( $format, $timestamp = false, $offset = true ) {
-	if ( ! $timestamp ) {
-		$timestamp = time();
-	}
-	if ( $offset ) {
-		$offset = intval( get_option( 'gmt_offset', 0 ) ) * 60 * 60;
-	} else {
-		$offset = 0;
-	}
-	$timestamp = $timestamp + $offset;
-
-	return gmdate( $format, $timestamp );
-}
-
-/**
- *  Get current time in the format of timestamp.
- *
- * @return int timestamp-like data.
- */
-function mt_current_time() {
-	$timestamp = time();
-	$offset    = 60 * 60 * intval( get_option( 'gmt_offset', 0 ) );
-	$timestamp = $timestamp + $offset;
-
-	return $timestamp;
 }
 
 /**
