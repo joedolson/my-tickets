@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_payment_settings_fields - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_expiration_window - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_payment_settings_fields</h1></header>
+    <header><h1 class="page-title">Filter: mt_expiration_window</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_payment_settings_fields">apply_filters( 'mt_payment_settings_fields', <span class="signature">$fields, $options )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_expiration_window">apply_filters( 'mt_expiration_window', <span class="signature">$time )</span><span class="type-signature"> &rarr; {int}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Add payment settings fields.</p>
+    <p>Filter the length of time data is stored. (Shopping carts, unique IDs).</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>$fields</code></td>
+                <td class="name"><code>$time</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">int</span>
 
 
             
@@ -93,30 +93,7 @@
 
             
 
-            <td class="description last"><p>HTML output of fields.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>$options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Saved settings data.</p></td>
+            <td class="description last"><p>Number of seconds before data will expire. Default WEEK_IN_SECONDS.</p></td>
         </tr>
 
     
@@ -157,7 +134,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-payment-settings.php.html">mt-payment-settings.php</a>, <a href="mt-payment-settings.php.html#line202">line 202</a>
+        <a href="includes_data-utilities.php.html">includes/data-utilities.php</a>, <a href="includes_data-utilities.php.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -191,7 +168,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">int</span>
 
 
     </dd>
