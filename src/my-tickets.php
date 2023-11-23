@@ -636,6 +636,7 @@ We\'ll see you soon!<br />
 		'mt_ticket_image'          => 'ticket',
 		'symbol_order'             => 'symbol-first',
 		'mt_hide_empty_short_cart' => 'false',
+		'mt_expiration'            => '',
 	);
 
 	return $defaults;

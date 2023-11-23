@@ -39,16 +39,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	}
 	$current_user = wp_get_current_user();
 	mt_refresh_cache();
-	/**
-	 * Filter the length of time transient data (shopping carts) are stored for non-logged in users.
-	 *
-	 * @hook mt_cart_expiration_window
-	 *
-	 * @param {int}    $time Number of seconds before cart data will expire. Default WEEK_IN_SECONDS.
-	 *
-	 * @return {int}
-	 */
-	$expiration = apply_filters( 'mt_cart_expiration_window', WEEK_IN_SECONDS );
+	$expiration = mt_expiration_window();
 	if ( is_user_logged_in() ) {
 		$data_age = get_user_meta( $current_user->ID, "_mt_user_init_$type", true );
 		if ( ! $data_age ) {
@@ -101,16 +92,7 @@ function mt_get_data( $type, $user_ID = false ) {
 			$current_user = wp_get_current_user();
 			$data_age     = get_user_meta( $current_user->ID, "_mt_user_init_$type", true );
 			if ( ! $data_age ) {
-				/**
-				 * Filter the length of time transient data (shopping carts) are stored for non-logged in users.
-				 *
-				 * @hook mt_cart_expiration_window
-				 *
-				 * @param {int}    $time Number of seconds before cart data will expire. Default WEEK_IN_SECONDS.
-				 *
-				 * @return {int}
-				 */
-				$expiration = apply_filters( 'mt_cart_expiration_window', WEEK_IN_SECONDS );
+				$expiration = mt_expiration_window();
 				update_user_meta( $current_user->ID, "_mt_user_init_$type", time() + $expiration );
 			}
 			if ( time() > $data_age ) {
@@ -150,17 +132,8 @@ add_action( 'init', 'mt_set_user_unique_id' );
  */
 function mt_set_user_unique_id() {
 	if ( ! defined( 'DOING_CRON' ) ) {
-		$unique_id = mt_get_unique_id();
-		/**
-		 * Filter the length of time unique ID cookies are stored for non-logged in users.
-		 *
-		 * @hook mt_id_expiration_window
-		 *
-		 * @param {int}    $time Number of seconds before cart data will expire. Default WEEK_IN_SECONDS.
-		 *
-		 * @return {int}
-		 */
-		$expiration = apply_filters( 'mt_id_expiration_window', WEEK_IN_SECONDS );
+		$unique_id  = mt_get_unique_id();
+		$expiration = mt_expiration_window();
 		if ( ! $unique_id ) {
 			$unique_id = mt_generate_unique_id();
 			if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
@@ -206,4 +179,31 @@ function mt_get_unique_id() {
 	$unique_id = ( isset( $_COOKIE['mt_unique_id'] ) ) ? sanitize_text_field( $_COOKIE['mt_unique_id'] ) : false;
 
 	return $unique_id;
+}
+
+/**
+ * Get cart expiration time.
+ *
+ * @return int Number of seconds cart will last.
+ */
+function mt_expiration_window() {
+	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$expiration = $options['mt_expiration'];
+	// Doesn't support less than 10 minutes.
+	if ( ! $expiration || (int) $expiration < 600 ) {
+		$return = WEEK_IN_SECONDS;
+	}
+	$return = absint( $expiration );
+	/**
+	 * Filter the length of time data is stored. (Shopping carts, unique IDs).
+	 *
+	 * @hook mt_expiration_window
+	 *
+	 * @param {int}    $time Number of seconds before data will expire. Default WEEK_IN_SECONDS.
+	 *
+	 * @return {int}
+	 */
+	$expiration = apply_filters( 'mt_expiration_window', $return );
+
+	return $expiration;
 }
