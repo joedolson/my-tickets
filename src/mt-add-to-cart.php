@@ -61,12 +61,12 @@ function mt_has_tickets( $pricing ) {
 /**
  * Check add to cart form exit conditions. Returns the event registration array if all conditions pass.
  *
- * @param int $event_id Event post ID.
+ * @param int  $event_id Event post ID.
  * @param bool $override Is the add to cart form output being overridden.
  *
  * @return bool|array
  */
- function mt_check_early_returns( $event_id, $override) {
+function mt_check_early_returns( $event_id, $override ) {
 	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$purchase_page = $options['mt_purchase_page'];
 	$receipt_page  = $options['mt_receipt_page'];
@@ -175,7 +175,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 					$sold_out    = false;
 					$total_order = 0;
 					foreach ( $pricing as $type => $settings ) {
-						$row             = mt_ticket_row( $event_id, $registration, $settings, $type, $available, $tickets_remaining );
+						$row = mt_ticket_row( $event_id, $registration, $settings, $type, $available, $tickets_remaining );
 						if ( $row ) {
 							$form           .= $row['form'];
 							$handling_notice = $row['handling'];
@@ -288,6 +288,7 @@ add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
  * @param array      $settings Settings for this row.
  * @param string     $type Type of ticket.
  * @param int|string $available Number of tickets available or 'inherit'.
+ * @param int        $tickets_remaining Number of ticket left for purchase.
  *
  * @return array|bool 'false' if ticket is not purchaseable.
  */

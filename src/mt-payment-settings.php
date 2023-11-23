@@ -187,14 +187,14 @@ function mt_payment_settings() {
 										<label for="mt_expiration"><?php _e( 'Cart Expiration Window', 'my-tickets' ); ?></label>
 										<select name="mt_expiration" id="mt_expiration" aria-describedby="mt_expiration_info">
 											<option value=""><?php _e( 'Default (1 week)', 'my-tickets' ); ?></option>
-											<option value="600"<?php selected( 600,  $options['mt_expiration'] ); ?>><?php _e( '10 minutes', 'my-tickets' ); ?></option>
-											<option value="3600"<?php selected( 3600,  $options['mt_expiration'] ); ?>><?php _e( '1 hour', 'my-tickets' ); ?></option>
-											<option value="<?php echo ( 3 * HOUR_IN_SECONDS ); ?>"<?php selected( ( 3 * HOUR_IN_SECONDS ),  $options['mt_expiration'] ); ?>><?php _e( '3 hours', 'my-tickets' ); ?></option>
-											<option value="<?php echo ( 12 * HOUR_IN_SECONDS ); ?>"<?php selected( ( 12 * HOUR_IN_SECONDS ),  $options['mt_expiration'] ); ?>><?php _e( '12 hours', 'my-tickets' ); ?></option>
-											<option value="<?php echo ( DAY_IN_SECONDS ); ?>"<?php selected( ( DAY_IN_SECONDS ),  $options['mt_expiration'] ); ?>><?php _e( '1 day', 'my-tickets' ); ?></option>
-											<option value="<?php echo ( 3 * DAY_IN_SECONDS ); ?>"<?php selected( ( 3 * DAY_IN_SECONDS ),  $options['mt_expiration'] ); ?>><?php _e( '3 days', 'my-tickets' ); ?></option>
-											<option value="<?php echo ( 14 * DAY_IN_SECONDS ); ?>"<?php selected( ( 14 * DAY_IN_SECONDS ),  $options['mt_expiration'] ); ?>><?php _e( '2 weeks', 'my-tickets' ); ?></option>
-											<option value="<?php echo ( 30 * DAY_IN_SECONDS ); ?>"<?php selected( ( 30 * DAY_IN_SECONDS ),  $options['mt_expiration'] ); ?>><?php _e( '1 month', 'my-tickets' ); ?></option>
+											<option value="600"<?php selected( 600, $options['mt_expiration'] ); ?>><?php _e( '10 minutes', 'my-tickets' ); ?></option>
+											<option value="3600"<?php selected( 3600, $options['mt_expiration'] ); ?>><?php _e( '1 hour', 'my-tickets' ); ?></option>
+											<option value="<?php echo ( 3 * HOUR_IN_SECONDS ); ?>"<?php selected( ( 3 * HOUR_IN_SECONDS ), $options['mt_expiration'] ); ?>><?php _e( '3 hours', 'my-tickets' ); ?></option>
+											<option value="<?php echo ( 12 * HOUR_IN_SECONDS ); ?>"<?php selected( ( 12 * HOUR_IN_SECONDS ), $options['mt_expiration'] ); ?>><?php _e( '12 hours', 'my-tickets' ); ?></option>
+											<option value="<?php echo ( DAY_IN_SECONDS ); ?>"<?php selected( ( DAY_IN_SECONDS ), $options['mt_expiration'] ); ?>><?php _e( '1 day', 'my-tickets' ); ?></option>
+											<option value="<?php echo ( 3 * DAY_IN_SECONDS ); ?>"<?php selected( ( 3 * DAY_IN_SECONDS ), $options['mt_expiration'] ); ?>><?php _e( '3 days', 'my-tickets' ); ?></option>
+											<option value="<?php echo ( 14 * DAY_IN_SECONDS ); ?>"<?php selected( ( 14 * DAY_IN_SECONDS ), $options['mt_expiration'] ); ?>><?php _e( '2 weeks', 'my-tickets' ); ?></option>
+											<option value="<?php echo ( 30 * DAY_IN_SECONDS ); ?>"<?php selected( ( 30 * DAY_IN_SECONDS ), $options['mt_expiration'] ); ?>><?php _e( '1 month', 'my-tickets' ); ?></option>
 										</select><br />
 										<span class="aria-description" id="mt_expiration_info"><?php _e( 'How long tickets will remain in a shopping cart.', 'my-tickets' ); ?></span>
 									</li>
