@@ -983,7 +983,7 @@ function mt_user_profile() {
 		$edit_user    = $current_user->ID;
 	}
 	if ( current_user_can( 'manage_options' ) ) {
-		echo wp_kses_post( '<h3>' . __( 'Grant My Tickets Permissions', 'my-tickets' ) . '</h3>' );
+		echo '<fieldset><legend>' . esc_html( __( 'My Tickets Permissions', 'my-tickets' ) ) . '</legend>';
 		$caps    = array(
 			'mt-verify-ticket' => __( 'Can verify tickets', 'my-tickets' ),
 			'mt-order-expired' => __( 'Can place orders after expiration dates.', 'my-tickets' ),
@@ -996,7 +996,7 @@ function mt_user_profile() {
 			$checked  = ( user_can( $edit_user, $cap ) ) ? ' checked="checked"' : '';
 			$options .= "<li><input type='checkbox' name='mt_capabilities[]' value='$cap' id='mt_$cap' $checked /> <label for='mt_$cap'>$label</label></li>";
 		}
-		$options = "<ul>$options</ul>";
+		$options = "<ul>$options</ul></fieldset>";
 		echo wp_kses( $options, mt_kses_elements() );
 	}
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'edit_user' ) ) {
