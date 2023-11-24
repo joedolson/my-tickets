@@ -91,10 +91,10 @@ function mt_get_data( $type, $user_ID = false ) {
 	} else {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
-			$data_age     = get_user_meta( $current_user->ID, "_mt_user_init_expiration", true );
+			$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
 			if ( ! $data_age ) {
 				$expiration = mt_expiration_window();
-				update_user_meta( $current_user->ID, "_mt_user_init_expiration", time() + $expiration );
+				update_user_meta( $current_user->ID, '_mt_user_init_expiration', time() + $expiration );
 			}
 			if ( time() > $data_age ) {
 				// Expire user's cart after the data ages out.
@@ -216,7 +216,7 @@ function mt_get_expiration() {
 	$expires_at = 0;
 	if ( is_user_logged_in() ) {
 		$current_user = wp_get_current_user();
-		$expires_at   = get_user_meta( $current_user->ID, "_mt_user_init_expiration", true );
+		$expires_at   = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
 	} else {
 		$unique_id = mt_get_unique_id();
 		if ( $unique_id ) {
