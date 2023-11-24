@@ -983,7 +983,7 @@ function mt_user_profile() {
 		$edit_user    = $current_user->ID;
 	}
 	if ( current_user_can( 'manage_options' ) ) {
-		echo '<div class="mt-user-settings"><fieldset><legend>' . esc_html( __( 'My Tickets Permissions', 'my-tickets' ) ) . '</legend>';
+		echo '<div class="mt-user-settings"><fieldset><legend style="font-size:1rem;font-weight:600">' . esc_html( __( 'My Tickets Permissions', 'my-tickets' ) ) . '</legend>';
 		$caps    = array(
 			'mt-verify-ticket' => __( 'Can verify tickets', 'my-tickets' ),
 			'mt-order-expired' => __( 'Can place orders after expiration dates.', 'my-tickets' ),
