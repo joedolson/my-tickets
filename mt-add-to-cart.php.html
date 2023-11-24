@@ -319,8 +319,9 @@ add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
  * @return array|bool 'false' if ticket is not purchaseable.
  */
 function mt_ticket_row( $event_id, $registration, $settings, $type, $available, $tickets_remaining ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-	$pricing = $registration['prices'];
+	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$pricing   = $registration['prices'];
+	$cart_data = array();
 	if ( is_array( mt_in_cart( $event_id ) ) ) {
 		$cart_data = mt_in_cart( $event_id );
 	}
