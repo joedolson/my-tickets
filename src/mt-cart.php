@@ -674,6 +674,24 @@ function mt_gateways() {
 }
 
 /**
+ * Display time remaining before cart expiration.
+ */
+function mt_generate_expiration() {
+	$expiration = mt_get_expiration();
+	$output     = '';
+	if ( 0 === $expiration ) {
+		return;
+	}
+	if ( ( $expiration - time() ) > 30 * MINUTE_IN_SECONDS ) {
+		$output = '<div class="expiration-notice"><p>' . sprintf( __( 'Your shopping cart will be saved for %s.', 'my-tickets' ), human_time_diff( time(), $expiration ) ) . '</p></div>';;
+	} else {
+		$output = '<div class="expiration-extension"><p>' . sprintf( __( 'Your shopping cart will expire in %s.', 'my-tickets' ), human_time_diff( time(), $expiration ) ) . '<button type="button">' . __( 'Extend 5 minutes', 'my-tickets' ) . '</button></p></div>';
+	}
+
+	return $output;
+}
+
+/**
  * Generate breadcrumb path for cart purchase process
  *
  * @param string|boolean $gateway Has a value if we're on payment process; false if not set.
@@ -708,6 +726,7 @@ function mt_generate_cart( $user_ID = false ) {
 	// if submitted successfully & payment required, toggle to payment form.
 	$options     = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$gateway     = isset( $_POST['mt_gateway'] ) ? sanitize_text_field( $_POST['mt_gateway'] ) : false;
+	$expiration  = mt_generate_expiration();
 	$breadcrumbs = mt_generate_path( $gateway );
 	// TODO: If gateway is offline, mt_generate_gateway is never run. Use mt_generate_gateway to create button in both cases.
 	// Need to handle the case where multiple gateways are available, however; can't display the gateway until after gateway is selected.
@@ -776,7 +795,7 @@ function mt_generate_cart( $user_ID = false ) {
 		}
 	}
 
-	return $breadcrumbs . $output;
+	return $expiration . $breadcrumbs . $output;
 }
 
 /**

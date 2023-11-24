@@ -54,11 +54,12 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
 		set_transient( 'mt_' . $unique_id . '_' . $type, $save, time() + $expiration );
-
+		if ( ! get_transient( 'mt_' . $unique_id . '_expiration' ) ) {
+			set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration, time() + $expiration );
+		}
 		return true;
 	}
 }
-
 
 /**
  * Abstract function to delete data. Defaults to delete user's shopping cart.
@@ -90,10 +91,10 @@ function mt_get_data( $type, $user_ID = false ) {
 	} else {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
-			$data_age     = get_user_meta( $current_user->ID, "_mt_user_init_$type", true );
+			$data_age     = get_user_meta( $current_user->ID, "_mt_user_init_expiration", true );
 			if ( ! $data_age ) {
 				$expiration = mt_expiration_window();
-				update_user_meta( $current_user->ID, "_mt_user_init_$type", time() + $expiration );
+				update_user_meta( $current_user->ID, "_mt_user_init_expiration", time() + $expiration );
 			}
 			if ( time() > $data_age ) {
 				// Expire user's cart after the data ages out.
@@ -191,7 +192,7 @@ function mt_expiration_window() {
 	$expiration = $options['mt_expiration'];
 	// Doesn't support less than 10 minutes.
 	if ( ! $expiration || (int) $expiration < 600 ) {
-		$return = WEEK_IN_SECONDS;
+		$expiration = WEEK_IN_SECONDS;
 	}
 	$return = absint( $expiration );
 	/**
@@ -207,3 +208,50 @@ function mt_expiration_window() {
 
 	return $expiration;
 }
+
+/**
+ * Get cart expiration timestamp.
+ */
+function mt_get_expiration() {
+	$expires_at = 0;
+	if ( is_user_logged_in() ) {
+		$current_user = wp_get_current_user();
+		$expires_at   = get_user_meta( $current_user->ID, "_mt_user_init_expiration", true );
+	} else {
+		$unique_id = mt_get_unique_id();
+		if ( $unique_id ) {
+			$expires_at = get_transient( 'mt_' . $unique_id . '_expiration' );
+		}
+	}
+
+	return absint( $expires_at );
+}
+
+/**
+ * Check whether a user's cart or payment info is expired at init.
+ */
+function mt_is_cart_expired() {
+	$types = array( 'cart', 'payment', 'offline-payment' );
+	if ( is_user_logged_in() ) {
+		$current_user = wp_get_current_user();
+		foreach ( $types as $type ) {
+			$data_age = get_user_meta( $current_user->ID, "_mt_user_init_$type", true );
+			if ( time() > $data_age ) {
+				// Expire user's cart after the data ages out.
+				delete_user_meta( $current_user->ID, "_mt_user_$type" );
+			}
+		}
+	} else {
+		$unique_id = mt_get_unique_id();
+		if ( $unique_id ) {
+			$expiration = get_transient( 'mt_' . $unique_id . '_expiration' );
+			if ( time() > $expiration ) {
+				delete_transient( 'mt_' . $unique_id . '_expiration' );
+				foreach ( $types as $type ) {
+					delete_transient( 'mt_' . $unique_id . '_' . $type );
+				}
+			}
+		}
+	}
+}
+add_action( 'init', 'mt_is_cart_expired' );
