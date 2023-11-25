@@ -650,7 +650,6 @@ function mt_gateways() {
 	$selector = '';
 	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$enabled  = $options['mt_gateway'];
-	$url      = get_permalink( $options['mt_purchase_page'] );
 	if ( 1 === count( $enabled ) ) {
 		return '';
 	} else {
