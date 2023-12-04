@@ -113,10 +113,10 @@ function mt_ajax_handler() {
 		$url   = get_permalink( $options['mt_purchase_page'] );
 		if ( 1 === (int) $saved['success'] ) {
 			// Translators: Cart URL.
-			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. <a href='%s'>Go to cart</a>", 'my-tickets' ), $url ) );
+			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) );
 		} else {
 			// Translators: Cart URL.
-			$response = apply_filters( 'mt_ajax_updated_unchanged', sprintf( __( "Cart not changed. <a href='%s'>Go to cart</a>", 'my-tickets' ), $url ) );
+			$response = apply_filters( 'mt_ajax_updated_unchanged', sprintf( __( "Cart not changed. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) );
 		}
 		$return = array(
 			'response' => $response,
