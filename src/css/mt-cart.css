@@ -8,7 +8,6 @@
 }
 
 .mt-order input,
-.mt-order button,
 .mt_cart button,
 .mt_cart select,
 .mt_cart input {
@@ -115,14 +114,26 @@ table.mt_cart {
     font-weight: 400;
 }
 
-.mt-response p {
-    padding: .5em;
-    background-color: rgba(255, 255, 200, .8);
+.mt-order .mt-response p {
+    padding: .5rem;
+    background-color: #b8e6bf;
     color: #000;
+	border: 2px solid #005c12;
 }
 
-.mt-response p a {
+.mt-order .mt-response p a {
 	color: #0a4b78;
+	background: #f0f6fc;
+	padding: .25rem;
+	border-radius: 3px;
+	border: 2px solid;
+	text-decoration: none;
+}
+
+.mt-order .mt-response p a:hover,
+.mt-order .mt-response p a:focus {
+	background: #0a4b78;
+	color: #f0f6fc;
 }
 
 .mt-processing {
