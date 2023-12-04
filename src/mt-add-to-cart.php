@@ -192,6 +192,8 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				}
 			}
 			$remaining_notice = mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining );
+			// Translators: link to shopping cart/checkout.
+			$in_cart = ( mt_in_cart( $event_id ) ) ? '<p class="my-tickets-in-cart">' . sprintf( __( 'Tickets for this event are in your cart. <a href="%s">Checkout</a>', 'my-tickets' ), get_permalink( $options['mt_purchase_page'] ) ) . '</p>' : '';
 
 			if ( true === $has_tickets ) {
 				$closing_time = mt_sales_close( $event_id, $registration['reg_expires'] );
@@ -234,6 +236,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 					</div>
 					<fieldset>
 					<legend>$legend</legend>
+						$in_cart
 						$remaining_notice
 						<p>$form</p>" . $fields . "<p>
 						<button type='submit' name='mt_add_to_cart'" . $disabled . '>' . apply_filters( 'mt_add_to_cart_text', __( 'Add to Cart', 'my-tickets' ) ) . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></button>
@@ -295,9 +298,9 @@ add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
 function mt_ticket_row( $event_id, $registration, $settings, $type, $available, $tickets_remaining ) {
 	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$pricing   = $registration['prices'];
-	$cart_data = array();
-	if ( is_array( mt_in_cart( $event_id ) ) ) {
-		$cart_data = mt_in_cart( $event_id );
+	$cart_data = mt_in_cart( $event_id );
+	if ( ! is_array( $cart_data ) ) {
+		$cart_data = '';
 	}
 	// if multiple != true, use checkboxes.
 	$input_type = ( isset( $registration['multiple'] ) && 'true' === $registration['multiple'] ) ? 'number' : 'checkbox';
