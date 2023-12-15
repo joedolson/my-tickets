@@ -676,6 +676,11 @@ function mt_gateways() {
  * Display time remaining before cart expiration.
  */
 function mt_generate_expiration() {
+	// If this is a post-payment page, remove data and don't display message.
+	if ( isset( $_GET['payment_id'] ) ) {
+		mt_delete_data( 'cart' );
+		return;
+	}
 	$expiration = mt_get_expiration();
 	$output     = '';
 	if ( 0 === $expiration ) {
