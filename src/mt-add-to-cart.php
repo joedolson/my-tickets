@@ -84,6 +84,7 @@ function mt_check_early_returns( $event_id, $override ) {
 		return false;
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+
 	// if no 'total' is set at all, this is not an event with tickets.
 	if ( empty( $registration['prices'] ) ) {
 		return false;
@@ -115,7 +116,8 @@ function mt_check_early_returns( $event_id, $override ) {
  */
 function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false, $group = false ) {
 	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-	$continue = mt_check_early_returns( $event, $override );
+	$event_id = ( is_object( $event ) ) ? $event->event_post : $event;
+	$continue = mt_check_early_returns( $event_id, $override );
 	if ( ! $continue ) {
 		return $content;
 	} else {
@@ -126,7 +128,6 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 	$sold_out    = '';
 	$has_tickets = '';
 	$output      = '';
-	$event_id    = ( is_object( $event ) ) ? $event->event_post : $event;
 	$expired     = mt_expired( $event_id, true );
 	$no_postal   = mt_no_postal( $event_id );
 	if ( $no_postal && 1 === count( $options['mt_ticketing'] ) && in_array( 'postal', $options['mt_ticketing'], true ) && ! ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) ) {
