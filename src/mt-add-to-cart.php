@@ -104,15 +104,16 @@ function mt_check_early_returns( $event_id, $override ) {
 /**
  * Generates event registration form.
  *
- * @param string                $content Page content.
- * @param mixed/bool/int/object $event If boolean, exit.
- * @param string                $view Type of view for context.
- * @param string                $time Time view being displayed.
- * @param boolean               $override Don't display.
- *
+ * @param string          $content Page content.
+ * @param bool|int|object $event If boolean, exit.
+ * @param string          $view Type of view for context.
+ * @param string          $time Time view being displayed.
+ * @param bool            $override Don't display.
+ * @param bool|array      $group If grouped display, array with first and last IDs.
+
  * @return string
  */
-function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false ) {
+function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false, $group = false ) {
 	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
 	$continue = mt_check_early_returns( $event, $override );
 	if ( ! $continue ) {
@@ -238,7 +239,8 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 					<legend>$legend</legend>
 						$in_cart
 						$remaining_notice
-						<p>$form</p>" . $fields . "<p>
+						$form
+						$fields" . "<p>
 						<button type='submit' name='mt_add_to_cart'" . $disabled . '>' . apply_filters( 'mt_add_to_cart_text', __( 'Add to Cart', 'my-tickets' ) ) . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></button>
 						<input type='hidden' name='my-tickets' value='true' />
 						</p>

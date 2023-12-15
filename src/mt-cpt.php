@@ -756,6 +756,41 @@ function mt_add() {
 }
 
 /**
+ * Add a grouping taxonomy to any post type enabled for ticketing.
+ */
+function mt_add_taxonomy() {
+	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+
+	// Labels for locations.
+	$group_labels = array(
+		'name'          => __( 'Ticket Groups', 'my-tickets' ),
+		'singular_name' => __( 'Ticket Group', 'my-tickets' ),
+		'search_items'  => __( 'Search Ticket Groups', 'my-tickets' ),
+		'popular_items' => __( 'Popular Ticket Groups', 'my-tickets' ),
+		'all_items'     => __( 'All Ticket Groups', 'my-tickets' ),
+		'edit_item'     => __( 'Edit Ticket Group', 'my-tickets' ),
+		'update_item'   => __( 'Update Ticket Group', 'my-tickets' ),
+		'add_new_item'  => __( 'Add Ticket Group', 'my-tickets' ),
+		'new_item_name' => __( 'New Ticket Group', 'my-tickets' ),
+		'not_found'     => __( 'No Ticket Groups found', 'my-tickets' ),
+	);
+	register_taxonomy(
+		'mt-event-group',
+		// Internal name = machine-readable taxonomy name.
+		$options['mt_post_types'],
+		array(
+			'hierarchical' => true,
+			'label'        => __( 'Ticket Groups', 'my-tickets' ),
+			'labels'       => $group_labels,
+			'query_var'    => true,
+			'rewrite'      => array( 'slug' => 'ticket-group' ),
+			'show_in_rest' => true,
+		)
+	);
+}
+add_action( 'wp_loaded', 'mt_add_taxonomy' );
+
+/**
  * Add column to show whether a post has event characteristics to post manager.
  *
  * @param array $cols All columns.

@@ -50,7 +50,6 @@ function my_tickets_short_cart() {
 		</div>";
 }
 
-add_shortcode( 'ticket', 'mt_registration_form_shortcode' );
 /**
  * Shortcode to generate ticketing form. Required attribute: event="event_id"
  *
@@ -74,7 +73,7 @@ function mt_registration_form_shortcode( $atts, $content = '' ) {
 
 	return '';
 }
-add_shortcode( 'tickets', 'mt_featured_tickets' );
+add_shortcode( 'ticket', 'mt_registration_form_shortcode' );
 
 /**
  * Produce a list of featured tickets with a custom template and registration forms.
@@ -85,9 +84,12 @@ add_shortcode( 'tickets', 'mt_featured_tickets' );
  * @return string
  */
 function mt_featured_tickets( $atts, $content = '' ) {
-	$atts = shortcode_atts(
+	$grouped = false;
+	$atts    = shortcode_atts(
 		array(
 			'events'   => false,
+			'group'    => false,
+			'taxonomy' => 'mt-event-group',
 			'view'     => 'calendar',
 			'time'     => 'month',
 			'template' => '<h3>{post_title}: {event_begin format="l, F d"}</h3><p>{post_excerpt}</p>',
@@ -96,6 +98,16 @@ function mt_featured_tickets( $atts, $content = '' ) {
 	);
 	if ( $atts['events'] ) {
 		$events = explode( ',', $atts['events'] );
+	} elseif ( $atts['group'] ) {
+		if ( is_string( $atts['group'] ) ) {
+			// Gets a group of events by taxonomy term.
+			$events = mt_get_events_by_term( $atts['group'], $atts['taxonomy'] );
+		}
+		if ( is_numeric( $atts['group'] ) ) {
+			// Gets a group of events by My Calendar event group ID.
+			$events = mt_get_events_by_group_id( $atts['group'] );
+		}
+		$grouped = true;
 	} else {
 		/**
 		 * Set an array of default event IDs to show in the [tickets] shortcode. Only runs if the 'events' shortcode attribute is false.
@@ -111,7 +123,17 @@ function mt_featured_tickets( $atts, $content = '' ) {
 		$events = apply_filters( 'mt_default_ticketed_events', array(), $atts, $content );
 	}
 	$content = '';
-	if ( is_array( $events ) ) {
+	if ( is_array( $events ) && ! empty( $events ) ) {
+		$group = false;
+		if ( $grouped ) {
+			$count = count( $events );
+			$last  = $events[ $count - 1 ];
+			$first = $events[0];
+			$group = array(
+				'first' => $first,
+				'last'  => $last,
+			);
+		}
 		foreach ( $events as $event ) {
 			$event_data = get_post_meta( $event, '_mc_event_data', true );
 			$post       = get_post( $event, ARRAY_A );
@@ -127,14 +149,14 @@ function mt_featured_tickets( $atts, $content = '' ) {
 				 */
 				$data       = apply_filters( 'mt_ticket_template_array', array_merge( $event_data, $post ) );
 				$event_data = "<div class='mt-event-details'>" . mt_draw_template( $data, $atts['template'] ) . '</div>';
-				$content   .= "<div class='mt-event-item'>" . $event_data . mt_registration_form( '', $event, $atts['view'], $atts['time'], true ) . '</div>';
+				$content   .= "<div class='mt-event-item'>" . $event_data . mt_registration_form( '', $event, $atts['view'], $atts['time'], true, $group ) . '</div>';
 			}
 		}
 	}
 
 	return "<div class='mt-event-list'>" . $content . '</div>';
 }
-add_shortcode( 'remaining', 'mt_remaining_tickets' );
+add_shortcode( 'tickets', 'mt_featured_tickets' );
 
 /**
  * Display the number of tickets remaining for an event.
@@ -177,9 +199,8 @@ function mt_remaining_tickets( $atts, $content = '' ) {
 
 	return $content;
 }
+add_shortcode( 'remaining', 'mt_remaining_tickets' );
 
-// Add {register} form to My Calendar templating for upcoming events lists, etc.
-add_filter( 'mc_filter_shortcodes', 'mt_add_shortcode', 5, 2 );
 /**
  * Insert {register} quicktag into the My Calendar templating array.
  *
@@ -194,6 +215,8 @@ function mt_add_shortcode( $e, $event ) {
 
 	return $e;
 }
+// Add {register} form to My Calendar templating for upcoming events lists, etc.
+add_filter( 'mc_filter_shortcodes', 'mt_add_shortcode', 5, 2 );
 
 /**
  * Shortcode to output a user's purchases and tickets.
