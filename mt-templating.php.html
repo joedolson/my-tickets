@@ -623,7 +623,7 @@ function mt_get_event_time( $ticket_id = false ) {
 	if ( $ticket ) {
 		$event  = get_post_meta( $ticket->ID, '_mc_event_data', true );
 		$time   = isset( $event['event_time'] ) ? $event['event_time'] : '';
-		$allday = ( isset( $event['event_endtime'] ) &amp;&amp; $event['event_endtime'] === '23:59:59' || $time === '23:59:59' ) ? true : false;
+		$allday = ( isset( $event['event_endtime'] ) &amp;&amp; '23:59:59' === $event['event_endtime'] || '23:59:59' === $time ) ? true : false;
 		$time   = ( $allday ) ? false : $time;
 		if ( $time ) {
 			$time = date_i18n( get_option( 'time_format' ), strtotime( $time ) );
