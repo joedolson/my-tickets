@@ -16,7 +16,7 @@
  * @param string       $taxonomy A taxonomy name. Optional; default 'mt-event-group'.
  * @param array        $types An array of post type names. Optiona; default all enabled types.
  *
- * @return array 
+ * @return array
  */
 function mt_get_events_by_term( $term, $taxonomy = 'mt-event-group', $types = array() ) {
 	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
@@ -44,7 +44,7 @@ function mt_get_events_by_term( $term, $taxonomy = 'mt-event-group', $types = ar
  *
  * @param string $event_id A My Calendar event ID.
  *
- * @return array 
+ * @return array
  */
 function mt_get_events_by_group_id( $event_id ) {
 	$events = array();
