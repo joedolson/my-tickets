@@ -305,9 +305,7 @@
 						if ( mt_get_ticket_validity() ) {
 							echo mt_ticket_validity();
 						} else {
-							?>
-							<?php mt_event_date(); ?> @ <span class='time'><?php mt_event_time(); ?></span>
-							<?php
+							mt_event_date_time();
 						}
 						?>
 					</div>

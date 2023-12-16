@@ -441,6 +441,42 @@ function mt_ticket_custom_fields( $custom_field = false, $ticket_id = false ) {
 }
 
 /**
+ * Get date & time of event this ticket is for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return string
+ */
+function mt_get_event_date_time( $ticket_id = false ) {
+	if ( ! $ticket_id ) {
+		$ticket = mt_get_ticket();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
+	if ( $ticket ) {
+		$event = get_post_meta( $ticket->ID, '_mc_event_data', true );
+		$date  = isset( $event['event_begin'] ) ? $event['event_begin'] : '';
+		$date  = date_i18n( get_option( 'date_format' ), strtotime( $date ) );
+		$time  = mt_get_event_time( $ticket_id );
+
+		return ( $time ) ? $date . ' @ <span class="time">' . $time . '</span>' : $date;
+	}
+
+	return '';
+}
+
+/**
+ * Get date and time of event this ticket is for.
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
+function mt_event_date_time( $ticket_id = false ) {
+	echo wp_kses_post( mt_get_event_date_time( $ticket_id ) );
+}
+
+/**
  * Get date of event this ticket is for.
  *
  * @param bool|string $ticket_id Ticket ID.
@@ -559,9 +595,13 @@ function mt_get_event_time( $ticket_id = false ) {
 		$ticket = mt_get_ticket( $ticket_id );
 	}
 	if ( $ticket ) {
-		$event = get_post_meta( $ticket->ID, '_mc_event_data', true );
-		$time  = isset( $event['event_time'] ) ? $event['event_time'] : '';
-		$time  = date_i18n( get_option( 'time_format' ), strtotime( $time ) );
+		$event  = get_post_meta( $ticket->ID, '_mc_event_data', true );
+		$time   = isset( $event['event_time'] ) ? $event['event_time'] : '';
+		$allday = ( isset( $event['event_endtime'] ) && $event['event_endtime'] === '23:59:59' || $time === '23:59:59' ) ? true : false;
+		$time   = ( $allday ) ? false : $time;
+		if ( $time ) {
+			$time = date_i18n( get_option( 'time_format' ), strtotime( $time ) );
+		}
 
 		return $time;
 	}
