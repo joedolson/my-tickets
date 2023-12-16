@@ -148,14 +148,14 @@ function mt_ticket_meta( $post_id ) {
 		$post        = map_deep( $_POST, 'sanitize_textarea_field' );
 		$event_begin = mt_date( 'Y-m-d', strtotime( $post['event_begin'] ), false );
 		if ( '' !== $post['event_time'] ) {
-			$event_time  = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
+			$event_time = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
 		} else {
-			$event_time  = '23:59:59';
+			$event_time = '23:59:59';
 		}
-		$general     = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'on' : '';
-		$valid       = ( isset( $post['mt_valid'] ) ) ? sanitize_text_field( $post['mt_valid'] ) : '';
-		$expire      = ( isset( $post['expire_date'] ) ) ? strtotime( $post['expire_date'] ) : '';
-		$data        = array(
+		$general = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'on' : '';
+		$valid   = ( isset( $post['mt_valid'] ) ) ? sanitize_text_field( $post['mt_valid'] ) : '';
+		$expire  = ( isset( $post['expire_date'] ) ) ? strtotime( $post['expire_date'] ) : '';
+		$data    = array(
 			'event_begin'       => $event_begin,
 			'event_time'        => $event_time,
 			'event_post'        => $post_id,
