@@ -258,13 +258,6 @@ function mt_ticketing_settings() {
 										$is_registration = true;
 									}
 									$method = $displayed['counting_method'];
-									if ( 'discrete' === $method ) {
-										$is_discrete   = true;
-										$is_continuous = false;
-									} else {
-										$is_discrete   = false;
-										$is_continuous = true;
-									}
 									echo mt_prices_table( $displayed );
 									?>
 								<div class="ticket-sale-types">
@@ -280,10 +273,12 @@ function mt_ticketing_settings() {
 									<fieldset>
 										<legend><?php _e( 'Ticket Counting Method', 'my-tickets' ); ?></legend>
 										<p>
-											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_discrete' value='discrete' <?php checked( $is_discrete, true ); ?> />
+											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_discrete' value='discrete' <?php checked( $method, 'discrete' ); ?> />
 											<label for='mt_counting_method_discrete'><?php _e( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ); ?></label><br/>
-											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_continuous' value='continuous'<?php checked( $is_continuous, true ); ?> />
+											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_continuous' value='continuous'<?php checked( $method, 'continuous' ); ?> />
 											<label for='mt_counting_method_continuous'><?php _e( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ); ?></label>
+											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_event' value='event'<?php checked( $method, 'event' ); ?> />
+											<label for='mt_counting_method_event'><?php _e( 'Events - (Jan. 2nd, 2pm)', 'my-tickets' ); ?></label>
 										</p>
 									</fieldset>
 								</div>

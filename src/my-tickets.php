@@ -628,7 +628,7 @@ We\'ll see you soon!<br />
 	$showtime = array(
 		'free'            => '',
 		'sales_type'      => 'tickets',
-		'counting_method' => 'discrete',
+		'counting_method' => 'event',
 		'reg_expires'     => '1',
 		'multiple'        => 'true',
 		'pricing'         => array(

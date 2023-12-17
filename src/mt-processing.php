@@ -294,13 +294,6 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$is_registration = ' checked="checked"';
 	}
 	$method = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $options['defaults']['counting_method'];
-	if ( 'discrete' === $method ) {
-		$is_discrete   = ' checked="checked"';
-		$is_continuous = '';
-	} else {
-		$is_discrete   = '';
-		$is_continuous = ' checked="checked"';
-	}
 	if ( 'true' === $hide ) {
 		$is_hidden = ' checked="checked"';
 	} else {
@@ -335,8 +328,9 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		</fieldset>
 		<fieldset><legend>' . __( 'Ticket Counting Method', 'my-tickets' ) . "</legend>
 			<p>
-				<input type='radio' name='mt_counting_method' id='mt_counting_method_discrete' value='discrete' $is_discrete /> <label for='mt_counting_method_discrete'>" . __( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ) . "</label><br />
-				<input type='radio' name='mt_counting_method' id='mt_counting_method_continuous' value='continuous' $is_continuous /> <label for='mt_counting_method_continuous'>" . __( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ) . '</label>
+				<input type='radio' name='mt_counting_method' id='mt_counting_method_discrete' value='discrete' " . checked( $method, 'discrete' ) . " /> <label for='mt_counting_method_discrete'>" . __( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ) . "</label><br />
+				<input type='radio' name='mt_counting_method' id='mt_counting_method_continuous' value='continuous' " . checked( $method, 'continuous' ) . " /> <label for='mt_counting_method_continuous'>" . __( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ) . "</label><br />
+				<input type='radio' name='mt_counting_method' id='mt_counting_method_event' value='event' " . checked( $method, 'event' ) . " /> <label for='mt_counting_method_event'>" . __( 'Events (Jan 1st, 2pm)', 'my-tickets' ) . '</label>
 			</p>
 		</fieldset></div>';
 	if ( false !== $description ) {
@@ -387,7 +381,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
  */
 function mt_prices_table( $registration = array() ) {
 	$counting  = $registration['counting_method'];
-	$pricing   = $registration['pricing'];
+	$pricing   = mt_get_settings( 'defaults' )[ $counting ];
 	$available = '';
 	$tickets   = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
 	$return    = "<table class='widefat mt-pricing'>
@@ -404,7 +398,7 @@ function mt_prices_table( $registration = array() ) {
 					</thead>
 					<tbody>';
 	$counting  = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $counting;
-	if ( 'discrete' === $counting ) {
+	if ( 'discrete' === $counting || 'event' === $counting ) {
 		$available_empty = "<input type='text' name='mt_tickets[]' id='mt_tickets' value='' size='8' />";
 		$total           = '<input type="hidden" name="mt_tickets_total" value="inherit" />';
 	} else {
@@ -418,7 +412,7 @@ function mt_prices_table( $registration = array() ) {
 	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $pricing; // array of prices; label => cost/available/sold.
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $label => $options ) {
-			if ( 'discrete' === $counting ) {
+			if ( 'discrete' === $counting || 'event' === $counting ) {
 				$available = "<input type='text' name='mt_tickets[]' id='mt_tickets_$label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
 			} else {
 				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";

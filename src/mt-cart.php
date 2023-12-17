@@ -917,7 +917,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$price      = mt_handling_price( $prices[ $type ]['price'], $event_id, $type );
 								$orig_price = ( isset( $prices[ $type ]['orig_price'] ) ) ? mt_handling_price( $prices[ $type ]['orig_price'], $event_id, $type ) : $price;
 								$label      = $prices[ $type ]['label'];
-								if ( 'discrete' === $registration['counting_method'] ) {
+								if ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) {
 									$available = absint( $prices[ $type ]['tickets'] );
 									$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
 								} else {
