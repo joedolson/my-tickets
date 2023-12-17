@@ -110,9 +110,7 @@ function mt_update_payment_settings( $post ) {
 function mt_payment_settings() {
 	$post         = map_deep( $_POST, 'sanitize_text_field' );
 	$response     = mt_update_payment_settings( $post );
-	$options      = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
-	$defaults     = mt_default_settings();
-	$options      = array_merge( $defaults, $options );
+	$options      = mt_get_settings();
 	$alert        = '';
 	$testing_mode = ( 'true' === $options['mt_use_sandbox'] ) ? true : false;
 	if ( $testing_mode ) {
@@ -501,9 +499,7 @@ function mt_currency() {
  * @return bool
  */
 function mt_zerodecimal_currency() {
-	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
-	$defaults = mt_default_settings();
-	$options  = array_merge( $defaults, $options );
+	$options  = mt_get_settings();
 
 	$currency   = $options['mt_currency'];
 	$currencies = mt_currency();

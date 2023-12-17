@@ -261,7 +261,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 		$used     = get_post_meta( $purchase_id, '_tickets_used' );
 		$test_use = true;
 	}
-	$options    = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
+	$options    = mt_get_settings();
 	$ticket_url = get_permalink( $options['mt_tickets_page'] );
 	foreach ( $tickets as $ticket ) {
 		if ( $test_use ) {

@@ -575,7 +575,7 @@ We\'ll see you soon!<br />
 			),
 		),
 	);
-	$ticketing = array(
+	$continuous = array(
 		'free'            => '',
 		'sales_type'      => 'tickets',
 		'counting_method' => 'continuous',
@@ -603,9 +603,57 @@ We\'ll see you soon!<br />
 		),
 	);
 
+	$discrete = array(
+		'free'            => '',
+		'sales_type'      => 'tickets',
+		'counting_method' => 'discrete',
+		'reg_expires'     => '3',
+		'multiple'        => 'true',
+		'pricing'         => array(
+			'section-a'          => array(
+				'label'   => 'Section A',
+				'price'   => '20',
+				'tickets' => '40',
+				'sold'    => '',
+			),
+			'section-b' => array(
+				'label'   => 'Section B',
+				'price'   => '15',
+				'tickets' => '40',
+				'sold'    => '',
+			),
+		),
+	);
+
+	$showtime = array(
+		'free'            => '',
+		'sales_type'      => 'tickets',
+		'counting_method' => 'discrete',
+		'reg_expires'     => '1',
+		'multiple'        => 'true',
+		'pricing'         => array(
+			'first-showing'  => array(
+				'label'   => date_i18n( 'Y-m-d H:i', strtotime( '8:00pm + 1 day' ) ),
+				'price'   => '20',
+				'tickets' => '40',
+				'sold'    => '',
+			),
+			'second-showing' => array(
+				'label'   => date_i18n( 'Y-m-d H:i', strtotime( '2:00pm + 2 days' ) ),
+				'price'   => '15',
+				'tickets' => '40',
+				'sold'    => '',
+			),
+		),
+	);
+
 	$defaults = array(
 		// Messages following registration/ticket order & payment.
-		'defaults'                 => $ticketing,
+		'defaults'                 => array(
+			'continuous' => $continuous,
+			'discrete'   => $discrete,
+			'showtimes'  => $showtime,
+		),
 		'messages'                 => $messages,
 		'mt_post_types'            => array( 'mc-events', 'page' ),
 		'mt_license_key'           => '',

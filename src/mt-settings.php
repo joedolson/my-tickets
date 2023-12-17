@@ -113,9 +113,7 @@ function mt_import_settings() {
  */
 function mt_settings() {
 	$response = mt_update_settings( $_POST );
-	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
-	$defaults = mt_default_settings();
-	$options  = array_merge( $defaults, $options );
+	$options  = mt_get_settings();
 
 	$post_types    = get_post_types( array( 'public' => true ), 'objects' );
 	$mt_post_types = $options['mt_post_types'];

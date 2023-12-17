@@ -105,13 +105,36 @@ function mt_update_ticketing_settings( $post ) {
 }
 
 /**
+ * Get My Tickets options.
+ *
+ * @param string $setting A key in the settings array.
+ *
+ * @return array
+ */
+function mt_get_settings( $setting = '' ) {
+	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
+	$defaults = mt_default_settings();
+	// Update settings structure for ticketing models if needed.
+	if ( isset( $options['defaults'] ) && isset( $options['defaults']['counting_method'] ) ) {
+		$type                         = $options['defaults']['counting_method'];
+		$options['defaults'][ $type ] = $options['defaults'];
+		$models                       = array_merge( $defaults['defaults'], $options['defaults'] );
+		$options['defaults']          = $models;
+	}
+	$options  = array_merge( $defaults, $options );
+	if ( ! empty( $setting ) && $options[ $setting ] ) {
+		return $options[ $setting ];
+	}
+
+	return $options;
+}
+
+/**
  * Form to update ticketing settings.
  */
 function mt_ticketing_settings() {
 	$response = mt_update_ticketing_settings( $_POST );
-	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
-	$defaults = mt_default_settings();
-	$options  = array_merge( $defaults, $options );
+	$options  = mt_get_settings();
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
 		<div id="icon-options-general" class="icon32"><br/></div>
@@ -225,7 +248,6 @@ function mt_ticketing_settings() {
 								$form                    .= "<p class='handling ticket-hide-empty-short-cart'><label for='mt_hide_empty_short_cart'>" . __( 'Hide short cart widget when empty', 'my-tickets' ) . "</label> <input name='mt_hide_empty_short_cart' id='mt_hide_empty_short_cart' type='checkbox' value='true'" . checked( $mt_hide_empty_short_cart, 'true', false ) . ' /></p>';
 								$form                    .= '</fieldset>';
 								echo wp_kses( $form, mt_kses_elements() );
-								$multiple = ( isset( $options['defaults']['multiple'] ) && 'true' === $options['defaults']['multiple'] ) ? true : false;
 								?>
 							</div>
 						</div>
@@ -234,14 +256,17 @@ function mt_ticketing_settings() {
 					<div class="ui-sortable meta-box-sortables">
 						<div class="postbox">
 							<h2 id="mt-ticketing-options" class="hndle"><?php _e( 'Default Ticket Settings', 'my-tickets' ); ?></h2>
-
+							<?php
+							$displayed = ( isset( $_GET['ticket_model'] ) ) ? $options['defaults'][ sanitize_key( $_GET['ticket_model'] ) ] : $options['defaults']['continuous'];
+							$multiple  = ( isset( $displayed['multiple'] ) && 'true' === $displayed['multiple'] ) ? true : false;
+							?>
 							<div class="inside">
 									<p>
 										<em><?php _e( 'Changing these settings does not impact events that have already been created.', 'my-tickets' ); ?></em>
 									</p>
 									<p>
 										<label for='reg_expires'><?php _e( 'Stop online sales <em>x</em> hours before event', 'my-tickets' ); ?></label>
-										<input type='number' name='defaults[reg_expires]' id='reg_expires' value='<?php stripslashes( esc_attr( $options['defaults']['reg_expires'] ) ); ?>'/>
+										<input type='number' name='defaults[reg_expires]' id='reg_expires' value='<?php stripslashes( esc_attr( $displayed['reg_expires'] ) ); ?>'/>
 									</p>
 
 									<p>
@@ -249,7 +274,7 @@ function mt_ticketing_settings() {
 										<input type='checkbox' name='defaults[multiple]' id='multiple' value='true' <?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
 									</p>
 									<?php
-									$type = $options['defaults']['sales_type'];
+									$type = $displayed['sales_type'];
 									if ( ! $type || 'tickets' === $type ) {
 										$is_tickets      = true;
 										$is_registration = false;
@@ -257,7 +282,7 @@ function mt_ticketing_settings() {
 										$is_tickets      = false;
 										$is_registration = true;
 									}
-									$method = $options['defaults']['counting_method'];
+									$method = $displayed['counting_method'];
 									if ( 'discrete' === $method ) {
 										$is_discrete   = true;
 										$is_continuous = false;
@@ -265,7 +290,7 @@ function mt_ticketing_settings() {
 										$is_discrete   = false;
 										$is_continuous = true;
 									}
-									echo mt_prices_table();
+									echo mt_prices_table( $displayed );
 									?>
 								<div class="ticket-sale-types">
 									<fieldset>
