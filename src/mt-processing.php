@@ -386,11 +386,10 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
  * @return string
  */
 function mt_prices_table( $registration = array() ) {
-	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
-	$counting  = $options['defaults']['counting_method'];
-	$pricing   = $options['defaults']['pricing'];
+	$counting  = $registration['counting_method'];
+	$pricing   = $registration['pricing'];
 	$available = '';
-	$tickets   = ( isset( $options['defaults']['tickets'] ) ) ? $options['defaults']['tickets'] : false;
+	$tickets   = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
 	$return    = "<table class='widefat mt-pricing'>
 					<caption>" . __( 'Ticket Prices and Availability', 'my-tickets' ) . "</caption>
 					<thead>
