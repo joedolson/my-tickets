@@ -309,9 +309,7 @@ add_filter( 'mt_currencies', 'mt_paypal_currencies', 10, 1 );
  * @return array supported currencies.
  */
 function mt_paypal_currencies( $currencies ) {
-	$options     = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
-	$defaults    = mt_default_settings();
-	$options     = array_merge( $defaults, $options );
+	$options     = mt_get_settings();
 	$mt_gateways = $options['mt_gateway'];
 
 	if ( is_array( $mt_gateways ) && in_array( 'authorizenet', $mt_gateways, true ) ) {
