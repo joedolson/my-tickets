@@ -370,7 +370,17 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 			if ( 'true' === $options['mt_show_closed'] ) {
 				$show_closed = 'show';
 			}
-			$ticket_type_sales_closed_behavior = apply_filters( 'mt-ticket-type-sales-closed', $show_closed, $event_id );
+			/**
+			 * Filter whether a ticket type that has closed will be shown for an event.
+			 *
+			 * @hook mt_ticket_type_sales_closed
+			 *
+			 * @param {string} $show_closed 'hide' or 'show'.
+			 * @param {int}    $event_id ID for currently displayed post.
+			 *
+			 * @return {string}
+			 */
+			$ticket_type_sales_closed_behavior = apply_filters( 'mt_ticket_type_sales_closed', $show_closed, $event_id );
 			if ( 'hide' === $ticket_type_sales_closed_behavior ) {
 				// If this ticket type is no longer available, skip.
 				return false;
@@ -430,9 +440,10 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 			);
 
 			$hide_remaining = mt_hide_remaining( $tickets_remaining );
-			// Translators: Ticket price label, number remaining.
+			// Translators: 1 Ticket price label, 2 number remaining as fraction e.g. 2/40, 3 closing span tag..
 			$remaining_text = sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '%1$s %2$s remaining%3$s', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-remaining">', "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>', '</span>' );
-			$available_text = sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '%1$s %2$s available%3$s', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-available">', "<span class='value available-tickets'>" . $remaining . '</span>', '</span>' );
+			// Translators: 1 ticket price label, 2 number remaining as integer, 3 closing span tag.
+			$available_text = sprintf( apply_filters( 'mt_tickets_available_discrete_text', __( '%1$s %2$s available%3$s', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-available">', "<span class='value available-tickets'>" . $remaining . '</span>', '</span>' );
 			if ( 'proportion' === $options['mt_display_remaining'] ) {
 				$display_text = $remaining_text;
 			} else {
