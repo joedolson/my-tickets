@@ -69,6 +69,31 @@ function mt_export_settings_url() {
 }
 
 /**
+ * Get My Tickets options.
+ *
+ * @param string $setting A key in the settings array.
+ *
+ * @return array
+ */
+function mt_get_settings( $setting = '' ) {
+	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
+	$defaults = mt_default_settings();
+	// Update settings structure for ticketing models if needed.
+	if ( isset( $options['defaults'] ) && isset( $options['defaults']['counting_method'] ) ) {
+		$type                         = $options['defaults']['counting_method'];
+		$options['defaults'][ $type ] = $options['defaults'];
+		$models                       = array_merge( $defaults['defaults'], $options['defaults'] );
+		$options['defaults']          = $models;
+	}
+	$options  = array_merge( $defaults, $options );
+	if ( ! empty( $setting ) && $options[ $setting ] ) {
+		return $options[ $setting ];
+	}
+
+	return $options;
+}
+
+/**
  * Export settings
  */
 function mt_export_settings() {
