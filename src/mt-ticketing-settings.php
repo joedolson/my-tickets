@@ -34,6 +34,7 @@ function mt_update_ticketing_settings( $post ) {
 		$mt_total_tickets         = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
 		$mt_shipping_time         = ( isset( $post['mt_shipping_time'] ) ) ? $post['mt_shipping_time'] : '3-5';
 		$mt_hide_remaining        = ( isset( $post['mt_hide_remaining'] ) ) ? 'true' : 'false';
+		$mt_show_closed           = ( isset( $post['mt_show_closed'] ) ) ? 'true' : 'false';
 		$mt_hide_remaining_limit  = ( isset( $post['mt_hide_remaining_limit'] ) ) ? intval( $post['mt_hide_remaining_limit'] ) : 0;
 		$mt_collect_shipping      = ( isset( $post['mt_collect_shipping'] ) ) ? 'true' : 'false';
 		$mt_hide_empty_short_cart = ( isset( $post['mt_hide_empty_short_cart'] ) ) ? 'true' : 'false';
@@ -44,6 +45,7 @@ function mt_update_ticketing_settings( $post ) {
 		$availability             = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : array();
 		$close_value              = ( isset( $post['mt_tickets_close_value'] ) ) ? $post['mt_tickets_close_value'] : '';
 		$close_type               = ( isset( $post['mt_tickets_close_type'] ) ) ? $post['mt_tickets_close_type'] : 'integer';
+		$mt_display_remaining     = ( isset( $post['mt_display_remaining'] ) ) ? $post['mt_display_remaining'] : 'proportion';
 		$mt_ticket_image          = ( isset( $post['mt_ticket_image'] ) ) ? $post['mt_ticket_image'] : 'ticket';
 		$pricing_array            = mt_setup_pricing( $labels, $prices, $availability, $close );
 		$defaults['pricing']      = $pricing_array;
@@ -73,6 +75,8 @@ function mt_update_ticketing_settings( $post ) {
 				'mt_shipping_time'         => $mt_shipping_time,
 				'mt_tickets_close_value'   => $close_value,
 				'mt_tickets_close_type'    => $close_type,
+				'mt_display_remaining'     => $mt_display_remaining,
+				'mt_show_closed'           => $mt_show_closed,
 				'mt_ticket_image'          => $mt_ticket_image,
 				'mt_hide_remaining'        => $mt_hide_remaining,
 				'mt_hide_remaining_limit'  => $mt_hide_remaining_limit,
@@ -190,14 +194,24 @@ function mt_ticketing_settings() {
 								$mt_tickets_close_value   = ( isset( $options['mt_tickets_close_value'] ) ) ? $options['mt_tickets_close_value'] : '';
 								$form                    .= "<p class='handling ticket-close-value'><label for='mt_tickets_close_value'>" . __( 'Tickets reserved for sale at the door', 'my-tickets' ) . "</label> <input name='mt_tickets_close_value' id='mt_tickets_close_value' type='number' size='4' value='$mt_tickets_close_value' /></p>";
 								$mt_tickets_close_type    = ( isset( $options['mt_tickets_close_type'] ) ) ? $options['mt_tickets_close_type'] : '';
-								$form                    .= "<p class='close ticket-close-type'><label for='mt_tickets_close_type'>" . __( 'Reserve tickets based on', 'my-tickets' ) . "</label><select name='mt_tickets_close_type' id='mt_tickets_close_type' />
+								$form                    .= "<p class='close ticket-close-type'><label for='mt_tickets_close_type'>" . __( 'Reserve tickets based on', 'my-tickets' ) . "</label> <select name='mt_tickets_close_type' id='mt_tickets_close_type' />
 											<option value='integer'" . selected( $mt_tickets_close_type, 'integer', false ) . '>' . __( 'Specific number of tickets', 'my-tickets' ) . "</option>
 											<option value='percent'" . selected( $mt_tickets_close_type, 'percent', false ) . '>' . __( 'Percentage of available tickets', 'my-tickets' ) . '</option>
 										</select></p>';
+
+								$mt_show_closed           = ( isset( $options['mt_show_closed'] ) ) ? $options['mt_show_closed'] : 'false';
+								$form                    .= "<p class='handling ticket-show-closed'><label for='mt_tickets_show_closed'>" . __( 'Show ticket types that are closed in Add to Cart form', 'my-tickets' ) . "</label> <input name='mt_show_closed' id='mt_tickets_show_closed' type='checkbox' value='true'" . checked( $mt_show_closed, 'true', false ) . ' /></p>';
+			
 								$mt_hide_remaining        = ( isset( $options['mt_hide_remaining'] ) ) ? $options['mt_hide_remaining'] : 'false';
 								$form                    .= "<p class='handling ticket-hide-remaining'><label for='mt_tickets_hide_remaining'>" . __( 'Hide number of tickets remaining', 'my-tickets' ) . "</label> <input name='mt_hide_remaining' id='mt_tickets_hide_remaining' type='checkbox' value='true'" . checked( $mt_hide_remaining, 'true', false ) . ' /></p>';
 								$mt_hide_remaining_limit  = ( isset( $options['mt_hide_remaining_limit'] ) ) ? $options['mt_hide_remaining_limit'] : 0;
 								$form                    .= "<p class='handling ticket-hide-remaining-limit'><label for='mt_tickets_hide_remaining_limit'>" . __( 'Show number of tickets remaining when available tickets falls below:', 'my-tickets' ) . "</label> <input name='mt_hide_remaining_limit' id='mt_tickets_hide_remaining_limit' type='number' value='" . $mt_hide_remaining_limit . "' /></p>";
+								$mt_display_remaining     = ( isset( $options['mt_display_remaining'] ) ) ? $options['mt_display_remaining'] : 'proportion';
+								$form                    .= "<p class='handling ticket-display-remaining'><label for='mt_tickets_display_remaining'>" . __( 'Remaining tickets display type', 'my-tickets' ) . "</label> <select name='mt_display_remaining' id='mt_tickets_display_remaining' />
+									<option value='proportion'" . selected( $mt_display_remaining, 'proportion', false ) . '>' . __( 'Available/total, e.g. 23/40', 'my-tickets' ) . "</option>
+									<option value='number'" . selected( $mt_display_remaining, 'number', false ) . '>' . __( 'Available only, e.g. 23', 'my-tickets' ) . '</option>
+								</select></p>';
+
 								$form                    .= '</fieldset>';
 								$form                    .= '<fieldset><legend>' . __( 'Miscellaneous', 'my-tickets' ) . '</legend>';
 								$mt_ticket_image          = ( isset( $options['mt_ticket_image'] ) ) ? $options['mt_ticket_image'] : '';

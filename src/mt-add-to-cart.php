@@ -111,7 +111,7 @@ function mt_check_early_returns( $event_id, $override ) {
  * @param string          $time Time view being displayed.
  * @param bool            $override Don't display.
  * @param bool|array      $group If grouped display, array with first and last IDs.
-
+ *
  * @return string
  */
 function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false, $group = false ) {
@@ -357,15 +357,28 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 		 */
 		$ticket_handling    = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event_id, $type );
 		$handling_notice    = mt_handling_notice();
-		$ticket_price_label = apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling );
+		$ticket_price_label = '<span class="mt-ticket-price">' . apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling ) . '</span>';
 		$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0', $type );
 		$value              = ( '' === $value ) ? 0 : (int) $value;
 		$order_value        = $value;
 		$attributes         = '';
 		$close              = ( isset( $settings['close'] ) && ! empty( $settings['close'] ) ) ? $settings['close'] : '';
+		$type_sales_closed  = false;
+		$closure            = '';
 		if ( $close && $close < time() ) {
-			// If this ticket type is no longer available, skip.
-			return false;
+			$show_closed = 'hide';
+			if ( 'true' === $options['mt_show_closed'] ) {
+				$show_closed = 'show';
+			}
+			$ticket_type_sales_closed_behavior = apply_filters( 'mt-ticket-type-sales-closed', $show_closed, $event_id );
+			if ( 'hide' === $ticket_type_sales_closed_behavior ) {
+				// If this ticket type is no longer available, skip.
+				return false;
+			} else {
+				$type_sales_closed = true;
+				// translators: Date ticket sales closed.
+				$closure = sprintf( __( 'Sales closed %s', 'my-tickets' ), date_i18n( get_option( 'date_format' ), $close ) );
+			}
 		}
 		if ( 'checkbox' === $input_type || 'radio' === $input_type ) {
 			if ( 1 === $value ) {
@@ -393,12 +406,12 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 			} else {
 				$max = $remaining;
 			}
-			$disable = ( $remaining < 1 ) ? ' disabled="disabled"' : '';
+			$disable = ( $remaining < 1 || $type_sales_closed ) ? ' disabled="disabled"' : '';
 			if ( '' === $attributes ) {
 				$attributes = " min='0' max='$max' inputmode='numeric' pattern='[0-9]*'";
-				if ( 0 === $remaining ) {
+				if ( 0 === $remaining || $type_sales_closed ) {
 					$attributes .= ' readonly="readonly"';
-					$class       = 'mt-sold-out';
+					$class       = ( $type_sales_closed ) ? 'mt-sales-closed' : 'mt-sold-out';
 				} else {
 					$class = 'mt-available';
 				}
@@ -418,7 +431,15 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 
 			$hide_remaining = mt_hide_remaining( $tickets_remaining );
 			// Translators: Ticket price label, number remaining.
-			$form .= "<span id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '(%1$s, %2$s remaining%3$s)', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-remaining">', "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>', '</span>' ) . '</span>';
+			$remaining_text = sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '%1$s %2$s remaining%3$s', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-remaining">', "<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>', '</span>' );
+			$available_text = sprintf( apply_filters( 'mt_tickets_remaining_discrete_text', __( '%1$s %2$s available%3$s', 'my-tickets' ), $ticket_price_label, $remaining, $tickets ), $ticket_price_label . '<span class="tickets-available">', "<span class='value available-tickets'>" . $remaining . '</span>', '</span>' );
+			if ( 'proportion' === $options['mt_display_remaining'] ) {
+				$display_text = $remaining_text;
+			} else {
+				$display_text = $available_text;
+			}
+
+			$form .= "<div id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . $display_text . '<span class="mt-closure-date">' . $closure . '</span></div>';
 			$form .= "<span class='mt-error-notice' aria-live='assertive'></span></div>";
 		} else {
 			$remaining = $tickets_remaining;

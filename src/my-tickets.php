@@ -638,6 +638,8 @@ We\'ll see you soon!<br />
 		'symbol_order'             => 'symbol-first',
 		'mt_hide_empty_short_cart' => 'false',
 		'mt_expiration'            => '',
+		'mt_display_remaining'     => 'proportion',
+		'mt_show_closed'           => 'false',
 	);
 
 	return $defaults;

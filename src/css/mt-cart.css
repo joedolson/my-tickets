@@ -59,10 +59,23 @@
 
 .mt-ticket-field {
     display: grid;
-    grid-template-columns: 10em 1fr 4em;
+    grid-template-columns: 12em 1fr 12em;
     column-gap: 12px;
-    align-items: center;
+    align-items: start;
     margin-bottom: .5rem;
+}
+
+.mt-ticket-field .ticket-pricing {
+	display: grid;
+}
+
+.mt-ticket-field span {
+	font-size: clamp( .875rem, 14px, 1.125rem );
+	text-align: right;
+}
+
+.mt-ticket-field .price {
+	font-weight: 700;
 }
 
 fieldset .mt-ticket-field input:not([type=submit]), fieldset .mt-ticket-field select {
