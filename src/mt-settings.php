@@ -85,7 +85,7 @@ function mt_get_settings( $setting = '' ) {
 		$models                       = array_merge( $defaults['defaults'], $options['defaults'] );
 		$options['defaults']          = $models;
 	}
-	$options  = array_merge( $defaults, $options );
+	$options = array_merge( $defaults, $options );
 	if ( ! empty( $setting ) && $options[ $setting ] ) {
 		return $options[ $setting ];
 	}
