@@ -419,7 +419,7 @@ function mt_prices_table( $registration = array() ) {
 				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";
 			}
 			if ( $label ) {
-				$date        = ( '' !== $options['label'] ) ? $options['label'] : date( 'Y-m-d' );
+				$date        = ( '' !== $options['label'] ) ? $options['label'] : gmdate( 'Y-m-d' );
 				$args        = array(
 					'id'    => "mt_label_$label",
 					'name'  => 'mt_label[]',
