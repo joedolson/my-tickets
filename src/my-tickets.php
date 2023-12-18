@@ -1117,17 +1117,17 @@ function mt_check_permissions() {
  */
 function mt_kses_elements() {
 	$elements = array(
-		'h2'       => array(),
-		'h3'       => array(),
-		'h4'       => array(),
-		'label'    => array(
+		'h2'               => array(),
+		'h3'               => array(),
+		'h4'               => array(),
+		'label'            => array(
 			'for' => array(),
 		),
-		'option'   => array(
+		'option'           => array(
 			'value'    => array(),
 			'selected' => array(),
 		),
-		'select'   => array(
+		'select'           => array(
 			'id'               => array(),
 			'aria-describedby' => array(),
 			'aria-labelledby'  => array(),
@@ -1139,7 +1139,18 @@ function mt_kses_elements() {
 			'readonly'         => array(),
 			'autocomplete'     => array(),
 		),
-		'input'    => array(
+		'duet-date-picker' => array(
+			'identifier'        => array(),
+			'first-day-of-week' => array(),
+			'name'              => array(),
+			'value'             => array(),
+			'required'          => array(),
+		),
+		'label'            => array(
+			'for'   => array(),
+			'class' => array(),
+		),
+		'input'            => array(
 			'id'               => array(),
 			'class'            => array(),
 			'aria-describedby' => array(),
@@ -1158,7 +1169,7 @@ function mt_kses_elements() {
 			'step'             => array(),
 			'placeholder'      => array(),
 		),
-		'textarea' => array(
+		'textarea'         => array(
 			'id'               => array(),
 			'class'            => array(),
 			'cols'             => array(),
@@ -1170,14 +1181,14 @@ function mt_kses_elements() {
 			'readonly'         => array(),
 			'name'             => array(),
 		),
-		'form'     => array(
+		'form'             => array(
 			'id'     => array(),
 			'name'   => array(),
 			'action' => array(),
 			'method' => array(),
 			'class'  => array(),
 		),
-		'button'   => array(
+		'button'           => array(
 			'name'             => array(),
 			'disabled'         => array(),
 			'type'             => array(),
@@ -1191,15 +1202,15 @@ function mt_kses_elements() {
 			'data-ticket'      => array(),
 			'data-payment'     => array(),
 		),
-		'ul'       => array(
+		'ul'               => array(
 			'class' => array(),
 		),
-		'fieldset' => array(),
-		'legend'   => array(),
-		'li'       => array(
+		'fieldset'         => array(),
+		'legend'           => array(),
+		'li'               => array(
 			'class' => array(),
 		),
-		'span'     => array(
+		'span'             => array(
 			'id'          => array(),
 			'class'       => array(),
 			'itemprop'    => array(),
@@ -1208,21 +1219,21 @@ function mt_kses_elements() {
 			'aria-live'   => array(),
 			'aria-hidden' => array(),
 		),
-		'strong'   => array(
+		'strong'           => array(
 			'id'    => array(),
 			'class' => array(),
 		),
-		'code'     => array(
+		'code'             => array(
 			'id'    => array(),
 			'class' => array(),
 		),
-		'p'        => array(
+		'p'                => array(
 			'class' => array(),
 		),
-		'em'       => array(
+		'em'               => array(
 			'id' => array(),
 		),
-		'div'      => array(
+		'div'              => array(
 			'class'           => array(),
 			'aria-live'       => array(),
 			'id'              => array(),
@@ -1230,7 +1241,7 @@ function mt_kses_elements() {
 			'data-default'    => array(),
 			'aria-labelledby' => array(),
 		),
-		'img'      => array(
+		'img'              => array(
 			'class'    => true,
 			'src'      => true,
 			'alt'      => true,
@@ -1240,36 +1251,36 @@ function mt_kses_elements() {
 			'longdesc' => true,
 			'tabindex' => true,
 		),
-		'br'       => array(),
-		'table'    => array(
+		'br'               => array(),
+		'table'            => array(
 			'class' => array(),
 			'id'    => array(),
 		),
-		'caption'  => array(),
-		'thead'    => array(),
-		'tfoot'    => array(),
-		'tbody'    => array(),
-		'tr'       => array(
+		'caption'          => array(),
+		'thead'            => array(),
+		'tfoot'            => array(),
+		'tbody'            => array(),
+		'tr'               => array(
 			'class' => array(),
 			'id'    => array(),
 		),
-		'th'       => array(
+		'th'               => array(
 			'scope' => array(),
 			'class' => array(),
 			'id'    => array(),
 		),
-		'td'       => array(
+		'td'               => array(
 			'class'     => array(),
 			'id'        => array(),
 			'aria-live' => array(),
 		),
-		'a'        => array(
+		'a'                => array(
 			'aria-labelledby'  => true,
 			'aria-describedby' => true,
 			'href'             => true,
 			'class'            => true,
 		),
-		'pre'      => array(),
+		'pre'              => array(),
 	);
 
 	return $elements;
