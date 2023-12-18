@@ -106,7 +106,7 @@ function mt_format_array( $output, $type, $data, $purchase_id, $context = 'admin
  */
 function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) {
 	$output  = '';
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	// format purchase.
 	$is_html = ( 'true' === $options['mt_html_email'] || 'html' === $format ) ? true : false;
 	$sep     = ( $is_html ) ? '<br />' : "\n";
@@ -213,7 +213,7 @@ function mt_format_address( $address ) {
 	// format address.
 	$output = '';
 	if ( $address ) {
-		$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$options = mt_get_settings();
 		$sep     = ( 'true' === $options['mt_html_email'] ) ? '<br />' : PHP_EOL;
 		foreach ( $address as $value ) {
 			$separator = ( '' === trim( $value ) ) ? '' : $sep;
@@ -240,7 +240,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 	if ( ! $purchase_id ) {
 		return '';
 	}
-	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options  = mt_get_settings();
 	$output   = '';
 	$show     = '';
 	$move     = '';
@@ -326,7 +326,7 @@ add_filter( 'mt_format_receipt', 'mt_format_receipt' );
  * @return string
  */
 function mt_format_receipt( $receipt ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	if ( 'true' === $options['mt_html_email'] ) {
 		$receipt = "<a href='$receipt'>" . __( 'View your receipt for this purchase', 'my-tickets' ) . '</a>';
 	}
@@ -343,7 +343,7 @@ function mt_format_receipt( $receipt ) {
  * @param bool   $resending Resending this notification.
  */
 function mt_send_notifications( $status = 'Completed', $details = array(), $error = false, $resending = false ) {
-	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options  = mt_get_settings();
 	$blogname = get_option( 'blogname' );
 	$subject  = '';
 	$body     = '';
@@ -561,7 +561,7 @@ add_filter( 'mt_format_notes', 'mt_create_event_notes', 10, 3 );
  * @return string
  */
 function mt_create_event_notes( $event_notes, $purchased, $payment_id ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	if ( is_array( $purchased ) ) {
 		foreach ( $purchased as $event ) {
 			foreach ( $event as $event_id => $tickets ) {
@@ -688,7 +688,7 @@ add_action( 'mt_event_sold_out', 'mt_notify_admin', 10, 3 );
  */
 function mt_notify_admin( $event, $registration, $context ) {
 	$event     = (int) $event;
-	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options   = mt_get_settings();
 	$email     = $options['mt_to'];
 	$blogname  = get_option( 'blogname' );
 	$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
