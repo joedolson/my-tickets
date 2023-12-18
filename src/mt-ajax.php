@@ -71,7 +71,7 @@ add_action( 'wp_ajax_nopriv_mt_ajax_handler', 'mt_ajax_handler' );
  * @uses mt_save_address_failure
  */
 function mt_ajax_handler() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	// verify nonce.
 	if ( ! check_ajax_referer( 'mt-cart-nonce', 'security', false ) ) {
 		wp_send_json(

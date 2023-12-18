@@ -18,7 +18,7 @@ add_filter( 'the_content', 'my_tickets_cart', 20, 2 );
  * @return string
  */
 function my_tickets_cart( $content ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	$id      = ( '' !== $options['mt_purchase_page'] ) ? $options['mt_purchase_page'] : false;
 	if ( is_main_query() && $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		// by default, any page content is appended after the cart. This can be changed.
@@ -134,7 +134,7 @@ function mt_cart_no_postal( $cart ) {
  * @return mixed|string
  */
 function mt_required_fields( $cart, $custom_fields ) {
-	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options   = mt_get_settings();
 	$output    = mt_render_field( 'name' );
 	$output   .= mt_render_field( 'email' );
 	$output   .= ( isset( $options['mt_phone'] ) && 'on' === $options['mt_phone'] ) ? mt_render_field( 'phone' ) : '';
@@ -195,7 +195,7 @@ function mt_invite_login_or_register() {
  * @return string
  */
 function mt_render_types( $types ) {
-	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options   = mt_get_settings();
 	$ticketing = apply_filters( 'mt_ticketing_availability', $options['mt_ticketing'], $types );
 	$default   = isset( $options['mt_ticket_type_default'] ) ? $options['mt_ticket_type_default'] : '';
 	$output    = '<p class="mt-ticket-type"><label for="ticketing_method">' . __( 'Ticket Type', 'my-tickets' ) . '</label> <select name="ticketing_method" id="ticketing_method">';
@@ -218,7 +218,7 @@ function mt_render_types( $types ) {
  * @return string
  */
 function mt_render_type( $type ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	switch ( $type ) {
 		case 'eticket':
 			$return = __( 'Your ticket will be delivered as an e-ticket. You will receive a link in your email.', 'my-tickets' );
@@ -634,7 +634,7 @@ function mt_shipping_country( $country = '' ) {
  * @return bool
  */
 function mt_always_collect_shipping() {
-	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options  = mt_get_settings();
 	$shipping = ( isset( $options['mt_collect_shipping'] ) ) ? $options['mt_collect_shipping'] : false;
 	$shipping = ( 'true' === $shipping ) ? true : false;
 
@@ -648,7 +648,7 @@ function mt_always_collect_shipping() {
  */
 function mt_gateways() {
 	$selector = '';
-	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options  = mt_get_settings();
 	$enabled  = $options['mt_gateway'];
 	if ( 1 === count( $enabled ) ) {
 		return '';
@@ -705,7 +705,7 @@ function mt_generate_expiration() {
  * @return string
  */
 function mt_generate_path( $gateway ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	$path    = '<span class="active"><a href="' . apply_filters( 'mt_home_breadcrumb_url', home_url() ) . '">' . __( 'Home', 'my-tickets' ) . '</a></span>';
 	if ( false === $gateway ) {
 		$path .= '<span class="inactive"><strong>' . __( 'Cart', 'my-tickets' ) . '</strong></span>';
@@ -730,7 +730,7 @@ function mt_generate_path( $gateway ) {
  */
 function mt_generate_cart( $user_ID = false ) {
 	// if submitted successfully & payment required, toggle to payment form.
-	$options     = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options     = mt_get_settings();
 	$gateway     = isset( $_POST['mt_gateway'] ) ? sanitize_text_field( $_POST['mt_gateway'] ) : false;
 	$expiration  = mt_generate_expiration();
 	$breadcrumbs = mt_generate_path( $gateway );
@@ -788,7 +788,7 @@ function mt_generate_cart( $user_ID = false ) {
 					return '';
 				} else {
 					$receipt  = get_post_meta( $post_id, '_receipt', true );
-					$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+					$options  = mt_get_settings();
 					$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
 					$purchase = get_post_meta( $post_id, '_purchased' );
 					$append   = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
@@ -1047,7 +1047,7 @@ function mt_count_cart( $cart ) {
  * @return string
  */
 function mt_generate_gateway( $cart ) {
-	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options    = mt_get_settings();
 	$return_url = get_permalink( $options['mt_purchase_page'] );
 	// Translators: cart url.
 	$link         = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
@@ -1113,7 +1113,7 @@ function mt_wrap_payment_button( $form ) {
  * @return mixed
  */
 function mt_replace_http( $url ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	if ( 'true' === $options['mt_ssl'] ) {
 		$url = preg_replace( '|^http://|', 'https://', $url );
 	}

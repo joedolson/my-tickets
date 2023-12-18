@@ -14,7 +14,7 @@ add_action( 'init', 'mt_handle_cart' );
  * Handle cart submission. Receive data, create payment, delete cart if applicable, register message.
  */
 function mt_handle_cart() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	if ( ! isset( $_POST['mt_submit'] ) ) {
 		return;
 	} else {
@@ -67,7 +67,7 @@ function mt_is_payment_completed( $payment ) {
  * @return array|int|mixed|WP_Error
  */
 function mt_create_payment( $post ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	// save payment post.
 	$current_user = wp_get_current_user();
 	$purchaser    = ( is_user_logged_in() ) ? $current_user->ID : 1;
@@ -371,7 +371,7 @@ function mt_check_payment_amount( $price, $purchase_id ) {
  * Execute a refresh of the My Tickets primary URL caches if caching plug-in installed.
  */
 function mt_refresh_cache() {
-	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options    = mt_get_settings();
 	$receipts   = $options['mt_receipt_page'];
 	$tickets    = $options['mt_tickets_page'];
 	$purchase   = $options['mt_purchase_page'];
