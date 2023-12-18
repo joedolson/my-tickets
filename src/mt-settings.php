@@ -398,7 +398,7 @@ add_action( 'admin_enqueue_scripts', 'mt_wp_enqueue_scripts' );
 function mt_wp_enqueue_scripts() {
 	global $current_screen;
 	$version = ( true === SCRIPT_DEBUG ) ? wp_rand( 10000, 100000 ) : mt_get_current_version();
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	if ( isset( $_GET['page'] ) && 'my-tickets' === $_GET['page'] ) {
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ), $version );
 		wp_localize_script(
@@ -409,14 +409,70 @@ function mt_wp_enqueue_scripts() {
 			)
 		);
 	}
-	if ( isset( $_GET['page'] ) && 'mt-ticketing' === $_GET['page'] ) {
-		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ), $version );
+	if ( isset( $_GET['page'] ) && 'mt-ticketing' === $_GET['page'] || ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) ) {
+		wp_register_script( 'mt.duet', plugins_url( 'js/duet/duet.js', __FILE__ ), array(), $version );
+		wp_enqueue_style( 'mt.duet', plugins_url( 'js/duet/themes/default.css', __FILE__ ), array(), $version );
+		wp_enqueue_script( 'mt.add', plugins_url( 'js/pricing-table.js', __FILE__ ), array( 'jquery', 'mt.duet' ), $version );
 		wp_localize_script(
 			'mt.add',
 			'mt',
 			array(
 				'delete' => __( 'Delete', 'my-tickets' ),
 				'undo'   => __( 'Undo Deletion', 'my-tickets' ),
+			)
+		);
+		wp_localize_script(
+			'mt.duet',
+			'duetLocalization',
+			array(
+				'buttonLabel'         => __( 'Choose date', 'my-tickets' ),
+				'placeholder'         => 'YYYY-MM-DD',
+				'selectedDateMessage' => __( 'Selected date is', 'my-tickets' ),
+				'prevMonthLabel'      => __( 'Previous month', 'my-tickets' ),
+				'nextMonthLabel'      => __( 'Next month', 'my-tickets' ),
+				'monthSelectLabel'    => __( 'Month', 'my-tickets' ),
+				'yearSelectLabel'     => __( 'Year', 'my-tickets' ),
+				'closeLabel'          => __( 'Close window', 'my-tickets' ),
+				'keyboardInstruction' => __( 'You can use arrow keys to navigate dates', 'my-tickets' ),
+				'calendarHeading'     => __( 'Choose a date', 'my-tickets' ),
+				'dayNames'            => array(
+					date_i18n( 'D', strtotime( 'Sunday' ) ),
+					date_i18n( 'D', strtotime( 'Monday' ) ),
+					date_i18n( 'D', strtotime( 'Tuesday' ) ),
+					date_i18n( 'D', strtotime( 'Wednesday' ) ),
+					date_i18n( 'D', strtotime( 'Thursday' ) ),
+					date_i18n( 'D', strtotime( 'Friday' ) ),
+					date_i18n( 'D', strtotime( 'Saturday' ) ),
+				),
+				'monthNames'          => array(
+					date_i18n( 'F', strtotime( 'January 1' ) ),
+					date_i18n( 'F', strtotime( 'February 1' ) ),
+					date_i18n( 'F', strtotime( 'March 1' ) ),
+					date_i18n( 'F', strtotime( 'April 1' ) ),
+					date_i18n( 'F', strtotime( 'May 1' ) ),
+					date_i18n( 'F', strtotime( 'June 1' ) ),
+					date_i18n( 'F', strtotime( 'July 1' ) ),
+					date_i18n( 'F', strtotime( 'August 1' ) ),
+					date_i18n( 'F', strtotime( 'September 1' ) ),
+					date_i18n( 'F', strtotime( 'October 1' ) ),
+					date_i18n( 'F', strtotime( 'November 1' ) ),
+					date_i18n( 'F', strtotime( 'December 1' ) ),
+				),
+				'monthNamesShort'     => array(
+					date_i18n( 'M', strtotime( 'January 1' ) ),
+					date_i18n( 'M', strtotime( 'February 1' ) ),
+					date_i18n( 'M', strtotime( 'March 1' ) ),
+					date_i18n( 'M', strtotime( 'April 1' ) ),
+					date_i18n( 'M', strtotime( 'May 1' ) ),
+					date_i18n( 'M', strtotime( 'June 1' ) ),
+					date_i18n( 'M', strtotime( 'July 1' ) ),
+					date_i18n( 'M', strtotime( 'August 1' ) ),
+					date_i18n( 'M', strtotime( 'September 1' ) ),
+					date_i18n( 'M', strtotime( 'October 1' ) ),
+					date_i18n( 'M', strtotime( 'November 1' ) ),
+					date_i18n( 'M', strtotime( 'December 1' ) ),
+				),
+				'locale'              => str_replace( '_', '-', get_locale() ),
 			)
 		);
 	}
@@ -485,17 +541,39 @@ function mt_wp_enqueue_scripts() {
 		);
 	}
 	if ( 'post' === $current_screen->base && in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
-		wp_enqueue_script( 'mt.add', plugins_url( 'js/jquery.addfields.js', __FILE__ ), array( 'jquery' ), $version );
-		wp_localize_script(
-			'mt.add',
-			'mt',
-			array(
-				'delete' => __( 'Delete', 'my-tickets' ),
-				'undo'   => __( 'Undo Deletion', 'my-tickets' ),
-			)
-		);
 		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ), $version, true );
 	}
+}
+
+/**
+ * Generate date picker output.
+ *
+ * @param array $args Array of field arguments.
+ *
+ * @return string
+ */
+function mt_datepicker_html( $args ) {
+	$sweek    = absint( get_option( 'start_of_week' ) );
+	$firstday = ( 1 === $sweek || 0 === $sweek ) ? $sweek : 0;
+
+	$id       = isset( $args['id'] ) ? esc_attr( $args['id'] ) : 'id_arg_missing';
+	$name     = isset( $args['name'] ) ? esc_attr( $args['name'] ) : 'name_arg_missing';
+	$value    = isset( $args['value'] ) ? esc_attr( $args['value'] ) : '';
+	$required = isset( $args['required'] ) ? 'required' : '';
+	$output   = "<duet-date-picker first-day-of-week='$firstday' identifier='$id' name='$name' value='$value' $required></duet-date-picker><input type='date' id='$id' name='$name' value='$value' $required class='duet-fallback' />";
+	/**
+	 * Filter the My Tickets datepicker output.
+	 *
+	 * @hook mt_datepicker_html
+	 *
+	 * @param {string} $output Default datepicker output.
+	 * @param {array}  $args Datepicker setup arguments.
+	 *
+	 * @return {string}
+	 */
+	$output = apply_filters( 'mt_datepicker_html', $output, $args );
+
+	return $output;
 }
 
 add_action( 'wp_ajax_delete_ticket', 'mt_ajax_delete_ticket' );
@@ -677,7 +755,7 @@ add_action( 'wp_ajax_mt_event_lookup', 'mt_event_lookup' );
  * AJAX event lookup.
  */
 function mt_event_lookup() {
-	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options    = mt_get_settings();
 	$post_types = $options['mt_post_types'];
 	if ( isset( $_REQUEST['term'] ) ) {
 		$posts       = get_posts(

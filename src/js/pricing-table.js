@@ -55,3 +55,16 @@ jQuery(document).ready(function ($) {
         }
     });
 });
+
+window.customElements.whenDefined( 'duet-date-picker' ).then(() => {
+	elem = document.querySelectorAll('.duet-fallback');
+	elem.forEach((el) => {
+		el.parentNode.removeChild(el);
+	});
+});
+
+const pickers = Array.prototype.slice.apply( document.querySelectorAll( 'duet-date-picker' ) );
+
+pickers.forEach((picker) => {
+	picker.localization = duetLocalization;
+});

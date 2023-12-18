@@ -13,10 +13,18 @@
 	column-gap: 5px;
 }
 
+.duet-date__table .duet-date__cell {
+	padding: 0;
+}
+
 .mt-move-tickets {
 	position: relative;
 	display: none;
 	margin-bottom: 24px;
+}
+
+.mt-date-time-picker {
+	display: flex;
 }
 
 .wrap .admin-tickets .mt-ticket-moved-response {

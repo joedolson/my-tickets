@@ -19,7 +19,7 @@ add_action( 'admin_menu', 'mt_add_ticket_box' );
  * Add purchase data meta box to enabled post types.
  */
 function mt_add_ticket_box() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	foreach ( $options['mt_post_types'] as $name ) {
 		if ( 'mc-events' !== $name ) {
 			add_meta_box( 'mt_custom_div', __( 'My Tickets Purchase Data', 'my-tickets' ), 'mt_add_ticket_form', $name, 'normal', 'high' );
@@ -40,7 +40,7 @@ function mt_add_ticket_form() {
 	$data     = get_post_meta( $post_id, '_mc_event_data', true );
 	$location = get_post_meta( $post_id, '_mc_event_location', true );
 
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options       = mt_get_settings();
 	$purchase_page = $options['mt_purchase_page'];
 	$receipt_page  = $options['mt_purchase_page'];
 	$tickets_page  = $options['mt_tickets_page'];
@@ -225,7 +225,7 @@ function mt_get_prices( $event_id, $payment_id = false ) {
  * @return float
  */
 function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	if ( is_user_logged_in() ) { // members discount.
 		if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			$discount = 0;
@@ -259,7 +259,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
  */
 function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	$original_form = $form;
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options       = mt_get_settings();
 	$registration  = array();
 	$event_id      = false;
 	$description   = false;
@@ -380,16 +380,17 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
  * @return string
  */
 function mt_prices_table( $registration = array() ) {
-	$counting  = $registration['counting_method'];
-	$pricing   = mt_get_settings( 'defaults' )[ $counting ];
-	$available = '';
-	$tickets   = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
-	$return    = "<table class='widefat mt-pricing'>
+	$counting    = $registration['counting_method'];
+	$available   = '';
+	$tickets     = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
+	$label       = ( 'event' === $counting ) ? __( 'Event Date & Time', 'my-tickets' ) : __( 'Label', 'my-tickets' );
+	$type        = ( 'event' === $counting ) ? 'hidden' : 'text';
+	$return      = "<table class='widefat mt-pricing mt-$counting'>
 					<caption>" . __( 'Ticket Prices and Availability', 'my-tickets' ) . "</caption>
 					<thead>
 						<tr>
 							<th scope='col'>" . __( 'Move', 'my-tickets' ) . "</th>
-							<th scope='col'>" . __( 'Label', 'my-tickets' ) . "</th>
+							<th scope='col'>" . $label . "</th>
 							<th scope='col'>" . __( 'Price', 'my-tickets' ) . "</th>
 							<th scope='col'>" . __( 'Available', 'my-tickets' ) . "</th>
 							<th scope='col'>" . __( 'Sold', 'my-tickets' ) . "</th>
@@ -397,7 +398,7 @@ function mt_prices_table( $registration = array() ) {
 						</tr>
 					</thead>
 					<tbody>';
-	$counting  = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $counting;
+	$counting    = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $counting;
 	if ( 'discrete' === $counting || 'event' === $counting ) {
 		$available_empty = "<input type='text' name='mt_tickets[]' id='mt_tickets' value='' size='8' />";
 		$total           = '<input type="hidden" name="mt_tickets_total" value="inherit" />';
@@ -409,7 +410,7 @@ function mt_prices_table( $registration = array() ) {
 		$total           = "<p class='mt-available-tickets'><label for='mt_tickets_total'>" . __( 'Total Tickets Available', 'my-tickets' ) . ':</label> <input ' . $disabled . ' type="text" name="mt_tickets_total" id="mt_tickets_total" aria-describedby="ticket-counting-status" value="' . esc_attr( $value ) . '" />' . $notice . '</p>';
 	}
 	$labels_index = array();
-	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $pricing; // array of prices; label => cost/available/sold.
+	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $registration['pricing']; // array of prices; label => cost/available/sold.
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $label => $options ) {
 			if ( 'discrete' === $counting || 'event' === $counting ) {
@@ -418,6 +419,14 @@ function mt_prices_table( $registration = array() ) {
 				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";
 			}
 			if ( $label ) {
+				$args        = array(
+					'id'    => "mt_label_$label",
+					'name'  => 'mt_label[]',
+					'value' => date( 'Y-m-d', strtotime( $options['label'] ) ),
+				);
+				$label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time[]" id="mt_label_picker_time_' . $label . '"></div>' : '';
+				$label_class = ( 'event' === $counting ) ? 'duet-fallback' : '';
+
 				$class   = ( 0 !== (int) $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
 				$sold    = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
 				$close   = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? '' : ( isset( $options['close'] ) ? $options['close'] : '' );
@@ -428,7 +437,7 @@ function mt_prices_table( $registration = array() ) {
 						<button type='button' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "</span></button> 
 						<button type='button' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "</span></button>
 					</td>
-					<td><input type='text' name='mt_label[]' id='mt_label_$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps</td>
+					<td>$label_field<input type='$type' class='$label_class' name='mt_label[]' id='mt_label_$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps</td>
 					<td><input type='number' name='mt_price[]' step='0.01' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
 					<td><input type='hidden' name='mt_sold[]' value='" . $sold . "' />" . $sold . '</td>
@@ -529,13 +538,14 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	$event_begin     = ( isset( $post['event_begin'] ) ) ? $post['event_begin'] : '';
 	$event_begin     = ( is_array( $event_begin ) ) ? $event_begin[0] : $event_begin;
 	$labels          = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
+	$times           = ( isset( $post['mt_label_time'] ) ) ? $post['mt_label_time'] : array();
 	$prices          = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
 	$sold            = ( isset( $post['mt_sold'] ) ) ? $post['mt_sold'] : array();
 	$close           = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : array();
 	$hide            = ( isset( $post['mt_hide_registration_form'] ) ) ? 'true' : 'false';
 	$availability    = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : 'inherit';
 	$total_tickets   = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
-	$pricing_array   = mt_setup_pricing( $labels, $prices, $availability, $close, $sold );
+	$pricing_array   = mt_setup_pricing( $labels, $prices, $availability, $close, $sold, $times );
 	$reg_expires     = ( isset( $post['reg_expires'] ) ) ? (int) $post['reg_expires'] : 0;
 	$multiple        = ( isset( $post['mt_multiple'] ) ) ? 'true' : 'false';
 	$mt_sales_type   = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
@@ -545,7 +555,7 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	$notes           = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
 	$clear           = ( isset( $post['mt-delete-data'] ) ) ? true : false;
 	if ( $clear ) {
-		$pricing_array = mt_setup_pricing( $labels, $prices, $availability, $close, array() );
+		$pricing_array = mt_setup_pricing( $labels, $prices, $availability, $close, array(), $times );
 		$tickets       = get_post_meta( $post_id, '_ticket' );
 		foreach ( $tickets as $ticket_id ) {
 			// Delete individual ticket IDs.
@@ -605,16 +615,17 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
  * @param array $availability Availability for tickets.
  * @param array $close Dates when specific ticket types could go off sale.
  * @param array $sold array - empty when event is created.
+ * @param array $times Array of event times when counting as individual events.
  *
  * @return array ticket data
  */
-function mt_setup_pricing( $labels, $prices, $availability, $close, $sold = array() ) {
+function mt_setup_pricing( $labels, $prices, $availability, $close, $sold = array(), $times = array() ) {
 	$return = array();
 	if ( is_array( $labels ) ) {
 		$i = 0;
-		foreach ( $labels as $label ) {
+		foreach ( $labels as $key => $label ) {
 			if ( $label ) {
-				$label          = esc_html( $label );
+				$label          = ( isset( $times[ $key ] ) ) ? $label . ' ' . $times[ $key ] : $label;
 				$internal_label = sanitize_title( $label );
 				$price          = ( is_numeric( $prices[ $i ] ) ) ? $prices[ $i ] : (int) $prices[ $i ];
 				if ( isset( $availability[ $i ] ) && '' !== $availability[ $i ] ) {
@@ -625,7 +636,7 @@ function mt_setup_pricing( $labels, $prices, $availability, $close, $sold = arra
 				$sold_tickets              = ( isset( $sold[ $i ] ) ) ? (int) $sold[ $i ] : '';
 				$closing                   = ( isset( $close[ $i ] ) ) ? strtotime( $close[ $i ] ) : '';
 				$return[ $internal_label ] = array(
-					'label'   => $label,
+					'label'   => esc_html( $label ),
 					'price'   => $price,
 					'tickets' => $tickets,
 					'sold'    => $sold_tickets,

@@ -652,7 +652,7 @@ We\'ll see you soon!<br />
 		'defaults'                 => array(
 			'continuous' => $continuous,
 			'discrete'   => $discrete,
-			'showtimes'  => $showtime,
+			'event'      => $showtime,
 		),
 		'messages'                 => $messages,
 		'mt_post_types'            => array( 'mc-events', 'page' ),
