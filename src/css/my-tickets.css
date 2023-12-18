@@ -17,6 +17,10 @@
 	padding: 0;
 }
 
+td duet-date-picker .duet-date:not(:last-of-type) {
+	display: none;
+}
+
 .mt-move-tickets {
 	position: relative;
 	display: none;

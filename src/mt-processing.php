@@ -419,10 +419,11 @@ function mt_prices_table( $registration = array() ) {
 				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";
 			}
 			if ( $label ) {
+				$date        = ( '' !== $options['label'] ) ? $options['label'] : date( 'Y-m-d' );
 				$args        = array(
 					'id'    => "mt_label_$label",
 					'name'  => 'mt_label[]',
-					'value' => gmdate( 'Y-m-d', strtotime( $options['label'] ) ),
+					'value' => gmdate( 'Y-m-d', strtotime( $date ) ),
 				);
 				$label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time[]" id="mt_label_picker_time_' . $label . '"></div>' : '';
 				$label_class = ( 'event' === $counting ) ? 'duet-fallback' : '';
@@ -472,7 +473,7 @@ function mt_prices_table( $registration = array() ) {
 	$return   .= "
 		<tr class='clonedPrice' id='price1'>
 			<td></td>
-			<td><input type='text' name='mt_label[]' id='mt_label' /></td>
+			<td>$label_field<input type='text' class='" . $label_class . "' name='mt_label[]' id='mt_label' /></td>
 			<td><input type='text' name='mt_price[]' id='mt_price' step='0.01' size='8' /></td>
 			<td>$available_empty</td>
 			<td></td>
