@@ -19,7 +19,7 @@
  * @return array
  */
 function mt_get_events_by_term( $term, $taxonomy = 'mt-event-group', $types = array() ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	$types   = ( empty( $types ) ) ? $options['mt_post_types'] : $types;
 	$args    = array(
 		'post_type'      => $types,

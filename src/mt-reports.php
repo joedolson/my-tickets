@@ -366,7 +366,7 @@ function mt_email_purchasers() {
  */
 function mt_select_events() {
 	// fetch posts with meta data for event sales.
-	$settings = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$settings = mt_get_settings();
 	// add time query to this query after timestamp field has been in place for a few months.
 	// only show limit of 100 events.
 	$args    =
@@ -1001,7 +1001,7 @@ function mt_mass_email( $event_id = false ) {
 			return;
 		}
 		$event       = get_the_title( $event_id );
-		$options     = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$options     = mt_get_settings();
 		$purchasers  = mt_get_purchasers( $event_id );
 		$count       = count( $purchasers );
 		$emails_sent = 0;

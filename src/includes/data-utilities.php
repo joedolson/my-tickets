@@ -188,7 +188,7 @@ function mt_get_unique_id() {
  * @return int Number of seconds cart will last.
  */
 function mt_expiration_window() {
-	$options    = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options    = mt_get_settings();
 	$expiration = $options['mt_expiration'];
 	// Doesn't support less than 10 minutes.
 	if ( ! $expiration || (int) $expiration < 600 ) {

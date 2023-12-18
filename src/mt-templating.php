@@ -26,7 +26,7 @@ use chillerlan\QRCode\QROptions;
  * @return string
  */
 function mt_get_logo( $args = array(), $post_ID = false ) {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	$ticket  = mt_get_ticket();
 	if ( isset( $options['mt_ticket_image'] ) && 'event' === $options['mt_ticket_image'] && $ticket ) {
 		// if event has post thumbnail, use that.
@@ -714,7 +714,7 @@ function mt_ticket_price( $ticket_id = false ) {
  * @param bool|string $ticket_id Ticket ID.
  */
 function mt_get_ticket_qrcode( $ticket_id = false ) {
-	$options   = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options   = mt_get_settings();
 	$id        = ( '' !== $options['mt_purchase_page'] && is_numeric( $options['mt_purchase_page'] ) ) ? absint( $options['mt_purchase_page'] ) : false;
 	$ticket_id = ( $ticket_id ) ? $ticket_id : mt_get_ticket_id();
 	$url       = esc_url_raw(

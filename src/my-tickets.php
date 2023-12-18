@@ -255,7 +255,7 @@ register_activation_hook( __FILE__, 'mt_activation' );
  * On plug-in activation, merge default settings and options, create purchase pages if necessary.
  */
 function mt_activation() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	if ( ! isset( $options['mt_purchase_page'] ) || ! is_numeric( $options['mt_purchase_page'] ) ) {
 		$purchase                    = mt_setup_page( 'purchase' );
 		$receipt                     = mt_setup_page( 'receipt' );
@@ -286,7 +286,7 @@ function mt_plugin_deactivated() {
  */
 function mt_admin_state( $states, $post ) {
 	if ( is_admin() ) {
-		$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$options = mt_get_settings();
 		if ( absint( $options['mt_purchase_page'] ) === $post->ID ) {
 			$states[] = __( 'Shopping Cart Page', 'my-tickets' );
 		}
@@ -399,7 +399,7 @@ function mt_public_enqueue_scripts() {
 	} else {
 		$ticket_styles = plugins_url( '/css/mt-cart.css', __FILE__ );
 	}
-	$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options  = mt_get_settings();
 	$symbol   = mt_symbols( $options['mt_currency'] );
 	$cart_url = esc_url( get_permalink( $options['mt_purchase_page'] ) );
 	$redirect = isset( $options['mt_redirect'] ) ? $options['mt_redirect'] : '0';
@@ -743,7 +743,7 @@ function mt_admin_bar() {
 			'href'  => $url,
 		);
 		$wp_admin_bar->add_node( $args );
-		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$options       = mt_get_settings();
 		$purchase_page = ( $options['mt_purchase_page'] ) ? esc_url( get_permalink( $options['mt_purchase_page'] ) ) : '';
 		if ( $purchase_page ) {
 			$args = array(
@@ -820,7 +820,7 @@ function mt_register_actions() {
  * @return array
  */
 function mt_headers( $headers, $wp ) {
-	$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options       = mt_get_settings();
 	$purchase_page = $options['mt_purchase_page'];
 	if ( is_page( $purchase_page ) ) {
 		$headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0';
@@ -846,7 +846,7 @@ add_action( 'wp_footer', 'mt_test_mode' );
  * Display message if in testing mode.
  */
 function mt_test_mode() {
-	$options = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+	$options = mt_get_settings();
 	if ( 'true' === $options['mt_use_sandbox'] ) {
 		echo "<div class='mt_sandbox_enabled'>" . __( 'My Tickets is currently in testing mode. No financial transactions will be processed.', 'my-tickets' ) . '</div>';
 	}
@@ -975,7 +975,7 @@ add_filter( 'mt_money_format', 'mt_money_format', 10, 1 );
  */
 function mt_money_format( $price ) {
 	if ( is_numeric( $price ) ) {
-		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$options       = mt_get_settings();
 		$symbol        = mt_symbols( $options['mt_currency'] );
 		$dec_point     = $options['mt_dec_point'];
 		$thousands_sep = $options['mt_thousands_sep'];

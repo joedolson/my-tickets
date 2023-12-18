@@ -85,7 +85,7 @@ add_filter( 'mt_gateway', 'mt_gateway_offline', 10, 3 );
  */
 function mt_gateway_offline( $form, $gateway, $args ) {
 	if ( 'offline' === $gateway ) {
-		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$options        = mt_get_settings();
 		$payment_id     = $args['payment'];
 		$handling       = mt_get_cart_handling( $options, $gateway );
 		$total          = $args['total'] + $handling;
@@ -116,7 +116,7 @@ add_action( 'wp_loaded', 'mt_offline_processor' );
  */
 function mt_offline_processor() {
 	if ( isset( $_POST['mt_gateway_offline'] ) && 'true' === $_POST['mt_gateway_offline'] ) {
-		$options       = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$options       = mt_get_settings();
 		$response      = 'VERIFIED';
 		$response_code = 200;
 		$cart          = mt_get_cart();

@@ -22,7 +22,7 @@ add_action( 'mt_receive_ipn', 'mt_paypal_ipn' );
 function mt_paypal_ipn() {
 	if ( isset( $_REQUEST['mt_paypal_ipn'] ) && 'true' === $_REQUEST['mt_paypal_ipn'] ) {
 		if ( isset( $_POST['payment_status'] ) ) {
-			$options  = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+			$options  = mt_get_settings();
 			$receiver = ( isset( $options['mt_gateways']['paypal']['email'] ) ) ? strtolower( $options['mt_gateways']['paypal']['email'] ) : false;
 			$url      = ( 'true' === $options['mt_use_sandbox'] ) ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' : 'https://ipnpb.paypal.com/cgi-bin/webscr';
 
@@ -247,7 +247,7 @@ add_filter( 'mt_gateway', 'mt_gateway_paypal', 10, 3 );
  */
 function mt_gateway_paypal( $form, $gateway, $args ) {
 	if ( 'paypal' === $gateway ) {
-		$options        = array_merge( mt_default_settings(), get_option( 'mt_settings', array() ) );
+		$options        = mt_get_settings();
 		$payment_id     = $args['payment'];
 		$handling       = mt_get_cart_handling( $options, $gateway );
 		$total          = $args['total'] + $handling;
