@@ -497,7 +497,7 @@ function mt_default_settings() {
 		),
 	);
 
-	$messages  = array(
+	$messages   = array(
 		'completed' => array(
 			'purchaser' => array(
 				'subject' => 'Thanks for your purchase from {blogname}',
@@ -610,7 +610,7 @@ We\'ll see you soon!<br />
 		'reg_expires'     => '3',
 		'multiple'        => 'true',
 		'pricing'         => array(
-			'section-a'          => array(
+			'section-a' => array(
 				'label'   => 'Section A',
 				'price'   => '20',
 				'tickets' => '40',

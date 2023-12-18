@@ -499,8 +499,7 @@ function mt_currency() {
  * @return bool
  */
 function mt_zerodecimal_currency() {
-	$options  = mt_get_settings();
-
+	$options    = mt_get_settings();
 	$currency   = $options['mt_currency'];
 	$currencies = mt_currency();
 	$data       = $currencies[ $currency ];

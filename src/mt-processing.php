@@ -380,12 +380,12 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
  * @return string
  */
 function mt_prices_table( $registration = array() ) {
-	$counting    = $registration['counting_method'];
-	$available   = '';
-	$tickets     = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
-	$label       = ( 'event' === $counting ) ? __( 'Event Date & Time', 'my-tickets' ) : __( 'Label', 'my-tickets' );
-	$type        = ( 'event' === $counting ) ? 'hidden' : 'text';
-	$return      = "<table class='widefat mt-pricing mt-$counting'>
+	$counting  = $registration['counting_method'];
+	$available = '';
+	$tickets   = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
+	$label     = ( 'event' === $counting ) ? __( 'Event Date & Time', 'my-tickets' ) : __( 'Label', 'my-tickets' );
+	$type      = ( 'event' === $counting ) ? 'hidden' : 'text';
+	$return    = "<table class='widefat mt-pricing mt-$counting'>
 					<caption>" . __( 'Ticket Prices and Availability', 'my-tickets' ) . "</caption>
 					<thead>
 						<tr>
@@ -398,7 +398,7 @@ function mt_prices_table( $registration = array() ) {
 						</tr>
 					</thead>
 					<tbody>';
-	$counting    = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $counting;
+	$counting  = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $counting;
 	if ( 'discrete' === $counting || 'event' === $counting ) {
 		$available_empty = "<input type='text' name='mt_tickets[]' id='mt_tickets' value='' size='8' />";
 		$total           = '<input type="hidden" name="mt_tickets_total" value="inherit" />';
@@ -422,7 +422,7 @@ function mt_prices_table( $registration = array() ) {
 				$args        = array(
 					'id'    => "mt_label_$label",
 					'name'  => 'mt_label[]',
-					'value' => date( 'Y-m-d', strtotime( $options['label'] ) ),
+					'value' => gmdate( 'Y-m-d', strtotime( $options['label'] ) ),
 				);
 				$label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time[]" id="mt_label_picker_time_' . $label . '"></div>' : '';
 				$label_class = ( 'event' === $counting ) ? 'duet-fallback' : '';
