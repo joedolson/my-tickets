@@ -328,9 +328,9 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		</fieldset>
 		<fieldset><legend>' . __( 'Ticket Counting Method', 'my-tickets' ) . "</legend>
 			<p>
-				<input type='radio' name='mt_counting_method' id='mt_counting_method_discrete' value='discrete' " . checked( $method, 'discrete' ) . " /> <label for='mt_counting_method_discrete'>" . __( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ) . "</label><br />
-				<input type='radio' name='mt_counting_method' id='mt_counting_method_continuous' value='continuous' " . checked( $method, 'continuous' ) . " /> <label for='mt_counting_method_continuous'>" . __( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ) . "</label><br />
-				<input type='radio' name='mt_counting_method' id='mt_counting_method_event' value='event' " . checked( $method, 'event' ) . " /> <label for='mt_counting_method_event'>" . __( 'Events (Jan 1st, 2pm)', 'my-tickets' ) . '</label>
+				<input type='radio' name='mt_counting_method' id='mt_counting_method_discrete' value='discrete' " . checked( $method, 'discrete', false ) . " /> <label for='mt_counting_method_discrete'>" . __( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ) . "</label><br />
+				<input type='radio' name='mt_counting_method' id='mt_counting_method_continuous' value='continuous' " . checked( $method, 'continuous', false ) . " /> <label for='mt_counting_method_continuous'>" . __( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ) . "</label><br />
+				<input type='radio' name='mt_counting_method' id='mt_counting_method_event' value='event' " . checked( $method, 'event', false ) . " /> <label for='mt_counting_method_event'>" . __( 'Events (Jan 1st, 2pm)', 'my-tickets' ) . '</label>
 			</p>
 		</fieldset></div>';
 	if ( false !== $description ) {
@@ -380,6 +380,9 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
  * @return string
  */
 function mt_prices_table( $registration = array() ) {
+	if ( empty( $registration ) ) {
+		$registration = mt_get_settings( 'defaults' )['continuous'];
+	}
 	$counting  = $registration['counting_method'];
 	$available = '';
 	$tickets   = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
