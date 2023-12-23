@@ -239,6 +239,7 @@ function mt_is_cart_expired() {
 			if ( time() > $data_age ) {
 				// Expire user's cart after the data ages out.
 				delete_user_meta( $current_user->ID, "_mt_user_$type" );
+				delete_user_meta( $current_user->ID, "_mt_user_init_$type" );
 			}
 		}
 	} else {
