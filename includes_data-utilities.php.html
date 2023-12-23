@@ -154,6 +154,8 @@ function mt_get_data( $type, $user_ID = false ) {
 
 add_action( 'init', 'mt_set_user_unique_id' );
 /**
+ * Set a cookie with a random ID for the current user.
+ *
  * Note: if sitecookiepath doesn't match the site's render location, this won't work.
  * It'll also create a secondary issue where AJAX actions read the sitecookiepath cookie.
  */

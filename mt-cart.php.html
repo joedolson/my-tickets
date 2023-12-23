@@ -1215,8 +1215,10 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 	$cart      = array();
 	$unique_id = mt_get_unique_id();
 	if ( $user_ID ) {
+		// Logged-in user data is saved in user meta.
 		$cart = get_user_meta( $user_ID, '_mt_user_cart', true );
 	} elseif ( ! $user_ID &amp;&amp; $cart_id ) {
+		// Public data is saved in transients.
 		$cart = get_transient( 'mt_' . $cart_id . '_cart' );
 	} else {
 		if ( is_user_logged_in() ) {
@@ -1233,20 +1235,8 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 			$cart = get_transient( 'mt_' . $unique_id . '_cart' );
 		}
 	}
-	return $cart;
-}
 
-add_action( 'wp_head', 'mt_cart_meta', 1 );
-/**
- * Adds the user's cart ID into &lt;head> meta data for admin retrieval for customer assistance.
- *
- * Cart Data does not expose any user-specific information; contains only event ID and tickets selected.
- */
-function mt_cart_meta() {
-	$unique_id = mt_get_unique_id();
-	if ( $unique_id ) {
-		echo "&lt;meta name='cart_id' value='" . esc_attr( $unique_id ) . "' />\n";
-	}
+	return $cart;
 }
 </code></pre>
         </article>
