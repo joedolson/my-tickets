@@ -146,10 +146,10 @@
 		});
 
 		var orderButton = $( '.ticket-orders button' );
-	   orderButton.on( 'click', function(e) {
-		   var fields       = [];
-		   let allAreFilled = true;
-			$( ".ticket-orders *[required]").each(function(index,i) {
+	 	orderButton.on( 'click', function(e) {
+			var fields       = [];
+			let allAreFilled = true;
+			$( ".ticket-orders *[required]" ).each(function(index,i) {
 				if ( !i.value ) {
 					allAreFilled = false;
 					fields.push( i );
@@ -176,7 +176,7 @@
 					var error = '<li><a href="#' + id + '">' + name + '</a></li>';
 					list += error;
 				});
-				response.html( '<p>Please complete all required fields!</p><ul>' + list + '</ul>' );
+				response.html( '<p>' + mt_ajax.requiredFieldsText + '</p><ul>' + list + '</ul>' );
 			} else {
 				$('.mt-processing').show();
 				e.preventDefault();

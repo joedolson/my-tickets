@@ -425,12 +425,13 @@ function mt_public_enqueue_scripts() {
 		'mt.public',
 		'mt_ajax',
 		array(
-			'action'   => 'mt_ajax_handler',
-			'url'      => admin_url( 'admin-ajax.php' ),
-			'security' => wp_create_nonce( 'mt-cart-nonce' ),
-			'currency' => $symbol,
-			'cart_url' => $cart_url,
-			'redirect' => $redirect,
+			'action'             => 'mt_ajax_handler',
+			'url'                => admin_url( 'admin-ajax.php' ),
+			'security'           => wp_create_nonce( 'mt-cart-nonce' ),
+			'currency'           => $symbol,
+			'cart_url'           => $cart_url,
+			'redirect'           => $redirect,
+			'requiredFieldsText' => __( 'Please complete all required fields!', 'my-tickets' ),
 		)
 	);
 	$enabled  = $options['mt_gateway'];
