@@ -786,7 +786,7 @@ function mt_get_report_data_by_time() {
 	foreach ( $custom_fields as $name => $field ) {
 		$custom_headers .= ',"' . $field['title'] . '"';
 	}
-	$csv[] = '"Last Name","First Name","Email","Ticket Type","Purchase Value","Status","Events","Date"' . $custom_headers . PHP_EOL;
+	$csv[] = '"Last Name","First Name","Email","Ticket Type","Purchase Value","Status","Events","Event Dates","Purchase Date"' . $custom_headers . PHP_EOL;
 	foreach ( $posts as $post ) {
 		$purchaser  = get_the_title( $post->ID );
 		$first_name = get_post_meta( $post->ID, '_first_name', true );
@@ -806,6 +806,7 @@ function mt_get_report_data_by_time() {
 		$date         = get_the_time( 'Y-m-d', $post->ID );
 		$time         = get_the_time( get_option( 'time_format' ), $post->ID );
 		$titles       = array();
+		$dates        = array();
 		foreach ( $purchased as $purchase ) {
 			foreach ( $purchase as $event => $purch ) {
 				// If, after iterating over an event's tickets, there are none, don't include.
@@ -817,7 +818,9 @@ function mt_get_report_data_by_time() {
 				if ( 0 === $subtotal ) {
 					continue;
 				}
-				$post_type = get_post_type( $event );
+				$post_type  = get_post_type( $event );
+				$event_data = get_post_meta( $event, '_mc_event_data', true );
+				$event_date = $event_data['event_begin'] . ' ' . $event_data['event_time'];
 				if ( 'mc-events' === $post_type ) {
 					$mc_event = get_post_meta( $event, '_mc_event_id', true );
 					$url      = admin_url( 'admin.php?page=my-calendar&amp;mode=edit&amp;event_id=' . $mc_event );
@@ -826,14 +829,18 @@ function mt_get_report_data_by_time() {
 				}
 				$titles[]     = "<a href='$url'>" . get_the_title( $event ) . '</a>';
 				$raw_titles[] = get_the_title( $event );
+				$time_format  = ( '23:59:59' === $event_data['event_time'] ) ? '' : ' ' . get_option( 'time_format' );
+				$dates[]      = date_i18n( 'Y-m-d' . $time_format, strtotime( $event_date ) );
 			}
 		}
-		$events        = implode( ', ', $titles );
-		$raw_events    = implode( ', ', array_map( 'strip_tags', $titles ) );
-		$alternate     = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
-		$custom_fields = apply_filters( 'mt_custom_fields', array(), 'reports' );
-		$custom_cells  = '';
-		$custom_csv    = '';
+		$events          = implode( ', ', $titles );
+		$event_dates     = implode( ', ', $dates );
+		$raw_events      = implode( ', ', array_map( 'strip_tags', $titles ) );
+		$raw_event_dates = implode( ', ', array_map( 'strip_tags', $dates ) );
+		$alternate       = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
+		$custom_fields   = apply_filters( 'mt_custom_fields', array(), 'reports' );
+		$custom_cells    = '';
+		$custom_csv      = '';
 		foreach ( $custom_fields as $name => $field ) {
 			$c_value = get_post_meta( $post->ID, $name );
 			$cstring = '';
@@ -873,10 +880,11 @@ function mt_get_report_data_by_time() {
 				<td class='mt-type'>$type</td>
 				<td class='mt-status'>$status</td>
 				<td class='mt-events'>$events</td>
+				<td class='mt-event-dates'>$event_dates</td>
 				<td class='mt-date'>$date $time</td>
 				$custom_cells
 			</tr>\n";
-		$csv[]  = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $date . ' ' . $time . '"' . $custom_csv . PHP_EOL;
+		$csv[]  = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $raw_event_dates . '","' . $date . ' ' . $time . '"' . $custom_csv . PHP_EOL;
 	}
 	$report['html']  = $html;
 	$report['csv']   = $csv;
@@ -913,6 +921,7 @@ function mt_generate_report_by_time() {
 					<th scope='col' class='mt-type'>" . __( 'Type', 'my-tickets' ) . "</th>
 					<th scope='col' class='mt-status'>" . __( 'Status', 'my-tickets' ) . "</th>
 					<th scope='col' class='mt-events'>" . __( 'Events', 'my-tickets' ) . "</th>
+					<th scope='col' class='mt-event-dates'>" . __( 'Event Dates', 'my-tickets' ) . "</th>
 					<th scope='col' class='mt-date'>" . __( 'Date', 'my-tickets' ) . '</th>' .
 					$custom_headers .
 				'</tr>
