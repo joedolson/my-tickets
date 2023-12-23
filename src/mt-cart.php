@@ -1209,16 +1209,3 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 	}
 	return $cart;
 }
-
-add_action( 'wp_head', 'mt_cart_meta', 1 );
-/**
- * Adds the user's cart ID into <head> meta data for admin retrieval for customer assistance.
- *
- * Cart Data does not expose any user-specific information; contains only event ID and tickets selected.
- */
-function mt_cart_meta() {
-	$unique_id = mt_get_unique_id();
-	if ( $unique_id ) {
-		echo "<meta name='cart_id' value='" . esc_attr( $unique_id ) . "' />\n";
-	}
-}
