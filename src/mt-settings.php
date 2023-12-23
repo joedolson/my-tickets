@@ -32,6 +32,32 @@ function mt_update_settings( $post ) {
 		$mt_post_types = ( isset( $post['mt_post_types'] ) ) ? $post['mt_post_types'] : array();
 		array_push( $mt_post_types, 'mc-events' );
 
+		$styles = mt_get_settings( 'style_vars' );
+		if ( ! empty( $_POST['style_vars'] ) ) {
+			if ( isset( $_POST['new_style_var'] ) ) {
+				$key = sanitize_text_field( $_POST['new_style_var']['key'] );
+				$val = sanitize_text_field( $_POST['new_style_var']['val'] );
+				if ( $key && $val ) {
+					if ( 0 !== strpos( $key, '--' ) ) {
+						$key = '--' . $key;
+					}
+					$styles[ $key ] = $val;
+				}
+			}
+			foreach ( $_POST['style_vars'] as $key => $value ) {
+				if ( '' !== trim( $value ) ) {
+					$styles[ $key ] = sanitize_text_field( $value );
+				}
+			}
+			if ( isset( $_POST['delete_var'] ) ) {
+				$delete = map_deep( $_POST['delete_var'], 'sanitize_text_field' );
+				foreach ( $delete as $del ) {
+					unset( $styles[ $del ] );
+				}
+			}
+			mc_update_option( 'style_vars', $styles );
+		}
+
 		$messages = $_POST['mt_messages'];
 		$settings = apply_filters(
 			'mt_update_settings',
@@ -41,6 +67,7 @@ function mt_update_settings( $post ) {
 				'mt_to'         => $mt_to,
 				'mt_from'       => $mt_from,
 				'mt_html_email' => $mt_html_email,
+				'style_vars'    => $styles,
 			),
 			$_POST
 		);
@@ -314,7 +341,37 @@ function mt_settings() {
 									?>
 									</em></p>
 								</div>
-
+								<fieldset class="mt-css-variables">
+									<legend><?php esc_html_e( 'CSS Variables', 'my-tickets' ); ?></legend>
+									<?php
+									$output = '';
+									$styles = mt_get_settings( 'style_vars' );
+									$styles = mt_style_variables( $styles );
+									foreach ( $styles as $var => $style ) {
+										$var_id = 'mt' . sanitize_key( $var );
+										if ( ! in_array( $var, array_keys( mt_style_variables() ), true ) ) {
+											// Translators: CSS variable name.
+											$delete = " <input type='checkbox' id='delete_var_$var_id' name='delete_var[]' value='" . esc_attr( $var ) . "' /><label for='delete_var_$var_id'>" . sprintf( esc_html__( 'Delete %s', 'my-tickets' ), '<span class="screen-reader-text">' . $var . '</span>' ) . '</label>';
+										} else {
+											$delete = '';
+										}
+										$output .= "<li><label for='$var_id'>" . esc_html( $var ) . "</label><br /><input class='mt-color-input' type='text' id='$var_id' data-variable='$var' name='style_vars[$var]' value='" . esc_attr( $style ) . "' />$delete</li>";
+									}
+									if ( $output ) {
+										echo wp_kses( "<ul class='checkboxes'>$output</ul>", mt_kses_elements() );
+									}
+									?>
+									<div class="mt-new-variable">
+										<p>
+											<label for='new_style_var_key'><?php esc_html_e( 'New variable', 'my-tickets' ); ?></label><br />
+											<input type='text' name='new_style_var[key]' id='new_style_var_key' />
+										</p>
+										<p>
+											<label for='new_style_var_val'><?php esc_html_e( 'Value', 'my-tickets' ); ?></label><br />
+											<input type='text' class="mt-color-input" name='new_style_var[val]' id='new_style_var_val' />
+										</p>
+									</div>
+								</fieldset>	
 								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
 							</form>
 						</div>

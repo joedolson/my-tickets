@@ -6,6 +6,11 @@
     overflow: visible !important
 }
 
+.mt-new-variable {
+	display: flex;
+	gap: 12px;
+}
+
 .admin-tickets li .controls {
 	display: grid;
 	grid-template-columns: auto auto auto;

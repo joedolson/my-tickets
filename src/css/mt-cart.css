@@ -24,8 +24,8 @@
 }
 
 .mt-message {
-    background: #f0f0fa;
-    color: #333;
+    background: var(--mt-message-bg);
+    color: var(--mt-text-color);
     padding: .75em 1em !important;
     margin-bottom: .5em;
     font-size: 1.1em;
@@ -33,11 +33,11 @@
 }
 
 .mt-message.success {
-    border-color: green;
+    border-color: var(--mt-success-border);
 }
 
 .mt-message.error {
-    border-color: red;
+    border-color: var(--mt-error-border);
 }
 
 .mt-payment-button {
@@ -46,6 +46,10 @@
 
 .ticket-orders fieldset {
     margin: 1em 0;
+	border-radius: 8px;
+	background: var(--mt-order-background);
+	box-shadow: 4px 4px 4px var(--mt-order-shadow);
+	border-width: 1px;
 }
 
 .tickets-remaining.hiding, .hiding .tickets-remaining {
@@ -189,11 +193,11 @@ button[name="mt_add_to_cart"] img {
 
 .mt-payment-form legend {
     font-weight: 700;
-    padding: .25em 0;
+    padding: .5rem 0;
 }
 
 .gateway-selector {
-    padding: 1em 0;
+    padding: 1rem 0;
 }
 
 .gateway-selector ul {
@@ -202,8 +206,8 @@ button[name="mt_add_to_cart"] img {
 }
 
 .gateway-selector li {
-    margin: 0 .25em 0 0 !important;
-    padding: .25em !important;
+    margin: 0 .25rem 0 0 !important;
+    padding: .25rem !important;
     display: inline-block !important;
     list-style-type: none !important;
     background: rgba(0, 0, 0, .075);
@@ -240,7 +244,7 @@ button[name="mt_add_to_cart"] img {
 
 .mt_cart .wp-post-image {
     float: left;
-    margin-right: .5em;
+    margin-right: .5rem;
 }
 
 .mt-update-column button {
@@ -249,7 +253,7 @@ button[name="mt_add_to_cart"] img {
 }
 
 .mt_purchase_path {
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
 }
 
 .mt_purchase_path {
@@ -259,8 +263,8 @@ button[name="mt_add_to_cart"] img {
 }
 
 .mt_purchase_path span {
-    padding: .5em;
-    background: rgba( 255,255,255,.7 );
+    padding: .5rem;
+    background: rgba( 255, 255, 255, .7 );
 	border-bottom: 4px solid transparent;
 }
 
@@ -318,7 +322,7 @@ button[name="mt_add_to_cart"] img {
 
 .mt_email_check .ok {
     color: #f2f2f2;
-    background: #217e21;
+    background: var(--mt-success-border);
 }
 
 .mt-shipping-address label {
@@ -328,7 +332,7 @@ button[name="mt_add_to_cart"] img {
 .mt_email_check .notemail,
 .mt_email_check .mismatch {
     color: #f2f2f2;
-    background: #712121;
+    background: var(--mt-error-border);
 }
 
 .mt-update-buttons {
@@ -376,8 +380,8 @@ input[name="mt_submit"]:disabled {
     position:absolute;
     left: 0;
     width: 100%;
-    background: #fefefe;
-    color: #333;
+    background: var(--mt-order-background);
+    color: var(--mt-text-color);
     padding: 2rem;
     box-shadow: 3px 3px 3px #ccc;
 }
@@ -419,7 +423,7 @@ only screen and (max-width: 760px),
 
     .mt_cart td, .mt_cart th {
         border: none;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid var(--mt-order-shadow);
         position: relative;
         padding-left: 30% !important;
     }

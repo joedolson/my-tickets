@@ -421,6 +421,8 @@ function mt_public_enqueue_scripts() {
 	wp_enqueue_script( 'mt.payment', plugins_url( 'js/jquery.payment.js', __FILE__ ), array( 'jquery' ), $version );
 	wp_enqueue_script( 'mt.public', plugins_url( 'js/jquery.public.js', __FILE__ ), array( 'jquery' ), $version );
 	wp_enqueue_style( 'mt-styles', $ticket_styles, array( 'dashicons' ), $version );
+	wp_add_inline_style( 'mt-styles', mt_generate_css() );
+
 	wp_localize_script(
 		'mt.public',
 		'mt_ajax',
@@ -689,6 +691,7 @@ We\'ll see you soon!<br />
 		'mt_expiration'            => '',
 		'mt_display_remaining'     => 'proportion',
 		'mt_show_closed'           => 'false',
+		'style_vars'               => mt_style_variables(),
 	);
 
 	return $defaults;
@@ -1285,4 +1288,52 @@ function mt_kses_elements() {
 	);
 
 	return $elements;
+}
+
+/**
+ * Ensure that expected style variables are always present.
+ *
+ * @param array $styles Array of style variables saved in settings.
+ *
+ * @return array
+ */
+function mt_style_variables( $styles = array() ) {
+	$core_styles = array(
+		'--mt-order-background' => '#f6f7f7',
+		'--mt-order-shadow'     => '#dcdcde',
+		'--mt-error-color'      => '#b32d2e',
+		'--mt-success-color'    => '#007017',
+		'--mt-message-bg'       => '#f6f7f7',
+		'--mt-text-color'       => '#2c3338',
+	);
+	foreach ( $core_styles as $key => $value ) {
+		if ( ! isset( $styles[ $key ] ) ) {
+			$styles[ $key ] = $value;
+		}
+	}
+
+	return $styles;
+}
+
+/**
+ * Generate ticketing CSS output.
+ */
+function mt_generate_css() {
+	$styles     = (array) mt_get_settings( 'style_vars' );
+	$styles     = mt_style_variables( $styles );
+	$style_vars = '';
+	foreach ( $styles as $key => $var ) {
+		if ( $var ) {
+			$style_vars .= sanitize_key( $key ) . ': ' . $var . '; ';
+		}
+	}
+	if ( '' !== $style_vars ) {
+		$style_vars = '.my-tickets {' . $style_vars . '}';
+	}
+
+	$css = "
+/* Styles by My Tickets - Joseph C Dolson https://www.joedolson.com/ */
+$style_vars";
+
+	return $css;
 }
