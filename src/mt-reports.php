@@ -771,7 +771,7 @@ function mt_get_report_by_time( $start, $end ) {
 /**
  * Return data from report by time.
  *
- * @return mixed
+ * @return array
  */
 function mt_get_report_data_by_time() {
 	$start          = ( isset( $_GET['mt_start'] ) ) ? sanitize_text_field( $_GET['mt_start'] ) : mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
