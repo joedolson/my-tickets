@@ -1189,8 +1189,10 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 	$cart      = array();
 	$unique_id = mt_get_unique_id();
 	if ( $user_ID ) {
+		// Logged-in user data is saved in user meta.
 		$cart = get_user_meta( $user_ID, '_mt_user_cart', true );
 	} elseif ( ! $user_ID && $cart_id ) {
+		// Public data is saved in transients.
 		$cart = get_transient( 'mt_' . $cart_id . '_cart' );
 	} else {
 		if ( is_user_logged_in() ) {
@@ -1207,5 +1209,6 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 			$cart = get_transient( 'mt_' . $unique_id . '_cart' );
 		}
 	}
+
 	return $cart;
 }
