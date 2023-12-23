@@ -226,7 +226,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				 */
 				$fields = apply_filters( 'mt_add_to_cart_fields', '', $event_id );
 				$output = "
-			<div class='mt-order'>
+			<div class='mt-order my-tickets'>
 				<div class='mt-response' id='mt-response-$event_id' aria-live='assertive'></div>
 				$no_post
 				$closing_time

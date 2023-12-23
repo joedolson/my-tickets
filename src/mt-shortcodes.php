@@ -42,7 +42,7 @@ function my_tickets_short_cart() {
 		return '';
 	}
 	return "
-		<div class='mt-quick-cart' aria-live='polite'>" . __( 'In your cart: ', 'my-tickets' ) . "$ticket_text
+		<div class='my-tickets mt-quick-cart' aria-live='polite'>" . __( 'In your cart: ', 'my-tickets' ) . "$ticket_text
 			<span class='divider'>|</span> 
 			$currency
 			<span class='divider'>|</span> 
