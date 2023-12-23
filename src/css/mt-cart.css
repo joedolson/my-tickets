@@ -153,9 +153,17 @@ table.mt_cart {
     display: none;
 }
 
+button[name="mt_add_to_cart"] {
+	display: flex;
+	align-items: center;
+	padding: 4px 8px;
+	gap: 4px;
+	min-height: 32px;
+}
+
 button[name="mt_add_to_cart"] img {
     width: 16px !important;
-    padding: 0 0 0 2px;
+	height: auto;
 }
 
 .mt-payment-form fieldset {
