@@ -827,7 +827,7 @@ function mt_generate_cart( $user_ID = false ) {
 		}
 	}
 
-	return $expiration . $breadcrumbs . $output;
+	return '&lt;div class="my-tickets">' . $expiration . $breadcrumbs . $output . '&lt;/div>';
 }
 
 /**
