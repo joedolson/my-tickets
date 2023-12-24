@@ -74,6 +74,85 @@ function mt_reports_page() {
 }
 
 /**
+ * Get the array of headers for a report.
+ *
+ * @param string $context Purchases or tickets.
+ * @param string $type Type of display table or csv.
+ *
+ * @return array
+ */
+function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
+	$headers = array(
+		'mt-id'        => array(
+			'label' => __( 'Ticket ID', 'my-tickets' ),
+		),
+		'mt-seqid'     => array(
+			'label' => __( 'Sequential ID', 'my-tickets' ),
+		),
+		'mt-type'      => array(
+			'label' => __( 'Ticket Type', 'my-tickets' ),
+		),
+		'mt-purchaser' => array(
+			'label' => __( 'Purchaser', 'my-tickets' ),
+		),
+		'mt-first'     => array(
+			'label' => __( 'First Name', 'my-tickets' ),
+		),
+		'mt-last'     => array(
+			'label' => __( 'Last Name', 'my-tickets' ),
+		),
+		'mt-post'      => array(
+			'label' => __( 'Purchase ID', 'my-tickets' ),
+		),
+		'mt-price'     => array(
+			'label' => __( 'Price', 'my-tickets' ),
+		),
+		'mt-status'    => array(
+			'label' => __( 'Status', 'my-tickets' ),
+		),
+		'mt-used'      => array(
+			'label' => __( 'Used', 'my-tickets' ),
+		),
+	);
+
+	/**
+	 * Filter the column headers.
+	 *
+	 * @hook mt_header_columns
+	 *
+	 * @param {array} $headers Headers with labels and callbacks.
+	 * @param {string} $context Purchases or tickets.
+	 * @param {string} $type Display type table or csv.
+	 *
+	 * @return {array}
+	 */
+	$headers = apply_filters( 'mt_header_columns', $headers, $context, $type );
+
+	return $headers;
+}
+
+/**
+ * Draw the headers for a given report display.
+ *
+ * @param array  $headers Array of column headers.
+ * @param string $type Display type table or csv.
+ *
+ * @return string 
+ */
+function mt_set_column_headers( $headers, $type ) {
+	$cols = array();
+	foreach ( $headers as $key => $value ) {
+		if ( 'table' === $type ) {
+			$cols[] = '<th scope="col" class="' . $key . '" id="' . $key . '">' . $value['label'] . '</th>';
+		} else {
+			$cols[] = '"' . urlencode( $value['label'] ) . '"';
+		}
+	}
+
+	return ( 'csv' === $type ) ? implode( ',', $cols ) : implode( PHP_EOL, $cols );
+}
+
+/**
  * Generate a report of tickets on a single event.
  *
  * @param bool|int $event_id Event ID.
@@ -90,23 +169,17 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 			$data          = mt_get_tickets( $event_id );
 			$report        = $data['html'];
 			$total_tickets = count( $report );
+			$headers       = mt_column_headers_events( 'tickets', 'table' );
+			$header_html   = mt_set_column_headers( $headers, 'table' );
 			// Translators: name of event.
 			$table_top    = "<table class='widefat'><caption>" . sprintf( __( 'Tickets Purchased for &ldquo;%s&rdquo;', 'my-tickets' ), $title ) . "</caption>
 						<thead>
 							<tr>
-								<th scope='col' class='mt-id' id='mt-id'>" . __( 'Ticket ID', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-seqid' id='mt-seqid'>" . __( 'Sequential ID', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-type' id='mt-type'>" . __( 'Ticket Type', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-purchaser' id='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-post' id='mt-post'>" . __( 'Purchase ID', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-price' id='mt-price'>" . __( 'Price', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-status' id='mt-status'>" . __( 'Status', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-used' id='mt-used'>" . __( 'Used', 'my-tickets' ) . '</th>
+								$header_html
 							</tr>
 						</thead>
-						<tbody>';
+						<tbody>";
 			$table_bottom = '</tbody></table>';
-
 			foreach ( $report as $row ) {
 				$table_top .= $row;
 			}
@@ -582,7 +655,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 }
 
 /**
- * Function to produce a list of tickets for a given event.
+ * Produce a list of tickets for an event.
  *
  * @param int $event_id Event ID.
  *
@@ -619,19 +692,22 @@ function mt_get_tickets( $event_id ) {
 			$last_name  = end( $name );
 		}
 		$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
+		// TODO rewrite row generation to support a callback in the headers array.
 		$row       = "
 		<tr class='$alternate'>
 			<th scope='row' class='mt-id' id='mt-id'><a href='$ticket_url'>$ticket_id</a></th>
 			<td class='mt-seqid' id='mt-seqid'>$seq_id</th>
 			<td class='mt-type' id='mt-type'>$label</td>
 			<td class='mt-purchaser' id='mt-purchaser'>$purchaser</td>
+			<td class='mt-first-name' id='mt-first-name'>$first_name</td>
+			<td class='mt-last-name' id='mt-last-name'>$last_name</td>
 			<td class='mt-post' id='mt-post'><a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id</a></td>
 			<td class='mt-price' id='mt-price'>" . apply_filters( 'mt_money_format', $price ) . "</td>
 			<td class='mt-status' id='mt-status'>$status</td>
 			<td class='mt-used' id='mt-used'>$used</td>
 		</tr>";
 		// add split field to csv headers.
-		$csv              = "\"$ticket_id\",\"$seq_id\",\"$last_name\",\"$first_name\",\"$type\",\"$purchase_id\",\"$price\",\"$status\",\"$used\"" . PHP_EOL;
+		$csv              = "\"$ticket_id\",\"$seq_id\",\"$purchaser\",\"$last_name\",\"$first_name\",\"$type\",\"$purchase_id\",\"$price\",\"$status\",\"$used\"" . PHP_EOL;
 		$report['html'][] = $row;
 		$report['csv'][]  = $csv;
 	}
@@ -703,7 +779,10 @@ function mt_download_csv_tickets() {
 		$title    = get_the_title( $event_id ) . ' tickets';
 		$tickets  = mt_get_tickets( $event_id );
 		$report   = $tickets['csv'];
-		$csv      = __( 'Ticket ID', 'my-tickets' ) . ',' . __( 'Sequential ID', 'my-tickets' ) . ',' . __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Used', 'my-tickets' ) . PHP_EOL;
+
+		$headers     = mt_column_headers_events( 'tickets', 'csv' );
+		$header_html = mt_set_column_headers( $headers, 'csv' );
+		$csv         = $header_html . PHP_EOL;
 		foreach ( $report as $row ) {
 			$csv .= "$row";
 		}
