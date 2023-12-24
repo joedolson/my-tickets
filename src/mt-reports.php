@@ -170,46 +170,50 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 					</ul>";
 
 			$data           = mt_purchases( $event_id, $options );
-			$report         = $data['report']['html'];
-			$total_tickets  = $data['tickets'];
-			$total_sales    = count( $data['report']['html']['Completed'] ) + count( $data['report']['html']['Pending'] );
-			$total_income   = $data['income'];
-			$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
-			$custom_headers = '';
-			foreach ( $custom_fields as $name => $field ) {
-				$custom_headers .= "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . "</th>\n";
-			}
-			$table_top    = "<table class='widefat'><caption>%caption%</caption>
-						<thead>
-							<tr>
-								<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-type'>" . __( 'Type', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-tickets'>" . __( 'Tickets', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-owed'>" . __( 'Owed', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-paid'>" . __( 'Paid', 'my-tickets' ) . "</th>
-								<th scope='col' id='mt_method' class='mt_method'>" . __( 'Ticket Method', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-date'>" . __( 'Date', 'my-tickets' ) . "</th>
-								<th scope='col' class='mt-id'>" . __( 'ID', 'my-tickets' ) . "</th>
-								$custom_headers
-								<th scope='col' class='mt-notes'>" . __( 'Notes', 'my-tickets' ) . '</th>
-							</tr>
-						</thead>
-						<tbody>';
-			$table_bottom = '</tbody></table>';
+			if ( is_array( $data ) ) {
+				$report         = $data['report']['html'];
+				$total_tickets  = $data['tickets'];
+				$total_sales    = count( $data['report']['html']['Completed'] ) + count( $data['report']['html']['Pending'] );
+				$total_income   = $data['income'];
+				$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
+				$custom_headers = '';
+				foreach ( $custom_fields as $name => $field ) {
+					$custom_headers .= "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . "</th>\n";
+				}
+				$table_top    = "<table class='widefat'><caption>%caption%</caption>
+							<thead>
+								<tr>
+									<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
+									<th scope='col' class='mt-type'>" . __( 'Type', 'my-tickets' ) . "</th>
+									<th scope='col' class='mt-tickets'>" . __( 'Tickets', 'my-tickets' ) . "</th>
+									<th scope='col' class='mt-owed'>" . __( 'Owed', 'my-tickets' ) . "</th>
+									<th scope='col' class='mt-paid'>" . __( 'Paid', 'my-tickets' ) . "</th>
+									<th scope='col' id='mt_method' class='mt_method'>" . __( 'Ticket Method', 'my-tickets' ) . "</th>
+									<th scope='col' class='mt-date'>" . __( 'Date', 'my-tickets' ) . "</th>
+									<th scope='col' class='mt-id'>" . __( 'ID', 'my-tickets' ) . "</th>
+									$custom_headers
+									<th scope='col' class='mt-notes'>" . __( 'Notes', 'my-tickets' ) . '</th>
+								</tr>
+							</thead>
+							<tbody>';
+				$table_bottom = '</tbody></table>';
 
-			foreach ( $report as $status => $rows ) {
-				${$status} = '';
-				$count     = count( $rows );
-				$output    = str_replace( "%$status", $count, $output );
-				if ( 0 === $count ) {
-					continue;
+				foreach ( $report as $status => $rows ) {
+					${$status} = '';
+					$count     = count( $rows );
+					$output    = str_replace( "%$status", $count, $output );
+					if ( 0 === $count ) {
+						continue;
+					}
+					foreach ( $rows as $type => $row ) {
+						${$status} .= $row;
+					}
+					$caption       = "$title: <em>$status</em>";
+					$use_table_top = str_replace( '%caption%', $caption, $table_top );
+					$out          .= "<div class='wptab wp_" . sanitize_title( $status ) . "' id='mt_" . sanitize_title( $status ) . "'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
 				}
-				foreach ( $rows as $type => $row ) {
-					${$status} .= $row;
-				}
-				$caption       = "$title: <em>$status</em>";
-				$use_table_top = str_replace( '%caption%', $caption, $table_top );
-				$out          .= "<div class='wptab wp_" . sanitize_title( $status ) . "' id='mt_" . sanitize_title( $status ) . "'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
+			} else {
+				$out = '';
 			}
 
 			$output .= $out . '</div>';
@@ -430,7 +434,10 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 	if ( false === $event_id ) {
 		exit;
 	}
-	$query         = get_post_meta( $event_id, '_purchase' );
+	$query = get_post_meta( $event_id, '_purchase' );
+	if ( ! $query ) {
+		return false;
+	}
 	$report        = array(
 		'html' => array(
 			'Completed'    => array(),
@@ -646,27 +653,31 @@ function mt_download_csv_event() {
 		$event_id        = intval( $_GET['event_id'] );
 		$title           = get_the_title( $event_id );
 		$purchases       = mt_purchases( $event_id );
-		$report          = $purchases['report']['csv'];
-		$custom_headings = '';
-		/**
-		 * Filter custom fields array for reports.
-		 *
-		 * @hook mt_custom_fields
-		 *
-		 * @param {array} $custom_fields Array of custom fields.
-		 * @param {string} $context Current context of filter. ('reports')
-		 *
-		 * @return {array}
-		 */
-		$custom_fields = apply_filters( 'mt_custom_fields', array(), 'reports' );
-		foreach ( $custom_fields as $name => $field ) {
-			$custom_headings .= ",\"$name\"";
-		}
-		$csv = __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Email', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchased', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Paid', 'my-tickets' ) . ',' . __( 'Fees', 'my-tickets' ) . ',' . __( 'Ticket Method', 'my-tickets' ) . ',' . __( 'Date', 'my-tickets' ) . ',' . __( 'Time', 'my-tickets' ) . ',' . __( 'Payment Gateway', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Phone', 'my-tickets' ) . ',' . __( 'Street', 'my-tickets' ) . ',' . __( 'Street (2)', 'my-tickets' ) . ',' . __( 'City', 'my-tickets' ) . ',' . __( 'State', 'my-tickets' ) . ',' . __( 'Postal Code', 'my-tickets' ) . ',' . __( 'Country', 'my-tickets' ) . $custom_headings . PHP_EOL;
-		foreach ( $report as $status => $rows ) {
-			foreach ( $rows as $type => $row ) {
-				$csv .= $row;
+		if ( is_array( $purchases ) ) {
+			$report          = $purchases['report']['csv'];
+			$custom_headings = '';
+			/**
+			 * Filter custom fields array for reports.
+			 *
+			 * @hook mt_custom_fields
+			 *
+			 * @param {array} $custom_fields Array of custom fields.
+			 * @param {string} $context Current context of filter. ('reports')
+			 *
+			 * @return {array}
+			 */
+			$custom_fields = apply_filters( 'mt_custom_fields', array(), 'reports' );
+			foreach ( $custom_fields as $name => $field ) {
+				$custom_headings .= ",\"$name\"";
 			}
+			$csv = __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Email', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchased', 'my-tickets' ) . ',' . __( 'Price', 'my-tickets' ) . ',' . __( 'Paid', 'my-tickets' ) . ',' . __( 'Fees', 'my-tickets' ) . ',' . __( 'Ticket Method', 'my-tickets' ) . ',' . __( 'Date', 'my-tickets' ) . ',' . __( 'Time', 'my-tickets' ) . ',' . __( 'Payment Gateway', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Phone', 'my-tickets' ) . ',' . __( 'Street', 'my-tickets' ) . ',' . __( 'Street (2)', 'my-tickets' ) . ',' . __( 'City', 'my-tickets' ) . ',' . __( 'State', 'my-tickets' ) . ',' . __( 'Postal Code', 'my-tickets' ) . ',' . __( 'Country', 'my-tickets' ) . $custom_headings . PHP_EOL;
+			foreach ( $report as $status => $rows ) {
+				foreach ( $rows as $type => $row ) {
+					$csv .= $row;
+				}
+			}
+		} else {
+			$csv = '';
 		}
 		$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
 		header( 'Content-Type: application/csv' );
