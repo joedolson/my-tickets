@@ -169,7 +169,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 						$tabs
 					</ul>";
 
-			$data           = mt_purchases( $event_id, $options );
+			$data = mt_purchases( $event_id, $options );
 			if ( is_array( $data ) ) {
 				$report         = $data['report']['html'];
 				$total_tickets  = $data['tickets'];
@@ -650,9 +650,9 @@ function mt_download_csv_event() {
 		isset( $_GET['event_id'] ) &&
 		isset( $_GET['mt-event-report'] ) && 'purchases' === $_GET['mt-event-report']
 	) {
-		$event_id        = intval( $_GET['event_id'] );
-		$title           = get_the_title( $event_id );
-		$purchases       = mt_purchases( $event_id );
+		$event_id  = intval( $_GET['event_id'] );
+		$title     = get_the_title( $event_id );
+		$purchases = mt_purchases( $event_id );
 		if ( is_array( $purchases ) ) {
 			$report          = $purchases['report']['csv'];
 			$custom_headings = '';
