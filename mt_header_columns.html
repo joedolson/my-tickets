@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mc_event_registration_form - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_header_columns - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mc_event_registration_form</h1></header>
+    <header><h1 class="page-title">Filter: mt_header_columns</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mc_event_registration_form">apply_filters( 'mc_event_registration_form', <span class="signature">$form, $has_data, $data, $context, $original_form )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_header_columns">apply_filters( 'mt_header_columns', <span class="signature">$headers, $context, $type )</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter generated form for event creation inside My Calendar.</p>
+    <p>Filter the column headers.</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>$form</code></td>
+                <td class="name"><code>$headers</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">array</span>
 
 
             
@@ -93,53 +93,7 @@
 
             
 
-            <td class="description last"><p>Form HTML.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>$has_data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">bool</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Whether this form has data.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>$data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Event object.</p></td>
+            <td class="description last"><p>Headers with labels and callbacks.</p></td>
         </tr>
 
     
@@ -162,14 +116,14 @@
 
             
 
-            <td class="description last"><p>Public or admin view.</p></td>
+            <td class="description last"><p>Purchases or tickets.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>$original_form</code></td>
+                <td class="name"><code>$type</code></td>
             
 
             <td class="type">
@@ -185,7 +139,7 @@
 
             
 
-            <td class="description last"><p>Form output before filter modifications.</p></td>
+            <td class="description last"><p>Display type table or csv.</p></td>
         </tr>
 
     
@@ -226,7 +180,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-processing.php.html">mt-processing.php</a>, <a href="mt-processing.php.html#line359">line 359</a>
+        <a href="mt-reports.php.html">mt-reports.php</a>, <a href="mt-reports.php.html#line118">line 118</a>
     </li></ul></dd>
     
 
@@ -260,7 +214,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">array</span>
 
 
     </dd>
