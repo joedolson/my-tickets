@@ -74,16 +74,16 @@ function mt_reports_page() {
 							} else {
 								mt_generate_report_by_event();
 							}
-							$event_id         = (int) $_GET['event_id'];
-							$report_type      = ( isset( $_GET['mt-event-report'] ) &amp;&amp; 'tickets' === $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
+							$event_id    = (int) $_GET['event_id'];
+							$report_type = ( isset( $_GET['mt-event-report'] ) &amp;&amp; 'tickets' === $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
 							if ( isset( $_GET['mt_print'] ) ) {
 								$print_report_url = 'javascript:window.print()';
 							} else {
 								$print_report_url = esc_url( admin_url( 'admin.php?page=mt-reports&amp;event_id=' . $event_id . '&amp;mt-event-report=' . $report_type . '&amp;format=view&amp;mt_print=true' ) );
 							}
-							$back_url         = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&amp;mt-event-report=' . $report_type . '&amp;event_id=' . $event_id ) );
-							$return           = ( isset( $_GET['mt_print'] ) ) ? '&lt;a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '&lt;/a>' : '';
-							$show             = '&lt;button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '&lt;/button>';
+							$back_url = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&amp;mt-event-report=' . $report_type . '&amp;event_id=' . $event_id ) );
+							$return   = ( isset( $_GET['mt_print'] ) ) ? '&lt;a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '&lt;/a>' : '';
+							$show     = '&lt;button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '&lt;/button>';
 							echo '&lt;p>&lt;a class="button print-button" href="' . $print_report_url . '">' . __( 'Print this report', 'my-tickets' ) . '&lt;/a> ' . $return . ' ' . $show . '&lt;/p>';
 						}
 						?>
@@ -129,7 +129,7 @@ function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
 		'mt-first'     => array(
 			'label' => __( 'First Name', 'my-tickets' ),
 		),
-		'mt-last'     => array(
+		'mt-last'      => array(
 			'label' => __( 'Last Name', 'my-tickets' ),
 		),
 		'mt-post'      => array(
@@ -168,7 +168,7 @@ function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
  * @param array  $headers Array of column headers.
  * @param string $type Display type table or csv.
  *
- * @return string 
+ * @return string
  */
 function mt_set_column_headers( $headers, $type ) {
 	$cols = array();
@@ -705,13 +705,13 @@ function mt_get_tickets( $event_id ) {
 		if ( ! is_array( $ticket ) ) {
 			continue;
 		}
-		$ticket_url   = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
-		$purchase_id  = $ticket['purchase_id'];
-		$alternate    = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
-		$columns      = mt_column_headers_events();
-		$i            = 0;
-		$rows         = array();
-		$csvs         = array();
+		$ticket_url  = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
+		$purchase_id = $ticket['purchase_id'];
+		$alternate   = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
+		$columns     = mt_column_headers_events();
+		$i           = 0;
+		$rows        = array();
+		$csvs        = array();
 		foreach ( $columns as $key => $value ) {
 			if ( 0 === $i ) {
 				$rows[] = "&lt;th scope='row' class='$key' id='$key'>&lt;a href='$ticket_url'>$ticket_id&lt;/a>&lt;/th>";
@@ -724,12 +724,12 @@ function mt_get_tickets( $event_id ) {
 				}
 				$contents = call_user_func( $callback, $key, $purchase_id, $ticket_id, $ticket );
 				$rows[]   = "&lt;td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents&lt;/td>";
-				$csvs[]   = "\"" . wp_strip_all_tags( $contents) . "\"";
+				$csvs[]   = '\"' . wp_strip_all_tags( $contents ) . '\"';
 			}
 			$i ++;
 		}
-		$row = "&lt;tr class='$alternate'>" . implode( PHP_EOL, $rows ) . '&lt;/tr>';
-		$csv = implode( ',', $csvs ) . PHP_EOL;
+		$row              = "&lt;tr class='$alternate'>" . implode( PHP_EOL, $rows ) . '&lt;/tr>';
+		$csv              = implode( ',', $csvs ) . PHP_EOL;
 		$report['html'][] = $row;
 		$report['csv'][]  = $csv;
 	}
@@ -745,21 +745,21 @@ function mt_get_tickets( $event_id ) {
  * @param string $ticket_id ID of the ticket being displayed.
  * @param array  $ticket Array of ticket information.
  *
- * @return string 
+ * @return string
  */
 function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
 	$value = '';
 	switch ( $type ) {
-		case 'mt-seqid' :
+		case 'mt-seqid':
 			$value = mt_get_sequential_id( $ticket_id );
 			break;
-		case 'mt-type' :
+		case 'mt-type':
 			$value = mt_get_label( $ticket['type'] );
 			break;
-		case 'mt-purchaser' :
+		case 'mt-purchaser':
 			$value = get_the_title( $purchase_id );
 			break;
-		case 'mt-first' :
+		case 'mt-first':
 			$first = get_post_meta( $purchase_id, '_first_name', true );
 			if ( ! $first ) {
 				$name =  explode( ' ', get_the_title( $purchase_id ) );
@@ -767,7 +767,7 @@ function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
 			}
 			$value = $first;
 			break;
-		case 'mt-last' :
+		case 'mt-last':
 			$last = get_post_meta( $purchase_id, '_last_name', true );
 			if ( ! $last ) {
 				$name =  explode( ' ', get_the_title( $purchase_id ) );
@@ -775,18 +775,18 @@ function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
 			}
 			$value = $last;
 			break;
-		case 'mt-post' :
+		case 'mt-post':
 			$value = "&lt;a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id&lt;/a>";
 			break;
-		case 'mt-price' :
+		case 'mt-price':
 			$value = apply_filters( 'mt_money_format', $ticket['price'] );
 			break;
-		case 'mt-status' :
+		case 'mt-status':
 			$value = get_post_meta( $purchase_id, '_is_paid', true );
 			break;
-		case 'mt-used' :
+		case 'mt-used':
 			$used_tickets = get_post_meta( $purchase_id, '_tickets_used' );
-			$value = ( in_array( $ticket_id, $used_tickets, true ) ) ? '&lt;span class="dashicons dashicons-tickets-alt" aria-hidden="true">&lt;/span> ' . __( 'Used', 'my-tickets' ) : '--';
+			$value        = ( in_array( $ticket_id, $used_tickets, true ) ) ? '&lt;span class="dashicons dashicons-tickets-alt" aria-hidden="true">&lt;/span> ' . __( 'Used', 'my-tickets' ) : '--';
 			break;
 	}
 
