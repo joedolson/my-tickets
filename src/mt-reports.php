@@ -94,20 +94,17 @@ function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
 		'mt-seqid'     => array(
 			'label' => __( 'Sequential ID', 'my-tickets' ),
 		),
-		'mt-type'      => array(
-			'label' => __( 'Ticket Type', 'my-tickets' ),
-		),
-		'mt-purchaser' => array(
-			'label' => __( 'Purchaser', 'my-tickets' ),
+		'mt-last'      => array(
+			'label' => __( 'Last Name', 'my-tickets' ),
 		),
 		'mt-first'     => array(
 			'label' => __( 'First Name', 'my-tickets' ),
 		),
-		'mt-last'      => array(
-			'label' => __( 'Last Name', 'my-tickets' ),
-		),
 		'mt-post'      => array(
 			'label' => __( 'Purchase ID', 'my-tickets' ),
+		),
+		'mt-type'      => array(
+			'label' => __( 'Ticket Type', 'my-tickets' ),
 		),
 		'mt-price'     => array(
 			'label' => __( 'Price', 'my-tickets' ),
@@ -261,7 +258,8 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				$table_top    = "<table class='widefat'><caption>%caption%</caption>
 							<thead>
 								<tr>
-									<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
+									<th scope='col' class='mt-last'>" . __( 'Last Name', 'my-tickets' ) . "</th>
+									<th scope='col' class='mt-first'>" . __( 'First Name', 'my-tickets' ) . "</th>
 									<th scope='col' class='mt-type'>" . __( 'Type', 'my-tickets' ) . "</th>
 									<th scope='col' class='mt-tickets'>" . __( 'Tickets', 'my-tickets' ) . "</th>
 									<th scope='col' class='mt-owed'>" . __( 'Owed', 'my-tickets' ) . "</th>
@@ -632,7 +630,8 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 				$owed      = $subtotal - $paid;
 				$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 				$row       = "<tr class='$alternate'>
-								<th scope='row' class='mt-purchaser'>$last_name, $first_name</th>
+								<th scope='row' class='mt-last'>$first_name</th>
+								<td class='mt-first'>" . $first_name . "</td>
 								<td class='mt-type'>" . wpautop( $types ) . "</td>
 								<td class='mt-tickets'>$ticket_count</td>
 								<td class='mt-price'>" . apply_filters( 'mt_money_format', $owed ) . "</td>
@@ -729,9 +728,6 @@ function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
 			break;
 		case 'mt-type':
 			$value = mt_get_label( $ticket['type'] );
-			break;
-		case 'mt-purchaser':
-			$value = get_the_title( $purchase_id );
 			break;
 		case 'mt-first':
 			$first = get_post_meta( $purchase_id, '_first_name', true );
