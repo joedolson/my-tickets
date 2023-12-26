@@ -667,7 +667,7 @@ function mt_get_tickets( $event_id ) {
 		'html' => array(),
 		'csv'  => array(),
 	);
-	$options   = get_option( 'mt_settings', array() );
+	$options   = mt_get_settings();
 	$alternate = 'even';
 	foreach ( $query as $ticket_id ) {
 		$ticket = get_post_meta( $event_id, '_' . $ticket_id, true );
@@ -676,43 +676,90 @@ function mt_get_tickets( $event_id ) {
 		}
 		$ticket_url   = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
 		$purchase_id  = $ticket['purchase_id'];
-		$type         = $ticket['type'];
-		$label        = mt_get_label( $type );
-		$price        = $ticket['price'];
-		$purchaser    = get_the_title( $purchase_id );
-		$status       = get_post_meta( $purchase_id, '_is_paid', true );
-		$used_tickets = get_post_meta( $purchase_id, '_tickets_used' );
-		$first_name   = get_post_meta( $purchase_id, '_first_name', true );
-		$last_name    = get_post_meta( $purchase_id, '_last_name', true );
-		$seq_id       = mt_get_sequential_id( $ticket_id );
-		$used         = ( in_array( $ticket_id, $used_tickets, true ) ) ? '<span class="dashicons dashicons-tickets-alt" aria-hidden="true"></span> ' . __( 'Used', 'my-tickets' ) : '--';
-		if ( ! $first_name || ! $last_name ) {
-			$name       = explode( ' ', $purchaser );
-			$first_name = $name[0];
-			$last_name  = end( $name );
+		$alternate    = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
+		$columns      = mt_column_headers_events();
+		$i            = 0;
+		$rows         = array();
+		$csvs         = array();
+		foreach ( $columns as $key => $value ) {
+			if ( 0 === $i ) {
+				$rows[] = "<th scope='row' class='$key' id='$key'><a href='$ticket_url'>$ticket_id</a></th>";
+				$csvs[] = $ticket_id;
+			} else {
+				if ( isset( $value['display_callback'] ) && function_exists( $value['display_callback'] ) ) {
+					$callback = $value['display_callback'];
+				} else {
+					$callback = 'mt_get_report_data';
+				}
+				$contents = call_user_func( $callback, $key, $purchase_id, $ticket_id, $ticket );
+				$rows[]   = "<td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents</td>";
+				$csvs[]   = "\"" . wp_strip_all_tags( $contents) . "\"";
+			}
+			$i ++;
 		}
-		$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
-		// TODO rewrite row generation to support a callback in the headers array.
-		$row       = "
-		<tr class='$alternate'>
-			<th scope='row' class='mt-id' id='mt-id'><a href='$ticket_url'>$ticket_id</a></th>
-			<td class='mt-seqid' id='mt-seqid'>$seq_id</th>
-			<td class='mt-type' id='mt-type'>$label</td>
-			<td class='mt-purchaser' id='mt-purchaser'>$purchaser</td>
-			<td class='mt-first-name' id='mt-first-name'>$first_name</td>
-			<td class='mt-last-name' id='mt-last-name'>$last_name</td>
-			<td class='mt-post' id='mt-post'><a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id</a></td>
-			<td class='mt-price' id='mt-price'>" . apply_filters( 'mt_money_format', $price ) . "</td>
-			<td class='mt-status' id='mt-status'>$status</td>
-			<td class='mt-used' id='mt-used'>$used</td>
-		</tr>";
-		// add split field to csv headers.
-		$csv              = "\"$ticket_id\",\"$seq_id\",\"$purchaser\",\"$last_name\",\"$first_name\",\"$type\",\"$purchase_id\",\"$price\",\"$status\",\"$used\"" . PHP_EOL;
+		$row = "<tr class='$alternate'>" . implode( PHP_EOL, $rows ) . '</tr>';
+		$csv = implode( ',', $csvs ) . PHP_EOL;
 		$report['html'][] = $row;
 		$report['csv'][]  = $csv;
 	}
 
 	return $report;
+}
+
+/**
+ * Get data for event purchase reports.
+ *
+ * @param string $type Type of data requested.
+ * @param int    $purchase_id Post ID for purchase record.
+ * @param string $ticket_id ID of the ticket being displayed.
+ * @param array  $ticket Array of ticket information.
+ *
+ * @return string 
+ */
+function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
+	$value = '';
+	switch ( $type ) {
+		case 'mt-seqid' :
+			$value = mt_get_sequential_id( $ticket_id );
+			break;
+		case 'mt-type' :
+			$value = mt_get_label( $ticket['type'] );
+			break;
+		case 'mt-purchaser' :
+			$value = get_the_title( $purchase_id );
+			break;
+		case 'mt-first' :
+			$first = get_post_meta( $purchase_id, '_first_name', true );
+			if ( ! $first ) {
+				$name =  explode( ' ', get_the_title( $purchase_id ) );
+				$first = $name[0];
+			}
+			$value = $first;
+			break;
+		case 'mt-last' :
+			$last = get_post_meta( $purchase_id, '_last_name', true );
+			if ( ! $last ) {
+				$name =  explode( ' ', get_the_title( $purchase_id ) );
+				$last = end( $name );
+			}
+			$value = $last;
+			break;
+		case 'mt-post' :
+			$value = "<a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id</a>";
+			break;
+		case 'mt-price' :
+			$value = apply_filters( 'mt_money_format', $ticket['price'] );
+			break;
+		case 'mt-status' :
+			$value = get_post_meta( $purchase_id, '_is_paid', true );
+			break;
+		case 'mt-used' :
+			$used_tickets = get_post_meta( $purchase_id, '_tickets_used' );
+			$value = ( in_array( $ticket_id, $used_tickets, true ) ) ? '<span class="dashicons dashicons-tickets-alt" aria-hidden="true"></span> ' . __( 'Used', 'my-tickets' ) : '--';
+			break;
+	}
+
+	return $value;
 }
 
 add_action( 'admin_init', 'mt_download_csv_event' );
