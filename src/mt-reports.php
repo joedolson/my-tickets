@@ -57,7 +57,7 @@ function mt_reports_page() {
 							}
 							$back_url = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&mt-event-report=' . $report_type . '&event_id=' . $event_id ) );
 							$return   = ( isset( $_GET['mt_print'] ) ) ? '<a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '</a>' : '';
-							$show     = '<button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '</button>';
+							$show     = ( isset( $_GET['mt_print'] ) ) ? '<button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '</button>' : '';
 							echo '<p><a class="button print-button" href="' . $print_report_url . '">' . __( 'Print this report', 'my-tickets' ) . '</a> ' . $return . ' ' . $show . '</p>';
 						}
 						?>
