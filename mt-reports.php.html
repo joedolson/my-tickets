@@ -56,7 +56,6 @@ function mt_reports_page() {
 
 					&lt;div class="inside">
 						&lt;?php
-						echo wp_kses( '&lt;p>&lt;button class="show-button">' . __( 'Show Hidden Columns', 'my-tickets' ) . '&lt;/button>&lt;/p>', mt_kses_elements() );
 						if ( isset( $_POST['event_id'] ) &amp;&amp; is_numeric( $_POST['event_id'] ) ) {
 							if ( ! ( '' === strip_tags( $_POST['mt_subject'] ) || '' === strip_tags( $_POST['mt_body'] ) ) ) {
 								$verify = wp_verify_nonce( $_POST['mt-email-nonce'], 'mt-email-purchasers' );
@@ -77,10 +76,15 @@ function mt_reports_page() {
 							}
 							$event_id         = (int) $_GET['event_id'];
 							$report_type      = ( isset( $_GET['mt-event-report'] ) &amp;&amp; 'tickets' === $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
-							$print_report_url = admin_url( 'admin.php?page=mt-reports&amp;event_id=' . $event_id . '&amp;mt-event-report=' . $report_type . '&amp;format=view&amp;mt_print=true' );
+							if ( isset( $_GET['mt_print'] ) ) {
+								$print_report_url = 'javascript:window.print()';
+							} else {
+								$print_report_url = esc_url( admin_url( 'admin.php?page=mt-reports&amp;event_id=' . $event_id . '&amp;mt-event-report=' . $report_type . '&amp;format=view&amp;mt_print=true' ) );
+							}
 							$back_url         = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&amp;mt-event-report=' . $report_type . '&amp;event_id=' . $event_id ) );
 							$return           = ( isset( $_GET['mt_print'] ) ) ? '&lt;a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '&lt;/a>' : '';
-							echo wp_kses_post( '&lt;p>&lt;a class="button print-button" href="' . esc_url( $print_report_url ) . '">' . __( 'Print this report', 'my-tickets' ) . '&lt;/a> ' . $return . '&lt;/p>' );
+							$show             = '&lt;button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '&lt;/button>';
+							echo '&lt;p>&lt;a class="button print-button" href="' . $print_report_url . '">' . __( 'Print this report', 'my-tickets' ) . '&lt;/a> ' . $return . ' ' . $show . '&lt;/p>';
 						}
 						?>
 						&lt;div class="mt-report-selector">
