@@ -455,13 +455,14 @@ function mt_wp_enqueue_scripts() {
 	global $current_screen;
 	$version = ( true === SCRIPT_DEBUG ) ? wp_rand( 10000, 100000 ) : mt_get_current_version();
 	$options = mt_get_settings();
-	if ( isset( $_GET['page'] ) && 'my-tickets' === $_GET['page'] ) {
+	if ( isset( $_GET['page'] ) && 'my-tickets' === $_GET['page'] || isset( $_GET['page'] ) && 'mt-ticketing' === $_GET['page'] ) {
+		$firstitem = ( 'my-tickets' === $_GET['page'] ) ? 'completed' : 'discrete';
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ), $version );
 		wp_localize_script(
 			'mt.tabs',
 			'mtTabs',
 			array(
-				'firstItem' => 'completed',
+				'firstItem' => $firstitem,
 			)
 		);
 	}

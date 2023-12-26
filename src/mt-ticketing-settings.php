@@ -230,24 +230,25 @@ function mt_ticketing_settings() {
 					<div class="ui-sortable meta-box-sortables">
 						<div class="postbox">
 							<h2 id="mt-ticketing-options" class="hndle"><?php _e( 'Default Ticket Settings', 'my-tickets' ); ?></h2>
-							<?php
-							$displayed = ( isset( $_GET['ticket_model'] ) ) ? $options['defaults'][ sanitize_key( $_GET['ticket_model'] ) ] : $options['defaults']['continuous'];
-							$multiple  = ( isset( $displayed['multiple'] ) && 'true' === $displayed['multiple'] ) ? true : false;
-							?>
 							<div class="inside">
-									<p>
-										<em><?php _e( 'Changing these settings does not impact events that have already been created.', 'my-tickets' ); ?></em>
-									</p>
-									<p>
-										<label for='reg_expires'><?php _e( 'Stop online sales <em>x</em> hours before event', 'my-tickets' ); ?></label>
-										<input type='number' name='defaults[reg_expires]' id='reg_expires' value='<?php stripslashes( esc_attr( $displayed['reg_expires'] ) ); ?>'/>
-									</p>
-
-									<p>
-										<label for='multiple'><?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?></label>
-										<input type='checkbox' name='defaults[multiple]' id='multiple' value='true' <?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
-									</p>
-									<?php
+								<p>
+									<?php _e( 'Changing these settings does not impact events that have already been created.', 'my-tickets' ); ?>
+								</p>
+							<?php
+							$ticket_models = array( 'discrete', 'continuous', 'event' );
+							$tabs          = '';
+							foreach ( $ticket_models as $model ) {
+								$tabs .= "<li><a href='#$model'>" . ucfirst( $model ) . '</a></li>';;
+							}
+							?>
+							<div class='mt-tabs'>
+								<ul class='tabs'>
+									<?php echo $tabs; ?>
+								</ul>
+								<?php
+								foreach ( $ticket_models as $model ) {
+									$displayed = $options['defaults'][ $model ];
+									$multiple  = ( isset( $displayed['multiple'] ) && 'true' === $displayed['multiple'] ) ? true : false;
 									$type = $displayed['sales_type'];
 									if ( ! $type || 'tickets' === $type ) {
 										$is_tickets      = true;
@@ -257,29 +258,37 @@ function mt_ticketing_settings() {
 										$is_registration = true;
 									}
 									$method = $displayed['counting_method'];
-									echo mt_prices_table( $displayed );
 									?>
-								<div class="ticket-sale-types">
-									<fieldset>
-										<legend><?php _e( 'Type of Sale', 'my-tickets' ); ?></legend>
-										<p>
-											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_tickets' value='tickets'<?php checked( $is_tickets, true ); ?> />
-											<label for='mt_sales_type_tickets'><?php _e( 'Ticket Sales', 'my-tickets' ); ?></label><br/>
-											<input type='radio' name='defaults[sales_type]' id='mt_sales_type_registration' value='registration'<?php checked( $is_registration, true ); ?> />
-											<label for='mt_sales_type_registration'><?php _e( 'Event Registration', 'my-tickets' ); ?></label>
-										</p>
-									</fieldset>
-									<fieldset>
-										<legend><?php _e( 'Ticket Counting Method', 'my-tickets' ); ?></legend>
-										<p>
-											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_discrete' value='discrete' <?php checked( $method, 'discrete' ); ?> />
-											<label for='mt_counting_method_discrete'><?php _e( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ); ?></label><br/>
-											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_continuous' value='continuous'<?php checked( $method, 'continuous' ); ?> />
-											<label for='mt_counting_method_continuous'><?php _e( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ); ?></label>
-											<input type='radio' name='defaults[counting_method]' id='mt_counting_method_event' value='event'<?php checked( $method, 'event' ); ?> />
-											<label for='mt_counting_method_event'><?php _e( 'Events - (Jan. 2nd, 2pm)', 'my-tickets' ); ?></label>
-										</p>
-									</fieldset>
+									<div class='wptab mt_<?php echo $model; ?>' id='<?php echo $model; ?>'>
+										<div class="mt-flex">
+											<div class="ticket-sale-expiration">
+												<p>
+													<label for='reg_expires'><?php _e( 'Stop online sales <em>x</em> hours before event', 'my-tickets' ); ?></label>
+													<input type='number' name='defaults[reg_expires]' id='reg_expires' value='<?php stripslashes( esc_attr( $displayed['reg_expires'] ) ); ?>'/>
+												</p>
+												<p>
+													<label for='multiple'><?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?></label>
+													<input type='checkbox' name='defaults[multiple]' id='multiple' value='true' <?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
+												</p>
+											</div>
+											<div class="ticket-sale-types">
+												<fieldset>
+													<legend><?php _e( 'Type of Sale', 'my-tickets' ); ?></legend>
+													<p>
+														<input type='radio' name='defaults[sales_type]' id='mt_sales_type_tickets' value='tickets'<?php checked( $is_tickets, true ); ?> />
+														<label for='mt_sales_type_tickets'><?php _e( 'Ticket Sales', 'my-tickets' ); ?></label><br/>
+														<input type='radio' name='defaults[sales_type]' id='mt_sales_type_registration' value='registration'<?php checked( $is_registration, true ); ?> />
+														<label for='mt_sales_type_registration'><?php _e( 'Event Registration', 'my-tickets' ); ?></label>
+													</p>
+												</fieldset>
+												<input type="hidden" name='defaults[counting_method]' value='<?php echo esc_attr( $method ); ?>' />
+											</div>
+										</div>
+										<?php echo mt_prices_table( $displayed ); ?>
+									</div>
+									<?php
+								}
+								?>	
 								</div>
 							</div>
 						</div>

@@ -209,6 +209,13 @@ legend {
 	margin-bottom: 1.5rem;
 }
 
+.my-tickets .mt-flex {
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+	align-items: start;
+}
+
 .my-tickets dt {
     font-weight: 700;
     margin-bottom: 1rem;
