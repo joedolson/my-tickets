@@ -97,12 +97,14 @@ function mt_help() {
 
 						<div class="inside">
 							<h3><?php _e( 'Cookies', 'my-tickets' ); ?></h3>
-							<p><?php _e( 'My Tickets uses cookies to track user shopping carts and maintain their state. Cookies are deleted after 7 days.', 'my-tickets' ); ?></p>
+							<p><?php _e( 'My Tickets uses cookies to track user shopping carts and maintain their state. Cookies are stored for 7 days by default, but can be customized in settings.', 'my-tickets' ); ?></p>
 							<h3><?php _e( 'Data Collected', 'my-tickets' ); ?></h3>
 							<p><?php _e( 'Information about purchasers is collected at the time of purchase:', 'my-tickets' ); ?></p>
 							<ol>
 								<li><?php _e( 'Purchaser name.', 'my-tickets' ); ?></li>
 								<li><?php _e( 'Email address', 'my-tickets' ); ?></li>
+								<li><?php _e( 'Phone Number (if enabled)', 'my-tickets' ); ?></li>
+								<li><?php _e( 'VAT Number (if enabled)', 'my-tickets' ); ?></li>
 							</ol>
 							<p><?php _e( 'If shipping address is required, the following additional information is collected:', 'my-tickets' ); ?></p>
 							<ol>
@@ -112,6 +114,7 @@ function mt_help() {
 							<ol>
 								<li><?php _e( 'The status of the payment (Completed, Pending, Refunded, etc.)', 'my-tickets' ); ?></li>
 								<li><?php _e( 'The gateway used (e.g. Stripe, PayPal, Authorize.net, offline, etc.)', 'my-tickets' ); ?></li>
+								<li><?php _e( 'A payment gateway ID related to your purchase.', 'my-tickets' ); ?></li>
 							</ol>
 							<p><?php _e( 'Your payment gateway should have its own privacy policy and information about data collected.', 'my-tickets' ); ?></p>
 						</div>

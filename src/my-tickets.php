@@ -891,7 +891,7 @@ function mt_show_support_box( $add = false ) {
 					<p><strong>
 						<?php
 						// Translators: Sales URL.
-						printf( __( 'Want to do more with My Tickets? <a href="%s">Premium add-ons are available!</a>!', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' );
+						printf( __( 'Do more with My Tickets - <a href="%s">Buy Premium Add-ons</a>!', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' );
 						?>
 					</strong></p>
 					<ul>
@@ -942,21 +942,10 @@ function mt_show_support_box( $add = false ) {
 					<?php mt_logo( array( 'class' => 'mt-logo' ) ); ?>
 					<ul>
 						<li>
-							<p>
+							<p style="text-align:center">
 								<a href="https://twitter.com/intent/follow?screen_name=joedolson" class="twitter-follow-button" data-size="small" data-related="joedolson">Follow @joedolson</a>
 								<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if (!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 							</p>
-						</li>
-						<li><p><?php _e( '<a href="http://www.joedolson.com/donate/">Make a donation today!</a> Every donation counts - donate $2, $10, or $100 and help me keep this plug-in running!', 'my-tickets' ); ?></p>
-							<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-								<div>
-									<input type="hidden" name="cmd" value="_s-xclick" />
-									<input type="hidden" name="hosted_button_id" value="B75RYAX9BMX6S" />
-									<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt=	"Donate" />
-									<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-								</div>
-							</form>
-
 						</li>
 						<li><a href="http://profiles.wordpress.org/users/joedolson/"><?php _e( 'Check out my other plug-ins', 'my-tickets' ); ?></a></li>
 						<li><a href="http://wordpress.org/extend/plugins/my-tickets/"><?php _e( 'Rate this plug-in', 'my-tickets' ); ?></a></li>
