@@ -264,7 +264,7 @@ function mt_ticketing_settings() {
 							$ticket_models = array( 'discrete', 'continuous', 'event' );
 							$tabs          = '';
 							foreach ( $ticket_models as $model ) {
-								$tabs .= "&lt;li>&lt;a href='#$model'>" . ucfirst( $model ) . '&lt;/a>&lt;/li>';;
+								$tabs .= "&lt;li>&lt;a href='#$model'>" . ucfirst( $model ) . '&lt;/a>&lt;/li>';
 							}
 							?>
 							&lt;div class='mt-tabs'>
@@ -275,7 +275,7 @@ function mt_ticketing_settings() {
 								foreach ( $ticket_models as $model ) {
 									$displayed = $options['defaults'][ $model ];
 									$multiple  = ( isset( $displayed['multiple'] ) &amp;&amp; 'true' === $displayed['multiple'] ) ? true : false;
-									$type = $displayed['sales_type'];
+									$type      = $displayed['sales_type'];
 									if ( ! $type || 'tickets' === $type ) {
 										$is_tickets      = true;
 										$is_registration = false;
@@ -314,7 +314,7 @@ function mt_ticketing_settings() {
 									&lt;/div>
 									&lt;?php
 								}
-								?>	
+								?>
 								&lt;/div>
 							&lt;/div>
 						&lt;/div>
