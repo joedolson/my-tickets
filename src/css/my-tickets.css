@@ -2,6 +2,10 @@
     margin: 10px 10px 0 0
 }
 
+.my-tickets .postbox h2.hndle {
+	cursor: text;
+}
+
 .my-tickets .postbox .inside {
     overflow: visible !important
 }
