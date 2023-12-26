@@ -762,7 +762,7 @@ function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
 		case 'mt-first':
 			$first = get_post_meta( $purchase_id, '_first_name', true );
 			if ( ! $first ) {
-				$name =  explode( ' ', get_the_title( $purchase_id ) );
+				$name  = explode( ' ', get_the_title( $purchase_id ) );
 				$first = $name[0];
 			}
 			$value = $first;
@@ -770,7 +770,7 @@ function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
 		case 'mt-last':
 			$last = get_post_meta( $purchase_id, '_last_name', true );
 			if ( ! $last ) {
-				$name =  explode( ' ', get_the_title( $purchase_id ) );
+				$name = explode( ' ', get_the_title( $purchase_id ) );
 				$last = end( $name );
 			}
 			$value = $last;
