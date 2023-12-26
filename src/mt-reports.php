@@ -30,7 +30,6 @@ function mt_reports_page() {
 
 					<div class="inside">
 						<?php
-						echo wp_kses( '<p><button class="show-button">' . __( 'Show Hidden Columns', 'my-tickets' ) . '</button></p>', mt_kses_elements() );
 						if ( isset( $_POST['event_id'] ) && is_numeric( $_POST['event_id'] ) ) {
 							if ( ! ( '' === strip_tags( $_POST['mt_subject'] ) || '' === strip_tags( $_POST['mt_body'] ) ) ) {
 								$verify = wp_verify_nonce( $_POST['mt-email-nonce'], 'mt-email-purchasers' );
@@ -51,10 +50,15 @@ function mt_reports_page() {
 							}
 							$event_id         = (int) $_GET['event_id'];
 							$report_type      = ( isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
-							$print_report_url = admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' );
+							if ( isset( $_GET['mt_print'] ) ) {
+								$print_report_url = 'javascript:window.print()';
+							} else {
+								$print_report_url = esc_url( admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' ) );
+							}
 							$back_url         = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&mt-event-report=' . $report_type . '&event_id=' . $event_id ) );
 							$return           = ( isset( $_GET['mt_print'] ) ) ? '<a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '</a>' : '';
-							echo wp_kses_post( '<p><a class="button print-button" href="' . esc_url( $print_report_url ) . '">' . __( 'Print this report', 'my-tickets' ) . '</a> ' . $return . '</p>' );
+							$show             = '<button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '</button>';
+							echo '<p><a class="button print-button" href="' . $print_report_url . '">' . __( 'Print this report', 'my-tickets' ) . '</a> ' . $return . ' ' . $show . '</p>';
 						}
 						?>
 						<div class="mt-report-selector">

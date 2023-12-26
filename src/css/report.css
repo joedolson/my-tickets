@@ -22,10 +22,6 @@ button.mt-show-button {
     display: block;
 }
 
-#wpcontent a.print-button {
-    display: none;
-}
-
 #wpcontent .postbox {
     margin: 0;
     border: none;
@@ -92,8 +88,8 @@ td.mt-post {
     width: 6em;
 }
 
-.hidden {
-    display: none;
+td.mt-hidden {
+    opacity: .25;
 }
 
 .tabs {
@@ -114,6 +110,9 @@ table a:hover, table a:focus {
     tr:nth-of-type(odd) {
         background: #fefefe;
     }
+	.mt-hidden {
+		display: none;
+	}
     button {
         display: none;
     }

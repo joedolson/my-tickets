@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
     var cols = $( 'th[scope=col]' );
-    $( '.show-button' ).hide();
+    $( '.show-button' ).attr( 'disabled', 'disabled' );
 
     cols.each( function() {
         var context = $( this ).attr( 'class' );
@@ -10,13 +10,22 @@ jQuery(document).ready(function ($) {
 
     $( 'button' ).on( 'click', function(e) {
       var effects = $(this).attr( 'data-context' );
-      $( '.' + effects ).addClass( 'hidden' );
-      $( '.show-button' ).show();
+	  var pressed = $(this).attr( 'aria-pressed' );
+	  if ( 'true' === pressed ) {
+		$( '.' + effects ).removeClass( 'mt-hidden' );
+		$( this ).find( 'span' ).removeClass( 'dashicons-hidden' ).addClass( 'dashicons-visibility' );
+		$( this ).removeAttr( 'aria-pressed' );
+	  } else {
+  	    $( '.' + effects ).addClass( 'mt-hidden' );
+  	    $( '.show-button' ).removeAttr( 'disabled' );
+		$( this ).find( 'span' ).removeClass( 'dashicons-visibility' ).addClass( 'dashicons-hidden' );
+		$( this ).attr( 'aria-pressed', 'true' );
+	  }
     });
 
     $( '.show-button' ).on( 'click', function(e) {
-        $( 'th.hidden, td.hidden' ).removeClass( 'hidden' );
-        $( this ).hide();
+        $( 'th.hidden, td.hidden' ).removeClass( 'mt-hidden' );
+        $( this ).attr( 'disabled', 'disabled' );
     });
 
 });
