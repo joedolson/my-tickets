@@ -52,8 +52,9 @@ function mt_reports_page() {
 							$event_id         = (int) $_GET['event_id'];
 							$report_type      = ( isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
 							$print_report_url = admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' );
-							$back_url         = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports' ) );
-							echo wp_kses_post( '<p><a class="button print-button" href="' . esc_url( $print_report_url ) . '">' . __( 'Print this report', 'my-tickets' ) . '</a><a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '</a></p>' );
+							$back_url         = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&mt-event-report=' . $report_type . '&event_id=' . $event_id ) );
+							$return           = ( isset( $_GET['mt_print'] ) ) ? '<a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '</a>' : '';
+							echo wp_kses_post( '<p><a class="button print-button" href="' . esc_url( $print_report_url ) . '">' . __( 'Print this report', 'my-tickets' ) . '</a> ' . $return . '</p>' );
 						}
 						?>
 						<div class="mt-report-selector">
