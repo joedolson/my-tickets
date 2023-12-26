@@ -55,7 +55,6 @@ function mt_update_settings( $post ) {
 					unset( $styles[ $del ] );
 				}
 			}
-			mc_update_option( 'style_vars', $styles );
 		}
 
 		$messages = $_POST['mt_messages'];
