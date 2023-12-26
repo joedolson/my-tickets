@@ -371,7 +371,7 @@ function mt_settings() {
 										</p>
 									</div>
 								</fieldset>	
-								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
+								<p class="mt-save-settings"><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
 							</form>
 						</div>
 					</div>

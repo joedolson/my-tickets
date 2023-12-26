@@ -284,7 +284,7 @@ function mt_ticketing_settings() {
 							</div>
 						</div>
 					</div>
-					<p><input type="submit" name="mt-ticketing-settings" class="button-primary" value="<?php _e( 'Save Ticket Defaults', 'my-tickets' ); ?>"/></p>
+					<p class="mt-save-settings"><input type="submit" name="mt-ticketing-settings" class="button-primary" value="<?php _e( 'Save Ticket Defaults', 'my-tickets' ); ?>"/></p>
 				</form>
 			</div>
 		</div>

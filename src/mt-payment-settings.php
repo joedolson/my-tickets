@@ -334,7 +334,7 @@ function mt_payment_settings() {
 							</div>
 						</div>
 					</div>
-					<p><input type="submit" name="mt-payment-settings" class="button-primary" value="<?php _e( 'Save Payment Settings', 'my-tickets' ); ?>"/></p>
+					<p class="mt-save-settings"><input type="submit" name="mt-payment-settings" class="button-primary" value="<?php _e( 'Save Payment Settings', 'my-tickets' ); ?>"/></p>
 				</form>
 			</div>
 		</div>
@@ -343,7 +343,6 @@ function mt_payment_settings() {
 	<?php
 	// creates settings page for My tickets.
 }
-
 
 /**
  * Return current currency symbol.

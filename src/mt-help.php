@@ -60,7 +60,7 @@ function mt_help() {
 					</div>
 
 					<div class="postbox">
-						<h2 id="faq" tabindex="-1" class="hndle"><?php _e( 'Shortcodes', 'my-tickets' ); ?></h2>
+						<h2 id="shortcodes" class="hndle"><?php _e( 'Shortcodes', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
 							<p>
@@ -93,7 +93,7 @@ function mt_help() {
 						</div>
 					</div>
 					<div class="postbox" id="privacy">
-						<h2 class="hndle"><?php _e( 'Privacy', 'my-tickets' ); ?></h2>
+						<h2 id="privacy" class="hndle"><?php _e( 'Privacy', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
 							<h3><?php _e( 'Cookies', 'my-tickets' ); ?></h3>
@@ -117,7 +117,7 @@ function mt_help() {
 						</div>
 					</div>
 					<div class="postbox">
-						<h2 id="faq" tabindex="-1" class="hndle"><?php _e( 'Frequently Asked Questions', 'my-tickets' ); ?></h2>
+						<h2 id="faq" class="hndle"><?php _e( 'Frequently Asked Questions', 'my-tickets' ); ?></h2>
 
 						<div class="inside">
 							<dl>
