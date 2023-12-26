@@ -88,31 +88,31 @@ function mt_reports_page() {
  */
 function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
 	$headers = array(
-		'mt-id'        => array(
+		'mt-id'     => array(
 			'label' => __( 'Ticket ID', 'my-tickets' ),
 		),
-		'mt-seqid'     => array(
+		'mt-seqid'  => array(
 			'label' => __( 'Sequential ID', 'my-tickets' ),
 		),
-		'mt-last'      => array(
+		'mt-last'   => array(
 			'label' => __( 'Last Name', 'my-tickets' ),
 		),
-		'mt-first'     => array(
+		'mt-first'  => array(
 			'label' => __( 'First Name', 'my-tickets' ),
 		),
-		'mt-post'      => array(
+		'mt-post'   => array(
 			'label' => __( 'Purchase ID', 'my-tickets' ),
 		),
-		'mt-type'      => array(
+		'mt-type'   => array(
 			'label' => __( 'Ticket Type', 'my-tickets' ),
 		),
-		'mt-price'     => array(
+		'mt-price'  => array(
 			'label' => __( 'Price', 'my-tickets' ),
 		),
-		'mt-status'    => array(
+		'mt-status' => array(
 			'label' => __( 'Status', 'my-tickets' ),
 		),
-		'mt-used'      => array(
+		'mt-used'   => array(
 			'label' => __( 'Used', 'my-tickets' ),
 		),
 	);
