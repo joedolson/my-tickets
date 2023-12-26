@@ -83,7 +83,7 @@ function mt_reports_page() {
 							}
 							$back_url = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&amp;mt-event-report=' . $report_type . '&amp;event_id=' . $event_id ) );
 							$return   = ( isset( $_GET['mt_print'] ) ) ? '&lt;a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '&lt;/a>' : '';
-							$show     = '&lt;button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '&lt;/button>';
+							$show     = ( isset( $_GET['mt_print'] ) ) ? '&lt;button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '&lt;/button>' : '';
 							echo '&lt;p>&lt;a class="button print-button" href="' . $print_report_url . '">' . __( 'Print this report', 'my-tickets' ) . '&lt;/a> ' . $return . ' ' . $show . '&lt;/p>';
 						}
 						?>
@@ -120,20 +120,17 @@ function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
 		'mt-seqid'     => array(
 			'label' => __( 'Sequential ID', 'my-tickets' ),
 		),
-		'mt-type'      => array(
-			'label' => __( 'Ticket Type', 'my-tickets' ),
-		),
-		'mt-purchaser' => array(
-			'label' => __( 'Purchaser', 'my-tickets' ),
+		'mt-last'      => array(
+			'label' => __( 'Last Name', 'my-tickets' ),
 		),
 		'mt-first'     => array(
 			'label' => __( 'First Name', 'my-tickets' ),
 		),
-		'mt-last'      => array(
-			'label' => __( 'Last Name', 'my-tickets' ),
-		),
 		'mt-post'      => array(
 			'label' => __( 'Purchase ID', 'my-tickets' ),
+		),
+		'mt-type'      => array(
+			'label' => __( 'Ticket Type', 'my-tickets' ),
 		),
 		'mt-price'     => array(
 			'label' => __( 'Price', 'my-tickets' ),
@@ -287,7 +284,8 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				$table_top    = "&lt;table class='widefat'>&lt;caption>%caption%&lt;/caption>
 							&lt;thead>
 								&lt;tr>
-									&lt;th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "&lt;/th>
+									&lt;th scope='col' class='mt-last'>" . __( 'Last Name', 'my-tickets' ) . "&lt;/th>
+									&lt;th scope='col' class='mt-first'>" . __( 'First Name', 'my-tickets' ) . "&lt;/th>
 									&lt;th scope='col' class='mt-type'>" . __( 'Type', 'my-tickets' ) . "&lt;/th>
 									&lt;th scope='col' class='mt-tickets'>" . __( 'Tickets', 'my-tickets' ) . "&lt;/th>
 									&lt;th scope='col' class='mt-owed'>" . __( 'Owed', 'my-tickets' ) . "&lt;/th>
@@ -423,7 +421,7 @@ function mt_choose_report_by_date() {
  */
 function mt_email_purchasers() {
 	$selector = mt_select_events();
-	$nonce    = wp_nonce_field( 'mt-email-purchasers', 'mt-email-nonce' );
+	$nonce    = wp_nonce_field( 'mt-email-purchasers', 'mt-email-nonce', true, false );
 	$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : false;
 	$body     = ( isset( $_POST['mt_body'] ) ) ? sanitize_textarea_field( $_POST['mt_body'] ) : '';
 	$subject  = ( isset( $_POST['mt_subject'] ) ) ? sanitize_text_field( $_POST['mt_subject'] ) : '';
@@ -658,7 +656,8 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 				$owed      = $subtotal - $paid;
 				$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 				$row       = "&lt;tr class='$alternate'>
-								&lt;th scope='row' class='mt-purchaser'>$last_name, $first_name&lt;/th>
+								&lt;th scope='row' class='mt-last'>$first_name&lt;/th>
+								&lt;td class='mt-first'>" . $first_name . "&lt;/td>
 								&lt;td class='mt-type'>" . wpautop( $types ) . "&lt;/td>
 								&lt;td class='mt-tickets'>$ticket_count&lt;/td>
 								&lt;td class='mt-price'>" . apply_filters( 'mt_money_format', $owed ) . "&lt;/td>
@@ -755,9 +754,6 @@ function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
 			break;
 		case 'mt-type':
 			$value = mt_get_label( $ticket['type'] );
-			break;
-		case 'mt-purchaser':
-			$value = get_the_title( $purchase_id );
 			break;
 		case 'mt-first':
 			$first = get_post_meta( $purchase_id, '_first_name', true );
