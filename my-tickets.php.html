@@ -917,7 +917,7 @@ function mt_show_support_box( $add = false ) {
 					&lt;p>&lt;strong>
 						&lt;?php
 						// Translators: Sales URL.
-						printf( __( 'Want to do more with My Tickets? &lt;a href="%s">Premium add-ons are available!&lt;/a>!', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' );
+						printf( __( 'Do more with My Tickets - &lt;a href="%s">Buy Premium Add-ons&lt;/a>!', 'my-tickets' ), 'https://www.joedolson.com/my-tickets/add-ons/' );
 						?>
 					&lt;/strong>&lt;/p>
 					&lt;ul>
@@ -968,21 +968,10 @@ function mt_show_support_box( $add = false ) {
 					&lt;?php mt_logo( array( 'class' => 'mt-logo' ) ); ?>
 					&lt;ul>
 						&lt;li>
-							&lt;p>
+							&lt;p style="text-align:center">
 								&lt;a href="https://twitter.com/intent/follow?screen_name=joedolson" class="twitter-follow-button" data-size="small" data-related="joedolson">Follow @joedolson&lt;/a>
 								&lt;script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if (!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");&lt;/script>
 							&lt;/p>
-						&lt;/li>
-						&lt;li>&lt;p>&lt;?php _e( '&lt;a href="http://www.joedolson.com/donate/">Make a donation today!&lt;/a> Every donation counts - donate $2, $10, or $100 and help me keep this plug-in running!', 'my-tickets' ); ?>&lt;/p>
-							&lt;form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-								&lt;div>
-									&lt;input type="hidden" name="cmd" value="_s-xclick" />
-									&lt;input type="hidden" name="hosted_button_id" value="B75RYAX9BMX6S" />
-									&lt;input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt=	"Donate" />
-									&lt;img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-								&lt;/div>
-							&lt;/form>
-
 						&lt;/li>
 						&lt;li>&lt;a href="http://profiles.wordpress.org/users/joedolson/">&lt;?php _e( 'Check out my other plug-ins', 'my-tickets' ); ?>&lt;/a>&lt;/li>
 						&lt;li>&lt;a href="http://wordpress.org/extend/plugins/my-tickets/">&lt;?php _e( 'Rate this plug-in', 'my-tickets' ); ?>&lt;/a>&lt;/li>
