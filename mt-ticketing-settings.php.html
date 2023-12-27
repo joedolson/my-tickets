@@ -64,19 +64,25 @@ function mt_update_ticketing_settings( $post ) {
 		$mt_hide_remaining_limit  = ( isset( $post['mt_hide_remaining_limit'] ) ) ? intval( $post['mt_hide_remaining_limit'] ) : 0;
 		$mt_collect_shipping      = ( isset( $post['mt_collect_shipping'] ) ) ? 'true' : 'false';
 		$mt_hide_empty_short_cart = ( isset( $post['mt_hide_empty_short_cart'] ) ) ? 'true' : 'false';
-		$defaults                 = ( isset( $post['defaults'] ) ) ? $post['defaults'] : array();
-		$labels                   = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
-		$prices                   = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
-		$close                    = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : array();
-		$availability             = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : array();
 		$close_value              = ( isset( $post['mt_tickets_close_value'] ) ) ? $post['mt_tickets_close_value'] : '';
 		$close_type               = ( isset( $post['mt_tickets_close_type'] ) ) ? $post['mt_tickets_close_type'] : 'integer';
 		$mt_display_remaining     = ( isset( $post['mt_display_remaining'] ) ) ? $post['mt_display_remaining'] : 'proportion';
 		$mt_ticket_image          = ( isset( $post['mt_ticket_image'] ) ) ? $post['mt_ticket_image'] : 'ticket';
-		$pricing_array            = mt_setup_pricing( $labels, $prices, $availability, $close );
-		$defaults['pricing']      = $pricing_array;
-		$defaults['tickets']      = $mt_total_tickets;
-		$defaults['multiple']     = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';
+
+		$ticket_models = array( 'continuous', 'discrete', 'event' );
+		foreach ( $ticket_models as $model ) {
+			$model_defaults           = ( isset( $post['defaults'][ $model ] ) ) ? $post['defaults'][ $model ] : array();
+			$labels                   = ( isset( $post['mt_label'][ $model ] ) ) ? $post['mt_label'][ $model ] : array();
+			$prices                   = ( isset( $post['mt_price'][ $model ] ) ) ? $post['mt_price'][ $model ] : array();
+			$close                    = ( isset( $post['mt_close'][ $model ] ) ) ? $post['mt_close'][ $model ] : array();
+			$availability             = ( isset( $post['mt_tickets'][ $model ] ) ) ? $post['mt_tickets'][ $model ] : array();
+			$pricing_array            = mt_setup_pricing( $labels, $prices, $availability, $close );
+
+			$defaults[ $model ]             = $model_defaults;
+			$defaults[ $model ]['pricing']  = $pricing_array;
+			$defaults[ $model ]['tickets']  = ( is_array( $mt_total_tickets ) ) ? $mt_total_tickets[ $model ] : $mt_total_tickets;
+			$defaults[ $model ]['multiple'] = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';			
+		}
 
 		/**
 		 * Filter settings array before saving option.
@@ -111,7 +117,7 @@ function mt_update_ticketing_settings( $post ) {
 			$_POST
 		);
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
-		update_option( 'mt_settings', $settings );
+		// update_option( 'mt_settings', $settings );
 		/**
 		 * Filter updated settings messages appended to the 'My Tickets Ticketing Defaults saved' message.
 		 *
@@ -290,27 +296,27 @@ function mt_ticketing_settings() {
 											&lt;div class="ticket-sale-expiration">
 												&lt;p>
 													&lt;label for='reg_expires_&lt;?php $model; ?>'>&lt;?php _e( 'Stop online sales &lt;em>x&lt;/em> hours before event', 'my-tickets' ); ?>&lt;/label>
-													&lt;input type='number' name='defaults[&lt;?php $model; ?>][reg_expires]' id='reg_expires_&lt;?php $model; ?>' value='&lt;?php stripslashes( esc_attr( $displayed['reg_expires'] ) ); ?>'/>
+													&lt;input type='number' name='defaults[&lt;?php echo $model; ?>][reg_expires]' id='reg_expires_&lt;?php $model; ?>' value='&lt;?php stripslashes( esc_attr( $displayed['reg_expires'] ) ); ?>'/>
 												&lt;/p>
 												&lt;p>
 													&lt;label for='multiple_&lt;?php $model; ?>'>&lt;?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?>&lt;/label>
-													&lt;input type='checkbox' name='defaults[&lt;?php $model; ?>][multiple]' id='multiple_&lt;?php $model; ?>' value='true' &lt;?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
+													&lt;input type='checkbox' name='defaults[&lt;?php echo $model; ?>][multiple]' id='multiple_&lt;?php $model; ?>' value='true' &lt;?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
 												&lt;/p>
 											&lt;/div>
 											&lt;div class="ticket-sale-types">
 												&lt;fieldset>
 													&lt;legend>&lt;?php _e( 'Type of Sale', 'my-tickets' ); ?>&lt;/legend>
 													&lt;p>
-														&lt;input type='radio' name='defaults[&lt;?php $model; ?>][sales_type]' id='mt_sales_type_tickets_&lt;?php $model; ?>' value='tickets'&lt;?php checked( $is_tickets, true ); ?> />
-														&lt;label for='mt_sales_type_tickets_&lt;?php $model; ?>'>&lt;?php _e( 'Ticket Sales', 'my-tickets' ); ?>&lt;/label>&lt;br/>
-														&lt;input type='radio' name='defaults[&lt;?php $model; ?>][sales_type]' id='mt_sales_type_registration_&lt;?php $model; ?>' value='registration'&lt;?php checked( $is_registration, true ); ?> />
-														&lt;label for='mt_sales_type_registration_&lt;?php $model; ?>'>&lt;?php _e( 'Event Registration', 'my-tickets' ); ?>&lt;/label>
+														&lt;input type='radio' name='defaults[&lt;?php echo $model; ?>][sales_type]' id='mt_sales_type_tickets_&lt;?php $model; ?>' value='tickets'&lt;?php checked( $is_tickets, true ); ?> />
+														&lt;label for='mt_sales_type_tickets_&lt;?php echo $model; ?>'>&lt;?php _e( 'Ticket Sales', 'my-tickets' ); ?>&lt;/label>&lt;br/>
+														&lt;input type='radio' name='defaults[&lt;?php echo $model; ?>][sales_type]' id='mt_sales_type_registration_&lt;?php $model; ?>' value='registration'&lt;?php checked( $is_registration, true ); ?> />
+														&lt;label for='mt_sales_type_registration_&lt;?php echo $model; ?>'>&lt;?php _e( 'Event Registration', 'my-tickets' ); ?>&lt;/label>
 													&lt;/p>
 												&lt;/fieldset>
-												&lt;input type="hidden" name='defaults[&lt;?php $model; ?>][counting_method]' value='&lt;?php echo esc_attr( $method ); ?>' />
+												&lt;input type="hidden" name='defaults[&lt;?php echo $model; ?>][counting_method]' value='&lt;?php echo esc_attr( $method ); ?>' />
 											&lt;/div>
 										&lt;/div>
-										&lt;?php echo mt_prices_table( $displayed ); ?>
+										&lt;?php echo mt_prices_table( $displayed, $model ); ?>
 									&lt;/div>
 									&lt;?php
 								}

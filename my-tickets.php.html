@@ -605,75 +605,82 @@ We\'ll see you soon!&lt;br />
 		),
 	);
 	$continuous = array(
-		'free'            => '',
-		'sales_type'      => 'tickets',
-		'counting_method' => 'continuous',
 		'reg_expires'     => '3',
 		'multiple'        => 'true',
+		'sales_type'      => 'tickets',
+		'counting_method' => 'continuous',
 		'pricing'         => array(
 			'adult'          => array(
 				'label'   => 'Adult',
-				'price'   => '',
+				'price'   => '20',
 				'tickets' => '',
 				'sold'    => '',
+				'close'   => '',
 			),
 			'senior-student' => array(
 				'label'   => 'Senior/Student',
-				'price'   => '',
+				'price'   => '15',
 				'tickets' => '',
 				'sold'    => '',
+				'close'   => '',
 			),
 			'child'          => array(
 				'label'   => 'Child',
-				'price'   => '',
+				'price'   => '10',
 				'tickets' => '',
 				'sold'    => '',
+				'close'   => '',
 			),
 		),
+		'tickets'         => '120',
 	);
 
 	$discrete = array(
-		'free'            => '',
-		'sales_type'      => 'tickets',
-		'counting_method' => 'discrete',
 		'reg_expires'     => '3',
 		'multiple'        => 'true',
+		'sales_type'      => 'tickets',
+		'counting_method' => 'discrete',
 		'pricing'         => array(
 			'section-a' => array(
 				'label'   => 'Section A',
 				'price'   => '20',
 				'tickets' => '40',
 				'sold'    => '',
+				'close'   => '',
 			),
 			'section-b' => array(
 				'label'   => 'Section B',
-				'price'   => '15',
-				'tickets' => '40',
+				'price'   => '10',
+				'tickets' => '60',
 				'sold'    => '',
+				'close'   => '',
 			),
 		),
+		'tickets'         => 'inherit',
 	);
 
 	$showtime = array(
-		'free'            => '',
+		'reg_expires'     => '3',
+		'multiple'        => 'true',
 		'sales_type'      => 'tickets',
 		'counting_method' => 'event',
-		'reg_expires'     => '1',
-		'multiple'        => 'true',
 		'pricing'         => array(
 			'first-showing'  => array(
 				'label'   => date_i18n( 'Y-m-d H:i', strtotime( '8:00pm + 1 day' ) ),
 				'price'   => '20',
 				'tickets' => '40',
 				'sold'    => '',
+				'close'   => '',
 			),
 			'second-showing' => array(
 				'label'   => date_i18n( 'Y-m-d H:i', strtotime( '2:00pm + 2 days' ) ),
 				'price'   => '15',
 				'tickets' => '40',
 				'sold'    => '',
+				'close'   => '',
 			),
 		),
+		'tickets'         => 'inherit',
 	);
 
 	$defaults = array(
