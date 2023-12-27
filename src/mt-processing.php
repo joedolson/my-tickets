@@ -407,19 +407,19 @@ function mt_prices_table( $registration = array() ) {
 		$total           = '<input type="hidden" name="mt_tickets_total" value="inherit" />';
 	} else {
 		$disabled        = ( 'general' === $counting ) ? ' disabled="disabled"' : '';
-		$notice          = ( 'general' === $counting ) ? ' <em id="ticket-counting-status">' . __( 'Ticket counting is disabled for general admission events.', 'my-tickets' ) . '</em>' : '';
+		$notice          = ( 'general' === $counting ) ? ' <em id="ticket-counting-status_' . $counting . '">' . __( 'Ticket counting is disabled for general admission events.', 'my-tickets' ) . '</em>' : '';
 		$value           = ( isset( $registration['total'] ) && 'inherit' !== $registration['total'] ) ? $registration['total'] : $tickets;
-		$available_empty = "<input type='hidden' name='mt_tickets[]' id='mt_tickets' value='inherit' />";
-		$total           = "<p class='mt-available-tickets'><label for='mt_tickets_total'>" . __( 'Total Tickets Available', 'my-tickets' ) . ':</label> <input ' . $disabled . ' type="text" name="mt_tickets_total" id="mt_tickets_total" aria-describedby="ticket-counting-status" value="' . esc_attr( $value ) . '" />' . $notice . '</p>';
+		$available_empty = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_' . $counting . '' value='inherit' />";
+		$total           = "<p class='mt-available-tickets'><label for='mt_tickets_total_' . $counting . ''>" . __( 'Total Tickets Available', 'my-tickets' ) . ':</label> <input ' . $disabled . ' type="text" name="mt_tickets_total" id="mt_tickets_total_' . $counting . '" aria-describedby="ticket-counting-status" value="' . esc_attr( $value ) . '" />' . $notice . '</p>';
 	}
 	$labels_index = array();
 	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $registration['pricing']; // array of prices; label => cost/available/sold.
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $label => $options ) {
 			if ( 'discrete' === $counting || 'event' === $counting ) {
-				$available = "<input type='text' name='mt_tickets[]' id='mt_tickets_$label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
+				$available = "<input type='text' name='mt_tickets[]' id='mt_tickets_$counting . '_' . $label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
 			} else {
-				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$label' value='inherit' />";
+				$available = "<input type='hidden' name='mt_tickets[]' id='mt_tickets_$counting . '_' . $label' value='inherit' />";
 			}
 			if ( $label ) {
 				$date        = ( '' !== $options['label'] ) ? $options['label'] : gmdate( 'Y-m-d' );
@@ -441,8 +441,8 @@ function mt_prices_table( $registration = array() ) {
 						<button type='button' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "</span></button> 
 						<button type='button' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "</span></button>
 					</td>
-					<td>$label_field<input type='$type' class='$label_class' name='mt_label[]' id='mt_label_$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps</td>
-					<td><input type='number' name='mt_price[]' step='0.01' id='mt_price_$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
+					<td>$label_field<input type='$type' class='$label_class' name='mt_label[]' id='mt_label_$counting . '_' . $label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps</td>
+					<td><input type='number' name='mt_price[]' step='0.01' id='mt_price_$counting . '_' . $label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
 					<td><input type='hidden' name='mt_sold[]' value='" . $sold . "' />" . $sold . '</td>
 					<td><input type="date" name="mt_close[]" value="' . ( ( $close ) ? gmdate( 'Y-m-d', $close ) : '' ) . '" /></td>
@@ -465,8 +465,8 @@ function mt_prices_table( $registration = array() ) {
 						<button type='button' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "</span></button> 
 						<button type='button' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "</span></button>
 					</td>
-					<td><input type='text' readonly name='mt_label[]' id='mt_label_complimentary' value='Complimentary' /><br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "</td>
-					<td><input type='text' readonly name='mt_price[]' id='mt_price_complimentary' value='0' size='8' /></td>
+					<td><input type='text' readonly name='mt_label[]' id='mt_label_$counting . '_' . complimentary' value='Complimentary' /><br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "</td>
+					<td><input type='text' readonly name='mt_price[]' id='mt_price_$counting . '_' . complimentary' value='0' size='8' /></td>
 					<td>$available</td>
 					<td></td>
 					<td></td>
@@ -474,10 +474,10 @@ function mt_prices_table( $registration = array() ) {
 		}
 	}
 	$return   .= "
-		<tr class='clonedPrice' id='price1'>
+		<tr class='clonedPrice $counting' id='price" . $counting . "1'>
 			<td></td>
-			<td>$label_field<input type='text' class='" . $label_class . "' name='mt_label[]' id='mt_label' /></td>
-			<td><input type='text' name='mt_price[]' id='mt_price' step='0.01' size='8' /></td>
+			<td>$label_field<input type='text' class='" . $label_class . "' name='mt_label[]' id='mt_$counting . '_' . label' /></td>
+			<td><input type='text' name='mt_price[]' id='mt_$counting . '_' . price' step='0.01' size='8' /></td>
 			<td>$available_empty</td>
 			<td></td>
 			<td><input type='date' name='mt_close[]' value='' /></td>
@@ -487,8 +487,8 @@ function mt_prices_table( $registration = array() ) {
 	$del_field = __( 'Remove last price group', 'my-tickets' );
 	$return   .= '
 			<p>
-				<input type="button" id="add_price" value="' . $add_field . '" class="button" />
-				<input type="button" id="del_price" value="' . $del_field . '" class="button" />
+				<input type="button" value="' . $add_field . '" class="add-price button ' . $counting . '" data-context="' . $counting . '" />
+				<input type="button" value="' . $del_field . '" class="del-price button ' . $counting . '" data-context="' . $counting . '" />
 			</p>';
 
 	return $total . $return;
