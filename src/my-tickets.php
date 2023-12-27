@@ -579,7 +579,6 @@ We\'ll see you soon!<br />
 		),
 	);
 	$continuous = array(
-		'free'            => '',
 		'sales_type'      => 'tickets',
 		'counting_method' => 'continuous',
 		'reg_expires'     => '3',
@@ -607,7 +606,6 @@ We\'ll see you soon!<br />
 	);
 
 	$discrete = array(
-		'free'            => '',
 		'sales_type'      => 'tickets',
 		'counting_method' => 'discrete',
 		'reg_expires'     => '3',
@@ -629,7 +627,6 @@ We\'ll see you soon!<br />
 	);
 
 	$showtime = array(
-		'free'            => '',
 		'sales_type'      => 'tickets',
 		'counting_method' => 'event',
 		'reg_expires'     => '1',
