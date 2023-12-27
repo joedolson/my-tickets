@@ -42,20 +42,21 @@ function mt_update_ticketing_settings( $post ) {
 		$close_type               = ( isset( $post['mt_tickets_close_type'] ) ) ? $post['mt_tickets_close_type'] : 'integer';
 		$mt_display_remaining     = ( isset( $post['mt_display_remaining'] ) ) ? $post['mt_display_remaining'] : 'proportion';
 		$mt_ticket_image          = ( isset( $post['mt_ticket_image'] ) ) ? $post['mt_ticket_image'] : 'ticket';
+		$default_model            = ( isset( $post['default_model'] ) ) ? $post['default_model'] : 'continuous';
 
 		$ticket_models = array( 'continuous', 'discrete', 'event' );
 		foreach ( $ticket_models as $model ) {
-			$model_defaults           = ( isset( $post['defaults'][ $model ] ) ) ? $post['defaults'][ $model ] : array();
-			$labels                   = ( isset( $post['mt_label'][ $model ] ) ) ? $post['mt_label'][ $model ] : array();
-			$prices                   = ( isset( $post['mt_price'][ $model ] ) ) ? $post['mt_price'][ $model ] : array();
-			$close                    = ( isset( $post['mt_close'][ $model ] ) ) ? $post['mt_close'][ $model ] : array();
-			$availability             = ( isset( $post['mt_tickets'][ $model ] ) ) ? $post['mt_tickets'][ $model ] : array();
-			$pricing_array            = mt_setup_pricing( $labels, $prices, $availability, $close );
+			$model_defaults = ( isset( $post['defaults'][ $model ] ) ) ? $post['defaults'][ $model ] : array();
+			$labels         = ( isset( $post['mt_label'][ $model ] ) ) ? $post['mt_label'][ $model ] : array();
+			$prices         = ( isset( $post['mt_price'][ $model ] ) ) ? $post['mt_price'][ $model ] : array();
+			$close          = ( isset( $post['mt_close'][ $model ] ) ) ? $post['mt_close'][ $model ] : array();
+			$availability   = ( isset( $post['mt_tickets'][ $model ] ) ) ? $post['mt_tickets'][ $model ] : array();
+			$pricing_array  = mt_setup_pricing( $labels, $prices, $availability, $close );
 
 			$defaults[ $model ]             = $model_defaults;
 			$defaults[ $model ]['pricing']  = $pricing_array;
 			$defaults[ $model ]['tickets']  = ( is_array( $mt_total_tickets ) ) ? $mt_total_tickets[ $model ] : $mt_total_tickets;
-			$defaults[ $model ]['multiple'] = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';			
+			$defaults[ $model ]['multiple'] = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';
 		}
 
 		/**
@@ -72,6 +73,7 @@ function mt_update_ticketing_settings( $post ) {
 			'mt_settings',
 			array(
 				'defaults'                 => $defaults,
+				'default_model'            => $default_model,
 				'mt_shipping'              => $mt_shipping,
 				'mt_handling'              => $mt_handling,
 				'mt_ticket_handling'       => $mt_ticket_handling,
@@ -91,7 +93,7 @@ function mt_update_ticketing_settings( $post ) {
 			$_POST
 		);
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
-		// update_option( 'mt_settings', $settings );
+		update_option( 'mt_settings', $settings );
 		/**
 		 * Filter updated settings messages appended to the 'My Tickets Ticketing Defaults saved' message.
 		 *
@@ -240,6 +242,14 @@ function mt_ticketing_settings() {
 								<p>
 									<?php _e( 'Changing these settings does not impact events that have already been created.', 'my-tickets' ); ?>
 								</p>
+								<fieldset>
+									<legend><?php _e( 'Default ticket model', 'my-tickets' ); ?></legend>
+									<ul class="checkboxes">
+										<li><input type="radio" name="default_model" id="default_model_continuous" value="continuous" <?php checked( $options['default_model'], 'continuous' ); ?> /> <label for="default_model_continuous"><?php _e( 'Continuous', 'my-tickets' ); ?></label></li>
+										<li><input type="radio" name="default_model" id="default_model_discrete" value="discrete" <?php checked( $options['default_model'], 'discrete' ); ?>/> <label for="default_model_discrete"><?php _e( 'Discrete', 'my-tickets' ); ?></label></li>
+										<li><input type="radio" name="default_model" id="default_model_event" value="event" <?php checked( $options['default_model'], 'event' ); ?>/> <label for="default_model_event"><?php _e( 'Event', 'my-tickets' ); ?></label></li>
+									</ul>
+								</fieldset>
 							<?php
 							$ticket_models = array( 'discrete', 'continuous', 'event' );
 							$tabs          = '';

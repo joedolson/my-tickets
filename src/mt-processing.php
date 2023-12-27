@@ -282,6 +282,10 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
 	}
+	if ( empty( $registration ) ) {
+		$default_model = $options['default_model'];
+		$registration  = $options['defaults'][ $default_model ];
+	}
 	$expiration  = ( isset( $registration['reg_expires'] ) ) ? $registration['reg_expires'] : $options['defaults']['reg_expires'];
 	$multiple    = ( isset( $registration['multiple'] ) ) ? $registration['multiple'] : $options['defaults']['multiple'];
 	$is_multiple = ( 'true' === $multiple ) ? 'checked="checked"' : '';

@@ -664,6 +664,7 @@ We\'ll see you soon!<br />
 			'discrete'   => $discrete,
 			'event'      => $showtime,
 		),
+		'default_model'            => 'continuous',
 		'messages'                 => $messages,
 		'mt_post_types'            => array( 'mc-events', 'page' ),
 		'mt_license_key'           => '',
