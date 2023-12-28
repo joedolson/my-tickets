@@ -283,33 +283,77 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
  *
  * @return string
  */
-function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
-	$original_form = $form;
-	$options       = mt_get_settings();
-	$registration  = array();
-	$event_id      = false;
-	$description   = false;
-	$hide          = false;
-	$checked       = '';
-	$notes         = '';
+function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $model = '' ) {
+	$event_id     = 0;
+	$notes        = '';
+	$hide         = false;
+	$checked      = '';
+	$registration = array();
 	if ( true === $has_data &amp;&amp; property_exists( $data, 'event_post' ) ) {
 		$event_id     = (int) $data->event_post;
-		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
-		$description  = stripslashes( esc_attr( $data->event_registration ) );
-		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
+		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
+		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 	}
 	if ( is_int( $has_data ) &amp;&amp; $has_data ) {
 		$event_id     = $has_data;
-		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
-		$description  = false;
-		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
+		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
+		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
+	}
+	$is_hidden      = ( 'true' === $hide ) ? ' checked="checked"' : '';
+	$data           = '&lt;div class="hidden mt-ticket-data-json">' . json_encode( $data ) . '&lt;/div>';
+	$model_selector = '
+	&lt;div class="mt-load-model">
+		' . $data . '
+		&lt;button type="button" class="continuous" id="' . $event_id . '">Continuous&lt;/button>
+		&lt;button type="button" class="discrete" id="' . $event_id . '">Discrete&lt;/button>
+		&lt;button type="button" class="event" id="' . $event_id . '">Event&lt;/button>
+	&lt;/div>';
+	$shortcode = ( $registration ) ? "&lt;label for='shortcode'>" . __( 'Add to Cart Form Shortcode', 'my-tickets' ) . "&lt;/label>&lt;br />&lt;textarea id='shortcode' readonly='readonly' class='large-text readonly'>[ticket event='$event_id']&lt;/textarea>" : '';
+
+	// Appear on My Calendar events to toggle ticket sales.
+	$format  = ( isset( $_GET['page'] ) &amp;&amp; 'my-calendar' === $_GET['page'] ) ? "&lt;p>&lt;input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> &lt;label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '&lt;/label>&lt;/p>' : '';
+	$reports = ( $event_id &amp;&amp; ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "&lt;p class='get-report'>&lt;span class='dashicons dashicons-chart-bar' aria-hidden='true'>&lt;/span> &lt;a href='" . admin_url( "admin.php?page=mt-reports&amp;amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '&lt;/a>&lt;/p>' : '';
+	$form    =  $reports . $format . $shortcode . $model_selector . '&lt;div class="mt-ticket-wrapper-form">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '&lt;/div>';
+
+	$form .= "&lt;p>
+		&lt;label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "&lt;/label>&lt;br />
+		&lt;textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_textarea( $notes ) ) . "&lt;/textarea>&lt;br />
+		&lt;span id='template_tag'>" . __( 'Template tag for email notifications:', 'my-tickets' ) . ' &lt;code>{event_notes}&lt;/code>&lt;/span>
+	&lt;/p>';
+	$form .= "&lt;p>&lt;input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> &lt;label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '&lt;/label>&lt;/p>';
+
+
+	return $form;
+}
+
+/**
+ * Add registration fields for My Calendar events &amp; posts.
+ *
+ * @param string $form Form html.
+ * @param bool   $has_data Does this form contain data.
+ * @param object $data object Data contained.
+ * @param string $public Admin or public context.
+ * @param string $model Whether to fetch a specific ticket model format.
+ *
+ * @return string
+ */
+function mt_get_registration_fields( $form, $has_data, $data, $public = 'admin', $model = '' ) {
+	$original_form = $form;
+	$options       = mt_get_settings();
+	$registration  = array();
+	$description   = false;
+	if ( true === $has_data &amp;&amp; property_exists( $data, 'event_post' ) ) {
+		$description  = stripslashes( esc_attr( $data->event_registration ) );
+	}
+	if ( is_int( $has_data ) &amp;&amp; $has_data ) {
+		$description  = false;
 	}
 	if ( empty( $registration ) ) {
-		$default_model = $options['default_model'];
+		$default_model = ( '' !== $model ) ? $model : $options['default_model'];
 		$registration  = $options['defaults'][ $default_model ];
 	}
 	$expiration  = ( isset( $registration['reg_expires'] ) ) ? $registration['reg_expires'] : $options['defaults']['reg_expires'];
@@ -323,25 +367,9 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$is_tickets      = '';
 		$is_registration = ' checked="checked"';
 	}
-	$method = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $options['defaults']['counting_method'];
-	if ( 'true' === $hide ) {
-		$is_hidden = ' checked="checked"';
-	} else {
-		$is_hidden = '';
-	}
-	if ( $registration ) {
-		$shortcode = "&lt;label for='shortcode'>" . __( 'Add to Cart Form Shortcode', 'my-tickets' ) . "&lt;/label>&lt;br />&lt;textarea id='shortcode' readonly='readonly' class='large-text readonly'>[ticket event='$event_id']&lt;/textarea>";
-	} else {
-		$shortcode = '';
-	}
-	// Appear on My Calendar events to toggle ticket sales.
-	$format  = ( isset( $_GET['page'] ) &amp;&amp; 'my-calendar' === $_GET['page'] ) ? "&lt;p>&lt;input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> &lt;label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '&lt;/label>&lt;/p>' : '';
-	$before  = "&lt;div class='mt-ticket-form'>";
-	$after   = '&lt;/div>';
-	$reports = ( $event_id &amp;&amp; ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "&lt;p class='get-report'>&lt;span class='dashicons dashicons-chart-bar' aria-hidden='true'>&lt;/span> &lt;a href='" . admin_url( "admin.php?page=mt-reports&amp;amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '&lt;/a>&lt;/p>' : '';
+	$method    = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $default_model;
 
-	$form  = $reports . $format . $before . $shortcode;
-	$form .= mt_prices_table( $registration );
+	$form  = mt_prices_table( $registration, $method );
 	$form .= "
 	&lt;p>
 		&lt;label for='reg_expires'>" . __( 'Allow sales until', 'my-tickets' ) . "&lt;/label> &lt;input type='number' name='reg_expires' id='reg_expires' value='$expiration' aria-labelledby='reg_expires reg_expires_label' size='3' /> &lt;span class='label' id='reg_expires_label'>" . __( 'hours before the event', 'my-tickets' ) . "&lt;/span>
@@ -366,12 +394,6 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	if ( false !== $description ) {
 		$form .= "&lt;p>&lt;label for='event_registration'>" . __( 'Registration Information', 'my-tickets' ) . "&lt;/label> &lt;textarea name='event_registration' id='event_registration' cols='40' rows='4'/>$description&lt;/textarea>&lt;/p>";
 	}
-	$form .= "&lt;p>
-		&lt;label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "&lt;/label>&lt;br />
-		&lt;textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_textarea( $notes ) ) . "&lt;/textarea>&lt;br />
-		&lt;span id='template_tag'>&lt;strong>" . __( 'Template tag:', 'my-tickets' ) . ' &lt;/strong>&lt;code>{event_notes}&lt;/code>&lt;/span>
-	&lt;/p>';
-	$form .= "&lt;p>&lt;input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> &lt;label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '&lt;/label>&lt;/p>';
 	/**
 	 * Show custom fields/content in event creation inside My Calendar. Inserted at the end of the form.
 	 *
@@ -384,7 +406,6 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	 * @return {string}
 	 */
 	$form .= apply_filters( 'mt_custom_data_fields', '', $registration, $data );
-	$form .= $after;
 
 	/**
 	 * Filter generated form for event creation inside My Calendar.
@@ -414,6 +435,9 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 	if ( empty( $registration ) ) {
 		$registration = mt_get_settings( 'defaults' )['continuous'];
 	}
+	// Compound array in settings, single array in posts.
+	$pattern   = ( isset( $_GET['post'] ) ) ? '[]' : "[$counting][]";
+	$altpatt   = ( isset( $_GET['post'] ) ) ? '' : "[$counting]";
 	$counting  = ( $counting ) ? $counting : $registration['counting_method'];
 	$available = '';
 	$tickets   = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
@@ -433,32 +457,32 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 					&lt;/thead>
 					&lt;tbody>';
 	if ( 'discrete' === $counting || 'event' === $counting ) {
-		$available_empty = "&lt;input type='text' name='mt_tickets[$counting][]' id='mt_tickets' value='' size='8' />";
-		$total           = '&lt;input type="hidden" name="mt_tickets_total[' . $counting . ']" value="inherit" />';
+		$available_empty = "&lt;input type='text' name='mt_tickets$pattern' id='mt_tickets' value='' size='8' />";
+		$total           = '&lt;input type="hidden" name="mt_tickets_total' . $altpatt . '" value="inherit" />';
 	} else {
 		$disabled        = ( 'general' === $counting ) ? ' disabled="disabled"' : '';
 		$notice          = ( 'general' === $counting ) ? ' &lt;em id="ticket-counting-status_' . $counting . '">' . __( 'Ticket counting is disabled for general admission events.', 'my-tickets' ) . '&lt;/em>' : '';
 		$value           = ( isset( $registration['total'] ) &amp;&amp; 'inherit' !== $registration['total'] ) ? $registration['total'] : $tickets;
-		$available_empty = "&lt;input type='hidden' name='mt_tickets[$counting][]' id='mt_tickets_" . $counting . "' value='inherit' />";
-		$total           = "&lt;p class='mt-available-tickets'>&lt;label for='mt_tickets_total_" . $counting . "'>" . __( 'Total Tickets Available', 'my-tickets' ) . ':&lt;/label> &lt;input ' . $disabled . ' type="text" name="mt_tickets_total[' . $counting . ']" id="mt_tickets_total_' . $counting . '" aria-describedby="ticket-counting-status" value="' . esc_attr( $value ) . '" />' . $notice . '&lt;/p>';
+		$available_empty = "&lt;input type='hidden' name='mt_tickets$pattern' id='mt_tickets_" . $counting . "' value='inherit' />";
+		$total           = "&lt;p class='mt-available-tickets'>&lt;label for='mt_tickets_total_" . $counting . "'>" . __( 'Total Tickets Available', 'my-tickets' ) . ':&lt;/label> &lt;input ' . $disabled . ' type="text" name="mt_tickets_total' . $altpatt . '" id="mt_tickets_total_' . $counting . '" aria-describedby="ticket-counting-status" value="' . esc_attr( $value ) . '" />' . $notice . '&lt;/p>';
 	}
 	$labels_index = array();
 	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $registration['pricing']; // array of prices; label => cost/available/sold.
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $label => $options ) {
 			if ( 'discrete' === $counting || 'event' === $counting ) {
-				$available = "&lt;input type='text' name='mt_tickets[$counting][]' id='mt_tickets_$counting . '_' . $label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
+				$available = "&lt;input type='text' name='mt_tickets$pattern' id='mt_tickets_$counting . '_' . $label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
 			} else {
-				$available = "&lt;input type='hidden' name='mt_tickets[$counting][]' id='mt_tickets_$counting . '_' . $label' value='inherit' />";
+				$available = "&lt;input type='hidden' name='mt_tickets$pattern' id='mt_tickets_$counting . '_' . $label' value='inherit' />";
 			}
 			if ( $label ) {
 				$date        = ( '' !== $options['label'] ) ? $options['label'] : gmdate( 'Y-m-d' );
 				$args        = array(
 					'id'    => "mt_label_$label",
-					'name'  => 'mt_label[' . $counting . '][]',
+					'name'  => 'mt_label' . $pattern,
 					'value' => gmdate( 'Y-m-d', strtotime( $date ) ),
 				);
-				$label_field = ( 'event' === $counting ) ? '&lt;div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '&lt;label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '&lt;/label>&lt;input type="time" name="mt_label_time[]" id="mt_label_picker_time_' . $label . '">&lt;/div>' : '';
+				$label_field = ( 'event' === $counting ) ? '&lt;div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '&lt;label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '&lt;/label>&lt;input type="time" name="mt_label_time' . $pattern . '" id="mt_label_picker_time_' . $label . '">&lt;/div>' : '';
 				$label_class = ( 'event' === $counting ) ? 'duet-fallback' : '';
 
 				$class   = ( 0 !== (int) $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
@@ -471,11 +495,11 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 						&lt;button type='button' class='button up'>&lt;span class='dashicons dashicons-arrow-up-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "&lt;/span>&lt;/button> 
 						&lt;button type='button' class='button down'>&lt;span class='dashicons dashicons-arrow-down-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "&lt;/span>&lt;/button>
 					&lt;/td>
-					&lt;td>$label_field&lt;input type='$type' class='$label_class' name='mt_label[$counting][]' id='mt_label_$counting" . '_' . "$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps&lt;/td>
-					&lt;td>&lt;input type='number' name='mt_price[$counting][]' step='0.01' id='mt_price_$counting" . '_' . "$label' value='" . esc_attr( $options['price'] ) . "' size='8' />&lt;/td>
+					&lt;td>$label_field&lt;input type='$type' class='$label_class' name='mt_label$pattern' id='mt_label_$counting" . '_' . "$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps&lt;/td>
+					&lt;td>&lt;input type='number' name='mt_price$pattern' step='0.01' id='mt_price_$counting" . '_' . "$label' value='" . esc_attr( $options['price'] ) . "' size='8' />&lt;/td>
 					&lt;td>$available&lt;/td>
-					&lt;td>&lt;input type='hidden' name='mt_sold[$counting][]' value='" . $sold . "' />" . $sold . '&lt;/td>
-					&lt;td>&lt;input type="date" name="mt_close[' . $counting . '][]" value="' . ( ( $close ) ? gmdate( 'Y-m-d', $close ) : '' ) . '" />&lt;/td>
+					&lt;td>&lt;input type='hidden' name='mt_sold$pattern' value='" . $sold . "' />" . $sold . '&lt;/td>
+					&lt;td>&lt;input type="date" name="mt_close' . $pattern . '" value="' . ( ( $close ) ? gmdate( 'Y-m-d', $close ) : '' ) . '" />&lt;/td>
 				&lt;/tr>';
 
 				$labels_index[ $label ] = $options['label'];
@@ -495,8 +519,8 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 						&lt;button type='button' class='button up'>&lt;span class='dashicons dashicons-arrow-up-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "&lt;/span>&lt;/button> 
 						&lt;button type='button' class='button down'>&lt;span class='dashicons dashicons-arrow-down-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "&lt;/span>&lt;/button>
 					&lt;/td>
-					&lt;td>&lt;input type='text' readonly name='mt_label[$counting][]' id='mt_label_$counting" . '_' . "complimentary' value='Complimentary' />&lt;br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "&lt;/td>
-					&lt;td>&lt;input type='text' readonly name='mt_price[$counting][]' id='mt_price_$counting" . '_' . "complimentary' value='0' size='8' />&lt;/td>
+					&lt;td>&lt;input type='text' readonly name='mt_label$pattern' id='mt_label_$counting" . '_' . "complimentary' value='Complimentary' />&lt;br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "&lt;/td>
+					&lt;td>&lt;input type='text' readonly name='mt_price$pattern' id='mt_price_$counting" . '_' . "complimentary' value='0' size='8' />&lt;/td>
 					&lt;td>$available&lt;/td>
 					&lt;td>&lt;/td>
 					&lt;td>&lt;/td>
@@ -506,11 +530,11 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 	$return   .= "
 		&lt;tr class='clonedPrice $counting' id='price" . $counting . "1'>
 			&lt;td>&lt;/td>
-			&lt;td>$label_field&lt;input type='text' class='$label_class' name='mt_label[$counting][]' id='mt_$counting" . '_' . "label' />&lt;/td>
-			&lt;td>&lt;input type='text' name='mt_price[$counting][]' id='mt_$counting" . '_' . "price' step='0.01' size='8' />&lt;/td>
+			&lt;td>$label_field&lt;input type='text' class='$label_class' name='mt_label$pattern' id='mt_$counting" . '_' . "label' />&lt;/td>
+			&lt;td>&lt;input type='text' name='mt_price$pattern' id='mt_$counting" . '_' . "price' step='0.01' size='8' />&lt;/td>
 			&lt;td>$available_empty&lt;/td>
 			&lt;td>&lt;/td>
-			&lt;td>&lt;input type='date' name='mt_close[$counting][]' value='' />&lt;/td>
+			&lt;td>&lt;input type='date' name='mt_close$pattern' value='' />&lt;/td>
 		&lt;/tr>";
 	$return   .= '&lt;/tbody>&lt;/table>';
 	$add_field = __( 'Add a price group', 'my-tickets' );

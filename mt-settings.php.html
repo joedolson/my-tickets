@@ -500,8 +500,10 @@ function mt_wp_enqueue_scripts() {
 			'mt.add',
 			'mt',
 			array(
-				'delete' => __( 'Delete', 'my-tickets' ),
-				'undo'   => __( 'Undo Deletion', 'my-tickets' ),
+				'delete'   => __( 'Delete', 'my-tickets' ),
+				'undo'     => __( 'Undo Deletion', 'my-tickets' ),
+				'action'   => 'mt_ajax_load_model',
+				'security' => wp_create_nonce( 'mt-load-model' ),
 			)
 		);
 		wp_localize_script(
