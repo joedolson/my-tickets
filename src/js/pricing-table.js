@@ -61,9 +61,12 @@
 			});
 		}
 		$( '.mt-load-model button' ).on( 'click', function() {
-			var event_id = $(this).attr( 'id' );
-			var model    = $(this).attr( 'class' );
+			var event_id = $(this).attr( 'data-event' );
+			var model    = $(this).attr( 'data-model' );
 			var event    = $( '.mt-ticket-data-json' ).html();
+			$( '.mt-load-model button' ).attr( 'aria-selected', 'false' ).removeAttr( 'id' );
+			$( this ).attr( 'aria-selected', 'true' ).attr( 'id', 'current-tab' );
+			$( '.mt-ticket-wrapper-form' ).removeAttr( 'aria-labelledby' );
 			var data     = {
 				'action': mt.action,
 				'event_id': event_id,
@@ -76,6 +79,7 @@
 				var container = $( '.mt-ticket-wrapper-form' );
 				var form      = response.form;
 
+				container.attr( 'aria-labelledby', 'current-tab' );
 				container.html( form );
 				mt_pricing_table();
 			}, "json" );

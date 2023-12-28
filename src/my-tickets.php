@@ -1203,6 +1203,9 @@ function mt_kses_elements() {
 			'data-ticket'      => array(),
 			'data-payment'     => array(),
 			'id'               => array(),
+			'aria-pressed'     => array(),
+			'data-model'       => array(),
+			'data-event'       => array(),
 		),
 		'ul'               => array(
 			'class' => array(),
@@ -1242,6 +1245,7 @@ function mt_kses_elements() {
 			'role'            => array(),
 			'data-default'    => array(),
 			'aria-labelledby' => array(),
+			'aria-label'      => array(),
 		),
 		'img'              => array(
 			'class'    => true,

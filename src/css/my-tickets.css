@@ -190,6 +190,18 @@ legend {
     border: 1px solid #0000001a;
 }
 
+.mt-load-model {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+}
+
+.mt-load-model button[aria-selected="true"] {
+	outline: 2px solid;
+	outline-offset: 1px;
+}
+
 .my-tickets .checkboxes {
     margin: 0;
 }

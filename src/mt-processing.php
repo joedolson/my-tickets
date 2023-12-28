@@ -264,6 +264,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $mo
 	$hide         = false;
 	$checked      = '';
 	$registration = array();
+	$options      = mt_get_settings();
 	if ( true === $has_data && property_exists( $data, 'event_post' ) ) {
 		$event_id     = (int) $data->event_post;
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
@@ -279,20 +280,27 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $mo
 		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 	}
 	$is_hidden      = ( 'true' === $hide ) ? ' checked="checked"' : '';
-	$data           = '<div class="hidden mt-ticket-data-json">' . json_encode( $data ) . '</div>';
-	$model_selector = '
-	<div class="mt-load-model">
-		' . $data . '
-		<button type="button" class="continuous" id="' . $event_id . '">Continuous</button>
-		<button type="button" class="discrete" id="' . $event_id . '">Discrete</button>
-		<button type="button" class="event" id="' . $event_id . '">Event</button>
-	</div>';
-	$shortcode      = ( $registration ) ? "<label for='shortcode'>" . __( 'Add to Cart Form Shortcode', 'my-tickets' ) . "</label><br /><textarea id='shortcode' readonly='readonly' class='large-text readonly'>[ticket event='$event_id']</textarea>" : '';
+	$model_selector = '';
+	if ( empty( $registration ) ) {
+		$model    = ( '' !== $model ) ? $model : $options['default_model'];
+		$data     = '<div class="hidden mt-ticket-data-json">' . json_encode( $data ) . '</div>';
+		$selector = '';
+		$models   = array( 'continuous', 'discrete', 'event' );
+		foreach ( $models as $option ) {
+			$selected  = ( $model === $option ) ? ' aria-selected="true"' : ' aria-selected="false"';
+			$selector .= "<button type='button' role='tab' class='button button-secondary' data-model='$option' data-event='$event_id' $selected>" . ucfirst( $option ) . '</button>';
+		}
+		$model_selector = '
+		<div class="mt-load-model" role="tablist" aria-label="' . __( 'Choose Ticket Model', 'my-tickets' ) . '">
+			' . $data . '<strong aria-hidden="true">' . __( 'Choose Ticket Model', 'my-tickets' ) . '</strong>' . $selector . '
+		</div>';
+	}
+	$shortcode = ( $registration ) ? "<label for='shortcode'>" . __( 'Add to Cart Form Shortcode', 'my-tickets' ) . "</label><br /><textarea id='shortcode' readonly='readonly' class='large-text readonly'>[ticket event='$event_id']</textarea>" : '';
 
 	// Appear on My Calendar events to toggle ticket sales.
 	$format  = ( isset( $_GET['page'] ) && 'my-calendar' === $_GET['page'] ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '</label></p>' : '';
 	$reports = ( $event_id && ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
-	$form    = $reports . $format . $shortcode . $model_selector . '<div class="mt-ticket-wrapper-form">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '</div>';
+	$form    = $reports . $format . $shortcode . $model_selector . '<div class="mt-ticket-wrapper-form" role="tabpanel" tabindex="0">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '</div>';
 
 	$form .= "<p>
 		<label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "</label><br />
