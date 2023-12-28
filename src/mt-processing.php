@@ -257,33 +257,77 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
  *
  * @return string
  */
-function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
-	$original_form = $form;
-	$options       = mt_get_settings();
-	$registration  = array();
-	$event_id      = false;
-	$description   = false;
-	$hide          = false;
-	$checked       = '';
-	$notes         = '';
+function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $model = '' ) {
+	$event_id     = 0;
+	$notes        = '';
+	$hide         = false;
+	$checked      = '';
+	$registration = array();
 	if ( true === $has_data && property_exists( $data, 'event_post' ) ) {
 		$event_id     = (int) $data->event_post;
-		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
-		$description  = stripslashes( esc_attr( $data->event_registration ) );
-		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
+		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
+		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 	}
 	if ( is_int( $has_data ) && $has_data ) {
 		$event_id     = $has_data;
-		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
-		$description  = false;
-		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
 		$notes        = get_post_meta( $event_id, '_mt_event_notes', true );
+		$hide         = get_post_meta( $event_id, '_mt_hide_registration_form', true );
+		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+		$checked      = ( 'true' === get_post_meta( $event_id, '_mt_sell_tickets', true ) ) ? ' checked="checked"' : '';
+	}
+	$is_hidden      = ( 'true' === $hide ) ? ' checked="checked"' : '';
+	$data           = '<div class="hidden mt-ticket-data-json">' . json_encode( $data ) . '</div>';
+	$model_selector = '
+	<div class="mt-load-model">
+		' . $data . '
+		<button type="button" class="continuous" id="' . $event_id . '">Continuous</button>
+		<button type="button" class="discrete" id="' . $event_id . '">Discrete</button>
+		<button type="button" class="event" id="' . $event_id . '">Event</button>
+	</div>';
+	$shortcode = ( $registration ) ? "<label for='shortcode'>" . __( 'Add to Cart Form Shortcode', 'my-tickets' ) . "</label><br /><textarea id='shortcode' readonly='readonly' class='large-text readonly'>[ticket event='$event_id']</textarea>" : '';
+
+	// Appear on My Calendar events to toggle ticket sales.
+	$format  = ( isset( $_GET['page'] ) && 'my-calendar' === $_GET['page'] ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '</label></p>' : '';
+	$reports = ( $event_id && ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
+	$form    =  $reports . $format . $shortcode . $model_selector . '<div class="mt-ticket-wrapper-form">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '</div>';
+
+	$form .= "<p>
+		<label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "</label><br />
+		<textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_textarea( $notes ) ) . "</textarea><br />
+		<span id='template_tag'>" . __( 'Template tag for email notifications:', 'my-tickets' ) . ' <code>{event_notes}</code></span>
+	</p>';
+	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '</label></p>';
+
+
+	return $form;
+}
+
+/**
+ * Add registration fields for My Calendar events & posts.
+ *
+ * @param string $form Form html.
+ * @param bool   $has_data Does this form contain data.
+ * @param object $data object Data contained.
+ * @param string $public Admin or public context.
+ * @param string $model Whether to fetch a specific ticket model format.
+ *
+ * @return string
+ */
+function mt_get_registration_fields( $form, $has_data, $data, $public = 'admin', $model = '' ) {
+	$original_form = $form;
+	$options       = mt_get_settings();
+	$registration  = array();
+	$description   = false;
+	if ( true === $has_data && property_exists( $data, 'event_post' ) ) {
+		$description  = stripslashes( esc_attr( $data->event_registration ) );
+	}
+	if ( is_int( $has_data ) && $has_data ) {
+		$description  = false;
 	}
 	if ( empty( $registration ) ) {
-		$default_model = $options['default_model'];
+		$default_model = ( '' !== $model ) ? $model : $options['default_model'];
 		$registration  = $options['defaults'][ $default_model ];
 	}
 	$expiration  = ( isset( $registration['reg_expires'] ) ) ? $registration['reg_expires'] : $options['defaults']['reg_expires'];
@@ -297,25 +341,9 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 		$is_tickets      = '';
 		$is_registration = ' checked="checked"';
 	}
-	$method = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $options['defaults']['counting_method'];
-	if ( 'true' === $hide ) {
-		$is_hidden = ' checked="checked"';
-	} else {
-		$is_hidden = '';
-	}
-	if ( $registration ) {
-		$shortcode = "<label for='shortcode'>" . __( 'Add to Cart Form Shortcode', 'my-tickets' ) . "</label><br /><textarea id='shortcode' readonly='readonly' class='large-text readonly'>[ticket event='$event_id']</textarea>";
-	} else {
-		$shortcode = '';
-	}
-	// Appear on My Calendar events to toggle ticket sales.
-	$format  = ( isset( $_GET['page'] ) && 'my-calendar' === $_GET['page'] ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '</label></p>' : '';
-	$before  = "<div class='mt-ticket-form'>";
-	$after   = '</div>';
-	$reports = ( $event_id && ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
+	$method    = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $default_model;
 
-	$form  = $reports . $format . $before . $shortcode;
-	$form .= mt_prices_table( $registration );
+	$form  = mt_prices_table( $registration, $method );
 	$form .= "
 	<p>
 		<label for='reg_expires'>" . __( 'Allow sales until', 'my-tickets' ) . "</label> <input type='number' name='reg_expires' id='reg_expires' value='$expiration' aria-labelledby='reg_expires reg_expires_label' size='3' /> <span class='label' id='reg_expires_label'>" . __( 'hours before the event', 'my-tickets' ) . "</span>
@@ -340,12 +368,6 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	if ( false !== $description ) {
 		$form .= "<p><label for='event_registration'>" . __( 'Registration Information', 'my-tickets' ) . "</label> <textarea name='event_registration' id='event_registration' cols='40' rows='4'/>$description</textarea></p>";
 	}
-	$form .= "<p>
-		<label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "</label><br />
-		<textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_textarea( $notes ) ) . "</textarea><br />
-		<span id='template_tag'><strong>" . __( 'Template tag:', 'my-tickets' ) . ' </strong><code>{event_notes}</code></span>
-	</p>';
-	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '</label></p>';
 	/**
 	 * Show custom fields/content in event creation inside My Calendar. Inserted at the end of the form.
 	 *
@@ -358,7 +380,6 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin' ) {
 	 * @return {string}
 	 */
 	$form .= apply_filters( 'mt_custom_data_fields', '', $registration, $data );
-	$form .= $after;
 
 	/**
 	 * Filter generated form for event creation inside My Calendar.

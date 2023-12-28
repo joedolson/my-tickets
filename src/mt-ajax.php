@@ -13,9 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly.
 
-add_action( 'wp_ajax_mt_ajax_cart', 'mt_ajax_cart' );
-add_action( 'wp_ajax_nopriv_mt_ajax_cart', 'mt_ajax_cart' );
-
 /**
  * Submits a cart update request from AJAX when cart is modified from Cart page.
  *
@@ -55,9 +52,8 @@ function mt_ajax_cart() {
 		die;
 	}
 }
-
-add_action( 'wp_ajax_mt_ajax_handler', 'mt_ajax_handler' );
-add_action( 'wp_ajax_nopriv_mt_ajax_handler', 'mt_ajax_handler' );
+add_action( 'wp_ajax_mt_ajax_cart', 'mt_ajax_cart' );
+add_action( 'wp_ajax_nopriv_mt_ajax_cart', 'mt_ajax_cart' );
 
 /**
  * Submit a cart update request from AJAX when add_to_cart button used from event
@@ -139,3 +135,31 @@ function mt_ajax_handler() {
 		wp_send_json( $response );
 	}
 }
+add_action( 'wp_ajax_mt_ajax_handler', 'mt_ajax_handler' );
+add_action( 'wp_ajax_nopriv_mt_ajax_handler', 'mt_ajax_handler' );
+
+/**
+ * AJAX load a ticket model set.
+ */
+function mt_ajax_load_model() {
+	// verify nonce.
+	if ( ! check_ajax_referer( 'mt-load-model', 'security', false ) ) {
+		wp_send_json(
+			array(
+				'response' => __( 'Invalid security response.', 'my-tickets' ),
+				'form'     => '',
+			)
+		);
+	}
+	$model    = ( in_array( $_REQUEST['model'], array( 'continuous', 'discrete', 'event' ) ) ) ? sanitize_key( $_REQUEST['model'] ) : false;
+	$event_id = absint( $_REQUEST['event_id'] );
+	$data     = map_deep( json_decode( $_REQUEST['event'] ), 'sanitize_text_field' );
+	$form     = mt_get_registration_fields( '', $event_id, $data, 'admin', $model );
+	wp_send_json(
+		array(
+			'form' => $form,
+		)
+	);
+}
+add_action( 'wp_ajax_mt_ajax_load_model', 'mt_ajax_load_model' );
+add_action( 'wp_ajax_nopriv_mt_ajax_load_model', 'mt_ajax_load_model' );

@@ -1202,6 +1202,7 @@ function mt_kses_elements() {
 			'data-event'       => array(),
 			'data-ticket'      => array(),
 			'data-payment'     => array(),
+			'id'               => array(),
 		),
 		'ul'               => array(
 			'class' => array(),
