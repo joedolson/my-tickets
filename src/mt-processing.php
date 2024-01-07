@@ -483,11 +483,12 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				$label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time' . $pattern . '" id="mt_label_picker_time_' . $label . '"></div>' : '';
 				$label_class = ( 'event' === $counting ) ? 'duet-fallback' : '';
 
-				$class   = ( 0 !== (int) $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
-				$sold    = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
-				$close   = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? '' : ( isset( $options['close'] ) ? $options['close'] : '' );
-				$comps   = ( 'complimentary' === sanitize_title( $options['label'] ) ) ? '<br />' . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) : '';
-				$return .= "
+				$class       = ( 0 !== (int) $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
+				$sold        = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
+				$close       = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? '' : ( isset( $options['close'] ) ? $options['close'] : '' );
+				$close_field = ( 'event' === $counting ) ? '--' : '<input type="date" name="mt_close' . $pattern . '" value="' . ( ( $close ) ? gmdate( 'Y-m-d', $close ) : '' ) . '" />';
+				$comps       = ( 'complimentary' === sanitize_title( $options['label'] ) ) ? '<br />' . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) : '';
+				$return     .= "
 				<tr class='$class'>
 					<td class='mt-controls'>
 						<button type='button' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "</span></button> 
@@ -497,7 +498,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 					<td><input type='number' name='mt_price$pattern' step='0.01' id='mt_price_$counting" . '_' . "$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
 					<td><input type='hidden' name='mt_sold$pattern' value='" . $sold . "' />" . $sold . '</td>
-					<td><input type="date" name="mt_close' . $pattern . '" value="' . ( ( $close ) ? gmdate( 'Y-m-d', $close ) : '' ) . '" /></td>
+					<td>' . $close_field . '</td>
 				</tr>';
 
 				$labels_index[ $label ] = $options['label'];
@@ -531,6 +532,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		'value' => '',
 	);
 	$new_label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_new" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time' . $pattern . '" id="mt_label_picker_time_new"></div>' : '';
+	$new_close_field = ( 'event' === $counting ) ? '--' : "<input type='date' name='mt_close$pattern' value='' />";
 
 	$return   .= "
 		<tr class='clonedPrice $counting' id='price" . $counting . "1'>
@@ -539,8 +541,8 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 			<td><input type='text' name='mt_price$pattern' id='mt_$counting" . '_' . "price' step='0.01' size='8' /></td>
 			<td>$available_empty</td>
 			<td></td>
-			<td><input type='date' name='mt_close$pattern' value='' /></td>
-		</tr>";
+			<td>" . $new_close_field . '</td>
+		</tr>';
 	$return   .= '</tbody></table>';
 	$add_field = __( 'Add a price group', 'my-tickets' );
 	$del_field = __( 'Remove last price group', 'my-tickets' );
@@ -589,6 +591,24 @@ function mt_get_label( $key ) {
 }
 
 /**
+ * Transform event label times into close dates. Used when ticket groups are dates.
+ *
+ * @param array $labels Labels array.
+ * @param array $times Times array.
+ *
+ * @return array
+ */
+function mt_close_times( $labels, $times ) {
+	$close = array();
+	foreach ( $labels as $key => $label ) {
+		$date    = gmdate( 'Y-m-d H:i', strtotime( $label . ' ' . $times[ $key ] ) );
+		$close[] = $date;
+	}
+
+	return $close;
+}
+
+/**
  * Save registration/ticketing info as post meta.
  *
  * @param int    $post_id Post ID.
@@ -604,7 +624,7 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 	$times           = ( isset( $post['mt_label_time'] ) ) ? $post['mt_label_time'] : array();
 	$prices          = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
 	$sold            = ( isset( $post['mt_sold'] ) ) ? $post['mt_sold'] : array();
-	$close           = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : array();
+	$close           = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : mt_close_times( $labels, $times );
 	$hide            = ( isset( $post['mt_hide_registration_form'] ) ) ? 'true' : 'false';
 	$availability    = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : 'inherit';
 	$total_tickets   = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
