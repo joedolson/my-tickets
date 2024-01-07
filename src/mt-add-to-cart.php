@@ -434,7 +434,7 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 		if ( 'inherit' === $available ) {
 			$tickets   = absint( $settings['tickets'] );
 			$sold      = absint( $settings['sold'] );
-			$label     = ( 'event' === $registration['counting_method'] ) ? mt_format_date( $settings['label'] ): $settings['label'];
+			$label     = ( 'event' === $registration['counting_method'] ) ? mt_format_date( $settings['label'] ) : $settings['label'];
 			$remaining = ( $tickets - $sold );
 			/**
 			 * Filter maximum sale per event. Limits number of tickets that can be purchased at a time.

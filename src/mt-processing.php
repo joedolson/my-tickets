@@ -365,15 +365,15 @@ function mt_get_registration_fields( $form, $has_data, $data, $public = 'admin',
 		$is_registration = ' checked="checked"';
 	}
 	$method = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $default_model;
-	$form  = mt_prices_table( $registration, $method );
-	$form .= "
+	$form   = mt_prices_table( $registration, $method );
+	$form  .= "
 	<p>
 		<label for='reg_expires'>" . __( 'Allow sales until', 'my-tickets' ) . "</label> <input type='number' name='reg_expires' id='reg_expires' value='$expiration' aria-labelledby='reg_expires reg_expires_label' size='3' /> <span class='label' id='reg_expires_label'>" . __( 'hours before the event', 'my-tickets' ) . "</span>
 	</p>
 	<p>
 		<label for='mt_multiple'>" . __( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ) . "</label> <input type='checkbox' name='mt_multiple' id='mt_multiple' value='true' $is_multiple />
 	</p>";
-	$form .= '
+	$form  .= '
 		<div class="ticket-sale-types"><fieldset><legend>' . __( 'Type of Sale', 'my-tickets' ) . "</legend>
 		<p>
 			<input type='radio' name='mt_sales_type' id='mt_sales_type_tickets' value='tickets' $is_tickets /> <label for='mt_sales_type_tickets'>" . __( 'Ticket Sales', 'my-tickets' ) . "</label><br />
@@ -526,7 +526,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		}
 	}
 	$args            = array(
-		'id'    => "mt_label_new",
+		'id'    => 'mt_label_new',
 		'name'  => 'mt_label' . $pattern,
 		'value' => '',
 	);
