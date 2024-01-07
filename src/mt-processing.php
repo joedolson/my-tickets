@@ -326,13 +326,14 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $mo
 function mt_get_registration_fields( $form, $has_data, $data, $public = 'admin', $model = '' ) {
 	$original_form = $form;
 	$options       = mt_get_settings();
-	$registration  = array();
 	$description   = false;
 	if ( true === $has_data && property_exists( $data, 'event_post' ) ) {
-		$description = stripslashes( esc_attr( $data->event_registration ) );
+		$registration = get_post_meta( (int) $data->event_post, '_mt_registration_options', true );
+		$description  = stripslashes( esc_attr( $data->event_registration ) );
 	}
 	if ( is_int( $has_data ) && $has_data ) {
-		$description = false;
+		$description  = false;
+		$registration = get_post_meta( $has_data, '_mt_registration_options', true );
 	}
 	if ( empty( $registration ) ) {
 		$default_model = ( '' !== $model ) ? $model : $options['default_model'];
@@ -350,7 +351,6 @@ function mt_get_registration_fields( $form, $has_data, $data, $public = 'admin',
 		$is_registration = ' checked="checked"';
 	}
 	$method = ( isset( $registration['counting_method'] ) ) ? $registration['counting_method'] : $default_model;
-
 	$form  = mt_prices_table( $registration, $method );
 	$form .= "
 	<p>
