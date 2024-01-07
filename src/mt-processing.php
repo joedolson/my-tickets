@@ -417,9 +417,11 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 	if ( empty( $registration ) ) {
 		$registration = mt_get_settings( 'defaults' )['continuous'];
 	}
+	global $current_screen;
+	$is_post_screen = ( 'post' === $current_screen->base ) ? true : false;
 	// Compound array in settings, single array in posts.
-	$pattern   = ( isset( $_GET['post'] ) ) ? '[]' : "[$counting][]";
-	$altpatt   = ( isset( $_GET['post'] ) ) ? '' : "[$counting]";
+	$pattern   = ( $is_post_screen ) ? '[]' : "[$counting][]";
+	$altpatt   = ( $is_post_screen ) ? '' : "[$counting]";
 	$counting  = ( $counting ) ? $counting : $registration['counting_method'];
 	$available = '';
 	$tickets   = ( isset( $registration['tickets'] ) ) ? $registration['tickets'] : false;
