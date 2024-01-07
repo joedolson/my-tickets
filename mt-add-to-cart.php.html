@@ -425,7 +425,8 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 		$close              = ( isset( $settings['close'] ) &amp;&amp; ! empty( $settings['close'] ) ) ? $settings['close'] : '';
 		$type_sales_closed  = false;
 		$closure            = '';
-		if ( $close &amp;&amp; $close &lt; time() ) {
+		$stop               = (int) $registration['reg_expires'];
+		if ( $close &amp;&amp; ( $close + $stop ) &lt; time() ) {
 			$show_closed = 'hide';
 			if ( 'true' === $options['mt_show_closed'] ) {
 				$show_closed = 'show';
