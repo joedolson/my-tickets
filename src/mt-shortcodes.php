@@ -58,7 +58,7 @@ function my_tickets_short_cart() {
  *
  * @return string
  */
-function mt_registration_form_shortcode( $atts, $content = '' ) {
+function mt_add_to_cart_form_shortcode( $atts, $content = '' ) {
 	$atts = shortcode_atts(
 		array(
 			'event' => false,
@@ -68,12 +68,12 @@ function mt_registration_form_shortcode( $atts, $content = '' ) {
 		$atts
 	);
 	if ( $atts['event'] ) {
-		return mt_registration_form( $content, $atts['event'], $atts['view'], $atts['time'], true );
+		return mt_add_to_cart_form( $content, $atts['event'], $atts['view'], $atts['time'], true );
 	}
 
 	return '';
 }
-add_shortcode( 'ticket', 'mt_registration_form_shortcode' );
+add_shortcode( 'ticket', 'mt_add_to_cart_form_shortcode' );
 
 /**
  * Produce a list of featured tickets with a custom template and registration forms.
@@ -149,7 +149,7 @@ function mt_featured_tickets( $atts, $content = '' ) {
 				 */
 				$data       = apply_filters( 'mt_ticket_template_array', array_merge( $event_data, $post ) );
 				$event_data = "<div class='mt-event-details'>" . mt_draw_template( $data, $atts['template'] ) . '</div>';
-				$content   .= "<div class='mt-event-item'>" . $event_data . mt_registration_form( '', $event, $atts['view'], $atts['time'], true, $group ) . '</div>';
+				$content   .= "<div class='mt-event-item'>" . $event_data . mt_add_to_cart_form( '', $event, $atts['view'], $atts['time'], true, $group ) . '</div>';
 			}
 		}
 	}
@@ -210,7 +210,7 @@ add_shortcode( 'remaining', 'mt_remaining_tickets' );
  * @return array
  */
 function mt_add_shortcode( $e, $event ) {
-	$e['register']      = mt_registration_form( '', $event->event_post );
+	$e['register']      = mt_add_to_cart_form( '', $event->event_post );
 	$e['ticket_status'] = mt_event_status( $event->event_post );
 
 	return $e;

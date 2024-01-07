@@ -16,24 +16,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Appends a registration form to post content for posts with defined event data.
  *
- * @uses function mt_registration_form();
+ * @uses function mt_add_to_cart_form();
  * @param string $content Post Content.
  *
  * @return string
  */
-function mt_registration_form_post( $content ) {
+function mt_add_to_cart_form_post( $content ) {
 	$options = mt_get_settings();
 	global $post;
 	if ( in_array( get_post_type( $post ), $options['mt_post_types'], true ) ) {
 		$event = $post->ID;
 		if ( get_post_meta( $event, '_mc_event_data', true ) ) {
-			$content = mt_registration_form( $content, $event );
+			$content = mt_add_to_cart_form( $content, $event );
 		}
 	}
 
 	return $content;
 }
-add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpautop.
+add_filter( 'the_content', 'mt_add_to_cart_form_post', 20, 1 ); // after wpautop.
 
 /**
  * Test whether a price set for an event has any tickets available for purchase.
@@ -114,7 +114,7 @@ function mt_check_early_returns( $event_id, $override ) {
  *
  * @return string
  */
-function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false, $group = false ) {
+function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false, $group = false ) {
 	$options  = mt_get_settings();
 	$event_id = ( is_object( $event ) ) ? $event->event_post : $event;
 	$continue = mt_check_early_returns( $event_id, $override );
@@ -284,7 +284,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 
 	return $content . $output;
 }
-add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
+add_filter( 'mc_after_event', 'mt_add_to_cart_form', 5, 4 );
 
 /**
  * Format a date for display.
@@ -871,37 +871,6 @@ function mt_no_postal( $event_id ) {
 	}
 
 	return $no_postal;
-}
-
-/**
- * Determine how many tickets have been sold for a given pricing set.
- *
- * @param array          $pricing Pricing array.
- * @param string|integer $available Available tickets.
- *
- * @return array|bool
- */
-function mt_tickets_left( $pricing, $available ) {
-	$total = 0;
-	$sold  = 0;
-	foreach ( $pricing as $options ) {
-		if ( 'inherit' !== $available ) {
-			$sold = $sold + intval( $options['sold'] );
-		} else {
-			$tickets = intval( $options['tickets'] ) - intval( $options['sold'] );
-			$total   = $total + $tickets;
-			$sold    = $sold + intval( $options['sold'] );
-		}
-	}
-	if ( 'inherit' !== $available && is_numeric( trim( $available ) ) ) {
-		$total = $available - $sold;
-	}
-
-	return array(
-		'remain' => $total,
-		'sold'   => $sold,
-		'total'  => $sold + $total,
-	);
 }
 
 add_action( 'init', 'mt_add_to_cart' );

@@ -189,7 +189,38 @@ function mt_update_inventory( $event_id, $type, $count ) {
 }
 
 /**
- * Check inventory for an event and ticket group.
+ * Determine how many real tickets have been sold for a given pricing set. Ignores virtual inventory.
+ *
+ * @param array          $pricing Pricing array.
+ * @param string|integer $available Available tickets.
+ *
+ * @return array|bool
+ */
+function mt_tickets_left( $pricing, $available ) {
+	$total = 0;
+	$sold  = 0;
+	foreach ( $pricing as $options ) {
+		if ( 'inherit' !== $available ) {
+			$sold = $sold + intval( $options['sold'] );
+		} else {
+			$tickets = intval( $options['tickets'] ) - intval( $options['sold'] );
+			$total   = $total + $tickets;
+			$sold    = $sold + intval( $options['sold'] );
+		}
+	}
+	if ( 'inherit' !== $available && is_numeric( trim( $available ) ) ) {
+		$total = $available - $sold;
+	}
+
+	return array(
+		'remain' => $total,
+		'sold'   => $sold,
+		'total'  => $sold + $total,
+	);
+}
+
+/**
+ * Check virtual inventory for an event and ticket group.
  *
  * @param int    $event_id Event post ID.
  * @param string $type Type of ticket being checked.
