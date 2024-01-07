@@ -460,11 +460,11 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				$available = "<input type='hidden' name='mt_tickets$pattern' id='mt_tickets_$counting . '_' . $label' value='inherit' />";
 			}
 			if ( $label ) {
-				$date        = ( '' !== $options['label'] ) ? $options['label'] : gmdate( 'Y-m-d' );
+				$date        = ( '' !== $options['label'] ) ? $options['label'] : '';
 				$args        = array(
 					'id'    => "mt_label_$label",
 					'name'  => 'mt_label' . $pattern,
-					'value' => gmdate( 'Y-m-d', strtotime( $date ) ),
+					'value' => ( $date ) ? gmdate( 'Y-m-d', strtotime( $date ) ) : '',
 				);
 				$label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time' . $pattern . '" id="mt_label_picker_time_' . $label . '"></div>' : '';
 				$label_class = ( 'event' === $counting ) ? 'duet-fallback' : '';
@@ -511,10 +511,17 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				</tr>";
 		}
 	}
+	$args            = array(
+		'id'    => "mt_label_new",
+		'name'  => 'mt_label' . $pattern,
+		'value' => '',
+	);
+	$new_label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_new" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time' . $pattern . '" id="mt_label_picker_time_new"></div>' : '';
+
 	$return   .= "
 		<tr class='clonedPrice $counting' id='price" . $counting . "1'>
 			<td></td>
-			<td>$label_field<input type='text' class='$label_class' name='mt_label$pattern' id='mt_$counting" . '_' . "label' /></td>
+			<td>$new_label_field<input type='text' class='$label_class' name='mt_label$pattern' id='mt_$counting" . '_' . "label' /></td>
 			<td><input type='text' name='mt_price$pattern' id='mt_$counting" . '_' . "price' step='0.01' size='8' /></td>
 			<td>$available_empty</td>
 			<td></td>
