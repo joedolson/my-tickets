@@ -168,6 +168,63 @@ function mt_create_payment( $post ) {
 }
 
 /**
+ * Update virtual inventory for an event.
+ *
+ * @param int    $event_id Event post ID.
+ * @param string $type Type of ticket changing.
+ * @param int    $count Number of tickets to add or substract.
+ */
+function mt_update_inventory( $event_id, $type, $count ) {
+	$virtual_inventory = get_post_meta( $event_id, '_mt_virtual_inventory', true );
+	if ( isset( $virtual_inventory[ $type ] ) ) {
+		$current                    = $virtual_inventory[ $type ];
+		$new                        = ( $current + $count < 0 ) ? 0 : $current + $count;
+		$virtual_inventory[ $type ] = $new;
+	} else {
+		// Can't initialize store with negative values.
+		if ( $count > 0 ) {
+			$virtual_inventory[ $type ] = absint( $count );
+		}
+	}
+}
+
+/**
+ * Check inventory for an event and ticket group.
+ *
+ * @param int    $event_id Event post ID.
+ * @param string $type Type of ticket being checked.
+ *
+ * @return array Number of tickets available in key 'available', sold in key 'sold'.
+ */
+function mt_check_inventory( $event_id, $type ) {
+	$options      = mt_get_settings();
+	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+	if ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) {
+		$available = absint( $prices[ $type ]['tickets'] );
+		$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
+	} else {
+		$available = absint( $registration['total'] );
+		$sold      = 0;
+		foreach ( $registration['prices'] as $pricetype ) {
+			$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
+		}
+	}
+	// Virtual inventory holds tickets in carts but not yet sold.
+	$virtual_inventory = get_post_meta( $event_id, '_mt_virtual_inventory', true );
+	$current_virtual   = $virtual_inventory[ $type ];
+	if ( 'virtual' === $options['mt_inventory'] ) {
+		$available = $available - $current_virtual;
+		$sold      = $sold + $current_virtual;
+	}
+
+	return array(
+		'available' => $available,
+		'sold'      => $sold,
+	);
+	
+}
+
+/**
  * Generates tickets for purchase.
  *
  * @param integer $purchase_id Payment ID.
