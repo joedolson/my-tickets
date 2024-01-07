@@ -418,7 +418,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		$registration = mt_get_settings( 'defaults' )['continuous'];
 	}
 	global $current_screen;
-	$is_post_screen = ( 'post' === $current_screen->base ) ? true : false;
+	$is_post_screen = ( 'post' === $current_screen->base || wp_doing_ajax() ) ? true : false;
 	// Compound array in settings, single array in posts.
 	$pattern   = ( $is_post_screen ) ? '[]' : "[$counting][]";
 	$altpatt   = ( $is_post_screen ) ? '' : "[$counting]";
