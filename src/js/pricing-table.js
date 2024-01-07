@@ -1,6 +1,7 @@
 (function ($) {
 	$(function () {
 		mt_pricing_table();
+		mt_render_datepicker();
 		function mt_pricing_table() {
 			$('.add-price').on('click', function () {
 				var context = $( this ).attr( 'data-context' );
@@ -82,20 +83,23 @@
 				container.attr( 'aria-labelledby', 'current-tab' );
 				container.html( form );
 				mt_pricing_table();
+				mt_render_datepicker();
 			}, "json" );
 		});
 	});
 }(jQuery));
 
-window.customElements.whenDefined( 'duet-date-picker' ).then(() => {
-	elem = document.querySelectorAll('.duet-fallback');
-	elem.forEach((el) => {
-		el.parentNode.removeChild(el);
+function mt_render_datepicker() {
+	window.customElements.whenDefined( 'duet-date-picker' ).then(() => {
+		elem = document.querySelectorAll('.duet-fallback');
+		elem.forEach((el) => {
+			el.parentNode.removeChild(el);
+		});
 	});
-});
 
-const pickers = Array.prototype.slice.apply( document.querySelectorAll( 'duet-date-picker' ) );
+	const pickers = Array.prototype.slice.apply( document.querySelectorAll( 'duet-date-picker' ) );
 
-pickers.forEach((picker) => {
-	picker.localization = duetLocalization;
-});
+	pickers.forEach((picker) => {
+		picker.localization = duetLocalization;
+	});
+}
