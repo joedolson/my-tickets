@@ -221,7 +221,6 @@ function mt_check_inventory( $event_id, $type ) {
 		'available' => $available,
 		'sold'      => $sold,
 	);
-	
 }
 
 /**
