@@ -145,12 +145,26 @@ function mt_ticket_meta( $post_id ) {
 		if ( ! wp_verify_nonce( $nonce, 'mt-tickets-nonce' ) ) {
 			wp_die( 'My Tickets: Invalid meta nonce' );
 		}
-		$post        = map_deep( $_POST, 'sanitize_textarea_field' );
-		$event_begin = mt_date( 'Y-m-d', strtotime( $post['event_begin'] ), false );
-		if ( '' !== $post['event_time'] ) {
-			$event_time = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
+		$post = map_deep( $_POST, 'sanitize_textarea_field' );
+		if ( 'event' === $post['mt_counting_method'] ) {
+			// If using event types, then set the overall event date to the last event in the series.
+			$dates  = $post['mt_label'];
+			$times  = $post['mt_label_time'];
+			$stamps = array();
+			foreach ( $dates as $key => $date ) {
+				$date     = strtotime( $date . ' ' . $times[ $key ] );
+				$stamps[] = $date;
+			}
+			rsort( $stamps );
+			$event_begin = mt_date( 'Y-m-d', $stamps[0], false );
+			$event_time  = mt_date( 'H:i:s', $stamps[0], false );
 		} else {
-			$event_time = '23:59:59';
+			$event_begin = mt_date( 'Y-m-d', strtotime( $post['event_begin'] ), false );
+			if ( '' !== $post['event_time'] ) {
+				$event_time = mt_date( 'H:i:s', strtotime( $post['event_time'] ), false );
+			} else {
+				$event_time = '23:59:59';
+			}
 		}
 		$general = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'on' : '';
 		$valid   = ( isset( $post['mt_valid'] ) ) ? sanitize_text_field( $post['mt_valid'] ) : '';
