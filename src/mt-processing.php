@@ -496,7 +496,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		if ( in_array( 'complementary', $keys, true ) || in_array( 'complimentary', $keys, true ) ) {
 			$has_comps = true;
 		}
-		if ( ! $has_comps ) {
+		if ( ! $has_comps && 'event' !== $counting ) {
 			$return .= "
 				<tr class='undeletable'>
 					<td class='mt-controls'>
