@@ -287,6 +287,40 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
 
 /**
+ * Format a date for display.
+ *
+ * @param string $date Date string.
+ *
+ * @return string
+ */
+function mt_format_date( $date ) {
+	/**
+	 * Filter the date format used in add to cart and cart.
+	 *
+	 * @hook mt_cart_date_format
+	 *
+	 * @param {string} $date_format Default from WordPress settings.
+	 *
+	 * @return {string}
+	 */
+	$date_format = apply_filters( 'mt_cart_date_format', get_option( 'date_format' ) );
+	/**
+	 * Filter the time format used in add to cart and cart.
+	 *
+	 * @hook mt_cart_time_format
+	 *
+	 * @param {string} $time_format Default from WordPress settings.
+	 *
+	 * @return {string}
+	 */
+	$time_format = apply_filters( 'mt_cart_time_format', get_option( 'time_format' ) );
+	$date_string = mt_date( $date_format, strtotime( $date ), false );
+	$time_string = mt_date( $time_format, strtotime( $date ), false );
+
+	return '<strong>' . $date_string . '</strong><span>, </span>' . $time_string;
+}
+
+/**
  * Generate a single row in the add to cart form.
  *
  * @param int        $event_id Event post ID.
@@ -400,6 +434,7 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 		if ( 'inherit' === $available ) {
 			$tickets   = absint( $settings['tickets'] );
 			$sold      = absint( $settings['sold'] );
+			$label     = ( 'event' === $registration['counting_method'] ) ? mt_format_date( $settings['label'] ): $settings['label'];
 			$remaining = ( $tickets - $sold );
 			/**
 			 * Filter maximum sale per event. Limits number of tickets that can be purchased at a time.
@@ -426,7 +461,7 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 					$class = 'mt-available';
 				}
 			}
-			$form .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . '</label>';
+			$form .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . $label . $extra_label . '</label>';
 			$form .= apply_filters(
 				'mt_add_to_cart_input',
 				"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />",
