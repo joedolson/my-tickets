@@ -42,24 +42,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Appends a registration form to post content for posts with defined event data.
  *
- * @uses function mt_registration_form();
+ * @uses function mt_add_to_cart_form();
  * @param string $content Post Content.
  *
  * @return string
  */
-function mt_registration_form_post( $content ) {
+function mt_add_to_cart_form_post( $content ) {
 	$options = mt_get_settings();
 	global $post;
 	if ( in_array( get_post_type( $post ), $options['mt_post_types'], true ) ) {
 		$event = $post->ID;
 		if ( get_post_meta( $event, '_mc_event_data', true ) ) {
-			$content = mt_registration_form( $content, $event );
+			$content = mt_add_to_cart_form( $content, $event );
 		}
 	}
 
 	return $content;
 }
-add_filter( 'the_content', 'mt_registration_form_post', 20, 1 ); // after wpautop.
+add_filter( 'the_content', 'mt_add_to_cart_form_post', 20, 1 ); // after wpautop.
 
 /**
  * Test whether a price set for an event has any tickets available for purchase.
@@ -140,7 +140,7 @@ function mt_check_early_returns( $event_id, $override ) {
  *
  * @return string
  */
-function mt_registration_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false, $group = false ) {
+function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false, $group = false ) {
 	$options  = mt_get_settings();
 	$event_id = ( is_object( $event ) ) ? $event->event_post : $event;
 	$continue = mt_check_early_returns( $event_id, $override );
@@ -183,9 +183,8 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 				 */
 				$default_available = apply_filters( 'mt_default_available', 100, $registration );
 				$available         = ( 'general' === $registration['counting_method'] ) ? $default_available : $registration['total'];
-				// Figure out handling for radio input type.
-				$tickets_data      = mt_tickets_left( $pricing, $available );
-				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : $tickets_data['remain'];
+				$tickets_data      = mt_check_inventory( $event_id );
+				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : $tickets_data['available'];
 				$tickets_sold      = $tickets_data['sold'];
 				/**
 				 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
@@ -278,9 +277,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 		}
 	} else {
 		$registration        = get_post_meta( $event_id, '_mt_registration_options', true );
-		$available           = $registration['total'];
-		$pricing             = $registration['prices'];
-		$tickets_remaining   = mt_tickets_left( $pricing, $available );
+		$tickets_remaining   = mt_check_inventory( $event_id );
 		$tickets_remain_text = mt_tickets_remaining( $tickets_remaining, $event_id );
 		$sales_closed        = ( 'registration' === $registration['sales_type'] ) ? __( 'Online registration for this event is closed', 'my-tickets' ) : __( 'Online ticket sales for this event are closed.', 'my-tickets' );
 		$output              = "&lt;div class='mt-order mt-closed'>&lt;p>" . apply_filters( 'mt_sales_closed', $sales_closed ) . "$tickets_remain_text&lt;/p>&lt;/div>";
@@ -310,7 +307,7 @@ function mt_registration_form( $content, $event = false, $view = 'calendar', $ti
 
 	return $content . $output;
 }
-add_filter( 'mc_after_event', 'mt_registration_form', 5, 4 );
+add_filter( 'mc_after_event', 'mt_add_to_cart_form', 5, 4 );
 
 /**
  * Format a date for display.
@@ -354,7 +351,7 @@ function mt_format_date( $date ) {
  * @param array      $settings Settings for this row.
  * @param string     $type Type of ticket.
  * @param int|string $available Number of tickets available or 'inherit'.
- * @param int        $tickets_remaining Number of ticket left for purchase.
+ * @param int        $tickets_remaining Number of tickets left for purchase.
  *
  * @return array|bool 'false' if ticket is not purchaseable.
  */
@@ -721,7 +718,7 @@ function mt_can_order( $type ) {
  * @return string Notice
  */
 function mt_tickets_remaining( $tickets_data, $event_id ) {
-	$tickets_remaining = $tickets_data['remain'];
+	$tickets_remaining = $tickets_data['available'];
 	/**
 	 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
 	 *
@@ -897,37 +894,6 @@ function mt_no_postal( $event_id ) {
 	}
 
 	return $no_postal;
-}
-
-/**
- * Determine how many tickets have been sold for a given pricing set.
- *
- * @param array          $pricing Pricing array.
- * @param string|integer $available Available tickets.
- *
- * @return array|bool
- */
-function mt_tickets_left( $pricing, $available ) {
-	$total = 0;
-	$sold  = 0;
-	foreach ( $pricing as $options ) {
-		if ( 'inherit' !== $available ) {
-			$sold = $sold + intval( $options['sold'] );
-		} else {
-			$tickets = intval( $options['tickets'] ) - intval( $options['sold'] );
-			$total   = $total + $tickets;
-			$sold    = $sold + intval( $options['sold'] );
-		}
-	}
-	if ( 'inherit' !== $available &amp;&amp; is_numeric( trim( $available ) ) ) {
-		$total = $available - $sold;
-	}
-
-	return array(
-		'remain' => $total,
-		'sold'   => $sold,
-		'total'  => $sold + $total,
-	);
 }
 
 add_action( 'init', 'mt_add_to_cart' );
