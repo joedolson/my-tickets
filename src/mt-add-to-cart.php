@@ -175,8 +175,8 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				if ( $tickets_remaining && $tickets_remaining > $close_value ) {
 					$sold_out    = false;
 					$total_order = 0;
-					foreach ( $pricing as $type => $settings ) {
-						$row = mt_ticket_row( $event_id, $registration, $settings, $type, $available, $tickets_remaining );
+					foreach ( $pricing as $type => $ticket_type ) {
+						$row = mt_ticket_row( $event_id, $registration, $ticket_type, $type, $available, $tickets_remaining );
 						if ( $row ) {
 							$form           .= $row['form'];
 							$handling_notice = $row['handling'];
@@ -322,14 +322,14 @@ function mt_format_date( $date ) {
  *
  * @param int        $event_id Event post ID.
  * @param array      $registration Registration settings for this event.
- * @param array      $settings Settings for this row.
+ * @param array      $ticket_type Settings for this row.
  * @param string     $type Type of ticket.
  * @param int|string $available Number of tickets available or 'inherit'.
  * @param int        $tickets_remaining Number of tickets left for purchase.
  *
  * @return array|bool 'false' if ticket is not purchaseable.
  */
-function mt_ticket_row( $event_id, $registration, $settings, $type, $available, $tickets_remaining ) {
+function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $available, $tickets_remaining ) {
 	$options   = mt_get_settings();
 	$pricing   = $registration['prices'];
 	$cart_data = mt_in_cart( $event_id );
@@ -345,12 +345,12 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 	 *
 	 * @hook mt_ticket_settings
 	 *
-	 * @param {array}  $settings Price and availability for a ticket type.
+	 * @param {array}  $ticket_type Price and availability for a ticket type.
 	 * @param {array}  $pricing Full pricing array being iterated.
 	 * @param {int}    $event_id Event ID.
 	 * @param {strnig} $type Current ticket type.
 	 */
-	$settings = apply_filters( 'mt_ticket_settings', $settings, $pricing, $event_id, $type );
+	$ticket_type = apply_filters( 'mt_ticket_settings', $ticket_type, $pricing, $event_id, $type );
 	if ( ! mt_can_order( $type ) ) {
 		return false;
 	}
@@ -371,10 +371,10 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 	 */
 	$extra_label = apply_filters( 'mt_extra_label', $extra_label, $event_id, $type );
 	if ( $type ) {
-		if ( ! isset( $settings['price'] ) ) {
+		if ( ! isset( $ticket_type['price'] ) ) {
 			return false;
 		}
-		$price = mt_calculate_discount( $settings['price'], $event_id );
+		$price = mt_calculate_discount( $ticket_type['price'], $event_id );
 		$price = mt_handling_price( $price, $event_id, $type );
 		$price = apply_filters( 'mt_money_format', $price );
 		/**
@@ -388,12 +388,12 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 		 */
 		$ticket_handling    = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event_id, $type );
 		$handling_notice    = mt_handling_notice();
-		$ticket_price_label = '<span class="mt-ticket-price">' . apply_filters( 'mt_ticket_price_label', $price, $settings['price'], $ticket_handling ) . '</span>';
+		$ticket_price_label = '<span class="mt-ticket-price">' . apply_filters( 'mt_ticket_price_label', $price, $ticket_type['price'], $ticket_handling ) . '</span>';
 		$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0', $type );
 		$value              = ( '' === $value ) ? 0 : (int) $value;
 		$order_value        = $value;
 		$attributes         = '';
-		$close              = ( isset( $settings['close'] ) && ! empty( $settings['close'] ) ) ? $settings['close'] : '';
+		$close              = ( isset( $ticket_type['close'] ) && ! empty( $ticket_type['close'] ) ) ? $ticket_type['close'] : '';
 		$type_sales_closed  = false;
 		$closure            = '';
 		$stop               = (int) $registration['reg_expires'];
@@ -430,9 +430,9 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 			$order_value = 0;
 		}
 		if ( 'inherit' === $available ) {
-			$tickets   = absint( $settings['tickets'] );
-			$sold      = absint( $settings['sold'] );
-			$label     = ( 'event' === $registration['counting_method'] ) ? mt_format_date( $settings['label'] ) : $settings['label'];
+			$tickets   = absint( $ticket_type['tickets'] );
+			$sold      = absint( $ticket_type['sold'] );
+			$label     = ( 'event' === $registration['counting_method'] ) ? mt_format_date( $ticket_type['label'] ) : $ticket_type['label'];
 			$remaining = ( $tickets - $sold );
 			/**
 			 * Filter maximum sale per event. Limits number of tickets that can be purchased at a time.
@@ -509,7 +509,7 @@ function mt_ticket_row( $event_id, $registration, $settings, $type, $available, 
 			$price          = "<span id='mt_tickets_data_$type'>$ticket_price_label</span>";
 			$label_price    = ( $price_in_label ) ? ' <span class="mt-label-price">' . strip_tags( $price ) . '</span>' : '';
 			$post_price     = ( ! $price_in_label ) ? $price : '';
-			$form          .= "<div class='mt-ticket-field mt-ticket-$type $class $price_class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $settings['label'] ) . $extra_label . $label_price . '</label>';
+			$form          .= "<div class='mt-ticket-field mt-ticket-$type $class $price_class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $ticket_type['label'] ) . $extra_label . $label_price . '</label>';
 			$form          .= apply_filters(
 				'mt_add_to_cart_input',
 				"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />",
