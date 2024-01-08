@@ -430,10 +430,10 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			$order_value = 0;
 		}
 		if ( 'inherit' === $available ) {
+			$inventory = mt_check_inventory( $event_id, $type );
 			$tickets   = absint( $ticket_type['tickets'] );
-			$sold      = absint( $ticket_type['sold'] );
 			$label     = ( 'event' === $registration['counting_method'] ) ? mt_format_date( $ticket_type['label'] ) : $ticket_type['label'];
-			$remaining = ( $tickets - $sold );
+			$remaining = $inventory['available'];
 			/**
 			 * Filter maximum sale per event. Limits number of tickets that can be purchased at a time.
 			 *
@@ -613,12 +613,10 @@ function mt_event_status( $event_id = false ) {
 
 	$expired           = ( mt_expired( $event_id ) ) ? __( 'Sales closed', 'my-tickets' ) : '';
 	$registration      = get_post_meta( $event_id, '_mt_registration_options', true );
-	$available         = $registration['total'];
-	$pricing           = $registration['prices'];
-	$tickets_remaining = mt_tickets_left( $pricing, $available );
+	$tickets_remaining = mt_check_inventory( $event_id );
 	// Translators: Number of tickets remaining.
-	$remaining = ( 0 >= $tickets_remaining['remain'] ) ? $expired : sprintf( __( '%s tickets remaining', 'my-tickets' ), '<strong>' . $tickets_remaining['remain'] . '</strong>' );
-	$sold_out  = ( 0 >= $tickets_remaining['remain'] ) ? __( 'Sold out', 'my-tickets' ) : $remaining;
+	$remaining = ( 0 >= $tickets_remaining['available'] ) ? $expired : sprintf( __( '%s tickets remaining', 'my-tickets' ), '<strong>' . $tickets_remaining['available'] . '</strong>' );
+	$sold_out  = ( 0 >= $tickets_remaining['available'] ) ? __( 'Sold out', 'my-tickets' ) : $remaining;
 
 	return $sold_out;
 }
