@@ -189,7 +189,7 @@ function mt_update_inventory( $event_id, $type, $count ) {
 }
 
 /**
- * Determine how many real tickets have been sold for a given pricing set. Ignores virtual inventory.
+ * Determine how many total real tickets have been sold for a given pricing set. Ignores virtual inventory.
  *
  * @param array          $pricing Pricing array.
  * @param string|integer $available Available tickets.
@@ -220,17 +220,18 @@ function mt_tickets_left( $pricing, $available ) {
 }
 
 /**
- * Check virtual inventory for an event and ticket group.
+ * Check virtual inventory for an event and ticket group. Returns total tickets if ticket type not passed.
  *
  * @param int    $event_id Event post ID.
  * @param string $type Type of ticket being checked.
  *
  * @return array Number of tickets available in key 'available', sold in key 'sold'.
  */
-function mt_check_inventory( $event_id, $type ) {
+function mt_check_inventory( $event_id, $type = '' ) {
 	$options      = mt_get_settings();
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-	if ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) {
+	$prices       = $registration['prices'];
+	if ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] && '' !== $type ) {
 		$available = absint( $prices[ $type ]['tickets'] );
 		$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
 	} else {
@@ -251,6 +252,7 @@ function mt_check_inventory( $event_id, $type ) {
 	return array(
 		'available' => $available,
 		'sold'      => $sold,
+		'total'     => $available + $sold,
 	);
 }
 
