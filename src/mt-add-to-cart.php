@@ -157,9 +157,8 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 */
 				$default_available = apply_filters( 'mt_default_available', 100, $registration );
 				$available         = ( 'general' === $registration['counting_method'] ) ? $default_available : $registration['total'];
-				// Figure out handling for radio input type.
-				$tickets_data      = mt_tickets_left( $pricing, $available );
-				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : $tickets_data['remain'];
+				$tickets_data      = mt_check_inventory( $event_id );
+				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : $tickets_data['available'];
 				$tickets_sold      = $tickets_data['sold'];
 				/**
 				 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
@@ -252,9 +251,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 		}
 	} else {
 		$registration        = get_post_meta( $event_id, '_mt_registration_options', true );
-		$available           = $registration['total'];
-		$pricing             = $registration['prices'];
-		$tickets_remaining   = mt_tickets_left( $pricing, $available );
+		$tickets_remaining   = mt_check_inventory( $event_id );
 		$tickets_remain_text = mt_tickets_remaining( $tickets_remaining, $event_id );
 		$sales_closed        = ( 'registration' === $registration['sales_type'] ) ? __( 'Online registration for this event is closed', 'my-tickets' ) : __( 'Online ticket sales for this event are closed.', 'my-tickets' );
 		$output              = "<div class='mt-order mt-closed'><p>" . apply_filters( 'mt_sales_closed', $sales_closed ) . "$tickets_remain_text</p></div>";
@@ -328,7 +325,7 @@ function mt_format_date( $date ) {
  * @param array      $settings Settings for this row.
  * @param string     $type Type of ticket.
  * @param int|string $available Number of tickets available or 'inherit'.
- * @param int        $tickets_remaining Number of ticket left for purchase.
+ * @param int        $tickets_remaining Number of tickets left for purchase.
  *
  * @return array|bool 'false' if ticket is not purchaseable.
  */
@@ -695,7 +692,7 @@ function mt_can_order( $type ) {
  * @return string Notice
  */
 function mt_tickets_remaining( $tickets_data, $event_id ) {
-	$tickets_remaining = $tickets_data['remain'];
+	$tickets_remaining = $tickets_data['available'];
 	/**
 	 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
 	 *
