@@ -314,14 +314,14 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $mo
 	// Appear on My Calendar events to toggle ticket sales.
 	$format  = ( isset( $_GET['page'] ) && 'my-calendar' === $_GET['page'] ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '</label></p>' : '';
 	$reports = ( $event_id && ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
-	$form    = $reports . $format . $shortcode . $model_selector . '<div class="mt-ticket-wrapper-form" role="tabpanel" tabindex="0">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '</div>';
+	$form    =  $reports . $format . '<div class="mt-ticket-form">' . $shortcode . $model_selector . '<div class="mt-ticket-wrapper-form" role="tabpanel" tabindex="0">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '</div>';
 
 	$form .= "<p>
 		<label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "</label><br />
 		<textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_textarea( $notes ) ) . "</textarea><br />
 		<span id='template_tag'>" . __( 'Template tag for email notifications:', 'my-tickets' ) . ' <code>{event_notes}</code></span>
 	</p>';
-	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '</label></p>';
+	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '</label></p></div>';
 
 	return $form;
 }
