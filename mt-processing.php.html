@@ -340,7 +340,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $mo
 	// Appear on My Calendar events to toggle ticket sales.
 	$format  = ( isset( $_GET['page'] ) &amp;&amp; 'my-calendar' === $_GET['page'] ) ? "&lt;p>&lt;input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> &lt;label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '&lt;/label>&lt;/p>' : '';
 	$reports = ( $event_id &amp;&amp; ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "&lt;p class='get-report'>&lt;span class='dashicons dashicons-chart-bar' aria-hidden='true'>&lt;/span> &lt;a href='" . admin_url( "admin.php?page=mt-reports&amp;amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '&lt;/a>&lt;/p>' : '';
-	$form    =  $reports . $format . '&lt;div class="mt-ticket-form">' . $shortcode . $model_selector . '&lt;div class="mt-ticket-wrapper-form" role="tabpanel" tabindex="0">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '&lt;/div>';
+	$form    = $reports . $format . '&lt;div class="mt-ticket-form">' . $shortcode . $model_selector . '&lt;div class="mt-ticket-wrapper-form" role="tabpanel" tabindex="0">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '&lt;/div>';
 
 	$form .= "&lt;p>
 		&lt;label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "&lt;/label>&lt;br />
