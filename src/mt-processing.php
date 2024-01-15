@@ -432,7 +432,8 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		$registration = mt_get_settings( 'defaults' )['continuous'];
 	}
 	global $current_screen;
-	$is_post_screen = ( 'post' === $current_screen->base || wp_doing_ajax() ) ? true : false;
+	$base = $current_screen->base;
+	$is_post_screen = ( 'post' === $base || wp_doing_ajax() || 'toplevel_page_my-calendar' === $base ) ? true : false;
 	// Compound array in settings, single array in posts.
 	$pattern   = ( $is_post_screen ) ? '[]' : "[$counting][]";
 	$altpatt   = ( $is_post_screen ) ? '' : "[$counting]";
@@ -617,77 +618,79 @@ function mt_close_times( $labels, $times ) {
  * @param int    $event_id Event ID.
  */
 function mt_save_registration_data( $post_id, $post, $data = array(), $event_id = false ) {
-	$reg_data        = get_post_meta( $post_id, '_mt_registration_options', true );
-	$event_begin     = ( isset( $post['event_begin'] ) ) ? $post['event_begin'] : '';
-	$event_begin     = ( is_array( $event_begin ) ) ? $event_begin[0] : $event_begin;
-	$labels          = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
-	$times           = ( isset( $post['mt_label_time'] ) ) ? $post['mt_label_time'] : array();
-	$prices          = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
-	$sold            = ( isset( $post['mt_sold'] ) ) ? $post['mt_sold'] : array();
-	$close           = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : mt_close_times( $labels, $times );
-	$hide            = ( isset( $post['mt_hide_registration_form'] ) ) ? 'true' : 'false';
-	$availability    = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : 'inherit';
-	$total_tickets   = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
-	$pricing_array   = mt_setup_pricing( $labels, $prices, $availability, $close, $sold, $times );
-	$reg_expires     = ( isset( $post['reg_expires'] ) ) ? (int) $post['reg_expires'] : 0;
-	$multiple        = ( isset( $post['mt_multiple'] ) ) ? 'true' : 'false';
-	$mt_sales_type   = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
-	$counting_method = ( isset( $post['mt_counting_method'] ) ) ? $post['mt_counting_method'] : 'discrete';
-	$counting_method = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'general' : $counting_method;
-	$sell            = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
-	$notes           = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
-	$clear           = ( isset( $post['mt-delete-data'] ) ) ? true : false;
-	if ( $clear ) {
-		$pricing_array = mt_setup_pricing( $labels, $prices, $availability, $close, array(), $times );
-		$tickets       = get_post_meta( $post_id, '_ticket' );
-		foreach ( $tickets as $ticket_id ) {
-			// Delete individual ticket IDs.
-			delete_post_meta( $post_id, '_' . $ticket_id );
-			// Delete sequential ids.
-			delete_post_meta( $post_id, '_' . $ticket_id . '_seq_id' );
+	if ( isset( $post['mt_label'] ) ) {
+		$reg_data        = get_post_meta( $post_id, '_mt_registration_options', true );
+		$event_begin     = ( isset( $post['event_begin'] ) ) ? $post['event_begin'] : '';
+		$event_begin     = ( is_array( $event_begin ) ) ? $event_begin[0] : $event_begin;
+		$labels          = ( isset( $post['mt_label'] ) ) ? $post['mt_label'] : array();
+		$times           = ( isset( $post['mt_label_time'] ) ) ? $post['mt_label_time'] : array();
+		$prices          = ( isset( $post['mt_price'] ) ) ? $post['mt_price'] : array();
+		$sold            = ( isset( $post['mt_sold'] ) ) ? $post['mt_sold'] : array();
+		$close           = ( isset( $post['mt_close'] ) ) ? $post['mt_close'] : mt_close_times( $labels, $times );
+		$hide            = ( isset( $post['mt_hide_registration_form'] ) ) ? 'true' : 'false';
+		$availability    = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : 'inherit';
+		$total_tickets   = ( isset( $post['mt_tickets_total'] ) ) ? $post['mt_tickets_total'] : 'inherit';
+		$pricing_array   = mt_setup_pricing( $labels, $prices, $availability, $close, $sold, $times );
+		$reg_expires     = ( isset( $post['reg_expires'] ) ) ? (int) $post['reg_expires'] : 0;
+		$multiple        = ( isset( $post['mt_multiple'] ) ) ? 'true' : 'false';
+		$mt_sales_type   = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
+		$counting_method = ( isset( $post['mt_counting_method'] ) ) ? $post['mt_counting_method'] : 'discrete';
+		$counting_method = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'general' : $counting_method;
+		$sell            = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
+		$notes           = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
+		$clear           = ( isset( $post['mt-delete-data'] ) ) ? true : false;
+		if ( $clear ) {
+			$pricing_array = mt_setup_pricing( $labels, $prices, $availability, $close, array(), $times );
+			$tickets       = get_post_meta( $post_id, '_ticket' );
+			foreach ( $tickets as $ticket_id ) {
+				// Delete individual ticket IDs.
+				delete_post_meta( $post_id, '_' . $ticket_id );
+				// Delete sequential ids.
+				delete_post_meta( $post_id, '_' . $ticket_id . '_seq_id' );
+			}
+			// Delete record of tickets.
+			delete_post_meta( $post_id, '_ticket' );
+			// Delete base enumerator for sequential ticket IDs.
+			delete_post_meta( $post_id, '_sequential_base' );
+			// Delete purchase records used for reporting.
+			delete_post_meta( $post_id, '_purchase' );
+			// Delete sold out flag.
+			delete_post_meta( $post_id, '_mt_event_soldout' );
+			// Delete event expiration notice.
+			delete_post_meta( $post_id, '_mt_event_expired' );
+			// retain payments (as they might apply to multiple events) but remove tickets from them.
 		}
-		// Delete record of tickets.
-		delete_post_meta( $post_id, '_ticket' );
-		// Delete base enumerator for sequential ticket IDs.
-		delete_post_meta( $post_id, '_sequential_base' );
-		// Delete purchase records used for reporting.
-		delete_post_meta( $post_id, '_purchase' );
-		// Delete sold out flag.
-		delete_post_meta( $post_id, '_mt_event_soldout' );
-		// Delete event expiration notice.
-		delete_post_meta( $post_id, '_mt_event_expired' );
-		// retain payments (as they might apply to multiple events) but remove tickets from them.
+		$registration_options = array(
+			'reg_expires'     => $reg_expires,
+			'sales_type'      => $mt_sales_type,
+			'counting_method' => $counting_method,
+			'prices'          => $pricing_array,
+			'total'           => $total_tickets,
+			'multiple'        => $multiple,
+		);
+		$updated_expire       = ( isset( $reg_data['reg_expires'] ) && $reg_data['reg_expires'] !== $reg_expires ) ? true : false;
+		if ( mt_date_comp( mt_date( 'Y-m-d H:i:s', mt_current_time() ), $event_begin ) || $updated_expire ) {
+			// if the date changes, and is now in the future, re-open ticketing.
+			// also if the amount of time before closure changes.
+			delete_post_meta( $post_id, '_mt_event_expired' );
+		}
+		/**
+		 * Filter event registration options for an event before saving.
+		 *
+		 * @hook mt_registration_options
+		 *
+		 * @param {array}  $registration_options Saved options for this event.
+		 * @param {array}  $post POST data passed to function.
+		 * @param {object} $data Event object.
+		 *
+		 * @return {array}
+		 */
+		$registration_options = apply_filters( 'mt_registration_options', $registration_options, $post, $data );
+		update_post_meta( $post_id, '_mt_registration_options', $registration_options );
+		update_post_meta( $post_id, '_mt_hide_registration_form', $hide );
+		update_post_meta( $post_id, '_mt_sell_tickets', $sell );
+		update_post_meta( $post_id, '_mt_event_notes', $notes );
 	}
-	$registration_options = array(
-		'reg_expires'     => $reg_expires,
-		'sales_type'      => $mt_sales_type,
-		'counting_method' => $counting_method,
-		'prices'          => $pricing_array,
-		'total'           => $total_tickets,
-		'multiple'        => $multiple,
-	);
-	$updated_expire       = ( isset( $reg_data['reg_expires'] ) && $reg_data['reg_expires'] !== $reg_expires ) ? true : false;
-	if ( mt_date_comp( mt_date( 'Y-m-d H:i:s', mt_current_time() ), $event_begin ) || $updated_expire ) {
-		// if the date changes, and is now in the future, re-open ticketing.
-		// also if the amount of time before closure changes.
-		delete_post_meta( $post_id, '_mt_event_expired' );
-	}
-	/**
-	 * Filter event registration options for an event before saving.
-	 *
-	 * @hook mt_registration_options
-	 *
-	 * @param {array}  $registration_options Saved options for this event.
-	 * @param {array}  $post POST data passed to function.
-	 * @param {object} $data Event object.
-	 *
-	 * @return {array}
-	 */
-	$registration_options = apply_filters( 'mt_registration_options', $registration_options, $post, $data );
-	update_post_meta( $post_id, '_mt_registration_options', $registration_options );
-	update_post_meta( $post_id, '_mt_hide_registration_form', $hide );
-	update_post_meta( $post_id, '_mt_sell_tickets', $sell );
-	update_post_meta( $post_id, '_mt_event_notes', $notes );
 }
 
 /**
