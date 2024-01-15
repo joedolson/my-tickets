@@ -314,7 +314,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $mo
 	// Appear on My Calendar events to toggle ticket sales.
 	$format  = ( isset( $_GET['page'] ) && 'my-calendar' === $_GET['page'] ) ? "<p><input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$checked /> <label for='mt-trigger'>" . __( 'Sell tickets on this event.', 'my-tickets' ) . '</label></p>' : '';
 	$reports = ( $event_id && ! empty( get_post_meta( $event_id, '_ticket' ) ) ) ? "<p class='get-report'><span class='dashicons dashicons-chart-bar' aria-hidden='true'></span> <a href='" . admin_url( "admin.php?page=mt-reports&amp;event_id=$event_id" ) . "'>" . __( 'View Tickets Purchased for this event', 'my-tickets' ) . '</a></p>' : '';
-	$form    =  $reports . $format . '<div class="mt-ticket-form">' . $shortcode . $model_selector . '<div class="mt-ticket-wrapper-form" role="tabpanel" tabindex="0">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '</div>';
+	$form    = $reports . $format . '<div class="mt-ticket-form">' . $shortcode . $model_selector . '<div class="mt-ticket-wrapper-form" role="tabpanel" tabindex="0">' . mt_get_registration_fields( $form, $has_data, $data, $public, $model ) . '</div>';
 
 	$form .= "<p>
 		<label for='mt_event_notes'>" . __( 'Event-specific notes for email notifications', 'my-tickets' ) . "</label><br />
