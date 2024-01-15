@@ -8,6 +8,7 @@ jQuery(document).ready(function ($) {
 	});
 	if (initial_status !== true) {
 		$('.mt-ticket-form').hide();
+		$( '.mt-ticket-form input' ).attr( 'disabled', 'disabled' );
 		$('.mt-ticket-data input').removeAttr('required').removeAttr('aria-required');
 	} else {
 		var general_status = $('input[name=mt_general]:checked').val();
@@ -42,11 +43,12 @@ jQuery(document).ready(function ($) {
 			$('.mt-ticket-validity').hide();
 		}
 		if (checked_status == true) {
-			$('.mt-ticket-dates input').attr('required', 'required').attr('aria-required', 'true');
-			$('.mt-available-tickets input').attr('required', 'required').attr('aria-required', 'true');
+			$( '.mt-ticket-form input' ).removeAttr( 'disabled' );
+			$('.mt-ticket-data input').attr('required', 'required').attr('aria-required', 'true');
 			$('.mt-ticket-form').show(300);
 		} else {
-			$('.mt-ticket-data input').removeAttr('required').removeAttr('aria-required');
+			$( '.mt-ticket-form input' ).attr( 'disabled', 'disabled' );
+			$('.mt-ticket-data input').removeAttr('required').removeAttr('aria-required').attr( 'disabled', 'disabled' );
 			$('.mt-ticket-form').hide(200);
 		}
 	});
