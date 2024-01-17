@@ -80,7 +80,7 @@ function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
  * @param array $field Field info.
  * @param int   $event_id Event ID.
  *
- * @return bool|mixed|void
+ * @return bool
  */
 function mt_apply_custom_field( $field, $event_id ) {
 	$return = false;
@@ -94,7 +94,17 @@ function mt_apply_custom_field( $field, $event_id ) {
 		$return = true;
 	}
 
-	// add your custom rules.
+	/**
+	 * Filter the boolean value that indicates whether a custom field should be shown on an event.
+	 *
+	 * @hook mt_apply_custom_field_rules
+	 *
+	 * @param {bool}  $return True to return this field.
+	 * @param {array} $field Array of custom field characteristics.
+	 * @param {int}   $event_id Event being displayed.
+	 *
+	 * @return {bool}
+	 */
 	return apply_filters( 'mt_apply_custom_field_rules', $return, $field, $event_id );
 }
 
