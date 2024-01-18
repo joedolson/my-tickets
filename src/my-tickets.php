@@ -700,6 +700,7 @@ We\'ll see you soon!<br />
 		'mt_display_remaining'     => 'proportion',
 		'mt_show_closed'           => 'false',
 		'style_vars'               => mt_style_variables(),
+		'mt_inventory'             => 'actual',
 	);
 
 	return $defaults;
