@@ -1204,5 +1204,5 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 		}
 	}
 
-	return $cart;
+	return ( $cart ) ? $cart : array();
 }
