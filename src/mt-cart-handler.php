@@ -254,7 +254,7 @@ function mt_check_inventory( $event_id, $type = '' ) {
 	 *
 	 * @return {string}
 	 */
-	$is_virtual        = apply_filters( 'mt_is_virtual_inventory', $options['mt_inventory'], $event_id );
+	$is_virtual = apply_filters( 'mt_is_virtual_inventory', $options['mt_inventory'], $event_id );
 	if ( 'virtual' === $is_virtual ) {
 		$available = $available - $current_virtual;
 		$sold      = $sold + $current_virtual;
