@@ -186,6 +186,7 @@ function mt_update_inventory( $event_id, $type, $count ) {
 			$virtual_inventory[ $type ] = absint( $count );
 		}
 	}
+	update_post_meta( $event_id, '_mt_virtual_inventory', $virtual_inventory );
 }
 
 /**
