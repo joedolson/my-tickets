@@ -35,6 +35,7 @@ function mt_update_ticketing_settings( $post ) {
 		$mt_shipping_time         = ( isset( $post['mt_shipping_time'] ) ) ? $post['mt_shipping_time'] : '3-5';
 		$mt_hide_remaining        = ( isset( $post['mt_hide_remaining'] ) ) ? 'true' : 'false';
 		$mt_show_closed           = ( isset( $post['mt_show_closed'] ) ) ? 'true' : 'false';
+		$mt_inventory             = ( isset( $post['mt_inventory'] ) ) ? 'virtual' : 'actual';
 		$mt_hide_remaining_limit  = ( isset( $post['mt_hide_remaining_limit'] ) ) ? intval( $post['mt_hide_remaining_limit'] ) : 0;
 		$mt_collect_shipping      = ( isset( $post['mt_collect_shipping'] ) ) ? 'true' : 'false';
 		$mt_hide_empty_short_cart = ( isset( $post['mt_hide_empty_short_cart'] ) ) ? 'true' : 'false';
@@ -85,6 +86,7 @@ function mt_update_ticketing_settings( $post ) {
 				'mt_tickets_close_type'    => $close_type,
 				'mt_display_remaining'     => $mt_display_remaining,
 				'mt_show_closed'           => $mt_show_closed,
+				'mt_inventory'             => $mt_inventory,
 				'mt_ticket_image'          => $mt_ticket_image,
 				'mt_hide_remaining'        => $mt_hide_remaining,
 				'mt_hide_remaining_limit'  => $mt_hide_remaining_limit,
@@ -210,6 +212,8 @@ function mt_ticketing_settings() {
 								$form                    .= "<p class='handling ticket-hide-remaining'><label for='mt_tickets_hide_remaining'>" . __( 'Hide number of tickets remaining', 'my-tickets' ) . "</label> <input name='mt_hide_remaining' id='mt_tickets_hide_remaining' type='checkbox' value='true'" . checked( $mt_hide_remaining, 'true', false ) . ' /></p>';
 								$mt_hide_remaining_limit  = ( isset( $options['mt_hide_remaining_limit'] ) ) ? $options['mt_hide_remaining_limit'] : 0;
 								$form                    .= "<p class='handling ticket-hide-remaining-limit'><label for='mt_tickets_hide_remaining_limit'>" . __( 'Show number of tickets remaining when available tickets falls below:', 'my-tickets' ) . "</label> <input name='mt_hide_remaining_limit' id='mt_tickets_hide_remaining_limit' type='number' value='" . $mt_hide_remaining_limit . "' /></p>";
+								$mt_inventory             = $options['mt_inventory'];
+								$form                    .= "<p class='handling ticket-inventory'><label for='mt_inventory'>" . __( 'Decrease inventory when tickets are added to cart', 'my-tickets' ) . "</label> <input name='mt_inventory' id='mt_inventory' type='checkbox' value='virtual'" . checked( $mt_inventory, 'virtual', false ) . ' /></p>';
 								$mt_display_remaining     = ( isset( $options['mt_display_remaining'] ) ) ? $options['mt_display_remaining'] : 'proportion';
 								$form                    .= "<p class='handling ticket-display-remaining'><label for='mt_tickets_display_remaining'>" . __( 'Remaining tickets display type', 'my-tickets' ) . "</label> <select name='mt_display_remaining' id='mt_tickets_display_remaining' />
 									<option value='proportion'" . selected( $mt_display_remaining, 'proportion', false ) . '>' . __( 'Available/total, e.g. 23/40', 'my-tickets' ) . "</option>
