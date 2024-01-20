@@ -46,6 +46,7 @@
  */
 function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	$type = sanitize_title( $type );
+	// The shape of the $passed data doesn't match the saved model when updating from the cart page.
 	if ( true === $override ) {
 		$save = $passed;
 	} else {
