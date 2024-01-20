@@ -891,6 +891,15 @@ function mt_add_to_cart() {
 			$type    = ( isset( $_GET['ticket_type'] ) && ( 'complementary' !== $_GET['ticket_type'] && 'complimentary' !== $_GET['ticket_type'] ) ) ? sanitize_key( $_GET['ticket_type'] ) : false;
 			$count   = isset( $_GET['count'] ) ? intval( $_GET['count'] ) : 1;
 			$options = ( $type ) ? array( $type => $count ) : false;
+			// Record into virtual inventory.
+			$cur_count = ( isset( $data[ $event_id ] ) ) ? $data[ $event_id ][ $type ] : 0;
+			$new_count = $count;
+			if ( $new_count > $cur_count ) {
+				$increment = ( $cur_count - $new_count );
+			} else {
+				$increment = ( $cur_count - $new_count ) * -1;
+			}
+			mt_update_inventory( $event_id, $type, $increment );
 			if ( $data ) {
 				$event_options = isset( $data[ $event_id ] ) && is_array( $data[ $event_id ] ) ? $data[ $event_id ] : array();
 				$options       = array_merge( $event_options, $options );

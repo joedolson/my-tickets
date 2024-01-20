@@ -10,7 +10,7 @@
  */
 
 /**
- * Abstract function for saving user data (cookie or meta). Saves as cookie is not logged in, as user meta if is.
+ * Abstract function for saving user data (cookie or meta). Saves as cookie if not logged in, as user meta if is.
  *
  * @param array  $passed Data passed to save.
  * @param string $type Type of data to save.
@@ -26,6 +26,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		switch ( $type ) {
 			case 'cart':
 				$save              = mt_get_cart();
+				$saved             = $save;
 				$options           = $passed['options'];
 				$event_id          = $passed['event_id'];
 				$save[ $event_id ] = $options;
@@ -37,6 +38,13 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 				$save = $passed;
 		}
 	}
+	if ( 'cart' === $type ) {
+		$inventory_change = mt_get_inventory_change( $save, $saved );
+		foreach ( $inventory_change as $ticket => $change ) {
+			mt_update_inventory( $change['event_id'], $ticket, $change['count'] );
+		}
+	}
+
 	$current_user = wp_get_current_user();
 	mt_refresh_cache();
 	$expiration = mt_expiration_window();
@@ -74,6 +82,12 @@ function mt_delete_data( $data = 'cart' ) {
 	}
 	if ( $unique_id ) {
 		delete_transient( 'mt_' . $unique_id . '_' . $data );
+	}
+	if ( 'cart' === $data ) {
+		$inventory_change = mt_get_inventory_change( array() );
+		foreach ( $inventory_change as $ticket => $change ) {
+			mt_update_inventory( $change['event_id'], $ticket, $change['count'] );
+		}
 	}
 }
 
