@@ -189,7 +189,7 @@ function mt_get_inventory_change( $passed, $saved = array() ) {
 				// If tickets are removed from the cart.
 				if ( $new_count < $old_count ) {
 					$increment = ( $old_count - $new_count );
-				// If tickets are added to the cart.
+					// If tickets are added to the cart.
 				} else {
 					$increment = ( $new_count - $old_count );
 				}
