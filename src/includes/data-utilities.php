@@ -50,7 +50,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	mt_refresh_cache();
 	$expiration = mt_expiration_window();
 	if ( is_user_logged_in() ) {
-		update_user_meta( $current_user->ID, "_mt_user_init_$type", time() + $expiration );
+		update_user_meta( $current_user->ID, "_mt_user_init_expiration", time() + $expiration );
 		update_user_meta( $current_user->ID, "_mt_user_$type", $save );
 
 		return true;
