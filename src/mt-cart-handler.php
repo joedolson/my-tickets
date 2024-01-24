@@ -274,13 +274,22 @@ function mt_check_inventory( $event_id, $type = '' ) {
 	$options      = mt_get_settings();
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	$prices       = $registration['prices'];
-	if ( ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) && '' !== $type ) {
-		$available = absint( $prices[ $type ]['tickets'] );
-		$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
+	if ( ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) ) {
+		if ( '' !== $type ) {
+			$available = absint( $prices[ $type ]['tickets'] );
+			$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
+		} else {
+			$available = 0;
+			$sold      = 0;
+			foreach ( $prices as $pricetype ) {
+				$available += (int) $pricetype['tickets'];
+				$sold      += (int) $pricetype['sold'];
+			}
+		}
 	} else {
 		$available = absint( $registration['total'] );
 		$sold      = 0;
-		foreach ( $registration['prices'] as $pricetype ) {
+		foreach ( $prices as $pricetype ) {
 			$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
 		}
 	}
