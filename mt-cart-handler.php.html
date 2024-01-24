@@ -212,13 +212,7 @@ function mt_get_inventory_change( $passed, $saved = array() ) {
 			$new_count = absint( $new_count );
 			// If no change, don't include.
 			if ( $new_count !== $old_count ) {
-				// If tickets are removed from the cart.
-				if ( $new_count &lt; $old_count ) {
-					$increment = ( $old_count - $new_count );
-					// If tickets are added to the cart.
-				} else {
-					$increment = ( $new_count - $old_count );
-				}
+				$increment        = ( $old_count - $new_count ) * -1;
 				$changes[ $type ] = array(
 					'event_id' => $event_id,
 					'count'    => $increment,

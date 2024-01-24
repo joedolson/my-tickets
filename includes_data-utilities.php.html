@@ -76,10 +76,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	mt_refresh_cache();
 	$expiration = mt_expiration_window();
 	if ( is_user_logged_in() ) {
-		$data_age = get_user_meta( $current_user->ID, "_mt_user_init_$type", true );
-		if ( ! $data_age ) {
-			update_user_meta( $current_user->ID, "_mt_user_init_$type", time() + $expiration );
-		}
+		update_user_meta( $current_user->ID, "_mt_user_init_expiration", time() + $expiration );
 		update_user_meta( $current_user->ID, "_mt_user_$type", $save );
 
 		return true;
@@ -89,9 +86,8 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
 		set_transient( 'mt_' . $unique_id . '_' . $type, $save, time() + $expiration );
-		if ( ! get_transient( 'mt_' . $unique_id . '_expiration' ) ) {
-			set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration, time() + $expiration );
-		}
+		set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration, time() + $expiration );
+
 		return true;
 	}
 }
@@ -132,15 +128,18 @@ function mt_get_data( $type, $user_ID = false ) {
 	} else {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
+			$expired      = false;
 			$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
-			if ( ! $data_age ) {
+			if ( $data_age &amp;&amp; time() > $data_age ) {
+				// Expire user's cart after the data ages out.
+				delete_user_meta( $current_user->ID, "_mt_user_$type" );
+				$expired = true;
+			}
+			if ( ! $data_age &amp;&amp; ! $expired ) {
 				$expiration = mt_expiration_window();
 				update_user_meta( $current_user->ID, '_mt_user_init_expiration', time() + $expiration );
 			}
-			if ( time() > $data_age ) {
-				// Expire user's cart after the data ages out.
-				delete_user_meta( $current_user->ID, "_mt_user_$type" );
-			}
+
 			$data = get_user_meta( $current_user->ID, "_mt_user_$type", true );
 		} else {
 			$unique_id = mt_get_unique_id();
