@@ -184,7 +184,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				$default_available = apply_filters( 'mt_default_available', 100, $registration );
 				$available         = ( 'general' === $registration['counting_method'] ) ? $default_available : $registration['total'];
 				$tickets_data      = mt_check_inventory( $event_id );
-				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : $tickets_data['available'];
+				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : mt_check_inventory( $event_id )['available'];
 				$tickets_sold      = $tickets_data['sold'];
 				/**
 				 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
