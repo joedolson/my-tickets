@@ -50,10 +50,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	mt_refresh_cache();
 	$expiration = mt_expiration_window();
 	if ( is_user_logged_in() ) {
-		$data_age = get_user_meta( $current_user->ID, "_mt_user_init_$type", true );
-		if ( ! $data_age ) {
-			update_user_meta( $current_user->ID, "_mt_user_init_$type", time() + $expiration );
-		}
+		update_user_meta( $current_user->ID, "_mt_user_init_$type", time() + $expiration );
 		update_user_meta( $current_user->ID, "_mt_user_$type", $save );
 
 		return true;
@@ -63,9 +60,8 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
 		set_transient( 'mt_' . $unique_id . '_' . $type, $save, time() + $expiration );
-		if ( ! get_transient( 'mt_' . $unique_id . '_expiration' ) ) {
-			set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration, time() + $expiration );
-		}
+		set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration, time() + $expiration );
+
 		return true;
 	}
 }
