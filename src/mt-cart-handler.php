@@ -274,7 +274,7 @@ function mt_check_inventory( $event_id, $type = '' ) {
 	$options      = mt_get_settings();
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	$prices       = $registration['prices'];
-	if ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] && '' !== $type ) {
+	if ( ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) && '' !== $type ) {
 		$available = absint( $prices[ $type ]['tickets'] );
 		$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
 	} else {
@@ -290,8 +290,10 @@ function mt_check_inventory( $event_id, $type = '' ) {
 		$current_virtual   = isset( $virtual_inventory[ $type ] ) ? $virtual_inventory[ $type ] : 0;
 	} else {
 		$current_virtual = 0;
-		foreach ( $virtual_inventory as $type => $quantity ) {
-			$current_virtual += (int) $quantity;
+		if ( is_array( $virtual_inventory ) ) {
+			foreach ( $virtual_inventory as $type => $quantity ) {
+				$current_virtual += (int) $quantity;
+			}
 		}
 	}
 	/**
