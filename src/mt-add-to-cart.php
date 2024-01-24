@@ -631,9 +631,10 @@ function mt_event_status( $event_id = false ) {
 function mt_hide_remaining( $tickets_remaining ) {
 	$options = mt_get_settings();
 	// If hide remaining is enabled, set as hidden.
-	$hide_remaining = ( isset( $options['mt_hide_remaining'] ) && 'true' === $options['mt_hide_remaining'] ) ? ' hiding' : '';
+	$hide_remaining  = ( isset( $options['mt_hide_remaining'] ) && 'true' === $options['mt_hide_remaining'] ) ? ' hiding' : '';
+	$remaining_limit = absint( $options['mt_hide_remaining_limit'] );
 	// Hide tickets if there are more than x tickets available if limit is set.
-	$hide_limiting = ( isset( $options['mt_hide_remaining_limit'] ) && ( $tickets_remaining > absint( $options['mt_hide_remaining_limit'] ) ) ) ? ' hiding' : '';
+	$hide_limiting = ( isset( $options['mt_hide_remaining_limit'] ) && 0 !== $remaining_limit && ( $tickets_remaining > $remaining_limit ) ) ? ' hiding' : '';
 
 	return ( isset( $options['mt_hide_remaining_limit'] ) ) ? $hide_limiting : $hide_remaining;
 }
