@@ -67,6 +67,33 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 }
 
 /**
+ * Extend cart expiration time.
+ *
+ * @param int $amount Time in seconds to extend cart validity.
+ *
+ * @return bool
+ */
+function mt_extend_expiration( $amount = 300 ) {
+	if ( is_user_logged_in() ) {
+		update_user_meta( $current_user->ID, "_mt_user_init_expiration", time() + $amount );
+
+		return true;
+	} else {
+		$unique_id = mt_get_unique_id();
+		if ( get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
+			delete_transient( 'mt_' . $unique_id . '_' . $type );
+		}
+		$cart = get_transient( 'mt_' . $unique_id . '_cart' );
+		set_transient( 'mt_' . $unique_id . '_cart', $cart, time() + $amount );
+		set_transient( 'mt_' . $unique_id . '_expiration', time() + $amount, time() + $amount );
+
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Abstract function to delete data. Defaults to delete user's shopping cart.
  *
  * @param string $data Type of data to delete.

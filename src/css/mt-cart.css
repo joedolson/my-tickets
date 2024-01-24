@@ -7,6 +7,20 @@
 	padding: .5rem;
 }
 
+.mt-expiration-notice {
+	padding: 1rem;
+	display: flex;
+	gap: 12px;
+	margin-bottom: 1rem;
+	background: var(--mt-message-bg);
+	color: var(--mt-text-color);
+}
+
+.mt-expiration-notice p {
+	padding: 0;
+	margin: 0;
+}
+
 .mt-order input,
 .mt_cart button,
 .mt_cart select,

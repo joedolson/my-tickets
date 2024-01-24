@@ -691,10 +691,10 @@ function mt_generate_expiration() {
 		$output = '';
 	} elseif ( ( $expiration - time() ) > 30 * MINUTE_IN_SECONDS ) {
 		// translators: amount of time remaining that the cart is saved.
-		$output = '<div class="expiration-notice"><p>' . sprintf( __( 'Your shopping cart will be saved for another %s.', 'my-tickets' ), human_time_diff( time(), $expiration ) ) . '</p></div>';
+		$output = '<div class="mt-expiration-notice"><p>' . sprintf( __( 'Your shopping cart will be saved for another %s.', 'my-tickets' ), human_time_diff( time(), $expiration ) ) . '</p></div>';
 	} else {
 		// translators: amount of time remaining before the cart expires.
-		$output = '<div class="expiration-extension"><p>' . sprintf( __( 'Your shopping cart will expire in %s.', 'my-tickets' ), human_time_diff( time(), $expiration ) ) . '<button type="button">' . __( 'Extend 5 minutes', 'my-tickets' ) . '</button></p></div>';
+		$output = '<div class="mt-expiration-notice"><div class="mt-expiration-update" aria-live="polite"><p>' . sprintf( __( 'Your shopping cart will expire in %s.', 'my-tickets' ), human_time_diff( time(), $expiration ) ) . '</p></div><button class="mt-extend-button" type="button"><span class="dashicons dashicons-clock" aria-hidden="true"></span> ' . __( 'Add 5 minutes', 'my-tickets' ) . '</button></div>';
 	}
 
 	return $output;

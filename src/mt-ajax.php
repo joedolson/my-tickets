@@ -127,10 +127,23 @@ function mt_ajax_handler() {
 		$post         = array_map( 'sanitize_text_field', $_REQUEST['data'] );
 		$current_user = wp_get_current_user();
 		$saved        = update_user_meta( $current_user->ID, '_mt_shipping_address', $post );
+		$response     = array();
 		if ( $saved ) {
 			$response['response'] = apply_filters( 'mt_save_address_success', __( 'Address updated.', 'my-tickets' ) );
 		} else {
 			$response['response'] = apply_filters( 'mt_save_address_failure', __( 'Address not updated.', 'my-tickets' ) );
+		}
+		wp_send_json( $response );
+	}
+	if ( 'extend_cart' === $_REQUEST['function'] ) {
+		$extend   = mt_extend_expiration();
+		$response = array(
+			'response' => __( 'Extension failed.', 'my-tickets' ),
+		);
+		if ( $extend ) {
+			$response = array(
+				'response' => __( 'Cart expiration extended', 'my-tickets' ),
+			);
 		}
 		wp_send_json( $response );
 	}

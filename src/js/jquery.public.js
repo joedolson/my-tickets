@@ -235,6 +235,22 @@
 			}, "json" );
 			$('.mt-processing').hide();
 		});
+
+			// on checkbox, update private data
+			$('.mt-extend-button').on('click', function (e) {
+				$('.mt-processing').show();
+	
+				var data = {
+					'action': mt_ajax.action,
+					'function': 'extend_cart',
+					'security': mt_ajax.security
+				};
+				$.post( mt_ajax.url, data, function (response) {
+					var message = response.response;
+					$( '.mt-expiration-update' ).html( "<p>" + message + "</p>" ).show( 300 );
+				}, "json" );
+				$('.mt-processing').hide();
+			});
 		// Remove unsubmitted flag.
 		$( '.mt-payment-form form' ).on( 'submit', function(e) {
 			var unsubmitted = $( '#mt_unsubmitted' );
