@@ -287,7 +287,7 @@ function mt_check_inventory( $event_id, $type = '' ) {
 	// Virtual inventory holds tickets in carts but not yet sold.
 	$virtual_inventory = get_post_meta( $event_id, '_mt_virtual_inventory', true );
 	if ( '' !== $type ) {
-		$current_virtual   = isset( $virtual_inventory[ $type ] ) ? $virtual_inventory[ $type ] : 0;
+		$current_virtual = isset( $virtual_inventory[ $type ] ) ? $virtual_inventory[ $type ] : 0;
 	} else {
 		$current_virtual = 0;
 		if ( is_array( $virtual_inventory ) ) {
