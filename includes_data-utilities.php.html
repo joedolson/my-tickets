@@ -153,6 +153,7 @@ function mt_delete_data( $data = 'cart' ) {
  * @return array|mixed
  */
 function mt_get_data( $type, $user_ID = false ) {
+	// Get information about a specific user.
 	if ( $user_ID ) {
 		$data = get_user_meta( $user_ID, "_mt_user_$type", true );
 	} else {
@@ -194,6 +195,49 @@ function mt_get_data( $type, $user_ID = false ) {
 	}
 
 	return $data;
+}
+
+
+/**
+ * Get saved cart data for user.
+ *
+ * @param bool|int    $user_ID User ID.
+ * @param bool|string $cart_id Cart identifier.
+ *
+ * @return array|mixed
+ */
+function mt_get_cart( $user_ID = false, $cart_id = false ) {
+	$cart      = array();
+	$unique_id = mt_get_unique_id();
+	if ( $user_ID ) {
+		// Logged-in user data is saved in user meta.
+		$cart = get_user_meta( $user_ID, '_mt_user_cart', true );
+	} elseif ( ! $user_ID &amp;&amp; $cart_id ) {
+		// Public data is saved in transients.
+		$cart = get_transient( 'mt_' . $cart_id . '_cart' );
+	} else {
+		if ( is_user_logged_in() ) {
+			$current_user = wp_get_current_user();
+			$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
+			if ( $data_age &amp;&amp; time() > $data_age ) {
+				delete_user_meta( $current_user->ID, '_mt_user_cart' );
+				delete_user_meta( $current_user->ID, '_mt_user_init_expiration' );
+			} else {
+				$cart = get_user_meta( $current_user->ID, '_mt_user_cart', true );
+			}
+		} else {
+			if ( $unique_id ) {
+				$cart = get_transient( 'mt_' . $unique_id . '_cart' );
+			}
+		}
+	}
+	if ( is_user_logged_in() &amp;&amp; ! $cart ) {
+		if ( $unique_id ) {
+			$cart = get_transient( 'mt_' . $unique_id . '_cart' );
+		}
+	}
+
+	return ( $cart ) ? $cart : array();
 }
 
 add_action( 'init', 'mt_set_user_unique_id' );
