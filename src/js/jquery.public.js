@@ -236,21 +236,22 @@
 			$('.mt-processing').hide();
 		});
 
-			// on checkbox, update private data
-			$('.mt-extend-button').on('click', function (e) {
-				$('.mt-processing').show();
-	
-				var data = {
-					'action': mt_ajax.action,
-					'function': 'extend_cart',
-					'security': mt_ajax.security
-				};
-				$.post( mt_ajax.url, data, function (response) {
-					var message = response.response;
-					$( '.mt-expiration-update' ).html( "<p>" + message + "</p>" ).show( 300 );
-				}, "json" );
-				$('.mt-processing').hide();
-			});
+		// extend cart expiration.
+		$('.mt-extend-button').on('click', function (e) {
+			$('.mt-processing').show();
+
+			var data = {
+				'action': mt_ajax.action,
+				'function': 'extend_cart',
+				'security': mt_ajax.security
+			};
+			$.post( mt_ajax.url, data, function (response) {
+				var message = response.response;
+				$( '.mt-expiration-update' ).html( "<p>" + message + "</p>" ).show( 300 );
+			}, "json" );
+			$('.mt-processing').hide();
+		});
+
 		// Remove unsubmitted flag.
 		$( '.mt-payment-form form' ).on( 'submit', function(e) {
 			var unsubmitted = $( '#mt_unsubmitted' );
@@ -268,6 +269,33 @@
 				$( this ).attr( 'aria-expanded', 'true' );
 			}
 		});
+
+		setTimeout( function() { 
+			setInterval( function() {
+				var time = $('.mt-expiration-update').text();
+				wp.a11y.speak( time );
+			}, 1000 * 60 ); 
+		}, 1000 );
+
+		var timer = $('#mt-timer');
+		setInterval( mtUpdateTimer, 5000, timer );
+	
+		function mtUpdateTimer( timer ) {
+			var seconds = timer.data('start');
+			console.log( seconds );
+			if ( seconds > 0 ) {
+				var second = seconds - 5;
+				timer.data( 'start', second );
+	
+				var date = new Date(null);
+				date.setSeconds( second ); 
+				var min = date.getMinutes();
+				var sec = date.getSeconds();
+				timer.html( min + 'min ' + sec + 'sec' );
+			} else {
+				timer.html( 'Expired' );
+			}
+		}
 	});
 }(jQuery));
 
