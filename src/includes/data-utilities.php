@@ -391,6 +391,10 @@ function mt_get_transient( $transient_id ) {
  * @param string $transient_id Option name.
  */
 function mt_delete_transient( $transient_id ) {
+	if ( strpos( $transient_id, '_cart' ) ) {
+		$unique_id = str_replace( array( 'mt_', '_cart' ), '', $id );
+		mt_delete_data( 'cart', $unique_id );
+	}
 	delete_option( $transient_id );
 	$keys = get_option( 'mt_transient_keys', array() );
 	unset( $keys[ $transient_id ] );
@@ -398,16 +402,12 @@ function mt_delete_transient( $transient_id ) {
 }
 
 /**
- * Poll transient keys.
+ * Poll transient keys. Remove any expired keys.
  */
 function mt_check_transients() {
 	$transients = get_option( 'mt_transient_keys', array() );
 	foreach ( $transients as $id => $expire ) {
 		if ( time() > $expire ) {
-			if ( strpos( $id, '_cart' ) ) {
-				$unique_id = str_replace( array( 'mt_', '_cart' ), '', $id );
-				mt_delete_data( 'cart', $unique_id );
-			}
 			mt_delete_transient( $id );
 			unset( $transients[ $id ] );
 		}
