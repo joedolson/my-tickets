@@ -966,7 +966,7 @@ function mt_return_value( $value, $column_name, $id ) {
  */
 function mt_css() {
 	global $current_screen;
-	$version = ( true === SCRIPT_DEBUG ) ? mt_rand( 10000, 100000 ) : mt_get_current_version();
+	$version = ( true === SCRIPT_DEBUG ) ? wp_rand( 10000, 100000 ) : mt_get_current_version();
 	if ( 'mt-payments' === $current_screen->id || 'edit-mt-payments' === $current_screen->id ) {
 		wp_enqueue_style( 'mt.posts', plugins_url( 'css/mt-post.css', __FILE__ ), array(), $version );
 	}
