@@ -674,21 +674,22 @@ function mt_gateways() {
 
 /**
  * Display time remaining before cart expiration.
+ *
+ * @return string
  */
 function mt_generate_expiration() {
 	// If this is a post-payment page, remove data and don't display message.
 	if ( isset( $_GET['payment_id'] ) ) {
 		mt_delete_data( 'cart' );
-		return;
+		return '';
 	}
 	$expiration = mt_get_expiration();
 	$output     = '';
 	if ( 0 === $expiration ) {
-		return;
+		return '';
 	}
 	if ( ( $expiration - time() ) > 24 * HOUR_IN_SECONDS ) {
 		// No message if more than a day.
-		$output = '';
 	} elseif ( ( $expiration - time() ) > 30 * MINUTE_IN_SECONDS ) {
 		// translators: amount of time remaining before the cart expires.
 		$output = '<div class="mt-expiration-notice"><p>' . sprintf( __( 'Your shopping cart will be saved for another %s.', 'my-tickets' ), human_time_diff( time(), $expiration ) ) . '</p></div>';
@@ -1172,40 +1173,4 @@ function mt_expired( $event, $react = false ) {
 	}
 
 	return false;
-}
-
-/**
- * Get saved cart data for user.
- *
- * @param bool|int    $user_ID User ID.
- * @param bool|string $cart_id Cart identifier.
- *
- * @return array|mixed
- */
-function mt_get_cart( $user_ID = false, $cart_id = false ) {
-	$cart      = array();
-	$unique_id = mt_get_unique_id();
-	if ( $user_ID ) {
-		// Logged-in user data is saved in user meta.
-		$cart = get_user_meta( $user_ID, '_mt_user_cart', true );
-	} elseif ( ! $user_ID && $cart_id ) {
-		// Public data is saved in transients.
-		$cart = get_transient( 'mt_' . $cart_id . '_cart' );
-	} else {
-		if ( is_user_logged_in() ) {
-			$current_user = wp_get_current_user();
-			$cart         = get_user_meta( $current_user->ID, '_mt_user_cart', true );
-		} else {
-			if ( $unique_id ) {
-				$cart = get_transient( 'mt_' . $unique_id . '_cart' );
-			}
-		}
-	}
-	if ( is_user_logged_in() && ! $cart ) {
-		if ( $unique_id ) {
-			$cart = get_transient( 'mt_' . $unique_id . '_cart' );
-		}
-	}
-
-	return ( $cart ) ? $cart : array();
 }
