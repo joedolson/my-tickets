@@ -56,11 +56,11 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		return true;
 	} else {
 		$unique_id = mt_get_unique_id();
-		if ( get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
+		if ( mt_get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
 			delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
-		set_transient( 'mt_' . $unique_id . '_' . $type, $save, time() + $expiration );
-		set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration, time() + $expiration );
+		mt_set_transient( 'mt_' . $unique_id . '_' . $type, $save );
+		mt_set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration );
 
 		return true;
 	}
@@ -83,11 +83,11 @@ function mt_extend_expiration( $amount = 300 ) {
 		return $new;
 	} else {
 		$unique_id = mt_get_unique_id();
-		$current   = get_transient( 'mt_' . $unique_id . '_expiration' );
+		$current   = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
 		$new       = (int) $current + $amount;
-		$cart      = get_transient( 'mt_' . $unique_id . '_cart' );
-		set_transient( 'mt_' . $unique_id . '_cart', $cart, $new );
-		set_transient( 'mt_' . $unique_id . '_expiration', $new, $new );
+		$cart      = mt_get_transient( 'mt_' . $unique_id . '_cart' );
+		mt_set_transient( 'mt_' . $unique_id . '_cart', $cart );
+		mt_set_transient( 'mt_' . $unique_id . '_expiration', $new );
 
 		return $new;
 	}
@@ -101,13 +101,14 @@ function mt_extend_expiration( $amount = 300 ) {
  * @param string $data Type of data to delete.
  */
 function mt_delete_data( $data = 'cart', $unique_id = false ) {
+	return;
 	if ( is_user_logged_in() && ! $unique_id ) {
 		$current_user = wp_get_current_user();
 		delete_user_meta( $current_user->ID, "_mt_user_$data" );
 	}
 	$unique_id = ( $unique_id ) ? $unique_id : mt_get_unique_id();
 	if ( $unique_id ) {
-		delete_transient( 'mt_' . $unique_id . '_' . $data );
+		mt_delete_transient( 'mt_' . $unique_id . '_' . $data );
 	}
 	if ( 'cart' === $data ) {
 		$inventory_change = mt_get_inventory_change( array() );
@@ -130,9 +131,9 @@ function mt_get_data( $type, $user_ID = false ) {
 	if ( $user_ID ) {
 		$data = get_user_meta( $user_ID, "_mt_user_$type", true );
 	} else {
+		$expired = false;
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
-			$expired      = false;
 			$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
 			if ( $data_age && time() > $data_age ) {
 				// Expire user's cart after the data ages out.
@@ -152,7 +153,22 @@ function mt_get_data( $type, $user_ID = false ) {
 		} else {
 			$unique_id = mt_get_unique_id();
 			if ( $unique_id ) {
-				$data = get_transient( 'mt_' . $unique_id . '_' . $type );
+				$data_age = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
+				if ( $data_age && time() > $data_age ) {
+					// Expire user's cart after the data ages out.
+					if ( 'cart' === $type ) {
+						mt_delete_data( 'cart' );
+					} else {
+						mt_delete_transient( 'mt_' . $unique_id . '_' . $type );
+					}
+					$expired = true;
+				}
+				if ( ! $data_age && ! $expired ) {
+					$expiration = mt_expiration_window();
+					mt_set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration );
+				}
+
+				$data = mt_get_transient( 'mt_' . $unique_id . '_' . $type );
 			} else {
 				$data = '[]';
 			}
@@ -191,7 +207,7 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 		$cart = get_user_meta( $user_ID, '_mt_user_cart', true );
 	} elseif ( ! $user_ID && $cart_id ) {
 		// Public data is saved in transients.
-		$cart = get_transient( 'mt_' . $cart_id . '_cart' );
+		$cart = mt_get_transient( 'mt_' . $cart_id . '_cart' );
 	} else {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
@@ -204,13 +220,19 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 			}
 		} else {
 			if ( $unique_id ) {
-				$cart = get_transient( 'mt_' . $unique_id . '_cart' );
+				$data_age = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
+				if ( $data_age && time() > $data_age ) {
+					mt_delete_data( 'cart' );
+					mt_delete_transient( 'mt_' . $unique_id . '_expiration' );
+				} else {
+					$cart = mt_get_transient( 'mt_' . $unique_id . '_cart' );
+				}
 			}
 		}
 	}
 	if ( is_user_logged_in() && ! $cart ) {
 		if ( $unique_id ) {
-			$cart = get_transient( 'mt_' . $unique_id . '_cart' );
+			$cart = mt_get_transient( 'mt_' . $unique_id . '_cart' );
 		}
 	}
 
@@ -313,7 +335,7 @@ function mt_get_expiration() {
 	} else {
 		$unique_id = mt_get_unique_id();
 		if ( $unique_id ) {
-			$expires_at = get_transient( 'mt_' . $unique_id . '_expiration' );
+			$expires_at = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
 		}
 	}
 
@@ -324,7 +346,7 @@ function mt_get_expiration() {
  * Check whether a user's cart or payment info is expired at init.
  */
 function mt_is_cart_expired() {
-	$types = array( 'cart', 'payment', 'offline-payment' );
+	$types = mt_get_data_types();
 	if ( is_user_logged_in() ) {
 		$current_user = wp_get_current_user();
 		foreach ( $types as $type ) {
@@ -342,15 +364,11 @@ function mt_is_cart_expired() {
 	} else {
 		$unique_id = mt_get_unique_id();
 		if ( $unique_id ) {
-			$expiration = get_transient( 'mt_' . $unique_id . '_expiration' );
-			if ( time() > $expiration ) {
-				delete_transient( 'mt_' . $unique_id . '_expiration' );
+			$expiration = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
+			if ( $expiration && time() > $expiration ) {
+				mt_delete_transient( 'mt_' . $unique_id . '_expiration' );
 				foreach ( $types as $type ) {
-					if ( 'cart' === $type ) {
-						mt_delete_data( 'cart' );
-					} else {
-						delete_transient( 'mt_' . $unique_id . '_' . $type );
-					}
+					mt_delete_transient( 'mt_' . $unique_id . '_' . $type );
 				}
 			}
 		}
@@ -359,17 +377,13 @@ function mt_is_cart_expired() {
 add_action( 'init', 'mt_is_cart_expired' );
 
 /**
- * Set a transient value for data storage.
+ * Set or update a transient value for data storage.
  *
  * @param string $transient_id Option name.
  * @param mixed  $value Value to save.
- * @param int    $expiration How long to save value.
  */
-function mt_set_transient( $transient_id, $value, $expiration ) {
+function mt_set_transient( $transient_id, $value ) {
 	update_option( $transient_id, $value );
-	$keys   = get_option( 'mt_transient_keys', array() );
-	$keys[ $transient_id ] = $expiration;
-	update_option( 'mt_transient_keys', $keys );
 }
 
 /**
@@ -392,13 +406,11 @@ function mt_get_transient( $transient_id ) {
  */
 function mt_delete_transient( $transient_id ) {
 	if ( strpos( $transient_id, '_cart' ) ) {
-		$unique_id = str_replace( array( 'mt_', '_cart' ), '', $id );
+		// If this is a cart transient, parse out unique ID and update inventory.
+		$unique_id = str_replace( array( 'mt_', '_cart' ), '', $transient_id );
 		mt_delete_data( 'cart', $unique_id );
 	}
 	delete_option( $transient_id );
-	$keys = get_option( 'mt_transient_keys', array() );
-	unset( $keys[ $transient_id ] );
-	update_option( 'mt_transient_keys', $keys );
 }
 
 /**
@@ -406,10 +418,26 @@ function mt_delete_transient( $transient_id ) {
  */
 function mt_check_transients() {
 	$transients = get_option( 'mt_transient_keys', array() );
-	foreach ( $transients as $id => $expire ) {
+	foreach ( $transients as $key => $unique_id ) {
+		$expire = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
 		if ( time() > $expire ) {
-			mt_delete_transient( $id );
-			unset( $transients[ $id ] );
+			// delete all transients for this unique ID.
+			$types = mt_get_data_types();
+			foreach ( $types as $type ) {
+				mt_delete_transient( 'mt_' . $unique_id . '_' . $type );
+			}
+			unset( $transients[ $key ] );
 		}
 	}
+}
+
+/**
+ * Get all stored data types.
+ *
+ * @return array Types of data stored.
+ */
+function mt_get_data_types() {
+	$types = array( 'cart', 'payment', 'offline-payment' );
+
+	return $types;
 }
