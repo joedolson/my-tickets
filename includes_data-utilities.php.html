@@ -97,23 +97,26 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
  *
  * @param int $amount Time in seconds to extend cart validity.
  *
- * @return bool
+ * @return bool|int
  */
 function mt_extend_expiration( $amount = 300 ) {
+	$amount = absint( $amount );
 	if ( is_user_logged_in() ) {
-		update_user_meta( $current_user->ID, "_mt_user_init_expiration", time() + $amount );
 
-		return true;
+		$current = get_user_meta( wp_get_current_user()->ID, "_mt_user_init_expiration", true );
+		$new     = (int) $current + $amount;
+		update_user_meta( wp_get_current_user()->ID, "_mt_user_init_expiration", $new );
+
+		return $new;
 	} else {
 		$unique_id = mt_get_unique_id();
-		if ( get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
-			delete_transient( 'mt_' . $unique_id . '_' . $type );
-		}
-		$cart = get_transient( 'mt_' . $unique_id . '_cart' );
-		set_transient( 'mt_' . $unique_id . '_cart', $cart, time() + $amount );
-		set_transient( 'mt_' . $unique_id . '_expiration', time() + $amount, time() + $amount );
+		$current   = get_transient( 'mt_' . $unique_id . '_expiration' );
+		$new       = (int) $current + $amount;
+		$cart      = get_transient( 'mt_' . $unique_id . '_cart' );
+		set_transient( 'mt_' . $unique_id . '_cart', $cart, $new );
+		set_transient( 'mt_' . $unique_id . '_expiration', $new, $new );
 
-		return true;
+		return $new;
 	}
 
 	return false;
