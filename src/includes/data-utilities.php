@@ -100,12 +100,12 @@ function mt_extend_expiration( $amount = 300 ) {
  *
  * @param string $data Type of data to delete.
  */
-function mt_delete_data( $data = 'cart' ) {
-	$unique_id = mt_get_unique_id();
-	if ( is_user_logged_in() ) {
+function mt_delete_data( $data = 'cart', $unique_id = false ) {
+	if ( is_user_logged_in() && ! $unique_id ) {
 		$current_user = wp_get_current_user();
 		delete_user_meta( $current_user->ID, "_mt_user_$data" );
 	}
+	$unique_id = ( $unique_id ) ? $unique_id : mt_get_unique_id();
 	if ( $unique_id ) {
 		delete_transient( 'mt_' . $unique_id . '_' . $data );
 	}
@@ -357,3 +357,59 @@ function mt_is_cart_expired() {
 	}
 }
 add_action( 'init', 'mt_is_cart_expired' );
+
+/**
+ * Set a transient value for data storage.
+ *
+ * @param string $transient_id Option name.
+ * @param mixed  $value Value to save.
+ * @param int    $expiration How long to save value.
+ */
+function mt_set_transient( $transient_id, $value, $expiration ) {
+	update_option( $transient_id, $value );
+	$keys   = get_option( 'mt_transient_keys', array() );
+	$keys[ $transient_id ] = $expiration;
+	update_option( 'mt_transient_keys', $keys );
+}
+
+/**
+ * Get a transient value for data storage.
+ * 
+ * @param string $transient_id Option name.
+ *
+ * @return mixed Option value.
+ */
+function mt_get_transient( $transient_id ) {
+	$value = get_option( $transient_id );
+
+	return $value;
+}
+
+/**
+ * Delete a transient value for data storage.
+ * 
+ * @param string $transient_id Option name.
+ */
+function mt_delete_transient( $transient_id ) {
+	delete_option( $transient_id );
+	$keys = get_option( 'mt_transient_keys', array() );
+	unset( $keys[ $transient_id ] );
+	update_option( 'mt_transient_keys', $keys );
+}
+
+/**
+ * Poll transient keys.
+ */
+function mt_check_transients() {
+	$transients = get_option( 'mt_transient_keys', array() );
+	foreach ( $transients as $id => $expire ) {
+		if ( time() > $expire ) {
+			if ( strpos( $id, '_cart' ) ) {
+				$unique_id = str_replace( array( 'mt_', '_cart' ), '', $id );
+				mt_delete_data( 'cart', $unique_id );
+			}
+			mt_delete_transient( $id );
+			unset( $transients[ $id ] );
+		}
+	}
+}
