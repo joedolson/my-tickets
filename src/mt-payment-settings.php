@@ -37,9 +37,8 @@ function mt_update_payment_settings( $post ) {
 		$mt_vat              = ( isset( $post['mt_vat'] ) ) ? 'on' : 'off';
 		$mt_redirect         = ( isset( $post['mt_redirect'] ) ) ? '1' : '0';
 		$mt_expiration       = ( isset( $post['mt_expiration'] ) ) ? absint( $post['mt_expiration'] ) : '';
-
-		$mt_default_gateway = ( isset( $post['mt_default_gateway'] ) ) ? $post['mt_default_gateway'] : 'offline';
-		$mt_gateway         = ( isset( $post['mt_gateway'] ) ) ? $post['mt_gateway'] : array( 'offline' );
+		$mt_default_gateway  = ( isset( $post['mt_default_gateway'] ) ) ? $post['mt_default_gateway'] : 'offline';
+		$mt_gateway          = ( isset( $post['mt_gateway'] ) ) ? $post['mt_gateway'] : array( 'offline' );
 		// if a gateway is set as default that isn't enabled, enable it.
 		if ( ! ( in_array( $mt_default_gateway, $mt_gateway, true ) ) ) {
 			$mt_gateway[] = $mt_default_gateway;
