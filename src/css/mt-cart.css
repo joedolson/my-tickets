@@ -16,6 +16,12 @@
 	color: var(--mt-text-color);
 }
 
+.mt-extend-button {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
 .mt-expiration-notice p {
 	padding: 0;
 	margin: 0;
