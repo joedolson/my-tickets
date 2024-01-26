@@ -456,7 +456,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			$order_value = 0;
 		}
 		$button_up   = ( 'number' === $input_type ) ? '&lt;button type="button" class="mt-increment">&lt;span class="dashicons dashicons-plus" aria-hidden="true">&lt;/span>&lt;span class="screen-reader-text">' . __( 'Add one', 'my-tickets' ) . '&lt;/span>&lt;/button>' : '';
-		$button_down =  ( 'number' === $input_type ) ? '&lt;button type="button" class="mt-decrement">&lt;span class="dashicons dashicons-minus" aria-hidden="true">&lt;/span>&lt;span class="screen-reader-text">' . __( 'Remove one', 'my-tickets' ) . '&lt;/span>&lt;/button>' : '';
+		$button_down = ( 'number' === $input_type ) ? '&lt;button type="button" class="mt-decrement">&lt;span class="dashicons dashicons-minus" aria-hidden="true">&lt;/span>&lt;span class="screen-reader-text">' . __( 'Remove one', 'my-tickets' ) . '&lt;/span>&lt;/button>' : '';
 
 		if ( 'inherit' === $available ) {
 			$inventory = mt_check_inventory( $event_id, $type );
