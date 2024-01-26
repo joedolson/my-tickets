@@ -21,24 +21,19 @@
 		}
 
 		.panel {
-			padding: 1em;
 			margin: 0 auto;
 			border: 1px solid #999;
 		}
 
-		.panel img {
-			display: block;
-			margin: 0 auto;
-		}
-
 		.panel * {
 			word-wrap: breakword;
+			line-height: 1.5;
 		}
 
 		.panel .post-footer {
 			background: #eee;
-			padding: 1em;
-			margin: 0 -1em;
+			padding: 1rem;
+			margin: 0 -1rem;
 			font-size: .8em;
 		}
 
@@ -78,6 +73,7 @@
 				display: none;
 			}
 		}
+
 		h1 {
 			font-size: 1em;
 			font-weight: 400;
@@ -86,26 +82,15 @@
 			line-height: 1.2;
 		}
 
-		.ticket img {
-			display: inline-block;
-			float: left;
-		}
-
 		.ticket.eticket .post-thumbnail {
 			margin: 2em auto;
 			text-align: center;
-			float: none;
-		}
-
-		.eticket .post-thumbnail img {
-			float: none;
 		}
 
 		.bulk-checkin,
 		.ticket {
-			padding: 1em;
+			padding: 1rem;
 			width: 800px;
-			height: 200px;
 		}
 	
 		.bulk-checkin {
@@ -140,12 +125,10 @@
 			position: relative;
 			width: 100%;
 			height: 100%;
-		}
-
-		.ticket .post-thumbnail {
-			float: left;
-			margin-right: 1em;
-			width: 25%;
+			display: grid;
+			align-items: center;
+			grid-template-columns: 25% 1fr 25%;
+			gap: 1rem;
 		}
 
 		.ticket .post-thumbnail img {
@@ -154,10 +137,7 @@
 		}
 
 		.ticket .post-content {
-			position: absolute;
-			bottom: 0;
-			left: 25%;
-			margin-left: 1em;
+			margin-top: 2rem;
 			font-size: .8em;
 			color: #555;
 			font-style: italic;
@@ -170,9 +150,6 @@
 		}
 
 		.ticket .ticket_id {
-			position: absolute;
-			bottom: -10px;
-			right: 0;
 			font-size: .7em;
 			text-transform: uppercase;
 		}
@@ -211,32 +188,26 @@
 			display: none;
 		}
 
-		.printable .ticket-qrcode, .willcall .ticket-qrcode {
-			position: absolute;
-			right: 0;
-			bottom: 0;
-		}
-
 		.printable .ticket-qrcode img, .willcall .ticket-qrcode img {
 			max-width: 120px;
 		}
 
 		.eticket .ticket-qrcode img {
-			float: none;
 			width: 100%;
 			height: auto;
 		}
 
+		.ticket_id,
+		.ticket-qrcode {
+			text-align: right;
+		}
+
 		.ticket-venue {
-			font-size: .9em;
-			position: absolute;
-			right: 0;
-			top: 0;
+			font-size: .8em;
 			text-align: right;
 		}
 
 		.eticket .ticket-venue, .eticket .ticket-id {
-			position: static;
 			text-align: left;
 			font-size: 1em;
 		}
@@ -246,7 +217,10 @@
 				padding: 1em;
 				width: 90%;
 				min-width: 320px;
-				height: 500px;
+			}
+
+			.ticket .inside {
+				display: block;
 			}
 
 			.eticket.ticket {
@@ -274,6 +248,10 @@
 
 			.ticket .post-content {
 				position: static;
+			}
+
+			.ticket .ticket-qrcode img {
+				max-width: 200px;
 			}
 
 		}
@@ -333,18 +311,6 @@ if ( have_posts() ) {
 						<div class='ticket-price'>
 							<?php mt_ticket_price( $ticket_id ); ?>
 						</div>
-						<div class='ticket-venue'>
-							<?php mt_ticket_venue( $ticket_id ); ?>
-						</div>
-						<?php
-						if ( 'eticket' !== mt_get_ticket_method( $ticket_id ) ) {
-							?>
-							<div class='ticket-qrcode'>
-								<img src="<?php mt_ticket_qrcode( $ticket_id ); ?>" alt="QR Code Verification Link"/>
-							</div>
-							<?php
-						}
-						?>
 						<div class='post-content'>
 							<?php
 							$content = get_the_content();
@@ -370,12 +336,25 @@ if ( have_posts() ) {
 							<?php
 						}
 						?>
+						<?php echo apply_filters( 'mt_custom_ticket', '', $ticket_id, mt_get_ticket_method( $ticket_id ) ); ?>
+					</div>
+					<div class="ticket-references">
+						<div class='ticket-venue'>
+							<?php mt_ticket_venue( $ticket_id ); ?>
+						</div>
+						<?php
+						if ( 'eticket' !== mt_get_ticket_method( $ticket_id ) ) {
+							?>
+							<div class='ticket-qrcode'>
+								<img src="<?php mt_ticket_qrcode( $ticket_id ); ?>" alt="QR Code Verification Link"/>
+							</div>
+							<?php
+						}
+						?>
 						<div class='ticket_id'>
 							<?php echo $ticket_id; ?>
 						</div>
-						<?php echo apply_filters( 'mt_custom_ticket', '', $ticket_id, mt_get_ticket_method( $ticket_id ) ); ?>
 					</div>
-
 				</div>
 			</div>
 			<?php
