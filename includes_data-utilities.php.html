@@ -125,6 +125,7 @@ function mt_extend_expiration( $amount = 300 ) {
  * Abstract function to delete data. Defaults to delete user's shopping cart.
  *
  * @param string $data Type of data to delete.
+ * @param string $unique_id Data key to delete.
  */
 function mt_delete_data( $data = 'cart', $unique_id = false ) {
 	return;
@@ -414,7 +415,7 @@ function mt_set_transient( $transient_id, $value ) {
 
 /**
  * Get a transient value for data storage.
- * 
+ *
  * @param string $transient_id Option name.
  *
  * @return mixed Option value.
@@ -427,7 +428,7 @@ function mt_get_transient( $transient_id ) {
 
 /**
  * Delete a transient value for data storage.
- * 
+ *
  * @param string $transient_id Option name.
  */
 function mt_delete_transient( $transient_id ) {
@@ -466,7 +467,8 @@ function mt_get_data_types() {
 	$types = array( 'cart', 'payment', 'offline-payment' );
 
 	return $types;
-}</code></pre>
+}
+</code></pre>
         </article>
     </section>
 
