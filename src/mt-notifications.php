@@ -155,7 +155,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				$tickets_list    = '';
 				foreach ( $tickets as $type => $ticket ) {
 					if ( $ticket['count'] > 0 ) {
-						$price       = (float) $ticket['price'];
+						$price = (float) $ticket['price'];
 						if ( 'event' === $counting ) {
 							// At this stage, the event date is parsed by sanitize_title, and contains an extra hyphen.
 							$type = substr_replace( $type, ' ', 10, 1 );
