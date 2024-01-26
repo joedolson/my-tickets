@@ -482,7 +482,8 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 					'name'  => 'mt_label' . $pattern,
 					'value' => ( $date ) ? gmdate( 'Y-m-d', strtotime( $date ) ) : '',
 				);
-				$label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time' . $pattern . '" id="mt_label_picker_time_' . $label . '"></div>' : '';
+				$time        = ( $date ) ? gmdate( 'H:i:00', strtotime( $date ) ) : '';
+				$label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_' . $label . '" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time' . $pattern . '" id="mt_label_picker_time_' . $label . '" value="' . $time . '"></div>' : '';
 				$label_class = ( 'event' === $counting ) ? 'duet-fallback' : '';
 
 				$class       = ( 0 !== (int) $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
