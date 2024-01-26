@@ -129,10 +129,12 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				if ( ! ( $handling && is_numeric( $handling ) ) ) {
 					$handling = 0;
 				}
-				$handling = (float) $handling;
-				$title    = ( $is_html ) ? '<strong>' . get_the_title( $event_id ) . '</strong>' : get_the_title( $event_id );
-				$title    = ( $is_html ) ? "<a href='" . get_the_permalink( $event_id ) . "'>" . $title . '</a>' : $title;
-				$event    = get_post_meta( $event_id, '_mc_event_data', true );
+				$handling     = (float) $handling;
+				$title        = ( $is_html ) ? '<strong>' . get_the_title( $event_id ) . '</strong>' : get_the_title( $event_id );
+				$title        = ( $is_html ) ? "<a href='" . get_the_permalink( $event_id ) . "'>" . $title . '</a>' : $title;
+				$event        = get_post_meta( $event_id, '_mc_event_data', true );
+				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+				$counting     = $registration['counting_method'];
 				if ( ! is_array( $event ) ) {
 					continue; // This event may no longer have event data on it, and needs to be skipped.
 				}
@@ -154,7 +156,13 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				foreach ( $tickets as $type => $ticket ) {
 					if ( $ticket['count'] > 0 ) {
 						$price       = (float) $ticket['price'];
-						$type        = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
+						if ( 'event' === $counting ) {
+							// At this stage, the event date is parsed by sanitize_title, and contains an extra hyphen.
+							$type = substr_replace( $type, ' ', 10, 1 );
+							$type = date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $type ) );
+						} else {
+							$type = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
+						}
 						$price       = $price - $handling;
 						$discount    = mt_calculate_discount( $price, $event_id, $purchase_id );
 						$total       = ( $discount !== $price ) ? $total + $discount * $ticket['count'] : $total + $price * $ticket['count'];
@@ -184,7 +192,11 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					if ( $general ) {
 						$output .= sprintf( apply_filters( 'mt_purchased_ga_tickets_format', '%1$s - %2$s', $is_html, $event ), $title, $valid_til ) . $sep;
 					} else {
-						$output .= sprintf( apply_filters( 'mt_purchased_tickets_format', '%1$s - %2$s @ %3$s', $is_html, $event ), $title, $date, $time ) . $sep;
+						if ( 'event' === $counting ) {
+							$output .= sprintf( apply_filters( 'mt_purchased_tickets_format', '%1$s', $is_html, $event ), $title ) . $sep;
+						} else {
+							$output .= sprintf( apply_filters( 'mt_purchased_tickets_format', '%1$s - %2$s @ %3$s', $is_html, $event ), $title, $date, $time ) . $sep;
+						}
 					}
 					$output .= apply_filters( 'mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep );
 					$output .= $sep . $tickets_list;
