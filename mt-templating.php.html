@@ -480,6 +480,10 @@ function mt_get_event_date_time( $ticket_id = false ) {
 		$ticket = mt_get_ticket( $ticket_id );
 	}
 	if ( $ticket ) {
+		$event_type = mt_get_event_type( $ticket_id );
+		if ( 'event' === $event_type ) {
+			return '';
+		}
 		$event = get_post_meta( $ticket->ID, '_mc_event_data', true );
 		$date  = isset( $event['event_begin'] ) ? $event['event_begin'] : '';
 		$date  = date_i18n( get_option( 'date_format' ), strtotime( $date ) );
@@ -516,6 +520,10 @@ function mt_get_event_date( $ticket_id = false ) {
 		$ticket = mt_get_ticket( $ticket_id );
 	}
 	if ( $ticket ) {
+		$event_type = mt_get_event_type( $ticket_id );
+		if ( 'event' === $event_type ) {
+			return '';
+		}
 		$event = get_post_meta( $ticket->ID, '_mc_event_data', true );
 		$date  = isset( $event['event_begin'] ) ? $event['event_begin'] : '';
 		$date  = date_i18n( get_option( 'date_format' ), strtotime( $date ) );
@@ -621,6 +629,10 @@ function mt_get_event_time( $ticket_id = false ) {
 		$ticket = mt_get_ticket( $ticket_id );
 	}
 	if ( $ticket ) {
+		$event_type = mt_get_event_type( $ticket_id );
+		if ( 'event' === $event_type ) {
+			return '';
+		}
 		$event  = get_post_meta( $ticket->ID, '_mc_event_data', true );
 		$time   = isset( $event['event_time'] ) ? $event['event_time'] : '';
 		$allday = ( isset( $event['event_endtime'] ) &amp;&amp; '23:59:59' === $event['event_endtime'] || '23:59:59' === $time ) ? true : false;
@@ -646,6 +658,42 @@ function mt_event_time( $ticket_id = false ) {
 	echo esc_html( mt_get_event_time( $ticket_id ) );
 }
 
+
+/**
+ * Get type of event tickets. (discrete, continuous, event).
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return mixed|string
+ */
+function mt_get_event_type( $ticket_id = false ) {
+	if ( ! $ticket_id ) {
+		$ticket    = mt_get_ticket();
+		$ticket_id = mt_get_ticket_id();
+	} else {
+		$ticket = mt_get_ticket( $ticket_id );
+	}
+	if ( $ticket ) {
+		$options = get_post_meta( $ticket->ID, '_mt_registration_options', true );
+		$method  = $options['counting_method'];
+
+		return $method;
+	}
+
+	return '';
+}
+
+/**
+ * Get type of event tickets. (discrete, continuous, event).
+ *
+ * @param bool|string $ticket_id Ticket ID.
+ *
+ * @return void
+ */
+function mt_event_type( $ticket_id = false ) {
+	echo esc_html( mt_get_event_type( $ticket_id ) );
+}
+
 /**
  * Get type of ticket. (Adult, child, section 1, section 2, etc.)
  *
@@ -665,6 +713,12 @@ function mt_get_ticket_type( $ticket_id = false ) {
 		$type  = isset( $type['type'] ) ? $type['type'] : '';
 		$label = mt_get_label( $type );
 
+		$event_type = mt_get_event_type( $ticket_id );
+		if ( 'event' === $event_type ) {
+			$date = get_option( 'date_format' );
+			$time = get_option( 'time_format' );
+			return date_i18n( $date . ' @ ' . $time, strtotime( $label ) );
+		}
 		/**
 		 * Filter the ticket type label shown on tickets.
 		 *
