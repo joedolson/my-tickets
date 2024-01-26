@@ -309,8 +309,7 @@ if ( have_posts() ) {
 						</h1>
 
 						<div class='event-date'>
-							<?php mt_event_date( $ticket_id ); ?> @ <span
-									class='time'><?php mt_event_time( $ticket_id ); ?></span>
+							<?php mt_event_date_time( $ticket_id ); ?>
 						</div>
 						<div class='ticket-type'>
 							<?php mt_ticket_type( $ticket_id ); ?>
