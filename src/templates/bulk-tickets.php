@@ -101,10 +101,22 @@
 			float: none;
 		}
 
+		.bulk-checkin,
 		.ticket {
 			padding: 1em;
 			width: 800px;
 			height: 200px;
+		}
+	
+		.bulk-checkin {
+			margin: 0 auto;
+			height: auto;
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			background: rgba( 0,0,0,.05 );
+			margin-bottom: 1rem;
+			font-size: 1.5rem;
 		}
 
 		.bulk-tickets .ticket {
@@ -206,7 +218,7 @@
 		}
 
 		.printable .ticket-qrcode img, .willcall .ticket-qrcode img {
-			max-width: 96px;
+			max-width: 120px;
 		}
 
 		.eticket .ticket-qrcode img {
@@ -274,12 +286,16 @@
 	</style>
 </head>
 <body class="bulk-tickets">
+<div class="bulk-checkin">
+	<img src="<?php mt_purchase_qrcode(); ?>" alt="<?php _e( 'Check-in all tickets for this purchase', 'my-tickest' ); ?>" />
+	<p><?php _e( 'Check-in all tickets on this purchase.', 'my-tickets' ); ?></p>
+</div>
 <?php
-// load data from the Receipts Page.
+// load data from the Tickets Page.
 if ( have_posts() ) {
 	while ( have_posts() ) {
 		the_post();
-		// load data from the Tickets Page.
+		// load ticket info.
 		$purchases = mt_get_payment_tickets();
 		foreach ( $purchases as $ticket_id ) {
 			if ( ! mt_get_ticket_type( $ticket_id ) ) {
