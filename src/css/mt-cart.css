@@ -93,7 +93,7 @@
 	display: grid;
 }
 
-.mt-ticket-field span {
+.mt-ticket-field span:not(span.dashicons) {
 	font-size: clamp( .875rem, 14px, 1.125rem );
 	text-align: right;
 }
@@ -267,9 +267,30 @@ button[name="mt_add_to_cart"] img {
     margin-right: .5rem;
 }
 
+.mt-ticket-input {
+	display: flex;
+}
+
+.mt-ticket-input button,
 .mt-update-column button {
-    padding: .25rem 0;
+	all: unset;
+    padding: .333em;
     line-height: 1;
+	border: 1px solid var(--mt-field-border);
+	color: var(--mt-field-color);
+	text-align: center;
+	border-radius: 3px;
+	background: var(--mt-field-background);
+}
+
+.mt-ticket-input button.mt-increment {
+	border-radius: 3px 0 0 3px;
+	margin-left: 2px;
+}
+
+.mt-ticket-input button.mt-decrement {
+	border-radius: 0 3px 3px 0;
+	border-left: none;
 }
 
 .mt_purchase_path {
