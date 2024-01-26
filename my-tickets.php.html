@@ -753,6 +753,26 @@ function mt_verify( $template ) {
 	return $template;
 }
 
+add_filter( 'template_include', 'mt_bulk_verify', 10, 1 );
+/**
+ * Verify all tickets on a purchase for e-ticketing or printables. (Use any QR code reader on phone or tablet.)
+ *
+ * @param string $template Template name.
+ *
+ * @return string
+ */
+function mt_bulk_verify( $template ) {
+	if ( isset( $_GET['receipt_id'] ) &amp;&amp; isset( $_GET['action'] ) &amp;&amp; 'mt-verify' === $_GET['action'] ) {
+		$template = locate_template( 'bulk-verify.php' );
+		if ( $template ) {
+			return $template;
+		} else {
+			return dirname( __FILE__ ) . '/templates/bulk-verify.php';
+		}
+	}
+
+	return $template;
+}
 
 add_action( 'init', 'mt_admin_delete' );
 /**
