@@ -429,6 +429,9 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			$value       = 1;
 			$order_value = 0;
 		}
+		$button_up   = ( 'number' === $input_type ) ? '<button type="button" class="mt-increment"><span class="dashicons dashicons-plus" aria-hidden="true"></span><span class="screen-reader-text">' . __( 'Add one', 'my-tickets' ) . '</span></button>' : '';
+		$button_down =  ( 'number' === $input_type ) ? '<button type="button" class="mt-decrement"><span class="dashicons dashicons-minus" aria-hidden="true"></span><span class="screen-reader-text">' . __( 'Remove one', 'my-tickets' ) . '</span></button>' : '';
+
 		if ( 'inherit' === $available ) {
 			$inventory = mt_check_inventory( $event_id, $type );
 			$tickets   = absint( $ticket_type['tickets'] );
@@ -462,7 +465,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			$form .= "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . $label . $extra_label . '</label>';
 			$form .= apply_filters(
 				'mt_add_to_cart_input',
-				"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />",
+				"<div class='mt-ticket-input'><input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />$button_up$button_down</div>",
 				$input_type,
 				$type,
 				$value,
@@ -512,7 +515,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			$form          .= "<div class='mt-ticket-field mt-ticket-$type $class $price_class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $ticket_type['label'] ) . $extra_label . $label_price . '</label>';
 			$form          .= apply_filters(
 				'mt_add_to_cart_input',
-				"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />",
+				"<div class='mt-ticket-input'><input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />$button_up$button_down</div>",
 				$input_type,
 				$type,
 				$value,

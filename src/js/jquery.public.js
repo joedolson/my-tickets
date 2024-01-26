@@ -145,7 +145,7 @@
 			$('input[name="mt_gateway"]').val(gateway);
 		});
 
-		var orderButton = $( '.ticket-orders button' );
+		var orderButton = $( '.ticket-orders button[name="mt_add_to_cart"]' );
 	 	orderButton.on( 'click', function(e) {
 			var fields       = [];
 			let allAreFilled = true;
@@ -282,7 +282,6 @@
 	
 		function mtUpdateTimer( timer ) {
 			var seconds = timer.data('start');
-			console.log( seconds );
 			if ( seconds > 0 ) {
 				var second = seconds - 5;
 				timer.data( 'start', second );
@@ -296,6 +295,36 @@
 				timer.html( 'Expired' );
 			}
 		}
+
+		$( '.mt-increment' ).on( 'click', function() {
+			var field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
+			var value = parseInt( field.val() );
+			var max   = parseInt( field.attr( 'max' ) );
+			var newval = value + 1;
+			if ( newval <= max ) {
+				field.val( newval );
+			} else {
+				field.val( max );
+				newval = max;
+			}
+			newval = newval.toString();
+			wp.a11y.speak( newval, 'assertive' );
+		});
+
+		$( '.mt-decrement' ).on( 'click', function() {
+			var field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
+			var value = parseInt( field.val() );
+			var min   = parseInt( field.attr( 'min' ) );
+			var newval = value - 1;
+			if ( newval >= min ) {
+				field.val( newval );
+			} else {
+				field.val( min );
+				newval = min;
+			}
+			newval = newval.toString();
+			wp.a11y.speak( newval, 'assertive' );
+		});
 	});
 }(jQuery));
 
