@@ -901,6 +901,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 				$general      = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? true : false;
 				$validity     = ( isset( $data['event_valid'] ) ) ? $data['event_valid'] : 0;
+				$sales_type   = $registration['counting_method'];
 				if ( 'expire' === $validity && isset( $data['expire_date'] ) && ! empty( $data['expire_date'] ) ) {
 					$valid_dt = $data['expire_date'];
 				} else {
@@ -936,6 +937,12 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								if ( $count > $max ) {
 									$count = $max;
 								}
+								if ( 'event' === $sales_type ) {
+									$datetime = "<span class='mt-datetime'>" . date_i18n( $dt_format, strtotime( $label ) ) . '</span>';
+									$label    = '';
+								} else {
+									$label = ': <em>' . $label . '</em>';
+								}
 								if ( 'cart' === $format || is_admin() ) {
 									$hidden = "
 											<input type='hidden' class='mt_count' name='mt_cart_order[$event_id][$type][count]' value='$count' />
@@ -952,7 +959,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$cart_message = sprintf( __( '%1$s at %2$s', 'my-tickets' ), "<span class='count' data-limit='$max'>$count</span>", apply_filters( 'mt_money_format', $price ) );
 								$output      .= "
 											<tr id='mt_cart_order_$event_id" . '_' . "$type' class='mt_row_$event_id'>
-												<th scope='row'>$image$title: <em>$label</em><br />$datetime$hidden$custom</th>
+												<th scope='row'>$image$title$label<br />$datetime$hidden$custom</th>
 												<td class='mt-order' aria-live='assertive'>" . $cart_message . '</td>';
 								if ( 'cart' === $format && apply_filters( 'mt_include_update_column', true ) ) {
 									if ( 'true' === $registration['multiple'] ) {
