@@ -200,7 +200,7 @@
 				width: 90%;
 				min-width: 320px;
 			}
-			
+
 			.ticket .inside {
 				display: block;
 			}

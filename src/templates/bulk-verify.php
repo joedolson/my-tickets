@@ -121,28 +121,28 @@
 	<main>
 		<div class="mt-verified-tickets">
 <?php
-	$purchases = mt_get_payment_tickets();
-	$int       = 0;
-	$count     = count( $purchases );
-	foreach ( $purchases as $ticket_id ) {
-		$int ++;
-		?>
-		<div class="confirmation">
-			<h2>Ticket <?php echo $int . '/' . $count; ?></h2>
-			<div class="ticket-data">
-			<?php
-			$ticket = mt_get_ticket( $ticket_id );
-			if ( ! mt_get_ticket_validity( $ticket ) ) {
-				?>
-				<p><?php mt_event_date_time( $ticket_id ); ?></p>
-				<?php
-			}
-			?>
-			</div>
-			<div class='mt-verification'><?php mt_verification( $ticket_id ); ?></div>
-		</div>
+$purchases = mt_get_payment_tickets();
+$int       = 0;
+$count     = count( $purchases );
+foreach ( $purchases as $ticket_id ) {
+	$int ++;
+	?>
+	<div class="confirmation">
+		<h2>Ticket <?php echo $int . '/' . $count; ?></h2>
+		<div class="ticket-data">
 		<?php
-	}
+		$ticket = mt_get_ticket( $ticket_id );
+		if ( ! mt_get_ticket_validity( $ticket ) ) {
+			?>
+			<p><?php mt_event_date_time( $ticket_id ); ?></p>
+			<?php
+		}
+		?>
+		</div>
+		<div class='mt-verification'><?php mt_verification( $ticket_id ); ?></div>
+	</div>
+	<?php
+}
 ?>
 		</div>
 	</main>
