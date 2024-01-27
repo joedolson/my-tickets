@@ -813,13 +813,13 @@ function mt_ticket_qrcode( $ticket_id = false ) {
 /**
  * Return image URL for printable/eticket QR codes.
  *
- * @param bool|string $ticket_id Ticket ID.
+ * @param bool|string $receipt_id Receipt ID.
  */
 function mt_get_purchase_qrcode( $receipt_id = false ) {
-	$options   = mt_get_settings();
-	$id        = ( '' !== $options['mt_purchase_page'] && is_numeric( $options['mt_purchase_page'] ) ) ? absint( $options['mt_purchase_page'] ) : false;
+	$options    = mt_get_settings();
+	$id         = ( '' !== $options['mt_purchase_page'] && is_numeric( $options['mt_purchase_page'] ) ) ? absint( $options['mt_purchase_page'] ) : false;
 	$receipt_id = ( $receipt_id ) ? $receipt_id : mt_get_receipt_id();
-	$url       = esc_url_raw(
+	$url        = esc_url_raw(
 		add_query_arg(
 			array(
 				'receipt_id' => $receipt_id,
@@ -828,7 +828,7 @@ function mt_get_purchase_qrcode( $receipt_id = false ) {
 			get_permalink( $id )
 		)
 	);
-	$qrcode    = array(
+	$qrcode     = array(
 		'version'    => 9,
 		'outputType' => QRCODE::OUTPUT_IMAGE_PNG,
 		'eccLevel'   => QRCODE::ECC_M,
@@ -852,7 +852,7 @@ function mt_get_purchase_qrcode( $receipt_id = false ) {
 /**
  * Return image URL for printable/eticket QR codes.
  *
- * @param bool|string $ticket_id Ticket ID.
+ * @param bool|string $receipt_id Receipt ID.
  */
 function mt_purchase_qrcode( $receipt_id = false ) {
 	echo esc_attr( mt_get_purchase_qrcode( $receipt_id ) );
