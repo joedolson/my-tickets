@@ -92,7 +92,7 @@
 			padding: 1rem;
 			width: 800px;
 		}
-	
+
 		.bulk-checkin {
 			margin: 0 auto;
 			height: auto;
@@ -263,7 +263,7 @@
 </head>
 <body class="bulk-tickets">
 <div class="bulk-checkin">
-	<img src="<?php mt_purchase_qrcode(); ?>" alt="<?php _e( 'Check-in all tickets for this purchase', 'my-tickest' ); ?>" />
+	<img src="<?php mt_purchase_qrcode(); ?>" alt="<?php _e( 'Check-in all tickets for this purchase', 'my-tickets' ); ?>" />
 	<p><?php _e( 'Check-in all tickets on this purchase.', 'my-tickets' ); ?></p>
 </div>
 <?php
