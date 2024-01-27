@@ -22,7 +22,7 @@
 
 		.panel {
 			margin: 0 auto;
-			border: 1px solid #999;
+			border: 1px dashed #777;
 		}
 
 		.panel * {

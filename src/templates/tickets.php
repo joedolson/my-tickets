@@ -21,19 +21,19 @@
 		}
 
 		.panel {
-			padding: 1em;
 			margin: 0 auto;
-			border: 1px solid #999;
+			border: 1px dashed #777;
 		}
 
 		.panel * {
 			word-wrap: breakword;
+			line-height: 1.5;
 		}
 
 		.panel .post-footer {
 			background: #eee;
-			padding: 1em;
-			margin: 0 -1em;
+			padding: 1rem;
+			margin: 0 -1rem;
 			font-size: .8em;
 		}
 
@@ -88,12 +88,8 @@
 		}
 
 		.ticket {
-			padding: 1em;
+			padding: 1rem;
 			width: 800px;
-		}
-
-		.bulk-tickets .ticket {
-			margin-bottom: 2em;
 		}
 
 		.eticket.ticket {
@@ -200,7 +196,7 @@
 
 		@media only screen and (max-width: 800px) {
 			.printable {
-				padding: 1em;
+				padding: 1rem;
 				width: 90%;
 				min-width: 320px;
 			}
@@ -217,7 +213,7 @@
 			}
 
 			.eticket.ticket .inside {
-				padding: 1em;
+				padding: 1rem;
 				height: auto;
 			}
 
