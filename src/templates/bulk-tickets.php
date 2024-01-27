@@ -146,7 +146,6 @@
 		.eticket.ticket .post-content {
 			margin-left: 0;
 			font-size: .9em;
-			position: static;
 		}
 
 		.ticket .ticket_id {
@@ -155,7 +154,6 @@
 		}
 
 		.eticket .ticket_id {
-			position: static;
 			font-size: .8em;
 			clear: both;
 		}
