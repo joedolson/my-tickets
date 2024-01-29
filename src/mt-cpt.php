@@ -152,7 +152,7 @@ function mt_default_fields() {
 				'label'   => __( 'Payment Status', 'my-tickets' ),
 				'input'   => 'select',
 				'default' => 'Pending',
-				'choices' => array( '--', 'Completed', 'Pending', 'Failed', 'Refunded', 'Turned Back', 'Reserved', 'Waiting List', 'Other' ),
+				'choices' => mt_payment_statuses(),
 			),
 			'ticketing_method'  => array(
 				'label'   => __( 'Ticketing Method', 'my-tickets' ),
@@ -475,7 +475,7 @@ function mt_offline_transaction( $transaction, $gateway ) {
 				foreach ( $value as $label => $field ) {
 					if ( 'status' === $label && isset( $_GET['post_id'] ) ) {
 						$post_id = (int) $_GET['post_id'];
-						$field   = get_post_meta( $post_id, '_is_paid', true );
+						$field   = mt_get_payment_status( $post_id );
 					}
 					$shipping .= '<li><strong>' . ucfirst( $label ) . "</strong> $field</li>";
 				}
@@ -739,6 +739,42 @@ function mt_get_custom_field( $field, $id = false ) {
 	return $custom_field;
 }
 
+/**
+ * Get translated name of payment status. For display only.
+ *
+ * @param int $payment_id Payment ID.
+ *
+ * @return string
+ */
+function mt_get_payment_status( $payment_id ) {
+	$statuses = mt_payment_statuses();
+	$status   = get_post_meta( $payment_id, '_is_paid', true );
+	$text     = $statuses[ $status ];
+
+	return $text;
+}
+
+/**
+ * Get all available payment statuses.
+ *
+ * @return array
+ */
+function mt_payment_statuses() {
+	$statuses = array(
+		'--'           => '--',
+		'Completed'    => __( 'Completed', 'my-tickets' ),
+		'Pending'      => __( 'Pending', 'my-tickets' ),
+		'Failed'       => __( 'Failed', 'my-tickets' ),
+		'Refunded'     => __( 'Refunded', 'my-tickets' ),
+		'Turned Back'  => __( 'Turned Back', 'my-tickets' ),
+		'Reserved'     => __( 'Reserved', 'my-tickets' ),
+		'Waiting List' => __( 'Waiting List', 'my-tickets' ),
+		'Other'        => __( 'Other', 'my-tickets' ),
+	);
+
+	return $statuses;
+}
+
 // Actions/Filters for various tables and the css output.
 add_action( 'admin_init', 'mt_add' );
 /**
@@ -909,7 +945,7 @@ function mt_custom_column( $column_name, $id ) {
 			$pd       = get_post_meta( $id, '_is_paid', true );
 			$pd_class = esc_attr( strtolower( $pd ) );
 			$pd_class = ( false !== strpos( $pd_class, 'other' ) ) ? 'other' : $pd_class;
-			$status   = "<span class='mt $pd_class'>$pd</span>";
+			$status   = "<span class='mt $pd_class'>" . mt_get_payment_status( $id ) . '</span>';
 			echo wp_kses_post( $status );
 			break;
 		case 'mt_paid':
