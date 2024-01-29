@@ -778,7 +778,7 @@ function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
 			$value = apply_filters( 'mt_money_format', $ticket['price'] );
 			break;
 		case 'mt-status':
-			$value = get_post_meta( $purchase_id, '_is_paid', true );
+			$value = mt_get_payment_status( $purchase_id );
 			break;
 		case 'mt-used':
 			$used_tickets = get_post_meta( $purchase_id, '_tickets_used' );
