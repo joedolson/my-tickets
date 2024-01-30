@@ -332,7 +332,7 @@ function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) 
 					&lt;td>' . $payment->ID . '&lt;/td>
 					&lt;td>' . esc_html( get_the_title( $payment->ID ) ) . '&lt;/td>
 					&lt;td>' . get_the_date( 'Y-m-d H:i', $payment->ID ) . '&lt;/td>
-					&lt;td>' . mt_get_payment_status( $payment->ID ); . '&lt;/td>
+					&lt;td>' . mt_get_payment_status( $payment->ID ) . '&lt;/td>
 					&lt;td>&lt;button type="button" class="mt-show-payment-details" aria-expanded="false">' . __( 'Payment Details', 'my-tickets' ) . '&lt;/button>' . $details . '&lt;/td>
 				&lt;/tr>';
 			}
