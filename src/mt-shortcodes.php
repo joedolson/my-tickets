@@ -306,7 +306,7 @@ function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) 
 					<td>' . $payment->ID . '</td>
 					<td>' . esc_html( get_the_title( $payment->ID ) ) . '</td>
 					<td>' . get_the_date( 'Y-m-d H:i', $payment->ID ) . '</td>
-					<td>' . mt_get_payment_status( $payment->ID ); . '</td>
+					<td>' . mt_get_payment_status( $payment->ID ) . '</td>
 					<td><button type="button" class="mt-show-payment-details" aria-expanded="false">' . __( 'Payment Details', 'my-tickets' ) . '</button>' . $details . '</td>
 				</tr>';
 			}
