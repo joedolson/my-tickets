@@ -434,7 +434,7 @@ function mt_check_transients() {
 }
 
 /**
- * Get all stored data types.
+ * Get all standard data types. Does not fetch stored custom fields.
  *
  * @return array Types of data stored.
  */
