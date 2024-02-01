@@ -150,13 +150,11 @@ function mt_delete_custom_field_data() {
 				// This will delete all stored option data for the active user.
 				global $wpdb;
 				$like    = '%' . $wpdb->esc_like( $unique_id ) . '%';
-				$query   = $wpdb->prepare( 'SELECT * FROM ' . $wpdb->options . " WHERE option_name LIKE %s", $like );
-				$results = $wpdb->get_results( $query );
+				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->options . ' WHERE option_name LIKE %s', $like ) );
 				foreach ( $results as $result ) {
 					delete_option( $result->option_name, $result->option_value );
 				}
 			}
-
 		}
 	}
 }
@@ -166,7 +164,7 @@ function mt_delete_custom_field_data() {
  *
  * @param string       $type Type of data.
  * @param bool|integer $user_ID User ID or false if not logged in.
- * @param bool|string  $unique_id Unique ID to fetch 
+ * @param bool|string  $unique_id Unique ID to fetch.
  *
  * @return array|mixed
  */
