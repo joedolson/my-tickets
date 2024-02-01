@@ -58,7 +58,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 	} else {
 		$unique_id = mt_get_unique_id();
 		if ( mt_get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
-			delete_transient( 'mt_' . $unique_id . '_' . $type );
+			mt_delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
 		mt_set_transient( 'mt_' . $unique_id . '_' . $type, $save );
 		mt_set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration );
