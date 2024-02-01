@@ -146,13 +146,9 @@ function mt_custom_field( $fields, $event_id ) {
 	foreach ( $custom_fields as $name => $field ) {
 		$continue = mt_apply_custom_field( $field, $event_id );
 		if ( $continue ) {
-			$user_value = esc_attr( stripslashes( mt_get_data( 'mt_' . $name . '_' . $event_id ) ) );
-			// Backwards compatibility. Bridge 2/1/2024.
-			if ( ! $user_value ) {
-				$user_value = esc_attr( stripslashes( mt_get_data( $name . '_' . $event_id ) ) );
-			}
-			$required  = isset( $field['required'] ) ? ' required' : '';
-			$req_label = isset( $field['required'] ) ? ' <span class="required">' . __( 'Required', 'my-tickets' ) . '</span>' : '';
+			$user_value = esc_attr( stripslashes( mt_get_data( $name . '_' . $event_id ) ) );
+			$required   = isset( $field['required'] ) ? ' required' : '';
+			$req_label  = isset( $field['required'] ) ? ' <span class="required">' . __( 'Required', 'my-tickets' ) . '</span>' : '';
 			switch ( $field['input_type'] ) {
 				case 'text':
 				case 'number':
@@ -226,7 +222,7 @@ function mt_handle_custom_field( $saved, $submit ) {
 				$sanitized = call_user_func( $field['sanitize_callback'], urldecode( $submit[ $name ] ) );
 			}
 			$event_id = $submit['mt_event_id'];
-			mt_save_data( $sanitized, 'mt_' . $name . '_' . $event_id );
+			mt_save_data( $sanitized, $name . '_' . $event_id );
 		}
 	}
 
@@ -245,11 +241,7 @@ function mt_show_custom_field( $content, $event_id ) {
 	$custom_fields = mt_get_custom_fields( 'display' );
 	$return        = '';
 	foreach ( $custom_fields as $name => $field ) {
-		$data = mt_get_data( 'mt_' . $name . '_' . $event_id );
-		// Backwards compatibility. This is to bridge the period after custom field naming was prefixed. 2/1/2024.
-		if ( ! $data ) {
-			$data = mt_get_data( $name . '_' . $event_id );
-		}
+		$data = mt_get_data( $name . '_' . $event_id );
 		if ( ! isset( $field['display_callback'] ) || ( isset( $field['display_callback'] ) && ! function_exists( $field['display_callback'] ) ) ) {
 			$display_value = sanitize_text_field( $data );
 		} else {
