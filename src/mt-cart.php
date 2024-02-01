@@ -905,11 +905,15 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				if ( 'expire' === $validity && isset( $data['expire_date'] ) && ! empty( $data['expire_date'] ) ) {
 					$valid_dt = $data['expire_date'];
 				} else {
-					$valid_dt = strtotime( ' + ' . $validity );
+					$valid_dt = ( 'infinite' !== $validity ) ? strtotime( ' + ' . $validity ) : '';
 				}
-				$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
-				// Translators: Date ticket valid until.
-				$date      = ( $general ) ? sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til ) : $data['event_begin'] . ' ' . $data['event_time'];
+				if ( 'infinite' === $validity ) {
+					$date = __( 'Tickets do not expire', 'my-tickets' );
+				} else {
+					$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
+					// Translators: Date ticket valid until.
+					$date = ( $general ) ? sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til ) : $data['event_begin'] . ' ' . $data['event_time'];
+				}
 				$dt_format = apply_filters( 'mt_cart_datetime', get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ) );
 				$datetime  = "<span class='mt-datetime'>" . ( ( $general ) ? $date : date_i18n( $dt_format, strtotime( $date ) ) ) . '</span>';
 				if ( is_array( $order ) && ! empty( $order ) ) {

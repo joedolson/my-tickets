@@ -146,11 +146,15 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					$valid_dt = $event['expire_date'];
 				} else {
 					$purchase_date = get_the_date( 'Y-m-d', $purchase_id );
-					$valid_dt      = strtotime( $purchase_date . ' + ' . $validity );
+					$valid_dt      = ( 'infinite' !== $validity ) ? strtotime( $purchase_date . ' + ' . $validity ) : '';
 				}
-				$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
-				// Translators: Date ticket valid until.
-				$valid_til       = sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til );
+				if ( 'infinite' === $validity ) {
+					$valid_til = __( 'Tickets do not expire', 'my-tickets' );
+				} else {
+					$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
+					// Translators: Date ticket valid until.
+					$valid_til = ( $general ) ? sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til ) : $data['event_begin'] . ' ' . $data['event_time'];
+				}
 				$handling_notice = '';
 				$tickets_list    = '';
 				foreach ( $tickets as $type => $ticket ) {

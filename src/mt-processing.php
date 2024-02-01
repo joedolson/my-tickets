@@ -60,6 +60,7 @@ function mt_add_ticket_form() {
 		'3 weeks'  => __( '3 weeks', 'my-tickets' ),
 		'2 weeks'  => __( '2 weeks', 'my-tickets' ),
 		'1 week'   => __( '1 week', 'my-tickets' ),
+		'infinite' => __( 'No expiration', 'my-tickets' ),
 	);
 	/**
 	 * Filter the available choices for how long general admissions tickets are valid.

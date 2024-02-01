@@ -1073,9 +1073,13 @@ function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 			if ( 'expire' === $validity && isset( $event_data['expire_date'] ) && ! empty( $event_data['expire_date'] ) ) {
 				$valid_dt = $event_data['expire_date'];
 			} else {
-				$valid_dt = strtotime( $date_of_sale . ' + ' . $validity );
+				$valid_dt = ( 'infinite' === $validity ) ? strtotime( $date_of_sale . ' + ' . $validity ) : '';
 			}
-			$status = mt_date( $format, $valid_dt );
+			if ( 'infinite' === $validity ) {
+				$status = __( 'Tickets do not expire', 'my-tickets' );
+			} else {
+				$status = mt_date( $format, $valid_dt );
+			}
 			// Translators: Purchase date.
 			$text .= wpautop( sprintf( apply_filters( 'mt_ticket_validity_sale_date', __( '<strong>Purchased:</strong> %s', 'my-tickets' ), $event_data ), '<span class="mt-date-of-sale">' . $date_of_sale . '</span>' ) );
 			// Translators: Expiration date.
