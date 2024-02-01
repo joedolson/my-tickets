@@ -319,7 +319,7 @@ function mt_settings() {
 										'bulk_tickets',
 									);
 									// Add custom fields to display of template tags.
-									$custom_fields = apply_filters( 'mt_custom_fields', array(), 'tags' );
+									$custom_fields = mt_get_custom_fields( 'tags' );
 									foreach ( $custom_fields as $name => $field ) {
 										$tags[] = $name;
 									}

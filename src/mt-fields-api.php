@@ -31,6 +31,30 @@ function mt_add_actions() {
 }
 
 /**
+ * Get My Tickets custom fields.
+ *
+ * @param string $context Where is this field being used. Input, cart, ticket, receipt.
+ *
+ * @return array
+ */
+function mt_get_custom_fields( $context ) {
+	$fields = array();
+	/**
+	 * Hook to add custom fields.
+	 *
+	 * @hook mt_custom_fields
+	 *
+	 * @param {array}  $fields Array of custom fields. Default empty.
+	 * @param {string} $context Where is this function being called. Input, cart, ticket, receipt, etc.
+	 *
+	 * @return {array}
+	 */
+	$fields = apply_filters( 'mt_custom_fields', $fields, $context );
+
+	return $fields;
+}
+
+/**
  * Add custom fields to tickets.
  *
  * @param string $output Field output.
@@ -41,7 +65,7 @@ function mt_add_actions() {
  * @return string
  */
 function mt_custom_tickets_fields( $output, $event_id, $payment_id, $sep ) {
-	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'tickets' );
+	$custom_fields = mt_get_custom_fields( 'tickets' );
 	$return        = '';
 	$last_value    = '';
 	foreach ( $custom_fields as $name => $field ) {
@@ -117,7 +141,7 @@ function mt_apply_custom_field( $field, $event_id ) {
  * @return string
  */
 function mt_custom_field( $fields, $event_id ) {
-	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'input' );
+	$custom_fields = mt_get_custom_fields( 'input' );
 	$output        = '';
 	foreach ( $custom_fields as $name => $field ) {
 		$continue = mt_apply_custom_field( $field, $event_id );
@@ -184,7 +208,7 @@ function mt_custom_field( $fields, $event_id ) {
  * @return mixed
  */
 function mt_handle_custom_field( $saved, $submit ) {
-	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'sanitize' );
+	$custom_fields = mt_get_custom_fields( 'sanitize' );
 	foreach ( $custom_fields as $name => $field ) {
 		if ( isset( $submit[ $name ] ) ) {
 			if ( ! isset( $field['sanitize_callback'] ) || ( isset( $field['sanitize_callback'] ) && ! function_exists( $field['sanitize_callback'] ) ) ) {
@@ -210,7 +234,7 @@ function mt_handle_custom_field( $saved, $submit ) {
  * @return string
  */
 function mt_show_custom_field( $content, $event_id ) {
-	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'display' );
+	$custom_fields = mt_get_custom_fields( 'display' );
 	$return        = '';
 	foreach ( $custom_fields as $name => $field ) {
 		$data = mt_get_data( $name . '_' . $event_id );
@@ -234,7 +258,7 @@ function mt_show_custom_field( $content, $event_id ) {
  * @param array   $purchased Purchase info.
  */
 function mt_insert_custom_field( $payment_id, $post, $purchased ) {
-	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'save' );
+	$custom_fields = mt_get_custom_fields( 'save' );
 	foreach ( $custom_fields as $name => $field ) {
 		if ( isset( $post[ $name ] ) ) {
 			foreach ( $post[ $name ] as $key => $data ) {
@@ -265,7 +289,7 @@ function mt_insert_custom_field( $payment_id, $post, $purchased ) {
  * @return string
  */
 function mt_show_payment_field( $content, $payment_id ) {
-	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'admin' );
+	$custom_fields = mt_get_custom_fields( 'admin' );
 	$output        = '';
 	foreach ( $custom_fields as $name => $field ) {
 		$data   = get_post_meta( $payment_id, $name );
@@ -299,11 +323,22 @@ function mt_show_payment_field( $content, $payment_id ) {
  * @return string
  */
 function mt_show_custom_data( $payment_id, $custom_field = false ) {
-	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'receipt' );
+	$custom_fields = mt_get_custom_fields( 'receipt' );
 	$output        = '';
 	foreach ( $custom_fields as $name => $field ) {
 		if ( false === $custom_field || $custom_field === $name ) {
 			$data   = get_post_meta( $payment_id, $name );
+			/**
+			 * Customize the display of a custom field.
+			 *
+			 * @hook mt_custom_display_field
+			 *
+			 * @param {string} $return Return value of the field.
+			 * @param {mixed}  $data Value stored in post meta.
+			 * @param {string} $name Field name.
+			 *
+			 * @return {string}
+			 */
 			$return = apply_filters( 'mt_custom_display_field', '', $data, $name );
 			if ( '' === $return ) {
 				foreach ( $data as $d ) {

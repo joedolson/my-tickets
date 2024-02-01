@@ -250,7 +250,7 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 				$total_tickets  = $data['tickets'];
 				$total_sales    = count( $data['report']['html']['Completed'] ) + count( $data['report']['html']['Pending'] );
 				$total_income   = $data['income'];
-				$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
+				$custom_fields  = mt_get_custom_fields( 'reports' );
 				$custom_headers = '';
 				foreach ( $custom_fields as $name => $field ) {
 					$custom_headers .= "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . "</th>\n";
@@ -598,7 +598,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 					// if $ticket_count == 0, don't show in options.
 					$ticket_count  = $ticket_count + $count;
 					$class         = esc_attr( strtolower( $ticket_type ) );
-					$custom_fields = apply_filters( 'mt_custom_fields', array(), 'reports' );
+					$custom_fields = mt_get_custom_fields( 'reports' );
 					$custom_cells  = '';
 					$custom_csv    = '';
 					foreach ( $custom_fields as $name => $field ) {
@@ -790,7 +790,7 @@ function mt_download_csv_event() {
 			 *
 			 * @return {array}
 			 */
-			$custom_fields = apply_filters( 'mt_custom_fields', array(), 'reports' );
+			$custom_fields = mt_get_custom_fields( 'reports' );
 			foreach ( $custom_fields as $name => $field ) {
 				$custom_headings .= ",\"$name\"";
 			}
@@ -919,7 +919,7 @@ function mt_get_report_data_by_time() {
 	$alternate      = 'even';
 	$html           = array();
 	$csv            = array();
-	$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
+	$custom_fields  = mt_get_custom_fields( 'reports' );
 	$custom_headers = '';
 	foreach ( $custom_fields as $name => $field ) {
 		$custom_headers .= ',"' . $field['title'] . '"';
@@ -976,7 +976,7 @@ function mt_get_report_data_by_time() {
 		$raw_events      = implode( ', ', array_map( 'strip_tags', $titles ) );
 		$raw_event_dates = implode( ', ', array_map( 'strip_tags', $dates ) );
 		$alternate       = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
-		$custom_fields   = apply_filters( 'mt_custom_fields', array(), 'reports' );
+		$custom_fields   = mt_get_custom_fields( 'reports' );
 		$custom_cells    = '';
 		$custom_csv      = '';
 		foreach ( $custom_fields as $name => $field ) {
@@ -1044,7 +1044,7 @@ function mt_generate_report_by_time() {
 		$total          = $report['total'];
 		$start          = $report['start'];
 		$end            = $report['end'];
-		$custom_fields  = apply_filters( 'mt_custom_fields', array(), 'reports' );
+		$custom_fields  = mt_get_custom_fields( 'reports' );
 		$custom_headers = '';
 		foreach ( $custom_fields as $name => $field ) {
 			$custom_headers .= "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . "</th>\n";
