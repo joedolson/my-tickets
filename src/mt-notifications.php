@@ -454,7 +454,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		'bulk_tickets'   => $bulk_tickets,
 	);
 
-	$custom_fields = apply_filters( 'mt_custom_fields', array(), 'notify' );
+	$custom_fields = mt_get_custom_fields( 'notify' );
 	foreach ( $custom_fields as $name => $field ) {
 		$info  = get_post_meta( $id, $name, true );
 		$event = isset( $info['event_id'] ) ? $info['event_id'] : false;
