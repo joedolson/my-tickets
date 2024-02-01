@@ -143,6 +143,47 @@ function mt_delete_data( $data = 'cart', $unique_id = false ) {
 		foreach ( $inventory_change as $ticket => $change ) {
 			mt_update_inventory( $change['event_id'], $ticket, $change['count'] );
 		}
+		mt_delete_custom_field_data();
+	}
+}
+
+/**
+ * Delete saved custom field data if necessary. Run whenever cart data is deleted.
+ */
+function mt_delete_custom_field_data() {
+	$custom_fields = mt_get_custom_fields( 'delete' );
+	if ( empty( $custom_fields ) ) {
+		// If no custom fields registered, we're done.
+		return;
+	} else {
+		$user      = false;
+		$unique_id = false;
+		if ( is_user_logged_in() ) {
+			$id   = wp_get_current_user()->ID;
+			$user = get_user_meta( $id );
+		} else {
+			$unique_id = mt_get_unique_id();
+		}
+		$user = false;
+		foreach ( $custom_fields as $name => $field ) {
+			if ( $user ) {
+				foreach ( $user as $key => $meta ) {
+					if ( false !== stripos( $key, '_mt_user_' . $name ) ) {
+						delete_user_meta( $id, $key, $meta[0] );
+					}
+				}
+			} elseif ( $unique_id ) {
+				// This will delete all stored option data for the active user.
+				global $wpdb;
+				$like    = '%' . $wpdb->esc_like( $unique_id ) . '%';
+				$query   = $wpdb->prepare( 'SELECT * FROM ' . $wpdb->options . " WHERE option_name LIKE %s", $like );
+				$results = $wpdb->get_results( $query );
+				foreach ( $results as $result ) {
+					delete_option( $result->option_name, $result->option_value );
+				}
+			}
+
+		}
 	}
 }
 
@@ -151,16 +192,17 @@ function mt_delete_data( $data = 'cart', $unique_id = false ) {
  *
  * @param string       $type Type of data.
  * @param bool|integer $user_ID User ID or false if not logged in.
+ * @param bool|string  $unique_id Unique ID to fetch 
  *
  * @return array|mixed
  */
-function mt_get_data( $type, $user_ID = false ) {
+function mt_get_data( $type, $user_ID = false, $unique_id = false ) {
 	// Get information about a specific user.
-	if ( $user_ID ) {
+	if ( $user_ID &amp;&amp; ! $unique_id ) {
 		$data = get_user_meta( $user_ID, "_mt_user_$type", true );
 	} else {
 		$expired = false;
-		if ( is_user_logged_in() ) {
+		if ( is_user_logged_in() &amp;&amp; ! $unique_id ) {
 			$current_user = wp_get_current_user();
 			$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
 			if ( $data_age &amp;&amp; time() > $data_age ) {
@@ -179,7 +221,7 @@ function mt_get_data( $type, $user_ID = false ) {
 
 			$data = get_user_meta( $current_user->ID, "_mt_user_$type", true );
 		} else {
-			$unique_id = mt_get_unique_id();
+			$unique_id = ( ! $unique_id ) ? mt_get_unique_id() : $unique_id;
 			if ( $unique_id ) {
 				$data_age = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
 				if ( $data_age &amp;&amp; time() > $data_age ) {
@@ -305,7 +347,7 @@ function mt_set_user_unique_id() {
  */
 function mt_generate_unique_id() {
 	$length     = 32;
-	$characters = '0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz-_';
+	$characters = '0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz-';
 	$string     = '';
 	for ( $p = 0; $p &lt; $length; $p++ ) {
 		$string .= $characters[ wp_rand( 0, strlen( $characters ) - 1 ) ];
