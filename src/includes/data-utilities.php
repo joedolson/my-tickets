@@ -130,7 +130,6 @@ function mt_delete_data( $data = 'cart', $unique_id = false ) {
  */
 function mt_get_data( $type, $user_ID = false ) {
 	// Get information about a specific user.
-	$custom_fields = mt_get_custom_fields( 'expiration' );
 	if ( $user_ID ) {
 		$data = get_user_meta( $user_ID, "_mt_user_$type", true );
 	} else {
