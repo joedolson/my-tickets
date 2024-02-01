@@ -1076,7 +1076,7 @@ function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 				$valid_dt = ( 'infinite' === $validity ) ? strtotime( $date_of_sale . ' + ' . $validity ) : '';
 			}
 			if ( 'infinite' === $validity ) {
-				$status = __( 'Tickets do not expire', 'my-tickets' );
+				$status = __( 'Ticket does not expire', 'my-tickets' );
 			} else {
 				$status = mt_date( $format, $valid_dt );
 			}

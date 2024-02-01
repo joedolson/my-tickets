@@ -149,7 +149,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					$valid_dt      = ( 'infinite' !== $validity ) ? strtotime( $purchase_date . ' + ' . $validity ) : '';
 				}
 				if ( 'infinite' === $validity ) {
-					$valid_til = __( 'Tickets do not expire', 'my-tickets' );
+					$valid_til = __( 'Ticket does not expire', 'my-tickets' );
 				} else {
 					$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
 					// Translators: Date ticket valid until.

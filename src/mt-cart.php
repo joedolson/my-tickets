@@ -908,7 +908,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 					$valid_dt = ( 'infinite' !== $validity ) ? strtotime( ' + ' . $validity ) : '';
 				}
 				if ( 'infinite' === $validity ) {
-					$date = __( 'Tickets do not expire', 'my-tickets' );
+					$date = __( 'Ticket does not expire', 'my-tickets' );
 				} else {
 					$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
 					// Translators: Date ticket valid until.
