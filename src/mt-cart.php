@@ -895,7 +895,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$title = apply_filters( 'mt_link_title', $event->post_title, $event );
 				$image = ( has_post_thumbnail( $event_id ) ) ? get_the_post_thumbnail( $event_id, array( 80, 80 ) ) : '';
 				$data  = get_post_meta( $event_id, '_mc_event_data', true );
-				if ( ! is_array( $data ) || empty( $data ) ) {
+				if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['event_begin'] ) ) {
 					continue;
 				}
 				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
@@ -918,7 +918,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				$datetime  = "<span class='mt-datetime'>" . ( ( $general ) ? $date : date_i18n( $dt_format, strtotime( $date ) ) ) . '</span>';
 				if ( is_array( $order ) && ! empty( $order ) ) {
 					foreach ( $order as $type => $count ) {
-						if ( ! mt_can_order( $type ) ) {
+						if ( ! mt_can_order( $type ) || ! $count ) {
 							continue;
 						}
 						if ( $count > 0 ) {
