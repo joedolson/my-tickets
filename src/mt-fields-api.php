@@ -151,8 +151,8 @@ function mt_custom_field( $fields, $event_id ) {
 			if ( ! $user_value ) {
 				$user_value = esc_attr( stripslashes( mt_get_data( $name . '_' . $event_id ) ) );
 			}
-			$required   = isset( $field['required'] ) ? ' required' : '';
-			$req_label  = isset( $field['required'] ) ? ' <span class="required">' . __( 'Required', 'my-tickets' ) . '</span>' : '';
+			$required  = isset( $field['required'] ) ? ' required' : '';
+			$req_label = isset( $field['required'] ) ? ' <span class="required">' . __( 'Required', 'my-tickets' ) . '</span>' : '';
 			switch ( $field['input_type'] ) {
 				case 'text':
 				case 'number':
@@ -339,7 +339,7 @@ function mt_show_custom_data( $payment_id, $custom_field = false ) {
 	$output        = '';
 	foreach ( $custom_fields as $name => $field ) {
 		if ( false === $custom_field || $custom_field === $name ) {
-			$data   = get_post_meta( $payment_id, $name );
+			$data = get_post_meta( $payment_id, $name );
 			/**
 			 * Customize the display of a custom field.
 			 *
