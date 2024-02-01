@@ -61,6 +61,15 @@ function mt_add_ticket_form() {
 		'2 weeks'  => __( '2 weeks', 'my-tickets' ),
 		'1 week'   => __( '1 week', 'my-tickets' ),
 	);
+	/**
+	 * Filter the available choices for how long general admissions tickets are valid.
+	 *
+	 * @hook mt_validity_options
+	 *
+	 * @param {array} $validity Associative array of validity options.
+	 *
+	 * @return {array}
+	 */
 	$validity = apply_filters( 'mt_validity_options', $validity );
 	// add fields for event time and event date.
 	if ( isset( $data['event_begin'] ) ) {
