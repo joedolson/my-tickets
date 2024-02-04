@@ -153,7 +153,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				} else {
 					$valid_til = mt_date( get_option( 'date_format' ), $valid_dt );
 					// Translators: Date ticket valid until.
-					$valid_til = ( $general ) ? sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til ) : $data['event_begin'] . ' ' . $data['event_time'];
+					$valid_til = ( $general ) ? sprintf( __( 'Tickets valid until %s', 'my-tickets' ), $valid_til ) : $event['event_begin'] . ' ' . $event['event_time'];
 				}
 				$handling_notice = '';
 				$tickets_list    = '';
