@@ -70,8 +70,12 @@ function mt_create_payment( $post ) {
 	$options = mt_get_settings();
 	// save payment post.
 	$current_user = wp_get_current_user();
-	$purchaser    = ( is_user_logged_in() ) ? $current_user->ID : 1;
-	$payment      = mt_get_data( 'payment' );
+	if ( isset( $post['mt_purchaser_id'] ) ) {
+		$purchaser = absint( $post['mt_purchaser_id'] );
+	} else {
+		$purchaser = ( is_user_logged_in() ) ? $current_user->ID : 1;
+	}
+	$payment = mt_get_data( 'payment' );
 	if ( ! is_string( get_post_status( $payment ) ) || 'trash' === get_post_status( $payment ) ) {
 		$payment = false;
 	}
