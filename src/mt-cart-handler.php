@@ -325,9 +325,9 @@ function mt_check_inventory( $event_id, $type = '' ) {
 /**
  * Generates tickets for purchase.
  *
- * @param integer $purchase_id Payment ID.
- * @param bool    $purchased Is this already sold.
- * @param bool    $resending We're resending a notice right now.
+ * @param integer    $purchase_id Payment ID.
+ * @param bool|array $purchased Array when initially building tickets, false otherwise.
+ * @param bool       $resending We're resending a notice right now.
  *
  * @return null
  */
