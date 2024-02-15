@@ -97,6 +97,14 @@ function mt_create_payment( $post ) {
 		);
 		$purchase_id = wp_insert_post( $my_post );
 	}
+	/**
+	 * Action immediately after new payment post is created.
+	 *
+	 * @hook mt_after_insert_payment
+	 *
+	 * @param {int}   $purchase_id Payment post ID.
+	 * @param {array} $post Array of data passed to function.
+	 */
 	do_action( 'mt_after_insert_payment', $purchase_id, $post );
 	update_post_meta( $purchase_id, '_first_name', sanitize_text_field( $post['mt_fname'] ) );
 	update_post_meta( $purchase_id, '_last_name', sanitize_text_field( $post['mt_lname'] ) );
@@ -139,7 +147,15 @@ function mt_create_payment( $post ) {
 	mt_debug( print_r( $purchased, 1 ), 'Purchase Data saved at nav to payment screen', $purchase_id );
 	mt_debug( print_r( $post, 1 ), 'Data passed from client at nav to payment screen', $purchase_id );
 	update_post_meta( $purchase_id, '_ticketing_method', $post['ticketing_method'] );
-	// for pushing data into custom fields.
+	/**
+	 * Action run when payment is saved.
+	 *
+	 * @hook mt_save_payment_fields
+	 *
+	 * @param {int}   $purchase_id Payment post ID.
+	 * @param {array} $post Array of data passed to function.
+	 * @param {array} $purchased Array of ticket purchase data from cart.
+	 */
 	do_action( 'mt_save_payment_fields', $purchase_id, $post, $purchased );
 	if ( $purchase_id ) {
 		wp_update_post(
