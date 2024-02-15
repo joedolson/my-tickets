@@ -73,8 +73,9 @@ function mt_create_payment( $post ) {
 	if ( isset( $post['mt_purchaser_id'] ) ) {
 		$purchaser = absint( $post['mt_purchaser_id'] );
 	} else {
-		$purchaser = ( is_user_logged_in() ) ? $current_user->ID : 1;
+		$purchaser = ( is_user_logged_in() ) ? $current_user->ID : 0;
 	}
+	$date    = ( isset( $post['mt_purchase_date'] ) ) ? $post['mt_purchase_date'] : mt_date( 'Y-m-d H:i:00', mt_current_time(), false );
 	$payment = mt_get_data( 'payment' );
 	if ( ! is_string( get_post_status( $payment ) ) || 'trash' === get_post_status( $payment ) ) {
 		$payment = false;
@@ -85,7 +86,7 @@ function mt_create_payment( $post ) {
 	} else {
 		mt_delete_data( 'payment' );
 		$status      = 'draft';
-		$date        = mt_date( 'Y-m-d H:i:00', mt_current_time(), false );
+		$date        = $date;
 		$post_title  = sanitize_text_field( $post['mt_fname'] . ' ' . $post['mt_lname'] );
 		$my_post     = array(
 			'post_title'   => $post_title,
@@ -115,7 +116,7 @@ function mt_create_payment( $post ) {
 	update_post_meta( $purchase_id, '_email', sanitize_email( $email ) );
 	$phone = ( isset( $post['mt_phone'] ) ) ? $post['mt_phone'] : '';
 	update_post_meta( $purchase_id, '_phone', sanitize_text_field( $phone ) );
-	if ( is_user_logged_in() ) {
+	if ( $purchaser ) {
 		update_user_meta( $purchaser, 'mt_phone', sanitize_text_field( $phone ) );
 	}
 	$vat = ( isset( $post['mt_vat'] ) ) ? $post['mt_vat'] : '';
