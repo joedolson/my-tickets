@@ -307,7 +307,7 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $mo
 	$model_selector = '';
 	if ( empty( $registration ) ) {
 		$model    = ( '' !== $model ) ? $model : $options['default_model'];
-		$data     = '<div class="hidden mt-ticket-data-json">' . json_encode( $data ) . '</div>';
+		$data     = '<div class="hidden mt-ticket-data-json">' . esc_html( json_encode( $data ) ) . '</div>';
 		$selector = '';
 		$models   = array( 'continuous', 'discrete', 'event' );
 		foreach ( $models as $option ) {
