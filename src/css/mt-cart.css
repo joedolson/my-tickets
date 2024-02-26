@@ -66,6 +66,7 @@
 
 .ticket-orders fieldset {
     margin: 1em 0;
+	padding: 8px;
 	border-radius: 8px;
 	background: var(--mt-order-background);
 	box-shadow: 4px 4px 4px var(--mt-order-shadow);
