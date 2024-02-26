@@ -91,7 +91,7 @@ function mt_add_ticket_form() {
 		$expire      = '';
 	}
 	$option_string = '<option value="">' . __( 'Select a value', 'my-tickets' ) . '</option>
-	<option value="expire"' . selected( 'expire', $valid, false ) . '>' . __( 'Set an expiration date', 'my-tickets' ) . '</option>';
+	<option value="expire"' . selected( 'expire', $valid, false ) . '>' . __( 'Custom expiration date', 'my-tickets' ) . '</option>';
 	foreach ( $validity as $key => $option ) {
 		$option_string .= '<option value="' . esc_attr( $key ) . '"' . selected( $key, $valid, false ) . '>' . esc_html( $option ) . '</option>';
 	}
