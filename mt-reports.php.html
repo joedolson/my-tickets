@@ -184,11 +184,11 @@ function mt_set_column_headers( $headers, $type ) {
  * Generate a report of tickets on a single event.
  *
  * @param bool|int $event_id Event ID.
- * @param bool     $return Return or echo.
+ * @param bool     $display True to return.
  *
  * @return void|string
  */
-function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
+function mt_generate_tickets_by_event( $event_id = false, $display = false ) {
 	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
 		$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : $event_id;
 		if ( $event_id ) {
@@ -213,7 +213,7 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 			}
 			$table   = $table_top . $table_bottom;
 			$output .= $table;
-			if ( $return ) {
+			if ( $display ) {
 				// Translators: Number of tickets sold.
 				return "&lt;p class='totals'>" . sprintf( __( '%1$s tickets sold.', 'my-tickets' ), "&lt;strong>$total_tickets&lt;/strong>" ) . '&lt;/p>' . $output;
 			} else {
@@ -222,7 +222,7 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
 			}
 		}
 	} else {
-		if ( $return ) {
+		if ( $display ) {
 			return false;
 		} else {
 			echo wp_kses_post( "&lt;div class='updated error'>&lt;p>" . __( 'You do not have sufficient permissions to view ticketing reports.', 'my-tickets' ) . '&lt;/p>&lt;/div>' );
