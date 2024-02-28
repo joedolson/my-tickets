@@ -689,7 +689,7 @@ function mt_gateways() {
 
 				if ( isset( $options['mt_gateways'][ $gate ]['selector'] ) ) {
 					$label = ( '' === $options['mt_gateways'][ $gate ]['selector'] ) ? $label : $options['mt_gateways'][ $gate ]['selector'];
-				};
+				}
 				$selector .= "&lt;li$checked>&lt;button type='button' class='mt-gateway-selector " . esc_attr( $gate ) . "' data-assign='" . esc_attr( $gate ) . "'$current>$label&lt;/button>&lt;/li>";
 			}
 		}

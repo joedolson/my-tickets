@@ -368,12 +368,12 @@ function mt_registration_fields( $form, $has_data, $data, $public = 'admin', $mo
  * @param string $form Form html.
  * @param bool   $has_data Does this form contain data.
  * @param object $data object Data contained.
- * @param string $public Admin or public context.
+ * @param string $context Admin or public context.
  * @param string $model Whether to fetch a specific ticket model format.
  *
  * @return string
  */
-function mt_get_registration_fields( $form, $has_data, $data, $public = 'admin', $model = '' ) {
+function mt_get_registration_fields( $form, $has_data, $data, $context = 'admin', $model = '' ) {
 	$original_form = $form;
 	$options       = mt_get_settings();
 	$description   = false;
@@ -452,7 +452,7 @@ function mt_get_registration_fields( $form, $has_data, $data, $public = 'admin',
 	 *
 	 * @return {string}
 	 */
-	return apply_filters( 'mc_event_registration_form', $form, $has_data, $data, $public, $original_form );
+	return apply_filters( 'mc_event_registration_form', $form, $has_data, $data, $context, $original_form );
 }
 
 /**
@@ -767,7 +767,7 @@ function mt_setup_pricing( $labels, $prices, $availability, $close, $sold = arra
 					'close'   => $closing,
 				);
 			}
-			$i ++;
+			++$i;
 		}
 	}
 

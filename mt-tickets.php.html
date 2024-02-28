@@ -49,7 +49,7 @@ function mt_ticket() {
 				if ( $template ) {
 					load_template( $template );
 				} else {
-					load_template( dirname( __FILE__ ) . '/templates/tickets.php' );
+					load_template( __DIR__ . '/templates/tickets.php' );
 				}
 			} else {
 				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
@@ -61,7 +61,7 @@ function mt_ticket() {
 				if ( $template ) {
 					load_template( $template );
 				} else {
-					load_template( dirname( __FILE__ ) . '/templates/bulk-tickets.php' );
+					load_template( __DIR__ . '/templates/bulk-tickets.php' );
 				}
 			} else {
 				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
@@ -76,11 +76,11 @@ function mt_ticket() {
  * Verify that ticket is valid. (Does not check whether ticket is for current or future event.)
  *
  * @param string $ticket_id Ticket ID.
- * @param string $return type of data to return.
+ * @param string $return_type type of data to return.
  *
  * @return array|bool
  */
-function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
+function mt_verify_ticket( $ticket_id = false, $return_type = 'boolean' ) {
 	if ( $ticket_id ) {
 		$ticket = mt_get_ticket( $ticket_id );
 	} else {
@@ -96,14 +96,14 @@ function mt_verify_ticket( $ticket_id = false, $return = 'boolean' ) {
 		$status      = get_post_meta( $purchase_id, '_is_paid', true );
 		$gateway     = get_post_meta( $purchase_id, '_gateway', true );
 		if ( 'Completed' === $status || ( 'Pending' === $status &amp;&amp; 'offline' === $gateway ) ) {
-			return ( 'full' === $return ) ? array(
+			return ( 'full' === $return_type ) ? array(
 				'status' => true,
 				'ticket' => $ticket,
 			) : true;
 		}
 	}
 
-	return ( 'full' === $return ) ? array(
+	return ( 'full' === $return_type ) ? array(
 		'status' => false,
 		'ticket' => false,
 	) : false;
