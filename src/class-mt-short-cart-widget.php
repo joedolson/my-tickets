@@ -35,7 +35,7 @@ class Mt_Short_Cart_Widget extends WP_Widget {
 	/**
 	 * Mt_Short_Cart_Widget constructor.
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct( false, $name = __( 'My Tickets: Quick Cart', 'my-tickets' ), array( 'customize_selective_refresh' => true ) );
 	}
 
@@ -45,7 +45,7 @@ class Mt_Short_Cart_Widget extends WP_Widget {
 	 * @param array $args Widget arguments from theme.
 	 * @param array $instance Widget settings.
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 		$before_widget = $args['before_widget'];
 		$after_widget  = $args['after_widget'];
 		$before_title  = $args['before_title'];
@@ -65,7 +65,7 @@ class Mt_Short_Cart_Widget extends WP_Widget {
 	 *
 	 * @return void
 	 */
-	function form( $instance ) {
+	public function form( $instance ) {
 		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		?>
 		<p>
@@ -83,7 +83,7 @@ class Mt_Short_Cart_Widget extends WP_Widget {
 	 *
 	 * @return array
 	 */
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance          = $old_instance;
 		$instance['title'] = strip_tags( $new_instance['title'] );
 

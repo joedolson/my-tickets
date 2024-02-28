@@ -376,7 +376,7 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 			$sold                                    = absint( $registration['prices'][ $type ]['sold'] );
 			$new_sold                                = $sold + $count;
 			$registration['prices'][ $type ]['sold'] = $new_sold;
-			for ( $i = 0; $i < $count; $i ++ ) {
+			for ( $i = 0; $i < $count; $i++ ) {
 				$ticket_id = mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price );
 				if ( ! $resending && ! mt_ticket_exists( $purchase_id, $ticket_id ) ) {
 					$created = true;

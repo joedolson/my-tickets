@@ -379,13 +379,13 @@ function mt_list_events( $purchase_id ) {
  *
  * @param array  $purchase Purchase data.
  * @param int    $payment_id Payment ID.
- * @param string $return Links or IDs.
+ * @param string $return_type Links or IDs.
  *
  * @return array
  */
-function mt_setup_tickets( $purchase, $payment_id, $return = 'links' ) {
+function mt_setup_tickets( $purchase, $payment_id, $return_type = 'links' ) {
 	$stored  = get_post_meta( $payment_id, '_tickets', true );
-	$tickets = ( ! empty( $stored ) ) ? mt_ticket_list( $stored, $return ) : false;
+	$tickets = ( ! empty( $stored ) ) ? mt_ticket_list( $stored, $return_type ) : false;
 	if ( $tickets ) {
 		return $tickets;
 	}
@@ -400,7 +400,7 @@ function mt_setup_tickets( $purchase, $payment_id, $return = 'links' ) {
 				// only add tickets if count of tickets is more than 0.
 				if ( $count >= 1 ) {
 					$price = $details['price'];
-					for ( $i = 0; $i < $count; $i ++ ) {
+					for ( $i = 0; $i < $count; $i++ ) {
 						$ticket_id = mt_generate_ticket_id( $payment_id, $event, $type, $i, $price );
 						// check for existing ticket data.
 						$meta = get_post_meta( $payment_id, $ticket_id, true );
@@ -427,25 +427,25 @@ function mt_setup_tickets( $purchase, $payment_id, $return = 'links' ) {
 		update_post_meta( $payment_id, '_tickets', $ticket_ids );
 	}
 
-	return mt_ticket_list( $ticket_ids, $return );
+	return mt_ticket_list( $ticket_ids, $return_type );
 }
 
 /**
  * Return tickets as IDs or links.
  *
  * @param array  $ticket_ids Array of ticket IDs.
- * @param string $return Return format; ids or links.
+ * @param string $return_type Return format; ids or links.
  *
  * @return array
  */
-function mt_ticket_list( $ticket_ids, $return = 'links' ) {
+function mt_ticket_list( $ticket_ids, $return_type = 'links' ) {
 	$options      = mt_get_settings();
 	$ticket_array = array();
 	// Reassemble data.
 	foreach ( $ticket_ids as $ticket ) {
 		// If ticket has a valid type, display.
 		if ( mt_get_ticket_type( $ticket ) ) {
-			if ( 'links' === $return ) {
+			if ( 'links' === $return_type ) {
 				$ticket_array[ $ticket ] = add_query_arg( 'ticket_id', $ticket, get_permalink( $options['mt_tickets_page'] ) );
 			} else {
 				$ticket_array[] = $ticket;
@@ -1099,7 +1099,7 @@ function mt_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
 				'post_status' => 'publish',
 			)
 		);
-		$completed ++;
+		++$completed;
 	}
 	// build the redirect url.
 	$redirect_to = add_query_arg(
@@ -1130,22 +1130,22 @@ add_filter( 'wp_list_pages_excludes', 'mt_exclude_pages', 10, 2 );
 /**
  * Exclude receipt and ticket pages from page lists.
  *
- * @param array $array Array of pages.
+ * @param array $excluded_pages Array of pages.
  *
  * @return array
  */
-function mt_exclude_pages( $array ) {
+function mt_exclude_pages( $excluded_pages ) {
 	if ( ! is_admin() ) {
 		$options  = mt_get_settings();
 		$tickets  = $options['mt_tickets_page'];
 		$receipts = $options['mt_receipt_page'];
 		if ( $tickets && $receipts ) {
-			$array[] = $tickets;
-			$array[] = $receipts;
+			$excluded_pages[] = $tickets;
+			$excluded_pages[] = $receipts;
 		}
 	}
 
-	return $array;
+	return $excluded_pages;
 }
 
 add_filter( 'display_post_states', 'mt_post_states', 10, 2 );

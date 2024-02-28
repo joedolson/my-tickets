@@ -209,11 +209,11 @@ function mt_generate_tickets_by_event( $event_id = false, $return = false ) {
  * Generate a report of payments on a single event.
  *
  * @param bool|int $event_id Event ID.
- * @param bool     $return Return or echo.
+ * @param bool     $return_type Return or echo.
  *
  * @return void|string
  */
-function mt_generate_report_by_event( $event_id = false, $return = false ) {
+function mt_generate_report_by_event( $event_id = false, $return_type = false ) {
 	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
 		$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : $event_id;
 		if ( $event_id ) {
@@ -296,14 +296,14 @@ function mt_generate_report_by_event( $event_id = false, $return = false ) {
 			// Translators: Number of tickets sold, total number of sales completed, number of purchases transacted.
 			$total_line  = "<p class='totals'>" . sprintf( __( '%1$s tickets sold in %3$s purchases. Total completed sales: %2$s', 'my-tickets' ), "<strong>$total_tickets</strong>", '<strong>' . apply_filters( 'mt_money_format', $total_income ) . '</strong>', "<strong>$total_sales</strong>" ) . '</p>';
 			$custom_line = apply_filters( 'mt_custom_total_line_event', '', $event_id );
-			if ( $return ) {
-				return  $total_line . $custom_line . $output;
+			if ( $return_type ) {
+				return $total_line . $custom_line . $output;
 			} else {
 				echo wp_kses_post( $total_line . $custom_line . $output );
 			}
 		}
 	} else {
-		if ( $return ) {
+		if ( $return_type ) {
 			return false;
 		} else {
 			echo wp_kses_post( "<div class='updated error'><p>" . __( 'You do not have sufficient permissions to view sales reports.', 'my-tickets' ) . '</p></div>' );
@@ -699,7 +699,7 @@ function mt_get_tickets( $event_id ) {
 				$rows[]   = "<td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents</td>";
 				$csvs[]   = '\"' . wp_strip_all_tags( $contents ) . '\"';
 			}
-			$i ++;
+			++$i;
 		}
 		$row              = "<tr class='$alternate'>" . implode( PHP_EOL, $rows ) . '</tr>';
 		$csv              = implode( ',', $csvs ) . PHP_EOL;
@@ -1186,7 +1186,7 @@ function mt_mass_email( $event_id = false ) {
 				);
 				// For test emails, skip sending & reset values.
 				if ( isset( $_POST['mt-test-email'] ) ) {
-					$emails_sent ++;
+					++$emails_sent;
 					$subject = $orig_subj;
 					$body    = $orig_body;
 					$message = __( 'Test Email Sent', 'my-tickets' );
@@ -1196,7 +1196,7 @@ function mt_mass_email( $event_id = false ) {
 						// If mail sends, try without custom headers.
 						wp_mail( $to, $subject, $body );
 					}
-					$emails_sent ++;
+					++$emails_sent;
 					$subject = $orig_subj;
 					$body    = $orig_body;
 				}
@@ -1204,7 +1204,7 @@ function mt_mass_email( $event_id = false ) {
 					remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 				}
 			} else {
-				$opt_outs ++;
+				++$opt_outs;
 			}
 		}
 		// send copy of message to admin.
@@ -1276,7 +1276,7 @@ function mt_opt_out( $template ) {
 			if ( locate_template( 'opt-out.php' ) ) {
 				return $template;
 			} else {
-				return dirname( __FILE__ ) . '/templates/opt-out.php';
+				return __DIR__ . '/templates/opt-out.php';
 			}
 		}
 	}

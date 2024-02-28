@@ -138,7 +138,7 @@ function mt_import_gateways() {
 	$directory = plugin_dir_path( __FILE__ ) . 'gateways';
 	$handler   = opendir( $directory );
 	// keep going until all files in directory have been read.
-	while ( $file = readdir( $handler ) ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+	while ( $file = readdir( $handler ) ) { // phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 		// if $file isn't this directory or its parent add it to the results array.
 		if ( '.' !== $file && '..' !== $file ) {
 			$results[] = $file;
@@ -169,39 +169,39 @@ function mt_build_gateways() {
 	$gateways = apply_filters( 'mt_import_gateways', mt_import_gateways() );
 	foreach ( $gateways as $gateway ) {
 		if ( false !== strpos( $gateway, '.php' ) ) {
-			require_once( plugin_dir_path( __FILE__ ) . 'gateways/' . $gateway );
+			require_once plugin_dir_path( __FILE__ ) . 'gateways/' . $gateway;
 		}
 	}
 }
 
-include( plugin_dir_path( __FILE__ ) . 'includes/data-utilities.php' );
-include( plugin_dir_path( __FILE__ ) . 'includes/date-utilities.php' );
-include( plugin_dir_path( __FILE__ ) . 'includes/event-utilities.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-common.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-cpt.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-fields-api.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-payment.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-reports.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-notifications.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-help.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-processing.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-cart.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-cart-handler.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-ajax.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-tickets.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-receipt.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-shortcodes.php' );
-include( plugin_dir_path( __FILE__ ) . 'class-mt-short-cart-widget.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-add-to-cart.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-templating.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-settings.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-payment-settings.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-ticketing-settings.php' );
-include( plugin_dir_path( __FILE__ ) . 'mt-debug.php' );
+require plugin_dir_path( __FILE__ ) . 'includes/data-utilities.php';
+require plugin_dir_path( __FILE__ ) . 'includes/date-utilities.php';
+require plugin_dir_path( __FILE__ ) . 'includes/event-utilities.php';
+require plugin_dir_path( __FILE__ ) . 'mt-common.php';
+require plugin_dir_path( __FILE__ ) . 'mt-cpt.php';
+require plugin_dir_path( __FILE__ ) . 'mt-fields-api.php';
+require plugin_dir_path( __FILE__ ) . 'mt-payment.php';
+require plugin_dir_path( __FILE__ ) . 'mt-reports.php';
+require plugin_dir_path( __FILE__ ) . 'mt-notifications.php';
+require plugin_dir_path( __FILE__ ) . 'mt-help.php';
+require plugin_dir_path( __FILE__ ) . 'mt-processing.php';
+require plugin_dir_path( __FILE__ ) . 'mt-cart.php';
+require plugin_dir_path( __FILE__ ) . 'mt-cart-handler.php';
+require plugin_dir_path( __FILE__ ) . 'mt-ajax.php';
+require plugin_dir_path( __FILE__ ) . 'mt-tickets.php';
+require plugin_dir_path( __FILE__ ) . 'mt-receipt.php';
+require plugin_dir_path( __FILE__ ) . 'mt-shortcodes.php';
+require plugin_dir_path( __FILE__ ) . 'class-mt-short-cart-widget.php';
+require plugin_dir_path( __FILE__ ) . 'mt-add-to-cart.php';
+require plugin_dir_path( __FILE__ ) . 'mt-templating.php';
+require plugin_dir_path( __FILE__ ) . 'mt-settings.php';
+require plugin_dir_path( __FILE__ ) . 'mt-payment-settings.php';
+require plugin_dir_path( __FILE__ ) . 'mt-ticketing-settings.php';
+require plugin_dir_path( __FILE__ ) . 'mt-debug.php';
 
 // Not used by core plug-in; only if premium add-ons are installed.
 if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
-	require_once( plugin_dir_path( __FILE__ ) . 'updates/EDD_SL_Plugin_Updater.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'updates/EDD_SL_Plugin_Updater.php';
 }
 
 /*
@@ -720,7 +720,7 @@ function mt_verify( $template ) {
 		if ( $template ) {
 			return $template;
 		} else {
-			return dirname( __FILE__ ) . '/templates/verify.php';
+			return __DIR__ . '/templates/verify.php';
 		}
 	}
 
@@ -741,7 +741,7 @@ function mt_bulk_verify( $template ) {
 		if ( $template ) {
 			return $template;
 		} else {
-			return dirname( __FILE__ ) . '/templates/bulk-verify.php';
+			return __DIR__ . '/templates/bulk-verify.php';
 		}
 	}
 
@@ -1028,16 +1028,16 @@ function mt_money_format( $price ) {
  * @param string $field Field name.
  * @param mixed  $value Saved value.
  * @param array  $options Field options.
- * @param bool   $return Return or echo.
  *
  * @return bool
  */
-function mt_is_checked( $field, $value, $options, $return = false ) {
+function mt_is_checked( $field, $value, $options ) {
 	if ( isset( $options[ $field ] ) && $options[ $field ] === $value ) {
 		$checked = true;
 	} else {
 		$checked = false;
 	}
+
 	return $checked;
 }
 

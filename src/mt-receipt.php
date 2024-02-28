@@ -22,7 +22,7 @@ function mt_receipt() {
 			if ( $template ) {
 				load_template( $template );
 			} else {
-				load_template( dirname( __FILE__ ) . '/templates/receipt.php' );
+				load_template( __DIR__ . '/templates/receipt.php' );
 			}
 			exit;
 		} else {

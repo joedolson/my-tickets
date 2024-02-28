@@ -125,7 +125,7 @@ $purchases = mt_get_payment_tickets();
 $int       = 0;
 $count     = count( $purchases );
 foreach ( $purchases as $ticket_id ) {
-	$int ++;
+	++$int;
 	?>
 	<div class="confirmation">
 		<h2>Ticket <?php echo $int . '/' . $count; ?></h2>

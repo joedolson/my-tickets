@@ -326,7 +326,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 		}
 
 		$output .= apply_filters( 'mt_custom_ticket_output', $ticket_output, $purchase_id, $sep );
-		$i ++;
+		++$i;
 	}
 	$output = ( 'admin' === $context ) ? '<ul class="admin-tickets">' . $output . '</ul>' : $output;
 
@@ -616,7 +616,7 @@ function mt_draw_template( $data, $template ) {
 						preg_match_all( '/{' . $key . '\b(?>\s+(?:before="([^"]*)"|after="([^"]*)"|format="([^"]*)")|[^\s]+|\s+){0,2}}/', $template, $matches, PREG_PATTERN_ORDER );
 						if ( $matches ) {
 							$number = count( $matches[0] );
-							for ( $i = 0; $i < $number; $i ++ ) {
+							for ( $i = 0; $i < $number; $i++ ) {
 								$orig   = $value;
 								$before = $matches[1][ $i ];
 								$after  = $matches[2][ $i ];
@@ -661,7 +661,7 @@ function mt_return_tickets( $payment_id ) {
 						$new_sold                                = $sold - $count;
 						$registration['prices'][ $type ]['sold'] = $new_sold;
 						update_post_meta( $event_id, '_mt_registration_options', $registration );
-						for ( $i = 0; $i < $count; $i ++ ) {
+						for ( $i = 0; $i < $count; $i++ ) {
 							// delete tickets from system.
 							$ticket_id = mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price );
 							delete_post_meta( $event_id, '_ticket', $ticket_id );
