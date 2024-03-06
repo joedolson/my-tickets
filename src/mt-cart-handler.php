@@ -283,12 +283,15 @@ function mt_tickets_left( $pricing, $available ) {
  * @param int    $event_id Event post ID.
  * @param string $type Type of ticket being checked.
  *
- * @return array Number of tickets available in key 'available', sold in key 'sold'.
+ * @return array|false Number of tickets available in key 'available', sold in key 'sold'.
  */
 function mt_check_inventory( $event_id, $type = '' ) {
 	$options      = mt_get_settings();
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-	$prices       = $registration['prices'];
+	if ( ! is_array( $registration ) ) {
+		return false;
+	}
+	$prices = $registration['prices'];
 	if ( ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) ) {
 		if ( '' !== $type ) {
 			$available = absint( $prices[ $type ]['tickets'] );
