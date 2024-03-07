@@ -31,9 +31,14 @@ function mt_check_license( $key = false, $product = '', $store = '' ) {
 		$api_params = array(
 			'edd_action' => 'activate_license',
 			'license'    => $license,
-			'item_name'  => urlencode( $product ), // the name of our product in EDD.
 			'url'        => home_url(),
 		);
+		// All products were changed to use item_id on 3/7/2024. Need to support old references, though.
+		if ( is_numeric( $product ) ) {
+			$api_params['item_id'] = absint( $product );
+		} else {
+			$api_params['item_name'] = urlencode( $product );
+		}
 
 		// Call the custom API.
 		$response = wp_remote_post(
