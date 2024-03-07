@@ -115,7 +115,7 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 		$mail_subject = sprintf( __( 'WP HTTP Failed to contact the payment gateway: %s', 'my-tickets' ), $response_code );
 		$mail_body    = __( 'Something went wrong. Hopefully this information will help:', 'my-tickets' ) . "\n\n";
 		$mail_body   .= print_r( $data, 1 );
-		$mail_body   .= print_r( $post, 1 );
+		$mail_body   .= print_r( map_deep( $post, 'sanitize_text_field' ), 1 );
 		$mail_body   .= print_r( $response, 1 );
 		wp_mail( $options['mt_to'], $mail_subject, $mail_body, $mail_from );
 		mt_log( $response, $response_code, $data, $post );
