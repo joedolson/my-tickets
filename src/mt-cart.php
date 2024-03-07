@@ -838,7 +838,7 @@ function mt_core_link_title( $event_title, $event ) {
 	$event_id    = get_post_meta( $event->ID, '_mc_event_id', true );
 	if ( $event_id && function_exists( 'mc_get_details_link' ) ) {
 		$event = mc_get_event_core( $event_id );
-		$link  = mc_event_link( $event );
+		$link  = mc_get_details_link( $event );
 	} else {
 		$link = get_permalink( $event->ID );
 	}
