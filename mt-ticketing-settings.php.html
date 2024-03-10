@@ -61,6 +61,7 @@ function mt_update_ticketing_settings( $post ) {
 		$mt_shipping_time         = ( isset( $post['mt_shipping_time'] ) ) ? $post['mt_shipping_time'] : '3-5';
 		$mt_hide_remaining        = ( isset( $post['mt_hide_remaining'] ) ) ? 'true' : 'false';
 		$mt_show_closed           = ( isset( $post['mt_show_closed'] ) ) ? 'true' : 'false';
+		$mt_singular              = ( isset( $post['mt_singular'] ) ) ? 'true' : 'false';
 		$mt_inventory             = ( isset( $post['mt_inventory'] ) ) ? 'virtual' : 'actual';
 		$mt_hide_remaining_limit  = ( isset( $post['mt_hide_remaining_limit'] ) ) ? intval( $post['mt_hide_remaining_limit'] ) : 0;
 		$mt_collect_shipping      = ( isset( $post['mt_collect_shipping'] ) ) ? 'true' : 'false';
@@ -112,6 +113,7 @@ function mt_update_ticketing_settings( $post ) {
 				'mt_tickets_close_type'    => $close_type,
 				'mt_display_remaining'     => $mt_display_remaining,
 				'mt_show_closed'           => $mt_show_closed,
+				'mt_singular'              => $mt_singular,
 				'mt_inventory'             => $mt_inventory,
 				'mt_ticket_image'          => $mt_ticket_image,
 				'mt_hide_remaining'        => $mt_hide_remaining,
@@ -234,6 +236,8 @@ function mt_ticketing_settings() {
 										&lt;/select>&lt;/p>';
 								$mt_show_closed           = ( isset( $options['mt_show_closed'] ) ) ? $options['mt_show_closed'] : 'false';
 								$form                    .= "&lt;p class='handling ticket-show-closed'>&lt;label for='mt_tickets_show_closed'>" . __( 'Show ticket types that are closed in Add to Cart form', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_show_closed' id='mt_tickets_show_closed' type='checkbox' value='true'" . checked( $mt_show_closed, 'true', false ) . ' />&lt;/p>';
+								$mt_singular              = ( isset( $options['mt_singular'] ) ) ? $options['mt_singular'] : 'false';
+								$form                    .= "&lt;p class='handling ticket-singular-only'>&lt;label for='mt_tickets_singular'>" . __( 'Only show Add to Cart form on singular pages', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_singular' id='mt_tickets_singular' type='checkbox' value='true'" . checked( $mt_singular, 'true', false ) . ' />&lt;/p>';
 								$mt_hide_remaining        = ( isset( $options['mt_hide_remaining'] ) ) ? $options['mt_hide_remaining'] : 'false';
 								$form                    .= "&lt;p class='handling ticket-hide-remaining'>&lt;label for='mt_tickets_hide_remaining'>" . __( 'Hide number of tickets remaining', 'my-tickets' ) . "&lt;/label> &lt;input name='mt_hide_remaining' id='mt_tickets_hide_remaining' type='checkbox' value='true'" . checked( $mt_hide_remaining, 'true', false ) . ' />&lt;/p>';
 								$mt_hide_remaining_limit  = ( isset( $options['mt_hide_remaining_limit'] ) ) ? $options['mt_hide_remaining_limit'] : 0;

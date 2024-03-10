@@ -50,6 +50,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 function mt_add_to_cart_form_post( $content ) {
 	$options = mt_get_settings();
 	global $post;
+	$only_singular = $options['mt_singular'];
+	if ( $only_singular &amp;&amp; ! is_singular( $options['mt_post_types'] ) ) {
+		return $content;
+	}
 	if ( in_array( get_post_type( $post ), $options['mt_post_types'], true ) ) {
 		$event = $post->ID;
 		if ( get_post_meta( $event, '_mc_event_data', true ) ) {
@@ -100,6 +104,10 @@ function mt_check_early_returns( $event_id, $override ) {
 	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) || ! $event_id ) {
 		return false;
 	}
+	$only_singular = $options['mt_singular'];
+	if ( $only_singular &amp;&amp; ! is_singular( $options['mt_post_types'] ) ) {
+		return false;
+	}
 	if ( 'mc-events' === get_post_type( $event_id ) ) {
 		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
 		if ( 'false' === $sell ) {
@@ -110,7 +118,7 @@ function mt_check_early_returns( $event_id, $override ) {
 		return false;
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-
+	print_r( $registration );
 	// if no 'total' is set at all, this is not an event with tickets.
 	if ( empty( $registration['prices'] ) ) {
 		return false;
