@@ -272,7 +272,7 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
 }
 
 /**
- * Add registration fields for My Calendar events & posts.
+ * Add registration fields for My Calendar events & My Tickets posts.
  *
  * @param string $form Form html.
  * @param bool   $has_data Does this form contain data.
@@ -307,7 +307,11 @@ function mt_registration_fields( $form, $has_data, $data, $context = 'admin', $m
 	$model_selector = '';
 	if ( empty( $registration ) ) {
 		$model    = ( '' !== $model ) ? $model : $options['default_model'];
-		$data     = '<div class="hidden mt-ticket-data-json">' . esc_html( json_encode( $data ) ) . '</div>';
+		if ( $data ) {
+			$data = '<div class="hidden mt-ticket-data-json">' . esc_html( json_encode( $data ) ) . '</div>';
+		} else {
+			$data = '';
+		}
 		$selector = '';
 		$models   = array( 'continuous', 'discrete', 'event' );
 		foreach ( $models as $option ) {
