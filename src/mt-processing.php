@@ -116,7 +116,7 @@ function mt_add_ticket_form() {
 	}
 	$form =
 		"<div class='mt-ticket-form'>
-			<ul class='checkboxes'>
+			<ul class='checkboxes type-selector'>
 				<li><input type='radio' name='mt_general' value='dated' id='mt-general-dated'$dated /> <label for='mt-general-dated'>" . __( 'Date-based', 'my-tickets' ) . "</label></li>
 				<li><input type='radio' name='mt_general' value='general' id='mt-general-general'$general /> <label for='mt-general-general'>" . __( 'General Admission', 'my-tickets' ) . "</label></li>
 			</ul>

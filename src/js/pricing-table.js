@@ -4,11 +4,11 @@
 		mt_render_datepicker();
 		function mt_pricing_table() {
 			$('.add-price').on('click', function () {
-				var context = $( this ).attr( 'data-context' );
-				var num = $('.clonedPrice.' + context).length; // how many "duplicatable" input fields we currently have
-				var newNum = new Number(num + 1);      // the numeric ID of the new input field being added
+				let context = $( this ).attr( 'data-context' );
+				let num = $('.clonedPrice.' + context).length; // how many "duplicatable" input fields we currently have
+				let newNum = new Number(num + 1);      // the numeric ID of the new input field being added
 				// create the new element via clone(), and manipulate it's ID using newNum value
-				var newElem = $('#price' + context + num).clone().attr('id', 'price' + context + newNum);
+				let newElem = $('#price' + context + num).clone().attr('id', 'price' + context + newNum);
 				// manipulate the name/id values of the input inside the new element
 				// insert the new element after the last "duplicatable" input field
 				$('#price' + context + num).after(newElem);
@@ -21,8 +21,8 @@
 			});
 
 			$('.del-price').on('click', function () {
-				var context = $( this ).attr( 'data-context' );
-				var num = $('.clonedPrice.' + context).length; // how many "duplicatable" input fields we currently have
+				let context = $( this ).attr( 'data-context' );
+				let num = $('.clonedPrice.' + context).length; // how many "duplicatable" input fields we currently have
 				$('#price' + context + num).remove();     // remove the last element
 				// enable the "add" button
 				$( this ).removeAttr('disabled');
@@ -36,7 +36,7 @@
 			$("button.up,button.down").on( 'click', function(e){
 				e.preventDefault();
 				$('.mt-pricing table tr').removeClass('fade');
-				var row = $(this).parents("tr:first");
+				let row = $(this).parents("tr:first");
 				if ($(this).is(".up")) {
 					row.insertBefore(row.prev()).addClass('fade');
 				} else {
@@ -46,8 +46,8 @@
 
 			$('.deletable .mt-controls').append( '<button type="button" class="button delete"><span class="dashicons dashicons-no"></span><span class="screen-reader-text">' + mt.delete + '</span></button>' );
 			$('.deletable .mt-controls .delete').on( 'click', function() {
-				var is_undo = $( this ).hasClass( 'undo' );
-				var parent = $(this).parents('.deletable');
+				let is_undo = $( this ).hasClass( 'undo' );
+				let parent = $(this).parents('.deletable');
 				if ( is_undo ) {
 					parent.find('input,button.up,button.down').removeAttr('disabled');
 					parent.find('button.delete').removeClass('undo');
@@ -62,13 +62,13 @@
 			});
 		}
 		$( '.mt-load-model button' ).on( 'click', function() {
-			var event_id = $(this).attr( 'data-event' );
-			var model    = $(this).attr( 'data-model' );
-			var event    = $( '.mt-ticket-data-json' ).html();
+			let event_id = $(this).attr( 'data-event' );
+			let model    = $(this).attr( 'data-model' );
+			let event    = $( '.mt-ticket-data-json' ).html();
 			$( '.mt-load-model button' ).attr( 'aria-selected', 'false' ).removeAttr( 'id' );
 			$( this ).attr( 'aria-selected', 'true' ).attr( 'id', 'current-tab' );
 			$( '.mt-ticket-wrapper-form' ).removeAttr( 'aria-labelledby' );
-			var data     = {
+			const data     = {
 				'action': mt.action,
 				'event_id': event_id,
 				'model': model,
@@ -79,7 +79,13 @@
 			$.post( ajaxurl, data, function (response) {
 				var container = $( '.mt-ticket-wrapper-form' );
 				var form      = response.form;
-
+				if ( 'event' === model ) {
+					$( '.mt-ticket-form .type-selector').hide();
+					$( '.mt-ticket-form .mt-ticket-data').hide();
+				} else {
+					$( '.mt-ticket-form .type-selector').show();
+					$( '.mt-ticket-form .mt-ticket-data').show();
+				}
 				container.attr( 'aria-labelledby', 'current-tab' );
 				container.html( form );
 				mt_pricing_table();
