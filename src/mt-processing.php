@@ -392,8 +392,8 @@ function mt_get_registration_fields( $form, $has_data, $data, $context = 'admin'
 		</fieldset>
 		<fieldset><legend>' . __( 'Ticket Counting Method', 'my-tickets' ) . "</legend>
 			<p>
-				<input type='radio' name='mt_counting_method' id='mt_counting_method_discrete' value='discrete' " . checked( $method, 'discrete', false ) . " /> <label for='mt_counting_method_discrete'>" . __( 'Discrete - (Section A, Section B, etc.)', 'my-tickets' ) . "</label><br />
-				<input type='radio' name='mt_counting_method' id='mt_counting_method_continuous' value='continuous' " . checked( $method, 'continuous', false ) . " /> <label for='mt_counting_method_continuous'>" . __( 'Continuous - (Adult, Child, Senior)', 'my-tickets' ) . "</label><br />
+				<input type='radio' name='mt_counting_method' id='mt_counting_method_discrete' value='discrete' " . checked( $method, 'discrete', false ) . " /> <label for='mt_counting_method_discrete'>" . __( 'Seating Section - (Section A, Section B, etc.)', 'my-tickets' ) . "</label><br />
+				<input type='radio' name='mt_counting_method' id='mt_counting_method_continuous' value='continuous' " . checked( $method, 'continuous', false ) . " /> <label for='mt_counting_method_continuous'>" . __( 'Audience Type - (Adult, Child, Senior)', 'my-tickets' ) . "</label><br />
 				<input type='radio' name='mt_counting_method' id='mt_counting_method_event' value='event' " . checked( $method, 'event', false ) . " /> <label for='mt_counting_method_event'>" . __( 'Events (Jan 1st, 2pm)', 'my-tickets' ) . '</label>
 			</p>
 		</fieldset></div>';

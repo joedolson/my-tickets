@@ -253,8 +253,8 @@ function mt_ticketing_settings() {
 								<fieldset>
 									<legend><?php _e( 'Default ticket model', 'my-tickets' ); ?></legend>
 									<ul class="checkboxes">
-										<li><input type="radio" name="default_model" id="default_model_continuous" value="continuous" <?php checked( $options['default_model'], 'continuous' ); ?> /> <label for="default_model_continuous"><?php _e( 'Continuous', 'my-tickets' ); ?></label></li>
-										<li><input type="radio" name="default_model" id="default_model_discrete" value="discrete" <?php checked( $options['default_model'], 'discrete' ); ?>/> <label for="default_model_discrete"><?php _e( 'Discrete', 'my-tickets' ); ?></label></li>
+										<li><input type="radio" name="default_model" id="default_model_continuous" value="continuous" <?php checked( $options['default_model'], 'continuous' ); ?> /> <label for="default_model_continuous"><?php _e( 'Audience Types', 'my-tickets' ); ?></label></li>
+										<li><input type="radio" name="default_model" id="default_model_discrete" value="discrete" <?php checked( $options['default_model'], 'discrete' ); ?>/> <label for="default_model_discrete"><?php _e( 'Seating Sections', 'my-tickets' ); ?></label></li>
 										<li><input type="radio" name="default_model" id="default_model_event" value="event" <?php checked( $options['default_model'], 'event' ); ?>/> <label for="default_model_event"><?php _e( 'Event', 'my-tickets' ); ?></label></li>
 									</ul>
 								</fieldset>
