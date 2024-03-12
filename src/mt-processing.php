@@ -105,7 +105,7 @@ function mt_add_ticket_form() {
 	}
 	if ( function_exists( 'mc_location_select' ) ) {
 		$selector = "
-		<label for='mt-event-location'>" . __( 'Select a location', 'my-tickets' ) . "
+		<label for='mt-event-location'>" . __( 'Select a location', 'my-tickets' ) . "</label>
 		<select name='mt-event-location' id='mt-event-location'>
 			<option value=''> -- </option>
 			" . mc_location_select( $location ) . '
