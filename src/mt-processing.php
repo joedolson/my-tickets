@@ -306,7 +306,7 @@ function mt_registration_fields( $form, $has_data, $data, $context = 'admin', $m
 	$is_hidden      = ( 'true' === $hide ) ? ' checked="checked"' : '';
 	$model_selector = '';
 	if ( empty( $registration ) ) {
-		$model    = ( '' !== $model ) ? $model : $options['default_model'];
+		$model = ( '' !== $model ) ? $model : $options['default_model'];
 		if ( $data ) {
 			$data = '<div class="hidden mt-ticket-data-json">' . esc_html( json_encode( $data ) ) . '</div>';
 		} else {
