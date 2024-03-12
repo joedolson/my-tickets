@@ -1,12 +1,12 @@
 jQuery(document).ready(function ($) {
-	var initial_status    = $('.mt-trigger').prop('checked');
-	var admissionType     = $('input[name=mt_general]');
+	let initial_status    = $('.mt-trigger').prop('checked');
+	const admissionType     = $('input[name=mt_general]');
 	$( '.expire_date' ).hide();
-	var admissionSelected = false;
+	let admissionSelected = false;
 	admissionType.each( function() {
 		admissionSelected = $( this ).prop('checked' );
 	});
-	var selector = $( 'select[name=mt_valid]');
+	const selector = $( 'select[name=mt_valid]');
 	if ( selector.val() === 'expire' ) {
 		$( '.expire_date' ).show();
 	}
@@ -17,12 +17,28 @@ jQuery(document).ready(function ($) {
 			$( '.expire_date' ).hide();
 		}
 	});
+	const regExpire = $( '#reg_expires' );
+	const responseRegion = $( '#reg_expiration' );
+	regExpire.on( 'keyup change click', function(e) {
+		let response;
+		let val = Math.abs( $( this ).val() );
+		let hours = Math.floor(val);
+		let mins = 60 * (val - hours);
+		let formatted = hours + ':' + mins.toString().padStart( 2, '0' );
+	
+		if ( $( this ).val() < 0 ) {
+			response = mtShow.expireAfter.replace( '%s', formatted ); //+ ' after the event begins';
+		} else {
+			response = mtShow.expireBefore.replace( '%s', formatted ); // before the event begins';
+		}
+		responseRegion.text( response );
+	});
 	if (initial_status !== true) {
 		$('.mt-ticket-form').hide();
 		$( '.mt-ticket-form input' ).attr( 'disabled', 'disabled' );
 		$('.mt-ticket-data input').removeAttr('required').removeAttr('aria-required');
 	} else {
-		var general_status = $('input[name=mt_general]:checked').val();
+		let general_status = $('input[name=mt_general]:checked').val();
 		if (general_status !== 'general') {
 			$('.mt-ticket-dates input').attr('required', 'required').attr('aria-required', 'true');
 			$('.mt-available-tickets input').attr('required', 'required').attr('aria-required', 'true');
@@ -34,7 +50,7 @@ jQuery(document).ready(function ($) {
 		}
 	}
 	$('.mt-trigger').on('click', function () {
-		var checked_status = $(this).prop('checked');
+		let checked_status = $(this).prop('checked');
 		if ( ! admissionSelected ) {
 			$( '#mt-general-dated').prop( 'checked', true );
 			$('.mt-ticket-dates').show();
@@ -53,7 +69,7 @@ jQuery(document).ready(function ($) {
 		}
 	});
 	$('input[name=mt_general]').on('change', function () {
-		var checked_status = $('input[name=mt_general]:checked').val();
+		let checked_status = $('input[name=mt_general]:checked').val();
 		if (checked_status == 'general') {
 			$('.mt-ticket-dates').hide();
 			$('.mt-ticket-dates input').removeAttr('required').removeAttr('aria-required');

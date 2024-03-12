@@ -378,7 +378,7 @@ function mt_get_registration_fields( $form, $has_data, $data, $context = 'admin'
 	$form   = mt_prices_table( $registration, $method );
 	$form  .= "
 	<p>
-		<label for='reg_expires'>" . __( 'Allow sales until', 'my-tickets' ) . "</label> <input type='number' name='reg_expires' id='reg_expires' value='$expiration' aria-labelledby='reg_expires reg_expires_label' size='3' /> <span class='label' id='reg_expires_label'>" . __( 'hours before the event', 'my-tickets' ) . "</span>
+		<label for='reg_expires'>" . __( 'Ticket sales end:', 'my-tickets' ) . "</label> <input type='number' name='reg_expires' id='reg_expires' value='$expiration' step='.25' aria-describedby='reg_expiration' size='7' /> <span id='reg_expiration' aria-live='polite'></span>
 	</p>
 	<p>
 		<label for='mt_multiple'>" . __( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ) . "</label> <input type='checkbox' name='mt_multiple' id='mt_multiple' value='true' $is_multiple />
