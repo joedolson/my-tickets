@@ -1,5 +1,6 @@
 (function ($) {
 	$(function () {
+		mtAddToCart();
 		$(".cc-num-valid").hide();
 		$(".cc-num-invalid").hide();
 		$("input.cc-num").payment('formatCardNumber');
@@ -20,7 +21,6 @@
 				e.preventDefault();
 			}
 		});
-
 
 		function validateEmail(email) {
 			const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -44,31 +44,6 @@
 			}
 		});
 
-
-		$('.mt-error-notice').hide();
-		$('.tickets_field').on('blur', function () {
-			var remaining = 0;
-			var purchasing = 0;
-			if ( $(this).val() == '' ) {
-				$(this).val( '0' );
-			}
-			$('.tickets-remaining .value').each(function () {
-				var current_value = parseInt($(this).text());
-				remaining = remaining + current_value;
-			});
-			$('.tickets_field').each(function () {
-				var disabled = $( this ).attr( 'disabled' ) == 'disabled';
-				if ( ! disabled ) {
-					var current_value = Number($(this).val());
-					purchasing = purchasing + current_value;
-				}
-			});
-			if (purchasing > remaining) {
-				$('button[name="mt_add_to_cart"]').addClass('mt-invalid-purchase').attr('disabled', 'disabled');
-			} else {
-				$('button[name="mt_add_to_cart"]').removeClass('mt-invalid-purchase').removeAttr('disabled');
-			}
-		});
 		$('.mt_cart button:not(.mt-plugin,.mt-gateway-selector)').on('click', function (e) {
 			$( 'input[name="mt_submit"]' ).prop( 'disabled', true );
 			$( '.mt-response' ).html( '<p class="mt-response-processing">' + mt_ajax_cart.processing + '</p>' ).show();
@@ -145,62 +120,6 @@
 			$('input[name="mt_gateway"]').val(gateway);
 		});
 
-		var orderButton = $( '.ticket-orders button[name="mt_add_to_cart"]' );
-	 	orderButton.on( 'click', function(e) {
-			var fields       = [];
-			let allAreFilled = true;
-			$( ".ticket-orders *[required]" ).each(function(index,i) {
-				if ( !i.value ) {
-					allAreFilled = false;
-					fields.push( i );
-				}
-				if ( i.type === 'radio' ) {
-					let radioValueCheck = false;
-					document.querySelectorAll(`.ticket-orders input[name=${i.name}]`).forEach(function(r) {
-						if (r.checked) {
-							radioValueCheck = true;
-						}
-					});
-					if ( ! radioValueCheck ) {
-						fields.push( i );
-					}
-					allAreFilled = radioValueCheck;
-				}
-			});
-			if ( !allAreFilled ) {
-				var response = $( this ).parents( '.mt-order' ).find( '.mt-response');
-				var list = '';
-				fields.forEach( function(index, e) {
-					var id = index.id;
-					var name = $( 'label[for=' + id + ']' ).text();
-					var error = '<li><a href="#' + id + '">' + name + '</a></li>';
-					list += error;
-				});
-				response.html( '<p>' + mt_ajax.requiredFieldsText + '</p><ul>' + list + '</ul>' );
-			} else {
-				$('.mt-processing').show();
-				e.preventDefault();
-				var post = $(this).closest('.ticket-orders').serialize();
-				var data = {
-					'action': mt_ajax.action,
-					'data': post,
-					'function': 'add_to_cart',
-					'security': mt_ajax.security
-				};
-				$.post(mt_ajax.url, data, function (response) {
-					$('#mt-response-' + response.event_id).html("<p>" + response.response + "</p>").show(300).attr('tabindex','-1').focus();
-					if ( response.success == 1 ) {
-						if ( mt_ajax.redirect == '0' ){
-							$('.mt_qc_tickets').text(response.count);
-							$('.mt_qc_total').text(parseFloat(response.total, 10).toFixed(2).replace('/(\d)(?=(\d{3})+\.)/g', "$1,").toString());
-						} else {
-							window.location.replace( mt_ajax.cart_url );
-						}
-					}
-				}, "json");
-				$('.mt-processing').hide();
-			}
-		});
 
 		// on checkbox, update private data
 		$('.mt_save_shipping').on('click', function (e) {
@@ -235,6 +154,121 @@
 			}, "json" );
 			$('.mt-processing').hide();
 		});
+
+		/* Add to Cart form */
+		function mtAddToCart() {
+			$('.mt-error-notice') .hide();
+			$('.tickets_field').on('blur', function () {
+				var remaining = 0;
+				var purchasing = 0;
+				if ( $(this).val() == '' ) {
+					$(this).val( '0' );
+				}
+				$('.tickets-remaining .value').each(function () {
+					var current_value = parseInt($(this).text());
+					remaining = remaining + current_value;
+				});
+				$('.tickets_field').each(function () {
+					var disabled = $( this ).attr( 'disabled' ) == 'disabled';
+					if ( ! disabled ) {
+						var current_value = Number($(this).val());
+						purchasing = purchasing + current_value;
+					}
+				});
+				if (purchasing > remaining) {
+					$('button[name="mt_add_to_cart"]').addClass('mt-invalid-purchase').attr('disabled', 'disabled');
+				} else {
+					$('button[name="mt_add_to_cart"]').removeClass('mt-invalid-purchase').removeAttr('disabled');
+				}
+			});
+			/* Custom ticket count incrementing. */
+			$( '.mt-increment' ).on( 'click', function() {
+				var field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
+				var value = parseInt( field.val() );
+				var max   = parseInt( field.attr( 'max' ) );
+				var newval = value + 1;
+				if ( newval <= max ) {
+					field.val( newval );
+				} else {
+					field.val( max );
+					newval = max;
+				}
+				newval = newval.toString();
+				wp.a11y.speak( newval, 'assertive' );
+			});
+
+			$( '.mt-decrement' ).on( 'click', function() {
+				var field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
+				var value = parseInt( field.val() );
+				var min   = parseInt( field.attr( 'min' ) );
+				var newval = value - 1;
+				if ( newval >= min ) {
+					field.val( newval );
+				} else {
+					field.val( min );
+					newval = min;
+				}
+				newval = newval.toString();
+				wp.a11y.speak( newval, 'assertive' );
+			});
+			/* Check whether the form requirements are fulfilled. */
+			var orderButton = $( '.ticket-orders button[name="mt_add_to_cart"]' );
+			orderButton.on( 'click', function(e) {
+				var fields       = [];
+				let allAreFilled = true;
+				$( ".ticket-orders *[required]" ).each(function(index,i) {
+					if ( !i.value ) {
+						allAreFilled = false;
+						fields.push( i );
+					}
+					if ( i.type === 'radio' ) {
+						let radioValueCheck = false;
+						document.querySelectorAll(`.ticket-orders input[name=${i.name}]`).forEach(function(r) {
+							if (r.checked) {
+								radioValueCheck = true;
+							}
+						});
+						if ( ! radioValueCheck ) {
+							fields.push( i );
+						}
+						allAreFilled = radioValueCheck;
+					}
+				});
+				if ( !allAreFilled ) {
+					var response = $( this ).parents( '.mt-order' ).find( '.mt-response');
+					var list = '';
+					fields.forEach( function(index, e) {
+						var id = index.id;
+						var name = $( 'label[for=' + id + ']' ).text();
+						var error = '<li><a href="#' + id + '">' + name + '</a></li>';
+						list += error;
+					});
+					response.html( '<p>' + mt_ajax.requiredFieldsText + '</p><ul>' + list + '</ul>' );
+				} else {
+					$('.mt-processing').show();
+					e.preventDefault();
+					var post = $(this).closest('.ticket-orders').serialize();
+					var data = {
+						'action': mt_ajax.action,
+						'data': post,
+						'function': 'add_to_cart',
+						'security': mt_ajax.security
+					};
+					$.post(mt_ajax.url, data, function (response) {
+						$('#mt-response-' + response.event_id).html("<p>" + response.response + "</p>").show(300).attr('tabindex','-1').focus();
+						if ( response.success == 1 ) {
+							if ( mt_ajax.redirect == '0' ){
+								$('.mt_qc_tickets').text(response.count);
+								$('.mt_qc_total').text(parseFloat(response.total, 10).toFixed(2).replace('/(\d)(?=(\d{3})+\.)/g', "$1,").toString());
+							} else {
+								window.location.replace( mt_ajax.cart_url );
+							}
+						}
+					}, "json");
+					$('.mt-processing').hide();
+				}
+			});
+		}
 
 		// extend cart expiration.
 		$('.mt-extend-button').on('click', function (e) {
@@ -295,36 +329,6 @@
 				timer.html( 'Expired' );
 			}
 		}
-
-		$( '.mt-increment' ).on( 'click', function() {
-			var field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
-			var value = parseInt( field.val() );
-			var max   = parseInt( field.attr( 'max' ) );
-			var newval = value + 1;
-			if ( newval <= max ) {
-				field.val( newval );
-			} else {
-				field.val( max );
-				newval = max;
-			}
-			newval = newval.toString();
-			wp.a11y.speak( newval, 'assertive' );
-		});
-
-		$( '.mt-decrement' ).on( 'click', function() {
-			var field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
-			var value = parseInt( field.val() );
-			var min   = parseInt( field.attr( 'min' ) );
-			var newval = value - 1;
-			if ( newval >= min ) {
-				field.val( newval );
-			} else {
-				field.val( min );
-				newval = min;
-			}
-			newval = newval.toString();
-			wp.a11y.speak( newval, 'assertive' );
-		});
 	});
 }(jQuery));
 
