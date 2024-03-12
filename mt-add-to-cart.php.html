@@ -118,7 +118,6 @@ function mt_check_early_returns( $event_id, $override ) {
 		return false;
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-	print_r( $registration );
 	// if no 'total' is set at all, this is not an event with tickets.
 	if ( empty( $registration['prices'] ) ) {
 		return false;

@@ -131,7 +131,7 @@ function mt_add_ticket_form() {
 	}
 	if ( function_exists( 'mc_location_select' ) ) {
 		$selector = "
-		&lt;label for='mt-event-location'>" . __( 'Select a location', 'my-tickets' ) . "
+		&lt;label for='mt-event-location'>" . __( 'Select a location', 'my-tickets' ) . "&lt;/label>
 		&lt;select name='mt-event-location' id='mt-event-location'>
 			&lt;option value=''> -- &lt;/option>
 			" . mc_location_select( $location ) . '
@@ -404,7 +404,7 @@ function mt_get_registration_fields( $form, $has_data, $data, $context = 'admin'
 	$form   = mt_prices_table( $registration, $method );
 	$form  .= "
 	&lt;p>
-		&lt;label for='reg_expires'>" . __( 'Allow sales until', 'my-tickets' ) . "&lt;/label> &lt;input type='number' name='reg_expires' id='reg_expires' value='$expiration' aria-labelledby='reg_expires reg_expires_label' size='3' /> &lt;span class='label' id='reg_expires_label'>" . __( 'hours before the event', 'my-tickets' ) . "&lt;/span>
+		&lt;label for='reg_expires'>" . __( 'Ticket sales end:', 'my-tickets' ) . "&lt;/label> &lt;input type='number' name='reg_expires' id='reg_expires' value='$expiration' step='.25' aria-describedby='reg_expiration' size='7' /> &lt;span id='reg_expiration' aria-live='polite'>&lt;/span>
 	&lt;/p>
 	&lt;p>
 		&lt;label for='mt_multiple'>" . __( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ) . "&lt;/label> &lt;input type='checkbox' name='mt_multiple' id='mt_multiple' value='true' $is_multiple />

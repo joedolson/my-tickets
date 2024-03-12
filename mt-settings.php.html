@@ -639,6 +639,16 @@ function mt_wp_enqueue_scripts() {
 	}
 	if ( 'post' === $current_screen->base &amp;&amp; in_array( $current_screen->id, $options['mt_post_types'], true ) || 'toplevel_page_my-calendar' === $current_screen->base ) {
 		wp_enqueue_script( 'mt.show', plugins_url( 'js/jquery.showfields.js', __FILE__ ), array( 'jquery' ), $version, true );
+		wp_localize_script(
+			'mt.show',
+			'mtShow',
+			array(
+				// translators: quantity of time in H:MM format.
+				'expireAfter'  => __( '%s after the event starts.', 'my-tickets' ),
+				// translators: quantity of time in H:MM format.
+				'expireBefore' => __( '%s before the event starts.', 'my-tickets' ),
+			)
+		);
 	}
 }
 
