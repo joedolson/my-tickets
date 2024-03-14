@@ -30,8 +30,8 @@
 		$( '.mt_email_check span' ).hide();
 
 		$( '#mt_email2' ).on( 'keyup', function() {
-			var email_one = $( '#mt_email' ).val();
-			var email_two = $( '#mt_email2' ).val();
+			let email_one = $( '#mt_email' ).val();
+			let email_two = $( '#mt_email2' ).val();
 			if ( ! validateEmail( email_one ) ) {
 				$( '.mt_email_check .notemail' ).show();
 				$( '.mt_email_check .ok, .mt_email_check .mismatch' ).hide();
@@ -48,23 +48,24 @@
 			$( 'input[name="mt_submit"]' ).prop( 'disabled', true );
 			$( '.mt-response' ).html( '<p class="mt-response-processing">' + mt_ajax_cart.processing + '</p>' ).show();
 			e.preventDefault();
-			var action = $(this).attr('class');
-			var target = $(this).attr('rel');
-			var event_id = $(this).attr('data-id');
-			var event_type = $(this).attr('data-type');
-			var val = $(target + ' .mt_count').val();
-			var remain = $(target + ' .count').attr( 'data-limit' );
+			let action = $(this).attr('class');
+			let target = $(this).attr('rel');
+			let event_id = $(this).attr('data-id');
+			let event_type = $(this).attr('data-type');
+			let val = $(target + ' .mt_count').val();
+			let remain = $(target + ' .count').attr( 'data-limit' );
+			let newval;
 
 			if ( action == 'more' ) {
-				var newval = parseInt(val) + 1;
+				newval = parseInt(val) + 1;
 			} else if ( action == 'less' ) {
 				if ( parseInt(val) == 0 ) {
-					var newval = 0;
+					newval = 0;
 					$(target).addClass('removed');
 				}
-				var newval = parseInt(val) - 1;
+				newval = parseInt(val) - 1;
 			} else {
-				var newval = 0;
+				newval = 0;
 				$(target).addClass('removed');
 			}
 			// Prevent setting negative values.
@@ -76,21 +77,21 @@
 			} else {
 				$(target + ' .mt_count').val(newval);
 				$(target + ' span.count').text(newval);
-				var total = 0;
-				var tCount = 0;
+				let total = 0;
+				let tCount = 0;
 				$('td .count').each(function () {
 					if ($(this).is(':visible')) {
-						var count = $(this).text();
-						var price = $(this).parent('td').children('.price').text();
+						let count = $(this).text();
+						let price = $(this).parent('td').children('.price').text();
 						price = price.replace( mt_ajax_cart.thousands, '' );
 						total += parseInt(count) * parseFloat(price);
 						tCount += parseInt(count);
 					}
 				});
-				var mtTotal = parseFloat(total).toFixed(2).replace('/(\d)(?=(\d{3})+\.)/g', "$1,");
+				let mtTotal = parseFloat(total).toFixed(2).replace('/(\d)(?=(\d{3})+\.)/g', "$1,");
 				$('.mt_total_number').text( mt_ajax.currency + mtTotal.toString());
 
-				var data = {
+				let data = {
 					'action': mt_ajax_cart.action,
 					'data': {mt_event_id: event_id, mt_event_tickets: newval, mt_event_type: event_type},
 					'security': mt_ajax_cart.security
@@ -114,8 +115,8 @@
 			$(this).parent('li').addClass('active');
 			$('.gateway-selector button' ).removeAttr( 'aria-current' );
 			$(this).attr( 'aria-current', 'true' );
-			var gateway = $(this).attr('data-assign');
-			var handling = mt_ajax_cart.handling[gateway];
+			let gateway = $(this).attr('data-assign');
+			let handling = mt_ajax_cart.handling[gateway];
 			$( '.mt_cart_handling .price' ).text( handling );
 			$('input[name="mt_gateway"]').val(gateway);
 		});
@@ -126,14 +127,14 @@
 			e.preventDefault();
 			$('.mt-processing').show();
 
-			var street  = $('.mt_street').val();
-			var street2 = $('.mt_street2').val();
-			var city    = $('.mt_city').val();
-			var state   = $('.mt_state').val();
-			var code    = $('.mt_code').val();
-			var country = $('.mt_country').val();
+			let street  = $('.mt_street').val();
+			let street2 = $('.mt_street2').val();
+			let city    = $('.mt_city').val();
+			let state   = $('.mt_state').val();
+			let code    = $('.mt_code').val();
+			let country = $('.mt_country').val();
 
-			var post = {
+			let post = {
 				"street": street,
 				"street2": street2,
 				"city": city,
@@ -142,14 +143,14 @@
 				"country": country
 			};
 
-			var data = {
+			let data = {
 				'action': mt_ajax.action,
 				'data': post,
 				'function': 'save_address',
 				'security': mt_ajax.security
 			};
 			$.post( mt_ajax.url, data, function (response) {
-				var message = response.response;
+				let message = response.response;
 				$( '.mt-response' ).html( "<p>" + message + "</p>" ).show( 300 );
 			}, "json" );
 			$('.mt-processing').hide();
@@ -157,21 +158,23 @@
 
 		/* Add to Cart form */
 		function mtAddToCart() {
+			const addToCart = $( '.mt-order .ticket-orders' );
+
 			$('.mt-error-notice') .hide();
-			$('.tickets_field').on('blur', function () {
-				var remaining = 0;
-				var purchasing = 0;
+			addToCart.on('blur', '.tickets-field', function () {
+				let remaining = 0;
+				let purchasing = 0;
 				if ( $(this).val() == '' ) {
 					$(this).val( '0' );
 				}
 				$('.tickets-remaining .value').each(function () {
-					var current_value = parseInt($(this).text());
+					let current_value = parseInt($(this).text());
 					remaining = remaining + current_value;
 				});
 				$('.tickets_field').each(function () {
-					var disabled = $( this ).attr( 'disabled' ) == 'disabled';
+					let disabled = $( this ).attr( 'disabled' ) == 'disabled';
 					if ( ! disabled ) {
-						var current_value = Number($(this).val());
+						let current_value = Number($(this).val());
 						purchasing = purchasing + current_value;
 					}
 				});
@@ -182,11 +185,11 @@
 				}
 			});
 			/* Custom ticket count incrementing. */
-			$( '.mt-increment' ).on( 'click', function() {
-				var field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
-				var value = parseInt( field.val() );
-				var max   = parseInt( field.attr( 'max' ) );
-				var newval = value + 1;
+			addToCart.on( 'click', '.mt-increment', function() {
+				let field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
+				let value = parseInt( field.val() );
+				let max   = parseInt( field.attr( 'max' ) );
+				let newval = value + 1;
 				if ( newval <= max ) {
 					field.val( newval );
 				} else {
@@ -197,11 +200,11 @@
 				wp.a11y.speak( newval, 'assertive' );
 			});
 
-			$( '.mt-decrement' ).on( 'click', function() {
-				var field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
-				var value = parseInt( field.val() );
-				var min   = parseInt( field.attr( 'min' ) );
-				var newval = value - 1;
+			addToCart.on( 'click', '.mt-decrement', function() {
+				let field = $( this ).parent( '.mt-ticket-input' ).find( 'input' );
+				let value = parseInt( field.val() );
+				let min   = parseInt( field.attr( 'min' ) );
+				let newval = value - 1;
 				if ( newval >= min ) {
 					field.val( newval );
 				} else {
@@ -212,9 +215,8 @@
 				wp.a11y.speak( newval, 'assertive' );
 			});
 			/* Check whether the form requirements are fulfilled. */
-			var orderButton = $( '.ticket-orders button[name="mt_add_to_cart"]' );
-			orderButton.on( 'click', function(e) {
-				var fields       = [];
+			addToCart.on( 'click', 'button[name="mt_add_to_cart"]', function(e) {
+				let fields       = [];
 				let allAreFilled = true;
 				$( ".ticket-orders *[required]" ).each(function(index,i) {
 					if ( !i.value ) {
@@ -235,20 +237,20 @@
 					}
 				});
 				if ( !allAreFilled ) {
-					var response = $( this ).parents( '.mt-order' ).find( '.mt-response');
-					var list = '';
+					let response = $( this ).parents( '.mt-order' ).find( '.mt-response');
+					let list = '';
 					fields.forEach( function(index, e) {
-						var id = index.id;
-						var name = $( 'label[for=' + id + ']' ).text();
-						var error = '<li><a href="#' + id + '">' + name + '</a></li>';
+						let id = index.id;
+						let name = $( 'label[for=' + id + ']' ).text();
+						let error = '<li><a href="#' + id + '">' + name + '</a></li>';
 						list += error;
 					});
 					response.html( '<p>' + mt_ajax.requiredFieldsText + '</p><ul>' + list + '</ul>' );
 				} else {
 					$('.mt-processing').show();
 					e.preventDefault();
-					var post = $(this).closest('.ticket-orders').serialize();
-					var data = {
+					let post = $(this).closest('.ticket-orders').serialize();
+					let data = {
 						'action': mt_ajax.action,
 						'data': post,
 						'function': 'add_to_cart',
@@ -274,13 +276,13 @@
 		$('.mt-extend-button').on('click', function (e) {
 			$('.mt-processing').show();
 
-			var data = {
+			let data = {
 				'action': mt_ajax.action,
 				'function': 'extend_cart',
 				'security': mt_ajax.security
 			};
 			$.post( mt_ajax.url, data, function (response) {
-				var message = response.response;
+				let message = response.response;
 				$( '.mt-expiration-update' ).html( "<p>" + message + "</p>" ).show( 300 );
 			}, "json" );
 			$('.mt-processing').hide();
@@ -288,13 +290,13 @@
 
 		// Remove unsubmitted flag.
 		$( '.mt-payment-form form' ).on( 'submit', function(e) {
-			var unsubmitted = $( '#mt_unsubmitted' );
+			let unsubmitted = $( '#mt_unsubmitted' );
 			unsubmitted.remove();
 		});
 
 		$('.mt-payments button').on( 'click', function (e) {
-			var expanded = ( $( this ).attr( 'aria-expanded' ) == 'true' ) ? true : false;
-			var controls = $( this ).next( '.mt-payment-details' );
+			let expanded = ( $( this ).attr( 'aria-expanded' ) == 'true' ) ? true : false;
+			let controls = $( this ).next( '.mt-payment-details' );
 			if ( expanded ) {
 				controls.hide();
 				$( this ).attr( 'aria-expanded', 'false' );
@@ -306,24 +308,24 @@
 
 		setTimeout( function() { 
 			setInterval( function() {
-				var time = $('.mt-expiration-update').text();
+				let time = $('.mt-expiration-update').text();
 				wp.a11y.speak( time );
 			}, 1000 * 60 ); 
 		}, 1000 );
 
-		var timer = $('#mt-timer');
+		const timer = $('#mt-timer');
 		setInterval( mtUpdateTimer, 5000, timer );
 	
 		function mtUpdateTimer( timer ) {
-			var seconds = timer.data('start');
+			let seconds = timer.data('start');
 			if ( seconds > 0 ) {
-				var second = seconds - 5;
+				let second = seconds - 5;
 				timer.data( 'start', second );
 	
-				var date = new Date(null);
+				let date = new Date(null);
 				date.setSeconds( second ); 
-				var min = date.getMinutes();
-				var sec = date.getSeconds();
+				let min = date.getMinutes();
+				let sec = date.getSeconds();
 				timer.html( min + 'min ' + sec + 'sec' );
 			} else {
 				timer.html( 'Expired' );
@@ -333,8 +335,8 @@
 }(jQuery));
 
 window.addEventListener( 'beforeunload', function(e) {
-	var unsubmitted = document.getElementById( 'mt_unsubmitted' );
-	var hold        = ( typeof( unsubmitted ) != 'undefined' && unsubmitted != null ) ? true : false;
+	let unsubmitted = document.getElementById( 'mt_unsubmitted' );
+	let hold        = ( typeof( unsubmitted ) != 'undefined' && unsubmitted != null ) ? true : false;
 	if ( hold ) {
 		// following lines cause the browser to ask the user if they want to leave.
 		// The text of this dialog is controlled by the browser.
