@@ -16,6 +16,11 @@ Sell Event Tickets on any post
 
 This is the development environment for My Tickets.
 
+## Documentation
+
+* [My Tickets Public Documetation](https://docs.joedolson.com/my-tickets/)
+* [My Tickets Hook Documentation](https://joedolson.github.io/my-tickets/)
+
 ## Contact
 
 Support questions should be sent via the Support form that appears on the Help screen within the plug-in.
