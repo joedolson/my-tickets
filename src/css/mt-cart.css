@@ -106,7 +106,7 @@
 fieldset .mt-ticket-field input:not([type=submit]), fieldset .mt-ticket-field select {
     margin: 0;
     margin-bottom: 0;
-	width: 4rem;
+	width: 4em;
 }
 
 .mt-ticket-field.mt-price-in-label {
