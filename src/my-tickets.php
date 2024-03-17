@@ -389,6 +389,18 @@ function mt_reg_styles() {
 	wp_enqueue_style( 'mt-styles', plugins_url( '/css/my-tickets.css', __FILE__ ), array(), $version );
 }
 
+add_action( 'admin_enqueue_scripts', 'mt_admin_enqueue_public_scripts' );
+/**
+ * If on My Calendar admin design page, enqueue public scripts.
+ */
+function mt_admin_enqueue_public_scripts() {
+	global $current_screen;
+	$id = $current_screen->id;
+	if ( 'my-calendar_page_my-calendar-design' === $id ) {
+		mt_public_enqueue_scripts();
+	}
+}
+
 add_action( 'wp_enqueue_scripts', 'mt_public_enqueue_scripts' );
 /**
  * Enqueue public-facing scripts and styles. Localize scripts.
