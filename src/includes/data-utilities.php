@@ -103,14 +103,6 @@ function mt_extend_expiration( $amount = 300 ) {
  * @param string $unique_id Data key to delete.
  */
 function mt_delete_data( $data = 'cart', $unique_id = false ) {
-	if ( is_user_logged_in() && ! $unique_id ) {
-		$current_user = wp_get_current_user();
-		delete_user_meta( $current_user->ID, "_mt_user_$data" );
-	}
-	$unique_id = ( $unique_id ) ? $unique_id : mt_get_unique_id();
-	if ( $unique_id ) {
-		mt_delete_transient( 'mt_' . $unique_id . '_' . $data );
-	}
 	if ( 'cart' === $data ) {
 		// With no arguments, this removes the current cart from inventory.
 		$inventory_change = mt_get_inventory_change();
@@ -118,6 +110,14 @@ function mt_delete_data( $data = 'cart', $unique_id = false ) {
 			mt_update_inventory( $change['event_id'], $ticket, $change['count'] );
 		}
 		mt_delete_custom_field_data();
+	}
+	if ( is_user_logged_in() && ! $unique_id ) {
+		$current_user = wp_get_current_user();
+		delete_user_meta( $current_user->ID, "_mt_user_$data" );
+	}
+	$unique_id = ( $unique_id ) ? $unique_id : mt_get_unique_id();
+	if ( $unique_id ) {
+		mt_delete_transient( 'mt_' . $unique_id . '_' . $data );
 	}
 }
 
@@ -391,8 +391,8 @@ function mt_is_cart_expired() {
 	$types = mt_get_data_types();
 	if ( is_user_logged_in() ) {
 		$current_user = wp_get_current_user();
+		$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
 		foreach ( $types as $type ) {
-			$data_age = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
 			if ( time() > $data_age ) {
 				// Expire user's cart after the data ages out.
 				if ( 'cart' === $type ) {
@@ -400,9 +400,10 @@ function mt_is_cart_expired() {
 				} else {
 					delete_user_meta( $current_user->ID, "_mt_user_$type" );
 				}
+				// Since this user's data is expired, also remove their expiration window.
+				delete_user_meta( $current_user->ID, '_mt_user_init_expiration' );
 			}
 		}
-		delete_user_meta( $current_user->ID, '_mt_user_init_expiration' );
 	} else {
 		$unique_id = mt_get_unique_id();
 		if ( $unique_id ) {
