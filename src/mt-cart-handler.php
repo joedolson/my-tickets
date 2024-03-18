@@ -212,7 +212,7 @@ function mt_get_inventory_change( $passed = array(), $saved = array() ) {
 			$old_count = absint( ( isset( $saved[ $event_id ] ) ) ? $saved[ $event_id ][ $type ] : 0 );
 			$new_count = absint( $new_count );
 			// If no change, don't include unless removing cart.
-			if ( $new_count !== $old_count && ! $remove ) {
+			if ( $new_count !== $old_count || $remove ) {
 				$increment        = ( $remove ) ? ( $old_count * -1 ) : ( $old_count - $new_count ) * -1;
 				$changes[ $type ] = array(
 					'event_id' => $event_id,
