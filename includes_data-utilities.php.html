@@ -129,7 +129,6 @@ function mt_extend_expiration( $amount = 300 ) {
  * @param string $unique_id Data key to delete.
  */
 function mt_delete_data( $data = 'cart', $unique_id = false ) {
-	return;
 	if ( is_user_logged_in() &amp;&amp; ! $unique_id ) {
 		$current_user = wp_get_current_user();
 		delete_user_meta( $current_user->ID, "_mt_user_$data" );
@@ -473,11 +472,6 @@ function mt_get_transient( $transient_id ) {
  * @param string $transient_id Option name.
  */
 function mt_delete_transient( $transient_id ) {
-	if ( strpos( $transient_id, '_cart' ) ) {
-		// If this is a cart transient, parse out unique ID and update inventory.
-		$unique_id = str_replace( array( 'mt_', '_cart' ), '', $transient_id );
-		mt_delete_data( 'cart', $unique_id );
-	}
 	delete_option( $transient_id );
 }
 
