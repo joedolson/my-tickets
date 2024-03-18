@@ -138,7 +138,8 @@ function mt_delete_data( $data = 'cart', $unique_id = false ) {
 		mt_delete_transient( 'mt_' . $unique_id . '_' . $data );
 	}
 	if ( 'cart' === $data ) {
-		$inventory_change = mt_get_inventory_change( array() );
+		// With no arguments, this removes the current cart from inventory.
+		$inventory_change = mt_get_inventory_change();
 		foreach ( $inventory_change as $ticket => $change ) {
 			mt_update_inventory( $change['event_id'], $ticket, $change['count'] );
 		}
@@ -472,6 +473,13 @@ function mt_get_transient( $transient_id ) {
  * @param string $transient_id Option name.
  */
 function mt_delete_transient( $transient_id ) {
+	if ( strpos( $transient_id, '_cart' ) ) {
+		// If this is a cart transient, parse out unique ID and update inventory.
+		$inventory_change = mt_get_inventory_change();
+		foreach ( $inventory_change as $ticket => $change ) {
+			mt_update_inventory( $change['event_id'], $ticket, $change['count'] );
+		}
+	}
 	delete_option( $transient_id );
 }
 
