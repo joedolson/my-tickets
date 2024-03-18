@@ -446,11 +446,6 @@ function mt_get_transient( $transient_id ) {
  * @param string $transient_id Option name.
  */
 function mt_delete_transient( $transient_id ) {
-	if ( strpos( $transient_id, '_cart' ) ) {
-		// If this is a cart transient, parse out unique ID and update inventory.
-		$unique_id = str_replace( array( 'mt_', '_cart' ), '', $transient_id );
-		mt_delete_data( 'cart', $unique_id );
-	}
 	delete_option( $transient_id );
 }
 
