@@ -191,23 +191,29 @@ function mt_create_payment( $post ) {
 /**
  * Get inventory change comparing submitted cart data and existing cart data.
  *
- * @param array $passed Data passed from cart form.
+ * @param array $passed Data passed from cart form. If empty, removing existing cart.
  * @param array $saved Data currently saved in cart.
  *
  * @return array Array of changes to record.
  */
-function mt_get_inventory_change( $passed, $saved = array() ) {
+function mt_get_inventory_change( $passed = array(), $saved = array() ) {
+	$remove = false;
 	if ( empty( $saved ) ) {
 		$saved = mt_get_cart();
+	}
+	if ( empty( $passed ) ) {
+		// If no data passed, we need to remove the current cart.
+		$passed = $saved;
+		$remove = true;
 	}
 	$changes = array();
 	foreach ( $passed as $event_id => $counts ) {
 		foreach ( $counts as $type => $new_count ) {
 			$old_count = absint( ( isset( $saved[ $event_id ] ) ) ? $saved[ $event_id ][ $type ] : 0 );
 			$new_count = absint( $new_count );
-			// If no change, don't include.
-			if ( $new_count !== $old_count ) {
-				$increment        = ( $old_count - $new_count ) * -1;
+			// If no change, don't include unless removing cart.
+			if ( $new_count !== $old_count && ! $remove ) {
+				$increment        = ( $remove ) ? ( $old_count * -1 ) : ( $old_count - $new_count ) * -1;
 				$changes[ $type ] = array(
 					'event_id' => $event_id,
 					'count'    => $increment,
