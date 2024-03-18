@@ -317,18 +317,7 @@ function mt_check_inventory( $event_id, $type = '' ) {
 			$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
 		}
 	}
-	// Virtual inventory holds tickets in carts but not yet sold.
-	$virtual_inventory = get_post_meta( $event_id, '_mt_virtual_inventory', true );
-	if ( '' !== $type ) {
-		$current_virtual = isset( $virtual_inventory[ $type ] ) ? $virtual_inventory[ $type ] : 0;
-	} else {
-		$current_virtual = 0;
-		if ( is_array( $virtual_inventory ) ) {
-			foreach ( $virtual_inventory as $type => $quantity ) {
-				$current_virtual += (int) $quantity;
-			}
-		}
-	}
+
 	/**
 	 * Filter whether a particular event uses virtual inventory. Return 'virtual' to use the virtual inventory, 'actual' to use completed purchases only.
 	 *
@@ -340,7 +329,20 @@ function mt_check_inventory( $event_id, $type = '' ) {
 	 * @return {string}
 	 */
 	$is_virtual = apply_filters( 'mt_is_virtual_inventory', $options['mt_inventory'], $event_id );
-	if ( 'virtual' === $is_virtual ) {
+	if ( 'virtual' === $is_virtual ) {	
+		// Virtual inventory holds tickets in carts but not yet sold.
+		$virtual_inventory = get_post_meta( $event_id, '_mt_virtual_inventory', true );
+		if ( '' !== $type ) {
+			$current_virtual = isset( $virtual_inventory[ $type ] ) ? $virtual_inventory[ $type ] : 0;
+		} else {
+			$current_virtual = 0;
+			if ( is_array( $virtual_inventory ) ) {
+				foreach ( $virtual_inventory as $type => $quantity ) {
+					$current_virtual += (int) $quantity;
+				}
+			}
+		}
+
 		$available = $available - $current_virtual;
 		$sold      = $sold + $current_virtual;
 	}
