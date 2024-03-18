@@ -329,7 +329,7 @@ function mt_check_inventory( $event_id, $type = '' ) {
 	 * @return {string}
 	 */
 	$is_virtual = apply_filters( 'mt_is_virtual_inventory', $options['mt_inventory'], $event_id );
-	if ( 'virtual' === $is_virtual ) {	
+	if ( 'virtual' === $is_virtual ) {
 		// Virtual inventory holds tickets in carts but not yet sold.
 		$virtual_inventory = get_post_meta( $event_id, '_mt_virtual_inventory', true );
 		if ( '' !== $type ) {
