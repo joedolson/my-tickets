@@ -690,7 +690,7 @@ function mt_generate_expiration() {
 	}
 	if ( ( $expiration - time() ) > 24 * HOUR_IN_SECONDS ) {
 		// No message if more than a day.
-	} elseif ( ( $expiration - time() ) > 30 * MINUTE_IN_SECONDS ) {
+	} elseif ( ( $expiration - time() ) > 60 * MINUTE_IN_SECONDS ) {
 		// translators: amount of time remaining before the cart expires.
 		$output = '<div class="mt-expiration-notice"><p>' . sprintf( __( 'Your shopping cart will be saved for another %s.', 'my-tickets' ), human_time_diff( time(), $expiration ) ) . '</p></div>';
 	} else {
