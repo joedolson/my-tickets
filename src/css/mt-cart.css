@@ -45,7 +45,7 @@
 
 .mt-message {
     background: var(--mt-message-bg);
-    color: var(--mt-text-color);
+    color: var(--mt-message-color);
     padding: .75em 1em !important;
     margin-bottom: .5em;
     font-size: 1.1em;
