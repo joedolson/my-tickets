@@ -766,7 +766,7 @@ function mt_generate_cart( $user_ID = false ) {
 				' . $gateway;
 			$output .= mt_generate_cart_table( $cart );
 
-			if ( 0 !== $handling_total ) {
+			if ( $handling_total && 0 !== (int) $handling_total ) {
 				// Translators: amount of handling fee.
 				$output .= "<div class='mt_cart_handling'>" . apply_filters( 'mt_cart_handling_text', sprintf( __( 'A handling fee of %s will be applied to this purchase.', 'my-tickets' ), $handling ), $current_gate ) . '</div>';
 			}
