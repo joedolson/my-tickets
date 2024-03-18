@@ -103,7 +103,6 @@ function mt_extend_expiration( $amount = 300 ) {
  * @param string $unique_id Data key to delete.
  */
 function mt_delete_data( $data = 'cart', $unique_id = false ) {
-	return;
 	if ( is_user_logged_in() && ! $unique_id ) {
 		$current_user = wp_get_current_user();
 		delete_user_meta( $current_user->ID, "_mt_user_$data" );
