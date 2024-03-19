@@ -1,7 +1,7 @@
 === My Tickets - Accessible Event Ticketing ===
 Contributors: joedolson
 Donate link: http://www.joedolson.com/donate/
-Tags: events, ticket sales, tickets, ticketing, registration, reservations, event tickets, sell tickets, event registration, box office
+Tags: ticket sales, registration, reservations, event tickets, accessibility
 Requires at least: 4.9
 Tested up to: 6.4
 Requires PHP: 7.4
@@ -44,6 +44,10 @@ For sellers:
 * General Admission tickets: Sell tickets for events without dates, valid for days, weeks, or months after purchase.
 
 My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com/my-tickets/add-ons/">library of Premium add-ons</a>!
+
+= Accessibility =
+
+My Tickets is built with accessibility in mind, and tested using assistive technology.
 
 = Documentation =
 
