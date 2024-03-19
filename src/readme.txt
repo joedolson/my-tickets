@@ -14,11 +14,11 @@ My Tickets is a simple, flexible platform for selling event tickets with WordPre
 
 Sell tickets for events easily! My Tickets integrates with <a href="http://wordpress.org/plugins/my-calendar/">My Calendar</a> or can be used for ticket sales on its own. Sell tickets for box office pick up, shipping, or accept print-at-home and e-tickets for an easy experience for your ticket holders!
 
-My Tickets ships with PayPal Standard payments, so you can sell tickets immediately. You can also take offline payments, to use My Tickets as a reservation tool.
+My Tickets ships with PayPal Standard payments, so you can sell tickets immediately. You can also take offline payments, to use My Tickets as a reservation tool while you handle payments by mail or at the door.
 
 Explore the <a href="https://www.joedolson.com/my-tickets/add-ons/">premium add-ons for My Tickets</a>!
 
-Premium add-ons include:
+Premium event ticketing add-ons include:
 
 * Payment Gateways: Authorize.net, Stripe
 * In-cart Donations
