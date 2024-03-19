@@ -8,11 +8,11 @@ Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
 Stable tag: 1.11.2
-My Tickets is an simple, flexible platform for selling event tickets with WordPress.
+My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
 
-My Tickets integrates with <a href="http://wordpress.org/plugins/my-calendar/">My Calendar</a> or can be used for ticket sales on its own. Sell tickets for box office pick up, shipping, or accept print-at-home and e-tickets for an easy experience for your ticket holders!
+Sell tickets for events easily! My Tickets integrates with <a href="http://wordpress.org/plugins/my-calendar/">My Calendar</a> or can be used for ticket sales on its own. Sell tickets for box office pick up, shipping, or accept print-at-home and e-tickets for an easy experience for your ticket holders!
 
 My Tickets ships with PayPal Standard payments, so you can sell tickets immediately. You can also take offline payments, to use My Tickets as a reservation tool.
 
@@ -63,7 +63,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
    My Tickets -> Reports
    My Tickets -> Ticketing Help
 
-4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticket parameters to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticket parameters to any post or Page!
+4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
 
