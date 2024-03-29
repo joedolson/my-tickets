@@ -67,7 +67,6 @@ function mt_setup_offline( $gateways ) {
 			'notes'    => __( 'Offline Payment Notes', 'my-tickets' ),
 			'selector' => __( 'Gateway selector label', 'my-tickets' ),
 		),
-		'note'   => '<em>' . __( 'Purchases less than 50 cents will always go this gateway.', 'my-tickets' ) . '</em>',
 	);
 
 	return $gateways;
