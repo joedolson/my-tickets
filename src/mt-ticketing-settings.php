@@ -261,7 +261,7 @@ function mt_ticketing_settings() {
 							<?php
 							$ticket_models = array(
 								'discrete'   => __( 'Seating Sections', 'my-tickets' ),
-								'continuous' => __( 'Audience Types', 'my-tickets' ),,
+								'continuous' => __( 'Audience Types', 'my-tickets' ),
 								'event'      => __( 'Event', 'my-tickets' ),
 							);
 							$tabs          = '';
