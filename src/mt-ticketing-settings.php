@@ -259,10 +259,14 @@ function mt_ticketing_settings() {
 									</ul>
 								</fieldset>
 							<?php
-							$ticket_models = array( 'discrete', 'continuous', 'event' );
+							$ticket_models = array(
+								'discrete'   => __( 'Seating Sections', 'my-tickets' ),
+								'continuous' => __( 'Audience Types', 'my-tickets' ),,
+								'event'      => __( 'Event', 'my-tickets' ),
+							);
 							$tabs          = '';
-							foreach ( $ticket_models as $model ) {
-								$tabs .= "<li><a href='#$model'>" . ucfirst( $model ) . '</a></li>';
+							foreach ( $ticket_models as $model => $label ) {
+								$tabs .= "<li><a href='#$model'>" . $label . '</a></li>';
 							}
 							?>
 							<div class='mt-tabs'>
