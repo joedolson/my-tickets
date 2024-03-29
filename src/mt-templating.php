@@ -649,7 +649,7 @@ function mt_get_event_type( $ticket_id = false ) {
 	}
 	if ( $ticket ) {
 		$options = get_post_meta( $ticket->ID, '_mt_registration_options', true );
-		$method  = $options['counting_method'];
+		$method  = ( ! empty( $options ) && is_array( $options ) ) ? $options['counting_method'] : '';
 
 		return $method;
 	}
