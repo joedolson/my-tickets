@@ -656,8 +656,8 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 				$owed      = $subtotal - $paid;
 				$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 				$row       = "&lt;tr class='$alternate'>
-								&lt;th scope='row' class='mt-last'>$last_name&lt;/th>
-								&lt;td class='mt-first'>$first_name&lt;/td>
+								&lt;th scope='row' class='mt-last'>" . esc_html( $last_name ) . "&lt;/th>
+								&lt;td class='mt-first'>" . esc_html( $first_name ) . "&lt;/td>
 								&lt;td class='mt-type'>" . wpautop( $types ) . "&lt;/td>
 								&lt;td class='mt-tickets'>$ticket_count&lt;/td>
 								&lt;td class='mt-price'>" . apply_filters( 'mt_money_format', $owed ) . "&lt;/td>
