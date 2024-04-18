@@ -55,9 +55,9 @@ function mt_update_ticketing_settings( $post ) {
 			$availability   = ( isset( $post['mt_tickets'][ $model ] ) ) ? $post['mt_tickets'][ $model ] : array();
 			$pricing_array  = mt_setup_pricing( $labels, $prices, $availability, $close );
 
-			$defaults[ $model ]             = $model_defaults;
-			$defaults[ $model ]['pricing']  = $pricing_array;
-			$defaults[ $model ]['tickets']  = ( is_array( $mt_total_tickets ) ) ? $mt_total_tickets[ $model ] : $mt_total_tickets;
+			$defaults[ $model ]            = $model_defaults;
+			$defaults[ $model ]['pricing'] = $pricing_array;
+			$defaults[ $model ]['tickets'] = ( is_array( $mt_total_tickets ) ) ? $mt_total_tickets[ $model ] : $mt_total_tickets;
 		}
 
 		/**
