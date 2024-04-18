@@ -58,7 +58,6 @@ function mt_update_ticketing_settings( $post ) {
 			$defaults[ $model ]             = $model_defaults;
 			$defaults[ $model ]['pricing']  = $pricing_array;
 			$defaults[ $model ]['tickets']  = ( is_array( $mt_total_tickets ) ) ? $mt_total_tickets[ $model ] : $mt_total_tickets;
-			$defaults[ $model ]['multiple'] = ( isset( $post['defaults']['multiple'] ) ) ? $post['defaults']['multiple'] : '';
 		}
 
 		/**
@@ -274,7 +273,7 @@ function mt_ticketing_settings() {
 									<?php echo $tabs; ?>
 								</ul>
 								<?php
-								foreach ( $ticket_models as $model ) {
+								foreach ( $ticket_models as $model => $label ) {
 									$displayed = $options['defaults'][ $model ];
 									$multiple  = ( isset( $displayed['multiple'] ) && 'true' === $displayed['multiple'] ) ? true : false;
 									$type      = $displayed['sales_type'];
@@ -291,21 +290,21 @@ function mt_ticketing_settings() {
 										<div class="mt-flex">
 											<div class="ticket-sale-expiration">
 												<p>
-													<label for='reg_expires_<?php $model; ?>'><?php _e( 'Stop online sales <em>x</em> hours before event', 'my-tickets' ); ?></label>
-													<input type='number' name='defaults[<?php echo $model; ?>][reg_expires]' id='reg_expires_<?php $model; ?>' value='<?php stripslashes( esc_attr( $displayed['reg_expires'] ) ); ?>'/>
+													<label for='reg_expires_<?php echo $model; ?>'><?php _e( 'Stop online sales <em>x</em> hours before event', 'my-tickets' ); ?></label>
+													<input type='number' name='defaults[<?php echo $model; ?>][reg_expires]' id='reg_expires_<?php echo $model; ?>' value='<?php echo stripslashes( esc_attr( $displayed['reg_expires'] ) ); ?>'/>
 												</p>
 												<p>
-													<label for='multiple_<?php $model; ?>'><?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?></label>
-													<input type='checkbox' name='defaults[<?php echo $model; ?>][multiple]' id='multiple_<?php $model; ?>' value='true' <?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
+													<label for='multiple_<?php echo $model; ?>'><?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?></label>
+													<input type='checkbox' name='defaults[<?php echo $model; ?>][multiple]' id='multiple_<?php echo $model; ?>' value='true' <?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
 												</p>
 											</div>
 											<div class="ticket-sale-types">
 												<fieldset>
 													<legend><?php _e( 'Type of Sale', 'my-tickets' ); ?></legend>
 													<p>
-														<input type='radio' name='defaults[<?php echo $model; ?>][sales_type]' id='mt_sales_type_tickets_<?php $model; ?>' value='tickets'<?php checked( $is_tickets, true ); ?> />
+														<input type='radio' name='defaults[<?php echo $model; ?>][sales_type]' id='mt_sales_type_tickets_<?php echo $model; ?>' value='tickets'<?php checked( $is_tickets, true ); ?> />
 														<label for='mt_sales_type_tickets_<?php echo $model; ?>'><?php _e( 'Ticket Sales', 'my-tickets' ); ?></label><br/>
-														<input type='radio' name='defaults[<?php echo $model; ?>][sales_type]' id='mt_sales_type_registration_<?php $model; ?>' value='registration'<?php checked( $is_registration, true ); ?> />
+														<input type='radio' name='defaults[<?php echo $model; ?>][sales_type]' id='mt_sales_type_registration_<?php echo $model; ?>' value='registration'<?php checked( $is_registration, true ); ?> />
 														<label for='mt_sales_type_registration_<?php echo $model; ?>'><?php _e( 'Event Registration', 'my-tickets' ); ?></label>
 													</p>
 												</fieldset>
