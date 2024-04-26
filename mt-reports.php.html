@@ -90,9 +90,9 @@ function mt_reports_page() {
 						&lt;div class="mt-report-selector">
 							&lt;?php mt_choose_report_by_date(); ?>
 							&lt;?php mt_choose_report_by_event(); ?>
-						&lt;/div>
-						&lt;div class='mt-email-purchasers'>
-							&lt;?php mt_email_purchasers(); ?>
+							&lt;div class='mt-email-purchasers'>
+								&lt;?php mt_email_purchasers(); ?>
+							&lt;/div>
 						&lt;/div>
 					&lt;/div>
 				&lt;/div>
@@ -355,20 +355,26 @@ function mt_choose_report_by_event() {
 					&lt;/div>
 					&lt;p>
 					&lt;label for='mt_select_event'>" . __( 'Select Event', 'my-tickets' ) . "&lt;/label>
-					&lt;select name='event_id' id='mt_select_event'>
+					&lt;select name='event_id' id='mt_select_event' class='widefat'>
 						$selector
 					&lt;/select>
 					&lt;/p>
+					&lt;p class='hidden' id='mt_select_ticket_type'>
+						&lt;label for='mt_select_ticket_type'>" . __( 'Ticket Group', 'my-tickets' ) . "&lt;/label>
+						&lt;select id='mt_select_ticket_type' name='mt_select_ticket_type' class='widefat'>
+							&lt;option value='all'>" . __( 'All types' ) . "&lt;/option>
+						&lt;/select>
+					&lt;/p>
 					&lt;p>
 					&lt;label for='mt_select_report_type'>" . __( 'Select Report Type', 'my-tickets' ) . "&lt;/label>
-					&lt;select name='mt-event-report' id='mt_select_report_type'>
+					&lt;select name='mt-event-report' id='mt_select_report_type' class='widefat'>
 						&lt;option value='purchases'" . selected( $report, 'purchases', false ) . '>' . __( 'List of Purchases', 'my-tickets' ) . "&lt;/option>
 						&lt;option value='tickets'" . selected( $report, 'tickets', false ) . '>' . __( 'List of Tickets', 'my-tickets' ) . "&lt;/option>
 					&lt;/select>
 					&lt;/p>
 					&lt;p>
 					&lt;label for='mt_select_format_event'>" . __( 'Report Format', 'my-tickets' ) . "&lt;/label>
-					&lt;select name='format' id='mt_select_format_event'>
+					&lt;select name='format' id='mt_select_format_event' class='widefat'>
 						&lt;option value='csv'>" . __( 'Download CSV', 'my-tickets' ) . "&lt;/option>
 						&lt;option value='view'$selected>" . __( 'View Report', 'my-tickets' ) . "&lt;/option>
 					&lt;/select>
@@ -397,15 +403,15 @@ function mt_choose_report_by_date() {
 					&lt;/div>
 					&lt;p>
 						&lt;label for='mt_start'>" . __( 'Report Start Date', 'my-tickets' ) . "&lt;/label>
-						&lt;input type='date' name='mt_start' id='mt_start' value='$start' />
+						&lt;input type='date' name='mt_start' id='mt_start' value='$start' class='widefat' />
 					&lt;/p>
 					&lt;p>
 						&lt;label for='mt_end'>" . __( 'Report End Date', 'my-tickets' ) . "&lt;/label>
-						&lt;input type='date' name='mt_end' id='mt_end' value='$end' />
+						&lt;input type='date' name='mt_end' id='mt_end' value='$end' class='widefat' />
 					&lt;/p>
 					&lt;p>
 						&lt;label for='mt_select_format_date'>" . __( 'Report Format', 'my-tickets' ) . "&lt;/label>
-						&lt;select name='format' id='mt_select_format_date'>
+						&lt;select name='format' id='mt_select_format_date' class='widefat'>
 							&lt;option value='view'>" . __( 'View Report', 'my-tickets' ) . "&lt;/option>
 							&lt;option value='csv'$selected>" . __( 'Download CSV', 'my-tickets' ) . "&lt;/option>
 						&lt;/select>
@@ -445,17 +451,17 @@ function mt_email_purchasers() {
 			$nonce
 			&lt;p>
 			&lt;label for='mt_select_event_for_email'>" . __( 'Select Event', 'my-tickets' ) . "&lt;/label>
-			&lt;select name='event_id' id='mt_select_event_for_email'>
+			&lt;select name='event_id' id='mt_select_event_for_email' class='widefat'>
 				$selector
 			&lt;/select>
 			&lt;/p>
 			&lt;p>
-			&lt;label for='mt_subject'>" . __( 'Email Subject', 'my-tickets' ) . "&lt;/label>&lt;br />
-			&lt;input type='text' name='mt_subject' id='mt_subject' value='" . esc_attr( $subject ) . "' size='40' />
+			&lt;label for='mt_subject'>" . __( 'Email Subject', 'my-tickets' ) . "&lt;/label>
+			&lt;input type='text' name='mt_subject' id='mt_subject' value='" . esc_attr( $subject ) . "' class='widefat' />
 			&lt;/p>
 			&lt;p>
-			&lt;label for='mt_body' id='body_label'>" . __( 'Email Body', 'my-tickets' ) . "&lt;/label>&lt;br />
-			&lt;textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description'>" . esc_textarea( stripslashes( $body ) ) . "&lt;/textarea>&lt;br />
+			&lt;label for='mt_body' id='body_label'>" . __( 'Email Body', 'my-tickets' ) . "&lt;/label>
+			&lt;textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description' class='widefat'>" . esc_textarea( stripslashes( $body ) ) . "&lt;/textarea>&lt;br />
 			&lt;span id='body_description'>" . __( 'Use &lt;code>{name}&lt;/code> to insert the recipient\'s name', 'my-tickets' ) . "&lt;/span>
 			&lt;/p>
 			&lt;p>&lt;input type='checkbox' name='mt-test-email' value='test' id='mt_test_email'> &lt;label for='mt_test_email'>" . __( 'Send test email', 'my-tickets' ) . "&lt;/label>&lt;/p>
