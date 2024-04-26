@@ -329,20 +329,26 @@ function mt_choose_report_by_event() {
 					</div>
 					<p>
 					<label for='mt_select_event'>" . __( 'Select Event', 'my-tickets' ) . "</label>
-					<select name='event_id' id='mt_select_event'>
+					<select name='event_id' id='mt_select_event' class='widefat'>
 						$selector
 					</select>
 					</p>
+					<p class='hidden' id='mt_select_ticket_type'>
+						<label for='mt_select_ticket_type'>" . __( 'Ticket Group', 'my-tickets' ) . "</label>
+						<select id='mt_select_ticket_type' name='mt_select_ticket_type' class='widefat'>
+							<option value='all'>" . __( 'All types' ) . "</option>
+						</select>
+					</p>
 					<p>
 					<label for='mt_select_report_type'>" . __( 'Select Report Type', 'my-tickets' ) . "</label>
-					<select name='mt-event-report' id='mt_select_report_type'>
+					<select name='mt-event-report' id='mt_select_report_type' class='widefat'>
 						<option value='purchases'" . selected( $report, 'purchases', false ) . '>' . __( 'List of Purchases', 'my-tickets' ) . "</option>
 						<option value='tickets'" . selected( $report, 'tickets', false ) . '>' . __( 'List of Tickets', 'my-tickets' ) . "</option>
 					</select>
 					</p>
 					<p>
 					<label for='mt_select_format_event'>" . __( 'Report Format', 'my-tickets' ) . "</label>
-					<select name='format' id='mt_select_format_event'>
+					<select name='format' id='mt_select_format_event' class='widefat'>
 						<option value='csv'>" . __( 'Download CSV', 'my-tickets' ) . "</option>
 						<option value='view'$selected>" . __( 'View Report', 'my-tickets' ) . "</option>
 					</select>
@@ -371,15 +377,15 @@ function mt_choose_report_by_date() {
 					</div>
 					<p>
 						<label for='mt_start'>" . __( 'Report Start Date', 'my-tickets' ) . "</label>
-						<input type='date' name='mt_start' id='mt_start' value='$start' />
+						<input type='date' name='mt_start' id='mt_start' value='$start' class='widefat' />
 					</p>
 					<p>
 						<label for='mt_end'>" . __( 'Report End Date', 'my-tickets' ) . "</label>
-						<input type='date' name='mt_end' id='mt_end' value='$end' />
+						<input type='date' name='mt_end' id='mt_end' value='$end' class='widefat' />
 					</p>
 					<p>
 						<label for='mt_select_format_date'>" . __( 'Report Format', 'my-tickets' ) . "</label>
-						<select name='format' id='mt_select_format_date'>
+						<select name='format' id='mt_select_format_date' class='widefat'>
 							<option value='view'>" . __( 'View Report', 'my-tickets' ) . "</option>
 							<option value='csv'$selected>" . __( 'Download CSV', 'my-tickets' ) . "</option>
 						</select>
@@ -419,17 +425,17 @@ function mt_email_purchasers() {
 			$nonce
 			<p>
 			<label for='mt_select_event_for_email'>" . __( 'Select Event', 'my-tickets' ) . "</label>
-			<select name='event_id' id='mt_select_event_for_email'>
+			<select name='event_id' id='mt_select_event_for_email' class='widefat'>
 				$selector
 			</select>
 			</p>
 			<p>
 			<label for='mt_subject'>" . __( 'Email Subject', 'my-tickets' ) . "</label>
-			<input type='text' name='mt_subject' id='mt_subject' value='" . esc_attr( $subject ) . "' size='40' />
+			<input type='text' name='mt_subject' id='mt_subject' value='" . esc_attr( $subject ) . "' class='widefat' />
 			</p>
 			<p>
 			<label for='mt_body' id='body_label'>" . __( 'Email Body', 'my-tickets' ) . "</label>
-			<textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description'>" . esc_textarea( stripslashes( $body ) ) . "</textarea><br />
+			<textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description' class='widefat'>" . esc_textarea( stripslashes( $body ) ) . "</textarea><br />
 			<span id='body_description'>" . __( 'Use <code>{name}</code> to insert the recipient\'s name', 'my-tickets' ) . "</span>
 			</p>
 			<p><input type='checkbox' name='mt-test-email' value='test' id='mt_test_email'> <label for='mt_test_email'>" . __( 'Send test email', 'my-tickets' ) . "</label></p>
