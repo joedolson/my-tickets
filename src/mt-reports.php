@@ -220,10 +220,12 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 			$title        = get_the_title( $event_id );
 			$tabs         = '';
 			$out          = '';
+			$type         = isset( $_GET['mt_select_ticket_type'] ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : 'all';
 			$options      = ( isset( $_GET['options'] ) ) ? map_deep( $_GET['options'], 'sanitize_text_field' ) : array(
 				'type'           => 'html',
 				'output'         => 'payments',
 				'include_failed' => true,
+				'ticket_type'    => $type,
 			);
 			$status_types = array(
 				'completed'    => __( 'Completed (%Completed)', 'my-tickets' ),
@@ -336,7 +338,7 @@ function mt_choose_report_by_event() {
 					<p class='hidden' id='mt_select_ticket_type'>
 						<label for='mt_select_ticket_type'>" . __( 'Ticket Group', 'my-tickets' ) . "</label>
 						<select id='mt_select_ticket_type' name='mt_select_ticket_type' class='widefat'>
-							<option value='all'>" . __( 'All types' ) . "</option>
+							<option value='all'>" . __( 'All groups', 'my-tickets' ) . "</option>
 						</select>
 					</p>
 					<p>
@@ -562,72 +564,75 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 			// get total paid.
 			// get total price owed (on purchase).
 			foreach ( $details as $type => $tickets ) {
-				$count = isset( $details[ $type ]['count'] ) ? $details[ $type ]['count'] : 0;
-				// THIS results in only getting the details for one type listed; need all types for this to be valid.
-				if ( $count > 0 ) {
-					$purchaser  = get_the_title( $purchase_id );
-					$first_name = get_post_meta( $purchase_id, '_first_name', true );
-					$last_name  = get_post_meta( $purchase_id, '_last_name', true );
-					$email      = get_post_meta( $purchase_id, '_email', true );
-					$gateway    = get_post_meta( $purchase_id, '_gateway', true );
-					if ( ! $first_name || ! $last_name ) {
-						$name       = explode( ' ', $purchaser );
-						$first_name = $name[0];
-						$last_name  = end( $name );
-					}
-					$date        = get_the_time( 'Y-m-d', $purchase_id );
-					$time        = get_the_time( get_option( 'time_format' ), $purchase_id );
-					$transaction = get_post_meta( $purchase_id, '_transaction_data', true );
-					$address     = ( isset( $transaction['shipping'] ) ) ? $transaction['shipping'] : false;
-					$phone       = get_post_meta( $purchase_id, '_phone', true );
-					$fee         = ( isset( $transaction['fee'] ) ) ? $transaction['fee'] : false;
-					$street      = ( isset( $address['street'] ) ) ? $address['street'] : '';
-					$street2     = ( isset( $address['street2'] ) ) ? $address['street2'] : '';
-					$city        = ( isset( $address['city'] ) ) ? $address['city'] : '';
-					$state       = ( isset( $address['state'] ) ) ? $address['state'] : '';
-					$code        = ( isset( $address['code'] ) ) ? $address['code'] : '';
-					$country     = ( isset( $address['country'] ) ) ? $address['country'] : '';
-					$datetime    = "$date $time";
-					$price       = $details[ $type ]['price'];
-					$label       = mt_get_label( $type );
-					$types      .= ( '' !== $types ) ? PHP_EOL . $label . ': ' . $count : $label . ':' . $count;
-					$this_total  = $count * $price;
-					$subtotal    = $subtotal + ( $this_total );
-					// "sold" tickets are only in reports as those completed.
-					if ( 'Completed' === $status ) {
-						$total_income  = $total_income + $this_total;
-						$total_tickets = $total_tickets + $count;
-						$paid          = $subtotal;
-					} else {
-						$paid = 0;
-					}
-					// if $ticket_count == 0, don't show in options.
-					$ticket_count  = $ticket_count + $count;
-					$class         = esc_attr( strtolower( $ticket_type ) );
-					$custom_fields = mt_get_custom_fields( 'reports' );
-					$custom_cells  = '';
-					$custom_csv    = '';
-					foreach ( $custom_fields as $name => $field ) {
-						$value   = get_post_meta( $purchase_id, $name );
-						$cstring = '';
-						foreach ( $value as $v ) {
-							if ( is_array( $v ) ) {
-								if ( absint( $v['event_id'] ) === absint( $_GET['event_id'] ) ) {
-									$keys = array_keys( $v );
-									foreach ( $keys as $val ) {
-										if ( 'event_id' !== $val ) {
-											$cstring .= ( '' !== $cstring ) ? '; ' : '';
-											$cstring .= esc_html( $v[ $val ] );
+				$ticket_type = isset( $options['ticket_type'] ) ? $options['ticket_type'] : 'all';
+				if ( 'all' === $type || $ticket_type === $type ) {
+					$count = isset( $details[ $type ]['count'] ) ? $details[ $type ]['count'] : 0;
+					// THIS results in only getting the details for one type listed; need all types for this to be valid.
+					if ( $count > 0 ) {
+						$purchaser  = get_the_title( $purchase_id );
+						$first_name = get_post_meta( $purchase_id, '_first_name', true );
+						$last_name  = get_post_meta( $purchase_id, '_last_name', true );
+						$email      = get_post_meta( $purchase_id, '_email', true );
+						$gateway    = get_post_meta( $purchase_id, '_gateway', true );
+						if ( ! $first_name || ! $last_name ) {
+							$name       = explode( ' ', $purchaser );
+							$first_name = $name[0];
+							$last_name  = end( $name );
+						}
+						$date        = get_the_time( 'Y-m-d', $purchase_id );
+						$time        = get_the_time( get_option( 'time_format' ), $purchase_id );
+						$transaction = get_post_meta( $purchase_id, '_transaction_data', true );
+						$address     = ( isset( $transaction['shipping'] ) ) ? $transaction['shipping'] : false;
+						$phone       = get_post_meta( $purchase_id, '_phone', true );
+						$fee         = ( isset( $transaction['fee'] ) ) ? $transaction['fee'] : false;
+						$street      = ( isset( $address['street'] ) ) ? $address['street'] : '';
+						$street2     = ( isset( $address['street2'] ) ) ? $address['street2'] : '';
+						$city        = ( isset( $address['city'] ) ) ? $address['city'] : '';
+						$state       = ( isset( $address['state'] ) ) ? $address['state'] : '';
+						$code        = ( isset( $address['code'] ) ) ? $address['code'] : '';
+						$country     = ( isset( $address['country'] ) ) ? $address['country'] : '';
+						$datetime    = "$date $time";
+						$price       = $details[ $type ]['price'];
+						$label       = mt_get_label( $type );
+						$types      .= ( '' !== $types ) ? PHP_EOL . $label . ': ' . $count : $label . ':' . $count;
+						$this_total  = $count * $price;
+						$subtotal    = $subtotal + ( $this_total );
+						// "sold" tickets are only in reports as those completed.
+						if ( 'Completed' === $status ) {
+							$total_income  = $total_income + $this_total;
+							$total_tickets = $total_tickets + $count;
+							$paid          = $subtotal;
+						} else {
+							$paid = 0;
+						}
+						// if $ticket_count == 0, don't show in options.
+						$ticket_count  = $ticket_count + $count;
+						$class         = esc_attr( strtolower( $ticket_type ) );
+						$custom_fields = mt_get_custom_fields( 'reports' );
+						$custom_cells  = '';
+						$custom_csv    = '';
+						foreach ( $custom_fields as $name => $field ) {
+							$value   = get_post_meta( $purchase_id, $name );
+							$cstring = '';
+							foreach ( $value as $v ) {
+								if ( is_array( $v ) ) {
+									if ( absint( $v['event_id'] ) === absint( $_GET['event_id'] ) ) {
+										$keys = array_keys( $v );
+										foreach ( $keys as $val ) {
+											if ( 'event_id' !== $val ) {
+												$cstring .= ( '' !== $cstring ) ? '; ' : '';
+												$cstring .= esc_html( $v[ $val ] );
+											}
 										}
 									}
+								} elseif ( ! is_object( $v ) ) {
+									$cstring .= $v;
 								}
-							} elseif ( ! is_object( $v ) ) {
-								$cstring .= $v;
 							}
+							$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $purchase_id, $name, true ), $purchase_id, $name );
+							$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
+							$custom_csv   .= ",\"$value\"";
 						}
-						$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $purchase_id, $name, true ), $purchase_id, $name );
-						$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
-						$custom_csv   .= ",\"$value\"";
 					}
 				}
 			}
@@ -781,8 +786,12 @@ function mt_download_csv_event() {
 		isset( $_GET['mt-event-report'] ) && 'purchases' === $_GET['mt-event-report']
 	) {
 		$event_id  = intval( $_GET['event_id'] );
+		$type      = isset( $_GET['mt_select_ticket_type'] ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : 'all';
+		$args      = array(
+			'ticket_type' => $type,
+		);
 		$title     = get_the_title( $event_id );
-		$purchases = mt_purchases( $event_id );
+		$purchases = mt_purchases( $event_id, $args );
 		if ( is_array( $purchases ) ) {
 			$report          = $purchases['report']['csv'];
 			$custom_headings = '';
