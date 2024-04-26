@@ -348,11 +348,9 @@ legend {
 }
 
 @media (max-width: 480px) {
-    .mt-report-selector > div {
-        max-width: 100%;
-        float: none;
-        margin: 1em 0;
-    }
+	.mt-report-selector > div {
+		width: 100%;
+	}
 }
 
 
