@@ -250,22 +250,24 @@ legend {
     column-gap: 20px;
 }
 
+.mt-report-selector {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 40px;
+}
+
 .mt-report-selector > div {
-    max-width: 48%;
+	background: rgba( 0,0,0,.04 );
+	border: 1px solid #f6f6f7;
+	padding: 1rem;
 }
 
-.mt-report-selector:after {
-    content: '';
-    display: block;
-    clear: both;
+.mt-report-selector h3 {
+	margin-top: 0;
 }
 
-.report-by-date {
-    float: left;
-}
-
-.report-by-event {
-    float: right;
+.mt-report-selector label:not(input[type=checkbox] + label) {
+	display: block;
 }
 
 #mt_subject, #mt_email {

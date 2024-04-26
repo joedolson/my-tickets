@@ -64,9 +64,9 @@ function mt_reports_page() {
 						<div class="mt-report-selector">
 							<?php mt_choose_report_by_date(); ?>
 							<?php mt_choose_report_by_event(); ?>
-						</div>
-						<div class='mt-email-purchasers'>
-							<?php mt_email_purchasers(); ?>
+							<div class='mt-email-purchasers'>
+								<?php mt_email_purchasers(); ?>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -424,11 +424,11 @@ function mt_email_purchasers() {
 			</select>
 			</p>
 			<p>
-			<label for='mt_subject'>" . __( 'Email Subject', 'my-tickets' ) . "</label><br />
+			<label for='mt_subject'>" . __( 'Email Subject', 'my-tickets' ) . "</label>
 			<input type='text' name='mt_subject' id='mt_subject' value='" . esc_attr( $subject ) . "' size='40' />
 			</p>
 			<p>
-			<label for='mt_body' id='body_label'>" . __( 'Email Body', 'my-tickets' ) . "</label><br />
+			<label for='mt_body' id='body_label'>" . __( 'Email Body', 'my-tickets' ) . "</label>
 			<textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description'>" . esc_textarea( stripslashes( $body ) ) . "</textarea><br />
 			<span id='body_description'>" . __( 'Use <code>{name}</code> to insert the recipient\'s name', 'my-tickets' ) . "</span>
 			</p>
