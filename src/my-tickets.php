@@ -1155,9 +1155,6 @@ function mt_kses_elements() {
 		'h2'               => array(),
 		'h3'               => array(),
 		'h4'               => array(),
-		'label'            => array(
-			'for' => array(),
-		),
 		'option'           => array(
 			'value'    => array(),
 			'selected' => array(),
@@ -1173,6 +1170,7 @@ function mt_kses_elements() {
 			'required'         => array(),
 			'readonly'         => array(),
 			'autocomplete'     => array(),
+			'class'            => array(),
 		),
 		'duet-date-picker' => array(
 			'identifier'        => array(),
