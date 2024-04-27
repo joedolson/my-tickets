@@ -246,12 +246,12 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 			$title        = get_the_title( $event_id );
 			$tabs         = '';
 			$out          = '';
-			$type         = isset( $_GET['mt_select_ticket_type'] ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : 'all';
+			$ticket_type  = isset( $_GET['mt_select_ticket_type'] ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : 'all';
 			$options      = ( isset( $_GET['options'] ) ) ? map_deep( $_GET['options'], 'sanitize_text_field' ) : array(
 				'type'           => 'html',
 				'output'         => 'payments',
 				'include_failed' => true,
-				'ticket_type'    => $type,
+				'ticket_type'    => $ticket_type,
 			);
 			$status_types = array(
 				'completed'    => __( 'Completed (%Completed)', 'my-tickets' ),
