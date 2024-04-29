@@ -155,9 +155,9 @@ table.mt_cart {
 
 .mt-order .mt-response p {
     padding: .5rem;
-    background-color: #b8e6bf;
-    color: #000;
-	border: 2px solid #005c12;
+    background-color: var(--mt-message-bg);
+    color: var(--mt-message-color);
+	border: 2px solid var(--mt-success-border);
 }
 
 .mt-order .mt-response p a {
