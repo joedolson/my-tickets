@@ -411,7 +411,7 @@ function mt_get_registration_fields( $form, $has_data, $data, $context = 'admin'
 		&lt;label for='reg_expires'>" . __( 'Ticket sales end:', 'my-tickets' ) . "&lt;/label> &lt;input type='number' name='reg_expires' id='reg_expires' value='$expiration' step='.25' aria-describedby='reg_expiration' size='7' /> &lt;span id='reg_expiration' aria-live='polite'>&lt;/span>
 	&lt;/p>
 	&lt;p>
-		&lt;label for='mt_multiple'>" . __( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ) . "&lt;/label> &lt;input type='checkbox' name='mt_multiple' id='mt_multiple' value='true' $is_multiple />
+		&lt;input type='checkbox' name='mt_multiple' id='mt_multiple' value='true' $is_multiple /> &lt;label for='mt_multiple'>" . __( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ) . "&lt;/label>
 	&lt;/p>";
 	$form  .= '
 		&lt;div class="ticket-sale-types">&lt;fieldset>&lt;legend>' . __( 'Type of Sale', 'my-tickets' ) . "&lt;/legend>
