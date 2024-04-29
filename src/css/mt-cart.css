@@ -160,21 +160,6 @@ table.mt_cart {
 	border: 2px solid var(--mt-success-border);
 }
 
-.mt-order .mt-response p a {
-	color: #0a4b78;
-	background: #f0f6fc;
-	padding: .25rem;
-	border-radius: 3px;
-	border: 2px solid;
-	text-decoration: none;
-}
-
-.mt-order .mt-response p a:hover,
-.mt-order .mt-response p a:focus {
-	background: #0a4b78;
-	color: #f0f6fc;
-}
-
 .mt-processing {
     display: none;
 }
