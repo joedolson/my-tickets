@@ -57,6 +57,9 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		return true;
 	} else {
 		$unique_id = mt_get_unique_id();
+		if ( ! $unique_id ) {
+			return false;
+		}
 		if ( mt_get_transient( 'mt_' . $unique_id . '_' . $type ) ) {
 			mt_delete_transient( 'mt_' . $unique_id . '_' . $type );
 		}
@@ -84,6 +87,9 @@ function mt_extend_expiration( $amount = 300 ) {
 		return $new;
 	} else {
 		$unique_id = mt_get_unique_id();
+		if ( ! $unique_id ) {
+			return false;
+		}
 		$current   = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
 		$new       = (int) $current + $amount;
 		$cart      = mt_get_transient( 'mt_' . $unique_id . '_cart' );
