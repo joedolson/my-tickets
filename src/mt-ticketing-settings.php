@@ -55,6 +55,10 @@ function mt_update_ticketing_settings( $post ) {
 			$availability   = ( isset( $post['mt_tickets'][ $model ] ) ) ? $post['mt_tickets'][ $model ] : array();
 			$pricing_array  = mt_setup_pricing( $labels, $prices, $availability, $close );
 
+			if ( ! isset( $model_defaults['multiple'] ) ) {
+				$model_defaults['multiple'] = '';
+			}
+
 			$defaults[ $model ]            = $model_defaults;
 			$defaults[ $model ]['pricing'] = $pricing_array;
 			$defaults[ $model ]['tickets'] = ( is_array( $mt_total_tickets ) ) ? $mt_total_tickets[ $model ] : $mt_total_tickets;
@@ -294,8 +298,8 @@ function mt_ticketing_settings() {
 													<input type='number' name='defaults[<?php echo $model; ?>][reg_expires]' id='reg_expires_<?php echo $model; ?>' value='<?php echo stripslashes( esc_attr( $displayed['reg_expires'] ) ); ?>'/>
 												</p>
 												<p>
-													<label for='multiple_<?php echo $model; ?>'><?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?></label>
 													<input type='checkbox' name='defaults[<?php echo $model; ?>][multiple]' id='multiple_<?php echo $model; ?>' value='true' <?php echo ( $multiple ) ? ' checked="checked"' : ''; ?> />
+													<label for='multiple_<?php echo $model; ?>'><?php _e( 'Allow multiple tickets/ticket type per purchaser', 'my-tickets' ); ?></label>
 												</p>
 											</div>
 											<div class="ticket-sale-types">
