@@ -116,9 +116,9 @@ function mt_extend_expiration( $amount = 300 ) {
 		if ( ! $unique_id ) {
 			return false;
 		}
-		$current   = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
-		$new       = (int) $current + $amount;
-		$cart      = mt_get_transient( 'mt_' . $unique_id . '_cart' );
+		$current = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
+		$new     = (int) $current + $amount;
+		$cart    = mt_get_transient( 'mt_' . $unique_id . '_cart' );
 		mt_set_transient( 'mt_' . $unique_id . '_cart', $cart );
 		mt_set_transient( 'mt_' . $unique_id . '_expiration', $new );
 
