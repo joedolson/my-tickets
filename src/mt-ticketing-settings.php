@@ -102,7 +102,7 @@ function mt_update_ticketing_settings( $post ) {
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
 		update_option( 'mt_settings', $settings );
 		/**
-		 * Filter updated settings messages appended to the 'My Tickets Ticketing Defaults saved' message.
+		 * Filter updated settings messages appended to the 'My Tickets: Ticketing Defaults saved' message.
 		 *
 		 * @hook mt_ticketing_update_settings
 		 *
@@ -113,7 +113,7 @@ function mt_update_ticketing_settings( $post ) {
 		 */
 		$messages = apply_filters( 'mt_ticketing_update_settings', '', $post );
 
-		return '<div class="updated"><p><strong>' . __( 'My Tickets Ticketing Defaults saved', 'my-tickets' ) . "</strong></p>$messages</div>";
+		return '<div class="updated"><p><strong>' . __( 'My Tickets: Ticketing Defaults saved', 'my-tickets' ) . "</strong></p>$messages</div>";
 	}
 
 	return false;
