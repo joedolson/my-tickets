@@ -254,12 +254,9 @@ legend {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 40px;
-}
-
-.mt-report-selector > div {
-	background: rgba( 0,0,0,.04 );
-	border: 1px solid #f6f6f7;
-	padding: 1rem;
+	margin-top: 2rem;
+	padding-top: 1rem;
+	border-top: 1px solid #c3c4c7;
 }
 
 .mt-report-selector h3 {
