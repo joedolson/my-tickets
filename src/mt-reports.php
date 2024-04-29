@@ -319,11 +319,20 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
  * @return void
  */
 function mt_choose_report_by_event() {
-	$selector = mt_select_events();
+	$events   = mt_select_events();
+	$selector = $events['options'];
+	$types    = $events['types'];
+	$groups   = array();
+	foreach ( $types as $key => $type ) {
+		$keys = array_keys( $type );
+		$groups[ $key ] = $keys;
+	}
+	$groups   = json_encode( $groups );
 	$selected = ( isset( $_GET['format'] ) && 'view' === $_GET['format'] ) ? " selected='selected'" : '';
 	$report   = ( isset( $_GET['mt-event-report'] ) ) ? sanitize_text_field( $_GET['mt-event-report'] ) : '';
 	$form     = "
 			<div class='report-by-event'>
+				<div id='report-json' class='hidden'>$groups</div>
 				<h3>" . __( 'Report by Event', 'my-tickets' ) . "</h3>
 				<form method='GET' action='" . esc_url( admin_url( 'admin.php?page=mt-reports' ) ) . "'>
 					<div>
@@ -402,7 +411,9 @@ function mt_choose_report_by_date() {
  * Produce form to choose event for mass emailing purchasers.
  */
 function mt_email_purchasers() {
-	$selector = mt_select_events();
+	$events   = mt_select_events();
+	$selector = $events['options'];
+	$types    = $events['types'];
 	$nonce    = wp_nonce_field( 'mt-email-purchasers', 'mt-email-nonce', true, false );
 	$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : false;
 	$body     = ( isset( $_POST['mt_body'] ) ) ? sanitize_textarea_field( $_POST['mt_body'] ) : '';
@@ -450,7 +461,7 @@ function mt_email_purchasers() {
 /**
  * Select events with event sales data. (If no sales, not returned.)
  *
- * @return string
+ * @return array
  */
 function mt_select_events() {
 	// fetch posts with meta data for event sales.
@@ -482,6 +493,7 @@ function mt_select_events() {
 			$posts[] = $post;
 		}
 	}
+	$types = array();
 	foreach ( $posts as $post ) {
 		$tickets    = get_post_meta( $post->ID, '_ticket' );
 		$count      = count( $tickets );
@@ -497,13 +509,17 @@ function mt_select_events() {
 				$show_event = true;
 			}
 			if ( $event_date > $report_age_limit || ' selected="selected"' === $selected || $show_event ) {
-				$title    = apply_filters( 'mt_the_title', $post->post_title, $post );
-				$options .= "<option value='$post->ID'$selected>$title ($count); $display_date</option>\n";
+				$title              = apply_filters( 'mt_the_title', $post->post_title, $post );
+				$options           .= "<option value='$post->ID'$selected>$title ($count); $display_date</option>\n";
+				$types[ $post->ID ] = mt_get_prices( $post->ID );
 			}
 		}
 	}
 
-	return $options;
+	return array(
+		'options' => $options,
+		'types'   => $types,
+	);
 }
 
 /**
