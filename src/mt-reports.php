@@ -324,7 +324,7 @@ function mt_choose_report_by_event() {
 	$types    = $events['types'];
 	$groups   = array();
 	foreach ( $types as $key => $type ) {
-		$keys = array_keys( $type );
+		$keys           = array_keys( $type );
 		$groups[ $key ] = $keys;
 	}
 	$groups   = json_encode( $groups );
