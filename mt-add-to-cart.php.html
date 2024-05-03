@@ -102,34 +102,55 @@ function mt_check_early_returns( $event_id, $override ) {
 	$receipt_page  = $options['mt_receipt_page'];
 	$tickets_page  = $options['mt_tickets_page'];
 	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) || ! $event_id ) {
-		return false;
+		return array(
+			'continue' => false,
+			'reason'   => __( 'The required purchase, receipt, and ticket pages do not all exist.', 'my-tickets' ),
+		);
 	}
 	$only_singular = $options['mt_singular'];
 	if ( $only_singular &amp;&amp; ! is_singular( $options['mt_post_types'] ) ) {
-		return false;
+		return array(
+			'continue' => false,
+			'reason'   => __( 'Tickets are only sold on singular pages, and this is not an enabled singular post type.', 'my-tickets' ),
+		);
 	}
 	if ( 'mc-events' === get_post_type( $event_id ) ) {
 		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
 		if ( 'false' === $sell ) {
-			return false;
+			return array(
+				'continue' => false,
+				'reason'   => __( 'This option to sell tickets is not enabled for this post.', 'my-tickets' ),
+			);
 		}
 	}
 	if ( 'true' === get_post_meta( $event_id, '_mt_hide_registration_form', true ) &amp;&amp; false === $override ) {
-		return false;
+		return array(
+			'continue' => false,
+			'reason'   => __( 'The option to hide the default registration form is enabled. Use the shortcode for display.', 'my-tickets' ),
+		);
 	}
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	// if no 'total' is set at all, this is not an event with tickets.
 	if ( empty( $registration['prices'] ) ) {
-		return false;
+		return array(
+			'continue' => false,
+			'reason'   => __( 'This post does not have any pricing information.', 'my-tickets' ),
+		);
 	}
 	// if total is set to inherit, but any ticket class has no defined number of tickets available, return. '0' is a valid number of tickets, '' is not.
 	if ( ( isset( $registration['total'] ) &amp;&amp; 'inherit' === $registration['total'] ) &amp;&amp; 'general' !== $registration['counting_method'] &amp;&amp; ! mt_has_tickets( $registration['prices'] ) ) {
-		return false;
+		return array(
+			'continue' => false,
+			'reason'   => __( 'The total number of tickets is inherited from the child ticket types, but a ticket class does not have a number of tickets set.', 'my-tickets' ),
+		);
 	}
 
 	// if total number of tickets is set but is an empty string or is not set; return.
 	if ( ( isset( $registration['total'] ) &amp;&amp; '' === trim( $registration['total'] ) ) || ! isset( $registration['total'] ) ) {
-		return false;
+		return array(
+			'continue' => false,
+			'reason'   => __( 'The total number of tickets is either not set or is an empty value.', 'my-tickets' ),
+		);
 	}
 
 	return $registration;
@@ -151,7 +172,13 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 	$options  = mt_get_settings();
 	$event_id = ( is_object( $event ) ) ? $event->event_post : $event;
 	$continue = mt_check_early_returns( $event_id, $override );
-	if ( ! $continue ) {
+
+	$continue_response = isset( $continue['continue'] ) ? false : true;
+	if ( ! $continue_response ) {
+		if ( MT_DEBUG ) {
+			$content = $content . $continue['reason'];
+		}
+
 		return $content;
 	} else {
 		$registration = $continue;
