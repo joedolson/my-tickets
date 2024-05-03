@@ -211,21 +211,21 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 					$total_order = 0;
 					$rows        = array();
 					foreach ( $pricing as $type => $ticket_type ) {
-						$row               = mt_ticket_row( $event_id, $registration, $ticket_type, $type, $available, $tickets_remaining );
-						$form_key          = $row['form_key'];
-						$rows[ $form_key ] = $row;
+						$row = mt_ticket_row( $event_id, $registration, $ticket_type, $type, $available, $tickets_remaining );
+						if ( $row ) {
+							$form_key          = $row['form_key'];
+							$rows[ $form_key ] = $row;
+						}
 					}
 					// Auto sort by date if event type.
 					if ( 'event' === $registration['counting_method'] ) {
 						ksort( $rows );
 					}
 					foreach ( $rows as $row ) {
-						if ( $row ) {
-							$form           .= $row['form'];
-							$handling_notice = $row['handling'];
-							$total_order    += (int) $row['value'];
-							$has_tickets     = $row['has_tickets'];
-						}
+						$form           .= $row['form'];
+						$handling_notice = $row['handling'];
+						$total_order    += (int) $row['value'];
+						$has_tickets     = $row['has_tickets'];
 					}
 				} else {
 					if ( 0 >= $tickets_remaining ) {
@@ -506,7 +506,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 					$class = 'mt-available';
 				}
 			}
-			$form = "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . $label . $extra_label . '</label>';
+			$form  = "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . $label . $extra_label . '</label>';
 			$form .= apply_filters(
 				'mt_add_to_cart_input',
 				"<div class='mt-ticket-input'><input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />$button_up$button_down</div>",
