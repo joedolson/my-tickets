@@ -225,7 +225,7 @@ function mt_create_payment( $post ) {
 function mt_get_inventory_change( $passed = array(), $saved = array() ) {
 	$remove = false;
 	if ( empty( $saved ) ) {
-		$saved = mt_get_cart();
+		$saved = mt_get_cart( false, false, true );
 	}
 	if ( empty( $passed ) ) {
 		// If no data passed, we need to remove the current cart.
