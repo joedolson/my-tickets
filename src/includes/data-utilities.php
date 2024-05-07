@@ -244,10 +244,11 @@ function mt_get_data( $type, $user_ID = false, $unique_id = false ) {
  *
  * @param bool|int    $user_ID User ID.
  * @param bool|string $cart_id Cart identifier.
+ * @param bool        $data True to get data only without taking action.
  *
  * @return array|mixed
  */
-function mt_get_cart( $user_ID = false, $cart_id = false ) {
+function mt_get_cart( $user_ID = false, $cart_id = false, $data = false ) {
 	$cart      = array();
 	$unique_id = mt_get_unique_id();
 	if ( $user_ID ) {
@@ -260,7 +261,7 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
 			$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
-			if ( $data_age && time() > $data_age ) {
+			if ( $data_age && time() > $data_age && ! $data ) {
 				mt_delete_data( 'cart' );
 				delete_user_meta( $current_user->ID, '_mt_user_init_expiration' );
 			} else {
@@ -269,7 +270,7 @@ function mt_get_cart( $user_ID = false, $cart_id = false ) {
 		} else {
 			if ( $unique_id ) {
 				$data_age = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
-				if ( $data_age && time() > $data_age ) {
+				if ( $data_age && time() > $data_age && ! $data ) {
 					mt_delete_data( 'cart' );
 					mt_delete_transient( 'mt_' . $unique_id . '_expiration' );
 				} else {
