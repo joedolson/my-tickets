@@ -458,7 +458,7 @@ add_action( 'init', 'mt_is_cart_expired' );
  * @param mixed  $value Value to save.
  */
 function mt_set_transient( $transient_id, $value ) {
-	update_option( $transient_id, $value );
+	update_option( $transient_id, $value, 'no' );
 }
 
 /**
