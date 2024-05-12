@@ -28,12 +28,14 @@
 			var event_id   = button.attr( 'data-event' );
 			var payment_id = button.attr( 'data-payment' );
 			var target     = container.find( '.mt-move-tickets-target' ).val();
+			var type       = container.find( '.mt-switch-ticket-type' ).val();
 			var ticket     = button.attr( 'data-ticket' );
 			var data = {
 				'action': mt_data.action,
 				'event_id': event_id,
 				'payment_id': payment_id,
 				'target': target,
+				'type': type,
 				'ticket': ticket,
 				'security': mt_data.security
 			};

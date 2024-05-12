@@ -300,7 +300,17 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 				}
 			}
 			if ( 'admin' === $context ) {
-				$event_id = mt_get_ticket( $ticket_id )->ID;
+				$event_id     = mt_get_ticket( $ticket_id )->ID;
+				$prices       = mt_get_prices( $event_id );
+				$type_options = '';
+				$ticket_data  = get_post_meta( $event_id, '_' . $ticket_id, true );
+				$ticket_type  = isset( $ticket_data['type'] ) ? $ticket_data['type'] : '';
+				foreach ( $prices as $key => $type ) {
+					if ( $ticket_type === $key ) {
+						continue;
+					}
+					$type_options .= '<option value="' . $key . '">' . $type['label'] . '</option>';
+				}
 				// Translators: 1) type of ticket, 2) event ticket sold for, 3) Event time.
 				$status    = sprintf( __( 'Move %1$s ticket (%2$s, %3$s) to a different event', 'my-tickets' ), mt_get_ticket_type( $ticket_id ), get_the_title( $event_id ), mt_get_event_time( $ticket_id ) );
 				$move      = "<button type='button' class='edit-ticket button-secondary' aria-expanded='false' aria-controls='mt-edit-tickets-$i'>" . __( 'Edit', 'my-tickets' ) . '</button>';
@@ -311,7 +321,14 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 								<label for="mt-move-tickets-choose-' . $i . '">Move to Event <i><span aria-live="assertive"></span></i></label> 
 								<input type="text" placeholder="Search term" id="mt-move-tickets-choose-' . $i . '" class="suggest widefat mt-move-tickets-target" name="mt-event-target" value="" />
 							</div>
-							<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-move-tickets-button button-secondary">' . __( 'Move Ticket', 'my-tickets' ) . '</button>
+							<div class="mt-move-tickets-inner">
+								<label for="mt-switch-ticket-type">' . __( 'Change ticket group', 'my-tickets' ) . '</label>
+								<select id="mt-switch-ticket-type" class="widefat mt-switch-ticket-type">
+									<option value="none">' . __( 'No change', 'my-tickets' ) . '</option>
+									' . $type_options . '
+								</select>
+							</div>
+							<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-move-tickets-button button-secondary">' . __( 'Update Ticket', 'my-tickets' ) . '</button>
 							<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-delete-ticket-button button-secondary"><span class="dashicons dashicons-no" aria-hidden="true"></span> ' . __( 'Delete Ticket', 'my-tickets' ) . '</button>
 						</div>
 					</div>';

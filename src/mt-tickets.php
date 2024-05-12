@@ -169,6 +169,57 @@ function my_tickets_ticket_image_size() {
 }
 
 /**
+ * Change the ticket type for a ticket.
+ *
+ * @param int    $payment_id ID for the payment this ticket is from.
+ * @param int    $event_id ID for the event a ticket is currently attached to.
+ * @param string $ticket Ticket ID to be moved.
+ * @param int    $type New ticket type for the ticket.
+ *
+ * @return bool 
+ */
+function mt_change_ticket_type( $payment_id, $event_id, $ticket, $type ) {
+	$registration        = get_post_meta( $event_id, '_mt_registration_options', true );
+	$purchase            = get_post_meta( $payment_id, '_purchased', true );
+	$ticket_data         = get_post_meta( $event_id, '_' . $ticket, true );
+	$old_type            = $ticket_data['type'];
+	$ticket_data['type'] = $type;
+	$result = update_post_meta( $event_id, '_' . $ticket, $ticket_data );
+
+	if ( 'continuous' !== $registration['counting_method'] ) {
+		$old_type_sold = $registration['prices'][ $old_type ]['sold'] - 1;
+		$new_type_sold = $registration['prices'][ $type ]['sold'] + 1;
+		$registration['prices'][ $old_type ]['sold'] = $old_type_sold;
+		$registration['prices'][ $type ]['sold']     = $new_type_sold;
+		update_post_meta( $event_id, '_mt_registration_options', $registration );
+	}
+	$cart_data = $purchase[ $event_id ];
+	foreach( $cart_data as $key => $data ) {
+		if ( $key === $type ) {
+			$count                      = $data['count'] + 1;
+			$cart_data[ $key ]['count'] = $count;
+		}
+		if ( $key === $old_type ) {
+			$count                      = $data['count'] - 1;
+			$cart_data[ $key ]['count'] = $count;
+		}
+	}
+	$purchase[ $event_id ] = $cart_data;
+	update_post_meta( $payment_id, '_purchased', $purchase );
+
+	$response = array(
+		'registration' => $registration,
+		'ticket_data'  => $ticket_data,
+		'event_id'     => $event_id,
+		'ticket'       => $ticket,
+		'result'       => $result,
+		'purchase'     => $purchase,
+	);
+
+	return $response;
+}
+
+/**
  * Move ticket from one event to another.
  *
  * @param int    $payment_id ID for the payment this ticket is from.
@@ -176,7 +227,7 @@ function my_tickets_ticket_image_size() {
  * @param int    $target_id ID for the event a ticket needs to be attached to.
  * @param string $ticket Ticket ID to be moved.
  *
- * @return bool
+ * @return array
  */
 function mt_move_ticket( $payment_id, $event_id, $target_id, $ticket ) {
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
@@ -209,6 +260,8 @@ function mt_move_ticket( $payment_id, $event_id, $target_id, $ticket ) {
  * @param string $ticket Ticket ID to be added.
  * @param array  $data Ticket data to add.
  * @param int    $payment_id Associated payment post.
+ *
+ * @return bool
  */
 function mt_add_ticket( $event_id, $ticket, $data, $payment_id ) {
 	// Exit early if the data passed isn't valid.
