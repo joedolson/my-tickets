@@ -79,11 +79,11 @@ function mt_get_current_version() {
 
 add_action( 'admin_notices', 'mt_status_notice', 10 );
 /**
- * Display promotion notice to admin users who have not donated or purchased WP Tweets PRO.
+ * Display notice to admin users about My Tickets status.
  */
 function mt_status_notice() {
 	// Only shown when in the Playground preview.
-	if ( 'true' === get_option( 'mc_show_playground_intro', '' ) ) {
+	if ( 'true' === get_option( 'mt_show_playground_intro', '' ) ) {
 		echo '&lt;div class="notice notice-info">';
 		echo '&lt;h3>' . __( 'Thanks for trying out My Tickets!', 'my-tickets' ) . '&lt;/h3>';
 		echo '&lt;p>' . __( "Let me give you a few quick things to try out while you're here:", 'my-tickets' ) . '&lt;/p>';
