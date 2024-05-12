@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
-    var tabs = $('.mt-tabs .wptab').length;
+    const tabs = $('.mt-tabs .wptab').length;
+	console.log( tabs );
     $('.mt-tabs .tabs a[href="#' + mtTabs.firstItem + '"]').addClass('active').attr( 'aria-pressed', 'true' );
     if ( tabs > 1 ) {
         $('.mt-tabs .wptab').not('#' + mtTabs.firstItem).hide();
@@ -7,11 +8,12 @@ jQuery(document).ready(function ($) {
             e.preventDefault();
             $('.mt-tabs .tabs a').removeClass('active');
             $(this).addClass('active').attr( 'aria-pressed', 'true' );
-            var target = $(this).attr('href');
+            let target = $(this).attr('href');
             $('.mt-tabs .wptab').not(target).hide().removeAttr( 'aria-pressed' );
             $(target).show();
         });
     }
+
 	// Handle report selector for subtypes.
 	let curValue = $( '#mt_select_event' ).val();
 	populateSelect( curValue );
@@ -28,7 +30,6 @@ jQuery(document).ready(function ($) {
 		optionEls.forEach( function(el) {
 			let valueEl = el.getAttribute( 'value' );
 			if ( 'all' !== valueEl ) {
-				console.log( el );
 				el.remove();
 			}
 		});

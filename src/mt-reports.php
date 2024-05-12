@@ -280,14 +280,11 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 					${$status} = '';
 					$count     = count( $rows );
 					$output    = str_replace( "%$status", $count, $output );
-					if ( 0 === $count ) {
-						continue;
-					}
 					foreach ( $rows as $type => $row ) {
 						${$status} .= $row;
 					}
 					$caption       = "$title: <em>$status</em>";
-					$use_table_top = str_replace( '%caption%', $caption, $table_top );
+					$use_table_top = ( 0 !== $count ) ? str_replace( '%caption%', $caption, $table_top ) : '';
 					$out          .= "<div class='wptab wp_" . sanitize_title( $status ) . "' id='mt_" . sanitize_title( $status ) . "'>" . $use_table_top . ${$status} . $table_bottom . '</div>';
 				}
 			} else {
