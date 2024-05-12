@@ -322,10 +322,9 @@ function mt_choose_report_by_event() {
 	$events   = mt_select_events();
 	$selector = $events['options'];
 	$types    = $events['types'];
-	$groups   = array();
+	$groups   = new stdClass;
 	foreach ( $types as $key => $type ) {
-		$keys           = array_keys( $type );
-		$groups[ $key ] = $keys;
+		$groups->$key = $type;
 	}
 	$groups   = json_encode( $groups );
 	$selected = ( isset( $_GET['format'] ) && 'view' === $_GET['format'] ) ? " selected='selected'" : '';
@@ -581,7 +580,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 			// get total price owed (on purchase).
 			foreach ( $details as $type => $tickets ) {
 				$ticket_type = isset( $options['ticket_type'] ) ? $options['ticket_type'] : 'all';
-				if ( 'all' === $type || $ticket_type === $type ) {
+				if ( 'all' === $ticket_type || $ticket_type === $type ) {
 					$count = isset( $details[ $type ]['count'] ) ? $details[ $type ]['count'] : 0;
 					// THIS results in only getting the details for one type listed; need all types for this to be valid.
 					if ( $count > 0 ) {
