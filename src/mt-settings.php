@@ -760,7 +760,7 @@ function mt_ajax_move_ticket() {
 					'response' => esc_html( sprintf( __( 'Ticket changed to %s', 'my-tickets' ), $type ) ),
 					'result'   => $result,
 				)
-				);
+			);
 		} else {
 			$result  = mt_move_ticket( $payment_id, $event_id, $target, $ticket );
 			$new     = get_the_title( $target );
