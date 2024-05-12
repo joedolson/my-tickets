@@ -348,7 +348,7 @@ function mt_choose_report_by_event() {
 	$events   = mt_select_events();
 	$selector = $events['options'];
 	$types    = $events['types'];
-	$groups   = new stdClass;
+	$groups   = new stdClass();
 	foreach ( $types as $key => $type ) {
 		$groups->$key = $type;
 	}
