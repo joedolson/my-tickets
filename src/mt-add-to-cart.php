@@ -240,7 +240,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 			$in_cart = ( mt_in_cart( $event_id ) ) ? '<p class="my-tickets-in-cart">' . sprintf( __( 'Tickets for this event are in your cart. <a href="%s">Checkout</a>', 'my-tickets' ), get_permalink( $options['mt_purchase_page'] ) ) . '</p>' : '';
 
 			if ( true === $has_tickets ) {
-				$closing_time = mt_sales_close( $event_id, $registration['reg_expires'] );
+				$closing_time = ( 'event' !== $registration['counting_method'] ) ? mt_sales_close( $event_id, $registration['reg_expires'] ) : '';
 				$no_post      = ( $no_postal && in_array( 'postal', array_keys( $options['mt_ticketing'] ), true ) ) ? "<p class='mt-no-post'>" . apply_filters( 'mt_cannot_send_by_email_text', __( 'Tickets for this event cannot be sent by mail.', 'my-tickets' ) ) . '</p>' : '';
 				$legend       = ( 'registration' === $registration['sales_type'] ) ? __( 'Register', 'my-tickets' ) : __( 'Buy Tickets', 'my-tickets' );
 				$legend       = apply_filters( 'mt_button_legend_text', $legend, $registration );
@@ -460,9 +460,18 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				// If this ticket type is no longer available, skip.
 				return false;
 			} else {
-				$type_sales_closed = true;
-				// translators: Date ticket sales closed.
-				$closure = sprintf( __( 'Sales closed %s', 'my-tickets' ), date_i18n( get_option( 'date_format' ), $close ) );
+				if ( 'event' === $registration['counting_method'] ) {
+					$close             = strtotime( $ticket_type['label'] ) - ( $stop * HOUR_IN_SECONDS );
+					$type_sales_closed = ( $close < mt_date() ) ? true : false;
+					if ( $close - mt_date() < DAY_IN_SECONDS ) {
+						$window = human_time_diff( $close, mt_date() );
+					}
+					$closure           = sprintf( __( 'Sales will close in about %s', 'my-tickets' ), $window );
+				} else {
+					$type_sales_closed = true;
+					// translators: Date ticket sales closed.
+					$closure = sprintf( __( 'Sales closed %s', 'my-tickets' ), date_i18n( get_option( 'date_format' ), $close ) );
+				}
 			}
 		}
 		if ( 'checkbox' === $input_type || 'radio' === $input_type ) {
@@ -501,6 +510,8 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				$attributes = " min='0' max='$max' inputmode='numeric' pattern='[0-9]*'";
 				if ( 0 === $remaining || $type_sales_closed ) {
 					$attributes .= ' readonly="readonly"';
+					$button_up   = str_replace( 'type="button"', 'type="button" disabled', $button_up );
+					$button_down = str_replace( 'type="button"', 'type="button" disabled', $button_down );
 					$class       = ( $type_sales_closed ) ? 'mt-sales-closed' : 'mt-sold-out';
 				} else {
 					$class = 'mt-available';
