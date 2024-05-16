@@ -10,16 +10,17 @@
  */
 
 /**
- * Wrapper for date()
+ * Wrapper for date(). Used for date comparisons and non-translatable dates.
  *
- * @param string $format Format to use.
- * @param int    $timestamp Timestamp.
- * @param bool   $offset False to not add offset; if already provided with offset.
+ * @param string    $format Default ''. Format to use. Empty string for timestamp.
+ * @param int|false $timestamp Default false. Timestamp or false if current time..
+ * @param bool      $offset Default true. False to not add offset; if already a timestamp.
  *
- * @return string Formatted date.
+ * @return string|int Formatted date or timestamp if no format provided.
  */
-function mt_date( $format, $timestamp = false, $offset = true ) {
+function mt_date( $format = '', $timestamp = false, $offset = true ) {
 	if ( ! $timestamp ) {
+		// Timestamp is UTC.
 		$timestamp = time();
 	}
 	if ( $offset ) {
@@ -29,7 +30,7 @@ function mt_date( $format, $timestamp = false, $offset = true ) {
 	}
 	$timestamp = $timestamp + $offset;
 
-	return gmdate( $format, $timestamp );
+	return ( '' === $format ) ? $timestamp : gmdate( $format, $timestamp );
 }
 
 /**
