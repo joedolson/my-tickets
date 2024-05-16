@@ -82,6 +82,10 @@
     padding: 2px;
 }
 
+.mt-ticket-field.mt-sales-closed {
+	opacity: .4;
+}
+
 .mt-ticket-field {
     display: grid;
     grid-template-columns: 14em 1fr 12em;
