@@ -282,8 +282,14 @@
 				'security': mt_ajax.security
 			};
 			$.post( mt_ajax.url, data, function (response) {
-				let message = response.response;
-				$( '.mt-expiration-update' ).html( "<p>" + message + "</p>" ).show( 300 );
+				let timer    = $( '#mt-timer' );
+				let message  = response.response;
+				let dataTime = timer.data( 'start' );
+				let value    = dataTime + 300;
+				timer.data( 'start', value );
+				mtUpdateTimer( timer )
+
+				wp.a11y.speak( message );
 			}, "json" );
 			$('.mt-processing').hide();
 		});
@@ -310,16 +316,16 @@
 			setInterval( function() {
 				let time = $('.mt-expiration-update').text();
 				wp.a11y.speak( time );
-			}, 1000 * 60 ); 
+			}, 1000 * 60 );
 		}, 1000 );
 
 		const timer = $('#mt-timer');
-		setInterval( mtUpdateTimer, 5000, timer );
+		setInterval( mtUpdateTimer, 2000, timer );
 	
 		function mtUpdateTimer( timer ) {
 			let seconds = timer.data('start');
 			if ( seconds > 0 ) {
-				let second = seconds - 5;
+				let second = seconds - 2;
 				timer.data( 'start', second );
 	
 				let date = new Date(null);
