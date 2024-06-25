@@ -47,8 +47,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		}
 	}
 
-	$current_user = wp_get_current_user();
-	mt_refresh_cache();
+	$current_user       = wp_get_current_user();
 	$expiration         = mt_expiration_window();
 	$current_expiration = mt_get_expiration();
 	if ( $current_expiration < time() + $expiration ) {
@@ -71,6 +70,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 			return true;
 		}
 	}
+	mt_refresh_cache();
 }
 
 /**
@@ -86,6 +86,7 @@ function mt_extend_expiration( $amount = 300 ) {
 		$current = get_user_meta( wp_get_current_user()->ID, '_mt_user_init_expiration', true );
 		$new     = (int) $current + $amount;
 		update_user_meta( wp_get_current_user()->ID, '_mt_user_init_expiration', $new );
+		mt_refresh_cache();
 
 		return $new;
 	} else {
@@ -98,6 +99,7 @@ function mt_extend_expiration( $amount = 300 ) {
 		$cart    = mt_get_transient( 'mt_' . $unique_id . '_cart' );
 		mt_set_transient( 'mt_' . $unique_id . '_cart', $cart );
 		mt_set_transient( 'mt_' . $unique_id . '_expiration', $new );
+		mt_refresh_cache();
 
 		return $new;
 	}
@@ -128,6 +130,7 @@ function mt_delete_data( $data = 'cart', $unique_id = false ) {
 	if ( $unique_id ) {
 		mt_delete_transient( 'mt_' . $unique_id . '_' . $data );
 	}
+	mt_refresh_cache();
 }
 
 /**
@@ -165,6 +168,7 @@ function mt_delete_custom_field_data() {
 				}
 			}
 		}
+		mt_refresh_cache();
 	}
 }
 
