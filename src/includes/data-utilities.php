@@ -10,7 +10,7 @@
  */
 
 /**
- * Abstract function for saving user data (cookie or meta). Saves as cookie if not logged in, as user meta if is.
+ * Abstract function for saving user data (cookie or meta). Saves as option if not logged in, as user meta if is.
  *
  * @param array  $passed Data passed to save.
  * @param string $type Type of data to save.
