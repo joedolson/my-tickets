@@ -629,6 +629,7 @@ function mt_refresh_cache() {
 			WPO_Page_Cache::delete_single_post_cache( $post );
 		}
 	}
+	wp_cache_flush();
 }
 </code></pre>
         </article>
