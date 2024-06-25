@@ -81,6 +81,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Feature: Add ability to set general admission tickets with no expiration.
 * Feature: Add ability to set a specific custom expiration date for general admission tickets.
 * Feature: Bulk ticket check-in for groups.
+* Feature: Reports specific to ticket groups.
+* Feature: Add ability to move ticket between different ticket groups.
 * Change: Add custom buttons to increment ticket count due to incredibly small browser input design.
 * Change: Revamp data storage model for public users.
 * Design & visual changes.
