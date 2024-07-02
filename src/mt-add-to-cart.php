@@ -382,7 +382,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 	// if multiple != true, use checkboxes.
 	$input_type = ( isset( $registration['multiple'] ) && 'true' === $registration['multiple'] ) ? 'number' : 'checkbox';
 	$class      = 'mt-available';
-	$form       = array();
+	$form       = '';
 	/**
 	 * Filter value data about a specific type of ticket.
 	 *
