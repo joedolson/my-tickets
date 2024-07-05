@@ -98,7 +98,7 @@ function mt_add_ticket_form() {
 	$clear = '<p><input type="checkbox" class="mt-delete-data" name="mt-delete-data" id="mt-delete-data" /> <label for="mt-delete-data">' . __( 'Delete ticket sales data on this post', 'my-tickets' ) . '</label></p>';
 	// Show ticket selector checkbox on post types.
 	global $current_screen;
-	if ( 'post' === $current_screen->base ) {
+	if ( $current_screen && 'post' === $current_screen->base ) {
 		$format .= "<p class='mt-trigger-container'>
 			<input type='checkbox' class='mt-trigger' name='mt-trigger' id='mt-trigger'$sell /> <label for='mt-trigger'>" . __( 'Sell tickets on this post.', 'my-tickets' ) . '</label>
 			</p>';
@@ -447,7 +447,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		$registration = mt_get_settings( 'defaults' )['continuous'];
 	}
 	global $current_screen;
-	$base           = $current_screen->base;
+	$base           = ( $current_screen ) ? $current_screen->base : false;
 	$is_post_screen = ( 'post' === $base || wp_doing_ajax() || 'toplevel_page_my-calendar' === $base ) ? true : false;
 	// Compound array in settings, single array in posts.
 	$pattern   = ( $is_post_screen ) ? '[]' : "[$counting][]";
