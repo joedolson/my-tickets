@@ -272,8 +272,19 @@
 			});
 		}
 
+		document.addEventListener( 'keydown', function( e ) {
+			if ( e.ctrlKey && e.code === 'Space' ) {
+				
+				extendTimer();
+			}
+		});
+
 		// extend cart expiration.
 		$('.mt-extend-button').on('click', function (e) {
+			extendTimer();
+		});
+
+		function extendTimer() {
 			$('.mt-processing').show();
 
 			let data = {
@@ -292,7 +303,7 @@
 				wp.a11y.speak( message );
 			}, "json" );
 			$('.mt-processing').hide();
-		});
+		}
 
 		// Remove unsubmitted flag.
 		$( '.mt-payment-form form' ).on( 'submit', function(e) {
@@ -320,21 +331,24 @@
 		}, 1000 );
 
 		const timer = $('#mt-timer');
-		setInterval( mtUpdateTimer, 2000, timer );
+		setInterval( mtUpdateTimer, 1000, timer );
 	
 		function mtUpdateTimer( timer ) {
 			let seconds = timer.data('start');
+			let cart    = document.querySelector( '.mt_cart' );
 			if ( seconds > 0 ) {
-				let second = seconds - 2;
+				let second = seconds - 1;
 				timer.data( 'start', second );
 	
 				let date = new Date(null);
 				date.setSeconds( second ); 
 				let min = date.getMinutes();
 				let sec = date.getSeconds();
-				timer.html( min + 'min ' + sec + 'sec' );
+				timer.html( min + ' minutes ' + sec + ' seconds' );
 			} else {
-				timer.html( 'Expired' );
+				timer.parent().html( mt_ajax.cartExpired );
+				$( '.mt-extend-button' ).hide();
+				cart.parentNode.removeChild( cart );
 			}
 		}
 	});

@@ -16,6 +16,11 @@
 	color: var(--mt-text-color);
 }
 
+.mt-expiration-update {
+	display: flex;
+	align-self: center;
+}
+
 .mt-extend-button {
 	display: flex;
 	align-items: center;
