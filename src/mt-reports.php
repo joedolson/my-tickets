@@ -605,7 +605,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						$country     = ( isset( $address['country'] ) ) ? $address['country'] : '';
 						$datetime    = "$date $time";
 						$price       = $details[ $type ]['price'];
-						$label       = mt_get_label( $type );
+						$label       = mt_get_label( $type, $event_id );
 						$types      .= ( '' !== $types ) ? PHP_EOL . $label . ': ' . $count : $label . ':' . $count;
 						$this_total  = $count * $price;
 						$subtotal    = $subtotal + ( $this_total );
@@ -718,7 +718,7 @@ function mt_get_tickets( $event_id ) {
 				} else {
 					$callback = 'mt_get_report_data';
 				}
-				$contents = call_user_func( $callback, $key, $purchase_id, $ticket_id, $ticket );
+				$contents = call_user_func( $callback, $key, $purchase_id, $ticket_id, $ticket, $event_id );
 				$rows[]   = "<td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents</td>";
 				$csvs[]   = '\"' . wp_strip_all_tags( $contents ) . '\"';
 			}
@@ -740,17 +740,18 @@ function mt_get_tickets( $event_id ) {
  * @param int    $purchase_id Post ID for purchase record.
  * @param string $ticket_id ID of the ticket being displayed.
  * @param array  $ticket Array of ticket information.
+ * @param int    $event_id Post ID for event.
  *
  * @return string
  */
-function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket ) {
+function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket, $event_id ) {
 	$value = '';
 	switch ( $type ) {
 		case 'mt-seqid':
 			$value = mt_get_sequential_id( $ticket_id );
 			break;
 		case 'mt-type':
-			$value = mt_get_label( $ticket['type'] );
+			$value = mt_get_label( $ticket['type'], $event_id );
 			break;
 		case 'mt-first':
 			$first = get_post_meta( $purchase_id, '_first_name', true );
