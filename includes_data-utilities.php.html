@@ -535,8 +535,7 @@ function mt_get_data_types() {
 function mt_find_carts() {
 	global $wpdb;
 
-	$query   = 'SELECT option_name FROM ' . $wpdb->options . " WHERE option_name LIKE '%%mt_%%' AND option_name LIKE '%%_cart%%'";
-	$results = $wpdb->get_results( $query );
+	$results = $wpdb->get_results( 'SELECT option_name FROM ' . $wpdb->options . " WHERE option_name LIKE '%%mt_%%' AND option_name LIKE '%%_cart%%'" );
 	$keys    = array();
 	foreach ( $results as $result ) {
 		$key   = $result->option_name;
