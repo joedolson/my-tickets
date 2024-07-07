@@ -465,13 +465,16 @@ function mt_public_enqueue_scripts() {
 		'mt.public',
 		'mt_ajax',
 		array(
-			'action'             => 'mt_ajax_handler',
-			'url'                => admin_url( 'admin-ajax.php' ),
-			'security'           => wp_create_nonce( 'mt-cart-nonce' ),
-			'currency'           => $symbol,
-			'cart_url'           => $cart_url,
-			'redirect'           => $redirect,
-			'requiredFieldsText' => __( 'Please complete all required fields!', 'my-tickets' ),
+			'action'               => 'mt_ajax_handler',
+			'url'                  => admin_url( 'admin-ajax.php' ),
+			'security'             => wp_create_nonce( 'mt-cart-nonce' ),
+			'currency'             => $symbol,
+			'cart_url'             => $cart_url,
+			'redirect'             => $redirect,
+			'requiredFieldsText'   => __( 'Please complete all required fields!', 'my-tickets' ),
+			'cartExpired'          => __( 'Your shopping cart has expired.', 'my-tickets' ),
+			'cartExpiringSoon'     => __( 'Your cart will expire in 2 minutes. Press Ctrl plus Space to extend 5 minutes.', 'my-tickets' ),
+			'cartExpiringVerySoon' => __( 'Your cart will expire in 1 minute. Press Ctrl plus Space to extend 5 minutes.', 'my-tickets' ),
 		)
 	);
 	$enabled  = $options['mt_gateway'];
