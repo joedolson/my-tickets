@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_custom_display_field - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_add_to_cart_ajax_field_handler - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_custom_display_field</h1></header>
+    <header><h1 class="page-title">Filter: mt_add_to_cart_ajax_field_handler</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_custom_display_field">apply_filters( 'mt_custom_display_field', <span class="signature">$return, $data, $name )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_add_to_cart_ajax_field_handler">apply_filters( 'mt_add_to_cart_ajax_field_handler', <span class="signature">$saved, $submit )</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Customize the display of a custom field.</p>
+    <p>Filter submitted data after cart update.</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>$return</code></td>
+                <td class="name"><code>$saved</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">array</span>
 
 
             
@@ -93,20 +93,20 @@
 
             
 
-            <td class="description last"><p>Return value of the field.</p></td>
+            <td class="description last"><p>Array containing a <code>success</code> and <code>cart</code> element.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>$data</code></td>
+                <td class="name"><code>$submit</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">mixed</span>
+<span class="param-type">array</span>
 
 
             
@@ -116,30 +116,7 @@
 
             
 
-            <td class="description last"><p>Value stored in post meta.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>$name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Field name.</p></td>
+            <td class="description last"><p>Array of data submitted from form.</p></td>
         </tr>
 
     
@@ -180,7 +157,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-fields-api.php.html">mt-fields-api.php</a>, <a href="mt-fields-api.php.html#line335">line 335</a>
+        <a href="mt-ajax.php.html">mt-ajax.php</a>, <a href="mt-ajax.php.html#line108">line 108</a>
     </li></ul></dd>
     
 
@@ -214,7 +191,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">array</span>
 
 
     </dd>
