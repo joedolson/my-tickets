@@ -381,18 +381,23 @@ function mt_get_registration_fields( $form, $has_data, $data, $context = 'admin'
 	$original_form = $form;
 	$options       = mt_get_settings();
 	$description   = false;
+	$event_id      = false;
 	if ( true === $has_data &amp;&amp; property_exists( $data, 'event_post' ) ) {
-		$registration = get_post_meta( (int) $data->event_post, '_mt_registration_options', true );
+		$event_id     = (int) $data->event_post;
+		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		$description  = stripslashes( esc_attr( $data->event_registration ) );
 	}
 	if ( is_int( $has_data ) &amp;&amp; $has_data ) {
+		$event_id     = $has_data;
 		$description  = false;
-		$registration = get_post_meta( $has_data, '_mt_registration_options', true );
+		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	}
 	if ( empty( $registration ) ) {
 		$default_model = ( '' !== $model ) ? $model : $options['default_model'];
 		$registration  = $options['defaults'][ $default_model ];
 	}
+	$registration['event_id'] = $event_id;
+
 	$expiration  = ( isset( $registration['reg_expires'] ) ) ? $registration['reg_expires'] : $options['defaults']['reg_expires'];
 	$multiple    = ( isset( $registration['multiple'] ) ) ? $registration['multiple'] : $options['defaults']['multiple'];
 	$is_multiple = ( 'true' === $multiple ) ? 'checked="checked"' : '';
@@ -547,7 +552,8 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				$labels_index[ $label ] = $options['label'];
 			}
 		}
-		mt_index_labels( $labels_index );
+		$event_id = ( isset( $registration['event_id'] ) ) ? $registration['event_id'] : false;
+		mt_index_labels( $labels_index, $event_id );
 
 		$has_comps = false;
 		$keys      = array_keys( $pricing );
@@ -603,8 +609,9 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
  * Create index of labels/stored names
  *
  * @param array $labels array of labels/names.
+ * @param int   $event_id Optional event ID.
  */
-function mt_index_labels( $labels ) {
+function mt_index_labels( $labels, $event_id = false ) {
 	$index = get_option( 'mt_labels' );
 	$index = is_array( $index ) ? $index : array();
 	$keys  = array_keys( $index );
@@ -613,19 +620,26 @@ function mt_index_labels( $labels ) {
 			$index[ $name ] = $label;
 		}
 	}
-
-	update_option( 'mt_labels', $index );
+	if ( $event_id ) {
+		update_post_meta( $event_id, '_mt_labels', $index );
+	} else {
+		update_option( 'mt_labels', $index );
+	}
 }
 
 /**
  * Fetch label from stored key
  *
  * @param string $key Key for stored label.
+ * @param int    $event_id ID of the event this label is attached to.
  *
  * @return string either key or found label
  */
-function mt_get_label( $key ) {
-	$index = get_option( 'mt_labels' );
+function mt_get_label( $key, $event_id ) {
+	$index = ( $event_id ) ? get_post_meta( $event_id, '_mt_labels', true ) : false;
+	if ( ! $index ) {
+		$index = get_option( 'mt_labels' );
+	}
 	if ( isset( $index[ $key ] ) ) {
 		$key = $index[ $key ];
 	}
