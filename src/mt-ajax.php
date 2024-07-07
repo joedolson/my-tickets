@@ -105,6 +105,16 @@ function mt_ajax_handler() {
 		);
 
 		$saved = mt_update_cart( $save );
+		/**
+		 * Filter submitted data after cart update.
+		 *
+		 * @hook mt_add_to_cart_ajax_field_handler
+		 *
+		 * @param {array} $saved Array containing a `success` and `cart` element.
+		 * @param {array} $submit Array of data submitted from form.
+		 *
+		 * @return {array}
+		 */
 		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
 		$url   = get_permalink( $options['mt_purchase_page'] );
 		if ( 1 === (int) $saved['success'] ) {
