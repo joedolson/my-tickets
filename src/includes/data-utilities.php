@@ -398,8 +398,10 @@ function mt_get_expiration() {
 
 /**
  * Check whether a user's cart or payment info is expired at init.
+ *
+ * @param string $cart_id Optional parameter to check a specific cart ID.
  */
-function mt_is_cart_expired() {
+function mt_is_cart_expired( $cart_id = false ) {
 	$types = mt_get_data_types();
 	if ( is_user_logged_in() ) {
 		$current_user = wp_get_current_user();
@@ -417,7 +419,7 @@ function mt_is_cart_expired() {
 			}
 		}
 	} else {
-		$unique_id = mt_get_unique_id();
+		$unique_id = ( $cart_id ) ? $cart_id : mt_get_unique_id();
 		if ( $unique_id ) {
 			$expiration = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
 			if ( $expiration && time() > $expiration ) {
@@ -497,4 +499,41 @@ function mt_get_data_types() {
 	$types = array( 'cart', 'payment', 'offline-payment' );
 
 	return $types;
+}
+
+/**
+ * Find all options with the pattern mt_*_cart.
+ *
+ * @return array
+ */
+function mt_find_carts() {
+	global $wpdb;
+
+	$query   = 'SELECT option_name FROM ' . $wpdb->options . " WHERE option_name LIKE '%%mt_%%' AND option_name LIKE '%%_cart%%'";
+	$results = $wpdb->get_results( $query );
+	$keys    = array();
+	foreach ( $results as $result ) {
+		$key   = $result->option_name;
+		$parts = explode( '_', $key );
+		if ( count( $parts ) === 3 ) {
+			$unique_id = $parts[1];
+			$keys[]    = $unique_id;
+		}
+	}
+
+	return $keys;
+}
+
+/**
+ * Check cart expirations for an array of IDs.
+ *
+ * @param array $unique_ids Array of cart IDs.
+ */
+function my_tickets_check_cart_expirations( $unique_ids ) {
+	if ( ! empty( $unique_ids ) ) {
+		foreach ( $unique_ids as $unique_id ) {
+			// Check whether the cart is expired and delete it if it is.
+			mt_is_cart_expired( $unique_id );
+		}
+	}
 }
