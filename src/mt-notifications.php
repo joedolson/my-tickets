@@ -727,15 +727,21 @@ function mt_notify_admin( $event, $registration, $context ) {
 	$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
 	$headers[] = "Reply-to: $options[mt_from]";
 	apply_filters( 'mt_filter_email_headers', $headers, $event );
-	$title    = get_the_title( $event );
-	$download = admin_url( "admin.php?page=mt-reports&amp;event_id=$event&amp;format=csv&amp;mt-event-report=purchases" );
-	$tickets  = admin_url( "admin.php?page=mt-reports&amp;event_id=$event&amp;format=csv&amp;mt-event-report=tickets" );
+	$title     = get_the_title( $event );
+	$inventory = mt_check_inventory( $event );
+	$download  = admin_url( "admin.php?page=mt-reports&amp;event_id=$event&amp;format=csv&amp;mt-event-report=purchases" );
+	$tickets   = admin_url( "admin.php?page=mt-reports&amp;event_id=$event&amp;format=csv&amp;mt-event-report=tickets" );
 	if ( 'closed' === $context ) {
 		// Translators: Name of event being closed.
 		$subject = apply_filters( 'mt_closure_subject', sprintf( __( 'Ticket sales for %s are now closed', 'my-tickets' ), $title ), $event );
 		$subject = mb_encode_mimeheader( $subject );
-		// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
-		$body = apply_filters( 'mt_closure_body', sprintf( __( 'Online ticket sales for %1$s are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ), $title, $download, $tickets ), $event );
+		if ( $inventory && 0 === (int) $inventory['sold'] ) {
+			// Translators: Name of event closed.
+			$body = apply_filters( 'mt_closure_body', sprintf( __( 'Online ticket sales for %1$s are now closed with no online sales.', 'my-tickets' ), $title ), $event );
+		} else {
+			// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
+			$body = apply_filters( 'mt_closure_body', sprintf( __( 'Online ticket sales for %1$s are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ), $title, $download, $tickets ), $event );
+		}
 	}
 	if ( 'soldout' === $context ) {
 		// Translators: Name of event soldout.
