@@ -331,7 +331,9 @@
 		}, 1000 );
 
 		const timer = $('#mt-timer');
-		setInterval( mtUpdateTimer, 1000, timer );
+		if ( timer.length !== 0 ) {
+			setInterval( mtUpdateTimer, 1000, timer );
+		}
 	
 		function mtUpdateTimer( timer ) {
 			let seconds = timer.data('start');
