@@ -96,6 +96,31 @@ function mt_format_array( $output, $type, $data, $purchase_id, $context = 'admin
 }
 
 /**
+ * Get the permalink to an event. 
+ *
+ * @param int $event_id Post ID for the ticketed event.
+ *
+ * @return string URL to event.
+ */
+function mt_get_event_link( $event_id ) {
+	$url = get_the_permalink( $event_id );
+
+	/**
+	 * Filter the link to a ticketed event.
+	 *
+	 * @hook mt_get_event_link
+	 *
+	 * @param {string} $url Event permalink.
+	 * @param {int}    $event_id Event Post ID.
+	 *
+	 * @return {string}
+	 */
+	$url = apply_filters( 'mt_get_event_link', $url, $event_id );
+
+	return $url;
+}
+
+/**
  * Format purchase data for use in email notifications. (Basically, simplified version of cart output.)
  *
  * @param array                 $purchase Purchase data.
@@ -131,7 +156,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				}
 				$handling     = (float) $handling;
 				$title        = ( $is_html ) ? '<strong>' . get_the_title( $event_id ) . '</strong>' : get_the_title( $event_id );
-				$title        = ( $is_html ) ? "<a href='" . get_the_permalink( $event_id ) . "'>" . $title . '</a>' : $title;
+				$title        = ( $is_html ) ? "<a href='" . mt_get_event_link( $event_id ) . "'>" . $title . '</a>' : $title;
 				$event        = get_post_meta( $event_id, '_mc_event_data', true );
 				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 				$counting     = $registration['counting_method'];

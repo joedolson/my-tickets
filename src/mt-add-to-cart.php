@@ -176,6 +176,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				$mc_id     = (int) $_GET['mc_id'];
 				$permalink = add_query_arg( 'mc_id', $mc_id, get_the_permalink() );
 			} else {
+				// This permalink is to the current page, not to the event permalink.
 				$permalink = get_the_permalink();
 			}
 			if ( is_array( $pricing ) ) {
