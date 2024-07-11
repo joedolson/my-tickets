@@ -96,7 +96,7 @@ function mt_format_array( $output, $type, $data, $purchase_id, $context = 'admin
 }
 
 /**
- * Get the permalink to an event. 
+ * Get the permalink to an event.
  *
  * @param int $event_id Post ID for the ticketed event.
  *
