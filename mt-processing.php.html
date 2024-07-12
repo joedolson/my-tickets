@@ -613,6 +613,9 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
  */
 function mt_index_labels( $labels, $event_id = false ) {
 	$index = get_option( 'mt_labels' );
+	if ( $event_id ) {
+		$index = get_post_meta( $event_id, '_mt_labels', true );
+	}
 	$index = is_array( $index ) ? $index : array();
 	$keys  = array_keys( $index );
 	foreach ( $labels as $name => $label ) {
