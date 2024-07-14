@@ -87,7 +87,7 @@
     padding: 2px;
 }
 
-.mt-ticket-field.mt-sales-closed {
+.mt-ticket-field.mt-sales-closed > *:not(.ticket-pricing,label) {
 	opacity: .4;
 }
 
