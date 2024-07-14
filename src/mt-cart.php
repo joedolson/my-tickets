@@ -1212,7 +1212,6 @@ function mt_handle_ticket_type_expired( $event, $type, $react = false ) {
 		 * @param {string} $type Ticket type.
 		 * @param {string} $closed The string 'type'.
 		 */
-		wp_mail( 'joe@joedolson.com', 'Ticket sales are closed for type', $event, $type );
 		do_action( 'mt_ticket_type_close_sales', $event, $type, 'type' );
 
 		return true;
