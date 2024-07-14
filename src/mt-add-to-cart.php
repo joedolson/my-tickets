@@ -379,7 +379,6 @@ function mt_get_ticket_type_close( $ticket_type, $registration ) {
 		// The 'close' is a custom value, offset by the stop value.
 		$close = ( isset( $ticket_type['close'] ) && ! empty( $ticket_type['close'] ) ) ? $ticket_type['close'] + $stop : '';
 	}
-	echo $close;
 
 	return $close;
 }
@@ -463,7 +462,8 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		$close              = mt_get_ticket_type_close( $ticket_type, $registration );
 		$type_sales_closed  = false;
 		$closure            = '';
-		if ( $close && $close < mt_date() ) {
+
+		if ( $close && ( $close - mt_date() ) < DAY_IN_SECONDS ) {
 			$show_closed = ( 'true' === $options['mt_show_closed'] ) ? 'show' : 'hide';
 			/**
 			 * Filter whether a ticket type that has closed will be shown for an event.
@@ -476,7 +476,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 * @return {string}
 			 */
 			$ticket_type_sales_closed_behavior = apply_filters( 'mt_ticket_type_sales_closed', $show_closed, $event_id );
-			if ( 'hide' === $ticket_type_sales_closed_behavior ) {
+			if ( 'hide' === $ticket_type_sales_closed_behavior && $close < mt_date() ) {
 				// If this ticket type is no longer available, skip.
 				return false;
 			} else {
