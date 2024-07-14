@@ -1179,6 +1179,10 @@ function mt_event_expired( $event, $react = false ) {
 		// General admissions sales do not expire.
 		return false;
 	}
+	if ( 'event' === $options['counting_method'] ) {
+		// Event type sales expire as individual sub-events, not as a full event.
+		return false;
+	}
 	$expired = get_post_meta( $event, '_mt_event_expired', true );
 	if ( 'true' === $expired ) {
 		return true;
