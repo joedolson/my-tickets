@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_apply_custom_field_rules - My Tickets Hook Doumentation</title>
+    <title>Action: mt_ticket_type_close_sales - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_apply_custom_field_rules</h1></header>
+    <header><h1 class="page-title">Action: mt_ticket_type_close_sales</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_apply_custom_field_rules">apply_filters( 'mt_apply_custom_field_rules', <span class="signature">$return, $field, $event_id )</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    <h4 class="name" id="mt_ticket_type_close_sales">do_action( 'mt_ticket_type_close_sales', <span class="signature">$event, $type, $closed )</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter the boolean value that indicates whether a custom field should be shown on an event.</p>
+    <p>Executed an action when ticket sales are transitioned from open to closed for a specific ticket type.</p>
 </div>
 
 
@@ -77,53 +77,7 @@
 
         <tr>
             
-                <td class="name"><code>$return</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">bool</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>True to return this field.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>$field</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Array of custom field characteristics.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>$event_id</code></td>
+                <td class="name"><code>$event</code></td>
             
 
             <td class="type">
@@ -139,7 +93,53 @@
 
             
 
-            <td class="description last"><p>Event being displayed.</p></td>
+            <td class="description last"><p>Event ID.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Ticket type.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$closed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The string 'type'.</p></td>
         </tr>
 
     
@@ -180,7 +180,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-fields-api.php.html">mt-fields-api.php</a>, <a href="mt-fields-api.php.html#line121">line 121</a>
+        <a href="mt-cart.php.html">mt-cart.php</a>, <a href="mt-cart.php.html#line1206">line 1206</a>
     </li></ul></dd>
     
 
@@ -203,24 +203,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">bool</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
