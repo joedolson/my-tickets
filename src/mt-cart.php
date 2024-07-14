@@ -1191,8 +1191,8 @@ function mt_event_expired( $event, $react = false ) {
 /**
  * Handle the expiration of a single ticket type.
  *
- * @param int     $event An event ID.
- * @param string  $type Ticket type key.
+ * @param int    $event An event ID.
+ * @param string $type Ticket type key.
  *
  * @return bool
  */
