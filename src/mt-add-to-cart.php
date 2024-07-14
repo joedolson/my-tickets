@@ -162,7 +162,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 	$sold_out    = '';
 	$has_tickets = '';
 	$output      = '';
-	$expired     = mt_expired( $event_id, true );
+	$expired     = mt_event_expired( $event_id, true );
 	$no_postal   = mt_no_postal( $event_id );
 	if ( $no_postal && 1 === count( $options['mt_ticketing'] ) && in_array( 'postal', $options['mt_ticketing'], true ) && ! ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) ) {
 		$expired = true;
@@ -392,7 +392,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 	 * @param {array}  $ticket_type Price and availability for a ticket type.
 	 * @param {array}  $pricing Full pricing array being iterated.
 	 * @param {int}    $event_id Event ID.
-	 * @param {strnig} $type Current ticket type.
+	 * @param {string} $type Current ticket type.
 	 */
 	$ticket_type = apply_filters( 'mt_ticket_settings', $ticket_type, $pricing, $event_id, $type );
 	if ( ! mt_can_order( $type ) ) {
@@ -468,13 +468,16 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 						$window = human_time_diff( $close, mt_date() );
 					}
 					// translators: amount of time before sales close. Uses human_time_diff().
-					$closure = sprintf( __( 'Sales will close in about %s', 'my-tickets' ), $window );
+					$closure = ( $type_sales_closed ) ? __( 'Sales are closed', 'my-tickets' ) : sprintf( __( 'Sales will close in about %s', 'my-tickets' ), $window );
 				} else {
 					$type_sales_closed = true;
 					// translators: Date ticket sales closed.
 					$closure = sprintf( __( 'Sales closed %s', 'my-tickets' ), date_i18n( get_option( 'date_format' ), $close ) );
 				}
 			}
+		}
+		if ( $type_sales_closed ) {
+			mt_handle_ticket_type_expired( $event_id, $type );
 		}
 		if ( 'checkbox' === $input_type || 'radio' === $input_type ) {
 			if ( 1 === $value ) {
@@ -673,7 +676,7 @@ function mt_event_status( $event_id = false ) {
 		return '';
 	}
 
-	$expired           = ( mt_expired( $event_id ) ) ? __( 'Sales closed', 'my-tickets' ) : '';
+	$expired           = ( mt_event_expired( $event_id ) ) ? __( 'Sales closed', 'my-tickets' ) : '';
 	$registration      = get_post_meta( $event_id, '_mt_registration_options', true );
 	$tickets_remaining = mt_check_inventory( $event_id );
 	// Translators: Number of tickets remaining.
