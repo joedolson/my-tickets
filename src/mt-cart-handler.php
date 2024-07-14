@@ -300,8 +300,8 @@ function mt_check_inventory( $event_id, $type = '' ) {
 	$prices = $registration['prices'];
 	if ( ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) ) {
 		if ( '' !== $type ) {
-			$available = absint( $prices[ $type ]['tickets'] );
 			$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
+			$available = absint( $prices[ $type ]['tickets'] ) - $sold;
 		} else {
 			$available = 0;
 			$sold      = 0;
@@ -309,6 +309,7 @@ function mt_check_inventory( $event_id, $type = '' ) {
 				$available += (int) $pricetype['tickets'];
 				$sold      += (int) $pricetype['sold'];
 			}
+			$available = $available - $sold;
 		}
 	} else {
 		$available = absint( $registration['total'] );
@@ -316,6 +317,7 @@ function mt_check_inventory( $event_id, $type = '' ) {
 		foreach ( $prices as $pricetype ) {
 			$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
 		}
+		$available = $available - $sold;
 	}
 
 	/**
