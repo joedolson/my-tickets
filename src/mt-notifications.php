@@ -741,9 +741,9 @@ add_action( 'mt_event_sold_out', 'mt_notify_admin', 10, 3 );
 /**
  * Send notification to admin when ticket sales are closed.
  *
- * @param int           $event Event ID.
- * @param array|string  $ticket_info Event registration data or ticket type.
- * @param string        $context 'closed' or 'soldout'.
+ * @param int          $event Event ID.
+ * @param array|string $ticket_info Event registration data or ticket type.
+ * @param string       $context 'closed' or 'soldout'.
  */
 function mt_notify_admin( $event, $ticket_info, $context ) {
 	$event     = (int) $event;
