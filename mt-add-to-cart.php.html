@@ -494,7 +494,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 						$window = human_time_diff( $close, mt_date() );
 					}
 					// translators: amount of time before sales close. Uses human_time_diff().
-					$closure = ( $type_sales_closed ) ? __( 'Sales are closed', 'my-tickets' ) : sprintf( __( 'Sales will close in about %s', 'my-tickets' ), $window );
+					$closure = ( $type_sales_closed ) ? __( 'Sales are closed', 'my-tickets' ) : sprintf( __( 'Sales will close in %s', 'my-tickets' ), $window );
 				} else {
 					$type_sales_closed = true;
 					// translators: Date ticket sales closed.
