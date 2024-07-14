@@ -113,7 +113,7 @@ function mt_cart_no_postal( $cart ) {
 			foreach ( $data as $type => $count ) {
 				if ( $count > 0 ) {
 					if ( isset( $prices[ $type ] ) ) {
-						if ( mt_no_postal( $event ) && ! mt_expired( $event ) ) {
+						if ( mt_no_postal( $event ) && ! mt_event_expired( $event ) ) {
 							return true;
 						}
 					}
@@ -884,7 +884,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 			if ( false === get_post_status( $event_id ) || 'trash' === get_post_status( $event_id ) ) {
 				continue;
 			}
-			$expired = mt_expired( $event_id );
+			$expired = mt_event_expired( $event_id );
 			if ( ! $expired ) {
 				// There is no payment ID yet, but $_POST data and $_COOKIE data should be available for pricing.
 				$prices = mt_get_prices( $event_id );
@@ -999,7 +999,7 @@ function mt_total_cart( $cart, $payment_id = false, $apply_discounts = true ) {
 	$total = 0;
 	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event => $order ) {
-			$expired = mt_expired( $event );
+			$expired = mt_event_expired( $event );
 			if ( ! $expired ) {
 				$prices = mt_get_prices( $event, $payment_id );
 				if ( is_array( $order ) ) {
@@ -1032,7 +1032,7 @@ function mt_count_cart( $cart ) {
 	$total = 0;
 	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event => $order ) {
-			$expired = mt_expired( $event );
+			$expired = mt_event_expired( $event );
 			if ( ! $expired ) {
 				if ( is_array( $order ) ) {
 					foreach ( $order as $type => $count ) {
@@ -1140,7 +1140,7 @@ function mt_replace_http( $url ) {
  *
  * @return bool
  */
-function mt_expired( $event, $react = false ) {
+function mt_event_expired( $event, $react = false ) {
 	if ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) {
 		return false;
 	}
