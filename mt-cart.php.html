@@ -1219,11 +1219,10 @@ function mt_event_expired( $event, $react = false ) {
  *
  * @param int     $event An event ID.
  * @param string  $type Ticket type key.
- * @param boolean $react Should a reaction happen.
  *
  * @return bool
  */
-function mt_handle_ticket_type_expired( $event, $type, $react = false ) {
+function mt_handle_ticket_type_expired( $event, $type ) {
 	$expired = get_post_meta( $event, '_mt_event_expired_' . sanitize_title( $type ), true );
 	if ( 'true' === $expired ) {
 		return true;
