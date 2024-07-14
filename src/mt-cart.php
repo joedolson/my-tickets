@@ -1187,3 +1187,36 @@ function mt_event_expired( $event, $react = false ) {
 
 	return false;
 }
+
+/**
+ * Handle the expiration of a single ticket type.
+ *
+ * @param int     $event An event ID.
+ * @param string  $type Ticket type key.
+ * @param boolean $react Should a reaction happen.
+ *
+ * @return bool
+ */
+function mt_handle_ticket_type_expired( $event, $type, $react = false ) {
+	$expired = get_post_meta( $event, '_mt_event_expired_' . sanitize_title( $type ), true );
+	if ( 'true' === $expired ) {
+		return true;
+	} else {
+		update_post_meta( $event, '_mt_event_expired_' . sanitize_title( $type ), 'true' );
+		/**
+		 * Executed an action when ticket sales are transitioned from open to closed for a specific ticket type.
+		 *
+		 * @hook mt_ticket_type_sales_closed
+		 *
+		 * @param {int} $event Event ID.
+		 * @param {string} $type Ticket type.
+		 * @param {string} $closed The string 'type'.
+		 */
+		wp_mail( 'joe@joedolson.com', 'Ticket sales are closed for type', $event, $type );
+		do_action( 'mt_ticket_type_sales_closed', $event, $type, 'type' );
+
+		return true;
+	}
+
+	return false;
+}
