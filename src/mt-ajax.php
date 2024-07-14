@@ -98,11 +98,14 @@ function mt_ajax_handler() {
 		$submit = $data;
 
 		// generate and submit cart data.
-		$save = array(
-			$submit['mt_event_id'] => $submit['mt_tickets'],
-			'mt_event_id'          => $submit['mt_event_id'],
-			'mt_tickets'           => $submit['mt_tickets'],
-		);
+		$save = array();
+		if ( isset( $submit['mt_tickets'] ) ) {
+			$save = array(
+				$submit['mt_event_id'] => $submit['mt_tickets'],
+				'mt_event_id'          => $submit['mt_event_id'],
+				'mt_tickets'           => $submit['mt_tickets'],
+			);
+		}
 
 		$saved = mt_update_cart( $save );
 		/**
