@@ -763,7 +763,7 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 	}
 	if ( 'closed' === $context || 'type' === $context ) {
 		if ( 'type' === $context ) {
-			$event = $event . ': ' . $ticket_info;
+			$title = $title . ' (' . $ticket_info . ')';
 		}
 		// Translators: Name of event being closed.
 		$subject = apply_filters( 'mt_closure_subject', sprintf( __( 'Ticket sales for %s are now closed', 'my-tickets' ), $title ), $event );
