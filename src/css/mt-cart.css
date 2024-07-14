@@ -91,6 +91,11 @@
 	opacity: .4;
 }
 
+.mt-ticket-field.mt-sales-closed > label,
+.mt-ticket-field.mt-sales-closed > .ticket-pricing {
+	opacity: .7;
+}
+
 .mt-ticket-field {
     display: grid;
     grid-template-columns: 14em 1fr minmax(auto,12em);
