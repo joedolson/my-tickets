@@ -176,7 +176,7 @@ function mt_ajax_load_model() {
 	}
 	$model    = ( in_array( $_REQUEST['model'], array( 'continuous', 'discrete', 'event' ), true ) ) ? sanitize_key( $_REQUEST['model'] ) : false;
 	$event_id = absint( $_REQUEST['event_id'] );
-	$data     = map_deep( json_decode( $_REQUEST['event'] ), 'sanitize_text_field' );
+	$data     = isset( $_REQUEST['event'] ) ? map_deep( json_decode( $_REQUEST['event'] ), 'sanitize_text_field' ) : array();
 	$form     = mt_get_registration_fields( '', $event_id, $data, 'admin', $model );
 	wp_send_json(
 		array(
