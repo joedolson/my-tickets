@@ -388,6 +388,29 @@ function mt_format_date( $date ) {
 }
 
 /**
+ * Get closing time for a ticket type.
+ *
+ * @param array $ticket_type Characteristics of this ticket type.
+ * @param array $registration Registration characteristics for event.
+ *
+ * @return int
+ */
+function mt_get_ticket_type_close( $ticket_type, $registration ) {
+	$stop   = (int) $registration['reg_expires'] * HOUR_IN_SECONDS;
+	$method = $registration['counting_method'];
+	if ( 'event' === $method ) {
+		// Event occurrence date/time - amount of time.
+		$close = strtotime( $ticket_type['label'] ) - $stop;
+	} else {
+		// The 'close' is a custom value, offset by the stop value.
+		$close = ( isset( $ticket_type['close'] ) &amp;&amp; ! empty( $ticket_type['close'] ) ) ? $ticket_type['close'] + $stop : '';
+	}
+	echo $close;
+
+	return $close;
+}
+
+/**
  * Generate a single row in the add to cart form.
  *
  * @param int        $event_id Event post ID.
@@ -463,15 +486,11 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		$value              = ( '' === $value ) ? 0 : (int) $value;
 		$order_value        = $value;
 		$attributes         = '';
-		$close              = ( isset( $ticket_type['close'] ) &amp;&amp; ! empty( $ticket_type['close'] ) ) ? $ticket_type['close'] : '';
+		$close              = mt_get_ticket_type_close( $ticket_type, $registration );
 		$type_sales_closed  = false;
 		$closure            = '';
-		$stop               = (int) $registration['reg_expires'];
-		if ( $close &amp;&amp; ( $close + $stop ) &lt; time() ) {
-			$show_closed = 'hide';
-			if ( 'true' === $options['mt_show_closed'] ) {
-				$show_closed = 'show';
-			}
+		if ( $close &amp;&amp; $close &lt; mt_date() ) {
+			$show_closed = ( 'true' === $options['mt_show_closed'] ) ? 'show' : 'hide';
 			/**
 			 * Filter whether a ticket type that has closed will be shown for an event.
 			 *
@@ -488,9 +507,8 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				return false;
 			} else {
 				if ( 'event' === $registration['counting_method'] ) {
-					$close             = strtotime( $ticket_type['label'] ) - ( $stop * HOUR_IN_SECONDS );
 					$type_sales_closed = ( $close &lt; mt_date() ) ? true : false;
-					if ( $close - mt_date() &lt; DAY_IN_SECONDS ) {
+					if ( ( $close - mt_date() ) &lt; DAY_IN_SECONDS ) {
 						$window = human_time_diff( $close, mt_date() );
 					}
 					// translators: amount of time before sales close. Uses human_time_diff().
