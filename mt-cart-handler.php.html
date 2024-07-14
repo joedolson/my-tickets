@@ -234,6 +234,9 @@ function mt_get_inventory_change( $passed = array(), $saved = array() ) {
 	}
 	$changes = array();
 	foreach ( $passed as $event_id => $counts ) {
+		if ( ! is_array( $counts ) ) {
+			continue;
+		}
 		foreach ( $counts as $type => $new_count ) {
 			$old_count = absint( ( isset( $saved[ $event_id ] ) ) ? $saved[ $event_id ][ $type ] : 0 );
 			$new_count = absint( $new_count );

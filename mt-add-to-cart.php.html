@@ -563,7 +563,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 					$button_down = str_replace( 'type="button"', 'type="button" disabled', $button_down );
 					$class       = ( $type_sales_closed ) ? 'mt-sales-closed' : 'mt-sold-out';
 				} else {
-					$class = 'mt-available';
+					$class       = 'mt-available';
 				}
 			}
 			$form  = "&lt;div class='mt-ticket-field mt-ticket-$type $class'>&lt;label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . $label . $extra_label . '&lt;/label>';
@@ -1159,6 +1159,9 @@ function mt_update_cart( $post = array() ) {
 			if ( is_numeric( $id ) ) {
 				$cart_item = isset( $cart[ $id ] ) ? $cart[ $id ] : array();
 				$post_item = array();
+				if ( ! is_array( $item ) ) {
+					continue;
+				}
 				foreach ( $item as $type => $count ) {
 					$post_item[ $type ] = absint( $count['count'] );
 				}
