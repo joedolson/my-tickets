@@ -159,6 +159,10 @@
 		/* Add to Cart form */
 		function mtAddToCart() {
 			const addToCart = $( '.mt-order .ticket-orders' );
+			const activeEvents = $( '.mt-order .mt-ticket-field input:not([disabled])');
+			if ( activeEvents.length < 1 ) {
+				$( '.mt-order button[name="mt_add_to_cart"]' ).parent( 'p' ).hide();
+			}
 
 			$('.mt-error-notice') .hide();
 			addToCart.on('blur', '.tickets-field', function () {
