@@ -735,7 +735,7 @@ function mt_return_ticket( $ticket_id, $event_id, $purchase_id, $type ) {
 	update_post_meta( $event_id, '_mt_registration_options', $registration );
 }
 
-add_action( 'mt_ticket_type_sales_closed', 'mt_notify_admin', 10, 3 );
+add_action( 'mt_ticket_type_close_sales', 'mt_notify_admin', 10, 3 );
 add_action( 'mt_ticket_sales_closed', 'mt_notify_admin', 10, 3 );
 add_action( 'mt_event_sold_out', 'mt_notify_admin', 10, 3 );
 /**
