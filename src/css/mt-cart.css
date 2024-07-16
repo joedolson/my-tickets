@@ -9,11 +9,17 @@
 
 .mt-expiration-notice {
 	padding: 1rem;
-	display: flex;
+	display: grid;
+	grid-template-columns: auto auto;
 	gap: 12px;
 	margin-bottom: 1rem;
 	background: var(--mt-message-bg);
 	color: var(--mt-text-color);
+}
+
+.mt-expiration-controls {
+	justify-items: end;
+	display: inline-grid;
 }
 
 .mt-expiration-update {
@@ -21,10 +27,12 @@
 	align-self: center;
 }
 
-.mt-extend-button {
+.my-tickets .mt-extend-button {
 	display: flex;
 	align-items: center;
 	gap: 6px;
+	padding: 6px 18px 6px 15px;
+	margin: 0;
 }
 
 .mt-expiration-notice p {
