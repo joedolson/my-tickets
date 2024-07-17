@@ -315,12 +315,14 @@ function mt_tickets_left( $pricing, $available ) {
 /**
  * Check virtual inventory for an event and ticket group. Returns total tickets if ticket type not passed.
  *
- * @param int    $event_id Event post ID.
- * @param string $type Type of ticket being checked.
+ * @param int         $event_id Event post ID.
+ * @param string      $type Type of ticket being checked.
+ * @param bool|string $virtual Whether to return the virtual inventory. 'auto' to return according to settings.
+ *                    True to return virtual. False to return true inventory.
  *
  * @return array|false Number of tickets available in key 'available', sold in key 'sold'.
  */
-function mt_check_inventory( $event_id, $type = '' ) {
+function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 	$options      = mt_get_settings();
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	if ( ! is_array( $registration ) ) {
@@ -360,7 +362,7 @@ function mt_check_inventory( $event_id, $type = '' ) {
 	 * @return {string}
 	 */
 	$is_virtual = apply_filters( 'mt_is_virtual_inventory', $options['mt_inventory'], $event_id );
-	if ( 'virtual' === $is_virtual ) {
+	if ( 'virtual' === $is_virtual &amp;&amp; ( 'auto' === $virtual || true === $virtual ) ) {
 		// Virtual inventory holds tickets in carts but not yet sold.
 		$virtual_inventory = get_post_meta( $event_id, '_mt_virtual_inventory', true );
 		if ( '' !== $type ) {

@@ -953,7 +953,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$price      = mt_handling_price( $prices[ $type ]['price'], $event_id, $type );
 								$orig_price = ( isset( $prices[ $type ]['orig_price'] ) ) ? mt_handling_price( $prices[ $type ]['orig_price'], $event_id, $type ) : $price;
 								$label      = $prices[ $type ]['label'];
-								$inventory  = mt_check_inventory( $event_id, $type );
+								$inventory  = mt_check_inventory( $event_id, $type, false );
 								$available  = $inventory['available'];
 								$sold       = $inventory['sold'];
 
