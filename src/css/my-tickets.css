@@ -427,3 +427,8 @@ legend {
         word-wrap: normal !important;
     }
 }
+
+#mt_error_log pre {
+	white-space: break-spaces;
+	max-width: 600px;
+}
