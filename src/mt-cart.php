@@ -930,6 +930,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								$inventory  = mt_check_inventory( $event_id, $type, false );
 								$total      = $inventory['total'];
 								$sold       = $inventory['sold'];
+
 								$default_available = apply_filters( 'mt_default_available', 100, $registration );
 								$remaining         = ( 'general' === $registration['counting_method'] ) ? $default_available : $total - $sold;
 								$max_limit         = apply_filters( 'mt_max_sale_per_event', false );
