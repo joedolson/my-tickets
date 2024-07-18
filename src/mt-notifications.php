@@ -575,6 +575,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	if ( $send ) {
 		if ( 'true' === $options['mt_html_email'] ) {
 			add_filter( 'wp_mail_content_type', 'mt_html_type' );
+			$body = mt_html_email_header( $data ) . $body . mt_html_email_footer( $data );
 		}
 
 		// message to purchaser.
@@ -606,6 +607,105 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		}
 		update_post_meta( $id, '_notified', 'true' );
 	}
+}
+
+/**
+ * Write HTML email header for email body.
+ *
+ * @param array $data Email data array.
+ *
+ * @return string
+ */
+function mt_html_email_header( $data ) {
+	$margin = is_rtl() ? 'rightmargin' : 'leftmargin';
+	$header = '<!DOCTYPE html>
+<html ' . get_language_attributes() . '>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=' . get_bloginfo( 'charset' ) . '" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>' . get_bloginfo( 'name', 'display' ) . '</title>
+	</head>
+	<body ' . $margin . '="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="padding: 0">
+		<table width="100%" id="outer_wrapper">
+			<tr>
+				<td><!-- Deliberately empty to support consistent sizing and layout across multiple email clients. --></td>
+				<td width="600" id="wrapper">
+					<div id="wrapper" style="' . mt_html_email_wrapper_styles() . '">
+						<div id="header"><h1 style="' . mt_html_email_h1_styles() . '">' . $data['blogname'] . '</h1></div>';
+	/**
+	 * Filter the header used for HTML email messages.
+	 *
+	 * @hook mt_html_email_header
+	 *
+	 * @param {string} $header HTML header content.
+	 * @param {array}  $data Email data array.
+	 *
+	 * @return {string}
+	 */
+	return apply_filters( 'mt_html_email_header', $header, $data );
+}
+
+/**
+ * Write HTML email footer for email body.
+ *
+ * @param array $data Email data array.
+ *
+ * @return string
+ */
+function mt_html_email_footer( $data ) {
+	$footer = '
+					</div>
+				</td>
+				<td></td>
+			</tr>
+		</table>
+	</body>
+</html>';
+	/**
+	 * Filter the footer used for HTML email messages.
+	 *
+	 * @hook mt_html_email_footer
+	 *
+	 * @param {string} $header HTML footer content.
+	 * @param {array}  $data Email data array.
+	 *
+	 * @return {string}
+	 */
+	return apply_filters( 'mt_html_email_footer', $footer, $data );
+}
+
+/**
+ * Write Inline HTML email styles for email main wrapper.
+ */
+function mt_html_email_wrapper_styles() {
+	$styles = 'background-color: #fff;margin: 0;padding: 40px 0;-webkit-text-size-adjust: none !important;width: 100%;max-width: 600px;';
+	/**
+	 * Filter the wrapper styles used for HTML email messages.
+	 *
+	 * @hook mt_html_email_wrapper_styles
+	 *
+	 * @param {string} $styles HTML styles.
+	 *
+	 * @return {string}
+	 */
+	return apply_filters( 'mt_html_email_wrapper_styles', $styles );
+}
+
+/**
+ * Write Inline HTML email styles for email h1.
+ */
+function mt_html_email_h1_styles() {
+	$styles = 'color:#000;font-size:32px;font-weight:700;text-align:center;';
+	/**
+	 * Filter the wrapper styles used for HTML email messages.
+	 *
+	 * @hook mt_html_email_h1_styles
+	 *
+	 * @param {string} $styles HTML styles.
+	 *
+	 * @return {string}
+	 */
+	return apply_filters( 'mt_html_email_h1_styles', $styles );
 }
 
 add_filter( 'mt_format_notes', 'mt_create_event_notes', 10, 3 );
