@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_admin_only_ticket - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_html_email_wrapper_styles - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_admin_only_ticket</h1></header>
+    <header><h1 class="page-title">Filter: mt_html_email_wrapper_styles</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_admin_only_ticket">apply_filters( 'mt_admin_only_ticket', <span class="signature">$admin_only, $type )</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    <h4 class="name" id="mt_html_email_wrapper_styles">apply_filters( 'mt_html_email_wrapper_styles', <span class="signature">$styles )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Set a ticket type as only available to administrators. Return true to hide ticket types from the public.</p>
+    <p>Filter the wrapper styles used for HTML email messages.</p>
 </div>
 
 
@@ -77,30 +77,7 @@
 
         <tr>
             
-                <td class="name"><code>$admin_only</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">false</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>False to indicate a ticket type is available to the public.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>$type</code></td>
+                <td class="name"><code>$styles</code></td>
             
 
             <td class="type">
@@ -116,7 +93,7 @@
 
             
 
-            <td class="description last"><p>Ticket type key.</p></td>
+            <td class="description last"><p>HTML styles.</p></td>
         </tr>
 
     
@@ -157,7 +134,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line736">line 736</a>
+        <a href="mt-notifications.php.html">mt-notifications.php</a>, <a href="mt-notifications.php.html#line682">line 682</a>
     </li></ul></dd>
     
 
@@ -191,7 +168,7 @@
     </dt>
     <dd>
         
-<span class="param-type">bool</span>
+<span class="param-type">string</span>
 
 
     </dd>
