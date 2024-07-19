@@ -649,7 +649,10 @@ function mt_post_meta( $id ) {
 						// Track last status.
 						update_post_meta( $id, '_last_status', get_post_meta( $id, '_is_paid', true ) );
 					}
-					update_post_meta( $id, '_' . $key, $value );
+					if ( 'send_email' !== $key ) {
+						// 'send_email' is an action, and shouldn't be permanently stored.
+						update_post_meta( $id, '_' . $key, $value );
+					}
 					// If related event has been deleted, ignore this.
 					if ( 'mt_return_tickets' === $key && 'true' === $value && ( false !== get_post_status( $id ) ) ) {
 						mt_return_tickets( $id );
