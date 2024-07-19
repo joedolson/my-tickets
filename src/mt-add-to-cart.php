@@ -238,7 +238,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 			}
 			$remaining_notice = mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining );
 			// Translators: link to shopping cart/checkout.
-			$in_cart = ( mt_in_cart( $event_id ) ) ? '<p class="my-tickets-in-cart">' . sprintf( __( 'Tickets for this event are in your cart. <a href="%s">Checkout</a>', 'my-tickets' ), get_permalink( $options['mt_purchase_page'] ) ) . '</p>' : '';
+			$in_cart = ( mt_in_cart( $event_id ) ) ? '<p class="my-tickets-in-cart">' . sprintf( __( 'Tickets for this event are in your cart. <a href="%s">Checkout</a>', 'my-tickets' ), mt_get_cart_url() ) . '</p>' : '';
 
 			if ( true === $has_tickets ) {
 				$closing_time = ( 'event' !== $registration['counting_method'] ) ? mt_sales_close( $event_id, $registration['reg_expires'] ) : '';
@@ -654,7 +654,7 @@ function mt_event_status( $event_id = false ) {
 	// Exit conditions.
 	$options       = mt_get_settings();
 	$purchase_page = $options['mt_purchase_page'];
-	$receipt_page  = $options['mt_purchase_page'];
+	$receipt_page  = $options['mt_receipt_page'];
 	$tickets_page  = $options['mt_tickets_page'];
 	if ( is_page( $purchase_page ) || is_page( $receipt_page ) || is_page( $tickets_page ) ) {
 		return '';
@@ -1031,10 +1031,9 @@ function mt_register_message( $context, $type, $payment_id = false ) {
  */
 function mt_get_message( $context, $type, $payment_id ) {
 	$context = esc_attr( $context );
-	$options = mt_get_settings();
 	$type    = esc_attr( $type );
 	if ( 'add_to_cart' === $context ) {
-		$cart_url = get_permalink( $options['mt_purchase_page'] );
+		$cart_url = mt_get_cart_url();
 		switch ( $type ) {
 			case 'success':
 				// Translators: cart URL.

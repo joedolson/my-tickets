@@ -26,7 +26,7 @@ function mt_ticket() {
 					load_template( __DIR__ . '/templates/tickets.php' );
 				}
 			} else {
-				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+				wp_safe_redirect( mt_get_cart_url() );
 				exit;
 			}
 		} else {
@@ -38,7 +38,7 @@ function mt_ticket() {
 					load_template( __DIR__ . '/templates/bulk-tickets.php' );
 				}
 			} else {
-				wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+				wp_safe_redirect( mt_get_cart_url() );
 				exit;
 			}
 		}

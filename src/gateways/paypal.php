@@ -265,7 +265,7 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 				'gateway'       => 'paypal',
 				'payment_id'    => $payment_id,
 			),
-			get_permalink( $options['mt_purchase_page'] )
+			mt_get_cart_url()
 		);
 		$form       = "
 		<form action='" . ( 'true' !== $use_sandbox ? 'https://www.paypal.com/cgi-bin/webscr' : 'https://www.sandbox.paypal.com/cgi-bin/webscr' ) . "' method='POST'>
@@ -279,9 +279,9 @@ function mt_gateway_paypal( $form, $gateway, $args ) {
 		<input type='hidden' name='no_note' value='1' />
 		<input type='hidden' name='currency_code' value='" . esc_attr( $currency ) . "' />";
 		$form      .= "
-		<input type='hidden' name='notify_url' value='" . mt_replace_http( add_query_arg( 'mt_paypal_ipn', 'true', esc_url( get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />
+		<input type='hidden' name='notify_url' value='" . mt_replace_http( add_query_arg( 'mt_paypal_ipn', 'true', esc_url( mt_get_cart_url() ) ) ) . "' />
 		<input type='hidden' name='return' value='" . mt_replace_http( esc_url( $return_url ) ) . "' />
-		<input type='hidden' name='cancel_return' value='" . mt_replace_http( add_query_arg( 'response_code', 'cancel', esc_url( get_permalink( $options['mt_purchase_page'] ) ) ) ) . "' />";
+		<input type='hidden' name='cancel_return' value='" . mt_replace_http( add_query_arg( 'response_code', 'cancel', esc_url( mt_get_cart_url() ) ) ) . "' />";
 		$form      .= mt_render_field( 'address', 'paypal' );
 		$form      .= "<input type='submit' name='submit' class='button' value='" . esc_attr( apply_filters( 'mt_gateway_button_text', __( 'Make Payment through PayPal', 'my-tickets' ), $gateway ) ) . "' />";
 		$form      .= apply_filters( 'mt_paypal_form', '', $gateway, $args );

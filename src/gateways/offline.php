@@ -93,7 +93,7 @@ function mt_gateway_offline( $form, $gateway, $args ) {
 		// Translators: Site name.
 		$purchase = sprintf( __( '%s Order', 'my-tickets' ), get_option( 'blogname' ) );
 		$form     = "
-		<form action='" . get_permalink( $options['mt_purchase_page'] ) . "' method='POST'>
+		<form action='" . mt_get_cart_url() . "' method='POST'>
 		<input type='hidden' name='mt_purchase' value='" . esc_attr( $purchase ) . "' />
 		<input type='hidden' name='mt_item' value='" . esc_attr( $payment_id ) . "' />
 		<input type='hidden' name='mt_amount' value='" . esc_attr( $total ) . "' />
@@ -165,7 +165,7 @@ function mt_offline_processor() {
 					'response_code' => 'thanks',
 					'payment_id'    => $item_number,
 				),
-				get_permalink( $options['mt_purchase_page'] )
+				mt_get_cart_url()
 			)
 		);
 		// Everything's all right.

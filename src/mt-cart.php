@@ -709,12 +709,11 @@ function mt_generate_expiration() {
  * @return string
  */
 function mt_generate_path( $gateway ) {
-	$options = mt_get_settings();
-	$path    = '<span class="active"><a href="' . apply_filters( 'mt_home_breadcrumb_url', home_url() ) . '">' . __( 'Home', 'my-tickets' ) . '</a></span>';
+	$path = '<span class="active"><a href="' . apply_filters( 'mt_home_breadcrumb_url', home_url() ) . '">' . __( 'Home', 'my-tickets' ) . '</a></span>';
 	if ( false === $gateway ) {
 		$path .= '<span class="inactive"><strong>' . __( 'Cart', 'my-tickets' ) . '</strong></span>';
 	} else {
-		$path .= '<span class="active"><a href="' . get_permalink( $options['mt_purchase_page'] ) . '">' . __( 'Cart', 'my-tickets' ) . '</a></span>';
+		$path .= '<span class="active"><a href="' . mt_get_cart_url() . '">' . __( 'Cart', 'my-tickets' ) . '</a></span>';
 	}
 	if ( false === $gateway ) {
 		$path .= '<span class="inactive">' . __( 'Payment', 'my-tickets' ) . '</span>';
@@ -755,7 +754,7 @@ function mt_generate_cart( $user_ID = false ) {
 		$handling_total = mt_get_cart_handling( $options, $current_gate );
 		$handling       = apply_filters( 'mt_money_format', $handling_total );
 		$gateway        = "<input type='hidden' name='mt_gateway' value='" . esc_attr( $current_gate ) . "' />";
-		$cart_page      = get_permalink( $options['mt_purchase_page'] );
+		$cart_page      = mt_get_cart_url();
 		if ( is_array( $cart ) && ! empty( $cart ) && $count > 0 ) {
 			$output  = '
 		<div class="mt_cart">
@@ -1059,7 +1058,7 @@ function mt_count_cart( $cart = array() ) {
  */
 function mt_generate_gateway( $cart ) {
 	$options    = mt_get_settings();
-	$return_url = get_permalink( $options['mt_purchase_page'] );
+	$return_url = mt_get_cart_url();
 	// Translators: cart url.
 	$link         = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
 	$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
@@ -1222,4 +1221,18 @@ function mt_handle_ticket_type_expired( $event, $type ) {
 	}
 
 	return false;
+}
+
+/**
+ * Utility function to get My Tickets cart URL.
+ *
+ * @return string|bool URL or false if not set.
+ */
+function mt_get_cart_url() {
+	$options       = mt_get_settings();
+	$purchase_page = $options['mt_purchase_page'];
+
+	$url = ( $purchase_page && is_page( $purchase_page ) ) ? get_permalink( $purchase_page ) : false;
+
+	return $url;
 }

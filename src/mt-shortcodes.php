@@ -29,7 +29,7 @@ function my_tickets_short_cart() {
 	$tickets = mt_count_cart( $cart );
 	// Translators: Number of tickets.
 	$ticket_text  = apply_filters( 'mt_quick_cart_ticket_text', sprintf( _n( '%s ticket', '%s tickets', $tickets, 'my-tickets' ), "<span class='mt_qc_tickets'>$tickets</span>" ) );
-	$url          = get_permalink( $options['mt_purchase_page'] );
+	$url          = mt_get_cart_url();
 	$symbol_order = $options['symbol_order'];
 	if ( 'symbol-first' === $symbol_order ) {
 		$currency = "<span class='mt_currency'>" . mt_symbols( $options['mt_currency'] ) . "</span><span class='mt_qc_total'>" . number_format( $total, 2 ) . '</span>';

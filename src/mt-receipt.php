@@ -26,7 +26,7 @@ function mt_receipt() {
 			}
 			exit;
 		} else {
-			wp_safe_redirect( get_permalink( $options['mt_purchase_page'] ) );
+			wp_safe_redirect( mt_get_cart_url() );
 			exit;
 		}
 	}

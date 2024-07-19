@@ -67,7 +67,6 @@ add_action( 'wp_ajax_nopriv_mt_ajax_cart', 'mt_ajax_cart' );
  * @uses mt_save_address_failure
  */
 function mt_ajax_handler() {
-	$options = mt_get_settings();
 	// verify nonce.
 	if ( ! check_ajax_referer( 'mt-cart-nonce', 'security', false ) ) {
 		wp_send_json(
@@ -119,7 +118,7 @@ function mt_ajax_handler() {
 		 * @return {array}
 		 */
 		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
-		$url   = get_permalink( $options['mt_purchase_page'] );
+		$url   = mt_get_cart_url();
 		if ( 1 === (int) $saved['success'] ) {
 			// Translators: Cart URL.
 			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) );
