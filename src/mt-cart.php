@@ -1028,8 +1028,9 @@ function mt_total_cart( $cart, $payment_id = false, $apply_discounts = true ) {
  *
  * @return int
  */
-function mt_count_cart( $cart ) {
+function mt_count_cart( $cart = array() ) {
 	$total = 0;
+	$cart  = ( empty( $cart ) ) ? mt_get_cart() : $cart;
 	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event => $order ) {
 			$expired = mt_event_expired( $event );
