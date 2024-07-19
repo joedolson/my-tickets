@@ -632,7 +632,7 @@ function mt_html_email_header( $data ) {
 				<td width="600" id="wrapper">
 					<div id="wrapper" style="' . mt_html_email_wrapper_styles() . '">
 						<div id="header"><h1 style="' . mt_html_email_h1_styles() . '">' . $data['blogname'] . '</h1></div>
-						<div id="body_content" style="' . mt_html_email_content_styles() . '">';
+						<div id="body_content" style="' . mt_html_email_body_styles() . '">';
 	/**
 	 * Filter the header used for HTML email messages.
 	 *
@@ -724,7 +724,7 @@ function mt_html_email_body_styles() {
 	 *
 	 * @return {string}
 	 */
-	return apply_filters( 'mt_html_email_h1_styles', $styles );
+	return apply_filters( 'mt_html_email_body_styles', $styles );
 }
 
 add_filter( 'mt_format_notes', 'mt_create_event_notes', 10, 3 );
