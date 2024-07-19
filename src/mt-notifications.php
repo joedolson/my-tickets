@@ -631,7 +631,8 @@ function mt_html_email_header( $data ) {
 				<td><!-- Deliberately empty to support consistent sizing and layout across multiple email clients. --></td>
 				<td width="600" id="wrapper">
 					<div id="wrapper" style="' . mt_html_email_wrapper_styles() . '">
-						<div id="header"><h1 style="' . mt_html_email_h1_styles() . '">' . $data['blogname'] . '</h1></div>';
+						<div id="header"><h1 style="' . mt_html_email_h1_styles() . '">' . $data['blogname'] . '</h1></div>
+						<div id="body_content" style="' . mt_html_email_content_styles() . '">';
 	/**
 	 * Filter the header used for HTML email messages.
 	 *
@@ -654,6 +655,7 @@ function mt_html_email_header( $data ) {
  */
 function mt_html_email_footer( $data ) {
 	$footer = '
+						</div>
 					</div>
 				</td>
 				<td></td>
@@ -696,6 +698,23 @@ function mt_html_email_wrapper_styles() {
  */
 function mt_html_email_h1_styles() {
 	$styles = 'color:#000;font-size:32px;font-weight:700;text-align:center;';
+	/**
+	 * Filter the wrapper styles used for HTML email messages.
+	 *
+	 * @hook mt_html_email_h1_styles
+	 *
+	 * @param {string} $styles HTML styles.
+	 *
+	 * @return {string}
+	 */
+	return apply_filters( 'mt_html_email_h1_styles', $styles );
+}
+
+/**
+ * Write Inline HTML email styles for email body.
+ */
+function mt_html_email_body_styles() {
+	$styles = 'padding:1rem; background: #f3f3f3; color: #111;';
 	/**
 	 * Filter the wrapper styles used for HTML email messages.
 	 *
