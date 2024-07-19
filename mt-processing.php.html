@@ -68,7 +68,7 @@ function mt_add_ticket_form() {
 
 	$options       = mt_get_settings();
 	$purchase_page = $options['mt_purchase_page'];
-	$receipt_page  = $options['mt_purchase_page'];
+	$receipt_page  = $options['mt_receipt_page'];
 	$tickets_page  = $options['mt_tickets_page'];
 	$current       = ( isset( $_GET['post'] ) ) ? intval( $_GET['post'] ) : false;
 	if ( ( $current === $purchase_page || $current === $receipt_page || $current === $tickets_page ) &amp;&amp; empty( $data ) ) {

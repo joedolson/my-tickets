@@ -735,12 +735,11 @@ function mt_generate_expiration() {
  * @return string
  */
 function mt_generate_path( $gateway ) {
-	$options = mt_get_settings();
-	$path    = '&lt;span class="active">&lt;a href="' . apply_filters( 'mt_home_breadcrumb_url', home_url() ) . '">' . __( 'Home', 'my-tickets' ) . '&lt;/a>&lt;/span>';
+	$path = '&lt;span class="active">&lt;a href="' . apply_filters( 'mt_home_breadcrumb_url', home_url() ) . '">' . __( 'Home', 'my-tickets' ) . '&lt;/a>&lt;/span>';
 	if ( false === $gateway ) {
 		$path .= '&lt;span class="inactive">&lt;strong>' . __( 'Cart', 'my-tickets' ) . '&lt;/strong>&lt;/span>';
 	} else {
-		$path .= '&lt;span class="active">&lt;a href="' . get_permalink( $options['mt_purchase_page'] ) . '">' . __( 'Cart', 'my-tickets' ) . '&lt;/a>&lt;/span>';
+		$path .= '&lt;span class="active">&lt;a href="' . mt_get_cart_url() . '">' . __( 'Cart', 'my-tickets' ) . '&lt;/a>&lt;/span>';
 	}
 	if ( false === $gateway ) {
 		$path .= '&lt;span class="inactive">' . __( 'Payment', 'my-tickets' ) . '&lt;/span>';
@@ -781,7 +780,7 @@ function mt_generate_cart( $user_ID = false ) {
 		$handling_total = mt_get_cart_handling( $options, $current_gate );
 		$handling       = apply_filters( 'mt_money_format', $handling_total );
 		$gateway        = "&lt;input type='hidden' name='mt_gateway' value='" . esc_attr( $current_gate ) . "' />";
-		$cart_page      = get_permalink( $options['mt_purchase_page'] );
+		$cart_page      = mt_get_cart_url();
 		if ( is_array( $cart ) &amp;&amp; ! empty( $cart ) &amp;&amp; $count > 0 ) {
 			$output  = '
 		&lt;div class="mt_cart">
@@ -1054,8 +1053,9 @@ function mt_total_cart( $cart, $payment_id = false, $apply_discounts = true ) {
  *
  * @return int
  */
-function mt_count_cart( $cart ) {
+function mt_count_cart( $cart = array() ) {
 	$total = 0;
+	$cart  = ( empty( $cart ) ) ? mt_get_cart() : $cart;
 	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event => $order ) {
 			$expired = mt_event_expired( $event );
@@ -1084,7 +1084,7 @@ function mt_count_cart( $cart ) {
  */
 function mt_generate_gateway( $cart ) {
 	$options    = mt_get_settings();
-	$return_url = get_permalink( $options['mt_purchase_page'] );
+	$return_url = mt_get_cart_url();
 	// Translators: cart url.
 	$link         = apply_filters( 'mt_return_link', "&lt;p class='return-to-cart'>" . sprintf( __( '&lt;a href="%s">Return to cart&lt;/a>', 'my-tickets' ), $return_url ) . '&lt;/p>' );
 	$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
@@ -1247,6 +1247,20 @@ function mt_handle_ticket_type_expired( $event, $type ) {
 	}
 
 	return false;
+}
+
+/**
+ * Utility function to get My Tickets cart URL.
+ *
+ * @return string|bool URL or false if not set.
+ */
+function mt_get_cart_url() {
+	$options       = mt_get_settings();
+	$purchase_page = $options['mt_purchase_page'];
+
+	$url = ( $purchase_page &amp;&amp; is_page( $purchase_page ) ) ? get_permalink( $purchase_page ) : false;
+
+	return $url;
 }
 </code></pre>
         </article>

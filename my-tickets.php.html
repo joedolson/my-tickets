@@ -452,7 +452,7 @@ function mt_public_enqueue_scripts() {
 	}
 	$options  = mt_get_settings();
 	$symbol   = mt_symbols( $options['mt_currency'] );
-	$cart_url = esc_url( get_permalink( $options['mt_purchase_page'] ) );
+	$cart_url = esc_url( mt_get_cart_url() );
 	$redirect = isset( $options['mt_redirect'] ) ? $options['mt_redirect'] : '0';
 	/**
 	 * Force add to cart redirect. Return 1 to override plugin settings and redirect to the shopping cart after tickets are added to the cart.
@@ -831,13 +831,12 @@ function mt_admin_bar() {
 			'href'  => $url,
 		);
 		$wp_admin_bar->add_node( $args );
-		$options       = mt_get_settings();
-		$purchase_page = ( $options['mt_purchase_page'] ) ? esc_url( get_permalink( $options['mt_purchase_page'] ) ) : '';
+		$purchase_page = mt_get_cart_url();
 		if ( $purchase_page ) {
 			$args = array(
 				'id'     => 'mt-view-cart',
 				'title'  => __( 'View Cart', 'my-tickets' ),
-				'href'   => $purchase_page,
+				'href'   => esc_url( $purchase_page ),
 				'parent' => 'mt_delete',
 			);
 			$wp_admin_bar->add_node( $args );
