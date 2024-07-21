@@ -277,8 +277,8 @@ function mt_payment_settings() {
 														$describedby = $key . '_description';
 														$describing  = '&lt;span id="' . $describedby . '" class="aria-description">&lt;span class="dashicons dashicons-info" aria-hidden="true">&lt;/span> ' . $description . '&lt;/span>';
 													}
-													$value         = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $default_value;
-													$checked       = ( 'checkbox' === $input_type &amp;&amp; ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) &amp;&amp; $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
+													$value   = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $default_value;
+													$checked = ( 'checkbox' === $input_type &amp;&amp; ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) &amp;&amp; $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
 													if ( 'checkbox' === $input_type ) {
 														// Checkboxes with empty values will stay unchecked on save.
 														$pg_settings .= "&lt;li class='$input_type'>&lt;div>&lt;input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked aria-describedby='" . $describedby . "' /> &lt;label for='mt_$gateway-$key'>$text_label&lt;/label>&lt;/div>$describing&lt;/li>";
