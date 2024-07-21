@@ -27,15 +27,19 @@
 		$( '#mt_email2' ).on( 'keyup', function() {
 			let email_one = $( '#mt_email' ).val();
 			let email_two = $( '#mt_email2' ).val();
-			if ( ! validateEmail( email_one ) ) {
-				$( '.mt_email_check .notemail' ).show();
-				$( '.mt_email_check .ok, .mt_email_check .mismatch' ).hide();
-			} else if ( email_one == email_two && validateEmail(email_one) ) {
-				$( '.mt_email_check .ok' ).show();
-				$( '.mt_email_check .mismatch, .mt_email_check .notemail' ).hide();
+			if ( email_two.length > 3 ) {
+				if ( ! validateEmail( email_one ) ) {
+					$( '.mt_email_check .notemail' ).show();
+					$( '.mt_email_check .ok, .mt_email_check .mismatch' ).hide();
+				} else if ( email_one == email_two && validateEmail(email_one) ) {
+					$( '.mt_email_check .ok' ).show();
+					$( '.mt_email_check .mismatch, .mt_email_check .notemail' ).hide();
+				} else {
+					$( '.mt_email_check .mismatch' ).show();
+					$( '.mt_email_check .ok, .mt_email_check .notemail' ).hide();
+				}
 			} else {
-				$( '.mt_email_check .mismatch' ).show();
-				$( '.mt_email_check .ok, .mt_email_check .notemail' ).hide();
+				$( '.mt_email_check *' ).hide();
 			}
 		});
 
