@@ -274,7 +274,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				$no_post
 				$closing_time
 				$handling_notice
-				<form action='" . esc_url( $permalink ) . "' method='POST' class='ticket-orders' id='order-tickets' tabindex='-1'>
+				<form action='" . esc_url( $permalink ) . "' method='POST' class='ticket-orders' id='order-tickets'>
 					<div>
 						$nonce
 						<input type='hidden' name='mt_event_id' value='$event_id' />" . $hidden . "
