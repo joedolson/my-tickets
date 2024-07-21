@@ -1232,7 +1232,7 @@ function mt_get_cart_url() {
 	$options       = mt_get_settings();
 	$purchase_page = $options['mt_purchase_page'];
 
-	$url = ( $purchase_page && is_page( $purchase_page ) ) ? get_permalink( $purchase_page ) : false;
+	$url = ( $purchase_page && is_string( get_post_status( $purchase_page ) ) ) ? get_permalink( $purchase_page ) : false;
 
 	return $url;
 }
