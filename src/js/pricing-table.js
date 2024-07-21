@@ -7,7 +7,7 @@
 				let context = $( this ).attr( 'data-context' );
 				let num = $('.clonedPrice.' + context).length; // how many "duplicatable" input fields we currently have
 				let newNum = new Number(num + 1);      // the numeric ID of the new input field being added
-				// create the new element via clone(), and manipulate it's ID using newNum value
+				// create the new element via clone(), and manipulate its ID using newNum value
 				let newElem = $('#price' + context + num).clone().attr('id', 'price' + context + newNum);
 				// manipulate the name/id values of the input inside the new element
 				// insert the new element after the last "duplicatable" input field
