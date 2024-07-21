@@ -83,7 +83,7 @@ function mt_update_settings( $post ) {
 			}
 		}
 
-		$messages = $_POST['mt_messages'];
+		$messages = map_deep( $_POST['mt_messages'], 'wp_kses_post' );
 		$settings = apply_filters(
 			'mt_update_settings',
 			array(
@@ -278,27 +278,27 @@ function mt_settings() {
 										&lt;?php
 										foreach ( $status_types as $type => $status_type ) {
 											?>
-											&lt;div class='wptab mt_&lt;?php echo esc_html( $type ); ?>' id='&lt;?php echo esc_html( $type ); ?>' aria-live='assertive'>
+											&lt;div class='wptab mt_&lt;?php echo esc_attr( $type ); ?>' id='&lt;?php echo esc_attr( $type ); ?>' aria-live='assertive'>
 												&lt;fieldset>
 													&lt;legend>&lt;?php _e( 'Sent to administrators', 'my-tickets' ); ?>&lt;/legend>
 													&lt;ul>
 														&lt;li>
-															&lt;label for="mt_messages_&lt;?php echo esc_html( $type ); ?>_admin_subject">
+															&lt;label for="mt_messages_&lt;?php echo esc_attr( $type ); ?>_admin_subject">
 																&lt;?php
 																// Translators: message status: Completed, Failed, Refunded, or Offline &amp; Pending.
 																printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type );
 																?>
 															&lt;/label>&lt;br/>
-															&lt;input type="text" name="mt_messages[&lt;?php echo esc_html( $type ); ?>][admin][subject]" id="mt_messages_&lt;?php echo esc_html( $type ); ?>_admin_subject" class="widefat" value="&lt;?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
+															&lt;input type="text" name="mt_messages[&lt;?php echo esc_attr( $type ); ?>][admin][subject]" id="mt_messages_&lt;?php echo esc_attr( $type ); ?>_admin_subject" class="widefat" value="&lt;?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
 														&lt;/li>
 														&lt;li>
-															&lt;label for="mt_messages_&lt;?php echo esc_html( $type ); ?>_admin_body">
+															&lt;label for="mt_messages_&lt;?php echo esc_attr( $type ); ?>_admin_body">
 																&lt;?php
 																// Translators: message status: Completed, Failed, Refunded, or Offline &amp; Pending.
 																printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type );
 																?>
 															&lt;/label>&lt;br/>
-															&lt;textarea class="widefat" name="mt_messages[&lt;?php echo esc_html( $type ); ?>][admin][body]" id="mt_messages_&lt;?php echo esc_html( $type ); ?>_admin_body" rows="12" cols="60">&lt;?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['body'] ) ); ?>&lt;/textarea>
+															&lt;textarea class="widefat mt-code-editor" name="mt_messages[&lt;?php echo esc_attr( $type ); ?>][admin][body]" id="mt_messages_&lt;?php echo esc_attr( $type ); ?>_admin_body" rows="12" cols="60">&lt;?php echo stripslashes( esc_textarea( $options['messages'][ $type ]['admin']['body'] ) ); ?>&lt;/textarea>
 														&lt;/li>
 													&lt;/ul>
 												&lt;/fieldset>
@@ -306,22 +306,22 @@ function mt_settings() {
 													&lt;legend>&lt;?php _e( 'Sent to purchaser', 'my-tickets' ); ?>&lt;/legend>
 													&lt;ul>
 														&lt;li>
-															&lt;label for="mt_messages_&lt;?php echo esc_html( $type ); ?>_purchaser_subject">
+															&lt;label for="mt_messages_&lt;?php echo esc_attr( $type ); ?>_purchaser_subject">
 																&lt;?php
 																// Translators: message status: Completed, Failed, Refunded, or Offline &amp; Pending.
 																printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type );
 																?>
 															&lt;/label>&lt;br/>
-															&lt;input type="text" name="mt_messages[&lt;?php echo esc_html( $type ); ?>][purchaser][subject]" id="mt_messages_&lt;?php echo esc_html( $type ); ?>_purchaser_subject" class="widefat" value="&lt;?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
+															&lt;input type="text" name="mt_messages[&lt;?php echo esc_attr( $type ); ?>][purchaser][subject]" id="mt_messages_&lt;?php echo esc_attr( $type ); ?>_purchaser_subject" class="widefat" value="&lt;?php echo stripslashes( esc_textarea( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
 														&lt;/li>
 														&lt;li>
-															&lt;label for="mt_messages_&lt;?php echo esc_html( $type ); ?>_purchaser_body">
+															&lt;label for="mt_messages_&lt;?php echo esc_attr( $type ); ?>_purchaser_body">
 																&lt;?php
 																// Translators: message status: Completed, Failed, Refunded, or Offline &amp; Pending.
 																printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type );
 																?>
 															&lt;/label>&lt;br/>
-															&lt;textarea class="widefat" name="mt_messages[&lt;?php echo esc_html( $type ); ?>][purchaser][body]" id="mt_messages_&lt;?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60">&lt;?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?>&lt;/textarea>
+															&lt;textarea class="widefat mt-code-editor" name="mt_messages[&lt;?php echo esc_attr( $type ); ?>][purchaser][body]" id="mt_messages_&lt;?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60">&lt;?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?>&lt;/textarea>
 														&lt;/li>
 													&lt;/ul>
 												&lt;/fieldset>
