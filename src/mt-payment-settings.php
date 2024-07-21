@@ -260,8 +260,9 @@ function mt_payment_settings() {
 														$pg_settings .= "<li class='$input_type'><div><label for='mt_$gateway-$key'>$text_label</label> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked  aria-describedby='" . $describedby . "' /></div>$describing</li>";
 													}
 												} else {
+													$input_type   = ( str_contains( $key, '_secret' ) && '' !== trim( $value ) ) ? 'password' : 'text';
 													$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
-													$pg_settings .= "<li class='textfield'><div><label for='mt_$gateway-$key'>$label</label> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' /></div></li>";
+													$pg_settings .= "<li class='textfield'><div><label for='mt_$gateway-$key'>$label</label> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' /></div></li>";
 												}
 											}
 										}
