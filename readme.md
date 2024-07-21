@@ -33,7 +33,7 @@ Bugs or feature development contributions should be made through the [GitHub rep
 
 ## Contributors
 
-[Github Contributors](https://github.com/joedolson/my-calendar/graphs/contributors)
+[Github Contributors](https://github.com/joedolson/my-tickets/graphs/contributors)
 
 * [zakalwe2016](https://github.com/zakalwe2016)
 * [masonwolf](https://github.com/masonwolf)
