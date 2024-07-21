@@ -244,17 +244,24 @@ function mt_payment_settings() {
 													$input_type    = $label['type'];
 													$text_label    = $label['label'];
 													$default_value = isset( $label['value'] ) ? $label['value'] : '';
+													$description   = isset( $label['description'] ) ? $label['description'] : '';
+													$describedby   = '';
+													$describing    = '';
+													if ( $description ) {
+														$describedby = $key . '_description';
+														$describing  = '<span id="' . $describedby . '" class="aria-description"><span class="dashicons dashicons-info" aria-hidden="true"></span> ' . $description . '</span>';
+													}
 													$value         = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $default_value;
 													$checked       = ( 'checkbox' === $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
 													if ( 'checkbox' === $input_type ) {
 														// Checkboxes with empty values will stay unchecked on save.
-														$pg_settings .= "<li class='$input_type'><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked /> <label for='mt_$gateway-$key'>$text_label</label></li>";
+														$pg_settings .= "<li class='$input_type'><div><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked aria-describedby='" . $describedby . "' /> <label for='mt_$gateway-$key'>$text_label</label></div>$describing</li>";
 													} else {
-														$pg_settings .= "<li class='$input_type'><label for='mt_$gateway-$key'>$text_label</label><br /> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked /></li>";
+														$pg_settings .= "<li class='$input_type'><div><label for='mt_$gateway-$key'>$text_label</label> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked  aria-describedby='" . $describedby . "' /></div>$describing</li>";
 													}
 												} else {
 													$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
-													$pg_settings .= "<li class='textfield'><label for='mt_$gateway-$key'>$label</label><br /> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' /></li>";
+													$pg_settings .= "<li class='textfield'><div><label for='mt_$gateway-$key'>$label</label> <input type='text' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' /></div></li>";
 												}
 											}
 										}
