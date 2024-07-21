@@ -610,12 +610,7 @@ function mt_wp_enqueue_scripts() {
 		);
 	}
 	if ( 'mt-payments' === $current_screen->post_type ) {
-		if ( SCRIPT_DEBUG ) {
-			$payments_url = plugins_url( 'js/jquery.payments.js', __FILE__ );
-		} else {
-			$payments_url = plugins_url( 'js/jquery.payments.min.js', __FILE__ );
-		}
-		wp_enqueue_script( 'mt.payments', $payments_url, array( 'jquery', 'wp-a11y' ), $version );
+		wp_enqueue_script( 'mt.payments', plugins_url( 'js/jquery.payments.js', __FILE__ ), array( 'jquery', 'wp-a11y' ), $version );
 		wp_localize_script(
 			'mt.payments',
 			'mt_data',
