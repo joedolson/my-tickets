@@ -412,7 +412,7 @@ function mt_email_purchasers() {
 	$types    = $events['types'];
 	$nonce    = wp_nonce_field( 'mt-email-purchasers', 'mt-email-nonce', true, false );
 	$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : false;
-	$body     = ( isset( $_POST['mt_body'] ) ) ? sanitize_textarea_field( $_POST['mt_body'] ) : '';
+	$body     = ( isset( $_POST['mt_body'] ) ) ? wp_kses_post( $_POST['mt_body'] ) : '';
 	$subject  = ( isset( $_POST['mt_subject'] ) ) ? sanitize_text_field( $_POST['mt_subject'] ) : '';
 	$email    = get_post_meta( $event_id, '_mass_email' );
 	if ( ! empty( $email ) ) {

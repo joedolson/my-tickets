@@ -916,3 +916,97 @@ function mt_html_type() {
 
 	return 'text/html';
 }
+
+// Use Codemirror for email fields when enabled.
+add_action(
+	'admin_enqueue_scripts',
+	function () {
+		if ( ! function_exists( 'wp_enqueue_code_editor' ) ) {
+			return;
+		}
+		if ( 'toplevel_page_my-tickets' === get_current_screen()->id || 'my-tickets_page_mt-reports' === get_current_screen()->id ) {
+
+			// Enqueue code editor and settings for manipulating HTML.
+			$settings = wp_enqueue_code_editor(
+				array(
+					'type'       => 'text/html',
+					'codemirror' => array(
+						'autoRefresh' => true,
+					),
+				)
+			);
+
+			// Bail if user disabled CodeMirror or using default styles.
+			$options = mt_get_settings();
+			if ( false === $settings || 'true' !== $options['mt_html_email'] ) {
+				return;
+			}
+			if ( 'toplevel_page_my-tickets' === get_current_screen()->id ) {
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_messages_completed_admin_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_messages_completed_purchaser_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_messages_failed_admin_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_messages_failed_purchaser_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_messages_refunded_admin_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_messages_refunded_purchaser_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_messages_interim_admin_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_messages_interim_purchaser_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+			} else {
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'jQuery( function() { wp.codeEditor.initialize( "mt_body", %s ); } );',
+						wp_json_encode( $settings )
+					)
+				);
+			}
+		}
+	}
+);
