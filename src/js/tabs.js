@@ -1,6 +1,5 @@
 jQuery(document).ready(function ($) {
     const tabs = $('.mt-tabs .wptab').length;
-	console.log( tabs );
     $('.mt-tabs .tabs a[href="#' + mtTabs.firstItem + '"]').addClass('active').attr( 'aria-pressed', 'true' );
     if ( tabs > 1 ) {
         $('.mt-tabs .wptab').not('#' + mtTabs.firstItem).hide();
@@ -15,12 +14,15 @@ jQuery(document).ready(function ($) {
     }
 
 	// Handle report selector for subtypes.
-	let curValue = $( '#mt_select_event' ).val();
-	populateSelect( curValue );
-	$( '#mt_select_event' ).on( 'change', function(e) {
-		let value = $( this ).val();
-		populateSelect( value);
-	});
+	const selectEvent = $( '#mt_select_event' );
+	if ( selectEvent.length ) {
+		let curValue = selectEvent.val();
+		populateSelect( curValue );
+		selectEvent.on( 'change', function(e) {
+			let value = $( this ).val();
+			populateSelect( value);
+		});
+	}
 
 	function populateSelect( value ) {
 		const json       = $( '#report-json' ).text();
