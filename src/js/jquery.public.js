@@ -1,11 +1,6 @@
 (function ($) {
 	$(function () {
 		mtAddToCart();
-		$(".cc-num-valid").hide();
-		$(".cc-num-invalid").hide();
-		$("input.cc-num").payment('formatCardNumber');
-		$('input.cc-exp').payment('formatCardExpiry');
-		$('input.cc-cvc').payment('formatCardCVC');
 
 		$("input[type='number']").on('keydown', function (e) {
 			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
