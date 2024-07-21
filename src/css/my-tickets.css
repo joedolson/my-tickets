@@ -251,12 +251,18 @@ legend {
 }
 
 .mt-report-selector {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: 14em 14em 1fr;
 	gap: 40px;
 	margin-top: 2rem;
 	padding-top: 1rem;
 	border-top: 1px solid #c3c4c7;
+}
+
+@media (max-width: 1200px) {
+	.mt-report-selector {
+		grid-template-columns: auto;
+	}
 }
 
 .mt-report-selector h3 {
