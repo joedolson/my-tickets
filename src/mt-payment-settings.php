@@ -241,10 +241,11 @@ function mt_payment_settings() {
 										if ( $settings ) {
 											foreach ( $settings as $key => $label ) {
 												if ( is_array( $label ) ) {
-													$input_type = $label['type'];
-													$text_label = $label['label'];
-													$value      = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $label['value'];
-													$checked    = ( 'checkbox' === $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
+													$input_type    = $label['type'];
+													$text_label    = $label['label'];
+													$default_value = isset( $label['value'] ) ? $label['value'] : '';
+													$value         = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $default_value;
+													$checked       = ( 'checkbox' === $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
 													if ( 'checkbox' === $input_type ) {
 														// Checkboxes with empty values will stay unchecked on save.
 														$pg_settings .= "<li class='$input_type'><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked /> <label for='mt_$gateway-$key'>$text_label</label></li>";
