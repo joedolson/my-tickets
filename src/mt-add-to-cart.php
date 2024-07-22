@@ -384,6 +384,23 @@ function mt_get_ticket_type_close( $ticket_type, $registration ) {
 }
 
 /**
+ * Get original list price for an event.
+ *
+ * @param int    $event_id An event Post ID.
+ * @param string $type A ticket type key.
+ *
+ * @return float
+ */
+function mt_get_original_ticket_price( $event_id, $type ) {
+	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+	$prices       = $registration['prices'];
+	$ticket_type  = $prices[ $type ];
+	$price        = $ticket_type['price'];
+
+	return $price;
+}
+
+/**
  * Generate a single row in the add to cart form.
  *
  * @param int        $event_id Event post ID.
