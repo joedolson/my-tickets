@@ -290,7 +290,7 @@ function mt_payment_settings() {
 									}
 									echo wp_kses(
 										'<li><fieldset><legend>' . __( 'Enabled Payment Gateways', 'my-tickets' ) . "</legend><ul class='checkboxes'>$default_selector</ul></fieldset>
-									<div class='mt-tabs'>
+									<div class='mt-tabs mt-payments'>
 										<ul class='tabs'>
 											$pg_tabs
 										</ul>

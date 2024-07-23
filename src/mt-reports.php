@@ -241,7 +241,7 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 				$tabs .= "<li><a href='#mt_$type'>$status_type</a></li>";
 			}
 			$output = "
-				<div class='mt-tabs'>
+				<div class='mt-tabs mt-reports'>
 					<ul class='tabs'>
 						$tabs
 					</ul>";

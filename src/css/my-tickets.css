@@ -165,18 +165,18 @@ legend {
     line-height: 1;
 }
 
-.wptab fieldset li {
+.mt-tabs.mt-payments fieldset li {
 	display: flex;
 	align-items: end;
 	margin-bottom: 1rem;
 	margin: 5px;
 }
 
-.wptab fieldset li:not(.checkbox) label {
+.mt-tabs.mt-payments fieldset li:not(.checkbox) label {
 	display: block;
 }
 
-.wptab fieldset li .aria-description {
+.mt-tabs.mt-payments fieldset li .aria-description {
 	display: flex;
 	align-items: center;
 	padding: 5px;

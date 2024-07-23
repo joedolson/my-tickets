@@ -245,7 +245,7 @@ function mt_settings() {
 								}
 								?>
 								<div class='mt-notifications'>
-									<div class='mt-tabs'>
+									<div class='mt-tabs mt-settings'>
 										<ul class='tabs'>
 											<?php echo wp_kses_post( $tabs ); ?>
 										</ul>

@@ -272,7 +272,7 @@ function mt_ticketing_settings() {
 								$tabs .= "<li><a href='#$model'>" . $label . '</a></li>';
 							}
 							?>
-							<div class='mt-tabs'>
+							<div class='mt-tabs mt-ticketing'>
 								<ul class='tabs'>
 									<?php echo $tabs; ?>
 								</ul>
