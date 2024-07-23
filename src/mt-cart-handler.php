@@ -137,7 +137,7 @@ function mt_create_payment( $post ) {
 		update_post_meta( $purchase_id, '_mt_shipping', $options['mt_shipping'] );
 	}
 	update_post_meta( $purchase_id, '_total_paid', $paid );
-	$payment_status = ( 0 === (int) $paid ) ? 'Completed' : 'Pending';
+	$payment_status = ( 0 === (float) $paid ) ? 'Completed' : 'Pending';
 	update_post_meta( $purchase_id, '_is_paid', $payment_status );
 	if ( is_user_logged_in() && ! is_admin() && '' !== trim( $options['mt_members_discount'] ) ) {
 		update_post_meta( $purchase_id, '_discount', $options['mt_members_discount'] );
