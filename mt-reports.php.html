@@ -1012,6 +1012,9 @@ function mt_get_report_data_by_time() {
 				}
 				$post_type  = get_post_type( $event );
 				$event_data = get_post_meta( $event, '_mc_event_data', true );
+				if ( ! is_array( $event_data ) ) {
+					continue;
+				}
 				$event_date = $event_data['event_begin'] . ' ' . $event_data['event_time'];
 				if ( 'mc-events' === $post_type ) {
 					$mc_event = get_post_meta( $event, '_mc_event_id', true );
