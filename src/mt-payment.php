@@ -15,7 +15,7 @@
  * @param string $response string -- 'VERIFIED' to continue.
  * @param string $response_code HTTP CODE - must be 200 to continue.
  * @param array  $data payment details array.
- * @param array  $post data posted from gateway.
+ * @param array  $post data posted from gateway. Only used in error handling and hooks.
  */
 function mt_handle_payment( $response, $response_code, $data, $post ) {
 	$options = mt_get_settings();
