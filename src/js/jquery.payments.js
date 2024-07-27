@@ -1,5 +1,9 @@
 (function ($) {
     $(function() {
+		let publishButton = $( '#publish' );
+		if ( publishButton.length > 0 ) {
+			publishButton.val( 'Update Payment' );
+		}
         $( 'button.toggle-debug' ).on( 'click', function() {
             if ( $( this ).next( 'pre' ).is( ':visible' ) ) {
                 $( this ).next( 'pre' ).hide();
