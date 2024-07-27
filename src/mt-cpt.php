@@ -169,7 +169,7 @@ function mt_default_fields() {
 				),
 			),
 			'is_delivered'      => array(
-				'label'   => __( 'Ticket Delivered', 'my-tickets' ),
+				'label'   => __( 'Tickets Delivered', 'my-tickets' ),
 				'input'   => 'checkbox',
 				'default' => '',
 				'notes'   => __( 'E-tickets and printable tickets are delivered via email.', 'my-tickets' ),
@@ -550,11 +550,11 @@ function mt_create_field( $key, $label, $type, $post_id, $choices = false, $mult
 				if ( 'total_paid' === $key && '' !== $custom ) {
 					$label .= ' (' . $options['mt_currency'] . ')';
 				}
-				$value = "<label for='_$key'>$label</label><br /><input class='widefat' type='text' name='_$key' id='_$key' value='$custom' $disabled />";
+				$value = "<label for='_$key'>$label</label><input class='widefat' type='text' name='_$key' id='_$key' value='$custom' $disabled />";
 			}
 			break;
 		case 'textarea':
-			$value = '<label for="_' . $key . '">' . $label . ' <em>(' . $notes . ')</em></label><br />' . '<textarea class="widefat" cols="60" rows="4" name="_' . $key . '" id="_' . $key . '">' . $custom . '</textarea>';
+			$value = '<label for="_' . $key . '">' . $label . ' <em>(' . $notes . ')</em></label><textarea class="widefat" cols="60" rows="4" name="_' . $key . '" id="_' . $key . '">' . $custom . '</textarea>';
 			break;
 		case 'checkbox':
 			// the mt_return_tickets should only be visible if a payment is failed.
@@ -574,7 +574,7 @@ function mt_create_field( $key, $label, $type, $post_id, $choices = false, $mult
 			break;
 	}
 
-	return "<div class='mt-field $type'>" . $value . '</div>';
+	return ( $value ) ? "<div class='mt-field $type $key'>" . $value . '</div>' : '';
 }
 
 /**

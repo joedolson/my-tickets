@@ -336,6 +336,26 @@ legend {
     background: rgba( 255, 255, 70, .3 );
 }
 
+#mt_purchase_options .is_paid {
+	float: left;
+	margin-right: 1em;
+}
+
+#mt_purchase_options .ticketing_method {
+	float: left;
+	margin-right: 1em;
+}
+
+#mt_purchase_options .is_delivered::after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.mt_post_fields .mt-field:not(.checkbox) label {
+	display: block;
+}
+
 .mt_post_fields .mt-field {
     margin-bottom: 1em;
 }
