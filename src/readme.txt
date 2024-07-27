@@ -82,12 +82,17 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Feature: Add ability to set a specific custom expiration date for general admission tickets.
 * Feature: Bulk ticket check-in for groups.
 * Feature: Reports specific to ticket groups.
+* Feature: Individual date-based ticket groups send sold-out and sales expired messages independently.
 * Feature: Add ability to move ticket between different ticket groups.
+* Feature: Improved templating and template filters for HTML email messages.
+* Change: Move ticket label index to post meta.
 * Change: Add custom buttons to increment ticket count due to incredibly small browser input design.
 * Change: Revamp data storage model for public users.
+* Change: Secret keys displayed as password fields when filled.
 * Design & visual changes.
 * Rename ticket types from 'Discrete' and 'Continous' to 'Seating Sections' and 'Audience Types'.
 * Wide variety of miscellaneous bug fixes that would be difficult to isolate.
+* Remove payments JS not used in core plugin.
 
 = 1.11.2 =
 
