@@ -715,12 +715,12 @@ function mt_posttypes_messages( $messages ) {
 		4  => __( 'Payment updated.', 'my-tickets' ),
 		// translators: %s: date and time of the revision.
 		5  => isset( $_GET['revision'] ) ? sprintf( __( 'Payment restored to revision from %s', 'my-tickets' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-		6  => __( 'Payment published.', 'my-tickets' ),
+		6  => __( 'Payment updated.', 'my-tickets' ),
 		7  => __( 'Payment saved.', 'my-tickets' ),
 		8  => __( 'Payment submitted.', 'my-tickets' ),
 		// Translators: %s: date scheduled to publish.
 		9  => sprintf( __( 'Payment scheduled for: <strong>%s</strong>.', 'my-tickets' ), date_i18n( __( 'M j, Y @ G:i', 'my-tickets' ), strtotime( $post->post_date ) ) ),
-		10 => __( 'Payment draft updated.', 'my-tickets' ),
+		10 => __( 'Payment updated.', 'my-tickets' ),
 	);
 
 	return $messages;
