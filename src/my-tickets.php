@@ -320,7 +320,7 @@ add_action( 'admin_menu', 'my_tickets_menu' );
  * Add submenus.
  */
 function my_tickets_menu() {
-	$icon_path = plugins_url( '/my-tickets/images' );
+	$icon_path = plugins_url( '/images', __FILE__ );
 	/**
 	 * Set capability required to manage My Tickets settings. Default `manage_options`.
 	 *
