@@ -7,7 +7,7 @@ Tested up to: 6.6
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 1.11.2
+Stable tag: 2.0.0
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -71,7 +71,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 
 == Changelog ==
 
-= 2.0 =
+= 2.0.0 =
 
 * Feature: Set dates as ticket types with independent expirations.
 * Feature: Introduce virtual inventory option to remove tickets from inventory when added to cart.
