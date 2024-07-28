@@ -137,7 +137,7 @@ function mt_get_column_headers( $context = 'purchases', $type = 'table' ) {
 			'label' => __( 'Paid', 'my-tickets' ),
 		),
 		'mt-method'  => array(
-			'label' => __( 'Ticket Method', 'my-tickets' ),
+			'label' => __( 'Method', 'my-tickets' ),
 		),
 		'mt-date'    => array(
 			'label' => __( 'Date', 'my-tickets' ),
@@ -170,7 +170,7 @@ function mt_get_column_headers( $context = 'purchases', $type = 'table' ) {
 			'label' => __( 'State', 'my-tickets' ),
 		),
 		'mt-code'    => array(
-			'label' => __( 'Postal Code', 'my-tickets' ),
+			'label' => __( 'Postcode', 'my-tickets' ),
 		),
 		'mt-country' => array(
 			'label' => __( 'Country', 'my-tickets' ),
@@ -251,7 +251,7 @@ function mt_generate_tickets_by_event( $event_id = false, $display = false ) {
 			$headers       = mt_get_column_headers( 'tickets', 'table' );
 			$header_html   = mt_set_column_headers( $headers, 'table' );
 			// Translators: name of event.
-			$table_top    = "<table class='widefat'><caption>" . sprintf( __( 'Tickets Purchased for &ldquo;%s&rdquo;', 'my-tickets' ), $title ) . "</caption>
+			$table_top    = "<table class='widefat striped'><caption>" . sprintf( __( 'Tickets Purchased for &ldquo;%s&rdquo;', 'my-tickets' ), $title ) . "</caption>
 						<thead>
 							<tr>
 								$header_html
@@ -333,7 +333,7 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 				$header_columns = mt_get_column_headers( 'purchases', 'table' );
 				$headers        = mt_set_column_headers( $header_columns, 'table', $custom_fields );
 
-				$table_top    = "<table class='widefat'><caption>%caption%</caption>
+				$table_top    = "<table class='widefat striped'><caption>%caption%</caption>
 							<thead>
 								<tr>
 									$headers
@@ -719,7 +719,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 				$header_columns = mt_get_column_headers( 'purchases', 'csv' );
 				$count          = 0;
 				$col_count      = count( $header_columns );
-				$row            = '<tr class="test-class">';
+				$row            = '<tr>';
 				$csv_array      = array();
 				foreach ( $header_columns as $key => $column ) {
 					$val          = str_replace( '-', '_', $key );
@@ -737,6 +737,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						}
 						$csv_array[] = "\"$column_value\"";
 					}
+					++$count;
 				}
 				$row .= '</tr>';
 				// add split field to csv headers.
@@ -792,7 +793,6 @@ function mt_get_tickets( $event_id ) {
 		'csv'  => array(),
 	);
 	$options   = mt_get_settings();
-	$alternate = 'even';
 	foreach ( $query as $ticket_id ) {
 		$ticket = get_post_meta( $event_id, '_' . $ticket_id, true );
 		if ( ! is_array( $ticket ) ) {
@@ -800,7 +800,6 @@ function mt_get_tickets( $event_id ) {
 		}
 		$ticket_url  = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
 		$purchase_id = $ticket['purchase_id'];
-		$alternate   = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 		$columns     = mt_get_column_headers( 'tickets', 'table' );
 		$i           = 0;
 		$rows        = array();
@@ -821,7 +820,7 @@ function mt_get_tickets( $event_id ) {
 			}
 			++$i;
 		}
-		$row              = "<tr class='$alternate'>" . implode( PHP_EOL, $rows ) . '</tr>';
+		$row              = "<tr>" . implode( PHP_EOL, $rows ) . '</tr>';
 		$csv              = implode( ',', $csvs ) . PHP_EOL;
 		$report['html'][] = $row;
 		$report['csv'][]  = $csv;
@@ -1028,7 +1027,6 @@ function mt_get_report_data_by_time() {
 	$end            = ( isset( $_GET['mt_end'] ) ) ? sanitize_text_field( $_GET['mt_end'] ) : mt_date( 'Y-m-d' );
 	$posts          = mt_get_report_by_time( $start, $end );
 	$total          = 0;
-	$alternate      = 'even';
 	$html           = array();
 	$csv            = array();
 	$custom_fields  = mt_get_custom_fields( 'reports' );
@@ -1090,7 +1088,6 @@ function mt_get_report_data_by_time() {
 		$event_dates     = implode( ', ', $dates );
 		$raw_events      = implode( ', ', array_map( 'strip_tags', $titles ) );
 		$raw_event_dates = implode( ', ', array_map( 'strip_tags', $dates ) );
-		$alternate       = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
 		$custom_fields   = mt_get_custom_fields( 'reports' );
 		$custom_cells    = '';
 		$custom_csv      = '';
@@ -1127,7 +1124,7 @@ function mt_get_report_data_by_time() {
 			$custom_csv   .= ",\"$c_value\"";
 		}
 		$html[] = "
-			<tr class='$alternate'>
+			<tr>
 				<td class='mt-purchaser'><a href='" . get_edit_post_link( $post->ID ) . "'>$purchaser</a></td>
 				<td class='mt-value'>$format_value</td>
 				<td class='mt-type'>$type</td>
@@ -1166,7 +1163,7 @@ function mt_generate_report_by_time() {
 		}
 		// Translators: Starting date, ending date.
 		$output .= '<h3>' . sprintf( __( 'Sales from %1$s to %2$s', 'my-tickets' ), $start, $end ) . '</h3>';
-		$output .= "<table class='widefat'>
+		$output .= "<table class='widefat striped'>
 			<thead>
 				<tr>
 					<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>

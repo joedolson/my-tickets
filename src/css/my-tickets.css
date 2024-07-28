@@ -273,6 +273,12 @@ legend {
     column-gap: 20px;
 }
 
+.mt-tabs caption {
+	font-weight: 700;
+	margin: .5rem 0;
+	text-align: left;
+}
+
 .mt-report-selector {
 	display: grid;
 	grid-template-columns: 14em 14em 1fr;
@@ -331,7 +337,16 @@ legend {
     text-decoration: none;
 }
 
-.mt-owed {
+.wptab th {
+	vertical-align: top;
+	text-align: left;
+}
+
+.wptab button {
+	display: block;
+}
+
+.mt-owed:not(td.mt-owed,th.mt-owed) {
     font-size: 1.5em;
     font-weight: 700;
     text-align: center;
