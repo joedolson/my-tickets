@@ -8,6 +8,7 @@ Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
 Stable tag: 2.0.0
+
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
@@ -20,7 +21,7 @@ Explore the <a href="https://www.joedolson.com/my-tickets/add-ons/">premium add-
 
 Premium event ticketing add-ons include:
 
-* Payment Gateways: Authorize.net, Stripe
+* Payment Gateways: Authorize.net, Stripe, PayPal Pro
 * In-cart Donations
 * Discount Codes
 * Waiting Lists
