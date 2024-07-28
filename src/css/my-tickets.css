@@ -204,6 +204,10 @@ legend {
     border: 1px solid #ccc;
 }
 
+.mt-tabs .wptab:has(table) {
+	overflow-x: scroll;
+}
+
 .my-tickets .mt-ticket-data {
     padding: .5em;
     border: 1px solid #0000001a;
