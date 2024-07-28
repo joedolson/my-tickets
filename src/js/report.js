@@ -24,7 +24,7 @@ jQuery(document).ready(function ($) {
     });
 
     $( '.show-button' ).on( 'click', function(e) {
-        $( 'th.hidden, td.hidden' ).removeClass( 'mt-hidden' );
+        $( 'th.mt-hidden, td.mt-hidden' ).removeClass( 'mt-hidden' );
         $( this ).attr( 'disabled', 'disabled' );
     });
 
