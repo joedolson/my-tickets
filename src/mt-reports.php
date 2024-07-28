@@ -118,58 +118,58 @@ function mt_get_column_headers( $context = 'purchases', $type = 'table' ) {
 	);
 
 	$purchases_headers = array(
-		'mt-last'     => array(
+		'mt-last'    => array(
 			'label' => __( 'Last Name', 'my-tickets' ),
 		),
-		'mt-first'  => array(
+		'mt-first'   => array(
 			'label' => __( 'First Name', 'my-tickets' ),
 		),
-		'mt-type'   => array(
+		'mt-type'    => array(
 			'label' => __( 'Type', 'my-tickets' ),
 		),
-		'mt-tickets'  => array(
+		'mt-tickets' => array(
 			'label' => __( 'Tickets', 'my-tickets' ),
 		),
-		'mt-owed'   => array(
+		'mt-owed'    => array(
 			'label' => __( 'Owed', 'my-tickets' ),
 		),
-		'mt-paid'   => array(
+		'mt-paid'    => array(
 			'label' => __( 'Paid', 'my-tickets' ),
 		),
 		'mt-method'  => array(
 			'label' => __( 'Ticket Method', 'my-tickets' ),
 		),
-		'mt-date' => array(
+		'mt-date'    => array(
 			'label' => __( 'Date', 'my-tickets' ),
 		),
-		'mt-id'   => array(
+		'mt-id'      => array(
 			'label' => __( 'ID', 'my-tickets' ),
 		),
 		'mt-gateway' => array(
 			'label' => __( 'Gateway', 'my-tickets' ),
 		),
-		'mt-email' => array(
+		'mt-email'   => array(
 			'label' => __( 'Email', 'my-tickets' ),
 		),
-		'mt-phone' => array(
+		'mt-phone'   => array(
 			'label' => __( 'Phone', 'my-tickets' ),
 		),
-		'mt-fee' => array(
+		'mt-fee'     => array(
 			'label' => __( 'Fee', 'my-tickets' ),
 		),
-		'mt-street' => array(
+		'mt-street'  => array(
 			'label' => __( 'Street', 'my-tickets' ),
 		),
 		'mt-street2' => array(
 			'label' => __( 'Street (2)', 'my-tickets' ),
 		),
-		'mt-city' => array(
+		'mt-city'    => array(
 			'label' => __( 'City', 'my-tickets' ),
 		),
-		'mt-state' => array(
+		'mt-state'  => array(
 			'label' => __( 'State', 'my-tickets' ),
 		),
-		'mt-code' => array(
+		'mt-code'    => array(
 			'label' => __( 'Postal Code', 'my-tickets' ),
 		),
 		'mt-country' => array(
@@ -207,7 +207,7 @@ function mt_get_column_headers( $context = 'purchases', $type = 'table' ) {
  * @return string
  */
 function mt_set_column_headers( $headers, $type, $custom_headers = array() ) {
-	$cols = array();
+	$cols  = array();
 	$count = count( $headers );
 	foreach ( $headers as $key => $value ) {
 		--$count;
@@ -766,8 +766,8 @@ function mt_format_if_datetime( $label ) {
 	$test = explode( '-', $label );
 	if ( 4 === count( $test ) ) {
 		// Reformat in a date structure.
-		$string = $test[0] . '-' . $test[1] . '-' . $test[2] . ' ' . implode( ':', str_split( $test[3], 2 ) );
-		$formatted = mt_date( 'Y-m-d-His', strtotime( $string ) , false );
+		$string    = $test[0] . '-' . $test[1] . '-' . $test[2] . ' ' . implode( ':', str_split( $test[3], 2 ) );
+		$formatted = mt_date( 'Y-m-d-His', strtotime( $string ), false );
 		if ( $label === $formatted ) {
 			$date_format = get_option( 'date_format' );
 			$time_format = get_option( 'time_format' );
