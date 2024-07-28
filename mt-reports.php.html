@@ -108,12 +108,12 @@ function mt_reports_page() {
  * Get the array of headers for a report.
  *
  * @param string $context Purchases or tickets.
- * @param string $type Type of display table or csv.
+ * @param string $type Type of display table or csv. Only used in filters.
  *
  * @return array
  */
-function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
-	$headers = array(
+function mt_get_column_headers( $context = 'purchases', $type = 'table' ) {
+	$tickets_headers = array(
 		'mt-id'     => array(
 			'label' => __( 'Ticket ID', 'my-tickets' ),
 		),
@@ -143,6 +143,70 @@ function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
 		),
 	);
 
+	$purchases_headers = array(
+		'mt-last'     => array(
+			'label' => __( 'Last Name', 'my-tickets' ),
+		),
+		'mt-first'  => array(
+			'label' => __( 'First Name', 'my-tickets' ),
+		),
+		'mt-type'   => array(
+			'label' => __( 'Type', 'my-tickets' ),
+		),
+		'mt-tickets'  => array(
+			'label' => __( 'Tickets', 'my-tickets' ),
+		),
+		'mt-owed'   => array(
+			'label' => __( 'Owed', 'my-tickets' ),
+		),
+		'mt-paid'   => array(
+			'label' => __( 'Paid', 'my-tickets' ),
+		),
+		'mt-method'  => array(
+			'label' => __( 'Ticket Method', 'my-tickets' ),
+		),
+		'mt-date' => array(
+			'label' => __( 'Date', 'my-tickets' ),
+		),
+		'mt-id'   => array(
+			'label' => __( 'ID', 'my-tickets' ),
+		),
+		'mt-gateway' => array(
+			'label' => __( 'Gateway', 'my-tickets' ),
+		),
+		'mt-email' => array(
+			'label' => __( 'Email', 'my-tickets' ),
+		),
+		'mt-phone' => array(
+			'label' => __( 'Phone', 'my-tickets' ),
+		),
+		'mt-fee' => array(
+			'label' => __( 'Fee', 'my-tickets' ),
+		),
+		'mt-street' => array(
+			'label' => __( 'Street', 'my-tickets' ),
+		),
+		'mt-street2' => array(
+			'label' => __( 'Street (2)', 'my-tickets' ),
+		),
+		'mt-city' => array(
+			'label' => __( 'City', 'my-tickets' ),
+		),
+		'mt-state' => array(
+			'label' => __( 'State', 'my-tickets' ),
+		),
+		'mt-code' => array(
+			'label' => __( 'Postal Code', 'my-tickets' ),
+		),
+		'mt-country' => array(
+			'label' => __( 'Country', 'my-tickets' ),
+		),
+		'mt-notes'   => array(
+			'label' => __( 'Notes', 'my-tickets' ),
+		),
+	);
+
+	$headers = ( 'purchases' === $context ) ? $purchases_headers : $tickets_headers;
 	/**
 	 * Filter the column headers.
 	 *
@@ -164,16 +228,29 @@ function mt_column_headers_events( $context = 'purchases', $type = 'table' ) {
  *
  * @param array  $headers Array of column headers.
  * @param string $type Display type table or csv.
+ * @param array  $custom_headers Custom headers to insert into string.
  *
  * @return string
  */
-function mt_set_column_headers( $headers, $type ) {
+function mt_set_column_headers( $headers, $type, $custom_headers = array() ) {
 	$cols = array();
+	$count = count( $headers );
 	foreach ( $headers as $key => $value ) {
+		--$count;
+		// Insert custom fields before the last column.
+		if ( 1 === $count &amp;&amp; ! empty( $custom_headers ) ) {
+			foreach ( $custom_headers as $name => $field ) {
+				if ( 'table' === $type ) {
+					$cols[] = "&lt;th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . '&lt;/th>';
+				} else {
+					$cols[] = '"' . $field['title'] . '"';
+				}
+			}
+		}
 		if ( 'table' === $type ) {
 			$cols[] = '&lt;th scope="col" class="' . $key . '" id="' . $key . '">' . $value['label'] . '&lt;/th>';
 		} else {
-			$cols[] = '"' . urlencode( $value['label'] ) . '"';
+			$cols[] = '"' . $value['label'] . '"';
 		}
 	}
 
@@ -197,7 +274,7 @@ function mt_generate_tickets_by_event( $event_id = false, $display = false ) {
 			$data          = mt_get_tickets( $event_id );
 			$report        = $data['html'];
 			$total_tickets = count( $report );
-			$headers       = mt_column_headers_events( 'tickets', 'table' );
+			$headers       = mt_get_column_headers( 'tickets', 'table' );
 			$header_html   = mt_set_column_headers( $headers, 'table' );
 			// Translators: name of event.
 			$table_top    = "&lt;table class='widefat'>&lt;caption>" . sprintf( __( 'Tickets Purchased for &amp;ldquo;%s&amp;rdquo;', 'my-tickets' ), $title ) . "&lt;/caption>
@@ -279,27 +356,16 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 				$total_sales    = count( $data['report']['html']['Completed'] ) + count( $data['report']['html']['Pending'] );
 				$total_income   = $data['income'];
 				$custom_fields  = mt_get_custom_fields( 'reports' );
-				$custom_headers = '';
-				foreach ( $custom_fields as $name => $field ) {
-					$custom_headers .= "&lt;th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . "&lt;/th>\n";
-				}
+				$header_columns = mt_get_column_headers( 'purchases', 'table' );
+				$headers        = mt_set_column_headers( $header_columns, 'table', $custom_fields );
+
 				$table_top    = "&lt;table class='widefat'>&lt;caption>%caption%&lt;/caption>
 							&lt;thead>
 								&lt;tr>
-									&lt;th scope='col' class='mt-last'>" . __( 'Last Name', 'my-tickets' ) . "&lt;/th>
-									&lt;th scope='col' class='mt-first'>" . __( 'First Name', 'my-tickets' ) . "&lt;/th>
-									&lt;th scope='col' class='mt-type'>" . __( 'Type', 'my-tickets' ) . "&lt;/th>
-									&lt;th scope='col' class='mt-tickets'>" . __( 'Tickets', 'my-tickets' ) . "&lt;/th>
-									&lt;th scope='col' class='mt-owed'>" . __( 'Owed', 'my-tickets' ) . "&lt;/th>
-									&lt;th scope='col' class='mt-paid'>" . __( 'Paid', 'my-tickets' ) . "&lt;/th>
-									&lt;th scope='col' id='mt_method' class='mt_method'>" . __( 'Ticket Method', 'my-tickets' ) . "&lt;/th>
-									&lt;th scope='col' class='mt-date'>" . __( 'Date', 'my-tickets' ) . "&lt;/th>
-									&lt;th scope='col' class='mt-id'>" . __( 'ID', 'my-tickets' ) . "&lt;/th>
-									$custom_headers
-									&lt;th scope='col' class='mt-notes'>" . __( 'Notes', 'my-tickets' ) . '&lt;/th>
+									$headers
 								&lt;/tr>
 							&lt;/thead>
-							&lt;tbody>';
+							&lt;tbody>";
 				$table_bottom = '&lt;/tbody>&lt;/table>';
 
 				foreach ( $report as $status => $rows ) {
@@ -582,21 +648,21 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 	);
 	$total_tickets = 0;
 	$total_income  = 0;
-	$alternate     = 'even';
 	foreach ( $query as $payment ) {
 		foreach ( $payment as $purchase_id => $details ) {
 			if ( 'publish' !== get_post_status( $purchase_id ) ) {
 				continue;
 			}
-			$status      = get_post_meta( $purchase_id, '_is_paid', true );
-			$ticket_type = get_post_meta( $purchase_id, '_ticketing_method', true );
-			$notes       = esc_html( get_post_meta( $purchase_id, '_notes', true ) );
+			$mt_id     = $purchase_id;
+			$status    = get_post_meta( $purchase_id, '_is_paid', true );
+			$mt_method = get_post_meta( $purchase_id, '_ticketing_method', true );
+			$mt_notes  = esc_html( get_post_meta( $purchase_id, '_notes', true ) );
 			if ( false === $options['include_failed'] &amp;&amp; ( 'Failed' === $status || 'Refunded' === $status || 'Turned Back' === $status ) ) {
 				continue;
 			}
-			$types        = '';
-			$ticket_count = 0;
-			$subtotal     = 0;
+			$mt_type    = '';
+			$mt_tickets = 0;
+			$subtotal   = 0;
 			// get total # tickets on purchase.
 			// get count of tickets for *this* event on purchase.
 			// get total paid.
@@ -608,44 +674,43 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 					// THIS results in only getting the details for one type listed; need all types for this to be valid.
 					if ( $count > 0 ) {
 						$purchaser  = get_the_title( $purchase_id );
-						$first_name = get_post_meta( $purchase_id, '_first_name', true );
-						$last_name  = get_post_meta( $purchase_id, '_last_name', true );
-						$email      = get_post_meta( $purchase_id, '_email', true );
-						$gateway    = get_post_meta( $purchase_id, '_gateway', true );
-						if ( ! $first_name || ! $last_name ) {
-							$name       = explode( ' ', $purchaser );
-							$first_name = $name[0];
-							$last_name  = end( $name );
+						$mt_first   = get_post_meta( $purchase_id, '_first_name', true );
+						$mt_last    = get_post_meta( $purchase_id, '_last_name', true );
+						$mt_email   = get_post_meta( $purchase_id, '_email', true );
+						$mt_gateway = get_post_meta( $purchase_id, '_gateway', true );
+						if ( ! $mt_first || ! $mt_last ) {
+							$name     = explode( ' ', $purchaser );
+							$mt_first = $name[0];
+							$mt_last  = end( $name );
 						}
 						$date        = get_the_time( 'Y-m-d', $purchase_id );
 						$time        = get_the_time( get_option( 'time_format' ), $purchase_id );
 						$transaction = get_post_meta( $purchase_id, '_transaction_data', true );
 						$address     = ( isset( $transaction['shipping'] ) ) ? $transaction['shipping'] : false;
-						$phone       = get_post_meta( $purchase_id, '_phone', true );
-						$fee         = ( isset( $transaction['fee'] ) ) ? $transaction['fee'] : false;
-						$street      = ( isset( $address['street'] ) ) ? $address['street'] : '';
-						$street2     = ( isset( $address['street2'] ) ) ? $address['street2'] : '';
-						$city        = ( isset( $address['city'] ) ) ? $address['city'] : '';
-						$state       = ( isset( $address['state'] ) ) ? $address['state'] : '';
-						$code        = ( isset( $address['code'] ) ) ? $address['code'] : '';
-						$country     = ( isset( $address['country'] ) ) ? $address['country'] : '';
-						$datetime    = "$date $time";
-						$price       = $details[ $type ]['price'];
+						$mt_phone    = get_post_meta( $purchase_id, '_phone', true );
+						$mt_fee      = ( isset( $transaction['fee'] ) ) ? $transaction['fee'] : false;
+						$mt_street   = ( isset( $address['street'] ) ) ? $address['street'] : '';
+						$mt_street2  = ( isset( $address['street2'] ) ) ? $address['street2'] : '';
+						$mt_city     = ( isset( $address['city'] ) ) ? $address['city'] : '';
+						$mt_state    = ( isset( $address['state'] ) ) ? $address['state'] : '';
+						$mt_code     = ( isset( $address['code'] ) ) ? $address['code'] : '';
+						$mt_country  = ( isset( $address['country'] ) ) ? $address['country'] : '';
+						$mt_date     = "$date $time";
+						$mt_price    = $details[ $type ]['price'];
 						$label       = mt_get_label( $type, $event_id );
-						$types      .= ( '' !== $types ) ? PHP_EOL . $label . ': ' . $count : $label . ':' . $count;
-						$this_total  = $count * $price;
+						$mt_type     = mt_format_if_datetime( $label );
+						$this_total  = $count * $mt_price;
 						$subtotal    = $subtotal + ( $this_total );
 						// "sold" tickets are only in reports as those completed.
 						if ( 'Completed' === $status ) {
 							$total_income  = $total_income + $this_total;
 							$total_tickets = $total_tickets + $count;
-							$paid          = $subtotal;
+							$mt_paid       = $subtotal;
 						} else {
-							$paid = 0;
+							$mt_paid = 0;
 						}
-						// if $ticket_count == 0, don't show in options.
-						$ticket_count  = $ticket_count + $count;
-						$class         = esc_attr( strtolower( $ticket_type ) );
+						// if $mt_tickets == 0, don't show in options.
+						$mt_tickets    = $mt_tickets + $count;
 						$custom_fields = mt_get_custom_fields( 'reports' );
 						$custom_cells  = '';
 						$custom_csv    = '';
@@ -675,25 +740,33 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 				}
 			}
 
-			if ( $ticket_count > 0 ) {
-				$owed      = $subtotal - $paid;
-				$alternate = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
-				$row       = "&lt;tr class='$alternate'>
-								&lt;th scope='row' class='mt-last'>" . esc_html( $last_name ) . "&lt;/th>
-								&lt;td class='mt-first'>" . esc_html( $first_name ) . "&lt;/td>
-								&lt;td class='mt-type'>" . wpautop( $types ) . "&lt;/td>
-								&lt;td class='mt-tickets'>$ticket_count&lt;/td>
-								&lt;td class='mt-price'>" . apply_filters( 'mt_money_format', $owed ) . "&lt;/td>
-								&lt;td class='mt-paid'>" . apply_filters( 'mt_money_format', $paid ) . "&lt;/td>
-								&lt;td class='mt_ticket_type'>&lt;span class='mt $class'>$ticket_type&lt;/span>&lt;/td>
-								&lt;td class='mt-date'>$datetime&lt;/td>
-								&lt;td class='mt-id'>&lt;a href='" . esc_url( get_edit_post_link( $purchase_id ) ) . "'>$purchase_id&lt;/a>&lt;/td>
-								$custom_cells
-								&lt;td class='mt-notes'>$notes&lt;/td>                                    
-						  &lt;/tr>";
+			if ( $mt_tickets > 0 ) {
+				$mt_owed        = $subtotal - $mt_paid;
+				$header_columns = mt_get_column_headers( 'purchases', 'csv' );
+				$count          = 0;
+				$col_count      = count( $header_columns );
+				$row            = '&lt;tr class="test-class">';
+				$csv_array      = array();
+				foreach ( $header_columns as $key => $column ) {
+					$val          = str_replace( '-', '_', $key );
+					$column_value = $$val;
+					if ( $count === $col_count - 1 ) {
+						$row .= $custom_cells;
+					}
+					if ( 0 === $count ) {
+						$row        .= "&lt;th scope='row' id='$key' class='$key'>" . esc_html( $column_value ) . '&lt;/th>';
+						$csv_array[] = "\"$column_value\"";
+					} else {
+						$row .= "&lt;td id='$key' class='$key'>" . esc_html( $column_value ) . '&lt;/td>';
+						if ( 'mt-type' === $key ) {
+							$column_value = str_replace( PHP_EOL, ', ', $mt_type );
+						}
+						$csv_array[] = "\"$column_value\"";
+					}
+				}
+				$row .= '&lt;/tr>';
 				// add split field to csv headers.
-				$types                       = str_replace( PHP_EOL, ', ', $types );
-				$csv                         = "\"$last_name\",\"$first_name\",\"$email\",\"$types\",\"$ticket_count\",\"$owed\",\"$paid\",\"$fee\",\"$ticket_type\",\"$date\",\"$time\",\"$gateway\",\"$purchase_id\",\"$phone\",\"$street\",\"$street2\",\"$city\",\"$state\",\"$code\",\"$country\"$custom_csv" . PHP_EOL;
+				$csv                         = implode( ',', $csv_array ) . PHP_EOL;
 				$report['html'][ $status ][] = $row;
 				$report['csv'][ $status ][]  = $csv;
 			}
@@ -705,6 +778,30 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 		'income'  => $total_income,
 		'tickets' => $total_tickets,
 	);
+}
+
+/**
+ * Format a ticket type label if it is date/time.
+ * If the label can be converted to an integer and back to the same label, it's a date.
+ *
+ * @param string $label Possible date string.
+ *
+ * @return string
+ */
+function mt_format_if_datetime( $label ) {
+	$test = explode( '-', $label );
+	if ( 4 === count( $test ) ) {
+		// Reformat in a date structure.
+		$string = $test[0] . '-' . $test[1] . '-' . $test[2] . ' ' . implode( ':', str_split( $test[3], 2 ) );
+		$formatted = mt_date( 'Y-m-d-His', strtotime( $string ) , false );
+		if ( $label === $formatted ) {
+			$date_format = get_option( 'date_format' );
+			$time_format = get_option( 'time_format' );
+			return mt_date( $date_format . ' ' . $time_format, strtotime( $formatted ) );
+		}
+	}
+
+	return $label;
 }
 
 /**
@@ -730,7 +827,7 @@ function mt_get_tickets( $event_id ) {
 		$ticket_url  = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
 		$purchase_id = $ticket['purchase_id'];
 		$alternate   = ( 'alternate' === $alternate ) ? 'even' : 'alternate';
-		$columns     = mt_column_headers_events();
+		$columns     = mt_get_column_headers( 'tickets', 'table' );
 		$i           = 0;
 		$rows        = array();
 		$csvs        = array();
@@ -827,28 +924,16 @@ function mt_download_csv_event() {
 		$event_id  = intval( $_GET['event_id'] );
 		$type      = isset( $_GET['mt_select_ticket_type'] ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : 'all';
 		$args      = array(
-			'ticket_type' => $type,
+			'ticket_type'    => $type,
+			'include_failed' => false,
 		);
 		$title     = get_the_title( $event_id );
 		$purchases = mt_purchases( $event_id, $args );
 		if ( is_array( $purchases ) ) {
-			$report          = $purchases['report']['csv'];
-			$custom_headings = '';
-			/**
-			 * Filter custom fields array for reports.
-			 *
-			 * @hook mt_custom_fields
-			 *
-			 * @param {array} $custom_fields Array of custom fields.
-			 * @param {string} $context Current context of filter. ('reports')
-			 *
-			 * @return {array}
-			 */
-			$custom_fields = mt_get_custom_fields( 'reports' );
-			foreach ( $custom_fields as $name => $field ) {
-				$custom_headings .= ",\"$name\"";
-			}
-			$csv = __( 'Last Name', 'my-tickets' ) . ',' . __( 'First Name', 'my-tickets' ) . ',' . __( 'Email', 'my-tickets' ) . ',' . __( 'Ticket Type', 'my-tickets' ) . ',' . __( 'Purchased', 'my-tickets' ) . ',' . __( 'Owed', 'my-tickets' ) . ',' . __( 'Paid', 'my-tickets' ) . ',' . __( 'Fees', 'my-tickets' ) . ',' . __( 'Ticket Method', 'my-tickets' ) . ',' . __( 'Date', 'my-tickets' ) . ',' . __( 'Time', 'my-tickets' ) . ',' . __( 'Payment Gateway', 'my-tickets' ) . ',' . __( 'Purchase ID', 'my-tickets' ) . ',' . __( 'Phone', 'my-tickets' ) . ',' . __( 'Street', 'my-tickets' ) . ',' . __( 'Street (2)', 'my-tickets' ) . ',' . __( 'City', 'my-tickets' ) . ',' . __( 'State', 'my-tickets' ) . ',' . __( 'Postal Code', 'my-tickets' ) . ',' . __( 'Country', 'my-tickets' ) . $custom_headings . PHP_EOL;
+			$report         = $purchases['report']['csv'];
+			$custom_fields  = mt_get_custom_fields( 'reports' );
+			$header_columns = mt_get_column_headers( 'purchases', 'csv' );
+			$csv            = mt_set_column_headers( $header_columns, 'csv', $custom_fields ) . PHP_EOL;
 			foreach ( $report as $status => $rows ) {
 				foreach ( $rows as $type => $row ) {
 					$csv .= $row;
@@ -882,8 +967,8 @@ function mt_download_csv_tickets() {
 		$tickets  = mt_get_tickets( $event_id );
 		$report   = $tickets['csv'];
 
-		$headers     = mt_column_headers_events( 'tickets', 'csv' );
-		$header_html = mt_set_column_headers( $headers, 'csv' );
+		$headers     = mt_get_column_headers( 'tickets', 'csv' );
+		$header_html = mt_set_column_headers( $headers, 'csv' ) . PHP_EOL;
 		$csv         = $header_html . PHP_EOL;
 		foreach ( $report as $row ) {
 			$csv .= "$row";
@@ -896,7 +981,6 @@ function mt_download_csv_tickets() {
 		exit;
 	}
 }
-
 
 add_action( 'admin_init', 'mt_download_csv_time' );
 /**
