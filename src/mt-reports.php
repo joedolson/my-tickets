@@ -166,7 +166,7 @@ function mt_get_column_headers( $context = 'purchases', $type = 'table' ) {
 		'mt-city'    => array(
 			'label' => __( 'City', 'my-tickets' ),
 		),
-		'mt-state'  => array(
+		'mt-state'   => array(
 			'label' => __( 'State', 'my-tickets' ),
 		),
 		'mt-code'    => array(
@@ -787,12 +787,12 @@ function mt_format_if_datetime( $label ) {
  * @return array
  */
 function mt_get_tickets( $event_id ) {
-	$query     = get_post_meta( $event_id, '_ticket' );
-	$report    = array(
+	$query   = get_post_meta( $event_id, '_ticket' );
+	$report  = array(
 		'html' => array(),
 		'csv'  => array(),
 	);
-	$options   = mt_get_settings();
+	$options = mt_get_settings();
 	foreach ( $query as $ticket_id ) {
 		$ticket = get_post_meta( $event_id, '_' . $ticket_id, true );
 		if ( ! is_array( $ticket ) ) {
@@ -820,7 +820,7 @@ function mt_get_tickets( $event_id ) {
 			}
 			++$i;
 		}
-		$row              = "<tr>" . implode( PHP_EOL, $rows ) . '</tr>';
+		$row              = '<tr>' . implode( PHP_EOL, $rows ) . '</tr>';
 		$csv              = implode( ',', $csvs ) . PHP_EOL;
 		$report['html'][] = $row;
 		$report['csv'][]  = $csv;

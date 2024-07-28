@@ -89,6 +89,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 * Change: Add custom buttons to increment ticket count due to incredibly small browser input design.
 * Change: Revamp data storage model for public users.
 * Change: Secret keys displayed as password fields when filled.
+* Change: Match fields displayed in admin view reports & CSV downloads.
 * Design & visual changes.
 * Rename ticket types from 'Discrete' and 'Continous' to 'Seating Sections' and 'Audience Types'.
 * Wide variety of miscellaneous bug fixes that would be difficult to isolate.
