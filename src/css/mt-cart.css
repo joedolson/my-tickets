@@ -180,6 +180,10 @@ table.mt_cart {
     background-color: var(--mt-message-bg);
     color: var(--mt-message-color);
 	border: 2px solid var(--mt-success-border);
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	flex-wrap: wrap;
 }
 
 .mt-processing {
