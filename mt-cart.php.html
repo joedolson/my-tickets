@@ -833,8 +833,8 @@ function mt_generate_cart( $user_ID = false ) {
 					 *
 					 * @return {string}
 					 */
-					$append   = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
-					$output   = "&lt;div class='transaction-purchase panel'>&lt;div class='inner'>&lt;p>" . __( 'Receipt ID:', 'my-tickets' ) . " &lt;code>&lt;a href='$link'>$receipt&lt;/a>&lt;/code>&lt;/p>" . mt_format_purchase( $purchase, 'html', $post_id ) . $append . '&lt;/div>&lt;/div>';
+					$append = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
+					$output = "&lt;div class='transaction-purchase panel'>&lt;div class='inner'>&lt;p>" . __( 'Receipt ID:', 'my-tickets' ) . " &lt;code>&lt;a href='$link'>$receipt&lt;/a>&lt;/code>&lt;/p>" . mt_format_purchase( $purchase, 'html', $post_id ) . $append . '&lt;/div>&lt;/div>';
 					do_action( 'mt_purchase_completed', $post_id, $link, $purchase );
 				}
 			} else {
