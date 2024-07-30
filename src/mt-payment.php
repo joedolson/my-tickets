@@ -64,6 +64,16 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 			update_post_meta( $purchase_id, '_transaction_id', $txn_id );
 			update_post_meta( $purchase_id, '_transaction_data', $data );
 			update_post_meta( $purchase_id, '_is_paid', $status );
+			/**
+			 * Take action when a payment is completed successfully.
+			 *
+			 * @hook mt_successful_payment
+			 *
+			 * @param {int}    $purchase_id Payment ID.
+			 * @param {string} $response Response confirmation from gateway.
+			 * @param {array}  $data Data sent from gateway.
+			 * @param {array}  $post Posted data from gateway.
+			 */
 			do_action( 'mt_successful_payment', $purchase_id, $response, $data, $post );
 			wp_update_post(
 				array(
