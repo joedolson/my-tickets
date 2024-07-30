@@ -398,6 +398,16 @@ legend {
     text-shadow: 1px 0 0 #000;
 }
 
+.mt-report-fields-inline {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.mt-report-fields-inline label {
+	display: block;
+}
+
 @media (max-width: 782px) {
     .jcd-narrow {
         width: 100%;
