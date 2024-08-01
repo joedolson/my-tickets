@@ -587,7 +587,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				apply_filters(
 					'mt_tickets_available_discrete_text',
 					// Translators: 1) opening span; 2) number remaining as integer, 3) closing span tag.
-					__( '%1$s available%3$s', 'my-tickets' ),
+					__( '%1$s %2$s available%3$s', 'my-tickets' ),
 					$remaining,
 					$tickets
 				),
