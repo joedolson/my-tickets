@@ -580,7 +580,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 					$tickets
 				),
 				'<span class="tickets-remaining">',
-				"<span class='value remaining-tickets'>" . $remaining . "</span>/<span class='ticket-count'>" . $tickets . '</span>',
+				"<span class='value remaining-tickets'>" . $remaining . "</span><span class='separator'>/</span><span class='ticket-count'>" . $tickets . '</span>',
 				'</span>'
 			);
 			// Translators: 1 ticket price label, 2 number remaining as integer, 3 closing span tag.
