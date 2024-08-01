@@ -357,6 +357,32 @@
 			}
 		}
 	});
+	const adminPaymentLink = $( '#create-admin-payment' );
+	if ( adminPaymentLink.length > 0 ) {
+		let link         = adminPaymentLink.attr( 'href' );
+		let url          = new URL( link );
+		const first_name = $( '#mt_fname' );
+		const last_name  = $( '#mt_lname' );
+		const email      = $( '#mt_email' );
+		first_name.on( 'blur', function(e) {
+			if ( '' !== first_name.val() ) {
+				url.searchParams.append( 'fname', first_name.val() );
+				adminPaymentLink.attr( 'href', url.toString() );
+			}
+		});
+		last_name.on( 'blur', function(e) {
+			if ( '' !== last_name.val() ) {
+				url.searchParams.append( 'lname', last_name.val() );
+				adminPaymentLink.attr( 'href', url.toString() );
+			}
+		});
+		email.on( 'blur', function(e) {
+			if ( '' !== email.val() ) {
+				url.searchParams.append( 'email', email.val() );
+				adminPaymentLink.attr( 'href', url.toString() );
+			}
+		});
+	}
 }(jQuery));
 
 window.addEventListener( 'beforeunload', function(e) {

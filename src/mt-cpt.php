@@ -220,6 +220,14 @@ function mt_default_fields() {
 				'input'   => 'text',
 				'context' => 'new',
 			),
+			'first_name'        => array(
+				'input'   => 'hidden',
+				'context' => 'new',
+			),
+			'last_name'         => array(
+				'input'   => 'hidden',
+				'context' => 'new',
+			),
 		);
 
 	return apply_filters( 'mt_add_custom_fields', $mt_fields );
@@ -236,14 +244,6 @@ function mt_add_inner_box() {
 		'mt-meta-nonce',
 		wp_create_nonce( 'mt-meta-nonce' )
 	);
-	foreach ( $fields as $key => $value ) {
-		$label    = $value['label'];
-		$input    = $value['input'];
-		$choices  = ( isset( $value['choices'] ) ) ? $value['choices'] : false;
-		$multiple = ( isset( $value['multiple'] ) ) ? true : false;
-		$notes    = ( isset( $value['notes'] ) ) ? $value['notes'] : '';
-		$format  .= mt_create_field( $key, $label, $input, $post_id, $choices, $multiple, $notes, $value );
-	}
 	if ( ! isset( $_GET['post'] ) ) {
 		// for new payments only; imports user's cart.
 		$cart_id           = false;
@@ -256,13 +256,37 @@ function mt_add_inner_box() {
 		}
 		$cart = mt_get_cart( $cart_id, $cart_transient_id );
 		// Translators: link to public web site.
-		$order = ( $cart ) ? mt_generate_cart_table( $cart, 'confirmation' ) : '<p>' . sprintf( __( 'Visit the <a href="%s">public web site</a> to set up a cart order', 'my-tickets' ), home_url() ) . '</p>';
-		$total = '<strong>' . __( 'Total', 'my-tickets' ) . '</strong>: ' . apply_filters( 'mt_money_format', mt_total_cart( $cart, $post_id ) );
+		$order       = ( $cart ) ? mt_generate_cart_table( $cart, 'confirmation' ) : '<p>' . sprintf( __( 'Visit the <a href="%s">public web site</a> to set up a cart order', 'my-tickets' ), home_url() ) . '</p>';
+		$total_value = mt_total_cart( $cart, $post_id );
+		$total       = '<strong>' . __( 'Total', 'my-tickets' ) . '</strong>: ' . apply_filters( 'mt_money_format', $total_value );
+		$order       = '<div class="mt-new-order">' . $order . $total . '</div>';
 	} else {
-		$order = '';
-		$total = '';
+		$order       = '';
+		$total_value = '';
 	}
-	echo wp_kses( '<div class="mt_post_fields">' . $format . $order . $total . '</div>', mt_kses_elements() );
+	foreach ( $fields as $key => $value ) {
+		$label    = isset( $value['label'] ) ? $value['label'] : '';
+		$input    = $value['input'];
+		$choices  = ( isset( $value['choices'] ) ) ? $value['choices'] : false;
+		$multiple = ( isset( $value['multiple'] ) ) ? true : false;
+		$notes    = ( isset( $value['notes'] ) ) ? $value['notes'] : '';
+		$default  = false;
+		if ( isset( $_GET['email'] ) && 'email' === $key ) {
+			$default = sanitize_text_field( $_GET['email'] );
+		}
+		if ( isset( $_GET['fname'] ) && 'first_name' === $key ) {
+			$default = sanitize_text_field( $_GET['fname'] );
+		}
+		if ( isset( $_GET['lname'] ) && 'last_name' === $key ) {
+			$default = sanitize_text_field( $_GET['lname'] );
+		}
+		if ( $total_value && 'total_paid' === $key ) {
+			$default = $total_value;
+		}
+		$format  .= mt_create_field( $key, $label, $input, $post_id, $choices, $multiple, $notes, $value, $default );
+	}
+
+	echo wp_kses( '<div class="mt_post_fields">' . $order . $format . '</div>', mt_kses_elements() );
 }
 
 /**
@@ -499,6 +523,28 @@ function mt_offline_transaction( $transaction, $gateway ) {
 }
 
 /**
+ * Set the purchaser name when creating a new admin payment.
+ *
+ * @return string|void 
+ */
+function my_tickets_default_new_purchase() {
+    global $post_type;
+    if ( 'mt-payments' === $post_type ) {
+		$fname = '';
+		$lname = '';
+		if ( isset( $_GET['fname'] ) ) {
+			$fname = sanitize_text_field( $_GET['fname'] );
+		}
+		if ( isset( $_GET['lname'] ) ) {
+			$lname = sanitize_text_field( $_GET['lname'] );
+		}
+
+        return "$fname $lname";
+    }
+}
+add_filter( 'default_title', 'my_tickets_default_new_purchase' );
+
+/**
  * Define meta box fields that can be changed by Admin in a payment record.
  *
  * @param string      $key Name of field.
@@ -509,10 +555,11 @@ function mt_offline_transaction( $transaction, $gateway ) {
  * @param bool|string $multiple Indicates whether this is part of a set of fields.
  * @param string      $notes Field notes.
  * @param array       $field Array governing field context.
+ * @param string      $default Default field value.
  *
  * @return bool|string
  */
-function mt_create_field( $key, $label, $type, $post_id, $choices = false, $multiple = false, $notes = '', $field = array() ) {
+function mt_create_field( $key, $label, $type, $post_id, $choices = false, $multiple = false, $notes = '', $field = array(), $default = false ) {
 	$options = mt_get_settings();
 	if ( isset( $field['context'] ) && 'edit' === $field['context'] && ! isset( $_GET['post'] ) ) {
 		return '';
@@ -525,6 +572,9 @@ function mt_create_field( $key, $label, $type, $post_id, $choices = false, $mult
 		$custom = (array) get_post_meta( $post_id, '_' . $key );
 	} else {
 		$custom = esc_attr( get_post_meta( $post_id, '_' . $key, true ) );
+	}
+	if ( $default && ! $custom ) {
+		$custom = $default;
 	}
 	if ( 'notes' !== $key && 'Refunded' === get_post_meta( $post_id, '_is_paid', true ) ) {
 		$disabled = 'disabled';
@@ -568,6 +618,9 @@ function mt_create_field( $key, $label, $type, $post_id, $choices = false, $mult
 			break;
 		case 'select':
 			$value = '<label for="_' . $key . '">' . $label . '</label> ' . '<select name="_' . $key . '" id="_' . $key . '">' . mt_create_options( $choices, $custom ) . '</select>';
+			break;
+		case 'hidden':
+			$value = '<input type="hidden" name="_' . $key . '" value="' . esc_attr( $custom ) . '" />';
 			break;
 		case 'none':
 			$value = "<p><strong>$label</strong>: <span>" . esc_html( $custom ) . '</span></p>';

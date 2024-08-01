@@ -79,3 +79,15 @@
 #mt_send_subject, #mt_send_email {
     width: 100%;
 }
+
+.mt-new-order {
+	padding: .5rem 1rem;
+	background: #f0f0f4;
+	margin-bottom: 2rem;
+	border: 1px solid #ccc;
+}
+
+.mt-new-order caption,
+.mt-new-order th {
+	font-weight: 700;
+}
