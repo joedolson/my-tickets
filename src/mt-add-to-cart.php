@@ -571,11 +571,11 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			);
 
 			$hide_remaining = mt_hide_remaining( $tickets_remaining );
-			// Translators: 1 Ticket price label, 2 number remaining as fraction e.g. 2/40, 3 closing span tag..
 			$remaining_text = $ticket_price_label . sprintf(
 				apply_filters(
 					'mt_tickets_remaining_discrete_text',
-					__( '%1$s %2$s remaining%3$s', 'my-tickets' ),
+					// Translators: 1) number remaining as fraction e.g. 2/40, 2) closing span tag..
+					__( '%1$s remaining%2$s', 'my-tickets' ),
 					$remaining,
 					$tickets
 				),
@@ -583,11 +583,11 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				"<span class='value remaining-tickets'>" . $remaining . "</span><span class='separator'>/</span><span class='ticket-count'>" . $tickets . '</span>',
 				'</span>'
 			);
-			// Translators: 1 ticket price label, 2 number remaining as integer, 3 closing span tag.
 			$available_text = $ticket_price_label . sprintf(
 				apply_filters(
 					'mt_tickets_available_discrete_text',
-					__( '%1$s %2$s available%3$s', 'my-tickets' ),
+					// Translators: 1) number remaining as integer, 2) closing span tag.
+					__( '%1$s available%3$s', 'my-tickets' ),
 					$remaining,
 					$tickets
 				),
