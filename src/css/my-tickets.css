@@ -371,6 +371,11 @@ legend {
 	clear: both;
 }
 
+.mt_post_fields th .wp-post-image {
+	float: left;
+	margin-right: .5rem;
+}
+
 .mt_post_fields .mt-field:not(.checkbox) label {
 	display: block;
 }
