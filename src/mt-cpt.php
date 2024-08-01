@@ -283,7 +283,7 @@ function mt_add_inner_box() {
 		if ( $total_value && 'total_paid' === $key ) {
 			$default = $total_value;
 		}
-		$format  .= mt_create_field( $key, $label, $input, $post_id, $choices, $multiple, $notes, $value, $default );
+		$format .= mt_create_field( $key, $label, $input, $post_id, $choices, $multiple, $notes, $value, $default );
 	}
 
 	echo wp_kses( '<div class="mt_post_fields">' . $order . $format . '</div>', mt_kses_elements() );
@@ -525,11 +525,11 @@ function mt_offline_transaction( $transaction, $gateway ) {
 /**
  * Set the purchaser name when creating a new admin payment.
  *
- * @return string|void 
+ * @return string|void
  */
 function my_tickets_default_new_purchase() {
-    global $post_type;
-    if ( 'mt-payments' === $post_type ) {
+	global $post_type;
+	if ( 'mt-payments' === $post_type ) {
 		$fname = '';
 		$lname = '';
 		if ( isset( $_GET['fname'] ) ) {
@@ -539,8 +539,8 @@ function my_tickets_default_new_purchase() {
 			$lname = sanitize_text_field( $_GET['lname'] );
 		}
 
-        return "$fname $lname";
-    }
+		return "$fname $lname";
+	}
 }
 add_filter( 'default_title', 'my_tickets_default_new_purchase' );
 
@@ -559,7 +559,7 @@ add_filter( 'default_title', 'my_tickets_default_new_purchase' );
  *
  * @return bool|string
  */
-function mt_create_field( $key, $label, $type, $post_id, $choices = false, $multiple = false, $notes = '', $field = array(), $default = false ) {
+function mt_create_field( $key, $label, $type, $post_id, $choices = false, $multiple = false, $notes = '', $field = array(), $default_value = false ) {
 	$options = mt_get_settings();
 	if ( isset( $field['context'] ) && 'edit' === $field['context'] && ! isset( $_GET['post'] ) ) {
 		return '';
@@ -573,8 +573,8 @@ function mt_create_field( $key, $label, $type, $post_id, $choices = false, $mult
 	} else {
 		$custom = esc_attr( get_post_meta( $post_id, '_' . $key, true ) );
 	}
-	if ( $default && ! $custom ) {
-		$custom = $default;
+	if ( $default_value && ! $custom ) {
+		$custom = $default_value;
 	}
 	if ( 'notes' !== $key && 'Refunded' === get_post_meta( $post_id, '_is_paid', true ) ) {
 		$disabled = 'disabled';
