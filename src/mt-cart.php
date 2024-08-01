@@ -821,7 +821,7 @@ function mt_generate_cart( $user_ID = false ) {
 }
 
 /**
- * Copy public cart into admin.
+ * Render the link to copy a public cart into admin.
  *
  * @return string
  */
@@ -829,7 +829,7 @@ function mt_copy_cart() {
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'manage_options' ) ) {
 		$unique_id = mt_get_unique_id();
 		if ( $unique_id ) {
-			return "<p><a id='create-admin-payment' href='" . esc_url( admin_url( "post-new.php?post_type=mt-payments&amp;cart=$unique_id" ) ) . "'>" . __( 'Create new admin payment with this cart', 'my-tickets' ) . '</a></p>';
+			return "<p class='create-admin-payment'><a id='create-admin-payment' href='" . esc_url( admin_url( "post-new.php?post_type=mt-payments&amp;cart=$unique_id" ) ) . "'>" . __( 'Create new admin payment with this cart', 'my-tickets' ) . '</a> <span class="dashicons dashicons-tickets" aria-hidden="true"></span></p>';
 		}
 	}
 

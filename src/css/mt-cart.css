@@ -280,6 +280,17 @@ button[name="mt_add_to_cart"] img {
     margin-right: .5rem;
 }
 
+.create-admin-payment {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	column-gap: 6px;
+	padding: 6px 12px;
+	border-radius: 3px;
+	background: var(--mt-message-bg);
+	color: var(--mt-message-color);
+}
+
 .mt-ticket-input {
 	display: flex;
 }
