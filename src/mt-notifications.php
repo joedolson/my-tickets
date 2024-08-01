@@ -231,13 +231,14 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					$output .= apply_filters( 'mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep );
 					$output .= $sep . $tickets_list;
 				}
-				$total = apply_filters( 'mt_apply_total_discount', $total, $purchase_id );
-				if ( $is_html ) {
-					$output = wpautop( $output . __( 'Ticket Total', 'my-tickets' ) . ': ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) );
-				} else {
-					$output .= $sep . __( 'Ticket Total', 'my-tickets' ) . ': ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) . $sep;
-				}
 			}
+		}
+		$output .= $sep;
+		$total   = apply_filters( 'mt_apply_total_discount', $total, $purchase_id );
+		if ( $is_html ) {
+			$output = wpautop( $output . '<hr><strong>' . __( 'Ticket Total', 'my-tickets' ) . '</strong>: ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) );
+		} else {
+			$output .= $sep . __( 'Ticket Total', 'my-tickets' ) . ': ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) . $sep;
 		}
 	}
 
