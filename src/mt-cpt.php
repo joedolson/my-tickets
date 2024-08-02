@@ -555,7 +555,7 @@ add_filter( 'default_title', 'my_tickets_default_new_purchase' );
  * @param bool|string $multiple Indicates whether this is part of a set of fields.
  * @param string      $notes Field notes.
  * @param array       $field Array governing field context.
- * @param string      $default Default field value.
+ * @param string      $default_value Default field value.
  *
  * @return bool|string
  */
