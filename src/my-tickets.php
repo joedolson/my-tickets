@@ -63,7 +63,7 @@ function mt_status_notice() {
 		echo '<p>' . __( "Let me give you a few quick things to try out while you're here:", 'my-tickets' ) . '</p>';
 		echo '<ol>';
 		// translators: Post edit link.
-		echo '<li>' . sprintf( __( 'Visit <a href="%s">the playground example event</a> to test setting up ticketing.', 'my-tickets' ), get_edit_post_link( 5 ) ) . '</li>';
+		echo '<li>' . sprintf( __( 'Visit <a href="%s">the playground example event</a> to test setting up ticketing.', 'my-tickets' ), admin_url( 'edit.php?post_type=page' ) ) . '</li>';
 		echo '<li>' . __( 'Explore the Payment and Ticket settings to try different options.', 'my-tickets' ) . '</li>';
 		echo '<li>' . __( "Payment gateways aren't available in the playground, but you can test Offline payments.", 'my-tickets' ) . '</li>';
 		echo '</ol>';
