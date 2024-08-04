@@ -1,6 +1,6 @@
 === My Tickets - Accessible Event Ticketing ===
 Contributors: joedolson
-Donate link: http://www.joedolson.com/donate/
+Donate link: https://www.joedolson.com/donate/
 Tags: ticket sales, registration, reservations, event tickets, accessibility
 Requires at least: 4.9
 Tested up to: 6.6
