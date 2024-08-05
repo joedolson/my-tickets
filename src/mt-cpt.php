@@ -35,8 +35,8 @@ function mt_error_data() {
 	$logs   = get_post_meta( $post_id, '_error_log' );
 	$output = '';
 	foreach ( $logs as $log ) {
-		$data    = '<pre>' . print_r( array_map( 'sanitize_text_field', $log[2] ), 1 ) . '</pre>';
-		$submit  = '<pre>' . print_r( array_map( 'sanitize_text_field', $log[3] ), 1 ) . '</pre>';
+		$data    = ( is_array( $log[2] ) ) ? '<pre>' . print_r( array_map( 'sanitize_text_field', $log[2] ), 1 ) . '</pre>' : '';
+		$submit  = ( is_array( $log[3] ) ) ? '<pre>' . print_r( array_map( 'sanitize_text_field', $log[3] ), 1 ) . '</pre>' : '';
 		$row     = sprintf( '<tr><td scope="row">%1$s</td><td>%2$s</td><td>%3$s</td><td>%4$s</td></tr>', $log[0], $log[1], $data, $submit );
 		$output .= $row;
 	}
