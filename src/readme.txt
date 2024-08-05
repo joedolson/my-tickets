@@ -86,6 +86,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Apply cart styling in admin cart creation.
 * Bug fix: Send Playground preview link to page list rather than direct to edit, as page ID not dependable.
 * Bug fix: Add to cart was hidden if ticket count selector changed to `select` input.
+* Bug fix: Reports of purchases with multiple ticket types only listed the last type purchased.
 
 = 2.0.0 =
 
