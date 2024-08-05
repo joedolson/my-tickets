@@ -7,13 +7,13 @@ Tested up to: 6.6
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
 == Description ==
 
-Sell tickets for events easily! My Tickets integrates with <a href="http://wordpress.org/plugins/my-calendar/">My Calendar</a> or can be used for ticket sales on its own. Sell tickets for box office pick up, shipping, or accept print-at-home and e-tickets for an easy experience for your ticket holders!
+Sell tickets or take reservations for events easily! My Tickets integrates with <a href="http://wordpress.org/plugins/my-calendar/">My Calendar</a> or can be used for ticket sales as a stand-alone plugin. Sell tickets for box office pick up, shipping, or accept print-at-home and e-tickets for an easy experience for your ticket holders!
 
 My Tickets ships with PayPal Standard payments, so you can sell tickets immediately. You can also take offline payments, to use My Tickets as a reservation tool while you handle payments by mail or at the door.
 
@@ -21,27 +21,27 @@ Explore the <a href="https://www.joedolson.com/my-tickets/add-ons/">premium add-
 
 Premium event ticketing add-ons include:
 
-* Payment Gateways: Authorize.net, Stripe, PayPal Pro
-* In-cart Donations
-* Discount Codes
-* Waiting Lists
+* Offer a variety of secure ticket payments with premium gateways, including <a href="https://www.joedolson.com/awesome/my-tickets-stripe/">Stripe</a>, <a href="https://www.joedolson.com/awesome/my-tickets-paypal-pro/">PayPal Pro</a>, and <a href="https://www.joedolson.com/awesome/tickets-authorize-net/">Authorize.net</a>.
+* Encourage users to support your organization by taking <a href="https://www.joedolson.com/awesome/my-tickets-donations/">in-cart donations</a>.
+* Offer your customers special discount opportunities with <a href="https://www.joedolson.com/awesome/my-tickets-discounts/">discount codes and coupons</a>
+* Improve conversion and avoid lost opportunities with <a href="https://www.joedolson.com/awesome/my-tickets-waiting-list/">automatic waiting lists</a>.
 
 = Basic Features: =
 
 For buyers:
 
 * Create an account to save your address and shipping preferences
-* Automatically converts shopping carts to your account if you log-in after adding purchases
+* Automatically convert shopping carts to your account if you log-in after adding purchases
 * Buy tickets for multiple events, with multiple ticket types.
 
 For sellers:
 
-* Reports on ticket sales by time or event
-* Easily add new ticket sales from the box office, when somebody pays by phone or mail.
+* Get reports on ticket sales by time, event, or specific ticket options within an event.
+* Easily add new ticket sales from the box office, when somebody pays in person, by phone, or by mail.
 * Use your mobile phone and a standard QRCode reader to verify print-at-home tickets or e-tickets
 * Send email to a single purchaser with questions about their ticket purchase, or mass email all purchasers for an event.
-* Define either continuous (Adult, Student, Child) or discrete (Section 1, Section 2, Section 3) ticket classes for any event
-* Offer member-only discounts for your registered members
+* Select default event settings grouped by audience type (Adult, Student, Child), seating sections (Section 1, Section 2, Section 3) or individual event dates.
+* Offer member-only discounts for logged-in users
 * General Admission tickets: Sell tickets for events without dates, valid for days, weeks, or months after purchase.
 
 My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com/my-tickets/add-ons/">library of Premium add-ons</a>!
@@ -52,7 +52,7 @@ My Tickets is built with accessibility in mind, and tested using assistive techn
 
 = Documentation =
 
-Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a>.
+Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online documentation</a>.
 
 == Installation ==
 
@@ -71,6 +71,21 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">online documentation</a
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.0.1 =
+
+* Enhancement: Add email & purchaser name to purchase when moving a cart from public to admin.
+* Enhancement: Styling for 'create admin cart' link.
+* Enhancement: Move admin cart listing to top of create payment screen.
+* Change: Update readme for new version.
+* Change: Add field styling for inline report forms.
+* Document: `mt_confirmed_transaction` filter.
+* Document: `mt_successful_payment` action.
+* Bug fix: Move price label out of remaining tickets filter.
+* Bug fix: Total incrementor displayed in wrong location in purchase list.
+* Bug fix: Apply cart styling in admin cart creation.
+* Bug fix: Send Playground preview link to page list rather than direct to edit, as page ID not dependable.
+* Bug fix: Add to cart was hidden if ticket count selector changed to `select` input.
 
 = 2.0.0 =
 
