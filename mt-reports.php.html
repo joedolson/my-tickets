@@ -698,9 +698,10 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						$mt_date     = "$date $time";
 						$mt_price    = $details[ $type ]['price'];
 						$label       = mt_get_label( $type, $event_id );
-						$mt_type     = mt_format_if_datetime( $label );
-						$this_total  = $count * $mt_price;
-						$subtotal    = $subtotal + ( $this_total );
+						// Append each type in this purchase with a count of number of items purchased.
+						$mt_type   .= ( '' === $mt_type ) ? mt_format_if_datetime( $label ) . ':' . $count : PHP_EOL . $label . ':' . $count;
+						$this_total = $count * $mt_price;
+						$subtotal   = $subtotal + ( $this_total );
 						// "sold" tickets are only in reports as those completed.
 						if ( 'Completed' === $status ) {
 							$total_income  = $total_income + $this_total;
