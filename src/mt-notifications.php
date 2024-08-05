@@ -601,7 +601,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		$body2      = apply_filters( 'mt_modify_email_body', $body2, 'admin' );
 		$admin_sent = wp_mail( $options['mt_to'], $subject2, $body2, $headers );
 		if ( ! $admin_sent ) {
-			// If mail sends, try without custom headers.
+			// If mail send fails, try without custom headers.
 			wp_mail( $options['mt_to'], $subject2, $body2 );
 		}
 		if ( 'true' === $options['mt_html_email'] ) {
