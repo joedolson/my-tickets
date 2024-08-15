@@ -299,6 +299,10 @@ function mt_tickets_left( $pricing, $available ) {
 function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 	$options      = mt_get_settings();
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+	// If sales are closed for this event or this event type, return real inventory instead of virtual.
+	if ( mt_event_expired( $event_id ) || $type && mt_handle_ticket_type_expired( $event_id, $type ) ) {
+		$virtual = false;
+	}
 	if ( ! is_array( $registration ) ) {
 		return false;
 	}
