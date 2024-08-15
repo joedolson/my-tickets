@@ -293,16 +293,16 @@ function mt_activation() {
 	}
 	flush_rewrite_rules();
 
-	if ( ! wp_next_scheduled( 'my_tickets_daily_cron' ) ) {
-		wp_schedule_event( current_time( 'timestamp' ), 'daily', 'my_tickets_daily_cron' ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+	if ( ! wp_next_scheduled( 'my_tickets_hourly_cron' ) ) {
+		wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'my_tickets_hourly_cron' ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 	}
 }
 
-add_action( 'my_tickets_daily_cron', 'my_tickets_daily_cron_actions' );
+add_action( 'my_tickets_hourly_cron', 'my_tickets_hourly_cron_actions' );
 /**
  * Daily cron job to remove expired anonymous shopping cart data.
  */
-function my_tickets_daily_cron_actions() {
+function my_tickets_hourly_cron_actions() {
 	$carts = mt_find_carts();
 	my_tickets_check_cart_expirations( $carts );
 }
