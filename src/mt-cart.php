@@ -896,6 +896,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 				continue;
 			}
 			$expired = mt_event_expired( $event_id );
+
 			if ( ! $expired ) {
 				// There is no payment ID yet, but $_POST data and $_COOKIE data should be available for pricing.
 				$prices = mt_get_prices( $event_id );
@@ -904,10 +905,21 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 					// this is coming from a deleted event.
 					continue;
 				}
+				/**
+				 * Filter the title used in the My Tickets shopping cart for an event.
+				 *
+				 * @hook mt_link_title
+				 *
+				 * @param {string}  $post_title Event post title.
+				 * @param {WP_Post} $event Post object.
+				 *
+				 * @return {string}
+				 */
 				$title = apply_filters( 'mt_link_title', $event->post_title, $event );
 				$image = ( has_post_thumbnail( $event_id ) ) ? get_the_post_thumbnail( $event_id, array( 80, 80 ) ) : '';
 				$data  = get_post_meta( $event_id, '_mc_event_data', true );
 				if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['event_begin'] ) ) {
+
 					continue;
 				}
 				$registration = get_post_meta( $event_id, '_mt_registration_options', true );
