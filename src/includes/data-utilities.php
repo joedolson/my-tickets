@@ -403,7 +403,7 @@ function mt_get_expiration() {
  */
 function mt_is_cart_expired( $cart_id = false ) {
 	$types = mt_get_data_types();
-	if ( is_user_logged_in() ) {
+	if ( is_user_logged_in() && ! $cart_id ) {
 		$current_user = wp_get_current_user();
 		$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
 		foreach ( $types as $type ) {
@@ -474,6 +474,8 @@ function mt_delete_transient( $transient_id ) {
 
 /**
  * Poll transient keys. Remove any expired keys.
+ *
+ * Not used; may want to remove. See `mt_find_carts()`. 
  */
 function mt_check_transients() {
 	$transients = get_option( 'mt_transient_keys', array() );
