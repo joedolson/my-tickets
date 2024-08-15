@@ -476,7 +476,7 @@ function mt_delete_transient( $transient_id ) {
 /**
  * Poll transient keys. Remove any expired keys.
  *
- * Not used; may want to remove. See `mt_find_carts()`. 
+ * Not used; may want to remove. See `mt_find_carts()`.
  */
 function mt_check_transients() {
 	$transients = get_option( 'mt_transient_keys', array() );
@@ -519,7 +519,7 @@ function mt_find_carts( $type = 'cart' ) {
 		// Find orphaned expirations.
 		$results = $wpdb->get_results( 'SELECT option_name FROM ' . $wpdb->options . " WHERE option_name LIKE '%%mt_%%' AND option_name LIKE '%%_expiration%%'" );
 	}
-	$keys    = array();
+	$keys = array();
 	foreach ( $results as $result ) {
 		$key   = $result->option_name;
 		$parts = explode( '_', $key );
