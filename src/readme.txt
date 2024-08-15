@@ -79,14 +79,19 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Enhancement: Move admin cart listing to top of create payment screen.
 * Change: Update readme for new version.
 * Change: Add field styling for inline report forms.
+* Change: Move daily cron to an hourly cron.
 * Document: `mt_confirmed_transaction` filter.
 * Document: `mt_successful_payment` action.
+* Document: `mt_link_title` filter.
 * Bug fix: Move price label out of remaining tickets filter.
 * Bug fix: Total incrementor displayed in wrong location in purchase list.
 * Bug fix: Apply cart styling in admin cart creation.
 * Bug fix: Send Playground preview link to page list rather than direct to edit, as page ID not dependable.
 * Bug fix: Add to cart was hidden if ticket count selector changed to `select` input.
 * Bug fix: Reports of purchases with multiple ticket types only listed the last type purchased.
+* Bug fix: Function to update virtual inventory failed during cron because data about what to remove was not passed.
+* Bug fix: If mt_is_cart_expired() is executed with a cart ID and a logged-in user, the cart ID was ignored.
+* Bug fix: After sales are closed, only display the real inventory, not the virtual inventory.
 
 = 2.0.0 =
 
