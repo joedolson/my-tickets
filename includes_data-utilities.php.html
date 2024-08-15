@@ -490,7 +490,8 @@ function mt_get_transient( $transient_id ) {
 function mt_delete_transient( $transient_id ) {
 	if ( strpos( $transient_id, '_cart' ) ) {
 		// If this is a cart transient, parse out unique ID and update inventory.
-		$inventory_change = mt_get_inventory_change();
+		$saved            = mt_get_transient( $transient_id );
+		$inventory_change = mt_get_inventory_change( array(), $saved );
 		foreach ( $inventory_change as $ticket => $change ) {
 			mt_update_inventory( $change['event_id'], $ticket, $change['count'] );
 		}
@@ -530,14 +531,20 @@ function mt_get_data_types() {
 }
 
 /**
- * Find all options with the pattern mt_*_cart.
+ * Find all options with the pattern mt_*$type.
+ *
+ * @param string $type Type of data to find.
  *
  * @return array
  */
-function mt_find_carts() {
+function mt_find_carts( $type = 'cart' ) {
 	global $wpdb;
-
-	$results = $wpdb->get_results( 'SELECT option_name FROM ' . $wpdb->options . " WHERE option_name LIKE '%%mt_%%' AND option_name LIKE '%%_cart%%'" );
+	if ( 'cart' === $type ) {
+		$results = $wpdb->get_results( 'SELECT option_name FROM ' . $wpdb->options . " WHERE option_name LIKE '%%mt_%%' AND option_name LIKE '%%_cart%%'" );
+	} else {
+		// Find orphaned expirations.
+		$results = $wpdb->get_results( 'SELECT option_name FROM ' . $wpdb->options . " WHERE option_name LIKE '%%mt_%%' AND option_name LIKE '%%_expiration%%'" );
+	}
 	$keys    = array();
 	foreach ( $results as $result ) {
 		$key   = $result->option_name;
