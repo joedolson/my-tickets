@@ -868,6 +868,7 @@ add_action( 'mt_event_sold_out', 'mt_notify_admin', 10, 3 );
  */
 function mt_notify_admin( $event, $ticket_info, $context ) {
 	$event     = (int) $event;
+	$event_url = get_the_permalink( $event );
 	$options   = mt_get_settings();
 	$email     = $options['mt_to'];
 	$blogname  = get_option( 'blogname' );
@@ -925,7 +926,7 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 				'mt_closure_body',
 				sprintf(
 					// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
-					__( 'Online ticket sales for %1$s are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ),
+					'<p>' . __( 'Online ticket sales for %1$s are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ) . '</p><p>' . $event_url . '</p>',
 					$title,
 					$download,
 					$tickets
@@ -970,7 +971,7 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 			'mt_soldout_body',
 			sprintf(
 				// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
-				__( '%1$s has sold out, and ticket sales are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ),
+				'<p>' . __( '%1$s has sold out, and ticket sales are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ) . '</p><p>' . $event_url . '</p>',
 				strip_tags( $title ),
 				$download,
 				$tickets
