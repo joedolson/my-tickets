@@ -72,6 +72,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.0.2 =
+
+* Bug fix: Reports on tickets didn't limit by ticket groups.
+* Documentation: Add filter docs on closed and sold out admin email filters.
+
 = 2.0.1 =
 
 * Enhancement: Add email & purchaser name to purchase when moving a cart from public to admin.

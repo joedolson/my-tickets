@@ -11,7 +11,7 @@
  * Plugin Name: My Tickets
  * Plugin URI:  https://www.joedolson.com/my-tickets/
  * Description: Sell Tickets and take registrations for your events. Integrates with My Calendar.
- * Author:      Joseph C Dolson
+ * Author:      Joe Dolson
  * Author URI:  https://www.joedolson.com
  * Text Domain: my-tickets
  * License:     GPL-2.0+
