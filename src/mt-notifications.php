@@ -886,25 +886,109 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 		if ( 'type' === $context ) {
 			$title = $title . ' (' . $ticket_info . ')';
 		}
-		// Translators: Name of event being closed.
-		$subject = apply_filters( 'mt_closure_subject', sprintf( __( 'Ticket sales for %s are now closed', 'my-tickets' ), $title ), $event );
+		/**
+		 * Filter the "ticket sales closed" email subject sent to administrators.
+		 *
+		 * @hook mt_closure_subject
+		 *
+		 * @param {string} $subject Email subject line.
+		 * @param {int}    $event Event Post ID.
+		 *
+		 * @return {string}
+		 */
+		$subject = apply_filters(
+			'mt_closure_subject',
+			sprintf(
+				// Translators: Name of event being closed.
+				__( 'Ticket sales for %s are now closed', 'my-tickets' ),
+				$title
+			),
+			$event
+		);
 		$subject = mb_encode_mimeheader( $subject );
 		if ( $inventory && 0 === (int) $inventory['sold'] ) {
 			// Translators: Name of event closed.
-			$body = apply_filters( 'mt_closure_body', sprintf( __( 'Online ticket sales for %1$s are now closed with no online sales.', 'my-tickets' ), $title ), $event );
+			$body = apply_filters( 'mt_closure_body', sprintf( __( 'Online ticket sales for %1$s are now closed with no online sales.', 'my-tickets' ), $title ), $event, 'no-sales' );
 		} else {
-			// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
-			$body = apply_filters( 'mt_closure_body', sprintf( __( 'Online ticket sales for %1$s are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ), $title, $download, $tickets ), $event );
+			/**
+			 * Filter the "ticket sales closed" email body sent to administrators.
+			 *
+			 * @hook mt_closure_body
+			 *
+			 * @param {string} $body Email body text.
+			 * @param {int}    $event Event Post ID.
+			 * @param {string} $type Message type. 'has-sales' or 'no-sales'.
+			 *
+			 * @return {string}
+			 */
+			$body = apply_filters(
+				'mt_closure_body',
+				sprintf(
+					// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
+					__( 'Online ticket sales for %1$s are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ),
+					$title,
+					$download,
+					$tickets
+				),
+				$event,
+				'has-sales'
+			);
 		}
 	}
 	if ( 'soldout' === $context ) {
-		// Translators: Name of event soldout.
-		$subject = apply_filters( 'mt_soldout_subject', sprintf( __( '%s has sold out. Ticket sales are now closed.', 'my-tickets' ), strip_tags( $title ) ), $event );
+		/**
+		 * Filter the "ticket sales sold out" email subject sent to administrators.
+		 *
+		 * @hook mt_soldout_subject
+		 *
+		 * @param {string} $subject Email subject line.
+		 * @param {int}    $event Event Post ID.
+		 *
+		 * @return {string}
+		 */
+		$subject = apply_filters(
+			'mt_soldout_subject',
+			sprintf(
+				// Translators: Name of event soldout.
+				__( '%s has sold out. Ticket sales are now closed.', 'my-tickets' ),
+				strip_tags( $title )
+			),
+			$event
+		);
 		$subject = mb_encode_mimeheader( $subject );
-		// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
-		$body = apply_filters( 'mt_soldout_body', sprintf( __( '%1$s has sold out, and ticket sales are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ), strip_tags( $title ), $download, $tickets ), $event );
+		/**
+		 * Filter the "ticket sales sold out" email body sent to administrators.
+		 *
+		 * @hook mt_soldout_body
+		 *
+		 * @param {string} $body Email body text.
+		 * @param {int}    $event Event Post ID.
+		 *
+		 * @return {string}
+		 */
+		$body = apply_filters(
+			'mt_soldout_body',
+			sprintf(
+				// Translators: Name of event closed; link to download list of purchase; link to download list of tickets.
+				__( '%1$s has sold out, and ticket sales are now closed. <a href="%2$s">Download the purchases list</a> <a href="%3$s">Download the tickets list</a>', 'my-tickets' ),
+				strip_tags( $title ),
+				$download,
+				$tickets
+			),
+			$event
+		);
 	}
-	$to = apply_filters( 'mt_closure_recipient', $email );
+	/**
+	 * Filter the recipient of admin closure and sold out email notifications.
+	 *
+	 * @hook mt_closure_recipient
+	 *
+	 * @param {string} $email Email address of recipient.
+	 * @param {id}     $event Event Post ID.
+	 *
+	 * @return {string}
+	 */
+	$to = apply_filters( 'mt_closure_recipient', $email, $event );
 	add_filter( 'wp_mail_content_type', 'mt_html_type' );
 	$body = apply_filters( 'mt_modify_email_body', $body, 'admin' );
 	wp_mail( $to, $subject, $body, $headers );
