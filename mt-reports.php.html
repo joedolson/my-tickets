@@ -269,9 +269,10 @@ function mt_generate_tickets_by_event( $event_id = false, $display = false ) {
 	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
 		$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : $event_id;
 		if ( $event_id ) {
+			$ticket_type   = isset( $_GET['mt_select_ticket_type'] ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : 'all';
 			$title         = get_the_title( $event_id );
 			$output        = '';
-			$data          = mt_get_tickets( $event_id );
+			$data          = mt_get_tickets( $event_id, $ticket_type );
 			$report        = $data['html'];
 			$total_tickets = count( $report );
 			$headers       = mt_get_column_headers( 'tickets', 'table' );
@@ -809,11 +810,12 @@ function mt_format_if_datetime( $label ) {
 /**
  * Produce a list of tickets for an event.
  *
- * @param int $event_id Event ID.
+ * @param int    $event_id Event ID.
+ * @param string $ticket_type Type of tickets to return.
  *
  * @return array
  */
-function mt_get_tickets( $event_id ) {
+function mt_get_tickets( $event_id, $ticket_type = false ) {
 	$query   = get_post_meta( $event_id, '_ticket' );
 	$report  = array(
 		'html' => array(),
@@ -822,6 +824,12 @@ function mt_get_tickets( $event_id ) {
 	$options = mt_get_settings();
 	foreach ( $query as $ticket_id ) {
 		$ticket = get_post_meta( $event_id, '_' . $ticket_id, true );
+		if ( $ticket_type ) {
+			$include = ( $ticket['type'] === $ticket_type ) ? true : false;
+			if ( ! $include ) {
+				continue;
+			}
+		}
 		if ( ! is_array( $ticket ) ) {
 			continue;
 		}
