@@ -902,7 +902,7 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 	$headers[] = "Reply-to: $options[mt_from]";
 	apply_filters( 'mt_filter_email_headers', $headers, $event );
 	$title     = get_the_title( $event );
-	$inventory = mt_check_inventory( $event );
+	$inventory = mt_check_inventory( $event, '', false );
 	$download  = admin_url( "admin.php?page=mt-reports&amp;amp;event_id=$event&amp;amp;format=csv&amp;amp;mt-event-report=purchases" );
 	$tickets   = admin_url( "admin.php?page=mt-reports&amp;amp;event_id=$event&amp;amp;format=csv&amp;amp;mt-event-report=tickets" );
 	if ( 'type' === $context ) {
