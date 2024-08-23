@@ -196,7 +196,7 @@ function mt_change_ticket_type( $payment_id, $event_id, $ticket, $type ) {
 	}
 	$cart_data = $purchase[ $event_id ];
 	if ( ! isset( $cart_data[ $type ] ) ) {
-		$price             = $prices[ $type ]['price'];
+		$price              = $prices[ $type ]['price'];
 		$cart_data[ $type ] = array(
 			'count'      => 0,
 			'price'      => $price,
