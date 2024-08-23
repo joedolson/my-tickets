@@ -185,16 +185,24 @@ function mt_change_ticket_type( $payment_id, $event_id, $ticket, $type ) {
 	$old_type            = $ticket_data['type'];
 	$ticket_data['type'] = $type;
 	$result              = update_post_meta( $event_id, '_' . $ticket, $ticket_data );
-
+	$prices              = $registration['prices'];
 	if ( 'continuous' !== $registration['counting_method'] ) {
-		$old_type_sold = $registration['prices'][ $old_type ]['sold'] - 1;
-		$new_type_sold = $registration['prices'][ $type ]['sold'] + 1;
+		$old_type_sold = $prices[ $old_type ]['sold'] - 1;
+		$new_type_sold = $prices[ $type ]['sold'] + 1;
 
-		$registration['prices'][ $old_type ]['sold'] = $old_type_sold;
-		$registration['prices'][ $type ]['sold']     = $new_type_sold;
+		$prices[ $old_type ]['sold'] = $old_type_sold;
+		$prices[ $type ]['sold']     = $new_type_sold;
 		update_post_meta( $event_id, '_mt_registration_options', $registration );
 	}
 	$cart_data = $purchase[ $event_id ];
+	if ( ! isset( $cart_data[ $type ] ) ) {
+		$price             = $prices[ $type ]['price'];
+		$cart_data[ $type ] = array(
+			'count'      => 0,
+			'price'      => $price,
+			'orig_price' => $price,
+		);
+	}
 	foreach ( $cart_data as $key => $data ) {
 		if ( $key === $type ) {
 			$count                      = $data['count'] + 1;
