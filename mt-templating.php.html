@@ -715,8 +715,12 @@ function mt_get_ticket_type( $ticket_id = false ) {
 
 		$event_type = mt_get_event_type( $ticket_id );
 		if ( 'event' === $event_type ) {
-			$date = get_option( 'date_format' );
-			$time = get_option( 'time_format' );
+			$date = get_option( 'date_format', 'Y-m-d' );
+			$time = get_option( 'time_format', 'H:i' );
+			if ( $label === $type ) {
+				// convert to a proper timestamp.
+				$label = substr_replace( $type, ' ', 10, 1 );
+			}
 			return date_i18n( $date . ' @ ' . $time, strtotime( $label ) );
 		}
 		/**
