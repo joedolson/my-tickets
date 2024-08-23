@@ -799,7 +799,7 @@ function mt_get_tickets( $event_id, $ticket_type = false ) {
 	foreach ( $query as $ticket_id ) {
 		$ticket = get_post_meta( $event_id, '_' . $ticket_id, true );
 		if ( $ticket_type ) {
-			$include = ( $ticket['type'] === $ticket_type ) ? true : false;
+			$include = ( 'all' === $ticket_type || $ticket['type'] === $ticket_type ) ? true : false;
 			if ( ! $include ) {
 				continue;
 			}
