@@ -1217,6 +1217,23 @@ function mt_event_expired( $event, $react = false ) {
 }
 
 /**
+ * Check the expiration of a single ticket type.
+ *
+ * @param int    $event An event ID.
+ * @param string $type Ticket type key.
+ *
+ * @return bool
+ */
+function mt_ticket_type_expired( $event, $type ) {
+	$expired = get_post_meta( $event, '_mt_event_expired_' . sanitize_title( $type ), true );
+	if ( 'true' === $expired ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Handle the expiration of a single ticket type.
  *
  * @param int    $event An event ID.
@@ -1229,7 +1246,7 @@ function mt_handle_ticket_type_expired( $event, $type ) {
 	if ( 'true' === $expired ) {
 		return true;
 	} else {
-		update_post_meta( $event, '_mt_event_expired_' . sanitize_title( $type ), 'true' );
+		//update_post_meta( $event, '_mt_event_expired_' . sanitize_title( $type ), 'true' );
 		/**
 		 * Executed an action when ticket sales are transitioned from open to closed for a specific ticket type.
 		 *
