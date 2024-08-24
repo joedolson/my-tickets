@@ -843,6 +843,10 @@ function mt_return_tickets( $payment_id ) {
 				if ( false !== get_post_status( $event_id ) ) {
 					$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 					foreach ( $purchase as $type => $ticket ) {
+						if ( ! isset( $registration['prices'][ $type ] ) ) {
+							// If this ticket type was removed, it could trigger a fatal error.
+							continue;
+						}
 						// add ticket hash for each ticket.
 						$count                                   = $ticket['count'];
 						$price                                   = $ticket['price'];
