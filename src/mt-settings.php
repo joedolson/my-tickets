@@ -751,7 +751,8 @@ function mt_ajax_move_ticket() {
 	}
 
 	if ( current_user_can( 'mt-view-reports' ) ) {
-		if ( $type ) {
+		// If 'none', this is not a type change.
+		if ( $type && 'none' !== $type ) {
 			$result = mt_change_ticket_type( $payment_id, $event_id, $ticket, $type );
 			wp_send_json(
 				array(
