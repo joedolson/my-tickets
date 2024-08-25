@@ -7,7 +7,7 @@ Tested up to: 6.6
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -44,7 +44,7 @@ For sellers:
 * Offer member-only discounts for logged-in users
 * General Admission tickets: Sell tickets for events without dates, valid for days, weeks, or months after purchase.
 
-My Tickets is hugely flexible - check out the <a href="https://www.joedolson.com/my-tickets/add-ons/">library of Premium add-ons</a>!
+My Tickets is flexible and easy to extend - check out the <a href="https://www.joedolson.com/my-tickets/add-ons/">library of Premium add-ons</a>!
 
 = Accessibility =
 
@@ -75,6 +75,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 = 2.0.2 =
 
 * Bug fix: Reports on tickets didn't limit by ticket groups.
+* Bug fix: If label not retrieved from post meta, admin tickets render with incorrect time.
+* Bug fix: Don't use the virtual inventory when sending admin notifications.
+* Bug fix: If a ticket type was not already in the sold cart, switching a ticket to that ticket type failed in the admin.
+* Bug fix: If 'all' passed as ticket type, tickets reports were empty.
+* Bug fix: Moving tickets between events was broken due to invalid falsey value check.
+* Bug fix: Don't run ticket type expired action during cart processing, only check existing values.
 * Documentation: Add filter docs on closed and sold out admin email filters.
 
 = 2.0.1 =
