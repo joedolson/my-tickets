@@ -72,6 +72,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.0.3 =
+
+* Bug fix: Individual event type email notifications not sent if entire event has closed.
+* Bug fix: Current ticket group not marked as selected in reports.
+
 = 2.0.2 =
 
 * Bug fix: Reports on tickets didn't limit by ticket groups.
