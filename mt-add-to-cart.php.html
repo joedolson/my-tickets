@@ -345,6 +345,8 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 		$soldout = get_post_meta( $event_id, '_mt_event_soldout', true );
 		if ( 'true' !== $soldout ) {
 			update_post_meta( $event_id, '_mt_event_soldout', 'true' );
+			// Check event types for individual expirations.
+			mt_handle_expiration_status( $event_id );
 			do_action( 'mt_event_sold_out', $event_id, $registration, 'soldout' );
 		}
 	}

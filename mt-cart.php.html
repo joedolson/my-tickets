@@ -1209,6 +1209,8 @@ function mt_event_expired( $event, $react = false ) {
 	}
 	$expired = get_post_meta( $event, '_mt_event_expired', true );
 	if ( 'true' === $expired ) {
+		// The event is no longer available for sale, but not all type emails may have been sent.
+		mt_handle_expiration_status( $event_id );
 		return true;
 	} else {
 		$data = get_post_meta( $event, '_mc_event_data', true );
@@ -1288,6 +1290,29 @@ function mt_handle_ticket_type_expired( $event, $type ) {
 	}
 
 	return false;
+}
+
+/**
+ * Handle expiration status by ticket type. Run ticket type closure actions for 'event' types if not already executed.
+ *
+ * @param int $event_id Event Post ID.
+ *
+ * @return void
+ */
+function mt_handle_expiration_status( $event_id ) {
+	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+	if ( ! is_array( $registration ) || ! 'event' === $registration['counting_method'] ) {
+		return;
+	}
+	$pricing = $registration['prices'];
+	foreach ( $pricing as $type => $ticket_type ) {
+		$close             = mt_get_ticket_type_close( $ticket_type, $registration );
+		$type_sales_closed = ( $close &lt; mt_date() ) ? true : false;
+
+		if ( $type_sales_closed ) {
+			mt_handle_ticket_type_expired( $event_id, $type );
+		}
+	}
 }
 
 /**
