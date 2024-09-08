@@ -992,7 +992,7 @@ function mt_generate_cart_table( $cart, $format = 'cart' ) {
 								} else {
 									$hidden = '';
 								}
-								$total  = $total + ( $price * $count );
+								$total = $total + ( $price * $count );
 								/**
 								 * Show custom fields associated with individual cart items.
 								 *
