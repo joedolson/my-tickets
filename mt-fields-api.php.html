@@ -345,7 +345,7 @@ function mt_show_payment_field( $content, $payment_id ) {
 	$custom_fields = mt_get_custom_fields( 'admin' );
 	$output        = '';
 	foreach ( $custom_fields as $name => $field ) {
-		$data   = get_post_meta( $payment_id, $name );
+		$data = get_post_meta( $payment_id, $name );
 		/**
 		 * Customize the output of custom fields in the admin Payment record.
 		 *
