@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_add_to_cart_hidden_fields - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_field_parameters - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_add_to_cart_hidden_fields</h1></header>
+    <header><h1 class="page-title">Filter: mt_field_parameters</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_add_to_cart_hidden_fields">apply_filters( 'mt_add_to_cart_hidden_fields', <span class="signature">$hidden, $event_id )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_field_parameters">apply_filters( 'mt_field_parameters', <span class="signature">$field, $event_id )</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter hidden fields added to My Tickets add to cart form.</p>
+    <p>Modify a custom field's characteristics prior to rendering.</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>$hidden</code></td>
+                <td class="name"><code>$field</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">array</span>
 
 
             
@@ -93,7 +93,7 @@
 
             
 
-            <td class="description last"><p>HTML output. Default empty.</p></td>
+            <td class="description last"><p>Array of field information.</p></td>
         </tr>
 
     
@@ -116,7 +116,7 @@
 
             
 
-            <td class="description last"><p>Event ID.</p></td>
+            <td class="description last"><p>The event being rendered.</p></td>
         </tr>
 
     
@@ -157,7 +157,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line249">line 249</a>
+        <a href="mt-fields-api.php.html">mt-fields-api.php</a>, <a href="mt-fields-api.php.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -191,7 +191,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">array</span>
 
 
     </dd>
