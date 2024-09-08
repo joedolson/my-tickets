@@ -602,6 +602,17 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			} else {
 				$display_text = $available_text;
 			}
+			/**
+			 * Append text after the 'remaining tickets' text in the cart form.
+			 *
+			 * @hook mt_after_remaining_text
+			 *
+			 * @param {string} $remaining Additional text. Default empty.
+			 * @param {int}    $event_id Current event ID.
+			 * @param {string} $type Ticket type displayed.
+			 * @param {int}    $tickets_remaining. Number of tickets left.
+			 */
+			$display_text .= apply_filters( 'mt_after_remaining_text', '', $event_id, $type, $tickets_remaining );
 
 			$form .= "<div id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . $display_text . '<span class="mt-closure-date">' . $closure . '</span></div>';
 			$form .= "<span class='mt-error-notice' aria-live='assertive'></span></div>";
