@@ -36,7 +36,7 @@
 
     
 
-    <h4 class="name" id="mt_show_in_cart_fields">apply_filters( 'mt_show_in_cart_fields', <span class="signature">$fields, $event_id, $type )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_show_in_cart_fields">apply_filters( 'mt_show_in_cart_fields', <span class="signature">$fields, $event_id, $type, $count, $format )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -140,6 +140,52 @@
             
 
             <td class="description last"><p>The current ticket type.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$count</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of tickets purchased of this type. May change dynamically.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$format</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Whether we're in the cart or confirmation view.</p></td>
         </tr>
 
     
