@@ -276,7 +276,7 @@ function mt_insert_custom_field( $payment_id, $post, $purchased ) {
 	$custom_fields = mt_get_custom_fields( 'save' );
 	foreach ( $custom_fields as $name => $field ) {
 		if ( isset( $post[ $name ] ) ) {
-			foreach ( $post[ $name ] as $key => $data ) {
+			foreach ( $post[ $name ] as $event_id => $data ) {
 				if ( '' !== $data ) {
 					if ( ! isset( $field['sanitize_callback'] ) || ( isset( $field['sanitize_callback'] ) && ! function_exists( $field['sanitize_callback'] ) ) ) {
 						// if no sanitization is provided, we'll prep it for SQL and strip tags.
@@ -285,7 +285,7 @@ function mt_insert_custom_field( $payment_id, $post, $purchased ) {
 						$sanitized = call_user_func( $field['sanitize_callback'], $data );
 					}
 					$data = array(
-						'event_id' => $key,
+						'event_id' => $event_id,
 						$name      => $sanitized,
 					);
 					add_post_meta( $payment_id, $name, $data );
