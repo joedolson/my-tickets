@@ -23,7 +23,7 @@ function mt_add_actions() {
 	// Save field data to cookie/user meta for use in cart.
 	add_action( 'mt_add_to_cart_ajax_field_handler', 'mt_handle_custom_field', 10, 2 );
 	// Display field data in shopping cart.
-	add_filter( 'mt_show_in_cart_fields', 'mt_show_custom_field', 10, 2 );
+	add_filter( 'mt_show_in_cart_fields', 'mt_show_custom_field', 10, 3 );
 	// Insert submitted data into Payment post meta.
 	add_action( 'mt_save_payment_fields', 'mt_insert_custom_field', 10, 3 );
 	// Display field data in tickets list.
@@ -245,10 +245,11 @@ function mt_handle_custom_field( $saved, $submit ) {
  *
  * @param string $content Shopping cart html.
  * @param int    $event_id Event ID.
+ * @param string $type Ticket type for this line item.
  *
  * @return string
  */
-function mt_show_custom_field( $content, $event_id ) {
+function mt_show_custom_field( $content, $event_id, $type ) {
 	$custom_fields = mt_get_custom_fields( 'display' );
 	$return        = '';
 	foreach ( $custom_fields as $name => $field ) {
