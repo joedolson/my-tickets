@@ -884,12 +884,13 @@ function mt_core_link_title( $event_title, $event ) {
 /**
  * Generate tabular data for cart. Include custom fields if defined.
  *
- * @param array  $cart Cart data.
- * @param string $format Format to display.
+ * @param array    $cart Cart data.
+ * @param bool|int $payment Payment ID, if available.
+ * @param string   $format Format to display.
  *
  * @return string
  */
-function mt_generate_cart_table( $cart, $format = 'cart' ) {
+function mt_generate_cart_table( $cart, $payment = false, $format = 'cart' ) {
 	if ( ! is_admin() ) {
 		$caption = ( 'confirmation' === $format ) ? __( 'Review and Purchase', 'my-tickets' ) : __( 'Shopping Cart', 'my-tickets' );
 		$class   = ' mt_cart';
@@ -1118,8 +1119,8 @@ function mt_generate_gateway( $cart ) {
 	$return_url = mt_get_cart_url();
 	// Translators: cart url.
 	$link         = apply_filters( 'mt_return_link', "<p class='return-to-cart'>" . sprintf( __( '<a href="%s">Return to cart</a>', 'my-tickets' ), $return_url ) . '</p>' );
-	$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
 	$payment      = mt_get_data( 'payment' );
+	$confirmation = mt_generate_cart_table( $cart, $payment, 'confirmation' );
 	$total        = mt_total_cart( $cart, $payment );
 	$count        = mt_count_cart( $cart );
 	if ( $count > 0 ) {

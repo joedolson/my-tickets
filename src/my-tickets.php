@@ -1107,7 +1107,7 @@ function mt_user_profile() {
 	if ( current_user_can( 'mt-copy-cart' ) || current_user_can( 'edit_user' ) ) {
 		echo '<h3>' . esc_html__( 'My Tickets Shopping Cart', 'my-tickets' ) . '</h3>';
 		$cart         = mt_get_cart( $edit_user );
-		$confirmation = mt_generate_cart_table( $cart, 'confirmation' );
+		$confirmation = mt_generate_cart_table( $cart, false, 'confirmation' );
 		echo wp_kses( $confirmation . "<p><a href='" . admin_url( "post-new.php?post_type=mt-payments&amp;cart=$edit_user" ) . "'>" . __( 'Create new payment with this cart', 'my-tickets' ) . '</a></p>', mt_kses_elements() );
 	}
 }
