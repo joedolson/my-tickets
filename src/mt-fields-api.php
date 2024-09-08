@@ -145,7 +145,18 @@ function mt_custom_field( $fields, $event_id ) {
 	$output        = '';
 	foreach ( $custom_fields as $name => $field ) {
 		$continue = mt_apply_custom_field( $field, $event_id );
-		if ( $continue ) {
+		/**
+		 * Modify a custom field's characteristics prior to rendering.
+		 *
+		 * @hook mt_field_parameters
+		 *
+		 * @param {array} $field Array of field information.
+		 * @param {int}   $event_id The event being rendered.
+		 *
+		 * @return {array}
+		 */
+		$field = apply_filters( 'mt_field_parameters', $field, $event_id );
+		if ( $continue && is_array( $field ) ) {
 			$user_value = esc_attr( stripslashes( mt_get_data( $name . '_' . $event_id ) ) );
 			$required   = isset( $field['required'] ) ? ' required' : '';
 			$req_label  = isset( $field['required'] ) ? ' <span class="required">' . __( 'Required', 'my-tickets' ) . '</span>' : '';
@@ -297,6 +308,17 @@ function mt_show_payment_field( $content, $payment_id ) {
 	$output        = '';
 	foreach ( $custom_fields as $name => $field ) {
 		$data   = get_post_meta( $payment_id, $name );
+		/**
+		 * Customize the output of custom fields in the admin Payment record.
+		 *
+		 * @hook mt_custom_display_field
+		 *
+		 * @param {string} $output_html. Default empty string.
+		 * @param {mixed}  $data Saved data from post meta.
+		 * @param {string} $name Field name array key.
+		 *
+		 * @return {string}
+		 */
 		$return = apply_filters( 'mt_custom_display_field', '', $data, $name );
 		if ( '' === $return ) {
 			foreach ( $data as $d ) {
