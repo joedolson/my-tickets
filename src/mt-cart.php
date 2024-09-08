@@ -772,6 +772,17 @@ function mt_generate_cart( $user_ID = false ) {
 			if ( mt_handling_notice() ) {
 				$output .= "<div class='mt_ticket_handling'>" . mt_handling_notice() . '</div>';
 			}
+			/**
+			 * Filter cart custom fields when generating the shopping cart.
+			 *
+			 * @hook mt_cart_custom_fields
+			 *
+			 * @param {array}  $fields Array of defined custom fields. Initialized as empty array.
+			 * @param {array}  $cart Shopping cart contents.
+			 * @param {string} $gateway Gateway in use.
+			 *
+			 * @return {array}
+			 */
 			$custom_fields = apply_filters( 'mt_cart_custom_fields', array(), $cart, $gateway );
 			$custom_output = '';
 			foreach ( $custom_fields as $key => $field ) {

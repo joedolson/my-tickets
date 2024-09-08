@@ -335,7 +335,17 @@ function mt_settings() {
 									foreach ( $custom_fields as $name => $field ) {
 										$tags[] = $name;
 									}
-									// Add custom cart fields to display of template tags.
+									/**
+									 * Filter cart custom fields when generating template tags.
+									 *
+									 * @hook mt_cart_custom_fields
+									 *
+									 * @param {array}  $fields Array of defined custom fields. Initialized as empty array.
+									 * @param {array}  $empty Empty array; not used in this context.
+									 * @param {string} $context Rendering context.
+									 *
+									 * @return {array}
+									 */
 									$cart_custom_fields = apply_filters( 'mt_cart_custom_fields', array(), array(), 'tags' );
 									foreach ( $cart_custom_fields as $name => $field ) {
 										$tags[] = $name;
