@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_get_ticket_ids_query - My Tickets Hook Doumentation</title>
+    <title>Action: mt_after_remaining_text - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_get_ticket_ids_query</h1></header>
+    <header><h1 class="page-title">Action: mt_after_remaining_text</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_get_ticket_ids_query">apply_filters( 'mt_get_ticket_ids_query', <span class="signature">$args )</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id="mt_after_remaining_text">do_action( 'mt_after_remaining_text', <span class="signature">$remaining, $event_id, $type )</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Customize arguments for events to show with the [tickets] shortcode.</p>
+    <p>Append text after the 'remaining tickets' text in the cart form.</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>$args</code></td>
+                <td class="name"><code>$remaining</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">string</span>
 
 
             
@@ -93,7 +93,76 @@
 
             
 
-            <td class="description last"><p>An array of arguments passed to WP_Query.</p></td>
+            <td class="description last"><p>Additional text. Default empty.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$event_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Current event ID.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Ticket type displayed.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$tickets_remaining.</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of tickets left.</p></td>
         </tr>
 
     
@@ -134,7 +203,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-tickets.php.html">mt-tickets.php</a>, <a href="mt-tickets.php.html#line147">line 147</a>
+        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line605">line 605</a>
     </li></ul></dd>
     
 
@@ -157,24 +226,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">array</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
