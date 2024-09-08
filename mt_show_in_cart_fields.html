@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: mt-ajax.php - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_show_in_cart_fields - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,208 +15,222 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Source: mt-ajax.php</h1></header>
+    <header><h1 class="page-title">Filter: mt_show_in_cart_fields</h1></header>
 	<main>
     
 
 
 
+
+<section>
+
+<header>
+    <h2></h2>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>&lt;?php
-/**
- * AJAX handlers for add to cart &amp; cart processing.
- *
- * @category Core
- * @package  My Tickets
- * @author   Joe Dolson
- * @license  GPLv2 or later
- * @link     https://www.joedolson.com/my-tickets/
- */
+</header>
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-} // Exit if accessed directly.
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * Submits a cart update request from AJAX when cart is modified from Cart page.
- *
- * @uses filter mt_update_cart_field_handler
- */
-function mt_ajax_cart() {
-	// verify nonce.
-	if ( ! check_ajax_referer( 'mt-ajax-cart-nonce', 'security', false ) ) {
-		echo 0;
-		die;
-	}
-	if ( 'mt_ajax_cart' === $_REQUEST['action'] ) {
-		$post = map_deep( $_REQUEST['data'], 'sanitize_text_field' );
-		$post = array(
-			$post['mt_event_id'] => array(
-				$post['mt_event_type'] => array(
-					'count' => $post['mt_event_tickets'],
-				),
-			),
-		);
-		// generate and submit cart data.
-		$saved   = mt_update_cart( $post );
-		$saved   = apply_filters( 'mt_update_cart_field_handler', $saved, $post );
-		$success = json_encode(
-			array(
-				'success'  => 1,
-				'response' => __( 'Cart updated', 'my-tickets' ),
-			)
-		);
-		$failure = json_encode(
-			array(
-				'success'  => 0,
-				'response' => __( 'Cart not updated', 'my-tickets' ),
-			)
-		);
-		echo ( $saved ) ? $success : $failure;
-		die;
-	}
-}
-add_action( 'wp_ajax_mt_ajax_cart', 'mt_ajax_cart' );
-add_action( 'wp_ajax_nopriv_mt_ajax_cart', 'mt_ajax_cart' );
+    
 
-/**
- * Submit a cart update request from AJAX when add_to_cart button used from event
- * Submits an address update event on save_address action from purchase process
- *
- * @uses filter mt_add_to_cart_ajax_field_handler
- * @uses mt_ajax_updated_success
- * @uses mt_ajax_updated_unchanged
- *
- * @uses mt_save_address_success
- * @uses mt_save_address_failure
- */
-function mt_ajax_handler() {
-	// verify nonce.
-	if ( ! check_ajax_referer( 'mt-cart-nonce', 'security', false ) ) {
-		wp_send_json(
-			array(
-				'response' => __( 'Invalid security response.', 'my-tickets' ),
-				'saved'    => false,
-			)
-		);
-	}
-	if ( 'add_to_cart' === $_REQUEST['function'] ) {
-		parse_str( $_REQUEST['data'], $data );
-		$data = map_deep( $data, 'sanitize_text_field' );
-		// reformat request data to multidimensional array.
-		$cart = mt_get_cart();
-		foreach ( $data as $k => $d ) {
-			if ( 'mt_tickets' === $k ) {
-				foreach ( $d as $n => $value ) {
-					if ( $cart ) {
-						$data[ $k ][ $n ] = array(
-							'count' => $value,
-						);
-					} else {
-						$data[ $k ][ $n ] = $value;
-					}
-				}
-			}
-		}
-		$submit = $data;
+    <h4 class="name" id="mt_show_in_cart_fields">apply_filters( 'mt_show_in_cart_fields', <span class="signature">$fields, $event_id, $type )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
-		// generate and submit cart data.
-		$save = array();
-		if ( isset( $submit['mt_tickets'] ) ) {
-			$save = array(
-				$submit['mt_event_id'] => $submit['mt_tickets'],
-				'mt_event_id'          => $submit['mt_event_id'],
-				'mt_tickets'           => $submit['mt_tickets'],
-			);
-		}
+    
 
-		$saved = mt_update_cart( $save );
-		/**
-		 * Filter submitted data after cart update.
-		 *
-		 * @hook mt_add_to_cart_ajax_field_handler
-		 *
-		 * @param {array} $saved Array containing a `success` and `cart` element.
-		 * @param {array} $submit Array of data submitted from form.
-		 *
-		 * @return {array}
-		 */
-		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
-		$url   = mt_get_cart_url();
-		if ( 1 === (int) $saved['success'] ) {
-			// Translators: Cart URL.
-			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. &lt;a href='%s'>Checkout&lt;/a>", 'my-tickets' ), $url ) );
-		} else {
-			// Translators: Cart URL.
-			$response = apply_filters( 'mt_ajax_updated_unchanged', sprintf( __( "Cart not changed. &lt;a href='%s'>Checkout&lt;/a>", 'my-tickets' ), $url ) );
-		}
-		$return = array(
-			'response' => $response,
-			'success'  => $saved['success'],
-			'count'    => mt_count_cart( $saved['cart'] ),
-			'total'    => mt_total_cart( $saved['cart'] ),
-			'event_id' => $submit['mt_event_id'],
-		);
-		wp_send_json( $return );
-	}
-	if ( 'save_address' === $_REQUEST['function'] ) {
-		$post         = array_map( 'sanitize_text_field', $_REQUEST['data'] );
-		$current_user = wp_get_current_user();
-		$saved        = update_user_meta( $current_user->ID, '_mt_shipping_address', $post );
-		$response     = array();
-		if ( $saved ) {
-			$response['response'] = apply_filters( 'mt_save_address_success', __( 'Address updated.', 'my-tickets' ) );
-		} else {
-			$response['response'] = apply_filters( 'mt_save_address_failure', __( 'Address not updated.', 'my-tickets' ) );
-		}
-		wp_send_json( $response );
-	}
-	if ( 'extend_cart' === $_REQUEST['function'] ) {
-		$extend   = mt_extend_expiration();
-		$response = array(
-			'response' => __( 'Extension failed.', 'my-tickets' ),
-		);
-		if ( $extend ) {
-			$response = array(
-				'response' => __( 'Cart expiration extended', 'my-tickets' ),
-			);
-		}
-		wp_send_json( $response );
-	}
-}
-add_action( 'wp_ajax_mt_ajax_handler', 'mt_ajax_handler' );
-add_action( 'wp_ajax_nopriv_mt_ajax_handler', 'mt_ajax_handler' );
 
-/**
- * AJAX load a ticket model set.
- */
-function mt_ajax_load_model() {
-	// verify nonce.
-	if ( ! check_ajax_referer( 'mt-load-model', 'security', false ) ) {
-		wp_send_json(
-			array(
-				'response' => __( 'Invalid security response.', 'my-tickets' ),
-				'form'     => '',
-			)
-		);
-	}
-	$model    = ( in_array( $_REQUEST['model'], array( 'continuous', 'discrete', 'event' ), true ) ) ? sanitize_key( $_REQUEST['model'] ) : false;
-	$event_id = absint( $_REQUEST['event_id'] );
-	$data     = isset( $_REQUEST['event'] ) ? map_deep( json_decode( $_REQUEST['event'] ), 'sanitize_text_field' ) : array();
-	$form     = mt_get_registration_fields( '', $event_id, $data, 'admin', $model );
-	wp_send_json(
-		array(
-			'form' => $form,
-		)
-	);
-}
-add_action( 'wp_ajax_mt_ajax_load_model', 'mt_ajax_load_model' );
-add_action( 'wp_ajax_nopriv_mt_ajax_load_model', 'mt_ajax_load_model' );
-</code></pre>
-        </article>
-    </section>
+
+<div class="description">
+    <p>Show custom fields associated with individual cart items.</p>
+</div>
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>$fields</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>HTML output of displayed fields. Default empty.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$event_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The event currently displayed.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The current ticket type.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mt-cart.php.html">mt-cart.php</a>, <a href="mt-cart.php.html#line996">line 996</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+    
+    </div>
+
+    
+</article>
+
+</section>
 
 
 
