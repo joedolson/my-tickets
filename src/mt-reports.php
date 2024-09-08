@@ -212,7 +212,7 @@ function mt_set_column_headers( $headers, $type, $custom_headers = array() ) {
 	foreach ( $headers as $key => $value ) {
 		--$count;
 		// Insert custom fields before the last column.
-		if ( 1 === $count && ! empty( $custom_headers ) ) {
+		if ( 0 === $count && ! empty( $custom_headers ) ) {
 			foreach ( $custom_headers as $name => $field ) {
 				if ( 'table' === $type ) {
 					$cols[] = "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . '</th>';
