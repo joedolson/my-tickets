@@ -289,6 +289,18 @@ function mt_insert_custom_field( $payment_id, $post, $purchased ) {
 						$name      => $sanitized,
 					);
 					add_post_meta( $payment_id, $name, $data );
+					/**
+					 * Execute a custom action when saving custom field data.
+					 *
+					 * @hook mt_save_custom_field
+					 *
+					 * @param {int}    $payment_id Payment ID for this purchase.
+					 * @param {int}    $event_id Event tickets purchased for.
+					 * @param {string} $name Custom field key being saved.
+					 * @param {array}  $sanitized Data submitted by user post-sanitization.
+					 * @param {array}  $purchased Full purchase data.
+					 */
+					do_action( 'mt_custom_field_saved', $payment_id, $event_id, $name, $data, $purchased );
 				}
 			}
 		}
