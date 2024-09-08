@@ -1008,15 +1008,16 @@ function mt_generate_cart_table( $cart, $payment = false, $format = 'cart' ) {
 								 *
 								 * @hook mt_show_in_cart_fields
 								 *
-								 * @param {string} $fields HTML output of displayed fields. Default empty.
-								 * @param {int}    $event_id The event currently displayed.
-								 * @param {string} $type The current ticket type.
-								 * @param {int}    $count Number of tickets purchased of this type. May change dynamically.
-								 * @param {string} $format Whether we're in the cart or confirmation view.
+								 * @param {string}   $fields HTML output of displayed fields. Default empty.
+								 * @param {int}      $event_id The event currently displayed.
+								 * @param {int|bool} $payment The payment ID if available.
+								 * @param {string}   $type The current ticket type.
+								 * @param {int}      $count Number of tickets purchased of this type. May change dynamically.
+								 * @param {string}   $format Whether we're in the cart or confirmation view.
 								 *
 								 * @return {string}
 								 */
-								$custom = apply_filters( 'mt_show_in_cart_fields', '', $event_id, $type, $count, $format );
+								$custom = apply_filters( 'mt_show_in_cart_fields', '', $event_id, $payment, $type, $count, $format );
 								// Translators: (number of tickets) at (price per ticket).
 								$cart_message = sprintf( __( '%1$s at %2$s', 'my-tickets' ), "<span class='count' data-limit='$max'>$count</span>", apply_filters( 'mt_money_format', $price ) );
 								$output      .= "
