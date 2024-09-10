@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_html_email_h1_styles - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_show_form_when_soldout - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_html_email_h1_styles</h1></header>
+    <header><h1 class="page-title">Filter: mt_show_form_when_soldout</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_html_email_h1_styles">apply_filters( 'mt_html_email_h1_styles', <span class="signature">$styles )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_show_form_when_soldout">apply_filters( 'mt_show_form_when_soldout', <span class="signature">$show, $event_id )</span><span class="type-signature"> &rarr; {bool}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter the wrapper styles used for HTML email messages.</p>
+    <p>Filter to set whether the 'add to cart' form should be visible when the engagement is sold out.</p>
 </div>
 
 
@@ -77,13 +77,13 @@
 
         <tr>
             
-                <td class="name"><code>$styles</code></td>
+                <td class="name"><code>$show</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">bool</span>
 
 
             
@@ -93,7 +93,30 @@
 
             
 
-            <td class="description last"><p>HTML styles.</p></td>
+            <td class="description last"><p>Whether to show the form. Default false.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$event_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Event ID for event displayed.</p></td>
         </tr>
 
     
@@ -134,7 +157,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-notifications.php.html">mt-notifications.php</a>, <a href="mt-notifications.php.html#line720">line 720</a>
+        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line171">line 171</a>
     </li></ul></dd>
     
 
@@ -168,177 +191,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-    
-    </div>
-
-    
-</article>
-
-</section>
-
-
-
-
-
-
-
-<section>
-
-<header>
-    <h2></h2>
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    <h4 class="name" id="mt_html_email_h1_styles">apply_filters( 'mt_html_email_h1_styles', <span class="signature">$styles )</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Filter the wrapper styles used for HTML email messages.</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>$styles</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>HTML styles.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-notifications.php.html">mt-notifications.php</a>, <a href="mt-notifications.php.html#line703">line 703</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
+<span class="param-type">bool</span>
 
 
     </dd>
