@@ -692,7 +692,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						$custom_csv    = '';
 						foreach ( $custom_fields as $name => $field ) {
 							if ( isset( $field['report_callback'] ) ) {
-								$cstring = call_user_func( $field['report_callback'], $name, $purchase_id );
+								$cstring = call_user_func( $field['report_callback'], $purchase_id );
 							} else {
 								$value   = get_post_meta( $purchase_id, $name );
 								$cstring = '';
@@ -1105,19 +1105,23 @@ function mt_get_report_data_by_time() {
 		$custom_cells    = '';
 		$custom_csv      = '';
 		foreach ( $custom_fields as $name => $field ) {
-			$c_value = get_post_meta( $post->ID, $name );
-			$cstring = '';
-			foreach ( $c_value as $v ) {
-				if ( is_array( $v ) ) {
-					$keys = array_keys( $v );
-					foreach ( $keys as $val ) {
-						if ( 'event_id' !== $val ) {
-							$cstring .= ( '' !== $cstring ) ? '; ' : '';
-							$cstring .= esc_html( $v[ $val ] );
+			if ( isset( $field['report_callback'] ) ) {
+				$cstring = call_user_func( $field['report_callback'], $post->ID );
+			} else {
+				$c_value = get_post_meta( $post->ID, $name );
+				$cstring = '';
+				foreach ( $c_value as $v ) {
+					if ( is_array( $v ) ) {
+						$keys = array_keys( $v );
+						foreach ( $keys as $val ) {
+							if ( 'event_id' !== $val ) {
+								$cstring .= ( '' !== $cstring ) ? '; ' : '';
+								$cstring .= esc_html( $v[ $val ] );
+							}
 						}
+					} elseif ( ! is_object( $v ) ) {
+						$cstring .= $v;
 					}
-				} elseif ( ! is_object( $v ) ) {
-					$cstring .= $v;
 				}
 			}
 			/**
