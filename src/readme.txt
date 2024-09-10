@@ -86,6 +86,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Docs: Document `mt_purchase_completed` action.
 * Change: Pass additional arguments to `mt_show_in_cart_fields` filter. 
 * Change: Pass payment ID into `mt_generate_cart_table()` when available.
+* Change: Remove filter on `the_content` after running to prevent duplication.
 
 = 2.0.2 =
 
