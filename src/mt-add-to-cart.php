@@ -303,7 +303,23 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 
 	if ( true === $sold_out && $tickets_sold > 0 ) {
 		$tickets_soldout = ( 'registration' === $registration['sales_type'] ) ? __( 'Registration for this event is full', 'my-tickets' ) : __( 'Tickets for this event are sold out.', 'my-tickets' );
-		$output          = "<div class='mt-order mt-soldout'><p>" . apply_filters( 'mt_tickets_soldout', $tickets_soldout ) . '</p></div>';
+		$soldout_banner  = "<div class='mt-order mt-soldout'><p>" . apply_filters( 'mt_tickets_soldout', $tickets_soldout ) . '</p></div>';
+		/**
+		 * Filter to set whether the 'add to cart' form should be visible when the engagement is sold out.
+		 *
+		 * @hook mt_show_form_when_soldout
+		 *
+		 * @param {bool} $show Whether to show the form. Default false.
+		 * @param {int}  $event_id Event ID for event displayed.
+		 *
+		 * @return {bool}
+		 */
+		$show_form_when_soldout = apply_filters( 'mt_show_form_when_soldout', false, $event_id );
+		if ( $show_form_when_soldout ) {
+			$output =  $soldout_banner . $output;
+		} else {
+			$output = $soldout_banner;
+		}
 		/**
 		 * Append additional content to the tickets sold out notification.
 		 *
