@@ -7,7 +7,7 @@ Tested up to: 6.6
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -76,6 +76,16 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 * Bug fix: Individual event type email notifications not sent if entire event has closed.
 * Bug fix: Current ticket group not marked as selected in reports.
+* Bug fix: Custom field headers inserted one space too far to the left.
+* Add: filter `mt_field_paramters` to dynamically change custom field characteristics.
+* Add: filter `mt_after_remaining_text` to append text after the remaining tickets in cart.
+* Add: action `mt_custom_field_saved` executed after a custom field is saved to a payment.
+* Add: support for `report_callback` for custom fields for displaying in reports.
+* Docs: Document `mt_cart_custom_fields` filter.
+* Docs: Document `mt_show_in_cart_fields` filter.
+* Docs: Document `mt_purchase_completed` action.
+* Change: Pass additional arguments to `mt_show_in_cart_fields` filter. 
+* Change: Pass payment ID into `mt_generate_cart_table()` when available.
 
 = 2.0.2 =
 
