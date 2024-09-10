@@ -34,10 +34,11 @@ function mt_add_to_cart_form_post( $content ) {
 			$content = mt_add_to_cart_form( $content, $event );
 		}
 	}
+	remove_filter( 'the_content', 'mt_add_to_cart_form_post', 50, 1 );
 
 	return $content;
 }
-add_filter( 'the_content', 'mt_add_to_cart_form_post', 20, 1 ); // after wpautop.
+add_filter( 'the_content', 'mt_add_to_cart_form_post', 50, 1 ); // after wpautop.
 
 /**
  * Test whether a price set for an event has any tickets available for purchase.
@@ -167,7 +168,18 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 	if ( $no_postal && 1 === count( $options['mt_ticketing'] ) && in_array( 'postal', $options['mt_ticketing'], true ) && ! ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) ) {
 		$expired = true;
 	}
-	$handling_notice = '';
+	/**
+	 * Filter to set whether the 'add to cart' form should be visible when the engagement is sold out.
+	 *
+	 * @hook mt_show_form_when_soldout
+	 *
+	 * @param {bool} $show Whether to show the form. Default false.
+	 * @param {int}  $event_id Event ID for event displayed.
+	 *
+	 * @return {bool}
+	 */
+	$show_form_when_soldout = apply_filters( 'mt_show_form_when_soldout', true, $event_id );
+	$handling_notice        = '';
 	if ( ! $expired ) {
 		if ( is_array( $registration ) ) {
 			$pricing = $registration['prices'];
@@ -207,7 +219,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 * @return {int}
 				 */
 				$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
-				if ( $tickets_remaining && $tickets_remaining > $close_value ) {
+				if ( $tickets_remaining && $tickets_remaining > $close_value || $show_form_when_soldout ) {
 					$sold_out    = false;
 					$total_order = 0;
 					$rows        = array();
@@ -239,8 +251,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 			$remaining_notice = mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining );
 			// Translators: link to shopping cart/checkout.
 			$in_cart = ( mt_in_cart( $event_id ) ) ? '<p class="my-tickets-in-cart">' . sprintf( __( 'Tickets for this event are in your cart. <a href="%s">Checkout</a>', 'my-tickets' ), mt_get_cart_url() ) . '</p>' : '';
-
-			if ( true === $has_tickets ) {
+			if ( true === $has_tickets || $show_form_when_soldout ) {
 				$closing_time = ( 'event' !== $registration['counting_method'] ) ? mt_sales_close( $event_id, $registration['reg_expires'] ) : '';
 				$no_post      = ( $no_postal && in_array( 'postal', array_keys( $options['mt_ticketing'] ), true ) ) ? "<p class='mt-no-post'>" . apply_filters( 'mt_cannot_send_by_email_text', __( 'Tickets for this event cannot be sent by mail.', 'my-tickets' ) ) . '</p>' : '';
 				$legend       = ( 'registration' === $registration['sales_type'] ) ? __( 'Register', 'my-tickets' ) : __( 'Buy Tickets', 'my-tickets' );
@@ -304,19 +315,8 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 	if ( true === $sold_out && $tickets_sold > 0 ) {
 		$tickets_soldout = ( 'registration' === $registration['sales_type'] ) ? __( 'Registration for this event is full', 'my-tickets' ) : __( 'Tickets for this event are sold out.', 'my-tickets' );
 		$soldout_banner  = "<div class='mt-order mt-soldout'><p>" . apply_filters( 'mt_tickets_soldout', $tickets_soldout ) . '</p></div>';
-		/**
-		 * Filter to set whether the 'add to cart' form should be visible when the engagement is sold out.
-		 *
-		 * @hook mt_show_form_when_soldout
-		 *
-		 * @param {bool} $show Whether to show the form. Default false.
-		 * @param {int}  $event_id Event ID for event displayed.
-		 *
-		 * @return {bool}
-		 */
-		$show_form_when_soldout = apply_filters( 'mt_show_form_when_soldout', false, $event_id );
 		if ( $show_form_when_soldout ) {
-			$output =  $soldout_banner . $output;
+			$output = $soldout_banner . $output;
 		} else {
 			$output = $soldout_banner;
 		}
@@ -673,7 +673,6 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		}
 		$has_tickets = true;
 	}
-
 	return array(
 		'form_key'    => $form_key,
 		'form'        => $form,
