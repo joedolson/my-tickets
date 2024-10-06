@@ -782,6 +782,7 @@ function mt_hide_remaining( $tickets_remaining ) {
 	// If hide remaining is enabled, set as hidden.
 	$remaining_limit = isset( $options['mt_hide_remaining_limit'] ) ? absint( $options['mt_hide_remaining_limit'] ) : 0;
 	$hide_remaining  = ( isset( $options['mt_hide_remaining'] ) && 'true' === $options['mt_hide_remaining'] ) ? true : false;
+	// Hide this if 1) tickets remaining is hidden & limit is 0 or 2) tickets remaining is hidden and there are more tickets left than the limit.
 	$hidden_class    = ( ( $hide_remaining && ! $remaining_limit ) || ( $hide_remaining && $tickets_remaining > $remaining_limit ) ) ? ' hiding' : '';
 
 	return $hidden_class;
