@@ -64,7 +64,10 @@ function mt_setup_offline( $gateways ) {
 	$gateways['offline'] = array(
 		'label'  => __( 'Offline', 'my-tickets' ),
 		'fields' => array(
-			'notes'    => __( 'Offline Payment Notes', 'my-tickets' ),
+			'notes'    => array(
+				'label' => __( 'Offline Payment Notes', 'my-tickets' ),
+				'type'  => 'textarea',
+			),
 			'selector' => __( 'Gateway selector label', 'my-tickets' ),
 		),
 	);

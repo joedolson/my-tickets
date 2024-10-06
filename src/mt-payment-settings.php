@@ -107,7 +107,11 @@ function mt_update_payment_settings( $post ) {
  * Payment settings form.
  */
 function mt_payment_settings() {
-	$post         = map_deep( $_POST, 'sanitize_text_field' );
+	$notes = isset( $_POST['mt_gateways']['offline']['notes'] ) ? wp_kses_post( $_POST['mt_gateways']['offline']['notes'] ) : '';
+	$post  = map_deep( $_POST, 'sanitize_textarea_field' );
+	// The notes field supports HTML, so uses a separate sanitization.
+	$post['mt_gateways']['offline']['notes'] = $notes;
+
 	$response     = mt_update_payment_settings( $post );
 	$options      = mt_get_settings();
 	$alert        = '';
@@ -248,16 +252,18 @@ function mt_payment_settings() {
 													$describedby   = '';
 													$describing    = '';
 													if ( $description ) {
-														$describedby = $key . '_description';
-														$describing  = '<span id="' . $describedby . '" class="aria-description"><span class="dashicons dashicons-info" aria-hidden="true"></span> ' . $description . '</span>';
+														$describedby = ' aria-describedby="' . $key . '_description"';
+														$describing  = '<span id="' . $key . '_description" class="aria-description"><span class="dashicons dashicons-info" aria-hidden="true"></span> ' . $description . '</span>';
 													}
 													$value   = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : $default_value;
 													$checked = ( 'checkbox' === $input_type && ( isset( $options['mt_gateways'][ $gateway ][ $key ] ) && $options['mt_gateways'][ $gateway ][ $key ] === $label['value'] ) ) ? 'checked="checked"' : '';
 													if ( 'checkbox' === $input_type ) {
 														// Checkboxes with empty values will stay unchecked on save.
-														$pg_settings .= "<li class='$input_type'><div><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked aria-describedby='" . $describedby . "' /> <label for='mt_$gateway-$key'>$text_label</label></div>$describing</li>";
+														$pg_settings .= "<li class='$input_type'><div><input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked $describedby /> <label for='mt_$gateway-$key'>$text_label</label></div>$describing</li>";
+													} elseif ( 'textarea' === $input_type ) {
+														$pg_settings .= "<li class='$input_type'><div><label for='mt_$gateway-$key'>$text_label</label> <textarea cols='60' rows='4' class='widefat' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' $describedby >" . stripslashes( esc_textarea( $value ) ) . "</textarea></div>$describing</li>";
 													} else {
-														$pg_settings .= "<li class='$input_type'><div><label for='mt_$gateway-$key'>$text_label</label> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $checked  aria-describedby='" . $describedby . "' /></div>$describing</li>";
+														$pg_settings .= "<li class='$input_type'><div><label for='mt_$gateway-$key'>$text_label</label> <input class='widefat' type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' $describedby /></div>$describing</li>";
 													}
 												} else {
 													$input_type   = ( str_contains( $key, '_secret' ) && '' !== trim( $value ) ) ? 'password' : 'text';
