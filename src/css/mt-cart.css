@@ -175,6 +175,7 @@ table.mt_cart {
     font-weight: 400;
 }
 
+.mt-shipping-address .mt-response p,
 .mt-order .mt-response p {
     padding: .5rem;
     background-color: var(--mt-message-bg);

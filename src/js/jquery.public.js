@@ -123,7 +123,6 @@
 
 		// on checkbox, update private data
 		$('.mt_save_shipping').on('click', function (e) {
-			e.preventDefault();
 			$('.mt-processing').show();
 
 			let street  = $('.mt_street').val();

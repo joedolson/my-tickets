@@ -273,7 +273,7 @@ function mt_render_field( $field, $argument = false ) {
 				} else {
 					$save_address_label = __( 'Save Address', 'my-tickets' );
 				}
-				$save_address = ( is_user_logged_in() ) ? '<p><a href="#" class="mt_save_shipping">' . $save_address_label . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></a></p>" : '';
+				$save_address = ( is_user_logged_in() ) ? '<p><button type="button" class="mt_save_shipping">' . $save_address_label . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></button></p>" : '';
 				$address      = ( isset( $_POST['mt_shipping']['address'] ) ) ? $_POST['mt_shipping']['address'] : (array) $user_address;
 				$address      = array_merge( $defaults, $address );
 				$required     = ' ' . __( '(required)', 'my-tickets' );
