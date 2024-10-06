@@ -771,7 +771,7 @@ function mt_event_status( $event_id = false ) {
 }
 
 /**
- * Figure whether tickets should be hidden.
+ * Figure out whether tickets remaining should be hidden.
  *
  * @param int $tickets_remaining Number of tickets remaining.
  *
