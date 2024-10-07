@@ -77,6 +77,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Hiding remaining tickets failed because I passed the summary value instead of the individual event value.
 * Bug fix: Support using HTML in the offline gateway payment notes field. Props https://github.com/Martin-OHV
 * Accessibility: Save address action should use a button.
+* Docs: Added filter documentation for add to cart form filters.
 
 = 2.0.3 =
 
