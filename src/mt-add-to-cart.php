@@ -478,6 +478,15 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		}
 		$price = mt_calculate_discount( $ticket_type['price'], $event_id );
 		$price = mt_handling_price( $price, $event_id, $type );
+		/**
+		 * Format a numeric string as money.
+		 *
+		 * @hook mt_money_format
+		 *
+		 * @param {string|float} $price Original numeric value to format using current selected currency and structure.
+		 *
+		 * @return {string}
+		 */
 		$price = apply_filters( 'mt_money_format', $price );
 		/**
 		 * Filter ticket handling price.
@@ -488,10 +497,32 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		 * @param {int}object} $event Event post ID.
 		 * @param {string}     $type Ticket type.
 		 */
-		$ticket_handling    = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event_id, $type );
-		$handling_notice    = mt_handling_notice();
+		$ticket_handling = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event_id, $type );
+		$handling_notice = mt_handling_notice();
+		/**
+		 * Filter the displayed ticket price.
+		 *
+		 * @hook mt_ticket_price_label
+		 *
+		 * @param {string}       $price Formatted price.
+		 * @param {string|float} $original_price Unformatted price.
+		 * @param {string|float} $ticket_handling Ticket handling charge amount.
+		 *
+		 * @return {string}
+		 */
 		$ticket_price_label = '<span class="mt-ticket-price">' . apply_filters( 'mt_ticket_price_label', $price, $ticket_type['price'], $ticket_handling ) . '</span>';
-		$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : apply_filters( 'mt_cart_default_value', '0', $type );
+		/**
+		 * Filter the default ticket input value. Sets the default number of tickets to order.
+		 *
+		 * @hook mt_cart_default_value
+		 *
+		 * @param {int}    $value Default numeric value. Default '0'.
+		 * @param {string} $type Ticket type displayed.
+		 *
+		 * @return {string}
+		 */
+		$default_cart_value = apply_filters( 'mt_cart_default_value', '0', $type );
+		$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : $default_cart_value;
 		$value              = ( '' === $value ) ? 0 : (int) $value;
 		$order_value        = $value;
 		$attributes         = '';
@@ -576,21 +607,49 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 					$class = 'mt-available';
 				}
 			}
-			$form  = "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . $label . $extra_label . '</label>';
-			$form .= apply_filters(
+			$form = "<div class='mt-ticket-field mt-ticket-$type $class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . $label . $extra_label . '</label>';
+			/**
+			 * Filter the add to cart input field.
+			 *
+			 * @hook mt_add_to_cart_input
+			 *
+			 * @param {string} $input      Default input form field.
+			 * @param {string} $input_type Type of input requested.
+			 * @param {int}    $value      Default value set.
+			 * @param {string} $attributes String of field attributes provided for input.
+			 * @param {string} $disable    Attribute to set field as disabled.
+			 * @param {int}    $max        Max value allowed.
+			 * @param {int}    $available  Number of tickets available.
+			 * @param {int}    $event_id   Event ID.
+			 *
+			 * @return {string}
+			 */
+			$form .= '<div class="mt-ticket-input">' . apply_filters(
 				'mt_add_to_cart_input',
-				"<div class='mt-ticket-input'><input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />$button_up$button_down</div>",
+				"<input type='$input_type' name='mt_tickets[$type]' id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' $attributes aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type'$disable />$button_up$button_down",
 				$input_type,
 				$type,
 				$value,
 				$attributes,
 				$disable,
 				$max,
-				$available
-			);
+				$available,
+				$event_id
+			) . '</div>';
 
 			$hide_remaining = mt_hide_remaining( $remaining );
 			$remaining_text = $ticket_price_label . sprintf(
+				/**
+				 * Filter the string describing the number of tickets remaining as a fraction.
+				 *
+				 * @hook mt_tickets_available_discrete_text
+				 *
+				 * @param {string} $default_text Original available tickets text.
+				 * @param {int}    $remaining    Number of tickets remaining.
+				 * @param {int}    $tickets      Number of tickets available.
+				 *
+				 * @return {string}
+				 */
 				apply_filters(
 					'mt_tickets_remaining_discrete_text',
 					// Translators: 1) Opening span tag; 2) number remaining as fraction e.g. 2/40, 3) closing span tag..
@@ -603,6 +662,17 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				'</span>'
 			);
 			$available_text = $ticket_price_label . sprintf(
+				/**
+				 * Filter the string describing the number of tickets available as a number.
+				 *
+				 * @hook mt_tickets_available_discrete_text
+				 *
+				 * @param {string} $default_text Original available tickets text.
+				 * @param {int}    $remaining    Number of tickets remaining.
+				 * @param {int}    $tickets      Number of tickets available.
+				 *
+				 * @return {string}
+				 */
 				apply_filters(
 					'mt_tickets_available_discrete_text',
 					// Translators: 1) opening span; 2) number remaining as integer, 3) closing span tag.
@@ -659,17 +729,18 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			$post_price     = ( ! $price_in_label ) ? $price : '';
 			$form_key       = $type;
 			$form          .= "<div class='mt-ticket-field mt-ticket-$type $class $price_class'><label for='mt_tickets_$type" . '_' . "$event_id' id='mt_tickets_label_$type" . '_' . "$event_id'>" . esc_attr( $ticket_type['label'] ) . $extra_label . $label_price . '</label>';
-			$form          .= apply_filters(
+			$form          .= '<div class="mt-ticket-input">' . apply_filters(
 				'mt_add_to_cart_input',
-				"<div class='mt-ticket-input'><input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />$button_up$button_down</div>",
+				"<input type='$input_type' name='mt_tickets[$type]' $attributes id='mt_tickets_$type" . '_' . "$event_id' class='tickets_field' value='$value' aria-labelledby='mt_tickets_label_$type" . '_' . $event_id . " mt_tickets_data_$type' />$button_up$button_down",
 				$input_type,
 				$type,
 				$value,
 				$attributes,
 				'',
 				$remaining,
-				$available
-			);
+				$available,
+				$event_id
+			) . '</div>';
 			$form          .= $post_price . "<span class='mt-error-notice' aria-live='assertive'></span></div>";
 		}
 		$has_tickets = true;
@@ -703,7 +774,19 @@ function mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining 
 			$hide_remaining = mt_hide_remaining( $tickets_remaining );
 		}
 		// Translators: tickets remaining.
-		$remaining_notice = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( apply_filters( 'mt_tickets_remaining_continuous_text', __( '%s tickets remaining.', 'my-tickets' ) ), "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
+		$remaining_continuous_text = __( '%s tickets remaining.', 'my-tickets' );
+		/**
+		 * Filter tickets remaining text for continuously sold events.
+		 *
+		 * @hook mt_tickets_remaining_continuous_text
+		 *
+		 * @param {string} $remaining_continuous_text Default text.
+		 * @param {int}    $event_id Event ID.
+		 *
+		 * @return {string}
+		 */
+		$remaining_continuous_text = apply_filters( 'mt_tickets_remaining_continuous_text', $remaining_continuous_text, $event_id );
+		$remaining_notice          = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( $remaining_continuous_text, "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
 	}
 
 	return $remaining_notice;
@@ -858,7 +941,20 @@ function mt_tickets_remaining( $tickets_data, $event_id ) {
 	} else {
 		if ( $tickets_remaining > 0 ) {
 			// Translators: number of tickets available.
-			$tickets_remain_text = ' ' . sprintf( apply_filters( 'mt_tickets_still_remaining_text', _n( 'Online sales are closed, but there is still %d ticket available at the box office!', 'Online sales are closed, but there are still %d tickets available at the box office!', $tickets_remaining, 'my-tickets' ) ), $tickets_remaining );
+			$remaining_string = _n( 'Online sales are closed, but there is still %d ticket available at the box office!', 'Online sales are closed, but there are still %d tickets available at the box office!', $tickets_remaining, 'my-tickets' );
+			/**
+			 * Filter the text used to indicate that tickets are remaining after sales have closed.
+			 *
+			 * @hook mt_tickets_still_remaining_text
+			 *
+			 * @param {string} $remaining_string Default text.
+			 * @param {int}    $tickets_remaining Number of tickets remaining.
+			 * @param {int}    $event_id Event ID.
+			 *
+			 * @return {string}
+			 */
+			$remaining_string    = apply_filters( 'mt_tickets_still_remaining_text', $remaining_string );
+			$tickets_remain_text = ' ' . sprintf( $remaining_string, $tickets_remaining, $event_id );
 		} else {
 			$tickets_remain_text = '';
 		}
@@ -889,7 +985,17 @@ function mt_close_ticket_sales( $limit, $event_id, $remaining ) {
 			$limit = round( ( $tickets_close_at / 100 ) * $remaining['total'] );
 			break;
 	}
-
+	/**
+	 * Filter the number of remaining tickets that trigger automatic closing of online ticket sales.
+	 *
+	 * @hook mt_custom_event_limit
+	 *
+	 * @param {int}   $limit Number of tickets that cause an event to be sold out.
+	 * @param {int}   $event_id Event ID.
+	 * @param {array} $remaining Array of information about the number of tickets remaining.
+	 *
+	 * @return {int}
+	 */
 	return apply_filters( 'mt_custom_event_limit', $limit, $event_id, $remaining );
 }
 
@@ -909,6 +1015,16 @@ function mt_handling_price( $price, $event, $type = 'standard' ) {
 	}
 	$options = mt_get_settings();
 	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) ) {
+		/**
+		 * Filter the amount charged for ticket handling on a particular event.
+		 *
+		 * @hook mt_ticket_handling_price
+		 *
+		 * @param {float} $mt_ticket_handling Amount saved in settings for event handling.
+		 * @param {int}   $event Event ID.
+		 *
+		 * @return {float}
+		 */
 		$price = $price + apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event );
 	}
 
@@ -924,7 +1040,19 @@ function mt_handling_notice() {
 	$options = mt_get_settings();
 	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) && $options['mt_ticket_handling'] > 0 ) {
 		// Translators: amount of ticket handling charge.
-		$handling_notice = "<div class='mt-ticket-handling'>" . apply_filters( 'mt_ticket_handling_notice', sprintf( __( 'Tickets include a %s ticket handling charge.', 'my-tickets' ), apply_filters( 'mt_money_format', $options['mt_ticket_handling'] ) ) ) . '</div>';
+		$handling_string = __( 'Tickets include a %s ticket handling charge.', 'my-tickets' );
+		$money_formatted = apply_filters( 'mt_money_format', $options['mt_ticket_handling'] );
+		/**
+		 * Filter the string used to notify users about per-ticket handling charges.
+		 *
+		 * @hook mt_ticket_handling_notice
+		 *
+		 * @param {string} $handling_string Original notice.
+		 * @param {string} $handling_charge Amount charged before formatting.
+		 *
+		 * @return {string}
+		 */
+		$handling_notice = "<div class='mt-ticket-handling'>" . apply_filters( 'mt_ticket_handling_notice', sprintf( $handling_string, $money_formatted ), $options['mt_ticket_handling'] ) . '</div>';
 	} else {
 		$handling_notice = '';
 	}
@@ -984,7 +1112,19 @@ function mt_sales_close( $event_id, $expires ) {
 			$begin      = strtotime( $event['event_begin'] . ' ' . $event['event_time'] ) - $expiration;
 			if ( mt_date( 'Y-m-d', $begin ) === mt_date( 'Y-m-d', mt_current_time() ) ) {
 				// Translators: time that ticket sales close today.
-				return '<p>' . sprintf( apply_filters( 'mt_ticket_sales_close_text', __( 'Ticket sales close at %s today', 'my-tickets' ), $event ), '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';
+				$sales_close_text = __( 'Ticket sales close at %s today', 'my-tickets' );
+				/**
+				 * Filter the notification for when ticket sales will close.
+				 *
+				 * @hook mt_ticket_sales_close_text
+				 *
+				 * @param {string} $sales_close_text Original notice.
+				 * @param {int}    $event Event ID.
+				 *
+				 * @return {string}
+				 */
+				$sales_close_text = apply_filters( 'mt_ticket_sales_close_text', $sales_close_text, $event );
+				return '<p>' . sprintf( $sales_close_text, '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';
 			}
 		}
 	}
