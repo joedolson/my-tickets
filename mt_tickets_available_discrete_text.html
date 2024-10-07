@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_cart_purchase_date - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_tickets_available_discrete_text - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_cart_purchase_date</h1></header>
+    <header><h1 class="page-title">Filter: mt_tickets_available_discrete_text</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_cart_purchase_date">apply_filters( 'mt_cart_purchase_date', <span class="signature">$format )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_tickets_available_discrete_text">apply_filters( 'mt_tickets_available_discrete_text', <span class="signature">$default_text, $remaining, $tickets )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>HTML formatting of purchase date on receipts.</p>
+    <p>Filter the string describing the number of tickets remaining as a fraction.</p>
 </div>
 
 
@@ -77,7 +77,7 @@
 
         <tr>
             
-                <td class="name"><code>$format</code></td>
+                <td class="name"><code>$default_text</code></td>
             
 
             <td class="type">
@@ -93,7 +93,53 @@
 
             
 
-            <td class="description last"><p>HTML formatted string with date format placeholders.</p></td>
+            <td class="description last"><p>Original available tickets text.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$remaining</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of tickets remaining.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$tickets</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of tickets available.</p></td>
         </tr>
 
     
@@ -134,7 +180,223 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-templating.php.html">mt-templating.php</a>, <a href="mt-templating.php.html#line192">line 192</a>
+        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line642">line 642</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+    
+    </div>
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    <h2></h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="mt_tickets_available_discrete_text">apply_filters( 'mt_tickets_available_discrete_text', <span class="signature">$default_text, $remaining, $tickets )</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Filter the string describing the number of tickets available as a number.</p>
+</div>
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>$default_text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Original available tickets text.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$remaining</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of tickets remaining.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$tickets</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of tickets available.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line665">line 665</a>
     </li></ul></dd>
     
 

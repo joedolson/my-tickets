@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_cart_purchase_date - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_money_format - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_cart_purchase_date</h1></header>
+    <header><h1 class="page-title">Filter: mt_money_format</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_cart_purchase_date">apply_filters( 'mt_cart_purchase_date', <span class="signature">$format )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_money_format">apply_filters( 'mt_money_format', <span class="signature">$price )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>HTML formatting of purchase date on receipts.</p>
+    <p>Format a numeric string as money.</p>
 </div>
 
 
@@ -77,13 +77,16 @@
 
         <tr>
             
-                <td class="name"><code>$format</code></td>
+                <td class="name"><code>$price</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">string</span>
+|
+
+<span class="param-type">float</span>
 
 
             
@@ -93,7 +96,7 @@
 
             
 
-            <td class="description last"><p>HTML formatted string with date format placeholders.</p></td>
+            <td class="description last"><p>Original numeric value to format using current selected currency and structure.</p></td>
         </tr>
 
     
@@ -134,7 +137,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-templating.php.html">mt-templating.php</a>, <a href="mt-templating.php.html#line192">line 192</a>
+        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line481">line 481</a>
     </li></ul></dd>
     
 
