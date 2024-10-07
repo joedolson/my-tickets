@@ -612,7 +612,7 @@ function mt_shipping_country( $country = '' ) {
 	/**
 	 * Filter the available array of countries for shipping addresses.
 	 *
-	 * @hook {mt_shipping_countries}
+	 * @hook mt_shipping_countries
 	 *
 	 * @param {array}  $countries Array of available countries.
 	 * @param {string} $country Currently selected country, if any.
