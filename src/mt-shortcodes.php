@@ -67,8 +67,10 @@ function mt_add_to_cart_form_shortcode( $atts, $content = '' ) {
 		),
 		$atts
 	);
-	if ( $atts['event'] ) {
-		return mt_add_to_cart_form( $content, $atts['event'], $atts['view'], $atts['time'], true );
+	$post_id  = mt_get_current_event();
+	$event_id = ( isset( $atts['event'] ) ) ? absint( $atts['event'] ) : $post_id;
+	if ( $event_id ) {
+		return mt_add_to_cart_form( $content, $event_id, $atts['view'], $atts['time'], true );
 	}
 
 	return '';
@@ -94,7 +96,7 @@ function mt_ticket_venue_shortcode( $atts, $content = '' ) {
 	$post_id  = mt_get_current_event();
 	$event_id = isset( $atts['event'] ) ? absint( $atts['event'] ) : $post_id;
 	if ( $event_id ) {
-		$venue = mt_get_ticket_venue( false, $atts['event'] );
+		$venue = mt_get_ticket_venue( false, $event_id );
 	} else {
 		$venue = $content;
 	}
