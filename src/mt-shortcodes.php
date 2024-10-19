@@ -81,7 +81,7 @@ function mt_add_to_cart_form_shortcode( $atts, $content = '' ) {
 		if ( 'before' === $atts['location'] || 'true' === $atts['location'] ) {
 			$return = $location . $return;
 		}
-		if ( $atts['location'] === 'after' ) {
+		if ( 'after' === $atts['location'] ) {
 			$return = $return . $location;
 		}
 
