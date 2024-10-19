@@ -94,16 +94,17 @@ function mt_add_to_cart_form_shortcode( $atts, $content = '' ) {
 		),
 		$atts
 	);
+
 	$post_id  = mt_get_current_event();
 	$event_id = ( isset( $atts['event'] ) ) ? absint( $atts['event'] ) : $post_id;
 	$return   = '';
 	$location = '';
 	if ( $event_id ) {
 		$form = mt_add_to_cart_form( $content, $event_id, $atts['view'], $atts['time'], true );
-		if ( $atts['location'] !== 'false' ) {
+		if ( 'false' !== $atts['location'] ) {
 			$location = mt_get_ticket_venue( false, $event_id );
 		}
-		if ( $atts['location'] === 'before' || $atts['location'] === 'true' ) {
+		if ( 'before' === $atts['location'] || 'true' === $atts['location'] ) {
 			$return = $location . $form;
 		}
 		if ( $atts['location'] === 'after' ) {
@@ -133,6 +134,7 @@ function mt_ticket_venue_shortcode( $atts, $content = '' ) {
 		),
 		$atts
 	);
+
 	$post_id  = mt_get_current_event();
 	$event_id = isset( $atts['event'] ) ? absint( $atts['event'] ) : $post_id;
 	if ( $event_id ) {
