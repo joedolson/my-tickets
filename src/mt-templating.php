@@ -866,18 +866,21 @@ function mt_purchase_qrcode( $receipt_id = false ) {
  * Get ticket venue location data.
  *
  * @param bool|string $ticket_id Ticket ID.
+ * @param bool|int    $event_id Event ID.
+ *
  * @uses filter mt_create_location_object
  *
  * @return string
  */
-function mt_get_ticket_venue( $ticket_id = false ) {
+function mt_get_ticket_venue( $ticket_id = false, $event_id = false ) {
 	if ( ! $ticket_id ) {
 		$ticket = mt_get_ticket();
 	} else {
 		$ticket = mt_get_ticket( $ticket_id );
 	}
-	if ( $ticket ) {
-		$location_id = get_post_meta( $ticket->ID, '_mc_event_location', true );
+	$event_id = ( $ticket ) ? $ticket->ID : $event_id;
+	if ( $event_id ) {
+		$location_id = get_post_meta( $event_id, '_mc_event_location', true );
 		$html        = false;
 		if ( $location_id ) {
 			/**
@@ -905,10 +908,11 @@ function mt_get_ticket_venue( $ticket_id = false ) {
 		 * @param {string} $html HTML output of an hCard.
 		 * @param {int}    $location_id Location ID.
 		 * @param {object} $ticket Ticket object.
+		 * @param {int}    $event_id Event ID.
 		 *
 		 * @return {string}
 		 */
-		$html = apply_filters( 'mt_hcard', $html, $location_id, $ticket );
+		$html = apply_filters( 'mt_hcard', $html, $location_id, $ticket, $event_id );
 		if ( $html ) {
 			return $html;
 		}

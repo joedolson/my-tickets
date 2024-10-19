@@ -75,6 +75,34 @@ function mt_add_to_cart_form_shortcode( $atts, $content = '' ) {
 }
 add_shortcode( 'ticket', 'mt_add_to_cart_form_shortcode' );
 
+
+/**
+ * Shortcode to display event venue.
+ *
+ * @param array  $atts Shortcode attributes.
+ * @param string $content Contained content.
+ *
+ * @return string
+ */
+function mt_ticket_venue_shortcode( $atts, $content = '' ) {
+	$atts = shortcode_atts(
+		array(
+			'event' => false,
+		),
+		$atts
+	);
+	$post_id  = mt_get_current_event();
+	$event_id = isset( $atts['event'] ) ? absint( $atts['event'] ) : $post_id;
+	if ( $event_id ) {
+		$venue = mt_get_ticket_venue( false, $atts['event'] );
+	} else {
+		$venue = $content;
+	}
+
+	return $venue;
+}
+add_shortcode( 'ticket_venue', 'mt_ticket_venue_shortcode' );
+
 /**
  * Produce a list of featured tickets with a custom template and registration forms.
  *

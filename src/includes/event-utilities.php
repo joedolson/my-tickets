@@ -55,3 +55,27 @@ function mt_get_events_by_group_id( $event_id ) {
 
 	return $events;
 }
+
+/**
+ * Return the post ID if this post is singular and a supported event type.
+ *
+ * Returns false if this is either not a supported post type, not singular and singular is required, or has no event data.
+ *
+ * @return int|bool
+ */
+function mt_get_current_event() {
+	$options = mt_get_settings();
+	global $post;
+	$only_singular = $options['mt_singular'];
+	if ( $only_singular && ! is_singular( $options['mt_post_types'] ) ) {
+		return $post->ID;
+	}
+	if ( in_array( get_post_type( $post ), $options['mt_post_types'], true ) ) {
+		$event = $post->ID;
+		if ( get_post_meta( $event, '_mc_event_data', true ) ) {
+			return $event;
+		}
+	}
+
+	return false;
+}
