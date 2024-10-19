@@ -71,9 +71,8 @@ function mt_get_current_event() {
 		return $post->ID;
 	}
 	if ( in_array( get_post_type( $post ), $options['mt_post_types'], true ) ) {
-		$event = $post->ID;
-		if ( get_post_meta( $event, '_mc_event_data', true ) ) {
-			return $event;
+		if ( get_post_meta( $post->ID, '_mc_event_data', true ) ) {
+			return $post->ID;
 		}
 	}
 
