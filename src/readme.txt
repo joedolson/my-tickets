@@ -72,6 +72,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.0.5 =
+
+* Change: `[ticket]` shortcode no longer requires the current page's ID to render the form.
+* Feature: `[ticket_venue]` shortcode to render an event's hcard on the page.
+* Feature: Attribute 'location' added to `[ticket]` shortcode with options 'false', 'before', and 'after'.
+
 = 2.0.4 =
 
 * Bug fix: Hiding remaining tickets failed because I passed the summary value instead of the individual event value.
