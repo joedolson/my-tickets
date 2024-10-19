@@ -61,19 +61,33 @@ function my_tickets_short_cart() {
 function mt_add_to_cart_form_shortcode( $atts, $content = '' ) {
 	$atts = shortcode_atts(
 		array(
-			'event' => false,
-			'view'  => 'calendar',
-			'time'  => 'month',
+			'event'    => false,
+			'view'     => 'calendar',
+			'time'     => 'month',
+			'location' => 'false',
 		),
 		$atts
 	);
 	$post_id  = mt_get_current_event();
 	$event_id = ( isset( $atts['event'] ) ) ? absint( $atts['event'] ) : $post_id;
+	$return   = '';
+	$location = '';
 	if ( $event_id ) {
-		return mt_add_to_cart_form( $content, $event_id, $atts['view'], $atts['time'], true );
+		$form = mt_add_to_cart_form( $content, $event_id, $atts['view'], $atts['time'], true );
+		if ( $atts['location'] !== 'false' ) {
+			$location = mt_get_ticket_venue( false, $event_id );
+		}
+		if ( $atts['location'] === 'before' || $atts['location'] === 'true' ) {
+			$return = $location . $form;
+		}
+		if ( $atts['location'] === 'after' ) {
+			$return = $form . $location;
+		}
+
+		return $return;
 	}
 
-	return '';
+	return $content;
 }
 add_shortcode( 'ticket', 'mt_add_to_cart_form_shortcode' );
 
