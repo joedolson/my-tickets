@@ -87,19 +87,63 @@ function my_tickets_short_cart() {
 function mt_add_to_cart_form_shortcode( $atts, $content = '' ) {
 	$atts = shortcode_atts(
 		array(
-			'event' => false,
-			'view'  => 'calendar',
-			'time'  => 'month',
+			'event'    => false,
+			'view'     => 'calendar',
+			'time'     => 'month',
+			'location' => 'false',
 		),
 		$atts
 	);
-	if ( $atts['event'] ) {
-		return mt_add_to_cart_form( $content, $atts['event'], $atts['view'], $atts['time'], true );
+	$post_id  = mt_get_current_event();
+	$event_id = ( isset( $atts['event'] ) ) ? absint( $atts['event'] ) : $post_id;
+	$return   = '';
+	$location = '';
+	if ( $event_id ) {
+		$form = mt_add_to_cart_form( $content, $event_id, $atts['view'], $atts['time'], true );
+		if ( $atts['location'] !== 'false' ) {
+			$location = mt_get_ticket_venue( false, $event_id );
+		}
+		if ( $atts['location'] === 'before' || $atts['location'] === 'true' ) {
+			$return = $location . $form;
+		}
+		if ( $atts['location'] === 'after' ) {
+			$return = $form . $location;
+		}
+
+		return $return;
 	}
 
-	return '';
+	return $content;
 }
 add_shortcode( 'ticket', 'mt_add_to_cart_form_shortcode' );
+
+
+/**
+ * Shortcode to display event venue.
+ *
+ * @param array  $atts Shortcode attributes.
+ * @param string $content Contained content.
+ *
+ * @return string
+ */
+function mt_ticket_venue_shortcode( $atts, $content = '' ) {
+	$atts = shortcode_atts(
+		array(
+			'event' => false,
+		),
+		$atts
+	);
+	$post_id  = mt_get_current_event();
+	$event_id = isset( $atts['event'] ) ? absint( $atts['event'] ) : $post_id;
+	if ( $event_id ) {
+		$venue = mt_get_ticket_venue( false, $event_id );
+	} else {
+		$venue = $content;
+	}
+
+	return $venue;
+}
+add_shortcode( 'ticket_venue', 'mt_ticket_venue_shortcode' );
 
 /**
  * Produce a list of featured tickets with a custom template and registration forms.
