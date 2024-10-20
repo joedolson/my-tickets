@@ -74,6 +74,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 = 2.0.5 =
 
+* Bug fix: Ticket creation form should not show in My Calendar Pro's front-end submissions form.
 * Change: `[ticket]` shortcode no longer requires the current page's ID to render the form.
 * Feature: `[ticket_venue]` shortcode to render an event's hcard on the page.
 * Feature: Attribute 'location' added to `[ticket]` shortcode with options 'false', 'before', and 'after'.
