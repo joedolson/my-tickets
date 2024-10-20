@@ -283,6 +283,9 @@ function mt_calculate_discount( $price, $event_id, $payment_id = false ) {
  * @return string
  */
 function mt_registration_fields( $form, $has_data, $data, $context = 'admin', $model = '' ) {
+	if ( 'public' === $context ) {
+		return $form;
+	}
 	$event_id     = 0;
 	$notes        = '';
 	$hide         = false;
