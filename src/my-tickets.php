@@ -38,8 +38,6 @@
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-load_plugin_textdomain( 'my-tickets', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
-
 /**
  * Return current version of My Tickets.
  *
