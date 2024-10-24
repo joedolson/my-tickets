@@ -32,10 +32,10 @@ function mt_add_to_cart_form_post( $content ) {
 		$event = $post->ID;
 		if ( get_post_meta( $event, '_mc_event_data', true ) ) {
 			$content = mt_add_to_cart_form( $content, $event );
+			// Self remove filter so additional `the_content` calls don't repeat this.
+			remove_filter( 'the_content', 'mt_add_to_cart_form_post', 50, 1 );
 		}
 	}
-	// Self remove filter so additional `the_content` calls don't repeat this.
-	remove_filter( 'the_content', 'mt_add_to_cart_form_post', 50, 1 );
 
 	return $content;
 }
