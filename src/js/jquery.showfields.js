@@ -9,12 +9,15 @@ jQuery(document).ready(function ($) {
 	const selector = $( 'select[name=mt_valid]');
 	if ( selector.val() === 'expire' ) {
 		$( '.expire_date' ).show();
+		$( '.expire_date input' ).attr( 'required', 'required' );
 	}
 	selector.on( 'change', function() {
 		if ( $( this ).val() === 'expire' ) {
 			$( '.expire_date' ).show();
+			$( '.expire_date input' ).attr( 'required', 'required' );
 		} else {
-			$( '.expire_date' ).hide();
+			$( '.expire_date' ).hide()
+			$( '.expire_date input' ).removeAttr( 'required' );
 		}
 	});
 	const regExpire = $( '#reg_expires' );
@@ -34,12 +37,12 @@ jQuery(document).ready(function ($) {
 		responseRegion.text( response );
 	});
 	if (initial_status !== true) {
-		$('.mt-ticket-form').hide();
+		$( '.mt-ticket-form' ).hide();
 		$( '.mt-ticket-form input' ).attr( 'disabled', 'disabled' );
-		$('.mt-ticket-data input').removeAttr('required').removeAttr('aria-required');
+		$( '.mt-ticket-data input' ).removeAttr('required').removeAttr('aria-required');
 	} else {
-		let general_status = $('input[name=mt_general]:checked').val();
-		if (general_status !== 'general') {
+		let general_status = $( 'input[name=mt_general]:checked' ).val();
+		if ( general_status !== 'general' ) {
 			$('.mt-ticket-dates input').attr('required', 'required').attr('aria-required', 'true');
 			$('.mt-available-tickets input').attr('required', 'required').attr('aria-required', 'true');
 			$('.mt-ticket-validity').hide();
@@ -60,7 +63,6 @@ jQuery(document).ready(function ($) {
 		}
 		if (checked_status == true) {
 			$( '.mt-ticket-form input' ).removeAttr( 'disabled' );
-			$('.mt-ticket-data input').attr('required', 'required').attr('aria-required', 'true');
 			$('.mt-ticket-form').show(300);
 		} else {
 			$( '.mt-ticket-form input' ).attr( 'disabled', 'disabled' );
@@ -80,6 +82,7 @@ jQuery(document).ready(function ($) {
 			$('.mt-ticket-dates input').attr('required', 'required').attr('aria-required', 'true');
 			$('.mt-available-tickets input').attr('required', 'required').attr('aria-required', 'true');
 			$('.mt-ticket-validity').hide();
+			$( '.expire_date input' ).removeAttr( 'required' );
 		}
 	});
 });
