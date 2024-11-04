@@ -7,7 +7,7 @@ Tested up to: 6.6
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.5
+Stable tag: 2.0.6
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,17 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.0.6 =
+
+* Remove textdomain loader (Obsolete since WP 4.6)
+* Bug fix: issue where hidden ticket creation fields still marked as required.
+* Bug fix: Update payment data when moving tickets to a different ticket type.
+* Bug fix: Incorrect variable reference in `mt_handle_expiration_status()`.
+* Bug fix: Ensure remaining count doesn't display negative numbers.
+* Bug fix: Check virtual inventory when adding tickets to cart, to see if it has changed since page was loaded.
+* Bug fix: Remove `remove_filter` on add to cart form.
+* Change: Set default installation behavior to only display forms on singular views.
 
 = 2.0.5 =
 
