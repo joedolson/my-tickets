@@ -191,7 +191,7 @@ function mt_ticket_meta( $post_id ) {
 			update_post_meta( $post_id, '_mc_event_location', $post['mt-event-location'] );
 		}
 		update_post_meta( $post_id, '_mc_event_data', $data );
-		update_post_meta( $post_id, '_mc_event_date', strtotime( $post['event_begin'] ) );
+		update_post_meta( $post_id, '_mc_event_date', strtotime( $event_begin ) );
 		mt_save_registration_data( $post_id, $post );
 	} elseif ( isset( $_POST['mt-tickets-nonce'] ) && ! isset( $_POST['mt-trigger'] ) ) {
 		delete_post_meta( $post_id, '_mc_event_data' );
