@@ -82,6 +82,7 @@
 				if ( 'event' === model ) {
 					$( '.mt-ticket-form .type-selector').hide();
 					$( '.mt-ticket-form .mt-ticket-data').hide();
+					$('.mt-ticket-data input').removeAttr('required').attr( 'disabled', 'disabled' );
 				} else {
 					$( '.mt-ticket-form .type-selector').show();
 					$( '.mt-ticket-form .mt-ticket-data').show();
