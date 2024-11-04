@@ -179,13 +179,17 @@ function my_tickets_ticket_image_size() {
  * @return bool
  */
 function mt_change_ticket_type( $payment_id, $event_id, $ticket, $type ) {
-	$registration        = get_post_meta( $event_id, '_mt_registration_options', true );
-	$purchase            = get_post_meta( $payment_id, '_purchased', true );
-	$ticket_data         = get_post_meta( $event_id, '_' . $ticket, true );
-	$old_type            = $ticket_data['type'];
-	$ticket_data['type'] = $type;
-	$result              = update_post_meta( $event_id, '_' . $ticket, $ticket_data );
-	$prices              = $registration['prices'];
+	$registration            = get_post_meta( $event_id, '_mt_registration_options', true );
+	$purchase                = get_post_meta( $payment_id, '_purchased', true );
+	$ticket_data             = get_post_meta( $event_id, '_' . $ticket, true );
+	$purchase_ticket         = get_post_meta( $payment_id, $ticket, true );
+	$old_type                = $ticket_data['type'];
+	$ticket_data['type']     = $type;
+	$purchase_ticket['type'] = $type;
+	$result                  = update_post_meta( $event_id, '_' . $ticket, $ticket_data );
+	$result2                 = update_post_meta( $payment_id, $ticket, $purchase_ticket );
+	$prices                  = $registration['prices'];
+
 	if ( 'continuous' !== $registration['counting_method'] ) {
 		$old_type_sold = $prices[ $old_type ]['sold'] - 1;
 		$new_type_sold = $prices[ $type ]['sold'] + 1;
