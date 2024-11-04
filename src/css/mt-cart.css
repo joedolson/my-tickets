@@ -407,6 +407,10 @@ button[name="mt_add_to_cart"] img {
     column-gap: 2px;
 }
 
+.my-tickets-in-cart {
+	margin-bottom: 1rem;
+}
+
 .mt-response-processing:after {
     overflow: hidden;
     display: inline-block;
