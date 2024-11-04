@@ -1,22 +1,23 @@
 jQuery(document).ready(function ($) {
-	let initial_status    = $('.mt-trigger').prop('checked');
-	const admissionType     = $('input[name=mt_general]');
-	$( '.expire_date' ).hide();
+	let initial_status  = $('.mt-trigger').prop('checked');
+	const admissionType = $('input[name=mt_general]');
+	const expireDate    = $( '.expire_date' );
+	expireDate.hide();
 	let admissionSelected = false;
 	admissionType.each( function() {
 		admissionSelected = $( this ).prop('checked' );
 	});
 	const selector = $( 'select[name=mt_valid]');
 	if ( selector.val() === 'expire' ) {
-		$( '.expire_date' ).show();
+		expireDate.show();
 		$( '.expire_date input' ).attr( 'required', 'required' );
 	}
 	selector.on( 'change', function() {
 		if ( $( this ).val() === 'expire' ) {
-			$( '.expire_date' ).show();
+			expireDate.show();
 			$( '.expire_date input' ).attr( 'required', 'required' );
 		} else {
-			$( '.expire_date' ).hide()
+			expireDate.hide()
 			$( '.expire_date input' ).removeAttr( 'required' );
 		}
 	});
