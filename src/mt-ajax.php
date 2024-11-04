@@ -81,6 +81,7 @@ function mt_ajax_handler() {
 		$data = map_deep( $data, 'sanitize_text_field' );
 		// reformat request data to multidimensional array.
 		$cart = mt_get_cart();
+
 		foreach ( $data as $k => $d ) {
 			if ( 'mt_tickets' === $k ) {
 				foreach ( $d as $n => $value ) {
@@ -99,6 +100,17 @@ function mt_ajax_handler() {
 		// generate and submit cart data.
 		$save = array();
 		if ( isset( $submit['mt_tickets'] ) ) {
+			$modified = false;
+			foreach ( $submit['mt_tickets'] as $type => $count ) {
+				$available       = mt_check_inventory( $submit['mt_event_id'], $type );
+				$available_count = ( $available ) ? $available['available'] : 0;
+				$append          = '';
+				if ( $count > $available_count ) {
+					// Set to max available if requested greater than available.
+					$submit['mt_tickets'][ $type ] = $available_count;
+					$modified                      = true;
+				}
+			}
 			$save = array(
 				$submit['mt_event_id'] => $submit['mt_tickets'],
 				'mt_event_id'          => $submit['mt_event_id'],
@@ -117,14 +129,15 @@ function mt_ajax_handler() {
 		 *
 		 * @return {array}
 		 */
-		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
-		$url   = mt_get_cart_url();
+		$saved  = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
+		$url    = mt_get_cart_url();
+		$append = ( $modified ) ? ' ' . __( 'Your order was modified due to a change in ticket availability.', 'my-tickets' ) : '';
 		if ( 1 === (int) $saved['success'] ) {
 			// Translators: Cart URL.
-			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) );
+			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) ) . $append;
 		} else {
 			// Translators: Cart URL.
-			$response = apply_filters( 'mt_ajax_updated_unchanged', sprintf( __( "Cart not changed. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) );
+			$response = apply_filters( 'mt_ajax_updated_unchanged', sprintf( __( "Cart not changed. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) ) . $append;
 		}
 		$return = array(
 			'response' => $response,
@@ -132,6 +145,7 @@ function mt_ajax_handler() {
 			'count'    => mt_count_cart( $saved['cart'] ),
 			'total'    => mt_total_cart( $saved['cart'] ),
 			'event_id' => $submit['mt_event_id'],
+			'data'     => $count,
 		);
 		wp_send_json( $return );
 	}
