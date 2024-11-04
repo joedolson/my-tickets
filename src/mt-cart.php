@@ -1219,7 +1219,7 @@ function mt_event_expired( $event, $react = false ) {
 	$expired = get_post_meta( $event, '_mt_event_expired', true );
 	if ( 'true' === $expired ) {
 		// The event is no longer available for sale, but not all type emails may have been sent.
-		mt_handle_expiration_status( $event_id );
+		mt_handle_expiration_status( $event );
 		return true;
 	} else {
 		$data = get_post_meta( $event, '_mc_event_data', true );
