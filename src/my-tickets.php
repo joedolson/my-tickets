@@ -730,7 +730,7 @@ We\'ll see you soon!<br />
 		'mt_show_closed'           => 'false',
 		'style_vars'               => mt_style_variables(),
 		'mt_inventory'             => 'actual',
-		'mt_singular'              => '',
+		'mt_singular'              => 'true',
 	);
 
 	return $defaults;
