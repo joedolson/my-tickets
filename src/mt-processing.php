@@ -492,13 +492,16 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $registration['pricing']; // array of prices; label => cost/available/sold.
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $label => $options ) {
+			if ( ! isset( $options['label'] ) ) {
+				continue;
+			}
 			if ( 'discrete' === $counting || 'event' === $counting ) {
 				$available = "<input type='text' name='mt_tickets$pattern' id='mt_tickets_$counting . '_' . $label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
 			} else {
 				$available = "<input type='hidden' name='mt_tickets$pattern' id='mt_tickets_$counting . '_' . $label' value='inherit' />";
 			}
 			if ( $label ) {
-				$date        = ( '' !== $options['label'] ) ? $options['label'] : '';
+				$date        = ( isset( $options['label'] ) && '' !== $options['label'] ) ? $options['label'] : '';
 				$args        = array(
 					'id'    => "mt_label_$label",
 					'name'  => 'mt_label' . $pattern,
