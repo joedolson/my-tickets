@@ -1317,9 +1317,14 @@ function mt_handle_expiration_status( $event_id ) {
 	foreach ( $pricing as $type => $ticket_type ) {
 		$close             = mt_get_ticket_type_close( $ticket_type, $registration );
 		$type_sales_closed = ( $close < mt_date() ) ? true : false;
-
-		if ( $type_sales_closed ) {
+		$diff              = ( $type_sales_closed ) ? mt_date() - $close : 0;
+		// If type sales closed more than a week ago, don't send notifications.
+		if ( $type_sales_closed && $diff < WEEK_IN_SECONDS ) {
 			mt_handle_ticket_type_expired( $event_id, $type );
+		}
+		// Update the post meta, so this check doesn't run again.
+		if ( $type_sales_closed && $diff > WEEK_IN_SECONDS ) {
+			update_post_meta( $event_id, '_mt_event_expired_' . sanitize_title( $type ), 'true' );
 		}
 	}
 }
