@@ -397,7 +397,7 @@ function mt_get_ticket_type_close( $ticket_type, $registration ) {
 		$close = ( isset( $ticket_type['close'] ) && ! empty( $ticket_type['close'] ) ) ? $ticket_type['close'] + $stop : '';
 	}
 
-	return $close;
+	return (int) $close;
 }
 
 /**
