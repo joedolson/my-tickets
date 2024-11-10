@@ -251,6 +251,21 @@ legend {
 	align-items: start;
 }
 
+.mt-flex.mt-social {
+	margin: 0;
+	align-items: center;
+}
+
+.mt-flex.mt-social li {
+	margin: 0;
+}
+
+.mt-flex.mt-social a {
+	display: block;
+	padding: 3px;
+	border-radius: 3px;
+}
+
 .my-tickets dt {
     font-weight: 700;
     margin-bottom: 1rem;
