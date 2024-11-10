@@ -254,6 +254,7 @@ legend {
 .mt-flex.mt-social {
 	margin: 0;
 	align-items: center;
+	justify-content: center;
 }
 
 .mt-flex.mt-social li {
