@@ -398,8 +398,6 @@ function mt_settings() {
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="metabox-holder">
 				<div class="ui-sortable meta-box-sortables">
 					<div class="postbox">
 						<h2 class="hndle"><?php _e( 'Import and Export Settings', 'my-tickets' ); ?></h2>
@@ -416,8 +414,6 @@ function mt_settings() {
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="metabox-holder">
 				<div class="ui-sortable meta-box-sortables">
 					<div class="postbox">
 						<h2 class="hndle"><?php _e( 'Premium Add-on License Keys', 'my-tickets' ); ?></h2>
