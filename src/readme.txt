@@ -3,11 +3,11 @@ Contributors: joedolson
 Donate link: https://www.joedolson.com/donate/
 Tags: ticket sales, registration, reservations, event tickets, accessibility
 Requires at least: 4.9
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.0.7 =
+
+* Bug fix: Don't send ticket type closed messages if they were closed well in the past.
+* Bug fix: Don't attempt to display ticket fields if options array is incomplete.
+* Bug fix: Ensure returned close date is an integer.
 
 = 2.0.6 =
 

@@ -10,14 +10,14 @@
  * @wordpress-plugin
  * Plugin Name: My Tickets
  * Plugin URI:  https://www.joedolson.com/my-tickets/
- * Description: Sell Tickets and take registrations for your events. Integrates with My Calendar.
+ * Description: Sell Tickets and take registrations for your events. Integrate with My Calendar.
  * Author:      Joe Dolson
  * Author URI:  https://www.joedolson.com
  * Text Domain: my-tickets
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     2.0.6
+ * Version:     2.0.7
  */
 
 /*
@@ -44,7 +44,7 @@
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '2.0.6';
+	$mt_version = '2.0.7';
 
 	return $mt_version;
 }
