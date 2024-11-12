@@ -102,6 +102,7 @@ function mt_ajax_handler() {
 		if ( isset( $submit['mt_tickets'] ) ) {
 			$modified = false;
 			foreach ( $submit['mt_tickets'] as $type => $count ) {
+				$count           = is_array( $count ) ? $count[0] : (int) $count;
 				$available       = mt_check_inventory( $submit['mt_event_id'], $type );
 				$available_count = ( $available ) ? $available['available'] : 0;
 				$append          = '';
