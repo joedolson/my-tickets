@@ -75,7 +75,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 = 2.0.8 =
 
 * Bug fix: Add to cart forms checked submitted count incorrectly for making availability comparisons.
-* Improved event isolation for individual ticketing forms.
+* Improved JS event isolation for individual ticketing forms.
 
 = 2.0.7 =
 
