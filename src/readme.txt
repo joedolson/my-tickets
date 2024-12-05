@@ -72,6 +72,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.0.9 =
+
+* Bug fix: Limit how long a cart expiration can be extended.
+* Filter: add `mt_virtual_inventory` filter to dynamically modify the virtual inventory.
+
 = 2.0.8 =
 
 * Bug fix: Add to cart forms checked submitted count incorrectly for making availability comparisons.
