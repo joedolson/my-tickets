@@ -343,6 +343,18 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 	if ( 'virtual' === $is_virtual && ( 'auto' === $virtual || true === $virtual ) ) {
 		// Virtual inventory holds tickets in carts but not yet sold.
 		$virtual_inventory = get_post_meta( $event_id, '_mt_virtual_inventory', true );
+		/**
+		 * Filter the virtual inventory array.
+		 *
+		 * @hook mt_virtual_inventory
+		 *
+		 * @param {array} $virtual_inventory Contents of the virtual inventory.
+		 * @param {int}   $event_id Current Event ID.
+		 * @param {array} $registration Event registration configuration.
+		 *
+		 * @return {array}
+		 */
+		$virtual_inventory = apply_filters( 'mt_virtual_inventory', $virtual_inventory, $event_id, $registration );
 		if ( '' !== $type ) {
 			$current_virtual = isset( $virtual_inventory[ $type ] ) ? $virtual_inventory[ $type ] : 0;
 		} else {
