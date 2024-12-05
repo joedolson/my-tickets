@@ -106,9 +106,14 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
  */
 function mt_extend_expiration( $amount = 300 ) {
 	$amount = absint( $amount );
+	$window = mt_expiration_window();
 	if ( is_user_logged_in() ) {
 		$current = get_user_meta( wp_get_current_user()->ID, '_mt_user_init_expiration', true );
 		$new     = (int) $current + $amount;
+		// If the new amount is greater than 10 times the setting or 20 hours, don't increment.
+		if ( $new > ( 10 * $window || 20 * HOUR_IN_SECONDS ) ) {
+			$new = $current;
+		}
 		update_user_meta( wp_get_current_user()->ID, '_mt_user_init_expiration', $new );
 		mt_refresh_cache();
 
@@ -120,7 +125,11 @@ function mt_extend_expiration( $amount = 300 ) {
 		}
 		$current = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
 		$new     = (int) $current + $amount;
-		$cart    = mt_get_transient( 'mt_' . $unique_id . '_cart' );
+		// If the new amount is greater than 10 times the setting or 20 hours, don't increment.
+		if ( $new > ( 10 * $window || 20 * HOUR_IN_SECONDS ) ) {
+			$new = $current;
+		}
+		$cart = mt_get_transient( 'mt_' . $unique_id . '_cart' );
 		mt_set_transient( 'mt_' . $unique_id . '_cart', $cart );
 		mt_set_transient( 'mt_' . $unique_id . '_expiration', $new );
 		mt_refresh_cache();
