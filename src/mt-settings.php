@@ -845,7 +845,7 @@ function mt_post_lookup() {
 			$suggestions[]       = $suggestion;
 		}
 
-		echo esc_html( $_GET['callback'] ) . '(' . json_encode( $suggestions ) . ')';
+		echo esc_html( $_GET['callback'] ) . '(' . wp_json_encode( $suggestions ) . ')';
 		exit;
 	}
 }
@@ -875,7 +875,7 @@ function mt_event_lookup() {
 			$suggestions[]       = $suggestion;
 		}
 
-		echo esc_html( $_GET['callback'] ) . '(' . json_encode( $suggestions ) . ')';
+		echo esc_html( $_GET['callback'] ) . '(' . wp_json_encode( $suggestions ) . ')';
 		exit;
 	}
 }

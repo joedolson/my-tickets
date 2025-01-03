@@ -36,13 +36,13 @@ function mt_ajax_cart() {
 		// generate and submit cart data.
 		$saved   = mt_update_cart( $post );
 		$saved   = apply_filters( 'mt_update_cart_field_handler', $saved, $post );
-		$success = json_encode(
+		$success = wp_json_encode(
 			array(
 				'success'  => 1,
 				'response' => __( 'Cart updated', 'my-tickets' ),
 			)
 		);
-		$failure = json_encode(
+		$failure = wp_json_encode(
 			array(
 				'success'  => 0,
 				'response' => __( 'Cart not updated', 'my-tickets' ),

@@ -390,7 +390,7 @@ function mt_choose_report_by_event() {
 	foreach ( $types as $key => $type ) {
 		$groups->$key = $type;
 	}
-	$groups   = json_encode( $groups );
+	$groups   = wp_json_encode( $groups );
 	$selected = ( isset( $_GET['format'] ) && 'view' === $_GET['format'] ) ? " selected='selected'" : '';
 	$report   = ( isset( $_GET['mt-event-report'] ) ) ? sanitize_text_field( $_GET['mt-event-report'] ) : '';
 	$form     = "
@@ -901,39 +901,41 @@ add_action( 'admin_init', 'mt_download_csv_event' );
  * Download report of event data as CSV
  */
 function mt_download_csv_event() {
-	if (
-		isset( $_GET['format'] ) && 'csv' === $_GET['format'] &&
-		isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] &&
-		isset( $_GET['event_id'] ) &&
-		isset( $_GET['mt-event-report'] ) && 'purchases' === $_GET['mt-event-report']
-	) {
-		$event_id  = intval( $_GET['event_id'] );
-		$type      = isset( $_GET['mt_select_ticket_type'] ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : 'all';
-		$args      = array(
-			'ticket_type'    => $type,
-			'include_failed' => false,
-		);
-		$title     = get_the_title( $event_id );
-		$purchases = mt_purchases( $event_id, $args );
-		if ( is_array( $purchases ) ) {
-			$report         = $purchases['report']['csv'];
-			$custom_fields  = mt_get_custom_fields( 'reports' );
-			$header_columns = mt_get_column_headers( 'purchases', 'csv' );
-			$csv            = mt_set_column_headers( $header_columns, 'csv', $custom_fields ) . PHP_EOL;
-			foreach ( $report as $status => $rows ) {
-				foreach ( $rows as $type => $row ) {
-					$csv .= $row;
+	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
+		if (
+			isset( $_GET['format'] ) && 'csv' === $_GET['format'] &&
+			isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] &&
+			isset( $_GET['event_id'] ) &&
+			isset( $_GET['mt-event-report'] ) && 'purchases' === $_GET['mt-event-report']
+		) {
+			$event_id  = intval( $_GET['event_id'] );
+			$type      = isset( $_GET['mt_select_ticket_type'] ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : 'all';
+			$args      = array(
+				'ticket_type'    => $type,
+				'include_failed' => false,
+			);
+			$title     = get_the_title( $event_id );
+			$purchases = mt_purchases( $event_id, $args );
+			if ( is_array( $purchases ) ) {
+				$report         = $purchases['report']['csv'];
+				$custom_fields  = mt_get_custom_fields( 'reports' );
+				$header_columns = mt_get_column_headers( 'purchases', 'csv' );
+				$csv            = mt_set_column_headers( $header_columns, 'csv', $custom_fields ) . PHP_EOL;
+				foreach ( $report as $status => $rows ) {
+					foreach ( $rows as $type => $row ) {
+						$csv .= $row;
+					}
 				}
+			} else {
+				$csv = '';
 			}
-		} else {
-			$csv = '';
+			$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
+			header( 'Content-Type: application/csv' );
+			header( "Content-Disposition: attachment; filename=$title.csv" );
+			header( 'Pragma: no-cache' );
+			echo wp_kses_post( $csv );
+			exit;
 		}
-		$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
-		header( 'Content-Type: application/csv' );
-		header( "Content-Disposition: attachment; filename=$title.csv" );
-		header( 'Pragma: no-cache' );
-		echo wp_kses_post( $csv );
-		exit;
 	}
 }
 
@@ -942,29 +944,31 @@ add_action( 'admin_init', 'mt_download_csv_tickets' );
  * Download report of ticket data for an event as CSV
  */
 function mt_download_csv_tickets() {
-	if (
-		isset( $_GET['format'] ) && 'csv' === $_GET['format'] &&
-		isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] &&
-		isset( $_GET['event_id'] ) &&
-		isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report']
-	) {
-		$event_id = intval( $_GET['event_id'] );
-		$title    = get_the_title( $event_id ) . ' tickets';
-		$tickets  = mt_get_tickets( $event_id );
-		$report   = $tickets['csv'];
+	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
+		if (
+			isset( $_GET['format'] ) && 'csv' === $_GET['format'] &&
+			isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] &&
+			isset( $_GET['event_id'] ) &&
+			isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report']
+		) {
+			$event_id = intval( $_GET['event_id'] );
+			$title    = get_the_title( $event_id ) . ' tickets';
+			$tickets  = mt_get_tickets( $event_id );
+			$report   = $tickets['csv'];
 
-		$headers     = mt_get_column_headers( 'tickets', 'csv' );
-		$header_html = mt_set_column_headers( $headers, 'csv' ) . PHP_EOL;
-		$csv         = $header_html . PHP_EOL;
-		foreach ( $report as $row ) {
-			$csv .= "$row";
+			$headers     = mt_get_column_headers( 'tickets', 'csv' );
+			$header_html = mt_set_column_headers( $headers, 'csv' ) . PHP_EOL;
+			$csv         = $header_html . PHP_EOL;
+			foreach ( $report as $row ) {
+				$csv .= "$row";
+			}
+			$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
+			header( 'Content-Type: application/csv' );
+			header( "Content-Disposition: attachment; filename=$title.csv" );
+			header( 'Pragma: no-cache' );
+			echo wp_kses_post( $csv );
+			exit;
 		}
-		$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
-		header( 'Content-Type: application/csv' );
-		header( "Content-Disposition: attachment; filename=$title.csv" );
-		header( 'Pragma: no-cache' );
-		echo wp_kses_post( $csv );
-		exit;
 	}
 }
 
@@ -973,21 +977,23 @@ add_action( 'admin_init', 'mt_download_csv_time' );
  * Download report by sales period as CSV.
  */
 function mt_download_csv_time() {
-	$output = '';
-	if ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] && isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] && isset( $_GET['mt_start'] ) ) {
-		$report = mt_get_report_data_by_time();
-		$csv    = $report['csv'];
-		$start  = $report['start'];
-		$end    = $report['end'];
-		foreach ( $csv as $row ) {
-			$output .= "$row";
+	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
+		$output = '';
+		if ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] && isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] && isset( $_GET['mt_start'] ) ) {
+			$report = mt_get_report_data_by_time();
+			$csv    = $report['csv'];
+			$start  = $report['start'];
+			$end    = $report['end'];
+			foreach ( $csv as $row ) {
+				$output .= "$row";
+			}
+			$title = sanitize_title( $start . '_' . $end ) . '-' . mt_date( 'Y-m-d' );
+			header( 'Content-Type: application/csv' );
+			header( "Content-Disposition: attachment; filename=$title.csv" );
+			header( 'Pragma: no-cache' );
+			echo wp_kses_post( $output );
+			exit;
 		}
-		$title = sanitize_title( $start . '_' . $end ) . '-' . mt_date( 'Y-m-d' );
-		header( 'Content-Type: application/csv' );
-		header( "Content-Disposition: attachment; filename=$title.csv" );
-		header( 'Pragma: no-cache' );
-		echo wp_kses_post( $output );
-		exit;
 	}
 }
 

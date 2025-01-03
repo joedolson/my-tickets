@@ -90,7 +90,7 @@ function mt_create_payment( $post ) {
 		$post_title  = sanitize_text_field( $post['mt_fname'] . ' ' . $post['mt_lname'] );
 		$my_post     = array(
 			'post_title'   => $post_title,
-			'post_content' => json_encode( $post ),
+			'post_content' => wp_json_encode( $post ),
 			'post_status'  => 'draft',
 			'post_author'  => $purchaser,
 			'post_date'    => $date,
