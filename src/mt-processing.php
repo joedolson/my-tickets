@@ -496,9 +496,9 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				continue;
 			}
 			if ( 'discrete' === $counting || 'event' === $counting ) {
-				$available = "<input type='text' name='mt_tickets$pattern' id='mt_tickets_$counting . '_' . $label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
+				$available = "<input type='text' name='mt_tickets$pattern' id='mt_tickets_$counting" . '_' . "$label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
 			} else {
-				$available = "<input type='hidden' name='mt_tickets$pattern' id='mt_tickets_$counting . '_' . $label' value='inherit' />";
+				$available = "<input type='hidden' name='mt_tickets$pattern' id='mt_tickets_$counting" . '_' . "$label' value='inherit' />";
 			}
 			if ( $label ) {
 				$date        = ( isset( $options['label'] ) && '' !== $options['label'] ) ? $options['label'] : '';
