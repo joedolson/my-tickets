@@ -154,7 +154,7 @@ function mt_payment_settings() {
 		&lt;div class="postbox-container jcd-wide">
 			&lt;div class="metabox-holder">
 				&lt;form method="post" action="&lt;?php echo esc_url( admin_url( 'admin.php?page=mt-payment' ) ); ?>">
-					&lt;div>&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo wp_create_nonce( 'my-tickets' ); ?>"/>
+					&lt;div>&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo esc_attr( wp_create_nonce( 'my-tickets' ) ); ?>"/>
 					&lt;/div>
 					&lt;div class="ui-sortable meta-box-sortables">
 						&lt;div class="postbox">

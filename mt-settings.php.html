@@ -235,7 +235,7 @@ function mt_settings() {
 
 						&lt;div class="inside">
 							&lt;form method="post" action="&lt;?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
-								&lt;div>&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo wp_create_nonce( 'my-tickets' ); ?>" />&lt;/div>
+								&lt;div>&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo esc_attr( wp_create_nonce( 'my-tickets' ) ); ?>" />&lt;/div>
 								&lt;fieldset>
 									&lt;legend>&lt;?php _e( 'Enable ticketing for these post types:', 'my-tickets' ); ?>&lt;/legend>
 									&lt;ul class="checkboxes">
@@ -430,7 +430,7 @@ function mt_settings() {
 						&lt;div class="inside">
 							&lt;p>&lt;a href="&lt;?php echo mt_export_settings_url(); ?>">&lt;?php _e( 'Export settings', 'my-tickets' ); ?>&lt;/a>&lt;/p>
 							&lt;form method="POST" enctype="multipart/form-data" action="&lt;?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
-								&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo wp_create_nonce( 'my-tickets-nonce' ); ?>" />
+								&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo esc_attr( wp_create_nonce( 'my-tickets-nonce' ) ); ?>" />
 								&lt;p class="mt-input-settings">
 									&lt;label for="mt-import-settings">&lt;?php _e( 'Import Settings', 'my-tickets' ); ?>&lt;/label>
 									&lt;input type="file" name="mt-import-settings" id="mt-import-settings" accept="application/json" /> 
@@ -456,7 +456,7 @@ function mt_settings() {
 							&lt;form method="post" action="&lt;?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
 								&lt;div>
 									&lt;input type="hidden" name="mt_license_keys" value="saved" />
-									&lt;input type="hidden" name="_wpnonce_tickets" value="&lt;?php echo wp_create_nonce( 'my-tickets-licensing' ); ?>"/>
+									&lt;input type="hidden" name="_wpnonce_tickets" value="&lt;?php echo esc_attr( wp_create_nonce( 'my-tickets-licensing' ) ); ?>"/>
 								&lt;/div>
 							&lt;ul>
 								&lt;?php echo wp_kses( $fields, mt_kses_elements() ); ?>
