@@ -133,7 +133,7 @@ function mt_ticketing_settings() {
 		<div class="postbox-container jcd-wide">
 			<div class="metabox-holder">
 				<form method="post" action="<?php echo admin_url( 'admin.php?page=mt-ticketing' ); ?>">
-					<div><input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce( 'my-tickets' ); ?>"/>
+					<div><input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'my-tickets' ) ); ?>"/>
 					</div>
 					<div class="ui-sortable meta-box-sortables">
 						<div class="postbox">

@@ -209,7 +209,7 @@ function mt_settings() {
 
 						<div class="inside">
 							<form method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
-								<div><input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce( 'my-tickets' ); ?>" /></div>
+								<div><input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'my-tickets' ) ); ?>" /></div>
 								<fieldset>
 									<legend><?php _e( 'Enable ticketing for these post types:', 'my-tickets' ); ?></legend>
 									<ul class="checkboxes">
@@ -404,7 +404,7 @@ function mt_settings() {
 						<div class="inside">
 							<p><a href="<?php echo mt_export_settings_url(); ?>"><?php _e( 'Export settings', 'my-tickets' ); ?></a></p>
 							<form method="POST" enctype="multipart/form-data" action="<?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
-								<input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce( 'my-tickets-nonce' ); ?>" />
+								<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'my-tickets-nonce' ) ); ?>" />
 								<p class="mt-input-settings">
 									<label for="mt-import-settings"><?php _e( 'Import Settings', 'my-tickets' ); ?></label>
 									<input type="file" name="mt-import-settings" id="mt-import-settings" accept="application/json" /> 
@@ -430,7 +430,7 @@ function mt_settings() {
 							<form method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
 								<div>
 									<input type="hidden" name="mt_license_keys" value="saved" />
-									<input type="hidden" name="_wpnonce_tickets" value="<?php echo wp_create_nonce( 'my-tickets-licensing' ); ?>"/>
+									<input type="hidden" name="_wpnonce_tickets" value="<?php echo esc_attr( wp_create_nonce( 'my-tickets-licensing' ) ); ?>"/>
 								</div>
 							<ul>
 								<?php echo wp_kses( $fields, mt_kses_elements() ); ?>

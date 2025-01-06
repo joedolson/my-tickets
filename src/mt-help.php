@@ -266,7 +266,7 @@ $plugins_string
 	$admin_url = admin_url( 'admin.php?page=mt-help' );
 	?>
 	<form method='post' action='<?php echo esc_url( $admin_url ); ?>'>
-		<div><input type='hidden' name='_wpnonce' value='<?php echo wp_create_nonce( 'my-tickets-nonce' ); ?>' /></div>
+		<div><input type='hidden' name='_wpnonce' value='<?php echo esc_attr( wp_create_nonce( 'my-tickets-nonce' ) ); ?>' /></div>
 		<div>
 		<p>
 		<code>
