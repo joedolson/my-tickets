@@ -145,25 +145,35 @@ function mt_import_settings() {
 		$options = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
 		$nonce   = wp_verify_nonce( $_POST['_wpnonce'], 'my-tickets-nonce' );
 		if ( $nonce ) {
-			$settings = file_get_contents( $_FILES['mt-import-settings']['tmp_name'] );
-			$settings = json_decode( $settings, ARRAY_A );
-			if ( null === $settings ) {
-				$return = json_last_error();
+			$size     = isset( $_FILES['mt-import-settings']['size'] ) ? absint( $_FILES['mt-import-settings']['size'] ) : 0;
+			$name     = isset( $_FILES['mt-import-settings']['tmp_name'] ) ? sanitize_text_field( $_FILES['mt-import-settings']['tmp_name'] ) : '';
+			global $wp_filesystem;
+			require_once ABSPATH . '/wp-admin/includes/file.php';
+			WP_Filesystem();
+
+			$settings = ( 0 !== $size ) ? $wp_filesystem->get_contents( $name ) : false;
+			if ( ! $settings ) {
+				$return = __( 'No settings file provided.', 'my-tickets' );
 			} else {
-				$settings = map_deep( $settings, 'sanitize_textarea_field' );
-				// Remove the My Tickets page IDs from imported settings. Set to local value if present.
-				$pages = array( 'mt_purchase_page', 'mt_receipt_page', 'mt_tickets_page' );
-				foreach ( $pages as $page ) {
-					if ( isset( $settings[ $page ] ) ) {
-						if ( $options[ $page ] ) {
-							$settings[ $page ] = $options[ $page ];
-						} else {
-							unset( $settings[ $page ] );
+				$settings = json_decode( $settings, ARRAY_A );
+				if ( null === $settings ) {
+					$return = json_last_error();
+				} else {
+					$settings = map_deep( $settings, 'sanitize_textarea_field' );
+					// Remove the My Tickets page IDs from imported settings. Set to local value if present.
+					$pages = array( 'mt_purchase_page', 'mt_receipt_page', 'mt_tickets_page' );
+					foreach ( $pages as $page ) {
+						if ( isset( $settings[ $page ] ) ) {
+							if ( $options[ $page ] ) {
+								$settings[ $page ] = $options[ $page ];
+							} else {
+								unset( $settings[ $page ] );
+							}
 						}
 					}
+					update_option( 'mt_settings', $settings );
+					$return = __( 'My Tickets settings have been replaced with the imported values.', 'my-tickets' );
 				}
-				update_option( 'mt_settings', $settings );
-				$return = __( 'My Tickets settings have been replaced with the imported values.', 'my-tickets' );
 			}
 			return $return;
 		}
