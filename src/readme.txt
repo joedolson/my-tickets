@@ -7,7 +7,7 @@ Tested up to: 6.7
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.9
+Stable tag: 2.0.10
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,14 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.0.10 =
+
+* Security: Fixes a Broken Access Control in reporting. Props Mika & Patchstack.
+* Bug fix: Broken ID attribute in metabox ticket creation form.
+* Replace uses of `json_encode` with `wp_json_encode`.
+* Add file size and name verification before importing settings files.
+* Use WP_Filesystem to handle settings imports.
 
 = 2.0.9 =
 
