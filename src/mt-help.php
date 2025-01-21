@@ -186,6 +186,7 @@ function mt_get_support_form() {
 	$theme_name    = $theme->get( 'Name' );
 	$theme_uri     = $theme->get( 'ThemeURI' );
 	$theme_parent  = $theme->get( 'Template' );
+	$theme_parent  = ( $theme_parent ) ? $theme_parent : __( 'None', 'my-tickets' );
 	$theme_version = $theme->get( 'Version' );
 
 	// plugin data.
