@@ -197,6 +197,7 @@ function mt_ticket_meta( $post_id ) {
 		delete_post_meta( $post_id, '_mc_event_data' );
 		delete_post_meta( $post_id, '_mc_event_date' );
 		delete_post_meta( $post_id, '_mc_event_location' );
+		delete_post_meta( $post_id, '_mt_registration_options' );
 	}
 
 	return;
@@ -657,7 +658,8 @@ function mt_close_times( $labels, $times ) {
  * @param int    $event_id Event ID.
  */
 function mt_save_registration_data( $post_id, $post, $data = array(), $event_id = false ) {
-	if ( isset( $post['mt_label'] ) ) {
+	$sell = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
+	if ( isset( $post['mt_label'] ) && 'true' === $sell ) {
 		$reg_data        = get_post_meta( $post_id, '_mt_registration_options', true );
 		$event_begin     = ( isset( $post['event_begin'] ) ) ? $post['event_begin'] : '';
 		$event_begin     = ( is_array( $event_begin ) ) ? $event_begin[0] : $event_begin;
@@ -675,7 +677,6 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 		$mt_sales_type   = ( isset( $post['mt_sales_type'] ) ) ? $post['mt_sales_type'] : 'tickets';
 		$counting_method = ( isset( $post['mt_counting_method'] ) ) ? $post['mt_counting_method'] : 'discrete';
 		$counting_method = ( isset( $post['mt_general'] ) && 'general' === $post['mt_general'] ) ? 'general' : $counting_method;
-		$sell            = ( isset( $post['mt-trigger'] ) ) ? 'true' : 'false';
 		$notes           = ( isset( $post['mt_event_notes'] ) ) ? $post['mt_event_notes'] : '';
 		$clear           = ( isset( $post['mt-delete-data'] ) ) ? true : false;
 		if ( $clear ) {
@@ -729,6 +730,8 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 		update_post_meta( $post_id, '_mt_hide_registration_form', $hide );
 		update_post_meta( $post_id, '_mt_sell_tickets', $sell );
 		update_post_meta( $post_id, '_mt_event_notes', $notes );
+	} elseif ( 'false' === $sell ) {
+		delete_post_meta( $post_id, '_mt_sell_tickets' );
 	}
 }
 
