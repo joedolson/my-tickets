@@ -80,7 +80,7 @@ function mt_add_ticket_form() {
 		$general     = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? ' checked="checked"' : '';
 		$dated       = ( isset( $data['general_admission'] ) && 'on' === $data['general_admission'] ) ? '' : ' checked="checked"';
 		$valid       = ( isset( $data['event_valid'] ) && $general ) ? $data['event_valid'] : '';
-		$expire      = ( isset( $data['expire_date'] ) && $general ) ? gmdate( 'Y-m-d', $data['expire_date'] ) : '';
+		$expire      = ( isset( $data['expire_date'] ) && is_numeric( $data['expire_date'] ) && $general ) ? gmdate( 'Y-m-d', $data['expire_date'] ) : '';
 	} else {
 		$event_begin = '';
 		$event_time  = '';
