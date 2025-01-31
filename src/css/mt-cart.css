@@ -276,6 +276,12 @@ button[name="mt_add_to_cart"] img {
     display: block;
 }
 
+.mt_cart .checkbox label {
+	display: inline-block;
+}
+
+.mt
+
 .mt_cart .wp-post-image {
     float: left;
     margin-right: .5rem;
@@ -355,9 +361,12 @@ button[name="mt_add_to_cart"] img {
 .mt-emails, .mt-names {
     display: flex;
     flex-wrap: wrap;
-    align-items: top;
+    align-items: start;
     column-gap: 20px;
-    margin-bottom: 20px;
+}
+
+.mt-field-row {
+	margin-bottom: 20px;
 }
 
 .mt-waiting-list-tickets label {

@@ -321,7 +321,7 @@ function mt_render_field( $field, $argument = false ) {
 				$fname = get_post_meta( $payment_id, '_first_name', true );
 				$lname = get_post_meta( $payment_id, '_last_name', true );
 			}
-			$output = '<div class="mt-names"><p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" autocomplete="given-name" required aria-required="true" /></p><p><label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" autocomplete="family-name" required aria-required="true" /></p></div>';
+			$output = '<div class="mt-names mt-field-row"><p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" autocomplete="given-name" required aria-required="true" /></p><p><label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" autocomplete="family-name" required aria-required="true" /></p></div>';
 			break;
 		case 'email':
 			$user_email = ( is_user_logged_in() ) ? $current_user->user_email : '';
@@ -329,7 +329,7 @@ function mt_render_field( $field, $argument = false ) {
 			if ( $payment_id ) {
 				$email = get_post_meta( $payment_id, '_email', true );
 			}
-			$output  = '<div class="mt-emails"><p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" autocomplete="email" required aria-required="true"  /></p>';
+			$output  = '<div class="mt-emails mt-field-row"><p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" autocomplete="email" required aria-required="true"  /></p>';
 			$output .= '<p><label for="mt_email2">' . __( 'E-mail (confirm)', 'my-tickets' ) . '</label> <input type="email" name="mt_email2" id="mt_email2" aria-describedby="mt_email_check" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /><span class="mt_email_check" aria-live="polite" id="mt_email_check"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address matches', 'my-tickets' ) . '</span><span class="notemail"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Not a valid email address', 'my-tickets' ) . '</span><span class="mismatch"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Email address does not match', 'my-tickets' ) . '</span></span></span></p></div>';
 			break;
 		case 'phone':
@@ -338,7 +338,7 @@ function mt_render_field( $field, $argument = false ) {
 			if ( $payment_id ) {
 				$phone = get_post_meta( $payment_id, '_phone', true );
 			}
-			$output = '<p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" autocomplete="tel" required aria-required="true"  /></p>';
+			$output = '<div class="mt-phone mt-field-row"><p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" autocomplete="tel" required aria-required="true"  /></p></div>';
 			break;
 		case 'vat':
 			$user_vat = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, 'mt_vat', true ) : '';
@@ -346,7 +346,7 @@ function mt_render_field( $field, $argument = false ) {
 			if ( $payment_id ) {
 				$vat = get_post_meta( $payment_id, '_vat', true );
 			}
-			$output = '<p><label for="mt_vat">' . __( 'VAT Number', 'my-tickets' ) . '</label> <input type="text" name="mt_vat" id="mt_vat" value="' . esc_attr( stripslashes( $vat ) ) . '" required aria-required="true"  /></p>';
+			$output = '<div class="mt-vat mt-field-row"><p><label for="mt_vat">' . __( 'VAT Number', 'my-tickets' ) . '</label> <input type="text" name="mt_vat" id="mt_vat" value="' . esc_attr( stripslashes( $vat ) ) . '" required aria-required="true"  /></p></div>';
 			break;
 	}
 
