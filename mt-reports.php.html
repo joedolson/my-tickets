@@ -557,7 +557,7 @@ function mt_select_events() {
 	$settings = mt_get_settings();
 	// add time query to this query after timestamp field has been in place for a few months.
 	// only show limit of 100 events.
-	$args    =
+	$args =
 		array(
 			'post_type'      => $settings['mt_post_types'],
 			'posts_per_page' => apply_filters( 'mt_select_events_count', 100 ),
