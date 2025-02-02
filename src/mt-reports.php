@@ -609,7 +609,7 @@ function mt_select_events() {
 		}
 	}
 	ksort( $options );
-	$options = implode( $options, PHP_EOL );
+	$options = implode( PHP_EOL, $options );
 
 	return array(
 		'options' => $options,
