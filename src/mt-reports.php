@@ -544,6 +544,15 @@ function mt_select_events() {
 				),
 			),
 		);
+	/**
+	 * Filter the arguments used to select events shown in the reports dropdown.
+	 *
+	 * @hook mt_select_events_args
+	 *
+	 * @param {array} $args WP_Query arguments.
+	 *
+	 * @return {array}
+	 */
 	$args    = apply_filters( 'mt_select_events_args', $args );
 	$query   = new WP_Query( $args );
 	$posts   = $query->posts;
@@ -556,7 +565,8 @@ function mt_select_events() {
 			$posts[] = $post;
 		}
 	}
-	$types = array();
+	$types   = array();
+	$options = array();
 	foreach ( $posts as $post ) {
 		$tickets    = get_post_meta( $post->ID, '_ticket' );
 		$count      = count( $tickets );
@@ -567,17 +577,39 @@ function mt_select_events() {
 			$event_date   = strtotime( $event_data['event_begin'] );
 			$display_date = date_i18n( get_option( 'date_format' ), $event_date );
 			// if this event happened more than 2 years ago, don't show in list *unless* it's the currently selected report.
+			/**
+			 * Filter the event age limit applied for showing events in the reports dropdown.
+			 *
+			 * @hook mt_reports_age_limit
+			 *
+			 * @param {int} $timestamp The current time minus 2 years.
+			 *
+			 * @return {int}
+			 */
 			$report_age_limit = apply_filters( 'mt_reports_age_limit', mt_current_time() - ( YEAR_IN_SECONDS * 2 ) );
 			if ( isset( $event_data['general_admission'] ) && 'on' === $event_data['general_admission'] ) {
 				$show_event = true;
 			}
 			if ( $event_date > $report_age_limit || ' selected="selected"' === $selected || $show_event ) {
+				$key = sanitize_title( $post->post_title ) . '_' . $post->ID;
+				/**
+				 * Filter the event title shown in the My Tickets reports dropdown.
+				 *
+				 * @hook mt_the_title
+				 *
+				 * @param {string} $post_title The Post Title.
+				 * @param {WP_Post} $post Post object.
+				 *
+				 * @return {string}
+				 */
 				$title              = apply_filters( 'mt_the_title', $post->post_title, $post );
-				$options           .= "<option value='$post->ID'$selected>$title ($count); $display_date</option>\n";
+				$options[ $key ]    = "<option value='$post->ID'$selected>$title ($count); $display_date</option>";
 				$types[ $post->ID ] = mt_get_prices( $post->ID );
 			}
 		}
 	}
+	ksort( $options );
+	$options = implode( $options, PHP_EOL );
 
 	return array(
 		'options' => $options,
