@@ -338,7 +338,7 @@ add_action( 'init', 'mt_set_user_unique_id' );
 function mt_set_user_unique_id() {
 	if ( ! defined( 'DOING_CRON' ) ) {
 		$unique_id  = mt_get_unique_id();
-		$expiration = mt_expiration_window();
+		$expiration = mt_expiration_window() + WEEK_IN_SECONDS;
 		if ( ! $unique_id ) {
 			$unique_id = mt_generate_unique_id();
 			if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
