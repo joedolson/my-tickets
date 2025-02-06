@@ -445,7 +445,8 @@ function mt_public_enqueue_scripts() {
 	} else {
 		$public_url = plugins_url( 'js/jquery.public.min.js', __FILE__ );
 	}
-	wp_enqueue_script( 'mt.public', $public_url, array( 'jquery', 'wp-a11y' ), $version, true );
+	wp_register_script( 'timeout', plugins_url( '/js/timeout.js', __FILE__ ), array(), $version, true );
+	wp_enqueue_script( 'mt.public', $public_url, array( 'jquery', 'wp-a11y', 'timeout' ), $version, true );
 	wp_enqueue_style( 'mt-styles', $ticket_styles, array( 'dashicons' ), $version );
 	wp_add_inline_style( 'mt-styles', mt_generate_css() );
 
