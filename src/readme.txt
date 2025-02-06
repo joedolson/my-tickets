@@ -7,7 +7,7 @@ Tested up to: 6.7
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.10
+Stable tag: 2.0.11
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,18 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.0.11 =
+
+* Bug fix: Event lookup when moving tickets queried posts instead of ticketed events.
+* Bug fix: Fix logic so ticket sales can be turned off.
+* Bug fix: Ensure expire_date is numeric before turning into a date.
+* Bug fix: Check for the loop before rendering the shopping cart.
+* Bug fix: Don't modify the total number of tickets when moving tickets between events.
+* Change: Add general class for shopping cart field rows to make layout easier to style.
+* Change: Sort reports event list alphabetically by event title.
+* Change: Expire unique ID cookies after the current cart life plus one week. The unique ID should always be longer than the cart.
+* Docs: Add filter documentation for a handful of additional filters.
 
 = 2.0.10 =
 
