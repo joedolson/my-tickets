@@ -288,7 +288,6 @@ function mt_add_ticket( $event_id, $ticket, $data, $payment_id ) {
 		return false;
 	}
 	$registration['prices'][ $ticket_type ]['sold'] = $registration['prices'][ $ticket_type ]['sold'] + 1;
-	$registration['total']                          = ( 'inherit' !== $registration['total'] ) ? $registration['total'] + 1 : 'inherit';
 	update_post_meta( $event_id, '_mt_registration_options', $registration );
 	add_post_meta( $event_id, '_ticket', $ticket );
 	update_post_meta( $event_id, '_' . $ticket, $data );
@@ -411,7 +410,6 @@ function mt_remove_ticket( $event_id, $ticket, $data, $payment_id ) {
 	$tickets_sold                                   = $registration['prices'][ $ticket_type ]['sold'];
 	$new_sold                                       = $tickets_sold - 1;
 	$registration['prices'][ $ticket_type ]['sold'] = $new_sold;
-	$registration['total']                          = ( 'inherit' !== $registration['total'] ) ? $registration['total'] - 1 : 'inherit';
 
 	update_post_meta( $event_id, '_mt_registration_options', $registration );
 	$meta_deleted   = delete_post_meta( $event_id, '_ticket', $ticket );
