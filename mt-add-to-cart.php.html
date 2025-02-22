@@ -116,7 +116,7 @@ function mt_check_early_returns( $event_id, $override ) {
 	}
 	if ( 'mc-events' === get_post_type( $event_id ) ) {
 		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
-		if ( 'false' === $sell ) {
+		if ( ! $sell || 'false' === $sell ) {
 			return array(
 				'continue' => false,
 				'reason'   => __( 'This option to sell tickets is not enabled for this post.', 'my-tickets' ),
@@ -840,7 +840,7 @@ function mt_event_status( $event_id = false ) {
 	}
 	if ( 'mc-events' === get_post_type( $event_id ) ) {
 		$sell = get_post_meta( $event_id, '_mt_sell_tickets', true );
-		if ( 'false' === $sell ) {
+		if ( ! $sell || 'false' === $sell ) {
 			return '';
 		}
 	}
