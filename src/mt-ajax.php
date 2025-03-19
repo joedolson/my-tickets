@@ -140,7 +140,7 @@ function mt_ajax_handler() {
 		}
 		if ( 1 === (int) $saved['success'] ) {
 			// Translators: Cart URL.
-			$message = ( 'soldout' === $modified_type ) ? __( 'Your cart is updated.', 'my-tickets' ) : sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url );
+			$message  = ( 'soldout' === $modified_type ) ? __( 'Your cart is updated.', 'my-tickets' ) : sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url );
 			$response = apply_filters( 'mt_ajax_updated_success', $message . $append );
 		} else {
 			// Translators: Cart URL.
