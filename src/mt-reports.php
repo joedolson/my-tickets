@@ -497,10 +497,10 @@ function mt_email_purchasers() {
 	}
 	$form = '
 		<h3>' . __( 'Email Purchasers of Tickets by Event', 'my-tickets' ) . "</h3>
-		<form method='POST' action='" . admin_url( 'admin.php?page=mt-reports' ) . "'>
+		<form method='POST' action='" . admin_url( 'admin.php?page=mt-reports' ) . "' id='mt_email_purchasers'>
 			$nonce
 			<p>
-			<label for='mt_select_event_for_email'>" . __( 'Select Event', 'my-tickets' ) . "</label>
+			<label for='mt_select_event_for_email'>" . __( 'Select Event to Message', 'my-tickets' ) . "</label>
 			<select name='event_id' id='mt_select_event_for_email' class='widefat'>
 				$selector
 			</select>

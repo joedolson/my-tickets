@@ -13,6 +13,28 @@ jQuery(document).ready(function ($) {
         });
     }
 
+	const selectRecipientEvent = $( '#mt_select_event_for_email' );
+	if ( selectRecipientEvent.length ) {
+		let curValue = selectRecipientEvent.val();
+		let form = $( '#mt_email_purchasers' );
+		setFormAttr( form, curValue );
+
+		selectRecipientEvent.on( 'change', function (e) {
+			curValue = $( this ).val();
+			setFormAttr( form, curValue );
+		});
+	}
+
+	function setFormAttr( form, curValue ) {
+		let submitUrl = new URL( form.attr( 'action' ) );
+		if ( curValue !== 'false' ) {
+			submitUrl.searchParams.set( 'event_id', parseInt( curValue ) );
+		} else {
+			submitUrl.searchParams.delete( 'event_id' );
+		}
+		form.attr( 'action', submitUrl.toString() );
+	}
+
 	// Handle report selector for subtypes.
 	const selectEvent = $( '#mt_select_event' );
 	if ( selectEvent.length ) {
