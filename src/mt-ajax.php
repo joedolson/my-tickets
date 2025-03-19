@@ -100,7 +100,8 @@ function mt_ajax_handler() {
 		// generate and submit cart data.
 		$save = array();
 		if ( isset( $submit['mt_tickets'] ) ) {
-			$modified = false;
+			$modified      = false;
+			$modified_type = '';
 			foreach ( $submit['mt_tickets'] as $type => $count ) {
 				$count           = is_array( $count ) ? $count[0] : (int) $count;
 				$available       = mt_check_inventory( $submit['mt_event_id'], $type );
@@ -110,6 +111,7 @@ function mt_ajax_handler() {
 					// Set to max available if requested greater than available.
 					$submit['mt_tickets'][ $type ] = $available_count;
 					$modified                      = true;
+					$modified_type                 = ( 0 === $available_count ) ? 'soldout' : 'changed';
 				}
 			}
 			$save = array(
@@ -132,10 +134,14 @@ function mt_ajax_handler() {
 		 */
 		$saved  = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
 		$url    = mt_get_cart_url();
-		$append = ( $modified ) ? ' ' . __( 'Your order was modified due to a change in ticket availability.', 'my-tickets' ) : '';
+		if ( $modified ) {
+			$append = ( 'changed' === $modified_type ) ? __( 'Some tickets are no longer available, and were removed from your order. Please review your purchase carefully!', 'my-tickets' ) : __( 'There are no longer tickets available for this event.', 'my-tickets' );
+			$append = ' ' . $append;
+		}
 		if ( 1 === (int) $saved['success'] ) {
+			$message = ( 'soldout' === $modified_type ) ? __( 'Your cart is updated.', 'my-tickets' ) : sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url );
 			// Translators: Cart URL.
-			$response = apply_filters( 'mt_ajax_updated_success', sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) ) . $append;
+			$response = apply_filters( 'mt_ajax_updated_success', $message . $append );
 		} else {
 			// Translators: Cart URL.
 			$response = apply_filters( 'mt_ajax_updated_unchanged', sprintf( __( "Cart not changed. <a href='%s'>Checkout</a>", 'my-tickets' ), $url ) ) . $append;
