@@ -165,7 +165,7 @@
 				}
 
 				$('.mt-error-notice') .hide();
-				addToCart.on('blur', '.tickets-field', function () {
+				addToCart.on('blur change', 'input, button, select', function () {
 					let remaining = 0;
 					let purchasing = 0;
 					if ( $(this).val() == '' ) {
