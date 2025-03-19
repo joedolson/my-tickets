@@ -132,15 +132,15 @@ function mt_ajax_handler() {
 		 *
 		 * @return {array}
 		 */
-		$saved  = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
-		$url    = mt_get_cart_url();
+		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
+		$url   = mt_get_cart_url();
 		if ( $modified ) {
 			$append = ( 'changed' === $modified_type ) ? __( 'Some tickets are no longer available, and were removed from your order. Please review your purchase carefully!', 'my-tickets' ) : __( 'There are no longer tickets available for this event.', 'my-tickets' );
 			$append = ' ' . $append;
 		}
 		if ( 1 === (int) $saved['success'] ) {
-			$message = ( 'soldout' === $modified_type ) ? __( 'Your cart is updated.', 'my-tickets' ) : sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url );
 			// Translators: Cart URL.
+			$message = ( 'soldout' === $modified_type ) ? __( 'Your cart is updated.', 'my-tickets' ) : sprintf( __( "Your cart is updated. <a href='%s'>Checkout</a>", 'my-tickets' ), $url );
 			$response = apply_filters( 'mt_ajax_updated_success', $message . $append );
 		} else {
 			// Translators: Cart URL.
