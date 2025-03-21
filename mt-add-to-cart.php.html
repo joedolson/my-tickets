@@ -203,7 +203,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 	 *
 	 * @return {bool}
 	 */
-	$show_form_when_soldout = apply_filters( 'mt_show_form_when_soldout', true, $event_id );
+	$show_form_when_soldout = apply_filters( 'mt_show_form_when_soldout', false, $event_id );
 	$handling_notice        = '';
 	if ( ! $expired ) {
 		if ( is_array( $registration ) ) {
@@ -245,6 +245,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 */
 				$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
 				if ( $tickets_remaining &amp;&amp; $tickets_remaining > $close_value || $show_form_when_soldout ) {
+					// Set sold_out boolean to false, so ticket rows will be created.
 					$sold_out    = false;
 					$total_order = 0;
 					$rows        = array();
@@ -265,6 +266,8 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 						$total_order    += (int) $row['value'];
 						$has_tickets     = $row['has_tickets'];
 					}
+					// Set sold_out to true, so sold_out actions and filters will run.
+					$sold_out = true;
 				} else {
 					if ( 0 >= $tickets_remaining ) {
 						$sold_out = true;
@@ -356,9 +359,9 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 		 *
 		 * @return {string}
 		 */
-		$output .= apply_filters( 'mt_tickets_soldout_content', '', $event_id, $registration );
-		$soldout = get_post_meta( $event_id, '_mt_event_soldout', true );
-		if ( 'true' !== $soldout ) {
+		$output  .= apply_filters( 'mt_tickets_soldout_content', '', $event_id, $registration );
+		$recorded = get_post_meta( $event_id, '_mt_event_soldout', true );
+		if ( 'true' !== $recorded ) {
 			update_post_meta( $event_id, '_mt_event_soldout', 'true' );
 			// Check event types for individual expirations.
 			mt_handle_expiration_status( $event_id );
