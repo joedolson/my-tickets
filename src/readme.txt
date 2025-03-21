@@ -7,7 +7,7 @@ Tested up to: 6.7
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.12
+Stable tag: 2.0.13
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,15 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.0.13 =
+
+* Bug fix: Missing empty value in event selector for reports.
+* Bug fix: Set event ID when modifying selected event to send test emails.
+* Bug fix: Improved clarity in cart modified notifications.
+* Bug fix: Correct default value for `mt_show_form_when_sold_out` to match documentation and intent.
+* Add: `available_tickets` template tag for My Calendar.
+* Docs: Improve code documentation for template tags added to My Calendar.
 
 = 2.0.12 =
 
