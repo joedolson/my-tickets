@@ -248,7 +248,10 @@ function mt_remaining_tickets( $atts, $content = '' ) {
 add_shortcode( 'remaining', 'mt_remaining_tickets' );
 
 /**
- * Insert {register} quicktag into the My Calendar templating array.
+ * Add My Tickets data into the My Calendar templating array.
+ * Currently: `register` => Add to cart form;
+ *            `ticket_status` => Show if the event is sold out.
+ *            `tickets_available` => Show total number of tickets available.
  *
  * @param array  $e Array of My Calendar template values.
  * @param object $event My Calendar event object.
@@ -256,12 +259,14 @@ add_shortcode( 'remaining', 'mt_remaining_tickets' );
  * @return array
  */
 function mt_add_shortcode( $e, $event ) {
-	$e['register']      = mt_add_to_cart_form( '', $event->event_post );
-	$e['ticket_status'] = mt_event_status( $event->event_post );
+	$e['register']          = mt_add_to_cart_form( '', $event->event_post );
+	$e['ticket_status']     = mt_event_status( $event->event_post );
+	$tickets_available      = mt_check_inventory( $event->event_post );
+	$e['tickets_available'] = ( isset( $tickets_available['available'] ) ) ? '<span class="mc-tickets-available">' . $tickets_available['available'] . '</span>' : '';
 
 	return $e;
 }
-// Add {register} form to My Calendar templating for upcoming events lists, etc.
+// Add My Tickets tags into My Calendar templating for upcoming events lists, etc.
 add_filter( 'mc_filter_shortcodes', 'mt_add_shortcode', 5, 2 );
 
 /**
