@@ -7,7 +7,7 @@ Tested up to: 6.7
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.13
+Stable tag: 2.0.14
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.0.14 =
+
+* Bug fix: Reverse auto-triggering of sold out state introduced in 2.0.13.
 
 = 2.0.13 =
 
