@@ -77,7 +77,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Missing empty value in event selector for reports.
 * Bug fix: Set event ID when modifying selected event to send test emails.
 * Bug fix: Improved clarity in cart modified notifications.
-* Bug fix: Correct default value for `mt_show_form_when_sold_out` to match documentation and intent.
+* Bug fix: Correct default value for `mt_show_form_when_soldout` to match documentation and intent.
 * Add: `available_tickets` template tag for My Calendar.
 * Docs: Improve code documentation for template tags added to My Calendar.
 
