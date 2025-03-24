@@ -203,7 +203,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 	 *
 	 * @return {bool}
 	 */
-	$show_form_when_soldout = apply_filters( 'mt_show_form_when_soldout', false, $event_id );
+	$show_form_when_soldout = apply_filters( 'mt_show_form_when_soldout', true, $event_id );
 	$handling_notice        = '';
 	if ( ! $expired ) {
 		if ( is_array( $registration ) ) {
@@ -245,8 +245,6 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 */
 				$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
 				if ( $tickets_remaining &amp;&amp; $tickets_remaining > $close_value || $show_form_when_soldout ) {
-					// Set sold_out boolean to false, so ticket rows will be created.
-					$sold_out    = false;
 					$total_order = 0;
 					$rows        = array();
 					foreach ( $pricing as $type => $ticket_type ) {
@@ -266,14 +264,20 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 						$total_order    += (int) $row['value'];
 						$has_tickets     = $row['has_tickets'];
 					}
-					// Set sold_out to true, so sold_out actions and filters will run.
-					$sold_out = true;
 				} else {
 					if ( 0 >= $tickets_remaining ) {
 						$sold_out = true;
 					} else {
 						$output = '&lt;p>' . mt_tickets_remaining( $tickets_data, $event_id ) . '&lt;/p>';
 					}
+				}
+				// Trigger sold out state while also showing form.
+				if ( true === $show_form_when_soldout &amp;&amp; 0 >= $tickets_remaining ) {
+					$sold_out = true;
+				}
+				if ( true === $show_form_when_soldout &amp;&amp; 0 &lt; $tickets_remaining ) {
+					// Reverse prior sold out state. Error triggered in 2.0.13; fixed in 2.0.14.
+					delete_post_meta( $event_id, '_mt_event_soldout', 'true' );
 				}
 			}
 			$remaining_notice = mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining );
