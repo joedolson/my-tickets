@@ -351,11 +351,29 @@ function mt_payment_data( $post_id, $sections = array() ) {
 	$purchase_data    = "<div class='transaction-purchase panel'><div class='inner'><h3>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></h3>" . mt_format_purchase( $purchase, 'html', $post_id ) . '</div></div>';
 	$gateway          = get_post_meta( $post_id, '_gateway', true );
 	$transaction_data = "<div class='transaction-data $gateway panel'><div class='inner'><h3>" . __( 'Gateway:', 'my-tickets' ) . " <code>$gateway</code>$discount_text</h3>" . apply_filters( 'mt_format_transaction', get_post_meta( $post_id, '_transaction_data', true ), get_post_meta( $post_id, '_gateway', true ) ) . '</div></div>';
-	$other_data       = apply_filters( 'mt_show_in_payment_fields', '', $post_id );
+	/**
+	 * Append custom field data at end of the payment information sidebar, inside the 'Custom Field Data' section.
+	 *
+	 * @param {string} $other_data HTML output. Default empty string.
+	 * @param {int}    $post_id Current post/payment ID.
+	 */
+	$other_data = apply_filters( 'mt_show_in_payment_fields', '', $post_id );
 	if ( '' !== $other_data ) {
 		$other_data = "<div class='custom-data panel'><div class='inner'><h3>" . __( 'Custom Field Data', 'my-tickets' ) . '</h3>' . $other_data . '</div></div>';
 	}
+	/**
+	 * Append data at the top of the payment information sidebar.
+	 *
+	 * @param {string} $top HTML output. Default empty string.
+	 * @param {int}    $post_id Current post/payment ID.
+	 */
 	$top    = apply_filters( 'mt_payment_purchase_information_top', '', $post_id );
+	/**
+	 * Append data at the bottom of the payment information sidebar.
+	 *
+	 * @param {string} $top HTML output. Default empty string.
+	 * @param {int}    $post_id Current post/payment ID.
+	 */
 	$bottom = apply_filters( 'mt_payment_purchase_information_bottom', '', $post_id );
 
 	if ( ! in_array( 'dispute', $sections, true ) && ! empty( $sections ) ) {
