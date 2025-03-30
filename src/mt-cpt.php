@@ -367,7 +367,7 @@ function mt_payment_data( $post_id, $sections = array() ) {
 	 * @param {string} $top HTML output. Default empty string.
 	 * @param {int}    $post_id Current post/payment ID.
 	 */
-	$top    = apply_filters( 'mt_payment_purchase_information_top', '', $post_id );
+	$top = apply_filters( 'mt_payment_purchase_information_top', '', $post_id );
 	/**
 	 * Append data at the bottom of the payment information sidebar.
 	 *
