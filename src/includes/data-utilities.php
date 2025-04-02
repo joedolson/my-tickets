@@ -134,7 +134,9 @@ function mt_delete_data( $data = 'cart', $unique_id = false ) {
 	if ( $unique_id ) {
 		mt_delete_transient( 'mt_' . $unique_id . '_' . $data );
 	}
-	mt_refresh_cache();
+	if ( $unique_id || is_user_logged_in() ) {
+		mt_refresh_cache();
+	}
 }
 
 /**
@@ -172,7 +174,6 @@ function mt_delete_custom_field_data() {
 				}
 			}
 		}
-		mt_refresh_cache();
 	}
 }
 
