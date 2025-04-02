@@ -32,6 +32,7 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 				$options           = $passed['options'];
 				$event_id          = $passed['event_id'];
 				$save[ $event_id ] = $options;
+				$save              = mt_check_cart( $save );
 				break;
 			case 'payment':
 				$save = $passed;
