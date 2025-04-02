@@ -293,11 +293,45 @@ function mt_get_cart( $user_ID = false, $cart_id = false, $fetch_data = false ) 
 	}
 	if ( is_user_logged_in() && ! $cart ) {
 		if ( $unique_id ) {
+			// Copy cart created when not-logged in after logging in.
 			$cart = mt_get_transient( 'mt_' . $unique_id . '_cart' );
 		}
 	}
 
-	return ( $cart ) ? $cart : array();
+	return ( $cart ) ? mt_check_cart( $cart ) : array();
+}
+
+/**
+ * Function to verify that values in the cart are valid.
+ *
+ * @param array $cart An array of cart data.
+ *
+ * @return array
+ */
+function mt_check_cart( $cart ) {
+	if ( is_array( $cart ) ) {
+		foreach ( $cart as $id => $options ) {
+			$has_contents = false;
+			if ( is_array( $options ) ) {
+				foreach ( $options as $type => $counted ) {
+					if ( 0 < (int) $counted ) {
+						$has_contents = true;
+					} else {
+						unset( $cart[ $id ][ $type ] );
+					}
+				}
+			} else {
+				// If the event information isn't an array, unset.
+				unset( $cart[ $id ] );
+			}
+			if ( ! $has_contents ) {
+				// Unset this event if no ticket type has a value.
+				unset( $cart[ $id ] );
+			}
+		}
+	}
+
+	return $cart;
 }
 
 add_action( 'init', 'mt_set_user_unique_id' );

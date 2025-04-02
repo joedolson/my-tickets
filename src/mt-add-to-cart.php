@@ -1204,7 +1204,7 @@ function mt_add_to_cart() {
 			}
 		} else {
 			$event_id = ( isset( $_POST['mt_event_id'] ) ) ? intval( $_POST['mt_event_id'] ) : false;
-			$options  = ( isset( $_POST['mt_tickets'] ) ) ? array_map( 'absint', $_POST['mt_tickets'] ) : false;
+			$options  = ( isset( $_POST['mt_tickets'] ) ) ? array_map( 'sanitize_text_field', $_POST['mt_tickets'] ) : false;
 		}
 		$saved = ( false !== $options ) ? mt_save_data(
 			array(
@@ -1350,7 +1350,10 @@ function mt_update_cart( $post = array() ) {
 					continue;
 				}
 				foreach ( $item as $type => $count ) {
-					$post_item[ $type ] = absint( $count['count'] );
+					// Only add if a positive value.
+					if ( 0 <= $count ) {
+						$post_item[ $type ] = absint( $count['count'] );
+					}
 				}
 				$post_item = array_merge( $cart_item, $post_item );
 				if ( ! isset( $cart[ $id ] ) || ( $cart[ $id ] !== $post_item ) ) {
@@ -1358,20 +1361,8 @@ function mt_update_cart( $post = array() ) {
 				}
 			}
 		}
-		$has_contents = false;
-		// If any ticket type has a count, keep event in cart.
-		foreach ( $cart as $id => $type ) {
-			if ( is_array( $type ) ) {
-				foreach ( $type as $counted ) {
-					if ( 0 < (int) $counted ) {
-						$has_contents = true;
-					}
-				}
-			}
-			if ( ! $has_contents ) {
-				unset( $cart[ $id ] );
-			}
-		}
+		// Verify the integrity of cart contents.
+		mt_check_cart( $cart );
 
 		$updated = mt_save_data( $cart, 'cart', true );
 	}
