@@ -115,7 +115,7 @@ function mt_ajax_handler() {
 					$available       = mt_check_inventory( $submit['mt_event_id'], $type );
 					$available_count = ( $available ) ? $available['available'] : 0;
 				}
-				$append          = '';
+				$append = '';
 				if ( $count > $available_count ) {
 					// Set to max available if requested greater than available.
 					$submit['mt_tickets'][ $type ] = $available_count;
