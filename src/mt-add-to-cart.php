@@ -1362,7 +1362,7 @@ function mt_update_cart( $post = array() ) {
 			}
 		}
 		// Verify the integrity of cart contents.
-		mt_check_cart( $cart );
+		$cart = mt_check_cart( $cart );
 
 		$updated = mt_save_data( $cart, 'cart', true );
 	}
