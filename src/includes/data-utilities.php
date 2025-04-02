@@ -54,7 +54,6 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		update_user_meta( $current_user->ID, '_mt_user_init_expiration', time() + $expiration );
 		update_user_meta( $current_user->ID, "_mt_user_$type", $save );
 
-		return true;
 	} else {
 		$unique_id = mt_get_unique_id();
 		if ( ! $unique_id ) {
@@ -65,8 +64,6 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		}
 		mt_set_transient( 'mt_' . $unique_id . '_' . $type, $save );
 		mt_set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration );
-
-		return true;
 	}
 	mt_refresh_cache();
 }
@@ -258,11 +255,11 @@ function mt_get_data( $type, $user_ID = false, $unique_id = false ) {
  *
  * @param bool|int    $user_ID User ID.
  * @param bool|string $cart_id Cart identifier.
- * @param bool        $data True to get data only without taking action.
+ * @param bool        $fetch_data True to get data only without taking action.
  *
  * @return array|mixed
  */
-function mt_get_cart( $user_ID = false, $cart_id = false, $data = false ) {
+function mt_get_cart( $user_ID = false, $cart_id = false, $fetch_data = false ) {
 	$cart      = array();
 	$unique_id = mt_get_unique_id();
 	if ( $user_ID ) {
@@ -275,7 +272,7 @@ function mt_get_cart( $user_ID = false, $cart_id = false, $data = false ) {
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
 			$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
-			if ( $data_age && time() > $data_age && ! $data ) {
+			if ( $data_age && time() > $data_age && ! $fetch_data ) {
 				mt_delete_data( 'cart' );
 				delete_user_meta( $current_user->ID, '_mt_user_init_expiration' );
 			} else {
@@ -284,7 +281,7 @@ function mt_get_cart( $user_ID = false, $cart_id = false, $data = false ) {
 		} else {
 			if ( $unique_id ) {
 				$data_age = mt_get_transient( 'mt_' . $unique_id . '_expiration' );
-				if ( $data_age && time() > $data_age && ! $data ) {
+				if ( $data_age && time() > $data_age && ! $fetch_data ) {
 					mt_delete_data( 'cart' );
 					mt_delete_transient( 'mt_' . $unique_id . '_expiration' );
 				} else {
