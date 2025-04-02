@@ -129,9 +129,18 @@ function mt_ajax_handler() {
 			$modified      = false;
 			$modified_type = '';
 			foreach ( $submit['mt_tickets'] as $type => $count ) {
-				$count           = is_array( $count ) ? $count[0] : (int) $count;
-				$available       = mt_check_inventory( $submit['mt_event_id'], $type );
-				$available_count = ( $available ) ? $available['available'] : 0;
+				$count = is_array( $count ) ? $count[0] : (int) $count;
+				/**
+				 * Documented in `mt-add-to-cart.php`.
+				 */
+				$registration      = get_post_meta( $submit['mt_event_id'], '_mt_registration_options', true );
+				$default_available = apply_filters( 'mt_default_available', 100, $registration );
+				if ( 'general' === $registration['counting_method'] ) {
+					$available_count = $default_available;
+				} else {
+					$available       = mt_check_inventory( $submit['mt_event_id'], $type );
+					$available_count = ( $available ) ? $available['available'] : 0;
+				}
 				$append          = '';
 				if ( $count > $available_count ) {
 					// Set to max available if requested greater than available.
