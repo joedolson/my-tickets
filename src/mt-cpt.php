@@ -481,12 +481,13 @@ function mt_setup_tickets( $purchase, $payment_id, $return_type = 'links' ) {
  * @return array
  */
 function mt_ticket_list( $ticket_ids, $return_type = 'links' ) {
-	$options      = mt_get_settings();
-	$ticket_array = array();
+	$options        = mt_get_settings();
+	$payment_screen = ( isset( $_GET['post_type'] ) && 'mt-payments' === $_GET['post_type'] ) ? true : false;
+	$ticket_array   = array();
 	// Reassemble data.
 	foreach ( $ticket_ids as $ticket ) {
 		// If ticket has a valid type, display.
-		if ( mt_get_ticket_type( $ticket ) ) {
+		if ( $payment_screen || mt_get_ticket_type( $ticket ) ) {
 			if ( 'links' === $return_type ) {
 				$ticket_array[ $ticket ] = add_query_arg( 'ticket_id', $ticket, get_permalink( $options['mt_tickets_page'] ) );
 			} else {
