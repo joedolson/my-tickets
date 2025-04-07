@@ -83,6 +83,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * New: Function that verifies cart integrity to ensure all checks are identical.
 * Docs: Add docs for a handful of filters.
 * Feature: Settings to change the output of the event selector in reporting.
+* Performance: Don't fetch ticket objects when counting tickets used for payments screen columns.
 
 = 2.0.14 =
 
