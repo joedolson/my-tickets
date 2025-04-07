@@ -184,6 +184,10 @@ legend {
 	gap: 5px;
 }
 
+#mt_settings .aria-description {
+	font-style: italic;
+}
+
 .mt-tabs .tabs a {
     display: inline-block;
     padding: 8px 10px;

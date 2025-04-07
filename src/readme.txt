@@ -79,6 +79,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Improve logic for checking cart integrity.
 * Bug fix: Use general admission rolling ticket availability when checking ticket availability.
 * Bug fix: Clearer heading text on Payment settings screen.
+* Bug fix: Clearer styling for field descriptions.
 * New: Function that verifies cart integrity to ensure all checks are identical.
 * Docs: Add docs for a handful of filters.
 
