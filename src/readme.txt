@@ -82,6 +82,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Clearer styling for field descriptions.
 * New: Function that verifies cart integrity to ensure all checks are identical.
 * Docs: Add docs for a handful of filters.
+* Feature: Settings to change the output of the event selector in reporting.
 
 = 2.0.14 =
 
