@@ -132,7 +132,7 @@ function mt_payment_settings() {
 					</div>
 					<div class="ui-sortable meta-box-sortables">
 						<div class="postbox">
-							<h2 class="hndle"><?php _e( 'Registration Payment Settings', 'my-tickets' ); ?></h2>
+							<h2 class="hndle"><?php _e( 'Shopping Cart Settings', 'my-tickets' ); ?></h2>
 
 							<div class="inside">
 								<p class="mt-money-format"><strong><?php _e( 'Current format', 'my-tickets' ); ?></strong><br /><?php echo sanitize_text_field( mt_money_format( '25097.87' ) ); ?></p>
