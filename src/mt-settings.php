@@ -26,10 +26,12 @@ function mt_update_settings( $post ) {
 		if ( ! wp_verify_nonce( $nonce, 'my-tickets' ) ) {
 			return false;
 		}
-		$mt_to         = sanitize_text_field( $post['mt_to'] ); // send to.
-		$mt_from       = is_email( $post['mt_from'] ); // send from.
-		$mt_html_email = ( isset( $post['mt_html_email'] ) ) ? 'true' : 'false'; // send as HTML.
-		$mt_post_types = ( isset( $post['mt_post_types'] ) ) ? $post['mt_post_types'] : array();
+		$mt_to            = sanitize_text_field( $post['mt_to'] ); // send to.
+		$report_order     = sanitize_text_field( $post['mt_report_order'] );
+		$report_direction = sanitize_text_field( $post['mt_report_direction'] );
+		$mt_from          = is_email( $post['mt_from'] ); // send from.
+		$mt_html_email    = ( isset( $post['mt_html_email'] ) ) ? 'true' : 'false'; // send as HTML.
+		$mt_post_types    = ( isset( $post['mt_post_types'] ) ) ? $post['mt_post_types'] : array();
 		array_push( $mt_post_types, 'mc-events' );
 
 		$styles = mt_get_settings( 'style_vars' );
@@ -61,12 +63,14 @@ function mt_update_settings( $post ) {
 		$settings = apply_filters(
 			'mt_update_settings',
 			array(
-				'messages'      => $messages,
-				'mt_post_types' => $mt_post_types,
-				'mt_to'         => $mt_to,
-				'mt_from'       => $mt_from,
-				'mt_html_email' => $mt_html_email,
-				'style_vars'    => $styles,
+				'messages'            => $messages,
+				'mt_post_types'       => $mt_post_types,
+				'mt_to'               => $mt_to,
+				'mt_from'             => $mt_from,
+				'mt_html_email'       => $mt_html_email,
+				'style_vars'          => $styles,
+				'mt_report_order'     => $report_order,
+				'mt_report_direction' => $report_direction,
 			),
 			$_POST
 		);
@@ -188,6 +192,9 @@ function mt_settings() {
 	$response = mt_update_settings( $_POST );
 	$options  = mt_get_settings();
 
+	$mt_report_order     = $options['mt_report_order'];
+	$mt_report_direction = $options['mt_report_direction'];
+
 	$post_types    = get_post_types( array( 'public' => true ), 'objects' );
 	$mt_post_types = $options['mt_post_types'];
 	if ( ! is_array( $mt_post_types ) ) {
@@ -225,6 +232,23 @@ function mt_settings() {
 									<ul class="checkboxes">
 										<?php echo wp_kses( $mt_post_type_options, mt_kses_elements() ); ?>
 									</ul>
+								</fieldset>
+								<fieldset class="mt-flex">
+									<legend><?php esc_html_e( 'Report Settings', 'my-tickets' ); ?></legend>
+									<p>
+										<label for="mt_report_order"><?php _e( 'Event selector order', 'my-tickets' ); ?></label><br>
+										<select id="mt_report_order" name="mt_report_order">
+											<option value="event" <?php selected( 'event', $mt_report_order ); ?>><?php esc_html_e( 'Event Name', 'my-tickets' ); ?></option>
+											<option value="date" <?php selected( 'date', $mt_report_order ); ?>><?php esc_html_e( 'Event Date', 'my-tickets' ); ?></option>
+										</select>
+									</p>
+									<p>
+										<label for="mt_report_direction"><?php _e( 'Event selector sort direction', 'my-tickets' ); ?></label><br>
+										<select id="mt_report_direction" name="mt_report_direction" <?php selected( 'events', $mt_report_direction ); ?>>
+											<option value="asc" <?php selected( 'asc', $mt_report_direction ); ?>><?php esc_html_e( 'Ascending', 'my-tickets' ); ?></option>
+											<option value="desc" <?php selected( 'desc', $mt_report_direction ); ?>><?php esc_html_e( 'Descending', 'my-tickets' ); ?></option>
+										</select>
+									</p>
 								</fieldset>
 								<h4><?php _e( 'Ticket Purchase Messages', 'my-tickets' ); ?></h4>
 								<?php

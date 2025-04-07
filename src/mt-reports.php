@@ -565,8 +565,10 @@ function mt_select_events() {
 			$posts[] = $post;
 		}
 	}
-	$types   = array();
-	$options = array( '_empty' => $empty );
+	$sort_type = $settings['mt_report_order'];
+	$sort_dir  = $settings['mt_report_direction'];
+	$types     = array();
+	$options   = array( '_empty' => $empty );
 	foreach ( $posts as $post ) {
 		$tickets    = get_post_meta( $post->ID, '_ticket' );
 		$count      = count( $tickets );
@@ -592,6 +594,9 @@ function mt_select_events() {
 			}
 			if ( $event_date > $report_age_limit || ' selected="selected"' === $selected || $show_event ) {
 				$key = sanitize_title( $post->post_title ) . '_' . $post->ID;
+				if ( 'date' === $sort_type ) {
+					$key = $event_date;
+				}
 				/**
 				 * Filter the event title shown in the My Tickets reports dropdown.
 				 *
@@ -608,7 +613,11 @@ function mt_select_events() {
 			}
 		}
 	}
-	ksort( $options );
+	if ( 'desc' === $sort_dir ) {
+		krsort( $options );
+	} else {
+		ksort( $options );
+	}
 	$options = implode( PHP_EOL, $options );
 
 	return array(

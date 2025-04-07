@@ -229,10 +229,6 @@ legend {
 	outline-offset: 1px;
 }
 
-.my-tickets .checkboxes {
-    margin: 0;
-}
-
 .my-tickets .checkboxes li {
     display: inline-block;
     padding: 5px;
