@@ -29,6 +29,8 @@ function mt_update_settings( $post ) {
 		$mt_to            = sanitize_text_field( $post['mt_to'] ); // send to.
 		$report_order     = sanitize_text_field( $post['mt_report_order'] );
 		$report_direction = sanitize_text_field( $post['mt_report_direction'] );
+		$default_report   = sanitize_text_field( $post['mt_default_report'] );
+		$default_format   = sanitize_text_field( $post['mt_default_format'] );
 		$mt_from          = is_email( $post['mt_from'] ); // send from.
 		$mt_html_email    = ( isset( $post['mt_html_email'] ) ) ? 'true' : 'false'; // send as HTML.
 		$mt_post_types    = ( isset( $post['mt_post_types'] ) ) ? $post['mt_post_types'] : array();
@@ -71,6 +73,8 @@ function mt_update_settings( $post ) {
 				'style_vars'          => $styles,
 				'mt_report_order'     => $report_order,
 				'mt_report_direction' => $report_direction,
+				'mt_default_report'   => $default_report,
+				'mt_default_format'   => $default_format,
 			),
 			$_POST
 		);
@@ -194,6 +198,8 @@ function mt_settings() {
 
 	$mt_report_order     = $options['mt_report_order'];
 	$mt_report_direction = $options['mt_report_direction'];
+	$mt_default_report    = $options['mt_default_report'];
+	$mt_default_format    = $options['mt_default_format'];
 
 	$post_types    = get_post_types( array( 'public' => true ), 'objects' );
 	$mt_post_types = $options['mt_post_types'];
@@ -244,9 +250,23 @@ function mt_settings() {
 									</p>
 									<p>
 										<label for="mt_report_direction"><?php _e( 'Event selector sort direction', 'my-tickets' ); ?></label><br>
-										<select id="mt_report_direction" name="mt_report_direction" <?php selected( 'events', $mt_report_direction ); ?>>
+										<select id="mt_report_direction" name="mt_report_direction">
 											<option value="asc" <?php selected( 'asc', $mt_report_direction ); ?>><?php esc_html_e( 'Ascending', 'my-tickets' ); ?></option>
 											<option value="desc" <?php selected( 'desc', $mt_report_direction ); ?>><?php esc_html_e( 'Descending', 'my-tickets' ); ?></option>
+										</select>
+									</p>
+									<p>
+										<label for="mt_default_report"><?php _e( 'Default Report Type', 'my-tickets' ); ?></label><br>
+										<select id="mt_default_report" name="mt_default_report">
+											<option value="tickets" <?php selected( 'tickets', $mt_default_report ); ?>><?php esc_html_e( 'Tickets', 'my-tickets' ); ?></option>
+											<option value="purchases" <?php selected( 'purchases', $mt_default_report ); ?>><?php esc_html_e( 'Purchases', 'my-tickets' ); ?></option>
+										</select>
+									</p>
+									<p>
+										<label for="mt_default_format"><?php _e( 'Default Report Format', 'my-tickets' ); ?></label><br>
+										<select id="mt_default_format" name="mt_default_format">
+											<option value="view" <?php selected( 'view', $mt_default_format ); ?>><?php esc_html_e( 'View', 'my-tickets' ); ?></option>
+											<option value="csv" <?php selected( 'csv', $mt_default_format ); ?>><?php esc_html_e( 'CSV', 'my-tickets' ); ?></option>
 										</select>
 									</p>
 								</fieldset>

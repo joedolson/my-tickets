@@ -716,6 +716,8 @@ We\'ll see you soon!<br />
 		'mt_tickets_page'          => '',
 		'mt_report_order'          => 'event',
 		'mt_report_direction'      => 'asc',
+		'mt_default_report'        => 'purchases',
+		'mt_default_format'        => 'csv',
 		'mt_ticketing'             => array( 'printable' => 'on' ),
 		'mt_shipping'              => 0,
 		'mt_handling'              => 0,

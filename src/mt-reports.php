@@ -390,10 +390,12 @@ function mt_choose_report_by_event() {
 	foreach ( $types as $key => $type ) {
 		$groups->$key = $type;
 	}
-	$groups   = wp_json_encode( $groups );
-	$selected = ( isset( $_GET['format'] ) && 'view' === $_GET['format'] ) ? " selected='selected'" : '';
-	$report   = ( isset( $_GET['mt-event-report'] ) ) ? sanitize_text_field( $_GET['mt-event-report'] ) : '';
-	$form     = "
+	$groups         = wp_json_encode( $groups );
+	$default_format = mt_get_settings( 'mt_default_format' );
+	$format         = ( isset( $_GET['format'] ) ) ? sanitize_text_field( $_GET['format'] ) : $default_format;
+	$default_report = mt_get_settings( 'mt_default_report' );
+	$report         = ( isset( $_GET['mt-event-report'] ) ) ? sanitize_text_field( $_GET['mt-event-report'] ) : $default_report;
+	$form           = "
 			<div class='report-by-event'>
 				<div id='report-json' class='hidden'>$groups</div>
 				<h3>" . __( 'Report by Event', 'my-tickets' ) . "</h3>
@@ -423,8 +425,8 @@ function mt_choose_report_by_event() {
 					<p>
 					<label for='mt_select_format_event'>" . __( 'Report Format', 'my-tickets' ) . "</label>
 					<select name='format' id='mt_select_format_event' class='widefat'>
-						<option value='csv'>" . __( 'Download CSV', 'my-tickets' ) . "</option>
-						<option value='view'$selected>" . __( 'View Report', 'my-tickets' ) . "</option>
+						<option value='csv'" . selected( $format, 'csv', false ) . '>' . __( 'Download CSV', 'my-tickets' ) . "</option>
+						<option value='view'" . selected( $format, 'view', false ) . '>' . __( 'View Report', 'my-tickets' ) . "</option>
 					</select>
 					</p>
 					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Event', 'my-tickets' ) . "' /></p>
@@ -439,10 +441,12 @@ function mt_choose_report_by_event() {
  * @return void
  */
 function mt_choose_report_by_date() {
-	$selected = ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] ) ? " selected='selected'" : '';
-	$start    = ( isset( $_GET['mt_start'] ) ) ? sanitize_text_field( $_GET['mt_start'] ) : mt_date( 'Y-m-d', strtotime( '-1 month' ) );
-	$end      = ( isset( $_GET['mt_end'] ) ) ? sanitize_text_field( $_GET['mt_end'] ) : mt_date( 'Y-m-d' );
-	$form     = "
+	$default_format = mt_get_settings( 'mt_default_format' );
+	$format         = ( isset( $_GET['format'] ) ) ? sanitize_text_field( $_GET['format'] ) : $default_format;
+
+	$start  = ( isset( $_GET['mt_start'] ) ) ? sanitize_text_field( $_GET['mt_start'] ) : mt_date( 'Y-m-d', strtotime( '-1 month' ) );
+	$end    = ( isset( $_GET['mt_end'] ) ) ? sanitize_text_field( $_GET['mt_end'] ) : mt_date( 'Y-m-d' );
+	$form   = "
 			<div class='report-by-date'>
 				<h3>" . __( 'Sales Report by Date', 'my-tickets' ) . "</h3>
 				<form method='GET' action='" . admin_url( 'admin.php?page=mt-reports' ) . "'>
@@ -460,8 +464,8 @@ function mt_choose_report_by_date() {
 					<p>
 						<label for='mt_select_format_date'>" . __( 'Report Format', 'my-tickets' ) . "</label>
 						<select name='format' id='mt_select_format_date' class='widefat'>
-							<option value='view'>" . __( 'View Report', 'my-tickets' ) . "</option>
-							<option value='csv'$selected>" . __( 'Download CSV', 'my-tickets' ) . "</option>
+							<option value='view'" . selected( 'view', $format, false ) . ">" . __( 'View Report', 'my-tickets' ) . "</option>
+							<option value='csv'" . selected( 'csv', $format, false ) . ">" . __( 'Download CSV', 'my-tickets' ) . "</option>
 						</select>
 					</p>
 					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Date', 'my-tickets' ) . "' /></p>
