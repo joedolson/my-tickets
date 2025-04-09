@@ -198,8 +198,8 @@ function mt_settings() {
 
 	$mt_report_order     = $options['mt_report_order'];
 	$mt_report_direction = $options['mt_report_direction'];
-	$mt_default_report    = $options['mt_default_report'];
-	$mt_default_format    = $options['mt_default_format'];
+	$mt_default_report   = $options['mt_default_report'];
+	$mt_default_format   = $options['mt_default_format'];
 
 	$post_types    = get_post_types( array( 'public' => true ), 'objects' );
 	$mt_post_types = $options['mt_post_types'];
