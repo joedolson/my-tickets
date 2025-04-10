@@ -444,6 +444,9 @@ function mt_get_expiration() {
  * @param string $cart_id Optional parameter to check a specific cart ID.
  */
 function mt_is_cart_expired( $cart_id = false ) {
+	if ( is_admin() ) {
+		return;
+	}
 	$types = mt_get_data_types();
 	if ( is_user_logged_in() && ! $cart_id ) {
 		$current_user = wp_get_current_user();
