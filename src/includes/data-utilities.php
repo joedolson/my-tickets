@@ -452,7 +452,8 @@ function mt_is_cart_expired( $cart_id = false ) {
 		$current_user = wp_get_current_user();
 		$data_age     = get_user_meta( $current_user->ID, '_mt_user_init_expiration', true );
 		foreach ( $types as $type ) {
-			if ( time() > $data_age ) {
+			// If there is a data age value, delete meta.
+			if ( $data_age && time() > $data_age ) {
 				// Expire user's cart after the data ages out.
 				if ( 'cart' === $type ) {
 					mt_delete_data( 'cart' );
