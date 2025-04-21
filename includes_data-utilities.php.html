@@ -93,6 +93,8 @@ function mt_save_data( $passed, $type = 'cart', $override = false ) {
 		mt_set_transient( 'mt_' . $unique_id . '_expiration', time() + $expiration );
 	}
 	mt_refresh_cache();
+
+	return true;
 }
 
 /**
