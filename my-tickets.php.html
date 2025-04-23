@@ -43,7 +43,7 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     2.0.16
+ * Version:     2.0.17
  */
 
 /*
@@ -70,7 +70,7 @@
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '2.0.16';
+	$mt_version = '2.0.17';
 
 	return $mt_version;
 }
@@ -1164,7 +1164,7 @@ function mt_save_profile() {
 		$edit_id = $user_ID;
 	}
 	$user = get_user_by( 'id', $edit_id );
-	if ( isset( $_POST['mt_capabilities'] ) ) {
+	if ( isset( $_POST['mt_capabilities'] ) &amp;&amp; current_user_can( 'manage_options' ) ) {
 		$caps = array(
 			'mt-verify-ticket',
 			'mt-order-expired',
