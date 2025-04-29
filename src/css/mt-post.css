@@ -41,6 +41,7 @@
     display: inline-block;
     box-shadow: 1px 1px #333;
     text-shadow: 1px 1px #000;
+	text-align: center;
 }
 
 .mt-message-log li > strong {

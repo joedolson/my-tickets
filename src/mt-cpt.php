@@ -933,7 +933,7 @@ function mt_column( $cols ) {
 /**
  * Filter the display of the status in the column date field.
  */
-function mt_column_date( $status, $post, $column, $mode ) {
+function mt_column_date_status( $status, $post, $column, $mode ) {
 	if ( 'mt-payments' === $post->post_type && 'date' === $column ) {
 		$pd       = get_post_meta( $post->ID, '_is_paid', true );
 		$pd_class = esc_attr( strtolower( $pd ) );
@@ -943,7 +943,7 @@ function mt_column_date( $status, $post, $column, $mode ) {
 	}
 	return $status;
 }
-add_filter( 'post_date_column_status', 'mt_column_date', 10, 4 );
+add_filter( 'post_date_column_status', 'mt_column_date_status', 10, 4 );
 
 /**
  * If post object has event characteristics, show tickets sold/remaining.
