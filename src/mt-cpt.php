@@ -922,7 +922,6 @@ function mt_is_event( $cols ) {
  * @return mixed
  */
 function mt_column( $cols ) {
-	$cols['mt_status']      = __( 'Status', 'my-tickets' );
 	$cols['mt_paid']        = __( 'Cart Total', 'my-tickets' );
 	$cols['mt_receipt']     = __( 'Receipt ID', 'my-tickets' );
 	$cols['mt_payer_email'] = __( 'Email', 'my-tickets' );
@@ -930,6 +929,21 @@ function mt_column( $cols ) {
 
 	return $cols;
 }
+
+/**
+ * Filter the display of the status in the column date field.
+ */
+function mt_column_date( $status, $post, $column, $mode ) {
+	if ( 'mt-payments' === $post->post_type && 'date' === $column ) {
+		$pd       = get_post_meta( $post->ID, '_is_paid', true );
+		$pd_class = esc_attr( strtolower( $pd ) );
+		$pd_class = ( false !== strpos( $pd_class, 'other' ) ) ? 'other' : $pd_class;
+		$status   = "<span class='mt $pd_class'>" . mt_get_payment_status( $post->ID ) . '</span>';
+		return wp_kses_post( $status );
+	}
+	return $status;
+}
+add_filter( 'post_date_column_status', 'mt_column_date', 10, 4 );
 
 /**
  * If post object has event characteristics, show tickets sold/remaining.
@@ -1016,13 +1030,6 @@ function mt_is_ticketed_event( $id ) {
  */
 function mt_custom_column( $column_name, $id ) {
 	switch ( $column_name ) {
-		case 'mt_status':
-			$pd       = get_post_meta( $id, '_is_paid', true );
-			$pd_class = esc_attr( strtolower( $pd ) );
-			$pd_class = ( false !== strpos( $pd_class, 'other' ) ) ? 'other' : $pd_class;
-			$status   = "<span class='mt $pd_class'>" . mt_get_payment_status( $id ) . '</span>';
-			echo wp_kses_post( $status );
-			break;
 		case 'mt_paid':
 			$pd      = get_post_meta( $id, '_total_paid', true );
 			$pd      = apply_filters( 'mt_money_format', $pd );
