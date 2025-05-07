@@ -72,6 +72,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.0.18 =
+
+* Bug fix: When tickets were moved to another event, they only appeared in reports if the same payment also purchased tickets on that event.
+* Bug fix: Sorting events by date in reports lists only used date, not time, causing some events to be omitted.
+* Change: Add payment status into payment date field. 
+
 = 2.0.17 =
 
 * Security: Authenticated (Subscriber+) Privilege Escalation. Responsibly disclosed by Le Ngoc Anh through Wordfence.
