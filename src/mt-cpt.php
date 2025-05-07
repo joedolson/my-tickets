@@ -938,7 +938,7 @@ function mt_column( $cols ) {
  * @param string  $column Column ID.
  * @param string  $mode Excerpt or list mode.
  *
- * @return string 
+ * @return string
  */
 function mt_column_date_status( $status, $post, $column, $mode ) {
 	if ( 'mt-payments' === $post->post_type && 'date' === $column ) {
