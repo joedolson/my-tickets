@@ -261,7 +261,6 @@
 							'security': mt_ajax.security
 						};
 						$.post(mt_ajax.url, data, function (response) {
-							console.log( response );
 							$('#mt-response-' + response.event_id).html("<p>" + response.response + "</p>").show(300).attr('tabindex','-1').trigger( 'focus' );
 							if ( response.success == 1 ) {
 								if ( mt_ajax.redirect == '0' ){
