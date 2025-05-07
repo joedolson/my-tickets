@@ -378,20 +378,18 @@ function mt_map_event_purchase_data( $event_id, $payment_id, $ticket_type, $data
 		}
 	} else {
 		// If not, add a new item.
-		if ( ! in_array( (int) $payment_id, $ids, true ) ) {
-			add_post_meta(
-				$event_id,
-				'_purchase',
-				array(
-					$payment_id => array(
-						$ticket_type => array(
-							'count' => 1,
-							'price' => $data['price'],
-						),
+		add_post_meta(
+			$event_id,
+			'_purchase',
+			array(
+				$payment_id => array(
+					$ticket_type => array(
+						'count' => 1,
+						'price' => $data['price'],
 					),
-				)
-			);
-		}
+				),
+			)
+		);
 	}
 }
 
