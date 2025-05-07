@@ -44,7 +44,6 @@
 				'security': mt_data.security
 			};
 			$.post( ajaxurl, data, function (response) {
-				console.log( response );
 				var responseField = container.find( '.mt-ticket-moved-response' );
 				if ( response.success == 1 ) {
 					responseField.removeClass( 'error' ).addClass( 'success' );
@@ -70,7 +69,6 @@
 				'security': mt_data.security
 			};
 			$.post( ajaxurl, data, function (response) {
-				console.log( response );
 				var responseField = container.find( '.mt-ticket-moved-response' );
 				if ( response.success == 1 ) {
 					responseField.removeClass( 'error' ).addClass( 'success' );
