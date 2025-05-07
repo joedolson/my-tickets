@@ -287,6 +287,7 @@ function mt_add_ticket( $event_id, $ticket, $data, $payment_id ) {
 	if ( ! isset( $registration['prices'][ $ticket_type ] ) ) {
 		return false;
 	}
+
 	$registration['prices'][ $ticket_type ]['sold'] = $registration['prices'][ $ticket_type ]['sold'] + 1;
 	update_post_meta( $event_id, '_mt_registration_options', $registration );
 	add_post_meta( $event_id, '_ticket', $ticket );
@@ -356,12 +357,12 @@ function mt_map_purchase_event_data( $event_id, $payment_id, $ticket_type, $data
 function mt_map_event_purchase_data( $event_id, $payment_id, $ticket_type, $data ) {
 	// Check whether this purchase is already registered on the event.
 	$event = get_post_meta( $event_id, '_purchase' );
-	$ids   = array();
 	if ( ! empty( $event ) ) {
+
 		foreach ( $event as $item ) {
 			foreach ( $item as $k => $p ) {
-				$ids[] = (int) $k;
-				$n     = $p;
+				$n = $p;
+				// If this payment ID is already represented in the event.
 				if ( $payment_id === $k ) {
 					if ( isset( $n[ $ticket_type ] ) ) {
 						$n[ $ticket_type ]['count'] = $n[ $ticket_type ]['count'] + 1;
@@ -373,11 +374,25 @@ function mt_map_event_purchase_data( $event_id, $payment_id, $ticket_type, $data
 					}
 					$nitem = array( $k => $n );
 					update_post_meta( $event_id, '_purchase', $nitem, $item );
+				} else {
+					// If this payment ID is not already represented on this event.
+					add_post_meta(
+						$event_id,
+						'_purchase',
+						array(
+							$payment_id => array(
+								$ticket_type => array(
+									'count' => 1,
+									'price' => $data['price'],
+								),
+							),
+						)
+					);
 				}
 			}
 		}
 	} else {
-		// If not, add a new item.
+		// If no purchases on this event.
 		add_post_meta(
 			$event_id,
 			'_purchase',
