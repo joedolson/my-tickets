@@ -606,7 +606,7 @@ function mt_select_events() {
 		$selected   = ( isset( $_GET['event_id'] ) &amp;&amp; absint( $_GET['event_id'] ) === $post->ID ) ? ' selected="selected"' : '';
 		$event_data = get_post_meta( $post->ID, '_mc_event_data', true );
 		if ( is_array( $event_data ) ) {
-			$event_date   = strtotime( $event_data['event_begin'] );
+			$event_date   = strtotime( $event_data['event_begin'] . ' ' . $event_data['event_time'] );
 			$display_date = date_i18n( get_option( 'date_format' ), $event_date );
 			// if this event happened more than 2 years ago, don't show in list *unless* it's the currently selected report.
 			/**
