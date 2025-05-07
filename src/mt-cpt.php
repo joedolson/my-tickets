@@ -932,6 +932,13 @@ function mt_column( $cols ) {
 
 /**
  * Filter the display of the status in the column date field.
+ *
+ * @param string  $status Current post status.
+ * @param WP_POST $post Post object.
+ * @param string  $column Column ID.
+ * @param string  $mode Excerpt or list mode.
+ *
+ * @return string 
  */
 function mt_column_date_status( $status, $post, $column, $mode ) {
 	if ( 'mt-payments' === $post->post_type && 'date' === $column ) {
@@ -941,6 +948,7 @@ function mt_column_date_status( $status, $post, $column, $mode ) {
 		$status   = "<span class='mt $pd_class'>" . mt_get_payment_status( $post->ID ) . '</span>';
 		return wp_kses_post( $status );
 	}
+
 	return $status;
 }
 add_filter( 'post_date_column_status', 'mt_column_date_status', 10, 4 );
