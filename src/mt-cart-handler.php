@@ -159,10 +159,10 @@ function mt_create_payment( $post ) {
 	 */
 	do_action( 'mt_save_payment_fields', $purchase_id, $post, $purchased );
 	if ( $purchase_id ) {
-		$wp_post   = get_post( $purchase_id );
+		$wp_post    = get_post( $purchase_id );
 		$post_title = $wp_post->post_title;
 		$meta_name  = get_post_meta( $purchase_id, '_first_name', true ) . ' ' . get_post_meta( $purchase_id, '_last_name', true );
-		$post_data = array(
+		$post_data  = array(
 			'ID'        => $purchase_id,
 			'post_name' => 'mt_payment_' . $purchase_id,
 		);
