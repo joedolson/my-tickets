@@ -7,7 +7,7 @@ Tested up to: 6.8
 Requires PHP: 7.4
 License: GPLv2 or later
 Text domain: my-tickets
-Stable tag: 2.0.17
+Stable tag: 2.0.18
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -76,6 +76,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 * Bug fix: When tickets were moved to another event, they only appeared in reports if the same payment also purchased tickets on that event.
 * Bug fix: Sorting events by date in reports lists only used date, not time, causing some events to be omitted.
+* Bug fix: Public display dates for event-date subtypes not using `date_i18n`.
+* Bug fix: If purchaser changes name after initial payment creation, payment title not updated.
 * Change: Add payment status into payment date field. 
 
 = 2.0.17 =
