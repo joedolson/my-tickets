@@ -379,8 +379,8 @@ function mt_format_date( $date ) {
 	 * @return {string}
 	 */
 	$time_format = apply_filters( 'mt_cart_time_format', get_option( 'time_format' ) );
-	$date_string = mt_date( $date_format, strtotime( $date ), false );
-	$time_string = mt_date( $time_format, strtotime( $date ), false );
+	$date_string = date_i18n( $date_format, strtotime( $date ) );
+	$time_string = date_i18n( $time_format, strtotime( $date ) );
 
 	return '<strong>' . $date_string . '</strong><span>, </span>' . $time_string;
 }
