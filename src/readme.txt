@@ -78,7 +78,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Sorting events by date in reports lists only used date, not time, causing some events to be omitted.
 * Bug fix: Public display dates for event-date subtypes not using `date_i18n`.
 * Bug fix: If purchaser changes name after initial payment creation, payment title not updated.
-* Change: Add payment status into payment date field. 
+* Change: Move payment status into payment date field. 
 
 = 2.0.17 =
 
