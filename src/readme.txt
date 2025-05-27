@@ -72,6 +72,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.0.19 =
+
+* Bug fix: Add to Cart form should not be displayed when the post is hidden due to post password protection.
+
 = 2.0.18 =
 
 * Bug fix: When tickets were moved to another event, they only appeared in reports if the same payment also purchased tickets on that event.
