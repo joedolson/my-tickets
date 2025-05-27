@@ -28,6 +28,9 @@ function mt_add_to_cart_form_post( $content ) {
 	if ( $only_singular && ! is_singular( $options['mt_post_types'] ) ) {
 		return $content;
 	}
+	if ( ! empty( $post->post_password ) && post_password_required() ) {
+		return $content;
+	}
 	if ( in_array( get_post_type( $post ), $options['mt_post_types'], true ) ) {
 		$event = $post->ID;
 		if ( get_post_meta( $event, '_mc_event_data', true ) ) {
