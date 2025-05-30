@@ -8,9 +8,9 @@ Sell Event Tickets on any post
 
 * Donate link: https://www.joedolson.com/donate/
 * Tags: tickets, events, WordPress
-* Requires at least: 4.9
+* Requires at least: 6.4
 * Tested up to: 6.8
-* Stable tag: `2.0.18`
+* Stable tag: `2.0.19`
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
