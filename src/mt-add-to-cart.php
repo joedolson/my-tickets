@@ -331,8 +331,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 		 *
 		 * @return {string}
 		 */
-		$output  .= apply_filters( 'mt_ticket_sales_closed_content', '', $event_id, $registration );
-
+		$output.= apply_filters( 'mt_ticket_sales_closed_content', '', $event_id, $registration );
 	}
 
 	if ( true === $sold_out && $tickets_sold > 0 || $tickets_remaining <= $close_value ) {
