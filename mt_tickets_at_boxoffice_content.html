@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_get_events_count - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_tickets_at_boxoffice_content - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_get_events_count</h1></header>
+    <header><h1 class="page-title">Filter: mt_tickets_at_boxoffice_content</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_get_events_count">apply_filters( 'mt_get_events_count', <span class="signature">$count )</span><span class="type-signature"> &rarr; {int}</span></h4>
+    <h4 class="name" id="mt_tickets_at_boxoffice_content">apply_filters( 'mt_tickets_at_boxoffice_content', <span class="signature">$output, $event_id, $registration )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter number of events to show by default in the list of current events.</p>
+    <p>Append additional content to the tickets only available at the box office notification.</p>
 </div>
 
 
@@ -77,7 +77,30 @@
 
         <tr>
             
-                <td class="name"><code>$count</code></td>
+                <td class="name"><code>$output</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>HTML output; default empty string.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$event_id</code></td>
             
 
             <td class="type">
@@ -93,7 +116,30 @@
 
             
 
-            <td class="description last"><p>Number of events to show.</p></td>
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$registration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Registration data for event.</p></td>
         </tr>
 
     
@@ -134,7 +180,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-tickets.php.html">mt-tickets.php</a>, <a href="mt-tickets.php.html#line122">line 122</a>
+        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line340">line 340</a>
     </li></ul></dd>
     
 
@@ -168,7 +214,7 @@
     </dt>
     <dd>
         
-<span class="param-type">int</span>
+<span class="param-type">string</span>
 
 
     </dd>
