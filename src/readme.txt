@@ -74,6 +74,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 = 2.0.19 =
 
+* Bug fix: Restore functionality to close ticket sales when a number of percentage of tickets have been sold.
 * Bug fix: Add to Cart form should not be displayed when the post is hidden due to post password protection.
 
 = 2.0.18 =
