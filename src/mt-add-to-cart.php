@@ -221,7 +221,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 * @return {int}
 				 */
 				$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
-				if ( $tickets_remaining && $tickets_remaining > $close_value || $show_form_when_soldout ) {
+				if ( ( $tickets_remaining && $tickets_remaining > $close_value ) || ( $show_form_when_soldout && $tickets_remaining > $close_value ) ) {
 					$total_order = 0;
 					$rows        = array();
 					foreach ( $pricing as $type => $ticket_type ) {
@@ -245,7 +245,8 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 					if ( 0 >= $tickets_remaining ) {
 						$sold_out = true;
 					} else {
-						$output = '<p>' . mt_tickets_remaining( $tickets_data, $event_id ) . '</p>';
+						$tickets_at_door = true;
+						$output          = '<p>' . mt_tickets_remaining( $tickets_data, $event_id ) . '</p>';
 					}
 				}
 				// Trigger sold out state while also showing form.
@@ -260,7 +261,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 			$remaining_notice = mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining );
 			// Translators: link to shopping cart/checkout.
 			$in_cart = ( mt_in_cart( $event_id ) ) ? '<p class="my-tickets-in-cart">' . sprintf( __( 'Tickets for this event are in your cart. <a href="%s">Checkout</a>', 'my-tickets' ), mt_get_cart_url() ) . '</p>' : '';
-			if ( true === $has_tickets || $show_form_when_soldout ) {
+			if ( true === $has_tickets || ( $show_form_when_soldout && $tickets_remaining > $close_value ) ) {
 				$closing_time = ( 'event' !== $registration['counting_method'] ) ? mt_sales_close( $event_id, $registration['reg_expires'] ) : '';
 				$no_post      = ( $no_postal && in_array( 'postal', array_keys( $options['mt_ticketing'] ), true ) ) ? "<p class='mt-no-post'>" . apply_filters( 'mt_cannot_send_by_email_text', __( 'Tickets for this event cannot be sent by mail.', 'my-tickets' ) ) . '</p>' : '';
 				$legend       = ( 'registration' === $registration['sales_type'] ) ? __( 'Register', 'my-tickets' ) : __( 'Buy Tickets', 'my-tickets' );
@@ -319,20 +320,10 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 		$tickets_remain_text = mt_tickets_remaining( $tickets_remaining, $event_id );
 		$sales_closed        = ( 'registration' === $registration['sales_type'] ) ? __( 'Online registration for this event is closed', 'my-tickets' ) : __( 'Online ticket sales for this event are closed.', 'my-tickets' );
 		$output              = "<div class='mt-order mt-closed'><p>" . apply_filters( 'mt_sales_closed', $sales_closed ) . "$tickets_remain_text</p></div>";
-	}
-
-	if ( true === $sold_out && $tickets_sold > 0 ) {
-		$tickets_soldout = ( 'registration' === $registration['sales_type'] ) ? __( 'Registration for this event is full', 'my-tickets' ) : __( 'Tickets for this event are sold out.', 'my-tickets' );
-		$soldout_banner  = "<div class='mt-order mt-soldout'><p>" . apply_filters( 'mt_tickets_soldout', $tickets_soldout ) . '</p></div>';
-		if ( $show_form_when_soldout ) {
-			$output = $soldout_banner . $output;
-		} else {
-			$output = $soldout_banner;
-		}
 		/**
-		 * Append additional content to the tickets sold out notification.
+		 * Append additional content to the ticket sales closed notification.
 		 *
-		 * @hook mt_tickets_soldout_content
+		 * @hook mt_ticket_sales_closed_content
 		 *
 		 * @param {string} $output HTML output; default empty string.
 		 * @param {int}    $event_id
@@ -340,13 +331,53 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 		 *
 		 * @return {string}
 		 */
-		$output  .= apply_filters( 'mt_tickets_soldout_content', '', $event_id, $registration );
-		$recorded = get_post_meta( $event_id, '_mt_event_soldout', true );
-		if ( 'true' !== $recorded ) {
-			update_post_meta( $event_id, '_mt_event_soldout', 'true' );
-			// Check event types for individual expirations.
-			mt_handle_expiration_status( $event_id );
-			do_action( 'mt_event_sold_out', $event_id, $registration, 'soldout' );
+		$output  .= apply_filters( 'mt_ticket_sales_closed_content', '', $event_id, $registration );
+
+	}
+
+	if ( true === $sold_out && $tickets_sold > 0 || $tickets_remaining <= $close_value ) {
+		if ( $tickets_remaining <= $close_value ) {
+			/**
+			 * Append additional content to the tickets only available at the box office notification.
+			 *
+			 * @hook mt_tickets_at_boxoffice_content
+			 *
+			 * @param {string} $output HTML output; default empty string.
+			 * @param {int}    $event_id
+			 * @param {array}  $registration Registration data for event.
+			 *
+			 * @return {string}
+			 */
+			$output .= apply_filters( 'mt_tickets_at_boxoffice_content', '', $event_id, $registration );
+		} else {
+			$tickets_soldout = ( 'registration' === $registration['sales_type'] ) ? __( 'Registration for this event is full', 'my-tickets' ) : __( 'Tickets for this event are sold out.', 'my-tickets' );
+			$soldout_banner  = "<div class='mt-order mt-soldout'><p>" . apply_filters( 'mt_tickets_soldout', $tickets_soldout ) . '</p></div>';
+			if ( $show_form_when_soldout ) {
+				$output = $soldout_banner . $output;
+			} else {
+				$output = $soldout_banner;
+			}
+			if ( $sold_out ) {
+				/**
+				 * Append additional content to the tickets sold out notification.
+				 *
+				 * @hook mt_tickets_soldout_content
+				 *
+				 * @param {string} $output HTML output; default empty string.
+				 * @param {int}    $event_id
+				 * @param {array}  $registration Registration data for event.
+				 *
+				 * @return {string}
+				 */
+				$output .= apply_filters( 'mt_tickets_soldout_content', '', $event_id, $registration );
+			}
+			$recorded = get_post_meta( $event_id, '_mt_event_soldout', true );
+			if ( 'true' !== $recorded ) {
+				update_post_meta( $event_id, '_mt_event_soldout', 'true' );
+				// Check event types for individual expirations.
+				mt_handle_expiration_status( $event_id );
+				do_action( 'mt_event_sold_out', $event_id, $registration, 'soldout' );
+			}
 		}
 	}
 
