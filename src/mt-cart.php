@@ -54,6 +54,7 @@ add_filter( 'mt_content_before_cart', 'mt_response_messages' );
 function mt_response_messages() {
 	$message       = '';
 	$response_code = '';
+	$payment_id    = false;
 	if ( isset( $_GET['response_code'] ) ) {
 		$response_code = sanitize_text_field( $_GET['response_code'] );
 		if ( 'cancel' === $response_code ) {
@@ -80,7 +81,19 @@ function mt_response_messages() {
 			}
 			$message = sanitize_text_field( $message );
 		}
-		return apply_filters( 'mt_response_messages', $message, $response_code );
+		/**
+		 * Filter the message displayed to customers after handling a purchase.
+		 * Output should be text only.
+		 *
+		 * @hook mt_response_messages
+		 *
+		 * @param {string}    $message Message from the payment gateway explaining the response.
+		 * @param {string}    $response_code Reason provided by the payment gateway associated with the response.
+		 * @param {int|false} $payment_id Post ID for the handled payment.
+		 *
+		 * @return {string}
+		 */
+		return apply_filters( 'mt_response_messages', $message, $response_code, $payment_id );
 	}
 
 	return $message;
