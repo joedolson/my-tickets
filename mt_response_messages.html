@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_default_available - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_response_messages - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_default_available</h1></header>
+    <header><h1 class="page-title">Filter: mt_response_messages</h1></header>
 	<main>
     
 
@@ -36,14 +36,15 @@
 
     
 
-    <h4 class="name" id="mt_default_available">apply_filters( 'mt_default_available', <span class="signature">$default_available, $registration )</span><span class="type-signature"> &rarr; {int}</span></h4>
+    <h4 class="name" id="mt_response_messages">apply_filters( 'mt_response_messages', <span class="signature">$message, $response_code, $payment_id )</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter default number of tickets considered available under General Admission. General Admission uses a floating value of available tickets, so there's no real limit; this value does limit the number of tickets that can be purchased at once, however.</p>
+    <p>Filter the message displayed to customers after handling a purchase.
+Output should be text only.</p>
 </div>
 
 
@@ -77,13 +78,13 @@
 
         <tr>
             
-                <td class="name"><code>$default_available</code></td>
+                <td class="name"><code>$message</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">int</span>
+<span class="param-type">string</span>
 
 
             
@@ -93,20 +94,20 @@
 
             
 
-            <td class="description last"><p>Number of tickets available.</p></td>
+            <td class="description last"><p>Message from the payment gateway explaining the response.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>$registration</code></td>
+                <td class="name"><code>$response_code</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">string</span>
 
 
             
@@ -116,7 +117,33 @@
 
             
 
-            <td class="description last"><p>Ticketing rules for this event.</p></td>
+            <td class="description last"><p>Reason provided by the payment gateway associated with the response.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$payment_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+|
+
+<span class="param-type">false</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Post ID for the handled payment.</p></td>
         </tr>
 
     
@@ -157,7 +184,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line197">line 197</a>
+        <a href="mt-cart.php.html">mt-cart.php</a>, <a href="mt-cart.php.html#line84">line 84</a>
     </li></ul></dd>
     
 
@@ -191,7 +218,7 @@
     </dt>
     <dd>
         
-<span class="param-type">int</span>
+<span class="param-type">string</span>
 
 
     </dd>
