@@ -669,14 +669,14 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 	$total_tickets = 0;
 	$total_income  = 0;
 	foreach ( $query as $payment ) {
-		foreach ( $payment as $purchase_id => $details ) {
-			if ( 'publish' !== get_post_status( $purchase_id ) ) {
+		foreach ( $payment as $payment_id => $details ) {
+			if ( 'publish' !== get_post_status( $payment_id ) ) {
 				continue;
 			}
-			$mt_id     = $purchase_id;
-			$status    = get_post_meta( $purchase_id, '_is_paid', true );
-			$mt_method = get_post_meta( $purchase_id, '_ticketing_method', true );
-			$mt_notes  = esc_html( get_post_meta( $purchase_id, '_notes', true ) );
+			$mt_id     = $payment_id;
+			$status    = get_post_meta( $payment_id, '_is_paid', true );
+			$mt_method = get_post_meta( $payment_id, '_ticketing_method', true );
+			$mt_notes  = esc_html( get_post_meta( $payment_id, '_notes', true ) );
 			if ( false === $options['include_failed'] && ( 'Failed' === $status || 'Refunded' === $status || 'Turned Back' === $status ) ) {
 				continue;
 			}
@@ -693,21 +693,21 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 					$count = isset( $details[ $type ]['count'] ) ? $details[ $type ]['count'] : 0;
 					// THIS results in only getting the details for one type listed; need all types for this to be valid.
 					if ( $count > 0 ) {
-						$purchaser  = get_the_title( $purchase_id );
-						$mt_first   = get_post_meta( $purchase_id, '_first_name', true );
-						$mt_last    = get_post_meta( $purchase_id, '_last_name', true );
-						$mt_email   = get_post_meta( $purchase_id, '_email', true );
-						$mt_gateway = get_post_meta( $purchase_id, '_gateway', true );
+						$purchaser  = get_the_title( $payment_id );
+						$mt_first   = get_post_meta( $payment_id, '_first_name', true );
+						$mt_last    = get_post_meta( $payment_id, '_last_name', true );
+						$mt_email   = get_post_meta( $payment_id, '_email', true );
+						$mt_gateway = get_post_meta( $payment_id, '_gateway', true );
 						if ( ! $mt_first || ! $mt_last ) {
 							$name     = explode( ' ', $purchaser );
 							$mt_first = $name[0];
 							$mt_last  = end( $name );
 						}
-						$date        = get_the_time( 'Y-m-d', $purchase_id );
-						$time        = get_the_time( get_option( 'time_format' ), $purchase_id );
-						$transaction = get_post_meta( $purchase_id, '_transaction_data', true );
+						$date        = get_the_time( 'Y-m-d', $payment_id );
+						$time        = get_the_time( get_option( 'time_format' ), $payment_id );
+						$transaction = get_post_meta( $payment_id, '_transaction_data', true );
 						$address     = ( isset( $transaction['shipping'] ) ) ? $transaction['shipping'] : false;
-						$mt_phone    = get_post_meta( $purchase_id, '_phone', true );
+						$mt_phone    = get_post_meta( $payment_id, '_phone', true );
 						$mt_fee      = ( isset( $transaction['fee'] ) ) ? $transaction['fee'] : false;
 						$mt_street   = ( isset( $address['street'] ) ) ? $address['street'] : '';
 						$mt_street2  = ( isset( $address['street2'] ) ) ? $address['street2'] : '';
@@ -737,9 +737,9 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						$custom_csv    = '';
 						foreach ( $custom_fields as $name => $field ) {
 							if ( isset( $field['report_callback'] ) ) {
-								$cstring = call_user_func( $field['report_callback'], $purchase_id );
+								$cstring = call_user_func( $field['report_callback'], $payment_id );
 							} else {
-								$value   = get_post_meta( $purchase_id, $name );
+								$value   = get_post_meta( $payment_id, $name );
 								$cstring = '';
 								foreach ( $value as $v ) {
 									if ( is_array( $v ) ) {
@@ -757,7 +757,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 									}
 								}
 							}
-							$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $purchase_id, $name, true ), $purchase_id, $name );
+							$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $payment_id, $name, true ), $payment_id, $name );
 							$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
 							$custom_csv   .= ",\"$value\"";
 						}
@@ -856,12 +856,12 @@ function mt_get_tickets( $event_id, $ticket_type = false ) {
 		if ( ! is_array( $ticket ) ) {
 			continue;
 		}
-		$ticket_url  = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
-		$purchase_id = $ticket['purchase_id'];
-		$columns     = mt_get_column_headers( 'tickets', 'table' );
-		$i           = 0;
-		$rows        = array();
-		$csvs        = array();
+		$ticket_url = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
+		$payment_id = $ticket['purchase_id'];
+		$columns    = mt_get_column_headers( 'tickets', 'table' );
+		$i          = 0;
+		$rows       = array();
+		$csvs       = array();
 		foreach ( $columns as $key => $value ) {
 			if ( 0 === $i ) {
 				$rows[] = "<th scope='row' class='$key' id='$key'><a href='$ticket_url'>$ticket_id</a></th>";
@@ -872,7 +872,7 @@ function mt_get_tickets( $event_id, $ticket_type = false ) {
 				} else {
 					$callback = 'mt_get_report_data';
 				}
-				$contents = call_user_func( $callback, $key, $purchase_id, $ticket_id, $ticket, $event_id );
+				$contents = call_user_func( $callback, $key, $payment_id, $ticket_id, $ticket, $event_id );
 				$rows[]   = "<td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents</td>";
 				$csvs[]   = '\"' . wp_strip_all_tags( $contents ) . '\"';
 			}
@@ -891,14 +891,14 @@ function mt_get_tickets( $event_id, $ticket_type = false ) {
  * Get data for event purchase reports.
  *
  * @param string $type Type of data requested.
- * @param int    $purchase_id Post ID for purchase record.
+ * @param int    $payment_id Post ID for purchase record.
  * @param string $ticket_id ID of the ticket being displayed.
  * @param array  $ticket Array of ticket information.
  * @param int    $event_id Post ID for event.
  *
  * @return string
  */
-function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket, $event_id ) {
+function mt_get_report_data( $type, $payment_id, $ticket_id, $ticket, $event_id ) {
 	$value = '';
 	switch ( $type ) {
 		case 'mt-seqid':
@@ -908,32 +908,32 @@ function mt_get_report_data( $type, $purchase_id, $ticket_id, $ticket, $event_id
 			$value = mt_get_label( $ticket['type'], $event_id );
 			break;
 		case 'mt-first':
-			$first = get_post_meta( $purchase_id, '_first_name', true );
+			$first = get_post_meta( $payment_id, '_first_name', true );
 			if ( ! $first ) {
-				$name  = explode( ' ', get_the_title( $purchase_id ) );
+				$name  = explode( ' ', get_the_title( $payment_id ) );
 				$first = $name[0];
 			}
 			$value = $first;
 			break;
 		case 'mt-last':
-			$last = get_post_meta( $purchase_id, '_last_name', true );
+			$last = get_post_meta( $payment_id, '_last_name', true );
 			if ( ! $last ) {
-				$name = explode( ' ', get_the_title( $purchase_id ) );
+				$name = explode( ' ', get_the_title( $payment_id ) );
 				$last = end( $name );
 			}
 			$value = $last;
 			break;
 		case 'mt-post':
-			$value = "<a href='" . get_edit_post_link( $purchase_id ) . "'>$purchase_id</a>";
+			$value = "<a href='" . get_edit_post_link( $payment_id ) . "'>$payment_id</a>";
 			break;
 		case 'mt-price':
 			$value = apply_filters( 'mt_money_format', $ticket['price'] );
 			break;
 		case 'mt-status':
-			$value = mt_get_payment_status( $purchase_id );
+			$value = mt_get_payment_status( $payment_id );
 			break;
 		case 'mt-used':
-			$used_tickets = get_post_meta( $purchase_id, '_tickets_used' );
+			$used_tickets = get_post_meta( $payment_id, '_tickets_used' );
 			$value        = ( in_array( $ticket_id, $used_tickets, true ) ) ? '<span class="dashicons dashicons-tickets-alt" aria-hidden="true"></span> ' . __( 'Used', 'my-tickets' ) : '--';
 			break;
 	}
@@ -1274,23 +1274,23 @@ function mt_get_purchasers( $event_id ) {
 	$contacts  = array();
 	if ( is_array( $purchases ) ) {
 		foreach ( $purchases as $payment ) {
-			foreach ( $payment as $purchase_id => $details ) {
-				if ( 'publish' !== get_post_status( $purchase_id ) ) {
+			foreach ( $payment as $payment_id => $details ) {
+				if ( 'publish' !== get_post_status( $payment_id ) ) {
 					continue;
 				}
-				$status = get_post_meta( $purchase_id, '_is_paid', true );
+				$status = get_post_meta( $payment_id, '_is_paid', true );
 				// only send email to Completed payments.
 				if ( 'Completed' !== $status ) {
 					continue;
 				}
-				$purchaser  = get_the_title( $purchase_id );
-				$email      = get_post_meta( $purchase_id, '_email', true );
-				$opt_out    = get_post_meta( $purchase_id, '_opt_out', true );
+				$purchaser  = get_the_title( $payment_id );
+				$email      = get_post_meta( $payment_id, '_email', true );
+				$opt_out    = get_post_meta( $payment_id, '_opt_out', true );
 				$contacts[] = array(
-					'purchase_id' => $purchase_id,
-					'opt_out'     => $opt_out,
-					'name'        => $purchaser,
-					'email'       => $email,
+					'payment_id' => $payment_id,
+					'opt_out'    => $opt_out,
+					'name'       => $purchaser,
+					'email'      => $email,
 				);
 			}
 		}
@@ -1338,8 +1338,8 @@ function mt_mass_email( $event_id = false ) {
 		$headers[]   = "Reply-to: $options[mt_from]";
 		foreach ( $purchasers as $purchaser ) {
 			if ( 'true' !== $purchaser['opt_out'] ) {
-				$purchase_id = $purchaser['purchase_id'];
-				$opt_out_url = add_query_arg( 'opt_out', $purchase_id, home_url() );
+				$payment_id  = $purchaser['payment_id'];
+				$opt_out_url = add_query_arg( 'opt_out', $payment_id, home_url() );
 				// Translators: Opt out URL.
 				$opt_out = PHP_EOL . PHP_EOL . '<p><small>' . sprintf( __( "Don't want to receive email from us? Follow this link: %s", 'my-tickets' ), $opt_out_url ) . '</small></p>';
 				$opt_out = apply_filters( 'mt_opt_out_text', $opt_out, $opt_out_url, $event_id, 'bulk' );
@@ -1356,7 +1356,7 @@ function mt_mass_email( $event_id = false ) {
 				$body = apply_filters( 'mt_modify_email_body', $body, 'purchaser' );
 				// Log this message.
 				add_post_meta(
-					$purchase_id,
+					$payment_id,
 					'_mt_send_email',
 					array(
 						'body'    => $body,
