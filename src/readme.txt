@@ -5,7 +5,7 @@ Tags: ticket sales, registration, reservations, event tickets, accessibility
 Requires at least: 6.4
 Tested up to: 6.8
 Requires PHP: 7.4
-License: GPLv2 or later
+License: GPLv3
 Text domain: my-tickets
 Stable tag: 2.0.19
 

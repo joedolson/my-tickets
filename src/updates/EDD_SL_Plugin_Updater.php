@@ -6,7 +6,7 @@
  * @category Addons
  * @package  My Tickets
  * @author   Joe Dolson
- * @license  GPLv2 or later
+ * @license  GPLv3
  * @link     https://www.joedolson.com/my-tickets/
  */
 
