@@ -386,16 +386,16 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 /**
  * Generates tickets for purchase.
  *
- * @param integer    $purchase_id Payment ID.
+ * @param integer    $payment_id Payment ID.
  * @param bool|array $purchased Array when initially building tickets, false otherwise.
  * @param bool       $resending We're resending a notice right now.
  *
  * @return null
  */
-function mt_create_tickets( $purchase_id, $purchased = false, $resending = false ) {
+function mt_create_tickets( $payment_id, $purchased = false, $resending = false ) {
 	// _purchase_data contains the original purchase info; it's not updated when something is moved.
-	$purchased = ( $purchased ) ? $purchased : get_post_meta( $purchase_id, '_purchase_data', true );
-	if ( ! is_array( $purchased ) || mt_purchase_has_tickets( $purchase_id ) ) {
+	$purchased = ( $purchased ) ? $purchased : get_post_meta( $payment_id, '_purchase_data', true );
+	if ( ! is_array( $purchased ) || mt_purchase_has_tickets( $payment_id ) ) {
 		return;
 	}
 	$ids = array();
@@ -407,8 +407,8 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 		$created      = false;
 		$ids[]        = $event_id;
-		add_post_meta( $purchase_id, '_purchased', array( $event_id => $purchase ) );
-		add_post_meta( $event_id, '_purchase', array( $purchase_id => $purchase ) );
+		add_post_meta( $payment_id, '_purchased', array( $event_id => $purchase ) );
+		add_post_meta( $event_id, '_purchase', array( $payment_id => $purchase ) );
 		foreach ( $purchase as $type => $ticket ) {
 			// add ticket hash for each ticket.
 			$count                                   = $ticket['count'];
@@ -417,8 +417,8 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 			$new_sold                                = $sold + $count;
 			$registration['prices'][ $type ]['sold'] = $new_sold;
 			for ( $i = 0; $i < $count; $i++ ) {
-				$ticket_id = mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price );
-				if ( ! $resending && ! mt_ticket_exists( $purchase_id, $ticket_id ) ) {
+				$ticket_id = mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price );
+				if ( ! $resending && ! mt_ticket_exists( $payment_id, $ticket_id ) ) {
 					$created = true;
 					add_post_meta( $event_id, '_ticket', $ticket_id );
 					update_post_meta(
@@ -427,7 +427,7 @@ function mt_create_tickets( $purchase_id, $purchased = false, $resending = false
 						array(
 							'type'        => $type,
 							'price'       => $price,
-							'purchase_id' => $purchase_id,
+							'purchase_id' => $payment_id,
 						)
 					);
 				}
