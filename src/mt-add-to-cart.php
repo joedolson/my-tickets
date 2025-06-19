@@ -245,8 +245,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 					if ( 0 >= $tickets_remaining ) {
 						$sold_out = true;
 					} else {
-						$tickets_at_door = true;
-						$output          = '<p>' . mt_tickets_remaining( $tickets_data, $event_id ) . '</p>';
+						$output = '<p>' . mt_tickets_remaining( $tickets_data, $event_id ) . '</p>';
 					}
 				}
 				// Trigger sold out state while also showing form.
