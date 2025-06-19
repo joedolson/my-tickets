@@ -451,8 +451,12 @@ function mt_get_ticket_type_close( $ticket_type, $registration ) {
 function mt_get_original_ticket_price( $event_id, $type ) {
 	$registration = get_post_meta( $event_id, '_mt_registration_options', true );
 	$prices       = $registration['prices'];
-	$ticket_type  = $prices[ $type ];
-	$price        = $ticket_type['price'];
+	$ticket_type  = isset( $prices[ $type ] ) ? $prices[ $type ] : false;
+	if ( $ticket_type ) {
+		$price = $ticket_type['price'];
+	} else {
+		$price = false;
+	}
 
 	return $price;
 }
@@ -582,6 +586,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 */
 			$ticket_type_sales_closed_behavior = apply_filters( 'mt_ticket_type_sales_closed', $show_closed, $event_id );
 			if ( 'hide' === $ticket_type_sales_closed_behavior && $close < mt_date() ) {
+				$type_sales_closed = true;
 				// If this ticket type is no longer available, skip.
 				return false;
 			} else {
