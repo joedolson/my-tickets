@@ -585,7 +585,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 */
 			$ticket_type_sales_closed_behavior = apply_filters( 'mt_ticket_type_sales_closed', $show_closed, $event_id );
 			if ( 'hide' === $ticket_type_sales_closed_behavior && $close < mt_date() ) {
-				$type_sales_closed = true;
+				mt_handle_ticket_type_expired( $event_id, $type );
 				// If this ticket type is no longer available, skip.
 				return false;
 			} else {
