@@ -820,7 +820,20 @@ function mt_generate_cart( $user_ID = false ) {
 					$link     = add_query_arg( 'receipt_id', $receipt, get_permalink( $options['mt_receipt_page'] ) );
 					$purchase = get_post_meta( $post_id, '_purchased' );
 					/**
-					 * Filter messages shown after a transaction has been confirmed.
+					 * Filter messages shown above a transaction that has been confirmed.
+					 *
+					 * @hook mt_confirmed_transaction_before
+					 *
+					 * @param {string} $message Default empty string.
+					 * @param {string} $receipt Receipt ID.
+					 * @param {array}  $purchase Array of purchased tickets.
+					 * @param {int}    $post_id Payment ID.
+					 *
+					 * @return {string}
+					 */
+					$prepend = apply_filters( 'mt_confirmed_transaction_before', '', $receipt, $purchase, $post_id );
+					/**
+					 * Filter messages shown below a transaction that has been confirmed.
 					 *
 					 * @hook mt_confirmed_transaction
 					 *
@@ -832,7 +845,7 @@ function mt_generate_cart( $user_ID = false ) {
 					 * @return {string}
 					 */
 					$append = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
-					$output = "<div class='transaction-purchase panel'><div class='inner'><p>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></p>" . mt_format_purchase( $purchase, 'html', $post_id ) . $append . '</div></div>';
+					$output = $prepend . "<div class='transaction-purchase panel'><div class='inner'><p>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></p>" . mt_format_purchase( $purchase, 'html', $post_id ) . $append . '</div></div>';
 					/**
 					 * Purchase is now completed.
 					 *
