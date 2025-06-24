@@ -749,7 +749,7 @@ function mt_generate_cart( $user_ID = false ) {
 	$options     = mt_get_settings();
 	$gateway     = isset( $_POST['mt_gateway'] ) ? sanitize_text_field( $_POST['mt_gateway'] ) : false;
 	$expiration  = mt_generate_expiration();
-	$breadcrumbs = mt_generate_path( $gateway );
+	$breadcrumbs = ( isset( $_GET['response_code'] ) ) ? '' : mt_generate_path( $gateway );
 	// TODO: If gateway is offline, mt_generate_gateway is never run. Use mt_generate_gateway to create button in both cases.
 	// Need to handle the case where multiple gateways are available, however; can't display the gateway until after gateway is selected.
 	if ( $gateway ) {
