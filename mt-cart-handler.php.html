@@ -107,8 +107,8 @@ function mt_create_payment( $post ) {
 		$payment = false;
 	}
 	if ( $payment &amp;&amp; ! mt_is_payment_completed( $payment ) ) {
-		$purchase_id = mt_get_data( 'payment' );
-		$status      = 'draft';
+		$payment_id = mt_get_data( 'payment' );
+		$status     = 'draft';
 	} else {
 		mt_delete_data( 'payment' );
 		$status      = 'draft';
@@ -122,75 +122,75 @@ function mt_create_payment( $post ) {
 			'post_date'    => $date,
 			'post_type'    => 'mt-payments',
 		);
-		$purchase_id = wp_insert_post( $my_post );
+		$payment_id  = wp_insert_post( $my_post );
 	}
 	/**
 	 * Action immediately after new payment post is created.
 	 *
 	 * @hook mt_after_insert_payment
 	 *
-	 * @param {int}   $purchase_id Payment post ID.
+	 * @param {int}   $payment_id Payment post ID.
 	 * @param {array} $post Array of data passed to function.
 	 */
-	do_action( 'mt_after_insert_payment', $purchase_id, $post );
-	update_post_meta( $purchase_id, '_first_name', sanitize_text_field( $post['mt_fname'] ) );
-	update_post_meta( $purchase_id, '_last_name', sanitize_text_field( $post['mt_lname'] ) );
+	do_action( 'mt_after_insert_payment', $payment_id, $post );
+	update_post_meta( $payment_id, '_first_name', sanitize_text_field( $post['mt_fname'] ) );
+	update_post_meta( $payment_id, '_last_name', sanitize_text_field( $post['mt_lname'] ) );
 	if ( isset( $options['mt_ticket_handling'] ) &amp;&amp; is_numeric( $options['mt_ticket_handling'] ) ) {
-		update_post_meta( $purchase_id, '_ticket_handling', $options['mt_ticket_handling'] );
+		update_post_meta( $payment_id, '_ticket_handling', $options['mt_ticket_handling'] );
 	}
 	$email = $post['mt_email'];
-	update_post_meta( $purchase_id, '_email', sanitize_email( $email ) );
+	update_post_meta( $payment_id, '_email', sanitize_email( $email ) );
 	$phone = ( isset( $post['mt_phone'] ) ) ? $post['mt_phone'] : '';
-	update_post_meta( $purchase_id, '_phone', sanitize_text_field( $phone ) );
+	update_post_meta( $payment_id, '_phone', sanitize_text_field( $phone ) );
 	if ( $purchaser ) {
 		update_user_meta( $purchaser, 'mt_phone', sanitize_text_field( $phone ) );
 	}
 	$vat = ( isset( $post['mt_vat'] ) ) ? $post['mt_vat'] : '';
-	update_post_meta( $purchase_id, '_vat', sanitize_text_field( $vat ) );
+	update_post_meta( $payment_id, '_vat', sanitize_text_field( $vat ) );
 	if ( is_user_logged_in() ) {
 		update_user_meta( $purchaser, 'mt_vat', sanitize_text_field( $vat ) );
 	}
 	$purchased = ( isset( $post['mt_cart_order'] ) ) ? $post['mt_cart_order'] : false;
-	$paid      = mt_calculate_cart_cost( $purchased, $purchase_id );
+	$paid      = mt_calculate_cart_cost( $purchased, $payment_id );
 	$gateway   = sanitize_text_field( $post['mt_gateway'] );
 	if ( isset( $options['mt_handling'] ) &amp;&amp; is_numeric( $options['mt_handling'] ) ) {
 		$handling_total = mt_get_cart_handling( $options, $gateway );
 		$paid           = $paid + $handling_total;
-		update_post_meta( $purchase_id, '_mt_handling', $handling_total );
+		update_post_meta( $payment_id, '_mt_handling', $handling_total );
 	}
 	if ( isset( $options['mt_shipping'] ) &amp;&amp; 'postal' === $post['ticketing_method'] ) {
 		$paid = $paid + $options['mt_shipping'];
-		update_post_meta( $purchase_id, '_mt_shipping', $options['mt_shipping'] );
+		update_post_meta( $payment_id, '_mt_shipping', $options['mt_shipping'] );
 	}
-	update_post_meta( $purchase_id, '_total_paid', $paid );
+	update_post_meta( $payment_id, '_total_paid', $paid );
 	$payment_status = ( 0 === (float) $paid ) ? 'Completed' : 'Pending';
-	update_post_meta( $purchase_id, '_is_paid', $payment_status );
+	update_post_meta( $payment_id, '_is_paid', $payment_status );
 	if ( is_user_logged_in() &amp;&amp; ! is_admin() &amp;&amp; '' !== trim( $options['mt_members_discount'] ) ) {
-		update_post_meta( $purchase_id, '_discount', $options['mt_members_discount'] );
+		update_post_meta( $payment_id, '_discount', $options['mt_members_discount'] );
 	}
-	update_post_meta( $purchase_id, '_gateway', $gateway );
-	update_post_meta( $purchase_id, '_purchase_data', $purchased );
+	update_post_meta( $payment_id, '_gateway', $gateway );
+	update_post_meta( $payment_id, '_purchase_data', $purchased );
 	// Debugging.
-	mt_debug( print_r( $purchased, 1 ), 'Purchase Data saved at nav to payment screen', $purchase_id );
-	mt_debug( print_r( $post, 1 ), 'Data passed from client at nav to payment screen', $purchase_id );
-	update_post_meta( $purchase_id, '_ticketing_method', $post['ticketing_method'] );
+	mt_debug( print_r( $purchased, 1 ), 'Purchase Data saved at nav to payment screen', $payment_id );
+	mt_debug( print_r( $post, 1 ), 'Data passed from client at nav to payment screen', $payment_id );
+	update_post_meta( $payment_id, '_ticketing_method', $post['ticketing_method'] );
 	/**
 	 * Action run when payment is saved.
 	 *
 	 * @hook mt_save_payment_fields
 	 *
-	 * @param {int}   $purchase_id Payment post ID.
+	 * @param {int}   $payment_id Payment post ID.
 	 * @param {array} $post Array of data passed to function.
 	 * @param {array} $purchased Array of ticket purchase data from cart.
 	 */
-	do_action( 'mt_save_payment_fields', $purchase_id, $post, $purchased );
-	if ( $purchase_id ) {
-		$wp_post    = get_post( $purchase_id );
+	do_action( 'mt_save_payment_fields', $payment_id, $post, $purchased );
+	if ( $payment_id ) {
+		$wp_post    = get_post( $payment_id );
 		$post_title = $wp_post->post_title;
-		$meta_name  = get_post_meta( $purchase_id, '_first_name', true ) . ' ' . get_post_meta( $purchase_id, '_last_name', true );
+		$meta_name  = get_post_meta( $payment_id, '_first_name', true ) . ' ' . get_post_meta( $payment_id, '_last_name', true );
 		$post_data  = array(
-			'ID'        => $purchase_id,
-			'post_name' => 'mt_payment_' . $purchase_id,
+			'ID'        => $payment_id,
+			'post_name' => 'mt_payment_' . $payment_id,
 		);
 		// If the purchaser changed their name after purchase creation, update to the later values.
 		if ( $meta_name !== $post_title ) {
@@ -202,22 +202,22 @@ function mt_create_payment( $post ) {
 		add_query_arg(
 			array(
 				'post_type' => 'mt-payments',
-				'p'         => $purchase_id,
+				'p'         => $payment_id,
 			),
 			home_url()
 		)
 	);
-	update_post_meta( $purchase_id, '_receipt', $receipt_id );
+	update_post_meta( $payment_id, '_receipt', $receipt_id );
 	if ( 'publish' === $status ) {
 		wp_update_post(
 			array(
-				'ID'          => $purchase_id,
+				'ID'          => $payment_id,
 				'post_status' => $status,
 			)
 		);
 	}
 
-	return $purchase_id;
+	return $payment_id;
 }
 
 /**
@@ -468,13 +468,13 @@ function mt_create_tickets( $payment_id, $purchased = false, $resending = false 
 /**
  * Check whether this purchase has already had tickets created.
  *
- * @param int $purchase_id Payment ID.
+ * @param int $payment_id Payment ID.
  *
  * @return boolean
  */
-function mt_purchase_has_tickets( $purchase_id ) {
+function mt_purchase_has_tickets( $payment_id ) {
 	// This crudely checks whether the _purchased data point is created, but doesn't check the entire list of tickets.
-	$tickets = get_post_meta( $purchase_id, '_purchased', true );
+	$tickets = get_post_meta( $payment_id, '_purchased', true );
 	if ( is_array( $tickets ) &amp;&amp; ! empty( $tickets ) ) {
 		return true;
 	}
@@ -485,14 +485,14 @@ function mt_purchase_has_tickets( $purchase_id ) {
 /**
  * Check whether this ticket ID already exists.
  *
- * @param int    $purchase_id Payment ID.
+ * @param int    $payment_id Payment ID.
  * @param string $ticket_id Ticket ID string.
  *
  * @return boolean
  */
-function mt_ticket_exists( $purchase_id, $ticket_id ) {
+function mt_ticket_exists( $payment_id, $ticket_id ) {
 	global $wpdb;
-	$value = $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE post_id = %d AND meta_value = %s", $purchase_id, $ticket_id ) );
+	$value = $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE post_id = %d AND meta_value = %s", $payment_id, $ticket_id ) );
 
 	return ( $value ) ? true : false;
 }
@@ -515,7 +515,7 @@ function mt_ticket_exists_on_event( $event_id, $ticket_id ) {
 /**
  * Generates the ticket ID from purchase ID, ticket type, number of ticket purchased of that time, and price.
  *
- * @param integer $purchase_id Payment ID.
+ * @param integer $payment_id Payment ID.
  * @param integer $event_id Event ID for this ticket.
  * @param string  $type Type of ticket purchased.
  * @param integer $i Count; how many of this type have been purchased in this payment.
@@ -523,16 +523,16 @@ function mt_ticket_exists_on_event( $event_id, $ticket_id ) {
  *
  * @return string
  */
-function mt_generate_ticket_id( $purchase_id, $event_id, $type, $i, $price ) {
+function mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price ) {
 	// hash data.
-	$hash = md5( $purchase_id . $type . $i . $price . $event_id );
+	$hash = md5( $payment_id . $type . $i . $price . $event_id );
 	// reduce to 13 chars.
 	$hash = substr( $hash, 0, 12 );
 	// seed with $type substring &amp; ticket type ID.
 	$hash = substr( $type, 0, 2 ) . $hash . zeroise( $i, 4 );
 
 	$args = array(
-		'purchase_id' => $purchase_id,
+		'purchase_id' => $payment_id,
 		'event_id'    => $event_id,
 		'type'        => $type,
 		'i'           => $i,
@@ -597,13 +597,13 @@ function mt_calculate_cart_cost( $purchased, $payment_id ) {
  * Compares price paid by customer to expected price of cart.
  *
  * @param float $price Total amount paid.
- * @param int   $purchase_id Payment ID to compare against.
+ * @param int   $payment_id Payment ID to compare against.
  *
  * @return float Checked value
  */
-function mt_check_payment_amount( $price, $purchase_id ) {
-	$total_paid = get_post_meta( $purchase_id, '_total_paid', true );
-	$donation   = get_post_meta( $purchase_id, '_donation', true );
+function mt_check_payment_amount( $price, $payment_id ) {
+	$total_paid = get_post_meta( $payment_id, '_total_paid', true );
+	$donation   = get_post_meta( $payment_id, '_donation', true );
 	$total      = (float) ( (float) $total_paid + (float) $donation );
 
 	return $total;
