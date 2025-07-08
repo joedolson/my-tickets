@@ -221,7 +221,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 * @return {int}
 				 */
 				$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
-				if ( ( $tickets_remaining && $tickets_remaining > $close_value ) || ( $show_form_when_soldout && $tickets_remaining > $close_value ) ) {
+				if ( ( $tickets_remaining && $tickets_remaining > $close_value ) || ( $show_form_when_soldout ) ) {
 					$total_order = 0;
 					$rows        = array();
 					foreach ( $pricing as $type => $ticket_type ) {
@@ -260,7 +260,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 			$remaining_notice = mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining );
 			// Translators: link to shopping cart/checkout.
 			$in_cart = ( mt_in_cart( $event_id ) ) ? '<p class="my-tickets-in-cart">' . sprintf( __( 'Tickets for this event are in your cart. <a href="%s">Checkout</a>', 'my-tickets' ), mt_get_cart_url() ) . '</p>' : '';
-			if ( true === $has_tickets || ( $show_form_when_soldout && $tickets_remaining > $close_value ) ) {
+			if ( true === $has_tickets || ( $show_form_when_soldout ) ) {
 				$closing_time = ( 'event' !== $registration['counting_method'] ) ? mt_sales_close( $event_id, $registration['reg_expires'] ) : '';
 				$no_post      = ( $no_postal && in_array( 'postal', array_keys( $options['mt_ticketing'] ), true ) ) ? "<p class='mt-no-post'>" . apply_filters( 'mt_cannot_send_by_email_text', __( 'Tickets for this event cannot be sent by mail.', 'my-tickets' ) ) . '</p>' : '';
 				$legend       = ( 'registration' === $registration['sales_type'] ) ? __( 'Register', 'my-tickets' ) : __( 'Buy Tickets', 'my-tickets' );
