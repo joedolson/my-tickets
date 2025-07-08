@@ -398,12 +398,12 @@ function mt_payment_data( $post_id, $sections = array() ) {
 /**
  * Get a list of event IDs for any given purchase.
  *
- * @param int $purchase_id Payment ID.
+ * @param int $payment_id Payment ID.
  *
  * @return array
  */
-function mt_list_events( $purchase_id ) {
-	$purchase = get_post_meta( $purchase_id, '_purchased' );
+function mt_list_events( $payment_id ) {
+	$purchase = get_post_meta( $payment_id, '_purchased' );
 	$events   = array();
 	if ( is_array( $purchase ) ) {
 		foreach ( $purchase as $purch ) {

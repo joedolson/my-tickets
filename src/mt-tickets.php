@@ -66,9 +66,9 @@ function mt_verify_ticket( $ticket_id = false, $return_type = 'boolean' ) {
 			// This ticket does not exist.
 			return false;
 		}
-		$purchase_id = $data['purchase_id'];
-		$status      = get_post_meta( $purchase_id, '_is_paid', true );
-		$gateway     = get_post_meta( $purchase_id, '_gateway', true );
+		$payment_id = $data['purchase_id'];
+		$status     = get_post_meta( $payment_id, '_is_paid', true );
+		$gateway    = get_post_meta( $payment_id, '_gateway', true );
 		if ( 'Completed' === $status || ( 'Pending' === $status && 'offline' === $gateway ) ) {
 			return ( 'full' === $return_type ) ? array(
 				'status' => true,

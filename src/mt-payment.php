@@ -32,7 +32,7 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 	$data           = apply_filters( 'mt_filter_payment_data', $data, $post );
 	$payment_status = $data['status'];
 	$txn_id         = $data['transaction_id'];
-	$purchase_id    = $data['purchase_id'];
+	$payment_id     = $data['purchase_id'];
 	$blogname       = get_option( 'blogname' );
 	if ( 200 === absint( $response_code ) ) {
 		// Response must equal "verified" (not case sensitive) to handle response.
@@ -61,23 +61,23 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 					$status = "Other: $payment_status";
 			}
 
-			update_post_meta( $purchase_id, '_transaction_id', $txn_id );
-			update_post_meta( $purchase_id, '_transaction_data', $data );
-			update_post_meta( $purchase_id, '_is_paid', $status );
+			update_post_meta( $payment_id, '_transaction_id', $txn_id );
+			update_post_meta( $payment_id, '_transaction_data', $data );
+			update_post_meta( $payment_id, '_is_paid', $status );
 			/**
 			 * Take action when a payment is completed successfully.
 			 *
 			 * @hook mt_successful_payment
 			 *
-			 * @param {int}    $purchase_id Payment ID.
+			 * @param {int}    $payment_id Payment ID.
 			 * @param {string} $response Response confirmation from gateway.
 			 * @param {array}  $data Data sent from gateway.
 			 * @param {array}  $post Posted data from gateway.
 			 */
-			do_action( 'mt_successful_payment', $purchase_id, $response, $data, $post );
+			do_action( 'mt_successful_payment', $payment_id, $response, $data, $post );
 			wp_update_post(
 				array(
-					'ID'          => $purchase_id,
+					'ID'          => $payment_id,
 					'post_status' => 'publish',
 				)
 			); // trigger notifications.
@@ -117,18 +117,18 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 function mt_log( $response, $response_code, $data, $post ) {
 	// log errors.
 	// if there is no purchase ID, then there's nowhere to log this data.
-	$purchase_id = ( isset( $data['purchase_id'] ) ) ? $data['purchase_id'] : false;
-	if ( $purchase_id ) {
+	$payment_id = ( isset( $data['purchase_id'] ) ) ? $data['purchase_id'] : false;
+	if ( $payment_id ) {
 		// could have more than one error.
-		add_post_meta( $purchase_id, '_error_log', array( $response, $response_code, $data, $post ) );
+		add_post_meta( $payment_id, '_error_log', array( $response, $response_code, $data, $post ) );
 	}
 }
 
 /**
  * Delete error logs for a given payment.
  *
- * @param int $purchase_id Payment ID.
+ * @param int $payment_id Payment ID.
  */
-function mt_delete_log( $purchase_id ) {
-	delete_post_meta( $purchase_id, '_error_log' );
+function mt_delete_log( $payment_id ) {
+	delete_post_meta( $payment_id, '_error_log' );
 }

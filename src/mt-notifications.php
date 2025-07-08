@@ -69,25 +69,25 @@ add_filter( 'mt_format_array', 'mt_format_array', 10, 5 );
  * @param string $output text output.
  * @param string $type Type of display.
  * @param array  $data Data to display.
- * @param int    $purchase_id Payment ID.
+ * @param int    $payment_id Payment ID.
  * @param string $context Admin or email.
  *
  * @return string
  */
-function mt_format_array( $output, $type, $data, $purchase_id, $context = 'admin' ) {
+function mt_format_array( $output, $type, $data, $payment_id, $context = 'admin' ) {
 	if ( is_array( $data ) ) {
 		switch ( $type ) {
 			case 'purchase':
-				$output = mt_format_purchase( $data, false, $purchase_id );
+				$output = mt_format_purchase( $data, false, $payment_id );
 				break;
 			case 'address':
 				$output = mt_format_address( $data );
 				break;
 			case 'tickets':
-				$output = mt_format_tickets( $data, 'text', $purchase_id, $context );
+				$output = mt_format_tickets( $data, 'text', $payment_id, $context );
 				break;
 			case 'ticket_ids':
-				$output = mt_format_tickets( $data, 'ids', $purchase_id, $context );
+				$output = mt_format_tickets( $data, 'ids', $payment_id, $context );
 				break;
 		}
 	}
@@ -125,11 +125,11 @@ function mt_get_event_link( $event_id ) {
  *
  * @param array                 $purchase Purchase data.
  * @param bool                  $format Text or HTML.
- * @param mixed integer/boolean $purchase_id Payment ID.
+ * @param mixed integer/boolean $payment_id Payment ID.
  *
  * @return string
  */
-function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) {
+function mt_format_purchase( $purchase, $format = false, $payment_id = false ) {
 	$output  = '';
 	$options = mt_get_settings();
 	// format purchase.
@@ -150,7 +150,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 					// This event does not exist.
 					return __( 'This event has been deleted.', 'my-tickets' );
 				}
-				$handling = get_post_meta( $purchase_id, '_ticket_handling', true );
+				$handling = get_post_meta( $payment_id, '_ticket_handling', true );
 				if ( ! ( $handling && is_numeric( $handling ) ) ) {
 					$handling = 0;
 				}
@@ -170,7 +170,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 				if ( 'expire' === $validity && isset( $event['expire_date'] ) && ! empty( $event['expire_date'] ) ) {
 					$valid_dt = $event['expire_date'];
 				} else {
-					$purchase_date = get_the_date( 'Y-m-d', $purchase_id );
+					$purchase_date = get_the_date( 'Y-m-d', $payment_id );
 					$valid_dt      = ( 'infinite' !== $validity ) ? strtotime( $purchase_date . ' + ' . $validity ) : '';
 				}
 				if ( 'infinite' === $validity ) {
@@ -194,7 +194,7 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 							$type = apply_filters( 'mt_ticket_type_label', ucfirst( str_replace( '-', ' ', $type ) ) );
 						}
 						$price       = $price - $handling;
-						$discount    = ( $price !== $orig ) ? $price : mt_calculate_discount( $price, $event_id, $purchase_id );
+						$discount    = ( $price !== $orig ) ? $price : mt_calculate_discount( $price, $event_id, $payment_id );
 						$total       = ( $discount !== $price ) ? $total + $discount * $ticket['count'] : $total + $price * $ticket['count'];
 						$display_app = '';
 						// Match formats so comparison is valid.
@@ -228,13 +228,13 @@ function mt_format_purchase( $purchase, $format = false, $purchase_id = false ) 
 							$output .= sprintf( apply_filters( 'mt_purchased_tickets_format', '%1$s - %2$s @ %3$s', $is_html, $event ), $title, $date, $time ) . $sep;
 						}
 					}
-					$output .= apply_filters( 'mt_custom_tickets_fields', '', $event_id, $purchase_id, $sep );
+					$output .= apply_filters( 'mt_custom_tickets_fields', '', $event_id, $payment_id, $sep );
 					$output .= $sep . $tickets_list;
 				}
 			}
 		}
 		$output .= $sep;
-		$total   = apply_filters( 'mt_apply_total_discount', $total, $purchase_id );
+		$total   = apply_filters( 'mt_apply_total_discount', $total, $payment_id );
 		if ( $is_html ) {
 			$output = wpautop( $output . '<hr><strong>' . __( 'Ticket Total', 'my-tickets' ) . '</strong>: ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) );
 		} else {
@@ -274,13 +274,13 @@ function mt_format_address( $address ) {
  *
  * @param array  $tickets Tickets to format.
  * @param string $type Type of display.
- * @param int    $purchase_id Payment ID.
+ * @param int    $payment_id Payment ID.
  * @param string $context Admin or email.
  *
  * @return string
  */
-function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $context = 'admin' ) {
-	if ( ! $purchase_id ) {
+function mt_format_tickets( $tickets, $type = 'text', $payment_id = false, $context = 'admin' ) {
+	if ( ! $payment_id ) {
 		return '';
 	}
 	$options  = mt_get_settings();
@@ -296,12 +296,12 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 		if ( isset( $_GET['ticket-action'] ) && isset( $_GET['ticket'] ) ) {
 			$ticket_id = sanitize_text_field( $_GET['ticket'] );
 			if ( 'checkin' === $_GET['ticket-action'] ) {
-				add_post_meta( $purchase_id, '_tickets_used', $ticket_id );
+				add_post_meta( $payment_id, '_tickets_used', $ticket_id );
 			} else {
-				delete_post_meta( $purchase_id, '_tickets_used', $ticket_id );
+				delete_post_meta( $payment_id, '_tickets_used', $ticket_id );
 			}
 		}
-		$used     = get_post_meta( $purchase_id, '_tickets_used' );
+		$used     = get_post_meta( $payment_id, '_tickets_used' );
 		$test_use = true;
 	}
 	$options    = mt_get_settings();
@@ -314,7 +314,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 				$action  = add_query_arg(
 					array(
 						'action' => 'edit',
-						'post'   => $purchase_id,
+						'post'   => $payment_id,
 						'ticket' => $ticket_id,
 					),
 					admin_url( 'post.php' )
@@ -355,8 +355,8 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 									' . $type_options . '
 								</select>
 							</div>
-							<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-move-tickets-button button-secondary">' . __( 'Update Ticket', 'my-tickets' ) . '</button>
-							<button type="button" data-payment="' . $purchase_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-delete-ticket-button button-secondary"><span class="dashicons dashicons-no" aria-hidden="true"></span> ' . __( 'Delete Ticket', 'my-tickets' ) . '</button>
+							<button type="button" data-payment="' . $payment_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-move-tickets-button button-secondary">' . __( 'Update Ticket', 'my-tickets' ) . '</button>
+							<button type="button" data-payment="' . $payment_id . '" data-event="' . $event_id . '" data-ticket="' . $ticket_id . '" class="mt-delete-ticket-button button-secondary"><span class="dashicons dashicons-no" aria-hidden="true"></span> ' . __( 'Delete Ticket', 'my-tickets' ) . '</button>
 						</div>
 					</div>';
 			}
@@ -369,7 +369,7 @@ function mt_format_tickets( $tickets, $type = 'text', $purchase_id = false, $con
 			$ticket_output = ( 'admin' === $context ) ? '<li><div class="controls">' . $ticket . $show . $move . '</div>' . $move_form . '</li>' : $ticket_output;
 		}
 
-		$output .= apply_filters( 'mt_custom_ticket_output', $ticket_output, $purchase_id, $sep );
+		$output .= apply_filters( 'mt_custom_ticket_output', $ticket_output, $payment_id, $sep );
 		++$i;
 	}
 	$output = ( 'admin' === $context ) ? '<ul class="admin-tickets">' . $output . '</ul>' : $output;
@@ -847,10 +847,10 @@ function mt_return_tickets( $payment_id ) {
  *
  * @param string $ticket_id - ID for a single ticket.
  * @param int    $event_id - ID for event ticket was sold for.
- * @param int    $purchase_id Payment ID.
+ * @param int    $payment_id Payment ID.
  * @param string $type - type of ticket sold.
  */
-function mt_return_ticket( $ticket_id, $event_id, $purchase_id, $type ) {
+function mt_return_ticket( $ticket_id, $event_id, $payment_id, $type ) {
 	delete_post_meta( $event_id, '_ticket', $ticket_id );
 	delete_post_meta( $event_id, '_' . $ticket_id );
 	$registration                            = get_post_meta( '_mt_registration_options', true );

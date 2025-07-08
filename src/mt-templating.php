@@ -141,10 +141,10 @@ function mt_receipt_id() {
  * @return integer
  */
 function mt_get_receipt_purchase_id() {
-	$purchase    = mt_get_receipt();
-	$purchase_id = $purchase->ID;
+	$purchase   = mt_get_receipt();
+	$payment_id = $purchase->ID;
 
-	return $purchase_id;
+	return $payment_id;
 }
 
 /**
@@ -335,8 +335,8 @@ function mt_get_ticket_method( $ticket_id = false ) {
 		$ticket_id = mt_get_ticket_id();
 	}
 	$purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
-	$purchase_id = $purchase['purchase_id'];
-	$ticket_type = get_post_meta( $purchase_id, '_ticketing_method', true );
+	$payment_id  = $purchase['purchase_id'];
+	$ticket_type = get_post_meta( $payment_id, '_ticketing_method', true );
 	$ticket_type = ( $ticket_type ) ? $ticket_type : 'willcall';
 
 	return $ticket_type;
@@ -364,10 +364,10 @@ function mt_get_ticket_purchase_id( $ticket_id = false ) {
 	if ( ! $ticket_id ) {
 		$ticket_id = mt_get_ticket_id();
 	}
-	$purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
-	$purchase_id = $purchase['purchase_id'];
+	$purchase   = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
+	$payment_id = $purchase['purchase_id'];
 
-	return $purchase_id;
+	return $payment_id;
 }
 
 /**
@@ -392,9 +392,9 @@ function mt_get_ticket_purchaser( $ticket_id = false ) {
 	if ( ! $ticket_id ) {
 		$ticket_id = mt_get_ticket_id();
 	}
-	$purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
-	$purchase_id = $purchase['purchase_id'];
-	$purchaser   = get_post_field( 'post_title', $purchase_id );
+	$purchase   = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
+	$payment_id = $purchase['purchase_id'];
+	$purchaser  = get_post_field( 'post_title', $payment_id );
 
 	return $purchaser;
 }
@@ -422,10 +422,10 @@ function mt_get_ticket_custom_fields( $custom_field = false, $ticket_id = false 
 	if ( ! $ticket_id ) {
 		$ticket_id = mt_get_ticket_id();
 	}
-	$purchase    = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
-	$purchase_id = $purchase['purchase_id'];
+	$purchase   = get_post_meta( mt_get_ticket( $ticket_id )->ID, '_' . $ticket_id, true );
+	$payment_id = $purchase['purchase_id'];
 
-	return mt_show_custom_data( $purchase_id, $custom_field );
+	return mt_show_custom_data( $payment_id, $custom_field );
 }
 
 /**
@@ -1004,16 +1004,16 @@ function mt_get_verification( $ticket_id = false ) {
 	$verified  = mt_verify_ticket( $ticket_id );
 	$ticket    = mt_get_ticket( $ticket_id );
 	if ( $ticket ) {
-		$data        = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
-		$purchase_id = $data['purchase_id'];
-		$status      = get_post_meta( $purchase_id, '_is_paid', true );
-		$due         = get_post_meta( $purchase_id, '_total_paid', true );
-		$due         = apply_filters( 'mt_money_format', $due );
-		$text        = ( $verified ) ? __( 'Ticket Verified', 'my-tickets' ) : __( 'Invalid Ticket ID', 'my-tickets' );
+		$data       = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
+		$payment_id = $data['purchase_id'];
+		$status     = get_post_meta( $payment_id, '_is_paid', true );
+		$due        = get_post_meta( $payment_id, '_total_paid', true );
+		$due        = apply_filters( 'mt_money_format', $due );
+		$text       = ( $verified ) ? __( 'Ticket Verified', 'my-tickets' ) : __( 'Invalid Ticket ID', 'my-tickets' );
 		// Translators: Amount due on account.
 		$text        .= ( 'Pending' === $status ) ? ' - ' . sprintf( __( 'Payment pending: %s', 'my-tickets' ), $due ) : '';
 		$status_class = sanitize_title( $status );
-		$used         = get_post_meta( $purchase_id, '_tickets_used' );
+		$used         = get_post_meta( $payment_id, '_tickets_used' );
 		if ( ! is_array( $used ) ) {
 			$used = array();
 		}
@@ -1027,10 +1027,10 @@ function mt_get_verification( $ticket_id = false ) {
 		$text .= wpautop( mt_get_ticket_validity( $ticket ) );
 		if ( ( current_user_can( 'mt-verify-ticket' ) || current_user_can( 'manage_options' ) ) && ! $is_used ) {
 			$text .= wpautop( __( 'Ticket usage recorded', 'my-tickets' ) );
-			add_post_meta( $purchase_id, '_tickets_used', $ticket_id );
+			add_post_meta( $payment_id, '_tickets_used', $ticket_id );
 		}
 
-		do_action( 'mt_ticket_verified', $verified, $is_used, $purchase_id, $ticket_id );
+		do_action( 'mt_ticket_verified', $verified, $is_used, $payment_id, $ticket_id );
 		$ticket_info  = "<ul><li class='ticket-type'>" . mt_get_ticket_type( $ticket_id ) . '</li>';
 		$ticket_info .= "<li class='ticket-price'>" . mt_get_ticket_price( $ticket_id ) . '</li></ul>';
 
@@ -1140,9 +1140,9 @@ function mt_get_ticket_custom_field( $field = false, $callback = false, $ticket_
 		$ticket = mt_get_ticket( $ticket_id );
 	}
 	if ( $field ) {
-		$purchase    = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
-		$purchase_id = $purchase['purchase_id'];
-		$meta        = get_post_meta( $purchase_id, $field, true );
+		$purchase   = get_post_meta( $ticket->ID, '_' . $ticket_id, true );
+		$payment_id = $purchase['purchase_id'];
+		$meta       = get_post_meta( $payment_id, $field, true );
 		if ( $meta && isset( $meta[ $field ] ) ) {
 			if ( $callback ) {
 				return call_user_func( $callback, $meta );
