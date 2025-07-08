@@ -85,10 +85,10 @@ function mt_create_payment( $post ) {
 		$status     = 'draft';
 	} else {
 		mt_delete_data( 'payment' );
-		$status      = 'draft';
-		$date        = $date;
-		$post_title  = sanitize_text_field( $post['mt_fname'] . ' ' . $post['mt_lname'] );
-		$my_post     = array(
+		$status     = 'draft';
+		$date       = $date;
+		$post_title = sanitize_text_field( $post['mt_fname'] . ' ' . $post['mt_lname'] );
+		$my_post    = array(
 			'post_title'   => $post_title,
 			'post_content' => wp_json_encode( $post ),
 			'post_status'  => 'draft',
@@ -96,7 +96,7 @@ function mt_create_payment( $post ) {
 			'post_date'    => $date,
 			'post_type'    => 'mt-payments',
 		);
-		$payment_id  = wp_insert_post( $my_post );
+		$payment_id = wp_insert_post( $my_post );
 	}
 	/**
 	 * Action immediately after new payment post is created.
