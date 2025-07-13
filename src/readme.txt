@@ -7,7 +7,7 @@ Tested up to: 6.8
 Requires PHP: 7.4
 License: GPLv3
 Text domain: my-tickets
-Stable tag: 2.0.19
+Stable tag: 2.0.20
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,14 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.0.20 =
+
+* Bug fix: Remove some self-contradictory logic.
+* Bug fix: Omit purchase path after purchase completion. 
+* Bug fix: Handle ticket type closure when hiding ticket fields.
+* Change: Pass the payment ID into the `mt_response_messages` filter.
+* New filter: `mt_confirmed_transaction_before` to insert content before the transaction confirmation.
 
 = 2.0.19 =
 
