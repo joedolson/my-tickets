@@ -4,6 +4,7 @@
 
 .my-tickets .postbox h2.hndle {
 	cursor: text;
+	user-select: auto;
 }
 
 .my-tickets .postbox .inside {
