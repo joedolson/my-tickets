@@ -134,6 +134,34 @@ function mt_check_early_returns( $event_id, $override ) {
 }
 
 /**
+ * Get the number of available tickets that triggers closing ticket sales. Default 0.
+ *
+ * @param int $event_id Event Post ID.
+ * @param array $tickets_data Array of ticket counts for this event.
+ *
+ * @return int
+ */
+function mt_get_ticket_close_value( $event_id, $tickets_data = array() ) {
+	if ( empty( $tickets_data ) ) {
+		$tickets_data = mt_check_inventory( $event_id );
+	}
+	/**
+	 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
+	 *
+	 * @hook mt_tickets_close_value
+	 *
+	 * @param {int}   $tickets_close_value Number of tickets remaining that triggers sold out condition.
+	 * @param {int}   $event_id Event ID.
+	 * @param {array} $tickets_data Data about sold and available tickets.
+	 *
+	 * @return {int}
+	 */
+	$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
+
+	return $close_value;
+}
+
+/**
  * Generates event registration form.
  *
  * @param string          $content Page content.
@@ -209,18 +237,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				$tickets_data      = mt_check_inventory( $event_id );
 				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : mt_check_inventory( $event_id )['available'];
 				$tickets_sold      = $tickets_data['sold'];
-				/**
-				 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
-				 *
-				 * @hook mt_tickets_close_value
-				 *
-				 * @param {int}   $tickets_close_value Number of tickets remaining that triggers sold out condition.
-				 * @param {int}   $event_id Event ID.
-				 * @param {array} $tickets_data Data about sold and available tickets.
-				 *
-				 * @return {int}
-				 */
-				$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
+				$close_value       = mt_get_ticket_close_value( $event_id, $tickets_data );
 				if ( ( $tickets_remaining && $tickets_remaining > $close_value ) || ( $show_form_when_soldout ) ) {
 					$total_order = 0;
 					$rows        = array();
@@ -332,7 +349,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 		 */
 		$output .= apply_filters( 'mt_ticket_sales_closed_content', '', $event_id, $registration );
 	}
-
+	$close_value = mt_get_ticket_close_value( $event_id );
 	if ( true === $sold_out && $tickets_sold > 0 || $tickets_remaining <= $close_value ) {
 		if ( $tickets_remaining <= $close_value ) {
 			/**
@@ -969,18 +986,7 @@ function mt_can_order( $type ) {
  */
 function mt_tickets_remaining( $tickets_data, $event_id ) {
 	$tickets_remaining = $tickets_data['available'];
-	/**
-	 * Filter when online ticket sales should close based on availability. Default 0; sales close when sold out.
-	 *
-	 * @hook mt_tickets_close_value
-	 *
-	 * @param {int}   $tickets_close_value Number of tickets remaining that triggers sold out condition.
-	 * @param {int}   $event_id Event ID.
-	 * @param {array} $tickets_data Data about sold and available tickets.
-	 *
-	 * @return {int}
-	 */
-	$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
+	$close_value       = mt_get_ticket_close_value( $event_id, $tickets_data );
 	if ( $tickets_remaining && $tickets_remaining > $close_value ) {
 		$tickets_remain_text = '';
 	} else {
