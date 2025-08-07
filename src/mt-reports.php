@@ -819,7 +819,7 @@ function mt_format_if_datetime( $label ) {
 	if ( 4 === count( $test ) ) {
 		// Reformat in a date structure.
 		$string    = $test[0] . '-' . $test[1] . '-' . $test[2] . ' ' . implode( ':', str_split( $test[3], 2 ) );
-		$ts      = strtotime( $string );
+		$ts        = strtotime( $string );
 		$formatted = mt_date( 'Y-m-d-His', $ts, false );
 		if ( $label === $formatted ) {
 			$date_format = get_option( 'date_format' );
