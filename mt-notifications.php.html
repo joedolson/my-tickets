@@ -371,7 +371,7 @@ function mt_format_tickets( $tickets, $type = 'text', $payment_id = false, $cont
 						&lt;div class="mt-move-tickets" id="mt-edit-tickets-' . $i . '">
 							&lt;div class="mt-ticket-moved-response" aria-live="polite">' . $status . '&lt;/div>
 							&lt;div class="mt-move-tickets-inner">
-								&lt;label for="mt-move-tickets-choose-' . $i . '">Move to Event &lt;i>&lt;span aria-live="assertive">&lt;/span>&lt;/i>&lt;/label> 
+								&lt;label for="mt-move-tickets-choose-' . $i . '">Move to Event &lt;i>&lt;span aria-live="assertive">&lt;/span>&lt;/i>&lt;/label>
 								&lt;input type="text" placeholder="Search term" id="mt-move-tickets-choose-' . $i . '" class="suggest widefat mt-move-tickets-target" name="mt-event-target" value="" />
 							&lt;/div>
 							&lt;div class="mt-move-tickets-inner">
@@ -796,6 +796,14 @@ function mt_draw_template( $data, $template ) {
 		return mc_draw_template( $data, $template );
 	} else {
 		$template = stripcslashes( $template );
+		// If there are no brace characters, there is nothing to replace.
+		if ( strpos( $template, '{' ) === false ) {
+			return trim( $template );
+		}
+		// If the data passed is not an array or is empty, return empty string.
+		if ( ! is_array( $data ) || empty( $data ) ) {
+			return '';
+		}
 		foreach ( $data as $key => $value ) {
 			if ( is_object( $value ) &amp;&amp; ! empty( $value ) ) {
 				// null values return false.
