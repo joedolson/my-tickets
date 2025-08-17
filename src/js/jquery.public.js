@@ -279,7 +279,7 @@
 
 		document.addEventListener( 'keydown', function( e ) {
 			if ( e.ctrlKey && e.code === 'Space' ) {
-				
+
 				extendTimer();
 			}
 		});
@@ -328,7 +328,7 @@
 			}
 		});
 
-		setTimeout( function() { 
+		setTimeout( function() {
 			setInterval( function() {
 				let time = $('.mt-expiration-update').text();
 				wp.a11y.speak( time );
@@ -339,16 +339,16 @@
 		if ( timer.length !== 0 ) {
 			setInterval( mtUpdateTimer, 1000, timer );
 		}
-	
+
 		function mtUpdateTimer( timer ) {
 			let seconds = timer.data('start');
 			let cart    = document.querySelector( '.mt_cart' );
 			if ( seconds > 0 ) {
 				let second = seconds - 1;
 				timer.data( 'start', second );
-	
+
 				let date = new Date(null);
-				date.setSeconds( second ); 
+				date.setSeconds( second );
 				let min = date.getMinutes();
 				let sec = date.getSeconds();
 				timer.html( min + ' minutes ' + sec + ' seconds' );
@@ -391,9 +391,7 @@ window.addEventListener( 'beforeunload', function(e) {
 	let unsubmitted = document.getElementById( 'mt_unsubmitted' );
 	let hold        = ( typeof( unsubmitted ) != 'undefined' && unsubmitted != null ) ? true : false;
 	if ( hold ) {
-		// following lines cause the browser to ask the user if they want to leave.
-		// The text of this dialog is controlled by the browser.
-		e.preventDefault(); // per the standard
-		e.returnValue = ''; // required for Chrome
+		// Prompt to check whether user wants to leave.
+		e.preventDefault();
 	}
 });
