@@ -17,7 +17,7 @@
 	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 	<style>
 		body {
-			font-family: HelveticaNeue, Arial, Verdana, sans-serif;
+			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 			padding: 0;
 			margin: 0;
 			background: #fff;
@@ -83,7 +83,7 @@
 
 		.confirmation {
 			margin-bottom: 1rem;
-			padding: .5rem;	
+			padding: .5rem;
 		}
 
 		.confirmation:nth-of-type(even) {
