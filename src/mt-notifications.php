@@ -345,7 +345,7 @@ function mt_format_tickets( $tickets, $type = 'text', $payment_id = false, $cont
 						<div class="mt-move-tickets" id="mt-edit-tickets-' . $i . '">
 							<div class="mt-ticket-moved-response" aria-live="polite">' . $status . '</div>
 							<div class="mt-move-tickets-inner">
-								<label for="mt-move-tickets-choose-' . $i . '">Move to Event <i><span aria-live="assertive"></span></i></label> 
+								<label for="mt-move-tickets-choose-' . $i . '">Move to Event <i><span aria-live="assertive"></span></i></label>
 								<input type="text" placeholder="Search term" id="mt-move-tickets-choose-' . $i . '" class="suggest widefat mt-move-tickets-target" name="mt-event-target" value="" />
 							</div>
 							<div class="mt-move-tickets-inner">
@@ -770,6 +770,14 @@ function mt_draw_template( $data, $template ) {
 		return mc_draw_template( $data, $template );
 	} else {
 		$template = stripcslashes( $template );
+		// If there are no brace characters, there is nothing to replace.
+		if ( strpos( $template, '{' ) === false ) {
+			return trim( $template );
+		}
+		// If the data passed is not an array or is empty, return empty string.
+		if ( ! is_array( $data ) || empty( $data ) ) {
+			return '';
+		}
 		foreach ( $data as $key => $value ) {
 			if ( is_object( $value ) && ! empty( $value ) ) {
 				// null values return false.
