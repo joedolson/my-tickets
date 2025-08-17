@@ -7,7 +7,7 @@ Tested up to: 6.8
 Requires PHP: 7.4
 License: GPLv3
 Text domain: my-tickets
-Stable tag: 2.0.20
+Stable tag: 2.0.21
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -72,10 +72,19 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.0.21 =
+
+* Bug fix: Fix undeclared variable notice for close date value.
+* Bug fix: `mt_format_if_datetime()` could return an invalid value.
+* Bug fix: Update screen reader text class CSS.
+* Change: Remove obsolete Chrome `beforeunload` hack.
+* Change: Update fonts in templates to use common system font stack.
+* Change: Support earlier exits in template constructor.
+
 = 2.0.20 =
 
 * Bug fix: Remove some self-contradictory logic.
-* Bug fix: Omit purchase path after purchase completion. 
+* Bug fix: Omit purchase path after purchase completion.
 * Bug fix: Handle ticket type closure when hiding ticket fields.
 * Change: Pass the payment ID into the `mt_response_messages` filter.
 * New filter: `mt_confirmed_transaction_before` to insert content before the transaction confirmation.
@@ -91,7 +100,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Sorting events by date in reports lists only used date, not time, causing some events to be omitted.
 * Bug fix: Public display dates for event-date subtypes not using `date_i18n`.
 * Bug fix: If purchaser changes name after initial payment creation, payment title not updated.
-* Change: Move payment status into payment date field. 
+* Change: Move payment status into payment date field.
 
 = 2.0.17 =
 
@@ -208,7 +217,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Docs: Document `mt_cart_custom_fields` filter.
 * Docs: Document `mt_show_in_cart_fields` filter.
 * Docs: Document `mt_purchase_completed` action.
-* Change: Pass additional arguments to `mt_show_in_cart_fields` filter. 
+* Change: Pass additional arguments to `mt_show_in_cart_fields` filter.
 * Change: Pass payment ID into `mt_generate_cart_table()` when available.
 * Change: Remove filter on `the_content` after running to prevent duplication.
 
