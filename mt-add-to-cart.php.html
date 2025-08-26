@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function mt_add_to_cart_form_post( $content ) {
 	$options = mt_get_settings();
 	global $post;
-	$only_singular = $options['mt_singular'];
+	$only_singular = ( 'true' === $options['mt_singular'] ) ? true : false;
 	if ( $only_singular &amp;&amp; ! is_singular( $options['mt_post_types'] ) ) {
 		return $content;
 	}
@@ -110,7 +110,7 @@ function mt_check_early_returns( $event_id, $override ) {
 			'reason'   => __( 'The required purchase, receipt, and ticket pages do not all exist.', 'my-tickets' ),
 		);
 	}
-	$only_singular = $options['mt_singular'];
+	$only_singular = ( 'true' === $options['mt_singular'] ) ? true : false;
 	if ( $only_singular &amp;&amp; ! is_singular( $options['mt_post_types'] ) ) {
 		return array(
 			'continue' => false,
