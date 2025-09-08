@@ -220,7 +220,7 @@ function mt_remaining_tickets( $atts, $content = '' ) {
 		),
 		$atts
 	);
-	$template = $atts['template'];
+	$template = wp_kses_post( $atts['template'] );
 
 	if ( ! is_numeric( $atts['event'] ) ) {
 		global $post;
