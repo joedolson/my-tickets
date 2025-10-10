@@ -135,6 +135,13 @@ fieldset .mt-ticket-field input:not([type=submit]), fieldset .mt-ticket-field se
     grid-template-columns: 9em 1fr;
 }
 
+.mt-title-wrapper {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
 @media only screen and (max-width:782px) {
     .mt-ticket-field {
         grid-template-columns: 1fr;

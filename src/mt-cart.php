@@ -1048,7 +1048,7 @@ function mt_generate_cart_table( $cart, $payment = false, $format = 'cart' ) {
 								$cart_message = sprintf( __( '%1$s at %2$s', 'my-tickets' ), "<span class='count' data-limit='$max'>$count</span>", apply_filters( 'mt_money_format', $price ) );
 								$output      .= "
 											<tr id='mt_cart_order_$event_id" . '_' . "$type' class='mt_row_$event_id'>
-												<th scope='row'>$image$title$label<br />$datetime$hidden$custom</th>
+												<th scope='row'><div class='mt-title-wrapper'>$image<div class='mt-title-content'>$title$label<br />$datetime$hidden$custom</div></div></th>
 												<td class='mt-order' aria-live='assertive'>" . $cart_message . '</td>';
 								if ( 'cart' === $format && apply_filters( 'mt_include_update_column', true ) ) {
 									if ( 'true' === $registration['multiple'] ) {
