@@ -785,9 +785,10 @@ function mt_get_ticket_qrcode( $ticket_id = false ) {
 		)
 	);
 	$qrcode    = array(
-		'version'    => 9,
-		'outputType' => QRCODE::OUTPUT_MARKUP_SVG,
-		'eccLevel'   => QRCODE::ECC_M,
+		'version'      => 9,
+		'outputType'   => QRCODE::OUTPUT_MARKUP_SVG,
+		'eccLevel'     => QRCODE::ECC_M,
+		'addQuietzone' => false,
 	);
 	/**
 	 * Filter QRCode configuration options passed to QROptions. See https://github.com/chillerlan/php-qrcode/wiki/Advanced-usage.
@@ -832,10 +833,11 @@ function mt_get_purchase_qrcode( $receipt_id = false ) {
 			get_permalink( $id )
 		)
 	);
-	$qrcode     = array(
-		'version'    => 9,
-		'outputType' => QRCODE::OUTPUT_IMAGE_PNG,
-		'eccLevel'   => QRCODE::ECC_M,
+	$qrcode    = array(
+		'version'      => 9,
+		'outputType'   => QRCODE::OUTPUT_MARKUP_SVG,
+		'eccLevel'     => QRCODE::ECC_M,
+		'addQuietzone' => false,
 	);
 	/**
 	 * Filter QRCode configuration options passed to QROptions. See https://github.com/chillerlan/php-qrcode/wiki/Advanced-usage.
