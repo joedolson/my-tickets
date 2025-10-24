@@ -1,392 +1,173 @@
 # chillerlan/php-qrcode
 
-A PHP7.2+ QR Code library based on the [implementation](https://github.com/kazuhikoarase/qrcode-generator) by [Kazuhiko Arase](https://github.com/kazuhikoarase),
-namespaced, cleaned up, improved and other stuff.
+A PHP QR Code generator based on the [implementation by Kazuhiko Arase](https://github.com/kazuhikoarase/qrcode-generator), namespaced, cleaned up, improved and other stuff. <br>
+It also features a QR Code reader based on a [PHP port](https://github.com/khanamiryan/php-qrcode-detector-decoder) of the [ZXing library](https://github.com/zxing/zxing).
 
+**Attention:** there is now also a javascript port: [chillerlan/js-qrcode](https://github.com/chillerlan/js-qrcode).
+
+[![PHP Version Support][php-badge]][php]
 [![Packagist version][packagist-badge]][packagist]
-[![License][license-badge]][license]
-[![Travis CI][travis-badge]][travis]
-[![CodeCov][coverage-badge]][coverage]
-[![Scrunitizer CI][scrutinizer-badge]][scrutinizer]
-[![Packagist downloads][downloads-badge]][downloads]
-[![PayPal donate][donate-badge]][donate]
-
 [![Continuous Integration][gh-action-badge]][gh-action]
+[![CodeCov][coverage-badge]][coverage]
+[![Codacy][codacy-badge]][codacy]
+[![Packagist downloads][downloads-badge]][downloads]
+[![Documentation][readthedocs-badge]][readthedocs]
 
-[packagist-badge]: https://img.shields.io/packagist/v/chillerlan/php-qrcode.svg?style=flat-square
+[php-badge]: https://img.shields.io/packagist/php-v/chillerlan/php-qrcode?logo=php&color=8892BF&logoColor=fff
+[php]: https://www.php.net/supported-versions.php
+[packagist-badge]: https://img.shields.io/packagist/v/chillerlan/php-qrcode.svg?logo=packagist&logoColor=fff
 [packagist]: https://packagist.org/packages/chillerlan/php-qrcode
-[license-badge]: https://img.shields.io/github/license/chillerlan/php-qrcode.svg?style=flat-square
-[license]: https://github.com/chillerlan/php-qrcode/blob/main/LICENSE
-[travis-badge]: https://img.shields.io/travis/chillerlan/php-qrcode.svg?style=flat-square
-[travis]: https://travis-ci.org/chillerlan/php-qrcode
-[coverage-badge]: https://img.shields.io/codecov/c/github/chillerlan/php-qrcode.svg?style=flat-square
-[coverage]: https://codecov.io/github/chillerlan/php-qrcode
-[scrutinizer-badge]: https://img.shields.io/scrutinizer/g/chillerlan/php-qrcode.svg?style=flat-square
-[scrutinizer]: https://scrutinizer-ci.com/g/chillerlan/php-qrcode
-[downloads-badge]: https://img.shields.io/packagist/dt/chillerlan/php-qrcode.svg?style=flat-square
+[gh-action-badge]: https://img.shields.io/github/actions/workflow/status/chillerlan/php-qrcode/ci.yml?branch=v5.0.x&logo=github&logoColor=fff
+[gh-action]: https://github.com/chillerlan/php-qrcode/actions/workflows/ci.yml?query=branch%3Amain
+[coverage-badge]: https://img.shields.io/codecov/c/github/chillerlan/php-qrcode/v5.0.x?logo=codecov&logoColor=fff
+[coverage]: https://app.codecov.io/gh/chillerlan/php-qrcode/tree/v5.0.x
+[codacy-badge]: https://img.shields.io/codacy/grade/edccfc4fe5a34b74b1c53ee03f097b8d/v5.0.x?logo=codacy&logoColor=fff
+[codacy]: https://app.codacy.com/gh/chillerlan/php-qrcode/dashboard?branch=v5.0.x
+[downloads-badge]: https://img.shields.io/packagist/dt/chillerlan/php-qrcode?logo=packagist&logoColor=fff
 [downloads]: https://packagist.org/packages/chillerlan/php-qrcode/stats
-[donate-badge]: https://img.shields.io/badge/donate-paypal-ff33aa.svg?style=flat-square
-[donate]: https://www.paypal.com/donate?hosted_button_id=WLYUNAT9ZTJZ4
-[gh-action-badge]: https://github.com/chillerlan/php-qrcode/workflows/Continuous%20Integration/badge.svg
-[gh-action]: https://github.com/chillerlan/php-qrcode/actions
+[readthedocs-badge]: https://img.shields.io/readthedocs/php-qrcode/v5.0.x?logo=readthedocs&logoColor=fff
+[readthedocs]: https://php-qrcode.readthedocs.io/en/v5.0.x/
 
-## Documentation
+# Overview
 
-### Requirements
-- PHP 7.2+
-  - `ext-mbstring`
-  - optional: 
-     - `ext-json`, `ext-gd`
-     - `ext-imagick` with [ImageMagick](https://imagemagick.org) installed
-     - [`setasign/fpdf`](https://github.com/setasign/fpdf) for the PDF output module
+## Features
 
-### Installation
-**requires [composer](https://getcomposer.org)**
+- Creation of [Model 2 QR Codes](https://www.qrcode.com/en/codes/model12.html), [Version 1 to 40](https://www.qrcode.com/en/about/version.html)
+- [ECC Levels](https://www.qrcode.com/en/about/error_correction.html) L/M/Q/H supported
+- Mixed mode support (encoding modes can be combined within a QR symbol). Supported modes:
+  - numeric
+  - alphanumeric
+  - 8-bit binary
+    - [ECI support](https://en.wikipedia.org/wiki/Extended_Channel_Interpretation)
+  - 13-bit double-byte:
+    - kanji (Japanese, Shift-JIS)
+    - hanzi (simplified Chinese, GB2312/GB18030) as [defined in GBT18284-2000](https://www.chinesestandard.net/PDF/English.aspx/GBT18284-2000)
+- Flexible, easily extensible output modules, built-in support for the following output formats:
+  - [GdImage](https://www.php.net/manual/book.image) (raster graphics: bmp, gif, jpeg, png, webp)
+  - [ImageMagick](https://www.php.net/manual/book.imagick) ([multiple supported image formats](https://imagemagick.org/script/formats.php))
+  - Markup types: SVG, HTML, etc.
+  - String types: JSON, plain text, etc.
+  - Encapsulated Postscript (EPS)
+  - PDF via [FPDF](https://github.com/setasign/fpdf)
+- QR Code reader (via GD and ImageMagick)
 
-via terminal: `composer require chillerlan/php-qrcode`
 
-*composer.json* (note: replace `dev-master` with a [version boundary](https://getcomposer.org/doc/articles/versions.md), e.g. `^3.2`)
+## Requirements
+
+- PHP 7.4+
+  - [`ext-mbstring`](https://www.php.net/manual/book.mbstring.php)
+  - optional:
+    - [`ext-gd`](https://www.php.net/manual/book.image)
+    - [`ext-imagick`](https://github.com/Imagick/imagick) with [ImageMagick](https://imagemagick.org) installed
+      - [`ext-fileinfo`](https://www.php.net/manual/book.fileinfo.php) (required by `QRImagick` output)
+    - [`setasign/fpdf`](https://github.com/setasign/fpdf) for the PDF output module
+
+For the QRCode reader, either `ext-gd` or `ext-imagick` is required!
+
+
+# Documentation
+
+- The user manual is at https://php-qrcode.readthedocs.io/ ([sources](https://github.com/chillerlan/php-qrcode/tree/v5.0.x/docs))
+- An API documentation created with [phpDocumentor](https://www.phpdoc.org/) can be found at https://chillerlan.github.io/php-qrcode/
+- The documentation for the `QROptions` container can be found here: [chillerlan/php-settings-container](https://github.com/chillerlan/php-settings-container#readme)
+
+**Important: Please use the examples from the branch that matches your installed php-qrcode version (
+[v4.x](https://github.com/chillerlan/php-qrcode/tree/v4.3.x/examples),
+[v5.x](https://github.com/chillerlan/php-qrcode/tree/v5.0.x/examples),
+[dev-main](https://github.com/chillerlan/php-qrcode/tree/main/examples)
+)!**
+
+## Installation with [composer](https://getcomposer.org)
+
+See [the installation guide](https://php-qrcode.readthedocs.io/en/v5.0.x/Usage/Installation.html) for more info!
+
+
+### Terminal
+
+```
+composer require chillerlan/php-qrcode
+```
+
+
+### composer.json
+
 ```json
 {
 	"require": {
-		"php": "^7.2",
-		"chillerlan/php-qrcode": "^3.4"
+		"php": "^7.4 || ^8.0",
+		"chillerlan/php-qrcode": "v5.0.x-dev#<commit_hash>"
 	}
 }
 ```
 
-### Usage
+Note: replace `v5.0.x-dev` with a [version constraint](https://getcomposer.org/doc/articles/versions.md#writing-version-constraints), e.g. `^4.3` - see [releases](https://github.com/chillerlan/php-qrcode/releases) for valid versions.
+
+
+## Quickstart
+
 We want to encode this URI for a mobile authenticator into a QRcode image:
+
 ```php
 $data = 'otpauth://totp/test?secret=B3JX4VCVJDVNXNZ5&issuer=chillerlan.net';
 
-//quick and simple:
+// quick and simple:
 echo '<img src="'.(new QRCode)->render($data).'" alt="QR Code" />';
 ```
 
+Wait, what was that? Please again, slower! See [Advanced usage](https://php-qrcode.readthedocs.io/en/v5.0.x/Usage/Advanced-usage.html) in the manual.
+Also, have a look [in the examples folder](https://github.com/chillerlan/php-qrcode/tree/v5.0.x/examples) for some more usage examples.
+
 <p align="center">
-	<img alt="QR codes are awesome!" src="https://raw.githubusercontent.com/chillerlan/php-qrcode/main/examples/example_image.png">
-	<img alt="QR codes are awesome!" src="https://raw.githubusercontent.com/chillerlan/php-qrcode/main/examples/example_svg.png">
+	<img alt="QR codes are awesome!" style="width: auto; height: 530px;" src="https://raw.githubusercontent.com/chillerlan/php-qrcode/v5.0.x/.github/images/example.svg">
 </p>
 
-Wait, what was that? Please again, slower!
 
-### Advanced usage
+## Reading QR Codes
 
-Ok, step by step. First you'll need a `QRCode` instance, which can be optionally invoked with a `QROptions` (or a [`SettingsContainerInterface`](https://github.com/chillerlan/php-settings-container/blob/master/src/SettingsContainerInterface.php), respectively) object as the only parameter.
-
-```php
-$options = new QROptions([
-	'version'    => 5,
-	'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-	'eccLevel'   => QRCode::ECC_L,
-]);
-
-// invoke a fresh QRCode instance
-$qrcode = new QRCode($options);
-
-// and dump the output
-$qrcode->render($data);
-
-// ...with additional cache file
-$qrcode->render($data, '/path/to/file.svg');
-```
-
-In case you just want the raw QR code matrix, call `QRCode::getMatrix()` - this method is also called internally from `QRCode::render()`. See also [Custom output modules](#custom-qroutputinterface).
+Using the built-in QR Code reader is pretty straight-forward:
 
 ```php
-$matrix = $qrcode->getMatrix($data);
+// it's generally a good idea to wrap the reader in a try/catch block because it WILL throw eventually
+try{
+	$result = (new QRCode)->readFromFile('path/to/file.png'); // -> DecoderResult
 
-foreach($matrix->matrix() as $y => $row){
-	foreach($row as $x => $module){
+	// you can now use the result instance...
+	$content = $result->data;
+	$matrix  = $result->getMatrix(); // -> QRMatrix
 
-		// get a module's value
-		$value = $module;
-		$value = $matrix->get($x, $y);
-
-		// boolean check a module
-		if($matrix->check($x, $y)){ // if($module >> 8 > 0)
-			// do stuff, the module is dark
-		}
-		else{
-			// do other stuff, the module is light
-		}
-
-	}
+	// ...or simply cast it to string to get the content:
+	$content = (string)$result;
+}
+catch(Throwable $e){
+	// oopsies!
 }
 ```
 
-Have a look [in this folder](https://github.com/chillerlan/php-qrcode/tree/master/examples) for some more usage examples.
 
-#### Custom module values
-Previous versions of `QRCode` held only boolean matrix values that only allowed to determine whether a module was dark or not. Now you can distinguish between different parts of the matrix, namely the several required patterns from the QR Code specification, and use them in different ways.
+# Shameless advertising
 
-The dark value is the module (light) value shifted by 8 bits to the left: `$value = $M_TYPE << ($bool ? 8 : 0);`, where `$M_TYPE` is one of the `QRMatrix::M_*` constants.
-You can check the value for a type explicitly like...
-```php
-// for true (dark)
-$value >> 8 === $M_TYPE;
+Hi, please check out some of my other projects that are way cooler than qrcodes!
 
-//for false (light)
-$value === $M_TYPE;
-```
-...or you can perform a loose check, ignoring the module value
-```php
-// for true
-$value >> 8 > 0;
-
-// for false
-$value >> 8 === 0
-```
-
-See also `QRMatrix::set()`, `QRMatrix::check()` and [`QRMatrix` constants](#qrmatrix-constants).
-
-To map the values and properly render the modules for the given `QROutputInterface`, it's necessary to overwrite the default values:
-```php
-$options = new QROptions;
-
-// for HTML, SVG and ImageMagick
-$options->moduleValues = [
-	// finder
-	1536 => '#A71111', // dark (true)
-	6    => '#FFBFBF', // light (false)
-	// alignment
-	2560 => '#A70364',
-	10   => '#FFC9C9',
-	// timing
-	3072 => '#98005D',
-	12   => '#FFB8E9',
-	// format
-	3584 => '#003804',
-	14   => '#00FB12',
-	// version
-	4096 => '#650098',
-	16   => '#E0B8FF',
-	// data
-	1024 => '#4A6000',
-	4    => '#ECF9BE',
-	// darkmodule
-	512  => '#080063',
-	// separator
-	8    => '#AFBFBF',
-	// quietzone
-	18   => '#FFFFFF',
-];
-
-// for the image output types
-$options->moduleValues = [
-	512  => [0, 0, 0],
-	// ...
-];
-
-// for string/text output
-$options->moduleValues = [
-	512  => '#',
-	// ...
-];
-```
-
-#### Custom `QROutputInterface`
-Instead of bloating your code you can simply create your own output interface by extending `QROutputAbstract`. Have a look at the [built-in output modules](https://github.com/chillerlan/php-qrcode/tree/master/src/Output).
-
-```php
-class MyCustomOutput extends QROutputAbstract{
-
-	// inherited from QROutputAbstract
-	protected $matrix;      // QRMatrix
-	protected $moduleCount; // modules QRMatrix::size()
-	protected $options;     // MyCustomOptions or QROptions
-	protected $scale;       // scale factor from options
-	protected $length;      // length of the matrix ($moduleCount * $scale)
-
-	// ...check/set default module values (abstract method, called by the constructor)
-	protected function setModuleValues():void{
-		// $this->moduleValues = ...
-	}
-
-	// QROutputInterface::dump()
-	public function dump(string $file = null):string{
-		$output = '';
-
-		for($row = 0; $row < $this->moduleCount; $row++){
-			for($col = 0; $col < $this->moduleCount; $col++){
-				$output .= (int)$this->matrix->check($col, $row);
-			}
-		}
-
-		return $output;
-	}
-
-}
-```
-
-In case you need additional settings for your output module, just extend `QROptions`...
-```
-class MyCustomOptions extends QROptions{
-	protected $myParam = 'defaultValue';
-
-	// ...
-}
-```
-...or use the [`SettingsContainerInterface`](https://github.com/chillerlan/php-settings-container/blob/master/src/SettingsContainerInterface.php), which is the more flexible approach.
-
-```php
-trait MyCustomOptionsTrait{
-	protected $myParam = 'defaultValue';
-
-	// ...
-}
-```
-set the options:
-```php
-$myOptions = [
-	'version'         => 5,
-	'eccLevel'        => QRCode::ECC_L,
-	'outputType'      => QRCode::OUTPUT_CUSTOM,
-	'outputInterface' => MyCustomOutput::class,
-	// your custom settings
-	'myParam'         => 'whatever value',
- ];
-
-// extends QROptions
-$myCustomOptions = new MyCustomOptions($myOptions);
-
-// using the SettingsContainerInterface
-$myCustomOptions = new class($myOptions) extends SettingsContainerAbstract{
-	use QROptionsTrait, MyCustomOptionsTrait;
-};
-
-```
-
-You can then call `QRCode` with the custom modules...
-```php
-(new QRCode($myCustomOptions))->render($data);
-```
-...or invoke the `QROutputInterface` manually.
-```php
-$qrOutputInterface = new MyCustomOutput($myCustomOptions, (new QRCode($myCustomOptions))->getMatrix($data));
-
-//dump the output, which is equivalent to QRCode::render()
-$qrOutputInterface->dump();
-```
-
-### API
-
-####  `QRCode` methods
-method | return | description
------- | ------ | -----------
-`__construct(QROptions $options = null)` | - | see [`SettingsContainerInterface`](https://github.com/chillerlan/php-settings-container/blob/master/src/SettingsContainerInterface.php)
-`render(string $data, string $file = null)` | mixed, `QROutputInterface::dump()` | renders a QR Code for the given `$data` and `QROptions`, saves `$file` optional
-`getMatrix(string $data)` | `QRMatrix` | returns a `QRMatrix` object for the given `$data` and current `QROptions`
-`initDataInterface(string $data)` | `QRDataInterface` | returns a fresh `QRDataInterface` for the given `$data`
-`isNumber(string $string)` | bool | checks if a string qualifies for `Number`
-`isAlphaNum(string $string)` | bool | checks if a string qualifies for `AlphaNum`
-`isKanji(string $string)` | bool | checks if a string qualifies for `Kanji`
-
-####  `QRCode` constants
-name | description
----- | -----------
-`VERSION_AUTO` | `QROptions::$version`
-`MASK_PATTERN_AUTO` | `QROptions::$maskPattern`
-`OUTPUT_MARKUP_SVG`, `OUTPUT_MARKUP_HTML` | `QROptions::$outputType` markup
-`OUTPUT_IMAGE_PNG`, `OUTPUT_IMAGE_JPG`, `OUTPUT_IMAGE_GIF` | `QROptions::$outputType` image
-`OUTPUT_STRING_JSON`, `OUTPUT_STRING_TEXT` | `QROptions::$outputType` string
-`OUTPUT_IMAGICK` | `QROptions::$outputType` ImageMagick
-`OUTPUT_FPDF` | `QROptions::$outputType` PDF, using [FPDF](https://github.com/setasign/fpdf)
-`OUTPUT_CUSTOM` | `QROptions::$outputType`, requires `QROptions::$outputInterface`
-`ECC_L`, `ECC_M`, `ECC_Q`, `ECC_H`, | ECC-Level: 7%, 15%, 25%, 30%  in `QROptions::$eccLevel`
-`DATA_NUMBER`, `DATA_ALPHANUM`, `DATA_BYTE`, `DATA_KANJI` | `QRDataInterface::$datamode`
-
-#### `QROptions` properties
-property | type | default | allowed | description
--------- | ---- | ------- | ------- | -----------
-`$version` | int | `QRCode::VERSION_AUTO` | 1...40 | the [QR Code version number](http://www.qrcode.com/en/about/version.html)
-`$versionMin` | int | 1 | 1...40 | Minimum QR version (if `$version = QRCode::VERSION_AUTO`)
-`$versionMax` | int | 40 | 1...40 | Maximum QR version (if `$version = QRCode::VERSION_AUTO`)
-`$eccLevel` | int | `QRCode::ECC_L` | `QRCode::ECC_X` | Error correct level, where X = L (7%), M (15%), Q (25%), H (30%)
-`$maskPattern` | int | `QRCode::MASK_PATTERN_AUTO` | 0...7 | Mask Pattern to use
-`$addQuietzone` | bool | `true` | - | Add a "quiet zone" (margin) according to the QR code spec
-`$quietzoneSize` | int | 4 | clamped to 0 ... `$matrixSize / 2` | Size of the quiet zone
-`$dataMode` | string | `null` | `Number`, `AlphaNum`, `Kanji`, `Byte` | allows overriding the data type detection
-`$outputType` | string | `QRCode::OUTPUT_IMAGE_PNG` | `QRCode::OUTPUT_*` | built-in output type
-`$outputInterface` | string | `null` | * | FQCN of the custom `QROutputInterface` if `QROptions::$outputType` is set to `QRCode::OUTPUT_CUSTOM`
-`$cachefile` | string | `null` | * | optional cache file path
-`$eol` | string | `PHP_EOL` | * | newline string (HTML, SVG, TEXT)
-`$scale` | int | 5 | * | size of a QR code pixel (SVG, IMAGE_*), HTML -> via CSS
-`$cssClass` | string | `null` | * | a common css class
-`$svgOpacity` | float | 1.0 | 0...1 | 
-`$svgDefs` | string | * | * | anything between [`<defs>`](https://developer.mozilla.org/docs/Web/SVG/Element/defs)
-`$svgViewBoxSize` | int | `null` | * | a positive integer which defines width/height of the [viewBox attribute](https://css-tricks.com/scale-svg/#article-header-id-3)
-`$textDark` | string | '🔴' | * | string substitute for dark
-`$textLight` | string | '⭕' | * | string substitute for light
-`$markupDark` | string | '#000' | * | markup substitute for dark (CSS value)
-`$markupLight` | string | '#fff' | * | markup substitute for light (CSS value)
-`$imageBase64` | bool | `true` | - | whether to return the image data as base64 or raw like from `file_get_contents()`
-`$imageTransparent` | bool | `true` | - | toggle transparency (no jpeg support)
-`$imageTransparencyBG` | array | `[255, 255, 255]` | `[R, G, B]` | the RGB values for the transparent color, see [`imagecolortransparent()`](http://php.net/manual/function.imagecolortransparent.php)
-`$pngCompression` | int | -1 | -1 ... 9 | `imagepng()` compression level, -1 = auto
-`$jpegQuality` | int | 85 | 0 - 100 | `imagejpeg()` quality
-`$imagickFormat` | string | 'png' | * | ImageMagick output type, see `Imagick::setType()`
-`$imagickBG` | string | `null` | * | ImageMagick background color, see `ImagickPixel::__construct()`
-`$moduleValues` | array | `null` | * | Module values map, see [Custom output modules](#custom-qroutputinterface) and `QROutputInterface::DEFAULT_MODULE_VALUES`
-
-#### `QRMatrix` methods
-method | return | description
------- | ------ | -----------
-`__construct(int $version, int $eclevel)` | - | -
-`matrix()` | array | the internal matrix representation as a 2 dimensional array
-`version()` | int | the current QR Code version
-`eccLevel()` | int | current ECC level
-`maskPattern()` | int | the used mask pattern
-`size()` | int | the absoulute size of the matrix, including quiet zone (if set). `$version * 4 + 17 + 2 * $quietzone`
-`get(int $x, int $y)` | int | returns the value of the module
-`set(int $x, int $y, bool $value, int $M_TYPE)` | `QRMatrix` | sets the `$M_TYPE` value for the module
-`check(int $x, int $y)` | bool | checks whether a module is true (dark) or false (light)
-`setLogoSpace(int $width, int $height, int $startX = null, int $startY = null)` | `QRMatrix` | creates a logo space in the matrix
-
-#### `QRMatrix` constants
-name | light (false) | dark (true) | description
----- | ------------- | ----------- | -----------
-`M_NULL` | 0 | - | module not set (should never appear. if so, there's an error)
-`M_DARKMODULE` | - | 512 | once per matrix at `$xy = [8, 4 * $version + 9]`
-`M_DATA` | 4 | 1024 | the actual encoded data
-`M_FINDER` | 6 | 1536 | the 7x7 finder patterns
-`M_SEPARATOR` | 8 | - | separator lines around the finder patterns
-`M_ALIGNMENT` | 10 | 2560 | the 5x5 alignment patterns
-`M_TIMING` | 12 | 3072 | the timing pattern lines
-`M_FORMAT` | 14 | 3584 | format information pattern
-`M_VERSION` | 16 | 4096 | version information pattern
-`M_QUIETZONE` | 18 | - | margin around the QR Code
-`M_LOGO` | 20 | - | space for a logo image (not used yet)
-`M_TEST` | 255 | 65280 | test value
+- [js-qrcode](https://github.com/chillerlan/js-qrcode) - a javascript port of this library
+- [php-authenticator](https://github.com/chillerlan/php-authenticator) - a Google Authenticator implementation (see [authenticator example](https://github.com/chillerlan/php-qrcode/blob/v5.0.x/examples/authenticator.php))
+- [php-httpinterface](https://github.com/chillerlan/php-httpinterface) - a PSR-7/15/17/18 implemetation
+- [php-oauth](https://github.com/chillerlan/php-oauth) - an OAuth 1/2 client library, fully PSR-7/PSR-17/PSR-18 compatible
+- [php-database](https://github.com/chillerlan/php-database) - a database client & querybuilder for MySQL, Postgres, SQLite, MSSQL, Firebird
+- [php-tootbot](https://github.com/php-tootbot/tootbot-template) - a Mastodon bot library (see [@dwil](https://github.com/php-tootbot/dwil))
 
 
-### Notes
-The QR encoder, especially the subroutines for mask pattern testing, can cause high CPU load on increased matrix size.
-You can avoid a part of this load by choosing a fast output module, like `OUTPUT_IMAGE_*` and setting the mask pattern manually (which may result in unreadable QR Codes).
-Oh hey and don't forget to sanitize any user input!
+# Disclaimer!
 
-### Disclaimer!
 I don't take responsibility for molten CPUs, misled applications, failed log-ins etc.. Use at your own risk!
 
-#### Trademark Notice
 
-The word "QR Code" is registered trademark of *DENSO WAVE INCORPORATED*<br>
-http://www.denso-wave.com/qrcode/faqpatent-e.html
+## License notice
 
-### Framework Integration
-- Drupal [Google Authenticator Login `ga_login`](https://www.drupal.org/project/ga_login)
-- WordPress [`wp-two-factor-auth`](https://github.com/sjinks/wp-two-factor-auth)
-- WordPress [Simple 2FA `simple-2fa`](https://wordpress.org/plugins/simple-2fa/)
-- WoltLab Suite [two-step-verification](http://pluginstore.woltlab.com/file/3007-two-step-verification/)  
-- [Cachet](https://github.com/CachetHQ/Cachet)
-- [Appwrite](https://github.com/appwrite/appwrite)
-- other uses: [dependents](https://github.com/chillerlan/php-qrcode/network/dependents) / [packages](https://github.com/chillerlan/php-qrcode/network/dependents?dependent_type=PACKAGE)
+- Parts of this code are [ported to PHP](https://github.com/codemasher/php-qrcode-decoder) from the [ZXing project](https://github.com/zxing/zxing) and licensed under the [Apache License, Version 2.0](./NOTICE).
+- [The documentation](https://github.com/chillerlan/php-qrcode/tree/v5.0.x/docs) is licensed under the [Creative Commons Attribution 4.0 International (CC BY 4.0) License](https://creativecommons.org/licenses/by/4.0/).
 
 
-Hi, please check out my other projects that are way cooler than qrcodes!
+## Trademark Notice
 
-- [php-oauth-core](https://github.com/chillerlan/php-oauth-core) - an OAuth 1/2 client library along with a bunch of [providers](https://github.com/chillerlan/php-oauth-providers)
-- [php-httpinterface](https://github.com/chillerlan/php-httpinterface) - a PSR-7/15/17/18 implemetation
-- [php-database](https://github.com/chillerlan/php-database) - a database client & querybuilder for MySQL, Postgres, SQLite, MSSQL, Firebird
-
+The word "QR Code" is a registered trademark of *DENSO WAVE INCORPORATED*<br>
+https://www.qrcode.com/en/faq.html#patentH2Title
