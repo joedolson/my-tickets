@@ -21,8 +21,11 @@
 			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif
 		}
 
+		body > * {
+			box-sizing: border-box;
+		}
+
 		.panel {
-			padding: 1em;
 			margin: 0 auto;
 			border: var(--mt-receipt-border);
 			background: var(--mt-receipt-background);
@@ -32,6 +35,10 @@
 			gap: 20px;
 		}
 
+		.panel > * {
+			padding: 0 1rem;
+		}
+
 		.cart-order {
 			padding: .5rem;
 			background: rgb( 0,0,0,.02 );
@@ -39,6 +46,7 @@
 
 		h1 {
 			font-size: 1.5rem;
+			margin: 0;
 		}
 
 		h2 {
@@ -86,7 +94,6 @@
 			background: var(--mt-receipt-secondary-background);
 			color: var(--mt-receipt-secondary-color);
 			padding: 1em;
-			margin: 0 -1em;
 		}
 
 		code {
@@ -96,6 +103,7 @@
 </head>
 <body class="my-tickets">
 <div class='panel receipt'>
+	<div class="organization-info">
 	<?php
 	// load data from the Receipts Page.
 	if ( have_posts() ) {
@@ -110,10 +118,11 @@
 				<?php } ?>
 			</div>
 			<div class='post-content'>
+				<h1><?php the_title(); ?></h1>
 				<?php
 				$content = get_the_content();
 				if ( trim( strip_tags( $content ) ) === '' ) {
-					$content = ( current_user_can( 'edit_pages' ) ) ? wpautop( __( 'Add your business name and address to the post content.', 'my-tickets' ) ) : '';
+					$content  = ( current_user_can( 'edit_pages' ) ) ? wpautop( __( 'Add your business name and address to the post content.', 'my-tickets' ) ) : '';
 				}
 				echo wpautop( $content );
 				?>
@@ -125,8 +134,8 @@
 
 	// Receipt template.
 	?>
-	<div class='receipt'>
-		<h1><?php echo esc_html( sprintf( __( 'Receipt from %s', 'my-tickets' ), get_bloginfo( 'name' ) ) ); ?></h1>
+	</div>
+	<div class='receipt-info'>
 		<p>
 			<code>#<?php mt_receipt_id(); ?></code>
 		</p>
