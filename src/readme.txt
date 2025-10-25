@@ -7,7 +7,7 @@ Tested up to: 6.8
 Requires PHP: 7.4
 License: GPLv3
 Text domain: my-tickets
-Stable tag: 2.0.23
+Stable tag: 2.1.0
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.1.0 =
+
+* Update QR Code library to latest.
+* Change QR Code output from PNG to SVG.
+* Remove QR Code quiet zone.
 
 = 2.0.23 =
 
