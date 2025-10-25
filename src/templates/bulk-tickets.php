@@ -343,7 +343,7 @@ if ( have_posts() ) {
 							if ( '' === trim( strip_tags( $content ) ) ) {
 								$content = ( current_user_can( 'edit_pages' ) ) ? __( 'Add your custom text into the post content.', 'my-tickets' ) : '';
 							}
-							echo $content;
+							echo wp_kses_post( $content );
 							?>
 							<?php edit_post_link(); ?>
 						</div>
@@ -361,8 +361,9 @@ if ( have_posts() ) {
 							</div>
 							<?php
 						}
+						$custom_fields = apply_filters( 'mt_custom_ticket', '', $ticket_id, mt_get_ticket_method( $ticket_id ) );
+						echo wp_kses_post( $custom_fields );
 						?>
-						<?php echo apply_filters( 'mt_custom_ticket', '', $ticket_id, mt_get_ticket_method( $ticket_id ) ); ?>
 					</div>
 					<div class="ticket-references">
 						<div class='ticket-venue'>
