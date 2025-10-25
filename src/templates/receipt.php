@@ -16,6 +16,7 @@
 	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Receipts', 'my-tickets' ); ?> &bull; <?php mt_receipt_id(); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
+		<?php echo mt_generate_css(); ?>
 		body {
 			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif
 		}
@@ -23,7 +24,29 @@
 		.panel {
 			padding: 1em;
 			margin: 0 auto;
-			border: 1px solid #999;
+			border: var(--mt-receipt-border);
+			background: var(--mt-receipt-background);
+			color: var(--mt-receipt-color);
+			font-size: 1rem;
+			display: grid;
+			gap: 20px;
+		}
+
+		.cart-order {
+			padding: .5rem;
+			background: rgb( 0,0,0,.02 );
+		}
+
+		h1 {
+			font-size: 1.5rem;
+		}
+
+		h2 {
+			font-size: 1.3rem;
+		}
+
+		.panel a {
+			color: var(--mt-receipt-link-color);
 		}
 
 		.panel img {
@@ -37,42 +60,10 @@
 			word-wrap: breakword;
 		}
 
-		.panel .post-footer {
-			background: #eee;
-			padding: 1em;
-			margin: 0 -1em;
-			font-size: .8em;
-		}
-
 		a.print {
 			display: block;
 			width: 100%;
 			text-align: center;
-		}
-
-		.mt-verification div {
-			padding: .5em;
-		}
-
-		.pending {
-			background: #f5e6ab;
-			border-left: 8px solid #755100;
-		}
-
-		.completed {
-			background: #edfaef;
-			border-left: 8px solid #005c12;
-			font-weight: 700;
-		}
-
-		.completed.used {
-			background: #facfd2;
-			border-left: 8px solid #8a2424;
-			font-weight: 700;
-		}
-
-		.mt-verification {
-			font-size: 1.6em;
 		}
 
 		@media print {
@@ -82,17 +73,18 @@
 		}
 		.receipt {
 			width: 100%;
-			max-width: 400px;
+			max-width: 480px;
 		}
 
 		.receipt .post-thumbnail .default {
-			width: 120px;
+			width: 160px;
 			height: auto;
 			margin-bottom: 1em;
 		}
 
 		.receipt .post-content {
-			background: #eee;
+			background: var(--mt-receipt-secondary-background);
+			color: var(--mt-receipt-secondary-color);
 			padding: 1em;
 			margin: 0 -1em;
 		}
@@ -102,7 +94,7 @@
 		}
 	</style>
 </head>
-<body>
+<body class="my-tickets">
 <div class='panel receipt'>
 	<?php
 	// load data from the Receipts Page.
@@ -133,24 +125,27 @@
 
 	// Receipt template.
 	?>
-	<h1><?php _e( 'Receipt', 'my-tickets' ); ?></h1>
-
 	<div class='receipt'>
+		<h1><?php echo esc_html( sprintf( __( 'Receipt from %s', 'my-tickets' ), get_bloginfo( 'name' ) ) ); ?></h1>
 		<p>
 			<code>#<?php mt_receipt_id(); ?></code>
 		</p>
 	</div>
-	<div class='purchaser'>
-		<strong><?php _e( 'Purchaser:', 'my-tickets' ); ?></strong> <?php mt_cart_purchaser(); ?>
+	<div class="purchase-info">
+		<div class='purchaser'>
+			<strong><?php _e( 'Purchaser:', 'my-tickets' ); ?></strong> <?php mt_cart_purchaser(); ?>
+		</div>
+		<div class='purchase-date'>
+			<strong><?php _e( 'Purchased on:', 'my-tickets' ); ?></strong> <?php mt_cart_purchase_date(); ?>
+		</div>
 	</div>
-	<div class='purchase-date'>
-		<strong><?php _e( 'Purchased on:', 'my-tickets' ); ?></strong> <?php mt_cart_purchase_date(); ?>
-	</div>
-	<div class='cart-order'>
-		<h2><?php _e( 'Tickets Purchased:', 'my-tickets' ); ?></h2> <?php mt_cart_order(); ?>
-	</div>
-	<div class='payment-details'>
-		<h2><?php _e( 'Payment Details', 'my-tickets' ); ?></h2> <?php mt_payment_details(); ?>
+	<div class="order-info">
+		<div class='cart-order'>
+			<h2><?php _e( 'Tickets Purchased:', 'my-tickets' ); ?></h2> <?php mt_cart_order(); ?>
+		</div>
+		<div class='payment-details'>
+			<h2><?php _e( 'Payment Details', 'my-tickets' ); ?></h2> <?php mt_payment_details(); ?>
+		</div>
 	</div>
 	<?php echo apply_filters( 'mt_custom_receipt', '' ); ?>
 </div>

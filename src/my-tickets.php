@@ -1365,18 +1365,28 @@ function mt_kses_elements() {
  */
 function mt_style_variables( $styles = array() ) {
 	$core_styles = array(
-		'--mt-order-background' => '#f6f7f7',
-		'--mt-order-shadow'     => '#dcdcde',
-		'--mt-error-color'      => '#b32d2e',
-		'--mt-error-border'     => '#b32d2e',
-		'--mt-text-color'       => '#2c3338',
-		'--mt-success-color'    => '#007017',
-		'--mt-success-border'   => '#007017',
-		'--mt-message-bg'       => '#f0f6fc',
-		'--mt-message-color'    => '#2c3338',
-		'--mt-field-background' => '#f6f7f7',
-		'--mt-field-color'      => '#2c3338',
-		'--mt-field-border'     => '#50575e',
+		'--mt-order-background'             => '#f6f7f7',
+		'--mt-order-shadow'                 => '#dcdcde',
+		'--mt-error-color'                  => '#b32d2e',
+		'--mt-error-border'                 => '#b32d2e',
+		'--mt-text-color'                   => '#2c3338',
+		'--mt-success-color'                => '#007017',
+		'--mt-success-border'               => '#007017',
+		'--mt-message-bg'                   => '#f0f6fc',
+		'--mt-message-color'                => '#2c3338',
+		'--mt-field-background'             => '#f6f7f7',
+		'--mt-field-color'                  => '#2c3338',
+		'--mt-field-border'                 => '#50575e',
+		'--mt-ticket-background'            => '#fafafa',
+		'--mt-ticket-color'                 => '#2a2a2a',
+		'--mt-ticket-secondary-color'       => '#4a4a4a',
+		'--mt-ticket-border'                => '2px dashed #ccc',
+		'--mt-receipt-secondary-background' => '#fafafa',
+		'--mt-receipt-secondary-color'      => '#2a2a2a',
+		'--mt-receipt-background'           => '#fff',
+		'--mt-receipt-color'                => '#4a4a4a',
+		'--mt-receipt-link-color'           => '#1111de',
+		'--mt-receipt-border'               => '1px solid #999',
 	);
 	foreach ( $core_styles as $key => $value ) {
 		if ( ! isset( $styles[ $key ] ) ) {
@@ -1396,7 +1406,7 @@ function mt_generate_css() {
 	$style_vars = '';
 	foreach ( $styles as $key => $var ) {
 		if ( $var ) {
-			$style_vars .= sanitize_key( $key ) . ': ' . $var . '; ';
+			$style_vars .= sanitize_key( $key ) . ': ' . esc_attr( $var ) . '; ';
 		}
 	}
 	if ( '' !== $style_vars ) {

@@ -16,6 +16,7 @@
 	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php esc_html_e( 'Tickets', 'my-tickets' ); ?> &bull; <?php mt_ticket_id(); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
+		<?php echo mt_generate_css(); ?>
 		body {
 			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif
 		}
@@ -23,26 +24,20 @@
 		body * {
 			box-sizing: border-box;
 		}
-
 		.ticket.eticket {
 			height: calc( 100vh - 2rem );
 		}
 
 		.panel {
 			margin: 0 auto;
-			border: 1px dashed #777;
+			border: var(--mt-ticket-border);
+			background: var(--mt-ticket-background);
+			color: var(--mt-ticket-color);
 		}
 
 		.panel * {
 			word-wrap: breakword;
 			line-height: 1.5;
-		}
-
-		.panel .post-footer {
-			background: #eee;
-			padding: 1rem;
-			margin: 0 -1rem;
-			font-size: .8em;
 		}
 
 		a.print {
@@ -96,6 +91,7 @@
 			text-align: center;
 		}
 
+		.bulk-checkin,
 		.ticket {
 			padding: 1rem;
 			width: 800px;
@@ -148,8 +144,13 @@
 
 		.ticket .post-content {
 			font-size: .8em;
-			color: #555;
 			font-style: italic;
+		}
+
+		.ticket .post-content,
+		.ticket .ticket-price,
+		.ticket .event-date {
+			color: var(--mt-ticket-secondary-color);
 		}
 
 		.eticket.ticket .post-content {
@@ -158,7 +159,7 @@
 		}
 
 		.ticket .ticket_id {
-			font-size: .7em;
+			font-size: .8em;
 			text-transform: uppercase;
 		}
 
@@ -169,12 +170,7 @@
 		}
 
 		.ticket .event-date {
-			color: #444;
 			font-size: 1.2em;
-		}
-
-		.ticket .time {
-			color: #000;
 		}
 
 		.ticket .event-title {
@@ -252,7 +248,7 @@
 		}
 	</style>
 </head>
-<body>
+<body class="my-tickets">
 <div class='panel ticket <?php mt_ticket_method(); ?>'>
 	<div class='inside'>
 		<?php

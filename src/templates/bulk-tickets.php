@@ -16,6 +16,7 @@
 	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php esc_html_e( 'Tickets', 'my-tickets' ); ?> &bull; <?php esc_html_e( 'Bulk Ticket Check-in', 'my-tickets' ); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
+		<?php echo mt_generate_css(); ?>
 		body {
 			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif
 		}
@@ -23,27 +24,20 @@
 		body * {
 			box-sizing: border-box;
 		}
-
 		.ticket.eticket {
 			height: calc( 100vh - 2rem );
 		}
 
 		.panel {
 			margin: 0 auto;
-			border: 2px dashed #ccc;
-			background: #fafafa;
+			border: var(--mt-ticket-border);
+			background: var(--mt-ticket-background);
+			color: var(--mt-ticket-color);
 		}
 
 		.panel * {
 			word-wrap: breakword;
 			line-height: 1.5;
-		}
-
-		.panel .post-footer {
-			background: #eee;
-			padding: 1rem;
-			margin: 0 -1rem;
-			font-size: .8em;
 		}
 
 		a.print {
@@ -150,8 +144,13 @@
 
 		.ticket .post-content {
 			font-size: .8em;
-			color: #555;
 			font-style: italic;
+		}
+
+		.ticket .post-content,
+		.ticket .ticket-price,
+		.ticket .event-date {
+			color: var(--mt-ticket-secondary-color);
 		}
 
 		.eticket.ticket .post-content {
@@ -160,7 +159,7 @@
 		}
 
 		.ticket .ticket_id {
-			font-size: .7em;
+			font-size: .8em;
 			text-transform: uppercase;
 		}
 
@@ -171,12 +170,7 @@
 		}
 
 		.ticket .event-date {
-			color: #444;
 			font-size: 1.2em;
-		}
-
-		.ticket .time {
-			color: #000;
 		}
 
 		.ticket .event-title {
@@ -227,7 +221,7 @@
 			grid-template-columns:180px 1fr;
 			align-items: center;
 			gap: 20px;
-			background: #fafafa;
+			background: var(--mt-ticket-background);
 			margin-bottom: 2rem;
 			font-size: 1.5rem;
 		}
@@ -286,7 +280,7 @@
 		}
 	</style>
 </head>
-<body class="bulk-tickets">
+<body class="bulk-tickets my-tickets">
 <div class="bulk-checkin">
 	<img src="<?php mt_purchase_qrcode(); ?>" alt="<?php esc_html_e( 'Check-in all tickets for this purchase', 'my-tickets' ); ?>" />
 	<p><?php esc_html_e( 'Check-in all tickets on this purchase.', 'my-tickets' ); ?></p>
