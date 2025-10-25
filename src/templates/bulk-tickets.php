@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php _e( 'Tickets', 'my-tickets' ); ?> &bull; <?php mt_ticket_id(); ?></title>
+	<title><?php bloginfo( 'blogname' ); ?> &bull; <?php esc_html_e( 'Tickets', 'my-tickets' ); ?> &bull; <?php esc_html_e( 'Bulk Ticket Check-in', 'my-tickets' ); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
 		body {
@@ -30,7 +30,8 @@
 
 		.panel {
 			margin: 0 auto;
-			border: 1px dashed #777;
+			border: 2px dashed #ccc;
+			background: #fafafa;
 		}
 
 		.panel * {
@@ -223,11 +224,11 @@
 			margin: 0 auto;
 			height: auto;
 			display: grid;
-			grid-template-columns: 280px 1fr;
+			grid-template-columns:180px 1fr;
 			align-items: center;
 			gap: 20px;
-			background: rgba( 0,0,0,.05 );
-			margin-bottom: 1rem;
+			background: #fafafa;
+			margin-bottom: 2rem;
 			font-size: 1.5rem;
 		}
 
@@ -238,7 +239,6 @@
 		@media only screen and (max-width: 800px) {
 			.printable {
 				padding: 1em;
-				width: 90%;
 				min-width: 320px;
 			}
 
@@ -288,8 +288,8 @@
 </head>
 <body class="bulk-tickets">
 <div class="bulk-checkin">
-	<img src="<?php mt_purchase_qrcode(); ?>" alt="<?php _e( 'Check-in all tickets for this purchase', 'my-tickets' ); ?>" />
-	<p><?php _e( 'Check-in all tickets on this purchase.', 'my-tickets' ); ?></p>
+	<img src="<?php mt_purchase_qrcode(); ?>" alt="<?php esc_html_e( 'Check-in all tickets for this purchase', 'my-tickets' ); ?>" />
+	<p><?php esc_html_e( 'Check-in all tickets on this purchase.', 'my-tickets' ); ?></p>
 </div>
 <?php
 // load data from the Tickets Page.
@@ -388,5 +388,6 @@ if ( have_posts() ) {
 	}
 }
 ?>
+	<a href="javascript:window.print()" class="print">Print</a>
 </body>
 </html>
