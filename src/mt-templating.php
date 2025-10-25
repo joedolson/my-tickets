@@ -833,7 +833,7 @@ function mt_get_purchase_qrcode( $receipt_id = false ) {
 			get_permalink( $id )
 		)
 	);
-	$qrcode    = array(
+	$qrcode     = array(
 		'version'      => 9,
 		'outputType'   => QRCODE::OUTPUT_MARKUP_SVG,
 		'eccLevel'     => QRCODE::ECC_M,
