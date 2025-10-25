@@ -20,6 +20,14 @@
 			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif
 		}
 
+		body * {
+			box-sizing: border-box;
+		}
+
+		.ticket.eticket {
+			height: calc( 100vh - 2rem );
+		}
+
 		.panel {
 			margin: 0 auto;
 			border: 1px dashed #777;
@@ -83,7 +91,8 @@
 		}
 
 		.ticket.eticket .post-thumbnail {
-			margin: 2em auto;
+			margin: 0 auto;
+			width: 100%;
 			text-align: center;
 		}
 
@@ -91,34 +100,19 @@
 		.ticket {
 			padding: 1rem;
 			width: 800px;
-		}
-
-		.bulk-checkin {
-			margin: 0 auto;
-			height: auto;
-			display: flex;
-			align-items: center;
-			gap: 20px;
-			background: rgba( 0,0,0,.05 );
-			margin-bottom: 1rem;
-			font-size: 1.5rem;
-		}
-
-		.bulk-tickets .ticket {
-			margin-bottom: 2em;
+			max-width: 100%;
 		}
 
 		.eticket.ticket {
 			max-width: 480px;
-			padding: 0;
 			width: 100%;
 			height: auto;
-			border: none;
+			padding: 1rem;
 		}
 
-		.eticket .ticket-data {
-			padding: 0 2em 4em;
-			position: relative;
+		.ticket-data {
+			display: grid;
+			gap: 1.5rem;
 		}
 
 		.ticket .inside {
@@ -131,13 +125,29 @@
 			gap: 1rem;
 		}
 
+		.eticket.ticket .inside {
+			grid-template-columns: 1fr;
+		}
+
 		.ticket .post-thumbnail img {
 			width: 100%;
 			height: auto;
+			margin: 0 auto;
+			display: block;
+		}
+		.ticket.eticket .post-thumbnail img {
+			height: auto;
+			width: auto;
+			max-height: 240px;
+			max-width: 100%;
+		}
+
+		.ticket_id,
+		.ticket-qrcode {
+			text-align: right;
 		}
 
 		.ticket .post-content {
-			margin-top: 2rem;
 			font-size: .8em;
 			color: #555;
 			font-style: italic;
@@ -154,13 +164,14 @@
 		}
 
 		.eticket .ticket_id {
-			font-size: .8em;
+			font-size: 1rem;
 			clear: both;
+			text-align: center;
 		}
 
 		.ticket .event-date {
 			color: #444;
-			font-size: 1.1em;
+			font-size: 1.2em;
 		}
 
 		.ticket .time {
@@ -173,41 +184,55 @@
 		}
 
 		.ticket .ticket-type {
-			margin-top: 2em;
-			font-size: 1.3em;
+			font-size: 1.2em;
 			font-weight: 700;
 		}
 
 		.ticket .ticket-price {
-			font-size: 1.6em;
+			font-size: 1.2em;
 		}
 
 		.ticket .map {
 			display: none;
 		}
 
-		.printable .ticket-qrcode img, .willcall .ticket-qrcode img {
+		.ticket-qrcode img {
 			max-width: 120px;
 		}
 
 		.eticket .ticket-qrcode img {
 			width: 100%;
 			height: auto;
-		}
-
-		.ticket_id,
-		.ticket-qrcode {
-			text-align: right;
+			max-width: 360px;
+			display: block;
+			margin: 0 auto;
 		}
 
 		.ticket-venue {
-			font-size: .8em;
+			font-size: .9em;
 			text-align: right;
 		}
 
 		.eticket .ticket-venue, .eticket .ticket-id {
 			text-align: left;
 			font-size: 1em;
+		}
+
+		/* Bulk display specific styles */
+		.bulk-checkin {
+			margin: 0 auto;
+			height: auto;
+			display: grid;
+			grid-template-columns: 280px 1fr;
+			align-items: center;
+			gap: 20px;
+			background: rgba( 0,0,0,.05 );
+			margin-bottom: 1rem;
+			font-size: 1.5rem;
+		}
+
+		.bulk-tickets .ticket {
+			margin-bottom: 2em;
 		}
 
 		@media only screen and (max-width: 800px) {
@@ -296,18 +321,21 @@ if ( have_posts() ) {
 					}
 					?>
 					<div class="ticket-data">
-						<h1 class='event-title'>
-							<?php mt_event_title( $ticket_id ); ?>
-						</h1>
-
-						<div class='event-date'>
-							<?php mt_event_date_time( $ticket_id ); ?>
+						<div class="ticket-title-date">
+							<h1 class='event-title'>
+								<?php mt_event_title( $ticket_id ); ?>
+							</h1>
+							<div class='event-date'>
+								<?php mt_event_date_time( $ticket_id ); ?>
+							</div>
 						</div>
-						<div class='ticket-type'>
-							<?php mt_ticket_type( $ticket_id ); ?>
-						</div>
-						<div class='ticket-price'>
-							<?php mt_ticket_price( $ticket_id ); ?>
+						<div class="ticket-type-price">
+							<div class='ticket-type'>
+								<?php mt_ticket_type( $ticket_id ); ?>
+							</div>
+							<div class='ticket-price'>
+								<?php mt_ticket_price( $ticket_id ); ?>
+							</div>
 						</div>
 						<div class='post-content'>
 							<?php

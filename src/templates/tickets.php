@@ -20,6 +20,14 @@
 			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif
 		}
 
+		body * {
+			box-sizing: border-box;
+		}
+
+		.ticket.eticket {
+			height: calc( 100vh - 2rem );
+		}
+
 		.panel {
 			margin: 0 auto;
 			border: 1px dashed #777;
@@ -83,26 +91,27 @@
 		}
 
 		.ticket.eticket .post-thumbnail {
-			margin: 2em auto;
+			margin: 0 auto;
+			width: 100%;
 			text-align: center;
 		}
 
 		.ticket {
 			padding: 1rem;
 			width: 800px;
+			max-width: 100%;
 		}
 
 		.eticket.ticket {
 			max-width: 480px;
-			padding: 0;
 			width: 100%;
 			height: auto;
-			border: none;
+			padding: 1rem;
 		}
 
-		.eticket .ticket-data {
-			padding: 0 2em 4em;
-			position: relative;
+		.ticket-data {
+			display: grid;
+			gap: 1.5rem;
 		}
 
 		.ticket .inside {
@@ -115,9 +124,21 @@
 			gap: 1rem;
 		}
 
+		.eticket.ticket .inside {
+			grid-template-columns: 1fr;
+		}
+
 		.ticket .post-thumbnail img {
 			width: 100%;
 			height: auto;
+			margin: 0 auto;
+			display: block;
+		}
+		.ticket.eticket .post-thumbnail img {
+			height: auto;
+			width: auto;
+			max-height: 240px;
+			max-width: 100%;
 		}
 
 		.ticket_id,
@@ -126,7 +147,6 @@
 		}
 
 		.ticket .post-content {
-			margin-top: 2rem;
 			font-size: .8em;
 			color: #555;
 			font-style: italic;
@@ -143,13 +163,14 @@
 		}
 
 		.eticket .ticket_id {
-			font-size: .8em;
+			font-size: 1rem;
 			clear: both;
+			text-align: center;
 		}
 
 		.ticket .event-date {
 			color: #444;
-			font-size: 1.1em;
+			font-size: 1.2em;
 		}
 
 		.ticket .time {
@@ -162,13 +183,12 @@
 		}
 
 		.ticket .ticket-type {
-			margin-top: 2em;
-			font-size: 1.3em;
+			font-size: 1.2em;
 			font-weight: 700;
 		}
 
 		.ticket .ticket-price {
-			font-size: 1.6em;
+			font-size: 1.2em;
 		}
 
 		.ticket .map {
@@ -182,6 +202,9 @@
 		.eticket .ticket-qrcode img {
 			width: 100%;
 			height: auto;
+			max-width: 360px;
+			display: block;
+			margin: 0 auto;
 		}
 
 		.ticket-venue {
@@ -197,8 +220,7 @@
 		@media only screen and (max-width: 800px) {
 			.printable {
 				padding: 1rem;
-				width: 90%;
-				min-width: 320px;
+				width: 100%;
 			}
 
 			.ticket .inside {
@@ -228,12 +250,6 @@
 			}
 
 		}
-
-		@media print {
-			.bulk-tickets .ticket {
-				page-break-inside: avoid;
-			}
-		}
 	</style>
 </head>
 <body>
@@ -259,24 +275,28 @@
 				}
 				?>
 				<div class="ticket-data">
-					<h1 class='event-title'>
-						<?php mt_event_title(); ?>
-					</h1>
+					<div class="ticket-title-date">
+						<h1 class='event-title'>
+							<?php mt_event_title(); ?>
+						</h1>
 
-					<div class='event-date'>
-						<?php
-						if ( mt_get_ticket_validity() ) {
-							echo mt_ticket_validity();
-						} else {
-							mt_event_date_time();
-						}
-						?>
+						<div class='event-date'>
+							<?php
+							if ( mt_get_ticket_validity() ) {
+								echo mt_ticket_validity();
+							} else {
+								mt_event_date_time();
+							}
+							?>
+						</div>
 					</div>
-					<div class='ticket-type'>
-						<?php mt_ticket_type(); ?>
-					</div>
-					<div class='ticket-price'>
-						<?php mt_ticket_price(); ?>
+					<div class="ticket-type-price">
+						<div class='ticket-type'>
+							<?php mt_ticket_type(); ?>
+						</div>
+						<div class='ticket-price'>
+							<?php mt_ticket_price(); ?>
+						</div>
 					</div>
 					<div class='post-content'>
 					<?php
@@ -284,7 +304,7 @@
 					if ( '' === trim( strip_tags( $content ) ) ) {
 						$content = ( current_user_can( 'edit_pages' ) ) ? __( 'Add your custom text into the post content.', 'my-tickets' ) : '';
 					}
-					echo $content;
+					echo wp_kses_post( $content );
 					?>
 					<?php edit_post_link(); ?>
 					</div>
