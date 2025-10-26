@@ -189,7 +189,7 @@ legend {
 	font-style: italic;
 }
 
-.mt-tabs .tabs a {
+.mt-tabs .tabs button {
     display: inline-block;
     padding: 8px 10px;
     border-radius: 4px 4px 0 0;
@@ -197,7 +197,7 @@ legend {
     background: #f3f3f3;
 }
 
-.mt-tabs .tabs a.active {
+.mt-tabs .tabs button[aria-selected=true] {
     border-bottom: 1px solid #fefefe;
     background: #fefefe;
 }

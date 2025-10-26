@@ -1,17 +1,19 @@
 jQuery(document).ready(function ($) {
-    const tabs = $('.mt-tabs .wptab').length;
-    $('.mt-tabs .tabs a[href="#' + mtTabs.firstItem + '"]').addClass('active').attr( 'aria-pressed', 'true' );
-    if ( tabs > 1 ) {
-        $('.mt-tabs .wptab').not('#' + mtTabs.firstItem).hide();
-        $('.mt-tabs .tabs a').on('click', function (e) {
-            e.preventDefault();
-            $('.mt-tabs .tabs a').removeClass('active');
-            $(this).addClass('active').attr( 'aria-pressed', 'true' );
-            let target = $(this).attr('href');
-            $('.mt-tabs .wptab').not(target).hide().removeAttr( 'aria-pressed' );
-            $(target).show();
-        });
-    }
+	const tabs = $('.mt-tabs .wptab').length;
+	let selected = ( window.location.hash != '' ) ? window.location.hash : mtTabs.firstItem;
+	selected = selected.replace( '#', '' );
+	$('.mt-tabs .tabs button[aria-controls="' + selected + '"]').attr( 'aria-selected', 'true' );
+	if (tabs > 1) {
+		$('.mt-tabs .wptab').not( '#' + selected ).hide();
+		$('.mt-tabs .tabs button').on('click', function() {
+			$('.mt-tabs .tabs button').attr( 'aria-selected', 'false' );
+			$(this).attr( 'aria-selected', 'true' );
+			let target = '#' + $(this).attr('aria-controls');
+			$('.mt-tabs .wptab').not( target).hide();
+			history.pushState(null,null,target);
+			$(target).show();
+		});
+	};
 
 	const selectRecipientEvent = $( '#mt_select_event_for_email' );
 	if ( selectRecipientEvent.length ) {

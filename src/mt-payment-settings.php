@@ -282,10 +282,10 @@ function mt_payment_settings() {
 											)
 										) . '</p>' : '';
 										// Translators: Gateway settings.
-										$pg_tabs          .= "<li><a href='#$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '</a></li>';
+										$pg_tabs          .= "<li><button id='tab_mt_" . $gateway . "' role='tab' type='button' aria-selected='false' aria-controls='$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '</button></li>';
 										$checked           = ( mt_is_checked( 'mt_default_gateway', $gateway, $options, true ) ) ? ' checked="checked"' : '';
 										$payment_gateways .= "
-										<div class='wptab mt_$gateway' id='$gateway'>
+										<div class='wptab mt_$gateway' id='$gateway' role='tabpanel' aria-labelledby='tab_mt_" . $gateway . "'>
 										<fieldset>
 											<legend>$fields[label]</legend>
 											<p><input type='radio' name='mt_default_gateway' id='mt_default_gateway_$gateway' value='$gateway'" . $checked . " /> <label for='mt_default_gateway_$gateway'>" . __( 'Default gateway', 'my-tickets' ) . "</label></p>
@@ -297,7 +297,7 @@ function mt_payment_settings() {
 									echo wp_kses(
 										'<li><fieldset><legend>' . __( 'Enabled Payment Gateways', 'my-tickets' ) . "</legend><ul class='checkboxes'>$default_selector</ul></fieldset>
 									<div class='mt-tabs mt-payments'>
-										<ul class='tabs'>
+										<ul class='tabs' role='tablist'>
 											$pg_tabs
 										</ul>
 										$payment_gateways

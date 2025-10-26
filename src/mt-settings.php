@@ -295,18 +295,18 @@ function mt_settings() {
 									'interim'   => __( 'Offline & Pending', 'my-tickets' ),
 								);
 								foreach ( $status_types as $type => $status_type ) {
-									$tabs .= "<li><a href='#$type'>$status_type</a></li>";
+									$tabs .= "<li><button id='tab_mt_" . $type . "' role='tab' type='button' aria-selected='false' aria-controls='$type'>$status_type</button></li>";
 								}
 								?>
 								<div class='mt-notifications'>
 									<div class='mt-tabs mt-settings'>
-										<ul class='tabs'>
+										<ul class='tabs' role="tablist">
 											<?php echo wp_kses_post( $tabs ); ?>
 										</ul>
 										<?php
 										foreach ( $status_types as $type => $status_type ) {
 											?>
-											<div class='wptab mt_<?php echo esc_attr( $type ); ?>' id='<?php echo esc_attr( $type ); ?>' aria-live='assertive'>
+											<div class='wptab mt_<?php echo esc_attr( $type ); ?>' id='<?php echo esc_attr( $type ); ?>' role='tabpanel' aria-labelledby='tab_mt_<?php echo esc_attr( $type ); ?>'>
 												<fieldset>
 													<legend><?php _e( 'Sent to administrators', 'my-tickets' ); ?></legend>
 													<ul>
@@ -446,7 +446,7 @@ function mt_settings() {
 											<input type='text' class="mt-color-input" name='new_style_var[val]' id='new_style_var_val' />
 										</p>
 									</div>
-								</fieldset>	
+								</fieldset>
 								<p class="mt-save-settings"><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save Settings', 'my-tickets' ); ?>"/></p>
 							</form>
 						</div>
@@ -461,8 +461,8 @@ function mt_settings() {
 								<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'my-tickets-nonce' ) ); ?>" />
 								<p class="mt-input-settings">
 									<label for="mt-import-settings"><?php _e( 'Import Settings', 'my-tickets' ); ?></label>
-									<input type="file" name="mt-import-settings" id="mt-import-settings" accept="application/json" /> 
-									<input type="submit" class="button-secondary" value="<?php _e( 'Import Settings', 'my-tickets' ); ?>">	
+									<input type="file" name="mt-import-settings" id="mt-import-settings" accept="application/json" />
+									<input type="submit" class="button-secondary" value="<?php _e( 'Import Settings', 'my-tickets' ); ?>">
 								</p>
 							</form>
 						</div>
