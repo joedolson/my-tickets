@@ -295,11 +295,11 @@ function mt_ticketing_settings() {
 							);
 							$tabs          = '';
 							foreach ( $ticket_models as $model => $label ) {
-								$tabs .= "&lt;li>&lt;a href='#$model'>" . $label . '&lt;/a>&lt;/li>';
+								$tabs .= "&lt;li>&lt;button id='tab_mt_" . $model . "' role='tab' type='button' aria-selected='false' aria-controls='$model'>" . $label . '&lt;/button>&lt;/li>';
 							}
 							?>
 							&lt;div class='mt-tabs mt-ticketing'>
-								&lt;ul class='tabs'>
+								&lt;ul class='tabs' role="tablist">
 									&lt;?php echo $tabs; ?>
 								&lt;/ul>
 								&lt;?php
@@ -316,7 +316,7 @@ function mt_ticketing_settings() {
 									}
 									$method = $displayed['counting_method'];
 									?>
-									&lt;div class='wptab mt_&lt;?php echo $model; ?>' id='&lt;?php echo $model; ?>'>
+									&lt;div class='wptab mt_&lt;?php echo $model; ?>' id='&lt;?php echo $model; ?>' role='tabpanel' aria-labelledby='tab_mt_&lt;?php echo $model; ?>'>
 										&lt;div class="mt-flex">
 											&lt;div class="ticket-sale-expiration">
 												&lt;p>

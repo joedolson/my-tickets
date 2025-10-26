@@ -321,18 +321,18 @@ function mt_settings() {
 									'interim'   => __( 'Offline &amp; Pending', 'my-tickets' ),
 								);
 								foreach ( $status_types as $type => $status_type ) {
-									$tabs .= "&lt;li>&lt;a href='#$type'>$status_type&lt;/a>&lt;/li>";
+									$tabs .= "&lt;li>&lt;button id='tab_mt_" . $type . "' role='tab' type='button' aria-selected='false' aria-controls='$type'>$status_type&lt;/button>&lt;/li>";
 								}
 								?>
 								&lt;div class='mt-notifications'>
 									&lt;div class='mt-tabs mt-settings'>
-										&lt;ul class='tabs'>
+										&lt;ul class='tabs' role="tablist">
 											&lt;?php echo wp_kses_post( $tabs ); ?>
 										&lt;/ul>
 										&lt;?php
 										foreach ( $status_types as $type => $status_type ) {
 											?>
-											&lt;div class='wptab mt_&lt;?php echo esc_attr( $type ); ?>' id='&lt;?php echo esc_attr( $type ); ?>' aria-live='assertive'>
+											&lt;div class='wptab mt_&lt;?php echo esc_attr( $type ); ?>' id='&lt;?php echo esc_attr( $type ); ?>' role='tabpanel' aria-labelledby='tab_mt_&lt;?php echo esc_attr( $type ); ?>'>
 												&lt;fieldset>
 													&lt;legend>&lt;?php _e( 'Sent to administrators', 'my-tickets' ); ?>&lt;/legend>
 													&lt;ul>
@@ -472,7 +472,7 @@ function mt_settings() {
 											&lt;input type='text' class="mt-color-input" name='new_style_var[val]' id='new_style_var_val' />
 										&lt;/p>
 									&lt;/div>
-								&lt;/fieldset>	
+								&lt;/fieldset>
 								&lt;p class="mt-save-settings">&lt;input type="submit" name="mt-submit-settings" class="button-primary" value="&lt;?php _e( 'Save Settings', 'my-tickets' ); ?>"/>&lt;/p>
 							&lt;/form>
 						&lt;/div>
@@ -487,8 +487,8 @@ function mt_settings() {
 								&lt;input type="hidden" name="_wpnonce" value="&lt;?php echo esc_attr( wp_create_nonce( 'my-tickets-nonce' ) ); ?>" />
 								&lt;p class="mt-input-settings">
 									&lt;label for="mt-import-settings">&lt;?php _e( 'Import Settings', 'my-tickets' ); ?>&lt;/label>
-									&lt;input type="file" name="mt-import-settings" id="mt-import-settings" accept="application/json" /> 
-									&lt;input type="submit" class="button-secondary" value="&lt;?php _e( 'Import Settings', 'my-tickets' ); ?>">	
+									&lt;input type="file" name="mt-import-settings" id="mt-import-settings" accept="application/json" />
+									&lt;input type="submit" class="button-secondary" value="&lt;?php _e( 'Import Settings', 'my-tickets' ); ?>">
 								&lt;/p>
 							&lt;/form>
 						&lt;/div>

@@ -341,12 +341,12 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 				'turned-back'  => __( 'Turned Back (%Turned Back)', 'my-tickets' ),
 				'waiting-list' => __( 'Waiting List (%Waiting List)', 'my-tickets' ),
 			);
-			foreach ( $status_types as $type => $status_type ) {
-				$tabs .= "&lt;li>&lt;a href='#mt_$type'>$status_type&lt;/a>&lt;/li>";
+			foreach ( $status_types as $type => $status_label ) {
+				$tabs .= "&lt;li>&lt;button id='tab_mt_" . $type . "' role='tab' type='button' aria-selected='false' aria-controls='mt_$type'>$status_label&lt;/button>&lt;/li>";
 			}
 			$output = "
 				&lt;div class='mt-tabs mt-reports'>
-					&lt;ul class='tabs'>
+					&lt;ul class='tabs' role='tablist'>
 						$tabs
 					&lt;/ul>";
 
@@ -378,7 +378,7 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 					}
 					$caption       = "$title: &lt;em>$status&lt;/em>";
 					$use_table_top = ( 0 !== $count ) ? str_replace( '%caption%', $caption, $table_top ) : '';
-					$out          .= "&lt;div class='wptab wp_" . sanitize_title( $status ) . "' id='mt_" . sanitize_title( $status ) . "'>" . $use_table_top . ${$status} . $table_bottom . '&lt;/div>';
+					$out          .= "&lt;div role='tabpanel' aria-labelledby='tab_mt_" . $status . "' class='wptab wp_" . sanitize_title( $status ) . "' id='mt_" . sanitize_title( $status ) . "'>" . $use_table_top . ${$status} . $table_bottom . '&lt;/div>';
 				}
 			} else {
 				$out = '';
