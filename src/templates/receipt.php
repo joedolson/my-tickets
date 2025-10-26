@@ -121,10 +121,10 @@
 					<h1><?php the_title(); ?></h1>
 					<?php
 					$content = get_the_content();
-					if ( trim( strip_tags( $content ) ) === '' ) {
-						$content  = ( current_user_can( 'edit_pages' ) ) ? wpautop( __( 'Add your business name and address to the post content.', 'my-tickets' ) ) : '';
+					if ( trim( wp_strip_all_tags( $content ) ) === '' ) {
+						$content = ( current_user_can( 'edit_pages' ) ) ? wpautop( __( 'Add your business name and address to the post content.', 'my-tickets' ) ) : '';
 					}
-					echo wpautop( $content );
+					echo wp_kses_post( wpautop( $content ) );
 					?>
 					<?php edit_post_link(); ?>
 				</div>
