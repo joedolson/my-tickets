@@ -52,7 +52,7 @@
 		}
 
 		h2 {
-			font-size: 1.3rem;
+			font-size: 1.2rem;
 		}
 
 		.panel a {
@@ -86,12 +86,6 @@
 			max-width: 480px;
 		}
 
-		.receipt .post-thumbnail .default {
-			width: 160px;
-			height: auto;
-			margin-bottom: 1em;
-		}
-
 		.receipt .post-content {
 			background: var(--mt-receipt-secondary-background);
 			color: var(--mt-receipt-secondary-color);
@@ -103,7 +97,9 @@
 		}
 
 		code {
-			font-size: 1.2em;
+			font-family:'Courier New', Courier, monospace;
+			display: block;
+			text-align: right;
 		}
 	</style>
 </head>
@@ -144,7 +140,7 @@
 	?>
 	</div>
 	<div class='receipt-info'>
-		<code>#<?php mt_receipt_id(); ?></code>
+		<code>ID: <?php mt_receipt_id(); ?></code>
 	</div>
 	<div class="purchase-info">
 		<div class='purchaser'>
