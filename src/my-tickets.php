@@ -1507,7 +1507,7 @@ function mt_post_copy_event( $new_post_id, $post ) {
 		delete_post_meta( $new_post_id, '_ticket' );
 		// Remove all sold ticket counts.
 		$registration = get_post_meta( $new_post_id, '_mt_registration_options', true );
-		$prices = $registration['prices'];
+		$prices       = $registration['prices'];
 		foreach ( $prices as $type => $info ) {
 			$registration['prices'][ $type ]['sold'] = 0;
 		}
