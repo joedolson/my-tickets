@@ -83,6 +83,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Only render cart in user profile when populated.
 * Add notice in editor if editing a required page.
 * Hide 'Trash' option in posts list for required pages.
+* Prevent Yoast Duplicate Posts from duplicating ticket sales data when duplicating an event.
 * Update QR Code library to latest.
 * Change QR Code output from PNG to SVG.
 * Remove QR Code quiet zone.
