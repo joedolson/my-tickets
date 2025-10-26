@@ -1464,3 +1464,54 @@ $style_vars";
 
 	return $css;
 }
+
+/**
+ * Filters out My Tickets payment fields from being duplicated.
+ *
+ * @param array $meta_excludelist The default exclusion list, based on the “Do not copy these fields” setting, plus some other field names.
+ *
+ * @return array The custom fields to exclude.
+ */
+function mt_custom_fields_filter( $meta_excludelist ) {
+	// Ignore fields that are not needed
+	return array_merge(
+		$meta_excludelist, array(
+			'_mt_virtual_inventory',
+			'_purchase',
+		)
+	);
+}
+add_filter( 'duplicate_post_excludelist_filter', 'mt_custom_fields_filter' );
+
+/**
+ * Handle custom handling of ticket fields when copying an event.
+ *
+ * @param WP_Post $post Post object.
+ */
+function mt_post_copy_event( $new_post_ID, $post ) {
+	$options   = mt_get_settings();
+	$post_type = get_post_type( $post );
+	// If this is a ticketed post type, filter data.
+	if ( in_array( $post_type, $options['mt_post_types'], true ) ) {
+		// Remove all individual tickets.
+		$tickets = get_post_meta( $new_post_ID, '_ticket' );
+		if ( ! empty( $tickets ) && is_array( $tickets ) ) {
+			foreach ( $tickets as $ticket ) {
+				delete_post_meta( $new_post_ID, '_' . $ticket );
+				delete_post_meta( $new_post_ID, '_' . $ticket . '_seq_id' );
+			}
+		}
+		// Remove ticket registry.
+		delete_post_meta( $new_post_ID, '_ticket' );
+		// Remove all sold ticket counts.
+		$registration = get_post_meta( $new_post_ID, '_mt_registration_options', true );
+		$prices = $registration['prices'];
+		foreach ( $prices as $type => $info ) {
+			$registration['prices'][ $type ]['sold'] = 0;
+		}
+		update_post_meta( $new_post_ID, '_mt_registration_options', $registration );
+		// Reset sequential base to 0.
+		update_post_meta( $new_post_ID, '_sequential_base', 0 );
+	}
+}
+add_action( 'duplicate_post_post_copy', 'mt_post_copy_event', 10, 2 );
