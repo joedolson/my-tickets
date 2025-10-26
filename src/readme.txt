@@ -81,6 +81,8 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Fix accessibility issues in tabpanel implementation.
 * Update settings page organization and structure.
 * Only render cart in user profile when populated.
+* Add notice in editor if editing a required page.
+* Hide 'Trash' option in posts list for required pages.
 * Update QR Code library to latest.
 * Change QR Code output from PNG to SVG.
 * Remove QR Code quiet zone.
