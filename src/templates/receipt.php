@@ -98,7 +98,8 @@
 
 		code {
 			font-family:'Courier New', Courier, monospace;
-			display: block;
+		}
+		.purchase-info {
 			text-align: right;
 		}
 	</style>
@@ -139,15 +140,15 @@
 	// Receipt template.
 	?>
 	</div>
-	<div class='receipt-info'>
-		<code>ID: <?php mt_receipt_id(); ?></code>
-	</div>
 	<div class="purchase-info">
 		<div class='purchaser'>
-			<strong><?php _e( 'Purchaser:', 'my-tickets' ); ?></strong> <?php mt_cart_purchaser(); ?>
+			<strong><?php mt_cart_purchaser(); ?></strong>
 		</div>
 		<div class='purchase-date'>
-			<strong><?php _e( 'Purchase date:', 'my-tickets' ); ?></strong> <?php mt_cart_purchase_date(); ?>
+			<?php mt_cart_purchase_date(); ?>
+		</div>
+		<div class='receipt-info'>
+			<code>ID: <?php mt_receipt_id(); ?></code>
 		</div>
 	</div>
 	<div class="order-info">
