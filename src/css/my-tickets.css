@@ -442,6 +442,12 @@ legend {
 	display: block;
 }
 
+.mt-purchase-page .row-actions .trash,
+.mt-receipt-page .row-actions .trash,
+.mt-tickets-page .row-actions .trash {
+	display: none;
+}
+
 @media (max-width: 782px) {
     .jcd-narrow {
         width: 100%;
