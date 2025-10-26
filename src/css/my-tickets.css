@@ -158,10 +158,11 @@ legend {
     padding: 0 4px;
     position: relative;
     top: 1px;
+	display: inline-flex;
+	gap: 2px;
 }
 
 .mt-tabs .tabs li {
-    display: inline;
     margin: 0 auto;
     line-height: 1;
 }
@@ -195,6 +196,10 @@ legend {
     border-radius: 4px 4px 0 0;
     border: 1px solid #ccc;
     background: #f3f3f3;
+}
+
+.mt-tabs .tabs button:hover {
+	text-decoration: underline;
 }
 
 .mt-tabs .tabs button[aria-selected=true] {
