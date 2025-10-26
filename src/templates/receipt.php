@@ -18,7 +18,8 @@
 	<style>
 		<?php echo mt_generate_css(); ?>
 		body {
-			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif
+			font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+			background: var(--mt-receipt-secondary-background);
 		}
 
 		body > * {
@@ -41,7 +42,8 @@
 
 		.cart-order {
 			padding: .5rem;
-			background: rgb( 0,0,0,.02 );
+			background: var(--mt-receipt-secondary-background);
+			color: var(--mt-receipt-secondary-color);
 		}
 
 		h1 {
@@ -136,21 +138,19 @@
 	?>
 	</div>
 	<div class='receipt-info'>
-		<p>
-			<code>#<?php mt_receipt_id(); ?></code>
-		</p>
+		<code>#<?php mt_receipt_id(); ?></code>
 	</div>
 	<div class="purchase-info">
 		<div class='purchaser'>
 			<strong><?php _e( 'Purchaser:', 'my-tickets' ); ?></strong> <?php mt_cart_purchaser(); ?>
 		</div>
 		<div class='purchase-date'>
-			<strong><?php _e( 'Purchased on:', 'my-tickets' ); ?></strong> <?php mt_cart_purchase_date(); ?>
+			<strong><?php _e( 'Purchase date:', 'my-tickets' ); ?></strong> <?php mt_cart_purchase_date(); ?>
 		</div>
 	</div>
 	<div class="order-info">
 		<div class='cart-order'>
-			<h2><?php _e( 'Tickets Purchased:', 'my-tickets' ); ?></h2> <?php mt_cart_order(); ?>
+			<h2><?php _e( 'Tickets Purchased', 'my-tickets' ); ?></h2> <?php mt_cart_order(); ?>
 		</div>
 		<div class='payment-details'>
 			<h2><?php _e( 'Payment Details', 'my-tickets' ); ?></h2> <?php mt_payment_details(); ?>
