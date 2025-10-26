@@ -74,6 +74,13 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 = 2.1.0 =
 
+* Add additional wrappers for formatting ticket titles in cart.
+* Update receipt and ticket default templates and styling.
+* Add custom CSS variables for receipt and ticket templates.
+* Remove unused CSS files.
+* Fix accessibility issues in tabpanel implementation.
+* Update settings page organization and structure.
+* Only render cart in user profile when populated.
 * Update QR Code library to latest.
 * Change QR Code output from PNG to SVG.
 * Remove QR Code quiet zone.
