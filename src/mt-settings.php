@@ -270,7 +270,7 @@ function mt_settings() {
 										</select>
 									</p>
 								</fieldset>
-								<h4><?php _e( 'Ticket Purchase Messages', 'my-tickets' ); ?></h4>
+								<h3><?php _e( 'Ticket Purchase Messages', 'my-tickets' ); ?></h3>
 								<?php
 									echo apply_filters( 'mt_settings_fields', '', $options );
 								?>
@@ -278,14 +278,16 @@ function mt_settings() {
 									<input type="checkbox" id="mt_html_email" name="mt_html_email" <?php checked( true, mt_is_checked( 'mt_html_email', 'true', $options ) ); ?> />
 									<label for="mt_html_email"><?php _e( 'Send email as HTML.', 'my-tickets' ); ?></label>
 								</p>
-								<p>
-									<label for="mt_to"><?php _e( 'Send to:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_to" id="mt_to" class="widefat" value="<?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
-								</p>
-								<p>
-									<label for="mt_from"><?php _e( 'Send from:', 'my-tickets' ); ?></label><br/>
-									<input type="text" name="mt_from" id="mt_from" class="widefat" value="<?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
-								</p>
+								<div class="mt-flex">
+									<p>
+										<label for="mt_to"><?php _e( 'Send to:', 'my-tickets' ); ?></label><br/>
+										<input type="text" name="mt_to" id="mt_to" class="widefat" value="<?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
+									</p>
+									<p>
+										<label for="mt_from"><?php _e( 'Send from:', 'my-tickets' ); ?></label><br/>
+										<input type="text" name="mt_from" id="mt_from" class="widefat" value="<?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
+									</p>
+								</div>
 								<?php
 								$tabs         = '';
 								$status_types = array(

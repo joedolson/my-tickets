@@ -141,10 +141,8 @@ legend {
 }
 
 .mt-money-format {
-    float: right;
-    margin: 0;
     padding: .5em;
-    font-size: 1.2em;
+	font-size: .875rem;
     border-radius: 5px;
     background: #0000000a;
 }
@@ -257,6 +255,10 @@ legend {
 	align-items: start;
 }
 
+.mt-flex select {
+	width: 100%;
+}
+
 .mt-flex.mt-social {
 	margin: 0;
 	align-items: center;
@@ -271,6 +273,11 @@ legend {
 	display: block;
 	padding: 3px;
 	border-radius: 3px;
+}
+
+#mt-required p {
+	display: flex;
+	gap: 10px;
 }
 
 .my-tickets dt {

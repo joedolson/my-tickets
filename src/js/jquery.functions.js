@@ -8,7 +8,7 @@
                 select: function (event, ui) {
                     var label = $(this).attr('id');
                     $(this).val(ui.item.id);
-                    $('label[for=' + label + '] span').text(' (' + ui.item.value + ')');
+                    $('label[for=' + label + ']').next( 'span' ).text( 'Change to: ' + ui.item.value );
                     return false;
                 }
             }
