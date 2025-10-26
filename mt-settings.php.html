@@ -296,7 +296,7 @@ function mt_settings() {
 										&lt;/select>
 									&lt;/p>
 								&lt;/fieldset>
-								&lt;h4>&lt;?php _e( 'Ticket Purchase Messages', 'my-tickets' ); ?>&lt;/h4>
+								&lt;h3>&lt;?php _e( 'Ticket Purchase Messages', 'my-tickets' ); ?>&lt;/h3>
 								&lt;?php
 									echo apply_filters( 'mt_settings_fields', '', $options );
 								?>
@@ -304,14 +304,16 @@ function mt_settings() {
 									&lt;input type="checkbox" id="mt_html_email" name="mt_html_email" &lt;?php checked( true, mt_is_checked( 'mt_html_email', 'true', $options ) ); ?> />
 									&lt;label for="mt_html_email">&lt;?php _e( 'Send email as HTML.', 'my-tickets' ); ?>&lt;/label>
 								&lt;/p>
-								&lt;p>
-									&lt;label for="mt_to">&lt;?php _e( 'Send to:', 'my-tickets' ); ?>&lt;/label>&lt;br/>
-									&lt;input type="text" name="mt_to" id="mt_to" class="widefat" value="&lt;?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
-								&lt;/p>
-								&lt;p>
-									&lt;label for="mt_from">&lt;?php _e( 'Send from:', 'my-tickets' ); ?>&lt;/label>&lt;br/>
-									&lt;input type="text" name="mt_from" id="mt_from" class="widefat" value="&lt;?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
-								&lt;/p>
+								&lt;div class="mt-flex">
+									&lt;p>
+										&lt;label for="mt_to">&lt;?php _e( 'Send to:', 'my-tickets' ); ?>&lt;/label>&lt;br/>
+										&lt;input type="text" name="mt_to" id="mt_to" class="widefat" value="&lt;?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
+									&lt;/p>
+									&lt;p>
+										&lt;label for="mt_from">&lt;?php _e( 'Send from:', 'my-tickets' ); ?>&lt;/label>&lt;br/>
+										&lt;input type="text" name="mt_from" id="mt_from" class="widefat" value="&lt;?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
+									&lt;/p>
+								&lt;/div>
 								&lt;?php
 								$tabs         = '';
 								$status_types = array(
