@@ -325,19 +325,62 @@ function mt_admin_state( $states, $post ) {
 	if ( is_admin() ) {
 		$options = mt_get_settings();
 		if ( absint( $options['mt_purchase_page'] ) === $post->ID ) {
-			$states[] = __( 'Shopping Cart Page', 'my-tickets' );
+			$states[] = __( 'Shopping Cart', 'my-tickets' );
 		}
 		if ( absint( $options['mt_receipt_page'] ) === $post->ID ) {
-			$states[] = __( 'Receipt Page', 'my-tickets' );
+			$states[] = __( 'View Receipts', 'my-tickets' );
 		}
 		if ( absint( $options['mt_tickets_page'] ) === $post->ID ) {
-			$states[] = __( 'Ticket Page', 'my-tickets' );
+			$states[] = __( 'View Tickets', 'my-tickets' );
 		}
 	}
 
 	return $states;
 }
 add_filter( 'display_post_states', 'mt_admin_state', 10, 2 );
+
+/**
+ * Filter post classes to add custom class for required My Tickets pages.
+ *
+ * @param string[] $classes   An array of post class names.
+ * @param string[] $css_class An array of additional class names added to the post.
+ * @param int      $post_id   The post ID.
+ *
+ * @return string[]
+ */
+function mt_required_page_class( $classes, $css_class, $post_id ) {
+	$options = mt_get_settings();
+	if ( absint( $options['mt_purchase_page'] ) === $post_id ) {
+		$classes[] = 'mt-purchase-page';
+	}
+	if ( absint( $options['mt_receipt_page'] ) === $post_id ) {
+		$classes[] = 'mt-receipt-page';
+	}
+	if ( absint( $options['mt_tickets_page'] ) === $post_id ) {
+		$classes[] = 'mt-tickets-page';
+	}
+
+	return $classes;
+}
+add_filter( 'post_class', 'mt_required_page_class', 10, 3 );
+
+/**
+ * Enqueue block scripts.
+ */
+function mt_enqueue_block_scripts() {
+	global $post;
+	if ( $post ) {
+		$post_id     = $post->ID;
+		$options     = mt_get_settings();
+		$is_receipt  = ( $post_id === $options['mt_receipt_page'] ) ? true : false;
+		$is_purchase = ( $post_id === $options['mt_purchase_page'] ) ? true : false;
+		$is_tickets  = ( $post_id === $options['mt_tickets_page'] ) ? true : false;
+		if ( $is_receipt || $is_purchase || $is_tickets ) {
+			wp_enqueue_script( 'mt_info_notice', plugins_url( 'js/editor.js', __FILE__ ), array( 'wp-data' ), true );
+		}
+	}
+}
+add_action( 'enqueue_block_editor_assets', 'mt_enqueue_block_scripts' );
 
 add_action( 'admin_menu', 'my_tickets_menu' );
 /**
