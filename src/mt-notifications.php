@@ -460,7 +460,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		$tickets    = ( 'true' === $options['mt_html_email'] ) ? '<p>' . $tickets . '</p>' : $tickets;
 		$ticket_ids = '';
 	}
-	$bulk_tickets = ( 'printable' === $ticketing_method ) ? add_query_arg(
+	$bulk_tickets = ( 'printable' === $ticketing_method  || 'eticket' === $ticketing_method ) ? add_query_arg(
 		array(
 			'receipt_id' => $hash,
 			'multiple'   => true,
@@ -780,7 +780,7 @@ function mt_draw_template( $data, $template ) {
 		}
 		foreach ( $data as $key => $value ) {
 			if ( is_object( $value ) && ! empty( $value ) ) {
-				// null values return false.
+				// non-templatable values are ignored.
 			} else {
 				if ( false !== strpos( $template, '{' . $key ) ) {
 					if ( false !== strpos( $template, '{' . $key . ' ' ) ) { // only do preg_match if appropriate.
