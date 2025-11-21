@@ -781,14 +781,14 @@ function mt_generate_cart( $user_ID = false ) {
 			 * @return string
 			 */
 			$submit_text = apply_filters( 'mt_submit_button_text', $text, $current_gate );
-			$output  = '
+			$output      = '
 		<div class="mt_cart">
 			<div class="mt-response" aria-live="assertive"></div>
 			<form action="' . esc_url( $cart_page ) . '" method="POST">' . "
 			<input class='screen-reader-text' type='submit' name='mt_submit' value='" . esc_attr( $submit_text ) . "' />" . '
 				' . $nonce . '
 				' . $gateway;
-			$output .= mt_generate_cart_table( $cart );
+			$output     .= mt_generate_cart_table( $cart );
 
 			if ( $handling_total && 0 !== (int) $handling_total ) {
 				// Translators: amount of handling fee.
