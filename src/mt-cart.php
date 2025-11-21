@@ -769,11 +769,23 @@ function mt_generate_cart( $user_ID = false ) {
 		$gateway        = "<input type='hidden' name='mt_gateway' value='" . esc_attr( $current_gate ) . "' />";
 		$cart_page      = mt_get_cart_url();
 		if ( is_array( $cart ) && ! empty( $cart ) && $count > 0 ) {
+			$text = ( 'offline' === $current_gate ) ? __( 'Review cart and confirm reservation', 'my-tickets' ) : __( 'Review cart and make payment', 'my-tickets' );
+			/**
+			 * Filter the submit button text.
+			 *
+			 * @hook mt_submit_button_text
+			 *
+			 * @param {string} $text Submit button text.
+			 * @param {string} $current_gate Active gateway.
+			 *
+			 * @return string
+			 */
+			$submit_text = apply_filters( 'mt_submit_button_text', $text, $current_gate );
 			$output  = '
 		<div class="mt_cart">
 			<div class="mt-response" aria-live="assertive"></div>
 			<form action="' . esc_url( $cart_page ) . '" method="POST">' . "
-			<input class='screen-reader-text' type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Review cart and make payment', 'my-tickets' ), $current_gate ) . "' />" . '
+			<input class='screen-reader-text' type='submit' name='mt_submit' value='" . esc_attr( $submit_text ) . "' />" . '
 				' . $nonce . '
 				' . $gateway;
 			$output .= mt_generate_cart_table( $cart );
@@ -801,8 +813,20 @@ function mt_generate_cart( $user_ID = false ) {
 			foreach ( $custom_fields as $key => $field ) {
 				$custom_output .= $field;
 			}
-			$button  = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . apply_filters( 'mt_submit_button_text', __( 'Review cart and make payment', 'my-tickets' ), $current_gate ) . "' /></p>";
-			$output .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_total_content', '', $current_gate, $cart ) . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
+			$text = ( 'offline' === $current_gate ) ? __( 'Review cart and confirm reservation', 'my-tickets' ) : __( 'Review cart and make payment', 'my-tickets' );
+			/**
+			 * Filter the submit button text.
+			 *
+			 * @hook mt_submit_button_text
+			 *
+			 * @param {string} $text Submit button text.
+			 * @param {string} $current_gate Active gateway.
+			 *
+			 * @return string
+			 */
+			$submit_text = apply_filters( 'mt_submit_button_text', $text, $current_gate );
+			$button      = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . esc_attr( $submit_text ) . "' /></p>";
+			$output     .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_total_content', '', $current_gate, $cart ) . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . apply_filters( 'mt_money_format', $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
 		} else {
 			do_action( 'mt_cart_is_empty' );
 			$expiration = '';
