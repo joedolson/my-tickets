@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: mt_tickets_soldout_content - My Tickets Hook Doumentation</title>
+    <title>Filter: mt_submit_button_text - My Tickets Hook Doumentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    <header><h1 class="page-title">Filter: mt_tickets_soldout_content</h1></header>
+    <header><h1 class="page-title">Filter: mt_submit_button_text</h1></header>
 	<main>
     
 
@@ -36,14 +36,14 @@
 
     
 
-    <h4 class="name" id="mt_tickets_soldout_content">apply_filters( 'mt_tickets_soldout_content', <span class="signature">$output, $event_id, $registration )</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="mt_submit_button_text">apply_filters( 'mt_submit_button_text', <span class="signature">$text, $current_gate )</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Append additional content to the tickets sold out notification.</p>
+    <p>Filter the submit button text.</p>
 </div>
 
 
@@ -77,7 +77,7 @@
 
         <tr>
             
-                <td class="name"><code>$output</code></td>
+                <td class="name"><code>$text</code></td>
             
 
             <td class="type">
@@ -93,20 +93,20 @@
 
             
 
-            <td class="description last"><p>HTML output; default empty string.</p></td>
+            <td class="description last"><p>Submit button text.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>$event_id</code></td>
+                <td class="name"><code>$current_gate</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">int</span>
+<span class="param-type">string</span>
 
 
             
@@ -116,30 +116,7 @@
 
             
 
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>$registration</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Registration data for event.</p></td>
+            <td class="description last"><p>Active gateway.</p></td>
         </tr>
 
     
@@ -180,7 +157,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mt-add-to-cart.php.html">mt-add-to-cart.php</a>, <a href="mt-add-to-cart.php.html#line376">line 376</a>
+        <a href="mt-cart.php.html">mt-cart.php</a>, <a href="mt-cart.php.html#line773">line 773</a>
     </li></ul></dd>
     
 
@@ -206,19 +183,196 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <p>string</p>
+</div>
 
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
+
+    
+
+
+
+    
+    </div>
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    <h2></h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
         
+
+    
+
+    <h4 class="name" id="mt_submit_button_text">apply_filters( 'mt_submit_button_text', <span class="signature">$text, $current_gate )</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Filter the submit button text.</p>
+</div>
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>$text</code></td>
+            
+
+            <td class="type">
+            
+                
 <span class="param-type">string</span>
 
 
-    </dd>
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Submit button text.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$current_gate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Active gateway.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mt-cart.php.html">mt-cart.php</a>, <a href="mt-cart.php.html#line817">line 817</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>string</p>
+</div>
+
+
 
     
 
