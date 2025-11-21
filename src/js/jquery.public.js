@@ -251,7 +251,8 @@
 						});
 						response.html( '<p>' + mt_ajax.requiredFieldsText + '</p><ul>' + list + '</ul>' );
 					} else {
-						addToCart.find('.mt-processing').show();
+						let processing = addToCart.find('.mt-processing');
+						processing.show();
 						e.preventDefault();
 						let post = $(this).closest('.ticket-orders').serialize();
 						let data = {
@@ -266,12 +267,12 @@
 								if ( mt_ajax.redirect == '0' ){
 									$('.mt_qc_tickets').text(response.count);
 									$('.mt_qc_total').text(parseFloat(response.total, 10).toFixed(2).replace('/(\d)(?=(\d{3})+\.)/g', "$1,").toString());
+									addToCart.find('.mt-processing').hide();
 								} else {
 									window.location.replace( mt_ajax.cart_url );
 								}
 							}
 						}, "json");
-						addToCart.find('.mt-processing').hide();
 					}
 				});
 			});
