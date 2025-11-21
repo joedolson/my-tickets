@@ -209,6 +209,9 @@ button[name="mt_add_to_cart"] {
 button[name="mt_add_to_cart"] img {
     width: 16px !important;
 	height: auto;
+	padding: 1px;
+	background: #fff;
+	border-radius: 24px;
 }
 
 .mt-payment-form fieldset {
