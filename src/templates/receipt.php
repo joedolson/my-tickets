@@ -95,6 +95,9 @@
 			grid-template-columns: 1fr 140px;
 			gap: 16px;
 		}
+		.payment-details {
+			margin-bottom: 1.5rem;
+		}
 
 		code {
 			font-family:'Courier New', Courier, monospace;
