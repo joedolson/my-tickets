@@ -27,7 +27,7 @@ function mt_receipt() {
 				$nonce       = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : false;
 				$verify      = wp_verify_nonce( $nonce, 'mt-verify-email' );
 				$email       = sanitize_text_field( $_POST['mt-verify-email'] );
-				$is_verified = ( $verify && $email === get_post_meta( $receipt->ID, '_email', true ) ) ? true : false;
+				$is_verified = ( $verify && get_post_meta( $receipt->ID, '_email', true ) === $email ) ? true : false;
 			}
 			$cookie_receipt = ( isset( $_COOKIE['mt_purchase_receipt'] ) ) ? $_COOKIE['mt_purchase_receipt'] : false;
 			// Allow conditions: within 10 minutes of purchase & browser has a matching cookie; current user can view reports; user has verified email.
