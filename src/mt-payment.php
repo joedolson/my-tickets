@@ -104,6 +104,7 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 		wp_mail( $options['mt_to'], $mail_subject, $mail_body, $mail_from );
 		mt_log( $response, $response_code, $data, $post );
 	}
+	mt_set_receipt_cookie( $payment_id );
 }
 
 /**

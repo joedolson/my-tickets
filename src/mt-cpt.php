@@ -45,6 +45,21 @@ function mt_error_data() {
 }
 
 /**
+ * Get log ID. Serializes the content of the first payment log.
+ *
+ * @param int $post_ID Payment post ID.
+ *
+ * @return string
+ */
+function mt_get_payment_log_id( $post_ID ) {
+	$log      = get_post_meta( $post_ID, '_error_log', true );
+	$log_data = serialize( $log );
+	$log_id   = md5( $log_data );
+
+	return $log_id;
+}
+
+/**
  * Send custom email to ticket purchaser from payment record.
  */
 function mt_email_purchaser() {

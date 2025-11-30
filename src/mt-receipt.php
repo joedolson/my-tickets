@@ -18,11 +18,28 @@ function mt_receipt() {
 	$id      = ( '' !== $options['mt_receipt_page'] && is_numeric( $options['mt_receipt_page'] ) ) ? absint( $options['mt_receipt_page'] ) : false;
 	if ( $id && ( is_single( $id ) || is_page( $id ) ) ) {
 		if ( isset( $_GET['receipt_id'] ) ) {
-			$template = locate_template( 'receipt.php' );
-			if ( $template ) {
-				load_template( $template );
+			$receipt     = mt_get_receipt();
+			$receipt_id  = md5( sanitize_text_field( $_GET['receipt_id'] ) . mt_get_payment_log_id( $receipt->ID ) );
+			$time        = get_post_modified_time( 'U', true, $receipt->ID );
+			$date        = ( $receipt ) ? $time : false;
+			$is_verified = false;
+			if ( isset( $_POST['mt-verify-email'] ) ) {
+				$nonce       = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : false;
+				$verify      = wp_verify_nonce( $nonce, 'mt-verify-email' );
+				$email       = sanitize_text_field( $_POST['mt-verify-email'] );
+				$is_verified = ( $verify && $email === get_post_meta( $receipt->ID, '_email', true ) ) ? true : false;
+			}
+			$cookie_receipt = ( isset( $_COOKIE['mt_purchase_receipt'] ) ) ? $_COOKIE['mt_purchase_receipt'] : false;
+			// Allow conditions: within 10 minutes of purchase & browser has a matching cookie; current user can view reports; user has verified email.
+			if ( ( time() <= $date + 600 && $cookie_receipt === $receipt_id ) || current_user_can( 'mt-view-reports' ) || $is_verified ) {
+				$template = locate_template( 'receipt.php' );
+				if ( $template ) {
+					load_template( $template );
+				} else {
+					load_template( __DIR__ . '/templates/receipt.php' );
+				}
 			} else {
-				load_template( __DIR__ . '/templates/receipt.php' );
+				load_template( __DIR__ . '/mt-verify.php' );
 			}
 			exit;
 		} else {

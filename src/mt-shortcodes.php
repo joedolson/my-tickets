@@ -302,9 +302,11 @@ add_shortcode( 'my-payments', 'mt_user_purchases' );
  * @return string
  */
 function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) {
-	$output = '';
-	if ( is_user_logged_in() ) {
-		$user  = ( ! $user_id ) ? wp_get_current_user()->ID : $user_id;
+	$output   = '';
+	$user     = wp_get_current_user();
+	$can_view = ( ( $user_id === $user->ID || $user_email === $user->user_email ) || current_user_can( 'mt-view-reports' ) ) ? true : false;
+	if ( is_user_logged_in() && $can_view ) {
+		$user  = ( ! $user_id ) ? $user->ID : $user_id;
 		$count = ( ! $count ) ? 10 : absint( $count );
 		if ( $user && ! $user_email ) {
 			$payments = get_posts(
