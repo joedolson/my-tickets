@@ -395,6 +395,32 @@ function mt_set_user_unique_id() {
 }
 
 /**
+ * Set receipt cookie after purchase.
+ *
+ * @param int    $post_ID Payment post ID.
+ * @param string $receipt Receipt ID.
+ */
+function mt_set_receipt_cookie( $post_ID, $receipt = false ) {
+	$log_id       = mt_get_payment_log_id( $post_ID );
+	$receipt      = ( ! $receipt ) ? get_post_meta( $post_ID, '_receipt', true ) : $receipt;
+	$cookie_value = md5( $receipt . $log_id );
+	if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
+		// Fix syntax.
+		$options = array(
+			'expires'  => time() + 600,
+			'path'     => COOKIEPATH,
+			'domain'   => COOKIE_DOMAIN,
+			'secure'   => false,
+			'httponly' => true,
+			'samesite' => 'Lax',
+		);
+		setcookie( 'mt_purchase_receipt', $cookie_value, $options );
+	} else {
+		setcookie( 'mt_purchase_receipt', $cookie_value, time() + 600, COOKIEPATH, COOKIE_DOMAIN, false, true );
+	}
+}
+
+/**
  * Generate a unique ID to track the current cart process.
  *
  * @return string
