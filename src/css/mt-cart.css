@@ -178,6 +178,10 @@ table.mt_cart {
 	text-align: end;
 }
 
+.mt-order legend {
+	float: none;
+}
+
 .mt_cart th .mt-datetime {
     font-weight: 400;
 }
