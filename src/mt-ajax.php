@@ -89,7 +89,7 @@ function mt_ajax_handler() {
 			);
 			wp_send_json( $return );
 		}
- 		set_transient( $lock, 1, 5 );
+		set_transient( $lock, 1, 5 );
 
 		foreach ( $data as $k => $d ) {
 			if ( 'mt_tickets' === $k ) {
