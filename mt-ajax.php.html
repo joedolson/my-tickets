@@ -107,6 +107,15 @@ function mt_ajax_handler() {
 		$data = map_deep( $data, 'sanitize_text_field' );
 		// reformat request data to multidimensional array.
 		$cart = mt_get_cart();
+		$lock = 'mt_add_to_cart_lock_' . sanitize_text_field( $_REQUEST['mt-cart-nonce'] );
+		if ( get_transient( $lock ) ) {
+			$return = array(
+				'response' => esc_html__( 'Another transaction is currently processing. Please try again shortly.', 'my-tickets' ),
+				'success'  => 0,
+			);
+			wp_send_json( $return );
+		}
+ 		set_transient( $lock, 1, 5 );
 
 		foreach ( $data as $k => $d ) {
 			if ( 'mt_tickets' === $k ) {
@@ -189,6 +198,7 @@ function mt_ajax_handler() {
 			'event_id' => $submit['mt_event_id'],
 			'data'     => $count,
 		);
+		delete_transient( $lock );
 		wp_send_json( $return );
 	}
 	if ( 'save_address' === $_REQUEST['function'] ) {
