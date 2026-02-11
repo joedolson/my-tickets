@@ -769,7 +769,7 @@ function mt_draw_template( $data, $template ) {
 	if ( function_exists( 'mc_draw_template' ) ) {
 		return mc_draw_template( $data, $template );
 	} else {
-		$template = stripcslashes( $template );
+		$template = wp_unslash( $template );
 		// If there are no brace characters, there is nothing to replace.
 		if ( strpos( $template, '{' ) === false ) {
 			return trim( $template );
@@ -802,7 +802,7 @@ function mt_draw_template( $data, $template ) {
 							}
 						}
 					} else { // don't do preg match (never required for RSS).
-						$template = stripcslashes( str_replace( '{' . $key . '}', $value, $template ) );
+						$template = wp_unslash( str_replace( '{' . $key . '}', $value, $template ) );
 					}
 				} // end {$key check.
 			}
