@@ -72,6 +72,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.1.2 =
+
+* Change: Minor style change to prevent bootstrap CSS from breaking Add to Cart layout.
+*
+
 = 2.1.1 =
 
 * Security: Payments shortcode Broken Access Control vulnerability. Props @patchstack and Daroo.
