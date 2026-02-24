@@ -4,7 +4,7 @@
  *
  * @package     My Tickets - Accessible Event Ticketing
  * @author      Joe Dolson
- * @copyright   2014-2025 Joe Dolson
+ * @copyright   2014-2026 Joe Dolson
  * @license     GPL-2.0+
  *
  * @wordpress-plugin
@@ -17,11 +17,11 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     2.1.1
+ * Version:     2.1.2
  */
 
 /*
-	Copyright 2014-2025  Joe Dolson (email : joe@joedolson.com)
+	Copyright 2014-2026  Joe Dolson (email : joe@joedolson.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '2.1.1';
+	$mt_version = '2.1.2';
 
 	return $mt_version;
 }

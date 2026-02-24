@@ -7,7 +7,7 @@ Tested up to: 6.9
 Requires PHP: 7.4
 License: GPLv3
 Text domain: my-tickets
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -74,8 +74,9 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 = 2.1.2 =
 
+* Security: Protect against a race condition when adding tickets to shopping cart.
 * Change: Minor style change to prevent bootstrap CSS from breaking Add to Cart layout.
-*
+* Change: replace `stripcslashes` with `wp_unslash`.
 
 = 2.1.1 =
 
