@@ -74,7 +74,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 = 2.1.2 =
 
-* Security: Protect against a race condition when adding tickets to shopping cart.
+* Security: Protect against a race condition when adding tickets to shopping cart. Props @patchstack and Tarcísio Luchesi.
 * Change: Minor style change to prevent bootstrap CSS from breaking Add to Cart layout.
 * Change: replace `stripcslashes` with `wp_unslash`.
 
