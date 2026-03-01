@@ -382,6 +382,10 @@ button[name="mt_add_to_cart"] img {
 	margin-bottom: 20px;
 }
 
+.mt-field-row > * {
+	flex-grow: 1;
+}
+
 .mt-waiting-list-tickets label {
     display: block;
 }
