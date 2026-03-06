@@ -848,43 +848,45 @@ function mt_get_tickets( $event_id, $ticket_type = false ) {
 		'csv'  => array(),
 	);
 	$options = mt_get_settings();
-	foreach ( $query as $ticket_id ) {
-		$ticket = get_post_meta( $event_id, '_' . $ticket_id, true );
-		if ( $ticket_type ) {
-			$include = ( 'all' === $ticket_type || $ticket['type'] === $ticket_type ) ? true : false;
-			if ( ! $include ) {
+	if ( is_array( $query ) ) {
+		foreach ( $query as $ticket_id ) {
+			$ticket = get_post_meta( $event_id, '_' . $ticket_id, true );
+			if ( $ticket_type ) {
+				$include = ( 'all' === $ticket_type || $ticket['type'] === $ticket_type ) ? true : false;
+				if ( ! $include ) {
+					continue;
+				}
+			}
+			if ( ! is_array( $ticket ) ) {
 				continue;
 			}
-		}
-		if ( ! is_array( $ticket ) ) {
-			continue;
-		}
-		$ticket_url = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
-		$payment_id = $ticket['purchase_id'];
-		$columns    = mt_get_column_headers( 'tickets', 'table' );
-		$i          = 0;
-		$rows       = array();
-		$csvs       = array();
-		foreach ( $columns as $key => $value ) {
-			if ( 0 === $i ) {
-				$rows[] = "<th scope='row' class='$key' id='$key'><a href='$ticket_url'>$ticket_id</a></th>";
-				$csvs[] = $ticket_id;
-			} else {
-				if ( isset( $value['display_callback'] ) && function_exists( $value['display_callback'] ) ) {
-					$callback = $value['display_callback'];
+			$ticket_url = add_query_arg( 'ticket_id', $ticket_id, get_permalink( $options['mt_tickets_page'] ) );
+			$payment_id = $ticket['purchase_id'];
+			$columns    = mt_get_column_headers( 'tickets', 'table' );
+			$i          = 0;
+			$rows       = array();
+			$csvs       = array();
+			foreach ( $columns as $key => $value ) {
+				if ( 0 === $i ) {
+					$rows[] = "<th scope='row' class='$key' id='$key'><a href='$ticket_url'>$ticket_id</a></th>";
+					$csvs[] = $ticket_id;
 				} else {
-					$callback = 'mt_get_report_data';
+					if ( isset( $value['display_callback'] ) && function_exists( $value['display_callback'] ) ) {
+						$callback = $value['display_callback'];
+					} else {
+						$callback = 'mt_get_report_data';
+					}
+					$contents = call_user_func( $callback, $key, $payment_id, $ticket_id, $ticket, $event_id );
+					$rows[]   = "<td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents</td>";
+					$csvs[]   = '\"' . wp_strip_all_tags( $contents ) . '\"';
 				}
-				$contents = call_user_func( $callback, $key, $payment_id, $ticket_id, $ticket, $event_id );
-				$rows[]   = "<td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents</td>";
-				$csvs[]   = '\"' . wp_strip_all_tags( $contents ) . '\"';
+				++$i;
 			}
-			++$i;
+			$row              = '<tr>' . implode( PHP_EOL, $rows ) . '</tr>';
+			$csv              = implode( ',', $csvs ) . PHP_EOL;
+			$report['html'][] = $row;
+			$report['csv'][]  = $csv;
 		}
-		$row              = '<tr>' . implode( PHP_EOL, $rows ) . '</tr>';
-		$csv              = implode( ',', $csvs ) . PHP_EOL;
-		$report['html'][] = $row;
-		$report['csv'][]  = $csv;
 	}
 
 	return $report;
