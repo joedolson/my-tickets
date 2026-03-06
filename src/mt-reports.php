@@ -878,7 +878,7 @@ function mt_get_tickets( $event_id, $ticket_type = false ) {
 					}
 					$contents = call_user_func( $callback, $key, $payment_id, $ticket_id, $ticket, $event_id );
 					$rows[]   = "<td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents</td>";
-					$csvs[]   = '\"' . wp_strip_all_tags( $contents ) . '\"';
+					$csvs[]   = '"' . wp_strip_all_tags( $contents ) . '"';
 				}
 				++$i;
 			}
@@ -1010,7 +1010,7 @@ function mt_download_csv_tickets() {
 			$header_html = mt_set_column_headers( $headers, 'csv' ) . PHP_EOL;
 			$csv         = $header_html . PHP_EOL;
 			foreach ( $report as $row ) {
-				$csv .= "$row";
+				$csv .= $row;
 			}
 			$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
 			header( 'Content-Type: application/csv' );
