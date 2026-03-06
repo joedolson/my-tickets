@@ -759,7 +759,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 							}
 							$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $payment_id, $name, true ), $payment_id, $name );
 							$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
-							$custom_csv   .= ",\"$value\"";
+							$custom_csv   .= '"' . $value . '"';
 						}
 					}
 				}
@@ -776,7 +776,8 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 					$val          = str_replace( '-', '_', $key );
 					$column_value = $$val;
 					if ( $count === $col_count - 1 ) {
-						$row .= $custom_cells;
+						$row        .= $custom_cells;
+						$csv_array[] = $custom_csv;
 					}
 					if ( 0 === $count ) {
 						$row        .= "<th scope='row' id='$key' class='$key'>" . esc_html( $column_value ) . '</th>';
