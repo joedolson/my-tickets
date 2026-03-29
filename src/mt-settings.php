@@ -42,7 +42,7 @@ function mt_kses_replacement( $modified, $original ) {
 	$original  = str_split( wp_unslash( $original ) );
 	$sanitized = str_split( $modified );
 	foreach ( $sanitized as $position => $char ) {
-		if ( $char === '"' && $char !== $original[ $position ] ) {
+		if ( '"' === $char && $char !== $original[ $position ] ) {
 			$sanitized[ $position ] = $original[ $position ];
 		}
 	}
