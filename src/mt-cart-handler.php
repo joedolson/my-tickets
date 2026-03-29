@@ -300,7 +300,7 @@ function mt_tickets_left( $pricing, $available ) {
  * @param bool|string $virtual Whether to return the virtual inventory. 'auto' to return according to settings.
  *                    True to return virtual. False to return true inventory.
  *
- * @return array|false Number of tickets available in key 'available', sold in key 'sold'.
+ * @return array|false Number of tickets available in key 'available', sold in key 'sold'. False if data passed is not valid.
  */
 function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 	$options      = mt_get_settings();
@@ -381,6 +381,39 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 		'sold'      => $sold,
 		'total'     => $available + $sold,
 	);
+}
+
+/**
+ * Validate cart contents. Checks whether any items in the current cart are no longer possible to purchase.
+ *
+ * @return array Array of event IDs indicating availability.
+ */
+function mt_validate_cart( $cart = array() ) {
+	if ( ! $cart ) {
+		$cart = mt_get_cart( false, false, true );
+	}
+	// Remove any invalid values from the cart data.
+	$cart = mt_check_cart( $cart );
+	if ( is_array ( $cart ) ) {
+		foreach ( $cart as $event_id => $order ) {
+			foreach ( $order as $type ) {
+				$has_inventory = mt_check_inventory( $event_id, $type, false );
+				if ( $has_inventory ) {
+					$available = $has_inventory['available'];
+					if ( $available === 0 ) {
+						$availability = false;
+					} elseif ( $order[ $type ] > $available ) {
+						$availability = $available;
+					} else {
+						$availability = true;
+					}
+					$cart[ $event_id ][ $order ][ $type ] = $availability;
+				}
+			}
+		}
+	}
+
+	return $cart;
 }
 
 /**

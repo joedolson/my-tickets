@@ -483,8 +483,9 @@ function mt_email_purchasers() {
 	$types    = $events['types'];
 	$nonce    = wp_nonce_field( 'mt-email-purchasers', 'mt-email-nonce', true, false );
 	$event_id = ( isset( $_GET['event_id'] ) ) ? (int) $_GET['event_id'] : false;
-	$body     = ( isset( $_POST['mt_body'] ) ) ? wp_kses_post( $_POST['mt_body'] ) : '';
-	$subject  = ( isset( $_POST['mt_subject'] ) ) ? sanitize_text_field( $_POST['mt_subject'] ) : '';
+	$body     = ( isset( $_POST['mt_body'] ) ) ? wp_kses_post( wp_unslash( $_POST['mt_body'] ) ) : '';
+	$body     = ( '' !== $body ) ? mt_kses_replacement( $body, $_POST['mt_body'] ) : '';
+	$subject  = ( isset( $_POST['mt_subject'] ) ) ? sanitize_text_field( wp_unslash( $_POST['mt_subject'] ) ) : '';
 	$email    = get_post_meta( $event_id, '_mass_email' );
 	if ( ! empty( $email ) ) {
 		if ( isset( $_GET['message'] ) ) {
@@ -515,7 +516,7 @@ function mt_email_purchasers() {
 			</p>
 			<p>
 			<label for='mt_body' id='body_label'>" . __( 'Email Body', 'my-tickets' ) . "</label>
-			<textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description' class='widefat'>" . esc_textarea( stripslashes( $body ) ) . "</textarea><br />
+			<textarea name='mt_body' id='mt_body' cols='60' rows='12' aria-labelledby='body_label body_description' class='widefat'>" . esc_textarea( $body ) . "</textarea><br />
 			<span id='body_description'>" . __( 'Use <code>{name}</code> to insert the recipient\'s name', 'my-tickets' ) . "</span>
 			</p>
 			<p><input type='checkbox' name='mt-test-email' value='test' id='mt_test_email'> <label for='mt_test_email'>" . __( 'Send test email', 'my-tickets' ) . "</label></p>
@@ -1315,8 +1316,9 @@ function mt_mass_email( $event_id = false ) {
 		$event_id = ( isset( $_POST['event_id'] ) ) ? (int) $_POST['event_id'] : false;
 	}
 	if ( $event_id ) {
-		$body      = ( ! empty( $_POST['mt_body'] ) ) ? wp_kses_post( $_POST['mt_body'] ) : false;
-		$subject   = ( ! empty( $_POST['mt_subject'] ) ) ? wp_kses_post( $_POST['mt_subject'] ) : false;
+		$body      = ( ! empty( $_POST['mt_body'] ) ) ? wp_kses_post( wp_unslash( $_POST['mt_body'] ) ) : false;
+		$body      = ( $body ) ? mt_kses_replacement( $body, $_POST['mt_body'] ) : false;
+		$subject   = ( ! empty( $_POST['mt_subject'] ) ) ? wp_kses_post( wp_unslash( $_POST['mt_subject'] ) ) : false;
 		$orig_subj = stripslashes( $subject );
 		$orig_body = stripslashes( $body );
 		$message   = '';
