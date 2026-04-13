@@ -263,7 +263,7 @@ function mt_payment_settings() {
 												}
 											} else {
 												$value        = ( ! empty( $options['mt_gateways'][ $gateway ][ $key ] ) ) ? $options['mt_gateways'][ $gateway ][ $key ] : '';
-												$input_type   = ( str_contains( $key, '_secret' ) && '' !== trim( $value ) ) ? 'password' : 'text';
+												$input_type   = ( str_contains( $key, '_secret' ) || str_contains( $key, 'key' ) && '' !== trim( $value ) ) ? 'password' : 'text';
 												$pg_settings .= "<li class='textfield'><div><label for='mt_$gateway-$key'>$label</label> <input type='$input_type' name='mt_gateways[$gateway][$key]' id='mt_$gateway-$key' size='60' value='" . stripslashes( esc_attr( $value ) ) . "' /></div></li>";
 											}
 										}
