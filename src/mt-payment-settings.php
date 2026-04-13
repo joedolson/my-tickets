@@ -162,7 +162,7 @@ function mt_payment_settings() {
 										<label for="mt_symbol_first"><?php _e( 'Symbol Order', 'my-tickets' ); ?></label>
 										<select name="symbol_order" id="mt_symbol_first">
 											<option value="symbol-first" <?php selected( $options['symbol_order'], 'symbol-first' ); ?>><?php _e( 'Symbol first, number last', 'my-tickets' ); ?></option>
-											<option value="symbol-last" <?php selected( $options['symbol_order'], 'symbol-first' ); ?>><?php _e( 'Number first, symbol last', 'my-tickets' ); ?></option>
+											<option value="symbol-last" <?php selected( $options['symbol_order'], 'symbol-last' ); ?>><?php _e( 'Number first, symbol last', 'my-tickets' ); ?></option>
 										</select>
 									</p>
 								</div>
