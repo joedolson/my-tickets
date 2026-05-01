@@ -19,7 +19,8 @@
  * @return bool
  */
 function mt_save_data( $passed, $type = 'cart', $override = false ) {
-	$type = sanitize_title( $type );
+	$type  = sanitize_title( $type );
+	$saved = array();
 	// The shape of the $passed data doesn't match the saved model when updating from the cart page.
 	if ( true === $override ) {
 		$save  = $passed;
@@ -147,6 +148,7 @@ function mt_delete_data( $data = 'cart', $unique_id = false ) {
  */
 function mt_delete_custom_field_data() {
 	$custom_fields = mt_get_custom_fields( 'delete' );
+	$id            = false;
 	if ( empty( $custom_fields ) ) {
 		// If no custom fields registered, we're done.
 		return;
@@ -159,7 +161,6 @@ function mt_delete_custom_field_data() {
 		} else {
 			$unique_id = mt_get_unique_id();
 		}
-		$user = false;
 		foreach ( $custom_fields as $name => $field ) {
 			if ( $user ) {
 				foreach ( $user as $key => $meta ) {
