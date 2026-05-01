@@ -306,6 +306,7 @@ function mt_format_tickets( $tickets, $type = 'text', $payment_id = false, $cont
 	}
 	$options    = mt_get_settings();
 	$ticket_url = get_permalink( $options['mt_tickets_page'] );
+	$move_form  = '';
 	foreach ( $tickets as $ticket ) {
 		if ( $test_use ) {
 			$ticket_id = str_replace( array( $ticket_url . '&ticket_id=', $ticket_url . '?ticket_id=' ), '', $ticket );
@@ -332,11 +333,11 @@ function mt_format_tickets( $tickets, $type = 'text', $payment_id = false, $cont
 				$type_options = '';
 				$ticket_data  = get_post_meta( $event_id, '_' . $ticket_id, true );
 				$ticket_type  = isset( $ticket_data['type'] ) ? $ticket_data['type'] : '';
-				foreach ( $prices as $key => $type ) {
+				foreach ( $prices as $key => $t ) {
 					if ( $ticket_type === $key ) {
 						continue;
 					}
-					$type_options .= '<option value="' . $key . '">' . $type['label'] . '</option>';
+					$type_options .= '<option value="' . esc_attr( $key ) . '">' . esc_html( $t['label'] ) . '</option>';
 				}
 				// Translators: 1) type of ticket, 2) event ticket sold for, 3) Event time.
 				$status    = sprintf( __( 'Move %1$s ticket (%2$s, %3$s) to a different event', 'my-tickets' ), mt_get_ticket_type( $ticket_id ), get_the_title( $event_id ), mt_get_event_time( $ticket_id ) );
@@ -884,6 +885,7 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 	$options   = mt_get_settings();
 	$email     = $options['mt_to'];
 	$blogname  = get_option( 'blogname' );
+	$subject   = '';
 	$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
 	$headers[] = "Reply-to: $options[mt_from]";
 	apply_filters( 'mt_filter_email_headers', $headers, $event );

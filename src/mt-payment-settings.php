@@ -279,7 +279,7 @@ function mt_payment_settings() {
 									) . '</p>' : '';
 									// Translators: Gateway settings.
 									$pg_tabs          .= "<li><button id='tab_mt_" . $gateway . "' role='tab' type='button' aria-selected='false' aria-controls='$gateway'>" . sprintf( __( '%s settings', 'my-tickets' ), $fields['label'] ) . '</button></li>';
-									$checked           = ( mt_is_checked( 'mt_default_gateway', $gateway, $options, true ) ) ? ' checked="checked"' : '';
+									$checked           = ( mt_is_checked( 'mt_default_gateway', $gateway, $options ) ) ? ' checked="checked"' : '';
 									$payment_gateways .= "
 									<div class='wptab mt_$gateway' id='$gateway' role='tabpanel' aria-labelledby='tab_mt_" . $gateway . "'>
 									<fieldset>
@@ -372,7 +372,7 @@ function mt_payment_settings() {
 /**
  * Return current currency symbol.
  *
- * @param array $currency Currencies.
+ * @param string $currency Selected currency.
  *
  * @return string
  */

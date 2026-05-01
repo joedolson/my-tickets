@@ -899,7 +899,7 @@ function mt_get_ticket_venue( $ticket_id = false, $event_id = false ) {
 			if ( ! $location ) {
 				return '';
 			} else {
-				$html = mt_hcard( $location, true );
+				$html = mt_hcard( $location );
 			}
 		}
 		/**
