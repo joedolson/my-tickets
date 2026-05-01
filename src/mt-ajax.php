@@ -107,10 +107,11 @@ function mt_ajax_handler() {
 		$submit = $data;
 
 		// generate and submit cart data.
-		$save = array();
+		$save          = array();
+		$modified      = false;
+		$modified_type = '';
+		$append        = '';
 		if ( isset( $submit['mt_tickets'] ) ) {
-			$modified      = false;
-			$modified_type = '';
 			foreach ( $submit['mt_tickets'] as $type => $count ) {
 				$count = is_array( $count ) ? $count[0] : (int) $count;
 				/**
@@ -124,7 +125,6 @@ function mt_ajax_handler() {
 					$available       = mt_check_inventory( $submit['mt_event_id'], $type );
 					$available_count = ( $available ) ? $available['available'] : 0;
 				}
-				$append = '';
 				if ( $count > $available_count ) {
 					// Set to max available if requested greater than available.
 					$submit['mt_tickets'][ $type ] = $available_count;
