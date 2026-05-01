@@ -111,8 +111,6 @@ function mt_extend_expiration( $amount = 300 ) {
 
 		return $new;
 	}
-
-	return false;
 }
 
 /**
