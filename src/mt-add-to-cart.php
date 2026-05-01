@@ -193,6 +193,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 	$sold_out    = '';
 	$has_tickets = '';
 	$output      = '';
+	$total_order = 0;
 	$expired     = mt_event_expired( $event_id, true );
 	$no_postal   = mt_no_postal( $event_id );
 	if ( $no_postal && 1 === count( $options['mt_ticketing'] ) && in_array( 'postal', $options['mt_ticketing'], true ) && ! ( current_user_can( 'mt-order-expired' ) || current_user_can( 'manage_options' ) ) ) {
@@ -608,6 +609,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			} else {
 				if ( 'event' === $registration['counting_method'] ) {
 					$type_sales_closed = ( $close < mt_date() ) ? true : false;
+					$window            = '';
 					if ( ( $close - mt_date() ) < DAY_IN_SECONDS ) {
 						$window = human_time_diff( $close, mt_date() );
 					}
@@ -808,11 +810,11 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		$has_tickets = true;
 	}
 	return array(
-		'form_key'    => $form_key,
+		'form_key'    => $form_key ?? '',
 		'form'        => $form,
-		'value'       => $order_value,
-		'has_tickets' => $has_tickets,
-		'handling'    => $handling_notice,
+		'value'       => $order_value ?? 0,
+		'has_tickets' => $has_tickets ?? false,
+		'handling'    => $handling_notice ?? '',
 	);
 }
 
@@ -1289,6 +1291,7 @@ function mt_register_message( $context, $type, $payment_id = false ) {
 function mt_get_message( $context, $type, $payment_id ) {
 	$context = esc_attr( $context );
 	$type    = esc_attr( $type );
+	$return  = '';
 	if ( 'add_to_cart' === $context ) {
 		$cart_url = mt_get_cart_url();
 		switch ( $type ) {
