@@ -174,7 +174,7 @@ function mt_delete_custom_field_data() {
 				$like    = '%' . $wpdb->esc_like( $unique_id ) . '%';
 				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->options . ' WHERE option_name LIKE %s', $like ) );
 				foreach ( $results as $result ) {
-					delete_option( $result->option_name, $result->option_value );
+					delete_option( $result->option_name );
 				}
 			}
 		}
