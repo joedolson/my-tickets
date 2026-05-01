@@ -935,7 +935,7 @@ function mt_register_actions() {
 		$is_group_editing = true;
 	}
 	if ( function_exists( 'my_calendar' ) ) {
-		remove_filter( 'mc_event_registration', 'mc_standard_event_registration', 10, 4 );
+		remove_filter( 'mc_event_registration', 'mc_standard_event_registration', 10 );
 		if ( ! $is_group_editing ) {
 			add_action( 'mc_update_event_post', 'mt_save_registration_data', 10, 4 );
 		}
@@ -1340,7 +1340,6 @@ function mt_kses_elements() {
 			'id'               => array(),
 			'aria-pressed'     => array(),
 			'data-model'       => array(),
-			'data-event'       => array(),
 		),
 		'ul'               => array(
 			'class' => array(),

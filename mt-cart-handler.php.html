@@ -392,7 +392,7 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 		} else {
 			$current_virtual = 0;
 			if ( is_array( $virtual_inventory ) ) {
-				foreach ( $virtual_inventory as $type => $quantity ) {
+				foreach ( $virtual_inventory as $t => $quantity ) {
 					$current_virtual += (int) $quantity;
 				}
 			}

@@ -202,7 +202,7 @@ function my_tickets_ticket_image_size() {
  * @param string $ticket Ticket ID to be moved.
  * @param int    $type New ticket type for the ticket.
  *
- * @return bool
+ * @return array
  */
 function mt_change_ticket_type( $payment_id, $event_id, $ticket, $type ) {
 	$registration            = get_post_meta( $event_id, '_mt_registration_options', true );

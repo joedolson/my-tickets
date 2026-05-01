@@ -73,6 +73,7 @@ function mt_update_ticketing_settings( $post ) {
 		$default_model            = ( isset( $post['default_model'] ) ) ? $post['default_model'] : 'continuous';
 
 		$ticket_models = array( 'continuous', 'discrete', 'event' );
+		$defaults      = array();
 		foreach ( $ticket_models as $model ) {
 			$model_defaults = ( isset( $post['defaults'][ $model ] ) ) ? $post['defaults'][ $model ] : array();
 			$labels         = ( isset( $post['mt_label'][ $model ] ) ) ? $post['mt_label'][ $model ] : array();

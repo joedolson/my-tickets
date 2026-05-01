@@ -925,7 +925,7 @@ function mt_get_ticket_venue( $ticket_id = false, $event_id = false ) {
 			if ( ! $location ) {
 				return '';
 			} else {
-				$html = mt_hcard( $location, true );
+				$html = mt_hcard( $location );
 			}
 		}
 		/**
@@ -961,7 +961,7 @@ add_filter( 'mt_create_location_object', 'mt_get_mc_location', 10, 2 );
 function mt_get_mc_location( $location, $location_id ) {
 	if ( function_exists( 'mc_hcard' ) ) {
 		global $wpdb;
-		$location = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . my_calendar_locations_table() . ' WHERE location_id = %d', $location_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$location = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE location_id = %d', my_calendar_locations_table(), $location_id ) );
 	}
 
 	return $location;

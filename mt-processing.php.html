@@ -516,6 +516,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		$total           = "&lt;p class='mt-available-tickets'>&lt;label for='mt_tickets_total_" . $counting . "'>" . __( 'Total Tickets Available', 'my-tickets' ) . ':&lt;/label> &lt;input ' . $disabled . ' type="text" name="mt_tickets_total' . $altpatt . '" id="mt_tickets_total_' . $counting . '" aria-describedby="ticket-counting-status" value="' . esc_attr( $value ) . '" />' . $notice . '&lt;/p>';
 	}
 	$labels_index = array();
+	$label_class  = '';
 	$pricing      = ( isset( $registration['prices'] ) ) ? $registration['prices'] : $registration['pricing']; // array of prices; label => cost/available/sold.
 	if ( is_array( $pricing ) ) {
 		foreach ( $pricing as $label => $options ) {
@@ -546,7 +547,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				$return     .= "
 				&lt;tr class='$class'>
 					&lt;td class='mt-controls'>
-						&lt;button type='button' class='button up'>&lt;span class='dashicons dashicons-arrow-up-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "&lt;/span>&lt;/button> 
+						&lt;button type='button' class='button up'>&lt;span class='dashicons dashicons-arrow-up-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "&lt;/span>&lt;/button>
 						&lt;button type='button' class='button down'>&lt;span class='dashicons dashicons-arrow-down-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "&lt;/span>&lt;/button>
 					&lt;/td>
 					&lt;td>$label_field&lt;input type='$type' class='$label_class' name='mt_label$pattern' id='mt_label_$counting" . '_' . "$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps&lt;/td>
@@ -571,7 +572,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 			$return .= "
 				&lt;tr class='undeletable'>
 					&lt;td class='mt-controls'>
-						&lt;button type='button' class='button up'>&lt;span class='dashicons dashicons-arrow-up-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "&lt;/span>&lt;/button> 
+						&lt;button type='button' class='button up'>&lt;span class='dashicons dashicons-arrow-up-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "&lt;/span>&lt;/button>
 						&lt;button type='button' class='button down'>&lt;span class='dashicons dashicons-arrow-down-alt'>&lt;/span>&lt;span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "&lt;/span>&lt;/button>
 					&lt;/td>
 					&lt;td>&lt;input type='text' readonly name='mt_label$pattern' id='mt_label_$counting" . '_' . "complimentary' value='Complimentary' />&lt;br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "&lt;/td>

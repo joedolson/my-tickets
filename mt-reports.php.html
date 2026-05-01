@@ -714,6 +714,8 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 			// get count of tickets for *this* event on purchase.
 			// get total paid.
 			// get total price owed (on purchase).
+			$custom_cells = '';
+			$custom_csv   = '';
 			foreach ( $details as $type => $tickets ) {
 				$ticket_type = isset( $options['ticket_type'] ) ? $options['ticket_type'] : 'all';
 				if ( 'all' === $ticket_type || $ticket_type === $type ) {
@@ -760,8 +762,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 						// if $mt_tickets == 0, don't show in options.
 						$mt_tickets    = $mt_tickets + $count;
 						$custom_fields = mt_get_custom_fields( 'reports' );
-						$custom_cells  = '';
-						$custom_csv    = '';
+
 						foreach ( $custom_fields as $name => $field ) {
 							if ( isset( $field['report_callback'] ) ) {
 								$cstring = call_user_func( $field['report_callback'], $payment_id );
