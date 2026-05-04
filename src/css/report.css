@@ -93,6 +93,7 @@ td.mt-type {
 
 td.mt-hidden {
     opacity: .25;
+	background-image: repeating-linear-gradient( 45deg, #eee, #eee 10px, #fff 10px, #fff 20px );
 }
 
 .notice,
