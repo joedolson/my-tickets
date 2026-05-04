@@ -50,15 +50,19 @@ function mt_reports_page() {
 							}
 							$event_id    = (int) $_GET['event_id'];
 							$report_type = ( isset( $_GET['mt-event-report'] ) && 'tickets' === $_GET['mt-event-report'] ) ? 'tickets' : 'purchases';
+							$select_type = ( isset( $_GET['mt_select_ticket_type'] ) ) ? sanitize_text_field( $_GET['mt_select_ticket_type'] ) : '';
 							if ( isset( $_GET['mt_print'] ) ) {
 								$print_report_url = 'javascript:window.print()';
 							} else {
-								$print_report_url = esc_url( admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' ) );
+								$print_report_url = admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' );
+								if ( $select_type ) {
+									$print_report_url = add_query_arg( 'mt_select_ticket_type', $select_type, $print_report_url );
+								}
 							}
 							$back_url = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&mt-event-report=' . $report_type . '&event_id=' . $event_id ) );
-							$return   = ( isset( $_GET['mt_print'] ) ) ? '<a class="mt-back button" href="' . esc_url( $back_url ) . '">' . __( 'Return to My Tickets Reports', 'my-tickets' ) . '</a>' : '';
-							$show     = ( isset( $_GET['mt_print'] ) ) ? '<button class="button show-button">' . esc_html( __( 'Show Hidden Columns', 'my-tickets' ) ) . '</button>' : '';
-							echo '<p><a class="button print-button" href="' . $print_report_url . '">' . __( 'Print this report', 'my-tickets' ) . '</a> ' . $return . ' ' . $show . '</p>';
+							$return   = ( isset( $_GET['mt_print'] ) ) ? '<a class="mt-back button" href="' . esc_url( $back_url ) . '">' . esc_html__( 'Return to My Tickets Reports', 'my-tickets' ) . '</a>' : '';
+							$show     = ( isset( $_GET['mt_print'] ) ) ? '<button class="button show-button">' . esc_html__( 'Show Hidden Columns', 'my-tickets' ) . '</button>' : '';
+							echo '<p><a class="button print-button" href="' . esc_url( $print_report_url ) . '">' . esc_html__( 'Print this report', 'my-tickets' ) . '</a> ' . $return . ' ' . $show . '</p>';
 						}
 						?>
 						<div class="mt-report-selector">
