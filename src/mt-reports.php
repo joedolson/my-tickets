@@ -54,7 +54,8 @@ function mt_reports_page() {
 							if ( isset( $_GET['mt_print'] ) ) {
 								$print_report_url = 'javascript:window.print()';
 							} else {
-								$print_report_url = admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' );
+								// Escaped here because `esc_url` wipes out the print() command.
+								$print_report_url = esc_url( admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' ) );
 								if ( $select_type ) {
 									$print_report_url = add_query_arg( 'mt_select_ticket_type', $select_type, $print_report_url );
 								}
@@ -62,7 +63,7 @@ function mt_reports_page() {
 							$back_url = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&mt-event-report=' . $report_type . '&event_id=' . $event_id ) );
 							$return   = ( isset( $_GET['mt_print'] ) ) ? '<a class="mt-back button" href="' . esc_url( $back_url ) . '">' . esc_html__( 'Return to My Tickets Reports', 'my-tickets' ) . '</a>' : '';
 							$show     = ( isset( $_GET['mt_print'] ) ) ? '<button class="button show-button">' . esc_html__( 'Show Hidden Columns', 'my-tickets' ) . '</button>' : '';
-							echo '<p><a class="button print-button" href="' . esc_url( $print_report_url ) . '">' . esc_html__( 'Print this report', 'my-tickets' ) . '</a> ' . $return . ' ' . $show . '</p>';
+							echo '<p><a class="button print-button" href="' . $print_report_url . '">' . esc_html__( 'Print this report', 'my-tickets' ) . '</a> ' . $return . ' ' . $show . '</p>';
 						}
 						?>
 						<div class="mt-report-selector">
@@ -219,14 +220,14 @@ function mt_set_column_headers( $headers, $type, $custom_headers = array() ) {
 		if ( 0 === $count && ! empty( $custom_headers ) ) {
 			foreach ( $custom_headers as $name => $field ) {
 				if ( 'table' === $type ) {
-					$cols[] = "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . '</th>';
+					$cols[] = "<th scope='col' class='mt_" . sanitize_title( $name ) . "'><span>" . $field['title'] . '</span></th>';
 				} else {
 					$cols[] = '"' . $field['title'] . '"';
 				}
 			}
 		}
-		if ( 'table' === $type ) {
-			$cols[] = '<th scope="col" class="' . $key . '" id="' . $key . '">' . $value['label'] . '</th>';
+		if ( 'table' === $type ) {// <button class="sort"><span class="dashicons dashicons-sort" aria-hidden="true"></span><span class="screen-reader-text">Sort</span></button>
+			$cols[] = '<th scope="col" class="' . $key . '" id="' . $key . '"><span>' . $value['label'] . '</span></th>';
 		} else {
 			$cols[] = '"' . $value['label'] . '"';
 		}
@@ -256,8 +257,8 @@ function mt_generate_tickets_by_event( $event_id = false, $display = false ) {
 			$headers       = mt_get_column_headers( 'tickets', 'table' );
 			$header_html   = mt_set_column_headers( $headers, 'table' );
 			// Translators: name of event.
-			$table_top    = "<table class='widefat striped'><caption>" . sprintf( __( 'Tickets Purchased for &ldquo;%s&rdquo;', 'my-tickets' ), $title ) . "</caption>
-						<thead>
+			$table_top    = "<table class='widefat striped' data-sortable><caption>" . sprintf( __( 'Tickets Purchased for &ldquo;%s&rdquo;', 'my-tickets' ), $title ) . "</caption>
+							<thead>
 							<tr>
 								$header_html
 							</tr>
@@ -338,7 +339,7 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 				$header_columns = mt_get_column_headers( 'purchases', 'table' );
 				$headers        = mt_set_column_headers( $header_columns, 'table', $custom_fields );
 
-				$table_top    = "<table class='widefat striped'><caption>%caption%</caption>
+				$table_top    = "<table class='widefat striped' data-sortable><caption>%caption%</caption>
 							<thead>
 								<tr>
 									$headers
@@ -1239,20 +1240,20 @@ function mt_generate_report_by_time() {
 		$custom_fields  = mt_get_custom_fields( 'reports' );
 		$custom_headers = '';
 		foreach ( $custom_fields as $name => $field ) {
-			$custom_headers .= "<th scope='col' class='mt_" . sanitize_title( $name ) . "'>" . $field['title'] . "</th>\n";
+			$custom_headers .= "<th scope='col' class='mt_" . sanitize_title( $name ) . "'><span>" . $field['title'] . "</span></th>\n";
 		}
 		// Translators: Starting date, ending date.
 		$output .= '<h3>' . sprintf( __( 'Sales from %1$s to %2$s', 'my-tickets' ), $start, $end ) . '</h3>';
-		$output .= "<table class='widefat striped'>
+		$output .= "<table class='widefat striped' data-sortable>
 			<thead>
 				<tr>
-					<th scope='col' class='mt-purchaser'>" . __( 'Purchaser', 'my-tickets' ) . "</th>
-					<th scope='col' class='mt-value'>" . __( 'Purchase Value', 'my-tickets' ) . "</th>
-					<th scope='col' class='mt-type'>" . __( 'Type', 'my-tickets' ) . "</th>
-					<th scope='col' class='mt-status'>" . __( 'Status', 'my-tickets' ) . "</th>
-					<th scope='col' class='mt-events'>" . __( 'Events', 'my-tickets' ) . "</th>
-					<th scope='col' class='mt-event-dates'>" . __( 'Event Dates', 'my-tickets' ) . "</th>
-					<th scope='col' class='mt-date'>" . __( 'Date', 'my-tickets' ) . '</th>' .
+					<th scope='col' class='mt-purchaser'><span>" . __( 'Purchaser', 'my-tickets' ) . "</span></th>
+					<th scope='col' class='mt-value'><span>" . __( 'Purchase Value', 'my-tickets' ) . "</span></th>
+					<th scope='col' class='mt-type'><span>" . __( 'Type', 'my-tickets' ) . "</span></th>
+					<th scope='col' class='mt-status'><span>" . __( 'Status', 'my-tickets' ) . "</span></th>
+					<th scope='col' class='mt-events'><span>" . __( 'Events', 'my-tickets' ) . "</span></th>
+					<th scope='col' class='mt-event-dates'><span>" . __( 'Event Dates', 'my-tickets' ) . "</span></th>
+					<th scope='col' class='mt-date'><span>" . __( 'Date', 'my-tickets' ) . '</span></th>' .
 					$custom_headers .
 				'</tr>
 			</thead>

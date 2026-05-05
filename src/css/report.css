@@ -14,14 +14,6 @@
     width: 100%;
 }
 
-button.mt-hide-button {
-    margin-left: 4px;
-}
-
-button.mt-show-button {
-    display: block;
-}
-
 #wpcontent .postbox {
     margin: 0;
     border: none;
@@ -91,6 +83,7 @@ td.mt-type {
    min-width: 6em;
 }
 
+th.mt-hidden,
 td.mt-hidden {
     opacity: .25;
 	background-image: repeating-linear-gradient( 45deg, #eee, #eee 10px, #fff 10px, #fff 20px );
@@ -101,12 +94,71 @@ td.mt-hidden {
     display: none;
 }
 
+.my-tickets th button {
+	position: relative;
+	display: inline-block;
+	margin: 0 4px 0 0;
+	width: 24px;
+	height: 24px;
+	line-height: 1;
+	background: #fff;
+	color: #000;
+	border: 1px solid #eee;
+	border-radius: 4px;
+}
+
+.my-tickets th > span {
+	display: block;
+	margin-bottom: 4px;
+}
+
+th button.sortable::before,
+th button.sortable::after {
+	font-family: dashicons;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	left: 0;
+	display: inline-block;
+	font-weight: 700;
+}
+
+th button.sortable::before {
+	content: "\f343";
+	top: -2px;
+}
+
+th button.sortable::after {
+	content: "\f347";
+	bottom: -2px;
+}
+
+th[aria-sort=ascending] button.sortable::before {
+	color: #fff;
+}
+
+th[aria-sort=descending] button.sortable::after {
+	color: #fff;
+}
+
+th[aria-sort=descending] button.sortable,
+th[aria-sort=ascending] button.sortable {
+	background: #000;
+}
+
+th button.mt-hide-button .dashicons,
+th button.mt-hide-button .dashicons::before {
+	left: 0;
+	top: 0;
+	position: absolute;
+}
+
 table a:hover, table a:focus {
     text-decoration: none;
 }
 
 @media print {
-    .notice, .mt-back, .show-button, .jcd-wide h2.hndle {
+    .notice, .mt-back, .jcd-wide h2.hndle, .mt-hidden, button, input {
         display: none;
     }
     td, th {
@@ -115,10 +167,5 @@ table a:hover, table a:focus {
     tr:nth-of-type(odd) {
         background: #fefefe;
     }
-	.mt-hidden {
-		display: none;
-	}
-    button {
-        display: none;
-    }
+	body { print-color-adjust: exact; }
 }
