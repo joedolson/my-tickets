@@ -932,7 +932,7 @@ add_action( 'admin_enqueue_scripts', 'mt_report_scripts' );
 function mt_report_scripts() {
 	$version = ( true === SCRIPT_DEBUG ) ? wp_rand( 10000, 100000 ) : mt_get_current_version();
 	if ( isset( $_GET['mt-event-report'] ) &amp;&amp; isset( $_GET['mt_print'] ) ) {
-		wp_enqueue_script( 'mt.sortable',  plugins_url( 'js/sortable.js', __FILE__ ), array(), $version );
+		wp_enqueue_script( 'mt.sortable', plugins_url( 'js/sortable.js', __FILE__ ), array(), $version );
 		wp_enqueue_script( 'mt.printable', plugins_url( 'js/report.js', __FILE__ ), array( 'jquery' ), $version );
 		wp_localize_script(
 			'mt.printable',
