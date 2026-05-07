@@ -273,7 +273,7 @@ function mt_add_inner_box() {
 		// Translators: link to public web site.
 		$order       = ( $cart ) ? mt_generate_cart_table( $cart, false, 'confirmation' ) : '<p>' . sprintf( __( 'Visit the <a href="%s">public web site</a> to set up a cart order', 'my-tickets' ), home_url() ) . '</p>';
 		$total_value = mt_total_cart( $cart, $post_id );
-		$total       = '<strong>' . __( 'Total', 'my-tickets' ) . '</strong>: ' . apply_filters( 'mt_money_format', $total_value );
+		$total       = '<strong>' . __( 'Total', 'my-tickets' ) . '</strong>: ' . mt_money_format( $total_value );
 		$order       = '<div class="mt-new-order">' . $order . $total . '</div>';
 	} else {
 		$order       = '';
@@ -1055,7 +1055,7 @@ function mt_custom_column( $column_name, $id ) {
 	switch ( $column_name ) {
 		case 'mt_paid':
 			$pd      = get_post_meta( $id, '_total_paid', true );
-			$pd      = apply_filters( 'mt_money_format', $pd );
+			$pd      = mt_money_format( $pd );
 			$gateway = get_post_meta( $id, '_gateway', true );
 			$paid    = "<span>$pd</span>";
 			$gate    = "<div class='mt-gateway-used'>$gateway</div>";

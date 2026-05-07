@@ -365,7 +365,7 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 
 			$output .= $out . '</div>';
 			// Translators: Number of tickets sold, total number of sales completed, number of purchases transacted.
-			$total_line  = "<p class='totals'>" . sprintf( __( '%1$s tickets sold in %3$s purchases. Total completed sales: %2$s', 'my-tickets' ), "<strong>$total_tickets</strong>", '<strong>' . apply_filters( 'mt_money_format', $total_income ) . '</strong>', "<strong>$total_sales</strong>" ) . '</p>';
+			$total_line  = "<p class='totals'>" . sprintf( __( '%1$s tickets sold in %3$s purchases. Total completed sales: %2$s', 'my-tickets' ), "<strong>$total_tickets</strong>", '<strong>' . mt_money_format( $total_income ) . '</strong>', "<strong>$total_sales</strong>" ) . '</p>';
 			$custom_line = apply_filters( 'mt_custom_total_line_event', '', $event_id );
 			if ( $return_type ) {
 				return $total_line . $custom_line . $output;
@@ -940,7 +940,7 @@ function mt_get_report_data( $type, $payment_id, $ticket_id, $ticket, $event_id 
 			$value = "<a href='" . get_edit_post_link( $payment_id ) . "'>$payment_id</a>";
 			break;
 		case 'mt-price':
-			$value = apply_filters( 'mt_money_format', $ticket['price'] );
+			$value = mt_money_format( $ticket['price'] );
 			break;
 		case 'mt-status':
 			$value = mt_get_payment_status( $payment_id );
@@ -1122,7 +1122,7 @@ function mt_get_report_data_by_time() {
 			$last_name  = end( $name );
 		}
 		$value        = floatval( get_post_meta( $post->ID, '_total_paid', true ) );
-		$format_value = apply_filters( 'mt_money_format', $value );
+		$format_value = mt_money_format( $value );
 		$total        = $total + $value;
 		$status       = get_post_meta( $post->ID, '_is_paid', true );
 		$email        = get_post_meta( $post->ID, '_email', true );
@@ -1266,7 +1266,7 @@ function mt_generate_report_by_time() {
 		$output .= '</tbody>
 		</table>';
 		// Translators: Time period.
-		$output     .= sprintf( '<p>' . __( 'Total sales in period: %s', 'my-tickets' ) . '</p>', '<strong>' . apply_filters( 'mt_money_format', $total ) . '</strong>' );
+		$output     .= sprintf( '<p>' . __( 'Total sales in period: %s', 'my-tickets' ) . '</p>', '<strong>' . mt_money_format( $total ) . '</strong>' );
 		$custom_line = apply_filters( 'mt_custom_total_line_time', '', $start, $end );
 		$output     .= $custom_line;
 	} else {

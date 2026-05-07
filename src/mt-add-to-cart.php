@@ -537,16 +537,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		}
 		$price = mt_calculate_discount( $ticket_type['price'], $event_id );
 		$price = mt_handling_price( $price, $event_id, $type );
-		/**
-		 * Format a numeric string as money.
-		 *
-		 * @hook mt_money_format
-		 *
-		 * @param {string|float} $price Original numeric value to format using current selected currency and structure.
-		 *
-		 * @return {string}
-		 */
-		$price = apply_filters( 'mt_money_format', $price );
+		$price = mt_money_format( $price );
 		/**
 		 * Filter ticket handling price.
 		 *
@@ -1094,7 +1085,7 @@ function mt_handling_notice() {
 	if ( isset( $options['mt_ticket_handling'] ) && is_numeric( $options['mt_ticket_handling'] ) && $options['mt_ticket_handling'] > 0 ) {
 		// Translators: amount of ticket handling charge.
 		$handling_string = __( 'Tickets include a %s ticket handling charge.', 'my-tickets' );
-		$money_formatted = apply_filters( 'mt_money_format', $options['mt_ticket_handling'] );
+		$money_formatted = mt_money_format( $options['mt_ticket_handling'] );
 		/**
 		 * Filter the string used to notify users about per-ticket handling charges.
 		 *

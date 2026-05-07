@@ -1075,7 +1075,6 @@ function mt_show_support_box( $add = false ) {
 	<?php
 }
 
-add_filter( 'mt_money_format', 'mt_money_format', 10, 1 );
 /**
  * Format money for use in cart or other context.
  *
@@ -1104,7 +1103,19 @@ function mt_money_format( $price ) {
 		 */
 		$space = apply_filters( 'mt_money_format_spacer', $space, $price );
 
-		return ( 'symbol-first' === $order ) ? $symbol . $space . $price : $price . $space . $symbol;
+		$output = ( 'symbol-first' === $order ) ? $symbol . $space . $price : $price . $space . $symbol;
+		/**
+		 * Filter money formatting.
+		 *
+		 * @hook mt_money_format
+		 *
+		 * @param {string} $output Money amount formatted as string.
+		 * @param {float}  $price Original value.
+		 * @param {string} $space Space character in use.
+		 * @param {string} $symbol Currency symbol.
+		 */
+		$output = apply_filters( 'mt_money_format', $output, $price, $space, $symbol );
+		return $output;
 	} else {
 		return '';
 	}

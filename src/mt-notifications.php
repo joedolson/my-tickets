@@ -200,14 +200,14 @@ function mt_format_purchase( $purchase, $format = false, $payment_id = false ) {
 						// Match formats so comparison is valid.
 						if ( sprintf( '%01.2f', $orig ) !== sprintf( '%01.2f', $price ) ) {
 							// Translators: original ticket price, before discounts.
-							$discount = strip_tags( apply_filters( 'mt_money_format', $orig ) );
+							$discount = strip_tags( mt_money_format( $orig ) );
 							// Translators: discounted cost of ticket.
 							$display_app = ' (' . sprintf( __( 'Discounted from %s', 'my-tickets' ), $discount ) . ')';
 						}
-						$display_price = strip_tags( apply_filters( 'mt_money_format', $price ) ) . $display_app;
+						$display_price = strip_tags( mt_money_format( $price ) ) . $display_app;
 						if ( $handling ) {
 							// Translators: price of ticket handling charge.
-							$handling_notice = ' ' . apply_filters( 'mt_handling_charge_of', sprintf( __( '(Per-ticket handling charge of %s)', 'my-tickets' ), apply_filters( 'mt_money_format', $handling ) ) );
+							$handling_notice = ' ' . apply_filters( 'mt_handling_charge_of', sprintf( __( '(Per-ticket handling charge of %s)', 'my-tickets' ), mt_money_format( $handling ) ) );
 						}
 						if ( $is_html ) {
 							// translators: Type of tickets, cost of tickets, price of tickets.
@@ -236,9 +236,9 @@ function mt_format_purchase( $purchase, $format = false, $payment_id = false ) {
 		$output .= $sep;
 		$total   = apply_filters( 'mt_apply_total_discount', $total, $payment_id );
 		if ( $is_html ) {
-			$output = wpautop( $output . '<hr><strong>' . __( 'Ticket Total', 'my-tickets' ) . '</strong>: ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) );
+			$output = wpautop( $output . '<hr><strong>' . __( 'Ticket Total', 'my-tickets' ) . '</strong>: ' . strip_tags( mt_money_format( $total ) ) );
 		} else {
-			$output .= $sep . __( 'Ticket Total', 'my-tickets' ) . ': ' . strip_tags( apply_filters( 'mt_money_format', $total ) ) . $sep;
+			$output .= $sep . __( 'Ticket Total', 'my-tickets' ) . ': ' . strip_tags( mt_money_format( $total ) ) . $sep;
 		}
 	}
 
@@ -445,8 +445,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	} else {
 		$amount_due = $total;
 	}
-	$amount_due       = strip_tags( apply_filters( 'mt_money_format', $amount_due ) );
-	$total            = strip_tags( apply_filters( 'mt_money_format', $total ) );
+	$amount_due       = strip_tags( mt_money_format( $amount_due ) );
+	$total            = strip_tags( mt_money_format( $total ) );
 	$transaction_data = get_post_meta( $id, '_transaction_data', true );
 	$address          = ( isset( $transaction_data['shipping'] ) ) ? $transaction_data['shipping'] : false;
 	$ticketing_method = get_post_meta( $id, '_ticketing_method', true );
@@ -486,8 +486,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		'transaction'    => apply_filters( 'mt_format_array', '', 'transaction', $transaction_data, $id, 'email' ),
 		'transaction_id' => $transaction_id,
 		'amount_due'     => $amount_due,
-		'handling'       => apply_filters( 'mt_money_format', $handling ),
-		'shipping'       => apply_filters( 'mt_money_format', $shipping ),
+		'handling'       => mt_money_format( $handling ),
+		'shipping'       => mt_money_format( $shipping ),
 		'method'         => $friendly_method,
 		'phone'          => $phone,
 		'vat'            => $vat,

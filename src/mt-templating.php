@@ -232,9 +232,9 @@ function mt_get_payment_details() {
 			$transaction   = get_post_meta( $receipt->ID, '_transaction_id', true );
 			$total         = get_post_meta( $receipt->ID, '_total_paid', true );
 			$hand_total    = get_post_meta( $receipt->ID, '_mt_handling', true );
-			$handling      = ( $hand_total ) ? '<li>' . __( 'Handling:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $hand_total ) . '</li>' : '';
+			$handling      = ( $hand_total ) ? '<li>' . __( 'Handling:', 'my-tickets' ) . ' ' . mt_money_format( $hand_total ) . '</li>' : '';
 			$ship_total    = get_post_meta( $receipt->ID, '_mt_shipping', true );
-			$shipping      = ( $ship_total ) ? '<li>' . __( 'Shipping:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $ship_total ) . '</li>' : '';
+			$shipping      = ( $ship_total ) ? '<li>' . __( 'Shipping:', 'my-tickets' ) . ' ' . mt_money_format( $ship_total ) . '</li>' : '';
 			$vat           = get_post_meta( $receipt->ID, '_vat', true );
 			// Translators: VAT ID.
 			$vat     = ( $vat ) ? '<li>' . sprintf( __( 'VAT Number: %s', 'my-tickets' ), '<code>' . $vat . '</code>' ) . '</li>' : '';
@@ -245,7 +245,7 @@ function mt_get_payment_details() {
 			<li>" . __( 'Transaction ID:', 'my-tickets' ) . " <code>$transaction</code></li>
 			$handling
 			$shipping
-			<li>" . __( 'Amount Paid:', 'my-tickets' ) . ' ' . apply_filters( 'mt_money_format', $total ) . "</li>
+			<li>" . __( 'Amount Paid:', 'my-tickets' ) . ' ' . mt_money_format( $total ) . "</li>
 			$vat
 		</ul>";
 
@@ -258,7 +258,7 @@ function mt_get_payment_details() {
 			return __( 'This purchase was cancelled and the tickets were returned to the seller.', 'my-tickets' );
 		} else {
 			$due = get_post_meta( $receipt->ID, '_total_paid', true );
-			$due = apply_filters( 'mt_money_format', $due );
+			$due = mt_money_format( $due );
 			// Translators: Amount due on this payment.
 			return __( 'Payment on this purchase is not completed. The receipt will be updated with payment details when payment is completed.', 'my-tickets' ) . ' ' . sprintf( __( 'Amount due: %s', 'my-tickets' ), '<strong>' . $due . '</strong>' );
 		}
@@ -747,7 +747,7 @@ function mt_get_ticket_price( $ticket_id = false ) {
 			$append = ': <em>' . __( 'Payment Due', 'my-tickets' ) . '</em>';
 		}
 
-		$type = apply_filters( 'mt_money_format', $data['price'] );
+		$type = mt_money_format( $data['price'] );
 
 		return $type . $append;
 	}
@@ -1010,7 +1010,7 @@ function mt_get_verification( $ticket_id = false ) {
 		$payment_id = $data['purchase_id'];
 		$status     = get_post_meta( $payment_id, '_is_paid', true );
 		$due        = get_post_meta( $payment_id, '_total_paid', true );
-		$due        = apply_filters( 'mt_money_format', $due );
+		$due        = mt_money_format( $due );
 		$text       = ( $verified ) ? __( 'Ticket Verified', 'my-tickets' ) : __( 'Invalid Ticket ID', 'my-tickets' );
 		// Translators: Amount due on account.
 		$text        .= ( 'Pending' === $status ) ? ' - ' . sprintf( __( 'Payment pending: %s', 'my-tickets' ), $due ) : '';
