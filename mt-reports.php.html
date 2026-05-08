@@ -1453,20 +1453,15 @@ function mt_record_opt_out() {
 	if ( isset( $_GET['opt_out'] ) &amp;&amp; ! isset( $_COOKIE['mt_opting_out'] ) ) {
 		$opt_out = absint( $_GET['opt_out'] );
 		$opt_out = md5( $opt_out );
-		if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
-			// Fix syntax.
-			$options = array(
-				'expires'  => time() + 60 * 60 * 24 * 7,
-				'path'     => COOKIEPATH,
-				'domain'   => COOKIE_DOMAIN,
-				'secure'   => false,
-				'httponly' => true,
-				'samesite' => 'Lax',
-			);
-			setcookie( 'mt_opting_out', $opt_out, $options );
-		} else {
-			setcookie( 'mt_opting_out', $opt_out, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, false, true );
-		}
+		$options = array(
+			'expires'  => time() + 60 * 60 * 24 * 7,
+			'path'     => COOKIEPATH,
+			'domain'   => COOKIE_DOMAIN,
+			'secure'   => false,
+			'httponly' => true,
+			'samesite' => 'Lax',
+		);
+		setcookie( 'mt_opting_out', $opt_out, $options );
 	}
 }
 

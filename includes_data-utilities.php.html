@@ -375,20 +375,15 @@ function mt_set_user_unique_id() {
 		$expiration = mt_expiration_window() + WEEK_IN_SECONDS;
 		if ( ! $unique_id ) {
 			$unique_id = mt_generate_unique_id();
-			if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
-				// Fix syntax.
-				$options = array(
-					'expires'  => time() + $expiration,
-					'path'     => COOKIEPATH,
-					'domain'   => COOKIE_DOMAIN,
-					'secure'   => false,
-					'httponly' => true,
-					'samesite' => 'Lax',
-				);
-				setcookie( 'mt_unique_id', $unique_id, $options );
-			} else {
-				setcookie( 'mt_unique_id', $unique_id, time() + $expiration, COOKIEPATH, COOKIE_DOMAIN, false, true );
-			}
+			$options   = array(
+				'expires'  => time() + $expiration,
+				'path'     => COOKIEPATH,
+				'domain'   => COOKIE_DOMAIN,
+				'secure'   => false,
+				'httponly' => true,
+				'samesite' => 'Lax',
+			);
+			setcookie( 'mt_unique_id', $unique_id, $options );
 		}
 	}
 }
@@ -403,20 +398,15 @@ function mt_set_receipt_cookie( $post_ID, $receipt = false ) {
 	$log_id       = mt_get_payment_log_id( $post_ID );
 	$receipt      = ( ! $receipt ) ? get_post_meta( $post_ID, '_receipt', true ) : $receipt;
 	$cookie_value = md5( $receipt . $log_id );
-	if ( version_compare( PHP_VERSION, '7.3.0', '>' ) ) {
-		// Fix syntax.
-		$options = array(
-			'expires'  => time() + 600,
-			'path'     => COOKIEPATH,
-			'domain'   => COOKIE_DOMAIN,
-			'secure'   => false,
-			'httponly' => true,
-			'samesite' => 'Lax',
-		);
-		setcookie( 'mt_purchase_receipt', $cookie_value, $options );
-	} else {
-		setcookie( 'mt_purchase_receipt', $cookie_value, time() + 600, COOKIEPATH, COOKIE_DOMAIN, false, true );
-	}
+	$options      = array(
+		'expires'  => time() + 600,
+		'path'     => COOKIEPATH,
+		'domain'   => COOKIE_DOMAIN,
+		'secure'   => false,
+		'httponly' => true,
+		'samesite' => 'Lax',
+	);
+	setcookie( 'mt_purchase_receipt', $cookie_value, $options );
 }
 
 /**
