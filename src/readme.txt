@@ -3,11 +3,11 @@ Contributors: joedolson
 Donate link: https://www.joedolson.com/donate/
 Tags: ticket sales, registration, reservations, event tickets, accessibility
 Requires at least: 6.4
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
 License: GPLv3
 Text domain: my-tickets
-Stable tag: 2.1.2
+Stable tag: 2.2.0
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -71,6 +71,22 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.2.0 =
+
+* Accessibility: Labels on ticket creation table missing.
+* Remove cookie syntax for before PHP 7.4, which is no longer supported.
+* Replace 'mt_money_format' filter with function; add filter to function.
+* Feature: Make print view in reports sortable.
+* Improve design of hidden columns in reports print view.
+* Bug fix: Report print view did not respect ticket type limits.
+* Bug fix: Fix a variety of potentially undefined variables.
+* Bug fix: Use password field types for gateway API keys.
+* Bug fix: Currency symbol order settings broken.
+* Bug fix: Custom field values omitted from downloaded purchase reports.
+* Bug fix: Prevent fatal error if no valid event ID passed in reports.
+* Adapt styles for WordPress 7.0.
+* Handle changes in `wp_kses_hair()` in WordPress 7.0.
 
 = 2.1.2 =
 
