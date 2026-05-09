@@ -470,17 +470,17 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 					<caption>" . __( 'Ticket Prices and Availability', 'my-tickets' ) . "</caption>
 					<thead>
 						<tr>
-							<th scope='col'>" . __( 'Move', 'my-tickets' ) . "</th>
-							<th scope='col'>" . $label . "</th>
-							<th scope='col'>" . __( 'Price', 'my-tickets' ) . "</th>
-							<th scope='col'>" . __( 'Available', 'my-tickets' ) . "</th>
-							<th scope='col'>" . __( 'Sold', 'my-tickets' ) . "</th>
-							<th scope='col'>" . __( 'Close Sales', 'my-tickets' ) . '</th>
+							<th scope='col' id='mt_move'>" . __( 'Move', 'my-tickets' ) . "</th>
+							<th scope='col' id='mt_label'>" . $label . "</th>
+							<th scope='col' id='mt_price'>" . __( 'Price', 'my-tickets' ) . "</th>
+							<th scope='col' id='mt_available'>" . __( 'Available', 'my-tickets' ) . "</th>
+							<th scope='col' id='mt_sold'>" . __( 'Sold', 'my-tickets' ) . "</th>
+							<th scope='col' id='mt_close'>" . __( 'Close Sales', 'my-tickets' ) . '</th>
 						</tr>
 					</thead>
 					<tbody>';
 	if ( 'discrete' === $counting || 'event' === $counting ) {
-		$available_empty = "<input type='text' name='mt_tickets$pattern' id='mt_tickets' value='' size='8' />";
+		$available_empty = "<input type='text' aria-labelledby='mt_available'  name='mt_tickets$pattern' id='mt_tickets' value='' size='8' />";
 		$total           = '<input type="hidden" name="mt_tickets_total' . $altpatt . '" value="inherit" />';
 	} else {
 		$disabled        = ( 'general' === $counting ) ? ' disabled="disabled"' : '';
@@ -498,7 +498,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				continue;
 			}
 			if ( 'discrete' === $counting || 'event' === $counting ) {
-				$available = "<input type='text' name='mt_tickets$pattern' id='mt_tickets_$counting" . '_' . "$label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
+				$available = "<input type='text' aria-labelledby='mt_available'  name='mt_tickets$pattern' id='mt_tickets_$counting" . '_' . "$label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
 			} else {
 				$available = "<input type='hidden' name='mt_tickets$pattern' id='mt_tickets_$counting" . '_' . "$label' value='inherit' />";
 			}
@@ -516,7 +516,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				$class       = ( 0 !== (int) $options['sold'] || 'complimentary' === sanitize_title( $options['label'] ) ) ? 'undeletable' : 'deletable';
 				$sold        = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? 0 : $options['sold'];
 				$close       = ( isset( $_GET['mode'] ) && 'copy' === $_GET['mode'] ) ? '' : ( isset( $options['close'] ) ? $options['close'] : '' );
-				$close_field = ( 'event' === $counting ) ? '--' : '<input type="date" name="mt_close' . $pattern . '" value="' . ( ( $close ) ? gmdate( 'Y-m-d', $close ) : '' ) . '" />';
+				$close_field = ( 'event' === $counting ) ? '--' : '<input type="date" aria-labelledby="mt_close"  name="mt_close' . $pattern . '" value="' . ( ( $close ) ? gmdate( 'Y-m-d', $close ) : '' ) . '" />';
 				$comps       = ( 'complimentary' === sanitize_title( $options['label'] ) ) ? '<br />' . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) : '';
 				$return     .= "
 				<tr class='$class'>
@@ -524,8 +524,8 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 						<button type='button' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "</span></button>
 						<button type='button' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "</span></button>
 					</td>
-					<td>$label_field<input type='$type' class='$label_class' name='mt_label$pattern' id='mt_label_$counting" . '_' . "$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps</td>
-					<td><input type='number' name='mt_price$pattern' step='0.01' id='mt_price_$counting" . '_' . "$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
+					<td>$label_field<input type='$type' aria-labelledby='mt_label' class='$label_class' name='mt_label$pattern' id='mt_label_$counting" . '_' . "$label' value='" . esc_attr( stripslashes( strip_tags( $options['label'] ) ) ) . "' />$comps</td>
+					<td><input type='number' aria-labelledby='mt_price' name='mt_price$pattern' step='0.01' id='mt_price_$counting" . '_' . "$label' value='" . esc_attr( $options['price'] ) . "' size='8' /></td>
 					<td>$available</td>
 					<td><input type='hidden' name='mt_sold$pattern' value='" . $sold . "' />" . $sold . '</td>
 					<td>' . $close_field . '</td>
@@ -549,8 +549,8 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 						<button type='button' class='button up'><span class='dashicons dashicons-arrow-up-alt'></span><span class='screen-reader-text'>" . __( 'Move Up', 'my-tickets' ) . "</span></button>
 						<button type='button' class='button down'><span class='dashicons dashicons-arrow-down-alt'></span><span class='screen-reader-text'>" . __( 'Move Down', 'my-tickets' ) . "</span></button>
 					</td>
-					<td><input type='text' readonly name='mt_label$pattern' id='mt_label_$counting" . '_' . "complimentary' value='Complimentary' /><br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "</td>
-					<td><input type='text' readonly name='mt_price$pattern' id='mt_price_$counting" . '_' . "complimentary' value='0' size='8' /></td>
+					<td><input type='text' aria-labelledby='mt_label'  readonly name='mt_label$pattern' id='mt_label_$counting" . '_' . "complimentary' value='Complimentary' /><br />" . __( 'Note: complimentary tickets can only be added by logged-in administrators.', 'my-tickets' ) . "</td>
+					<td><input type='text' aria-labelledby='mt_price'  readonly name='mt_price$pattern' id='mt_price_$counting" . '_' . "complimentary' value='0' size='8' /></td>
 					<td>$available</td>
 					<td></td>
 					<td></td>
@@ -563,13 +563,13 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		'value' => '',
 	);
 	$new_label_field = ( 'event' === $counting ) ? '<div class="mt-date-time-picker">' . mt_datepicker_html( $args ) . '<label for="mt_label_picker_time_new" class="screen-reader-text">' . __( 'Time', 'my-tickets' ) . '</label><input type="time" name="mt_label_time' . $pattern . '" id="mt_label_picker_time_new"></div>' : '';
-	$new_close_field = ( 'event' === $counting ) ? '--' : "<input type='date' name='mt_close$pattern' value='' />";
+	$new_close_field = ( 'event' === $counting ) ? '--' : "<input type='date' aria-labelledby='mt_close' name='mt_close$pattern' value='' />";
 
 	$return   .= "
 		<tr class='clonedPrice $counting' id='price" . $counting . "1'>
 			<td></td>
-			<td>$new_label_field<input type='text' class='$label_class' name='mt_label$pattern' id='mt_$counting" . '_' . "label' /></td>
-			<td><input type='text' name='mt_price$pattern' id='mt_$counting" . '_' . "price' step='0.01' size='8' /></td>
+			<td>$new_label_field<input type='text' aria-labelledby='mt_label'  class='$label_class' name='mt_label$pattern' id='mt_$counting" . '_' . "label' /></td>
+			<td><input type='text' aria-labelledby='mt_price'  name='mt_price$pattern' id='mt_$counting" . '_' . "price' step='0.01' size='8' /></td>
 			<td>$available_empty</td>
 			<td></td>
 			<td>" . $new_close_field . '</td>
