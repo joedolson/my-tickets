@@ -370,7 +370,9 @@ add_action( 'init', 'mt_set_user_unique_id' );
  * It'll also create a secondary issue where AJAX actions read the sitecookiepath cookie.
  */
 function mt_set_user_unique_id() {
-	if ( ! defined( 'DOING_CRON' ) ) {
+	if ( defined( 'DOING_CRON' ) &amp;&amp; DOING_CRON ) {
+		return;
+	} else {
 		$unique_id  = mt_get_unique_id();
 		$expiration = mt_expiration_window() + WEEK_IN_SECONDS;
 		if ( ! $unique_id ) {
