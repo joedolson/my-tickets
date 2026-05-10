@@ -388,7 +388,7 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
  *
  * @param array $cart Cart data, if available.
  *
- * @return array Array of event IDs indicating availability.
+ * @return array Array of event IDs and ticket types indicating availability.
  */
 function mt_validate_cart( $cart = array() ) {
 	if ( ! $cart ) {
