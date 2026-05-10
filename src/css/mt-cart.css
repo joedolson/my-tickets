@@ -105,20 +105,25 @@
 }
 
 .mt-ticket-field {
-    display: grid;
-    grid-template-columns: 14em 1fr minmax(auto,12em);
+    display: flex;
     column-gap: 12px;
-    align-items: start;
+    align-items: center;
     margin-bottom: .5rem;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.mt-ticket-field > label {
+	flex-grow: 1;
 }
 
 .mt-ticket-field .ticket-pricing {
 	display: grid;
 }
 
-.mt-ticket-field span:not(span.dashicons) {
+.mt-ticket-field .mt-ticket-data-price {
 	font-size: clamp( .875rem, 14px, 1.125rem );
-	text-align: right;
+	min-width: 6rem;
 }
 
 .mt-ticket-field .price {
