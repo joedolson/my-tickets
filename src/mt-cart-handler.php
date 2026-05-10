@@ -386,6 +386,8 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 /**
  * Validate cart contents. Checks whether any items in the current cart are no longer possible to purchase.
  *
+ * @param array $cart Cart data, if available.
+ *
  * @return array Array of event IDs indicating availability.
  */
 function mt_validate_cart( $cart = array() ) {
@@ -394,13 +396,13 @@ function mt_validate_cart( $cart = array() ) {
 	}
 	// Remove any invalid values from the cart data.
 	$cart = mt_check_cart( $cart );
-	if ( is_array ( $cart ) ) {
+	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event_id => $order ) {
 			foreach ( $order as $type ) {
 				$has_inventory = mt_check_inventory( $event_id, $type, false );
 				if ( $has_inventory ) {
 					$available = $has_inventory['available'];
-					if ( $available === 0 ) {
+					if ( 0 === $available ) {
 						$availability = false;
 					} elseif ( $order[ $type ] > $available ) {
 						$availability = $available;
