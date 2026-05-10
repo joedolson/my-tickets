@@ -196,6 +196,17 @@ table.mt_cart {
 	align-items: center;
 	gap: 20px;
 	flex-wrap: wrap;
+	margin: 0;
+}
+
+.mt-response-container {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.mt-response-container .mt-response {
+	flex-grow: 1;
 }
 
 .mt-processing {
