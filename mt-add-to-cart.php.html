@@ -333,8 +333,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 */
 				$fields = apply_filters( 'mt_add_to_cart_fields', '', $event_id );
 				$output = "
-			&lt;div class='mt-order my-tickets'>
-				&lt;div class='mt-response' id='mt-response-$event_id' aria-live='assertive'>&lt;/div>
+			&lt;div class='mt-order my-tickets' id='mt-response-$event_id'>
 				$no_post
 				$closing_time
 				$handling_notice
@@ -348,10 +347,13 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 						$in_cart
 						$remaining_notice
 						$form
-						$fields" . "&lt;p>
-						&lt;button type='submit' name='mt_add_to_cart'" . $disabled . '>' . apply_filters( 'mt_add_to_cart_text', __( 'Add to Cart', 'my-tickets' ) ) . "&lt;span class='mt-processing'>&lt;img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' />&lt;/span>&lt;/button>
+						$fields" . "&lt;div class='mt-response-container'>
+							&lt;p>
+								&lt;button type='submit' name='mt_add_to_cart'" . $disabled . '>' . apply_filters( 'mt_add_to_cart_text', __( 'Add to Cart', 'my-tickets' ) ) . "&lt;span class='mt-processing'>&lt;img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' />&lt;/span>&lt;/button>
+							&lt;/p>
+							&lt;div class='mt-response' aria-live='assertive'>&lt;/div>
+						&lt;/div>
 						&lt;input type='hidden' name='my-tickets' value='true' />
-						&lt;/p>
 					&lt;/fieldset>
 				&lt;/form>
 			&lt;/div>";
