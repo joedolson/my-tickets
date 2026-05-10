@@ -807,7 +807,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 */
 			$price_in_label = apply_filters( 'mt_price_in_label', false, $event_id );
 			$price_class    = ( $price_in_label ) ? 'mt-price-in-label' : '';
-			$price          = "&lt;span id='mt_tickets_data_$type'>$ticket_price_label&lt;/span>";
+			$price          = "&lt;span class='mt-ticket-data-price' id='mt_tickets_data_$type'>$ticket_price_label&lt;/span>";
 			$label_price    = ( $price_in_label ) ? ' &lt;span class="mt-label-price">' . strip_tags( $price ) . '&lt;/span>' : '';
 			$post_price     = ( ! $price_in_label ) ? $price : '';
 			$form_key       = $type;
