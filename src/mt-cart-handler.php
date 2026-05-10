@@ -398,18 +398,19 @@ function mt_validate_cart( $cart = array() ) {
 	$cart = mt_check_cart( $cart );
 	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event_id => $order ) {
-			foreach ( $order as $type ) {
-				$has_inventory = mt_check_inventory( $event_id, $type, false );
+			foreach ( $order as $key => $type ) {
+				// check the inventory, skipping the virtual inventory.
+				$has_inventory = mt_check_inventory( $event_id, $key, false );
 				if ( $has_inventory ) {
 					$available = $has_inventory['available'];
 					if ( 0 === $available ) {
 						$availability = false;
-					} elseif ( $order[ $type ] > $available ) {
+					} elseif ( $order[ $key ] > $available ) {
 						$availability = $available;
 					} else {
 						$availability = true;
 					}
-					$cart[ $event_id ][ $order ][ $type ] = $availability;
+					$cart[ $event_id ][ $key ] = $availability;
 				}
 			}
 		}
