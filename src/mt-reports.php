@@ -54,11 +54,18 @@ function mt_reports_page() {
 							if ( isset( $_GET['mt_print'] ) ) {
 								$print_report_url = 'javascript:window.print()';
 							} else {
+								$arguments = array(
+									'event_id'        => $event_id,
+									'mt-event-report' => $report_type,
+									'format'          => 'view',
+									'mt_print'        => 'true',
+								);
 								// Escaped here because `esc_url` wipes out the print() command.
-								$print_report_url = esc_url( admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' ) );
-								if ( $select_type ) {
-									$print_report_url = add_query_arg( 'mt_select_ticket_type', $select_type, $print_report_url );
+								$print_report_url = admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' );
+								if ( $select_type && 'all' !== $select_type ) {
+									$arguments['mt_select_event_type'] = $select_type;
 								}
+								$print_report_url = esc_url( add_query_arg( $arguments, admin_url( 'admin.php?page=mt-reports' ) ) );
 							}
 							$back_url = admin_url( apply_filters( 'mt_printable_report_back', 'admin.php?page=mt-reports&mt-event-report=' . $report_type . '&event_id=' . $event_id ) );
 							$return   = ( isset( $_GET['mt_print'] ) ) ? '<a class="mt-back button" href="' . esc_url( $back_url ) . '">' . esc_html__( 'Return to My Tickets Reports', 'my-tickets' ) . '</a>' : '';
