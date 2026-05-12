@@ -242,6 +242,11 @@ button[name="mt_add_to_cart"] img {
     display: none;
 }
 
+.mt_cart tr.validation-error {
+	outline: 2px solid var(--mt-error-border);
+	outline-offset: 2px;
+}
+
 .mt_cart .screen-reader-text {
     border: 0;
     clip-path: inset(50%);
