@@ -58,11 +58,8 @@ th[scope=col] {
     padding: 12px 4px;
 }
 th[scope=row] {
-    border-bottom: 1px solid #ddd;
-    padding: 4px;
+    border-bottom: 1px solid #eee;
     background: transparent;
-    font-family: monospace;
-    border-right: 1px solid #f3f3f3;
 }
 td {
     padding: 4px;
@@ -72,6 +69,7 @@ td {
 
 th.mt-id {
     width: 12em;
+	font-family: monospace;
 }
 
 td.mt-owed, td.mt-price, td.mt-paid, td.mt-tickets {
