@@ -61,7 +61,7 @@ function mt_reports_page() {
 									'mt_print'        => 'true',
 								);
 								// Escaped here because `esc_url` wipes out the print() command.
-								$print_report_url = admin_url( 'admin.php?page=mt-reports&event_id=' . $event_id . '&mt-event-report=' . $report_type . '&format=view&mt_print=true' );
+								$print_report_url = admin_url( 'admin.php?page=mt-reports' );
 								if ( $select_type && 'all' !== $select_type ) {
 									$arguments['mt_select_event_type'] = $select_type;
 								}
