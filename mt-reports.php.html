@@ -55,6 +55,18 @@ function mt_reports_page() {
 					&lt;h2 class="hndle">&lt;?php _e( 'Reports on Ticket Sales and Registrations', 'my-tickets' ); ?>&lt;/h2>
 
 					&lt;div class="inside">
+						&lt;div class="mt-tabs mt-report-selector">
+							&lt;ul class='tabs' role='tablist'>
+								&lt;li>&lt;button id='tab_mt_by_date' role='tab' type='button' aria-selected='true' aria-controls='mt_by_date'>By Date&lt;/button>&lt;/li>
+								&lt;li>&lt;button id='tab_mt_by_event' role='tab' type='button' aria-selected='false' aria-controls='mt_by_event'>By Event&lt;/button>&lt;/li>
+							&lt;/ul>
+							&lt;div role='tabpanel' aria-labelledby='tab_mt_by_date' class='wptab' id='mt_by_date'>
+								&lt;?php mt_choose_report_by_date(); ?>
+							&lt;/div>
+							&lt;div role='tabpanel' aria-labelledby='tab_mt_by_event' class='wptab' id='mt_by_event'>
+								&lt;?php mt_choose_report_by_event(); ?>
+							&lt;/div>
+						&lt;/div>
 						&lt;?php
 						if ( isset( $_POST['event_id'] ) &amp;&amp; is_numeric( $_POST['event_id'] ) ) {
 							if ( ! ( '' === strip_tags( $_POST['mt_subject'] ) || '' === strip_tags( $_POST['mt_body'] ) ) ) {
@@ -99,12 +111,8 @@ function mt_reports_page() {
 							echo '&lt;p>&lt;a class="button print-button" href="' . $print_report_url . '">' . esc_html__( 'Print this report', 'my-tickets' ) . '&lt;/a> ' . $return . ' ' . $show . '&lt;/p>';
 						}
 						?>
-						&lt;div class="mt-report-selector">
-							&lt;?php mt_choose_report_by_date(); ?>
-							&lt;?php mt_choose_report_by_event(); ?>
-							&lt;div class='mt-email-purchasers'>
-								&lt;?php mt_email_purchasers(); ?>
-							&lt;/div>
+						&lt;div class='mt-email-purchasers'>
+							&lt;?php mt_email_purchasers(); ?>
 						&lt;/div>
 					&lt;/div>
 				&lt;/div>
