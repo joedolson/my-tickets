@@ -54,10 +54,10 @@ function mt_update_payment_settings( $post ) {
 		 *
 		 * @hook mt_settings
 		 *
-		 * @param {array} $settings Settings after changes provided by admin but before saving.
-		 * @param {array} $post     $POST data.
+		 * @param array $settings Settings after changes provided by admin but before saving.
+		 * @param array $post     $_POST data.
 		 *
-		 * @return {array}
+		 * @return array
 		 */
 		$settings = apply_filters(
 			'mt_settings',
