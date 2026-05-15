@@ -521,9 +521,9 @@ function mt_settings() {
 									<input type="hidden" name="mt_license_keys" value="saved" />
 									<input type="hidden" name="_wpnonce_tickets" value="<?php echo esc_attr( wp_create_nonce( 'my-tickets-licensing' ) ); ?>"/>
 								</div>
-							<ul>
-								<?php echo wp_kses( $fields, mt_kses_elements() ); ?>
-							</ul>
+								<div class="mt-flex">
+									<?php echo wp_kses( $fields, mt_kses_elements() ); ?>
+								</div>
 								<p><input type="submit" name="mt-submit-settings" class="button-primary" value="<?php _e( 'Save License Keys', 'my-tickets' ); ?>"/></p>
 							</form>
 								<?php

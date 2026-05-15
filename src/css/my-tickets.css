@@ -309,6 +309,13 @@ td duet-date-picker .duet-date:not(:last-of-type) {
     margin-bottom: 1rem;
 }
 
+.mt-input-settings {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
 .inside span.current {
     padding: 2px;
     background: #f3f3f3;
@@ -453,6 +460,20 @@ td duet-date-picker .duet-date:not(:last-of-type) {
 
 .mt-back, .show-button {
     display: none;
+}
+
+.mt-flex .license {
+	flex-grow: 1;
+	padding: 1rem;
+	border: 1px solid rgb( 0,0,0,.06 );
+}
+
+.mt-flex .license:nth-of-type(odd) {
+	background: rgb( 0,0,0,.01 );
+}
+
+.mt-flex .license input {
+	width: 100%;
 }
 
 .sales {
