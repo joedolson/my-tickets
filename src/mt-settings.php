@@ -431,11 +431,9 @@ function mt_settings() {
 									 *
 									 * @hook mt_cart_custom_fields
 									 *
-									 * @param {array}  $fields Array of defined custom fields. Initialized as empty array.
-									 * @param {array}  $empty Empty array; not used in this context.
-									 * @param {string} $context Rendering context.
-									 *
-									 * @return {array}
+									 * @param array  $fields Array of defined custom fields. Initialized as empty array.
+									 * @param array  $empty Empty array; not used in this context.
+									 * @param string $context Rendering context.
 									 */
 									$cart_custom_fields = apply_filters( 'mt_cart_custom_fields', array(), array(), 'tags' );
 									foreach ( $cart_custom_fields as $name => $field ) {
