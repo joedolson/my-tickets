@@ -449,7 +449,7 @@ function mt_choose_report_by_event() {
 						<option value='view'" . selected( $format, 'view', false ) . '>' . __( 'View Report', 'my-tickets' ) . "</option>
 					</select>
 					</p>
-					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Event', 'my-tickets' ) . "' /></p>
+					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report', 'my-tickets' ) . "' /></p>
 				</form>
 			</div>";
 	echo wp_kses( $form, mt_kses_elements() );
@@ -488,7 +488,7 @@ function mt_choose_report_by_date() {
 							<option value='csv'" . selected( 'csv', $format, false ) . '>' . __( 'Download CSV', 'my-tickets' ) . "</option>
 						</select>
 					</p>
-					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Date', 'my-tickets' ) . "' /></p>
+					<p><input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report', 'my-tickets' ) . "' /></p>
 				</form>
 			</div>";
 	echo wp_kses( $form, mt_kses_elements() );
