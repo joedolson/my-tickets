@@ -624,10 +624,8 @@ function mt_shipping_country( $country = '' ) {
 	 *
 	 * @hook mt_shipping_countries
 	 *
-	 * @param {array}  $countries Array of available countries.
-	 * @param {string} $country Currently selected country, if any.
-	 *
-	 * @return {array}
+	 * @param array  $countries Array of available countries.
+	 * @param string $country Currently selected country, if any.
 	 */
 	$countries = apply_filters( 'mt_shipping_countries', $countries, $country );
 	$options   = '';
