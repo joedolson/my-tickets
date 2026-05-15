@@ -128,7 +128,6 @@ function mt_ticketing_settings() {
 	$options  = mt_get_settings();
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
-		<div id="icon-options-general" class="icon32"><br/></div>
 		<h1 class="hndle"><?php _e( 'Event Ticket Settings', 'my-tickets' ); ?></h1>
 		<?php echo wp_kses_post( $response ); ?>
 		<div class="postbox-container jcd-wide">

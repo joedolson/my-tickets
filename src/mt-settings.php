@@ -51,7 +51,6 @@ function mt_kses_replacement( $modified, $original ) {
 	return $template;
 }
 
-
 /**
  * My Tickets general settings.
  *
