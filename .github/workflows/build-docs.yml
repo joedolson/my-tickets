@@ -16,7 +16,7 @@ jobs:
     - uses: akirk/extract-wp-hooks@main
       with:
         base-dir: "."
-        exclude-dirs: "vendor,tests,node_modules"
+        exclude-dirs: "vendor,tests,node_modules,updates"
         ignore-filters: "debug_hook,internal_filter"
         section: "file"
         wiki-repo: "joedolson/my-tickets.wiki.git"
