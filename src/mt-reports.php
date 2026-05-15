@@ -29,6 +29,18 @@ function mt_reports_page() {
 					<h2 class="hndle"><?php _e( 'Reports on Ticket Sales and Registrations', 'my-tickets' ); ?></h2>
 
 					<div class="inside">
+						<div class="mt-tabs mt-report-selector">
+							<ul class='tabs' role='tablist'>
+								<li><button id='tab_mt_by_date' role='tab' type='button' aria-selected='true' aria-controls='mt_by_date'>By Date</button></li>
+								<li><button id='tab_mt_by_event' role='tab' type='button' aria-selected='false' aria-controls='mt_by_event'>By Event</button></li>
+							</ul>
+							<div role='tabpanel' aria-labelledby='tab_mt_by_date' class='wptab' id='mt_by_date'>
+								<?php mt_choose_report_by_date(); ?>
+							</div>
+							<div role='tabpanel' aria-labelledby='tab_mt_by_event' class='wptab' id='mt_by_event'>
+								<?php mt_choose_report_by_event(); ?>
+							</div>
+						</div>
 						<?php
 						if ( isset( $_POST['event_id'] ) && is_numeric( $_POST['event_id'] ) ) {
 							if ( ! ( '' === strip_tags( $_POST['mt_subject'] ) || '' === strip_tags( $_POST['mt_body'] ) ) ) {
@@ -73,12 +85,8 @@ function mt_reports_page() {
 							echo '<p><a class="button print-button" href="' . $print_report_url . '">' . esc_html__( 'Print this report', 'my-tickets' ) . '</a> ' . $return . ' ' . $show . '</p>';
 						}
 						?>
-						<div class="mt-report-selector">
-							<?php mt_choose_report_by_date(); ?>
-							<?php mt_choose_report_by_event(); ?>
-							<div class='mt-email-purchasers'>
-								<?php mt_email_purchasers(); ?>
-							</div>
+						<div class='mt-email-purchasers'>
+							<?php mt_email_purchasers(); ?>
 						</div>
 					</div>
 				</div>

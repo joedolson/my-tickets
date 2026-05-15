@@ -332,28 +332,29 @@ td duet-date-picker .duet-date:not(:last-of-type) {
 	text-align: left;
 }
 
-.mt-report-selector {
-	display: grid;
-	grid-template-columns: 14em 14em 1fr;
-	gap: 40px;
-	margin-top: 2rem;
-	padding-top: 1rem;
-	border-top: 1px solid #c3c4c7;
-}
-
-@media (max-width: 1200px) {
-	.mt-report-selector {
-		grid-template-columns: auto;
-	}
-}
-
 .mt-report-selector h3 {
-	margin-top: 0;
+	margin: 0;
 }
 
 .mt-report-selector label:not(input[type=checkbox] + label) {
 	display: block;
 }
+
+.mt-report-selector > div form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: end;
+}
+
+.mt-report-selector > div form > div {
+	display: none;
+}
+
+.mt-report-selector > div form > p {
+	margin: 0 0 1rem;
+}
+
 
 #mt_subject, #mt_email {
     width: 100%;
