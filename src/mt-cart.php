@@ -82,16 +82,13 @@ function mt_response_messages() {
 			$message = sanitize_text_field( $message );
 		}
 		/**
-		 * Filter the message displayed to customers after handling a purchase.
-		 * Output should be text only.
+		 * Filter the message displayed to customers after handling a purchase. Output should be text only.
 		 *
 		 * @hook mt_response_messages
 		 *
-		 * @param {string}    $message Message from the payment gateway explaining the response.
-		 * @param {string}    $response_code Reason provided by the payment gateway associated with the response.
-		 * @param {int|false} $payment_id Post ID for the handled payment.
-		 *
-		 * @return {string}
+		 * @param string    $message Message from the payment gateway explaining the response.
+		 * @param string    $response_code Reason provided by the payment gateway associated with the response.
+		 * @param int|false $payment_id Post ID for the handled payment.
 		 */
 		return apply_filters( 'mt_response_messages', $message, $response_code, $payment_id );
 	}
@@ -819,14 +816,31 @@ function mt_generate_cart( $user_ID = false ) {
 			 *
 			 * @hook mt_submit_button_text
 			 *
-			 * @param {string} $text Submit button text.
-			 * @param {string} $current_gate Active gateway.
-			 *
-			 * @return string
+			 * @param string $text Submit button text.
+			 * @param string $current_gate Active gateway.
 			 */
-			$submit_text = apply_filters( 'mt_submit_button_text', $text, $current_gate );
-			$button      = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . esc_attr( $submit_text ) . "' /></p>";
-			$output     .= "<div class='mt_cart_total' aria-live='assertive'>" . apply_filters( 'mt_cart_total_content', '', $current_gate, $cart ) . apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate ) . " <span class='mt_total_number'>" . mt_money_format( $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
+			$submit_text   = apply_filters( 'mt_submit_button_text', $text, $current_gate );
+			/**
+			 * Filter additional content inside the mt_cart_total container..
+			 *
+			 * @hook mt_cart_total_content
+			 *
+			 * @param string $content HTML content. Default empty string.
+			 * @param string $current_gate Active gateway.
+			 * @param array  $cart Cart contents.
+			 */
+			$total_content = apply_filters( 'mt_cart_total_content', '', $current_gate, $cart );
+			/**
+			 * Filter the ticket total text.
+			 *
+			 * @hook mt_cart_ticket_total_text
+			 *
+			 * @param string $text Ticket total text. Default 'Ticket Total:'.
+			 * @param string $current_gate Active gateway.
+			 */
+			$total_text    = apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate );
+			$button        = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . esc_attr( $submit_text ) . "' /></p>";
+			$output       .= "<div class='mt_cart_total' aria-live='assertive'>" . $total_content . $total_text . " <span class='mt_total_number'>" . mt_money_format( $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
 		} else {
 			do_action( 'mt_cart_is_empty' );
 			$expiration = '';
@@ -882,6 +896,13 @@ function mt_generate_cart( $user_ID = false ) {
 					do_action( 'mt_purchase_completed', $post_id, $link, $purchase );
 				}
 			} else {
+				/**
+				 * Cart is empty text.
+				 *
+				 * @hook mt_cart_is_empty_text
+				 *
+				 * @param string Text indicating cart is empty. Default `<p class="cart-empty">Your cart is currently empty.</p>`.
+				 */
 				$output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
 			}
 		}
@@ -1025,7 +1046,7 @@ function mt_generate_cart_table( $cart, $payment = false, $format = 'cart' ) {
 								$total      = $inventory['total'];
 								$sold       = $inventory['sold'];
 
-								$default_available = apply_filters( 'mt_default_available', 100, $registration );
+								$default_available = mt_get_default_available( $registration );
 								$remaining         = ( 'general' === $registration['counting_method'] ) ? $default_available : $total - $sold;
 								$max_limit         = apply_filters( 'mt_max_sale_per_event', false );
 								if ( $max_limit ) {

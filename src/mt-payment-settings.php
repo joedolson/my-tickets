@@ -49,40 +49,36 @@ function mt_update_payment_settings( $post ) {
 		$mt_receipt_page  = (int) $post['mt_receipt_page'];
 		$mt_tickets_page  = (int) $post['mt_tickets_page'];
 
+		$settings = array(
+			'mt_use_sandbox'      => $mt_use_sandbox,
+			'mt_members_discount' => $mt_members_discount,
+			'mt_currency'         => $mt_currency,
+			'mt_dec_point'        => $mt_dec_point,
+			'mt_thousands_sep'    => $mt_thousands_sep,
+			'symbol_order'        => $symbol_order,
+			'mt_phone'            => $mt_phone,
+			'mt_vat'              => $mt_vat,
+			'mt_gateway'          => $mt_gateway,
+			'mt_default_gateway'  => $mt_default_gateway,
+			'mt_gateways'         => $mt_gateways,
+			'mt_ssl'              => $mt_ssl,
+			'mt_purchase_page'    => $mt_purchase_page,
+			'mt_receipt_page'     => $mt_receipt_page,
+			'mt_tickets_page'     => $mt_tickets_page,
+			'mt_redirect'         => $mt_redirect,
+			'mt_expiration'       => $mt_expiration,
+		);
 		/**
 		 * Filter My Tickets payment settings before saving.
 		 *
-		 * @hook mt_settings
+		 * @hook mt_payment_settings
 		 *
 		 * @param array $settings Settings after changes provided by admin but before saving.
 		 * @param array $post     $_POST data.
 		 *
 		 * @return array
 		 */
-		$settings = apply_filters(
-			'mt_settings',
-			array(
-				'mt_use_sandbox'      => $mt_use_sandbox,
-				'mt_members_discount' => $mt_members_discount,
-				'mt_currency'         => $mt_currency,
-				'mt_dec_point'        => $mt_dec_point,
-				'mt_thousands_sep'    => $mt_thousands_sep,
-				'symbol_order'        => $symbol_order,
-				'mt_phone'            => $mt_phone,
-				'mt_vat'              => $mt_vat,
-				'mt_gateway'          => $mt_gateway,
-				'mt_default_gateway'  => $mt_default_gateway,
-				'mt_gateways'         => $mt_gateways,
-				'mt_ssl'              => $mt_ssl,
-				'mt_purchase_page'    => $mt_purchase_page,
-				'mt_receipt_page'     => $mt_receipt_page,
-				'mt_tickets_page'     => $mt_tickets_page,
-				'mt_redirect'         => $mt_redirect,
-				'mt_expiration'       => $mt_expiration,
-			),
-			$post
-		);
-
+		$settings = apply_filters( 'mt_payment_settings', $settings, $post );
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
 		update_option( 'mt_settings', $settings );
 		/**

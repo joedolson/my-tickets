@@ -118,7 +118,7 @@ function mt_ajax_handler() {
 				 * Documented in `mt-add-to-cart.php`.
 				 */
 				$registration      = get_post_meta( $submit['mt_event_id'], '_mt_registration_options', true );
-				$default_available = apply_filters( 'mt_default_available', 100, $registration );
+				$default_available = mt_get_default_available( $registration );
 				if ( 'general' === $registration['counting_method'] ) {
 					$available_count = $default_available;
 				} else {

@@ -100,22 +100,19 @@ function mt_update_settings( $post ) {
 		}
 
 		$messages = map_deep( $_POST['mt_messages'], 'mt_custom_sanitize_messages' );
-		$settings = apply_filters(
-			'mt_update_settings',
-			array(
-				'messages'            => $messages,
-				'mt_post_types'       => $mt_post_types,
-				'mt_to'               => $mt_to,
-				'mt_from'             => $mt_from,
-				'mt_html_email'       => $mt_html_email,
-				'style_vars'          => $styles,
-				'mt_report_order'     => $report_order,
-				'mt_report_direction' => $report_direction,
-				'mt_default_report'   => $default_report,
-				'mt_default_format'   => $default_format,
-			),
-			$_POST
+		$settings = array(
+			'messages'            => $messages,
+			'mt_post_types'       => $mt_post_types,
+			'mt_to'               => $mt_to,
+			'mt_from'             => $mt_from,
+			'mt_html_email'       => $mt_html_email,
+			'style_vars'          => $styles,
+			'mt_report_order'     => $report_order,
+			'mt_report_direction' => $report_direction,
+			'mt_default_report'   => $default_report,
+			'mt_default_format'   => $default_format,
 		);
+		$settings = apply_filters( 'mt_update_settings', $settings, $_POST );
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
 		update_option( 'mt_settings', $settings );
 		$messages = apply_filters( 'mt_update_settings', '', $post );

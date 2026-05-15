@@ -64,42 +64,36 @@ function mt_update_ticketing_settings( $post ) {
 			$defaults[ $model ]['pricing'] = $pricing_array;
 			$defaults[ $model ]['tickets'] = ( is_array( $mt_total_tickets ) ) ? $mt_total_tickets[ $model ] : $mt_total_tickets;
 		}
-
+		$settings = array(
+			'defaults'                 => $defaults,
+			'default_model'            => $default_model,
+			'mt_shipping'              => $mt_shipping,
+			'mt_handling'              => $mt_handling,
+			'mt_ticket_handling'       => $mt_ticket_handling,
+			'mt_hide_empty_short_cart' => $mt_hide_empty_short_cart,
+			'mt_ticketing'             => $mt_ticketing,
+			'mt_ticket_type_default'   => $mt_ticket_type_default,
+			'mt_shipping_time'         => $mt_shipping_time,
+			'mt_tickets_close_value'   => $close_value,
+			'mt_tickets_close_type'    => $close_type,
+			'mt_display_remaining'     => $mt_display_remaining,
+			'mt_show_closed'           => $mt_show_closed,
+			'mt_singular'              => $mt_singular,
+			'mt_inventory'             => $mt_inventory,
+			'mt_ticket_image'          => $mt_ticket_image,
+			'mt_hide_remaining'        => $mt_hide_remaining,
+			'mt_hide_remaining_limit'  => $mt_hide_remaining_limit,
+			'mt_collect_shipping'      => $mt_collect_shipping,
+		);
 		/**
 		 * Filter settings array before saving option.
 		 *
-		 * @hook mt_settings
+		 * @hook mt_ticketing_settings
 		 *
-		 * @param {array} $settings Array of settings with values set by user prior to save to database.
-		 * @param {array} $_POST Post data array.
-		 *
-		 * @return {array}
+		 * @param array $settings Array of settings with values set by user prior to save to database.
+		 * @param array $_POST Post data array.
 		 */
-		$settings = apply_filters(
-			'mt_settings',
-			array(
-				'defaults'                 => $defaults,
-				'default_model'            => $default_model,
-				'mt_shipping'              => $mt_shipping,
-				'mt_handling'              => $mt_handling,
-				'mt_ticket_handling'       => $mt_ticket_handling,
-				'mt_hide_empty_short_cart' => $mt_hide_empty_short_cart,
-				'mt_ticketing'             => $mt_ticketing,
-				'mt_ticket_type_default'   => $mt_ticket_type_default,
-				'mt_shipping_time'         => $mt_shipping_time,
-				'mt_tickets_close_value'   => $close_value,
-				'mt_tickets_close_type'    => $close_type,
-				'mt_display_remaining'     => $mt_display_remaining,
-				'mt_show_closed'           => $mt_show_closed,
-				'mt_singular'              => $mt_singular,
-				'mt_inventory'             => $mt_inventory,
-				'mt_ticket_image'          => $mt_ticket_image,
-				'mt_hide_remaining'        => $mt_hide_remaining,
-				'mt_hide_remaining_limit'  => $mt_hide_remaining_limit,
-				'mt_collect_shipping'      => $mt_collect_shipping,
-			),
-			$_POST
-		);
+		$settings = apply_filters( 'mt_ticketing_settings', $settings, $_POST );
 		$settings = array_merge( get_option( 'mt_settings', array() ), $settings );
 		update_option( 'mt_settings', $settings );
 		/**

@@ -162,6 +162,27 @@ function mt_get_ticket_close_value( $event_id, $tickets_data = array() ) {
 }
 
 /**
+ * Get the default number of tickets available for an event.
+ *
+ * @param array $registration Registration data for this event.
+ *
+ * @return int Number of tickets available.
+ */
+function mt_get_default_available( $registration = array() ) {
+	/**
+	 * Filter default number of tickets considered available under General Admission. General Admission uses a floating value of available tickets, so there's no real limit; this value does limit the number of tickets that can be purchased at once, however.
+	 *
+	 * @hook mt_default_available
+	 *
+	 * @param int   $default_available Number of tickets available.
+	 * @param array $registration Ticketing rules for this event.
+	 */
+	$default_available = apply_filters( 'mt_default_available', 100, $registration );
+
+	return $default_available;
+}
+
+/**
  * Generates event registration form.
  *
  * @param string          $content Page content.
@@ -223,17 +244,7 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				$permalink = get_the_permalink();
 			}
 			if ( is_array( $pricing ) ) {
-				/**
-				 * Filter default number of tickets considered available under General Admission. General Admission uses a floating value of available tickets, so there's no real limit; this value does limit the number of tickets that can be purchased at once, however.
-				 *
-				 * @hook mt_default_available
-				 *
-				 * @param {int} $default_available Number of tickets available.
-				 * @param {array} $registration Ticketing rules for this event.
-				 *
-				 * @return {int}
-				 */
-				$default_available = apply_filters( 'mt_default_available', 100, $registration );
+				$default_available = mt_get_default_available( $registration );
 				$available         = ( 'general' === $registration['counting_method'] ) ? $default_available : $registration['total'];
 				$tickets_data      = mt_check_inventory( $event_id );
 				$tickets_remaining = ( 'general' === $registration['counting_method'] ) ? $default_available : mt_check_inventory( $event_id )['available'];
@@ -672,6 +683,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 *
 			 * @param {string} $input      Default input form field.
 			 * @param {string} $input_type Type of input requested.
+			 * @param {string} $type       Event ticket type.
 			 * @param {int}    $value      Default value set.
 			 * @param {string} $attributes String of field attributes provided for input.
 			 * @param {string} $disable    Attribute to set field as disabled.
@@ -999,7 +1011,7 @@ function mt_tickets_remaining( $tickets_data, $event_id ) {
 			 *
 			 * @return {string}
 			 */
-			$remaining_string    = apply_filters( 'mt_tickets_still_remaining_text', $remaining_string );
+			$remaining_string    = apply_filters( 'mt_tickets_still_remaining_text', $remaining_string, $event_id );
 			$tickets_remain_text = ' ' . sprintf( $remaining_string, $tickets_remaining, $event_id );
 		} else {
 			$tickets_remain_text = '';
@@ -1066,12 +1078,13 @@ function mt_handling_price( $price, $event, $type = 'standard' ) {
 		 *
 		 * @hook mt_ticket_handling_price
 		 *
-		 * @param {float} $mt_ticket_handling Amount saved in settings for event handling.
+		 * @param {float} $mt_ticket_handling Value in settings for event handling.
 		 * @param {int}   $event Event ID.
 		 *
 		 * @return {float}
 		 */
-		$price = $price + apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event );
+		$handling = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event );
+		$price = $price + $handling;
 	}
 
 	return $price;
