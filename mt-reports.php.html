@@ -475,7 +475,7 @@ function mt_choose_report_by_event() {
 						&lt;option value='view'" . selected( $format, 'view', false ) . '>' . __( 'View Report', 'my-tickets' ) . "&lt;/option>
 					&lt;/select>
 					&lt;/p>
-					&lt;p>&lt;input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Event', 'my-tickets' ) . "' />&lt;/p>
+					&lt;p>&lt;input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report', 'my-tickets' ) . "' />&lt;/p>
 				&lt;/form>
 			&lt;/div>";
 	echo wp_kses( $form, mt_kses_elements() );
@@ -514,7 +514,7 @@ function mt_choose_report_by_date() {
 							&lt;option value='csv'" . selected( 'csv', $format, false ) . '>' . __( 'Download CSV', 'my-tickets' ) . "&lt;/option>
 						&lt;/select>
 					&lt;/p>
-					&lt;p>&lt;input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report by Date', 'my-tickets' ) . "' />&lt;/p>
+					&lt;p>&lt;input type='submit' name='mt-display-report' class='button-primary' value='" . __( 'Get Report', 'my-tickets' ) . "' />&lt;/p>
 				&lt;/form>
 			&lt;/div>";
 	echo wp_kses( $form, mt_kses_elements() );
