@@ -145,10 +145,10 @@ function mt_ajax_handler() {
 		 *
 		 * @hook mt_add_to_cart_ajax_field_handler
 		 *
-		 * @param {array} $saved Array containing a `success` and `cart` element.
-		 * @param {array} $submit Array of data submitted from form.
+		 * @param array $saved Array containing a `success` and `cart` element.
+		 * @param array $submit Array of data submitted from form.
 		 *
-		 * @return {array}
+		 * @return array
 		 */
 		$saved = apply_filters( 'mt_add_to_cart_ajax_field_handler', $saved, $submit );
 		$url   = mt_get_cart_url();

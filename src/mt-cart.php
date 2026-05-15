@@ -770,8 +770,8 @@ function mt_generate_cart( $user_ID = false ) {
 			 *
 			 * @hook mt_submit_button_text
 			 *
-			 * @param {string} $text Submit button text.
-			 * @param {string} $current_gate Active gateway.
+			 * @param string $text Submit button text.
+			 * @param string $current_gate Active gateway.
 			 *
 			 * @return string
 			 */
@@ -797,11 +797,11 @@ function mt_generate_cart( $user_ID = false ) {
 			 *
 			 * @hook mt_cart_custom_fields
 			 *
-			 * @param {array}  $fields Array of defined custom fields. Initialized as empty array.
-			 * @param {array}  $cart Shopping cart contents.
-			 * @param {string} $gateway Gateway in use.
+			 * @param array  $fields Array of defined custom fields. Initialized as empty array.
+			 * @param array  $cart Shopping cart contents.
+			 * @param string $gateway Gateway in use.
 			 *
-			 * @return {array}
+			 * @return array
 			 */
 			$custom_fields = apply_filters( 'mt_cart_custom_fields', array(), $cart, $gateway );
 			$custom_output = '';
@@ -860,12 +860,12 @@ function mt_generate_cart( $user_ID = false ) {
 					 *
 					 * @hook mt_confirmed_transaction_before
 					 *
-					 * @param {string} $message Default empty string.
-					 * @param {string} $receipt Receipt ID.
-					 * @param {array}  $purchase Array of purchased tickets.
-					 * @param {int}    $post_id Payment ID.
+					 * @param string $message Default empty string.
+					 * @param string $receipt Receipt ID.
+					 * @param array  $purchase Array of purchased tickets.
+					 * @param int    $post_id Payment ID.
 					 *
-					 * @return {string}
+					 * @return string
 					 */
 					$prepend = apply_filters( 'mt_confirmed_transaction_before', '', $receipt, $purchase, $post_id );
 					/**
@@ -873,12 +873,12 @@ function mt_generate_cart( $user_ID = false ) {
 					 *
 					 * @hook mt_confirmed_transaction
 					 *
-					 * @param {string} $message Default empty string.
-					 * @param {string} $receipt Receipt ID.
-					 * @param {array}  $purchase Array of purchased tickets.
-					 * @param {int}    $post_id Payment ID.
+					 * @param string $message Default empty string.
+					 * @param string $receipt Receipt ID.
+					 * @param array  $purchase Array of purchased tickets.
+					 * @param int    $post_id Payment ID.
 					 *
-					 * @return {string}
+					 * @return string
 					 */
 					$append = apply_filters( 'mt_confirmed_transaction', '', $receipt, $purchase, $post_id );
 					$output = $prepend . "<div class='transaction-purchase panel'><div class='inner'><p>" . __( 'Receipt ID:', 'my-tickets' ) . " <code><a href='$link'>$receipt</a></code></p>" . mt_format_purchase( $purchase, 'html', $post_id ) . $append . '</div></div>';
@@ -887,9 +887,9 @@ function mt_generate_cart( $user_ID = false ) {
 					 *
 					 * @hook mt_purchase_completed
 					 *
-					 * @param {int}    $post_id Payment ID.
-					 * @param {string} $link Receipt link.
-					 * @param {array}  $purchase Array of purchase information.
+					 * @param int    $post_id Payment ID.
+					 * @param string $link Receipt link.
+					 * @param array  $purchase Array of purchase information.
 					 */
 					do_action( 'mt_purchase_completed', $post_id, $link, $purchase );
 				}
@@ -899,7 +899,7 @@ function mt_generate_cart( $user_ID = false ) {
 				 *
 				 * @hook mt_cart_is_empty_text
 				 *
-				 * @param string Text indicating cart is empty. Default `<p class="cart-empty">Your cart is currently empty.</p>`.
+				 * @param string $text Text indicating cart is empty. Default `<p class="cart-empty">Your cart is currently empty.</p>`.
 				 */
 				$output = apply_filters( 'mt_cart_is_empty_text', "<p class='cart-empty'>" . __( 'Your cart is currently empty.', 'my-tickets' ) . '</p>' );
 			}
@@ -1000,10 +1000,10 @@ function mt_generate_cart_table( $cart, $payment = false, $format = 'cart' ) {
 				 *
 				 * @hook mt_link_title
 				 *
-				 * @param {string}  $post_title Event post title.
-				 * @param {WP_Post} $event Post object.
+				 * @param string  $post_title Event post title.
+				 * @param WP_Post $event Post object.
 				 *
-				 * @return {string}
+				 * @return string
 				 */
 				$title = apply_filters( 'mt_link_title', $event->post_title, $event );
 				$image = ( has_post_thumbnail( $event_id ) ) ? get_the_post_thumbnail( $event_id, array( 80, 80 ) ) : '';
@@ -1077,14 +1077,14 @@ function mt_generate_cart_table( $cart, $payment = false, $format = 'cart' ) {
 								 *
 								 * @hook mt_show_in_cart_fields
 								 *
-								 * @param {string}   $fields HTML output of displayed fields. Default empty.
-								 * @param {int}      $event_id The event currently displayed.
-								 * @param {int|bool} $payment The payment ID if available.
-								 * @param {string}   $type The current ticket type.
-								 * @param {int}      $count Number of tickets purchased of this type. May change dynamically.
-								 * @param {string}   $format Whether we're in the cart or confirmation view.
+								 * @param string   $fields HTML output of displayed fields. Default empty.
+								 * @param int      $event_id The event currently displayed.
+								 * @param int|bool $payment The payment ID if available.
+								 * @param string   $type The current ticket type.
+								 * @param int      $count Number of tickets purchased of this type. May change dynamically.
+								 * @param string   $format Whether we're in the cart or confirmation view.
 								 *
-								 * @return {string}
+								 * @return string
 								 */
 								$custom = apply_filters( 'mt_show_in_cart_fields', '', $event_id, $payment, $type, $count, $format );
 								// Translators: (number of tickets) at (price per ticket).
@@ -1306,9 +1306,9 @@ function mt_event_expired( $event, $react = false ) {
 				 *
 				 * @hook mt_ticket_sales_closed
 				 *
-				 * @param {int} $event Event ID.
-				 * @param {array} $options Registration options array for this event.
-				 * @param {string} $closed The string 'closed'.
+				 * @param int $event Event ID.
+				 * @param array $options Registration options array for this event.
+				 * @param string $closed The string 'closed'.
 				 */
 				do_action( 'mt_ticket_sales_closed', $event, $options, 'closed' );
 
@@ -1358,9 +1358,9 @@ function mt_handle_ticket_type_expired( $event, $type ) {
 		 *
 		 * @hook mt_ticket_type_close_sales
 		 *
-		 * @param {int} $event Event ID.
-		 * @param {string} $type Ticket type.
-		 * @param {string} $closed The string 'type'.
+		 * @param int $event Event ID.
+		 * @param string $type Ticket type.
+		 * @param string $closed The string 'type'.
 		 */
 		do_action( 'mt_ticket_type_close_sales', $event, $type, 'type' );
 

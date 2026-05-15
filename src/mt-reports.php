@@ -206,11 +206,11 @@ function mt_get_column_headers( $context = 'purchases', $type = 'table' ) {
 	 *
 	 * @hook mt_header_columns
 	 *
-	 * @param {array} $headers Headers with labels and callbacks.
-	 * @param {string} $context Purchases or tickets.
-	 * @param {string} $type Display type table or csv.
+	 * @param array $headers Headers with labels and callbacks.
+	 * @param string $context Purchases or tickets.
+	 * @param string $type Display type table or csv.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$headers = apply_filters( 'mt_header_columns', $headers, $context, $type );
 
@@ -574,9 +574,9 @@ function mt_select_events() {
 	 *
 	 * @hook mt_select_events_args
 	 *
-	 * @param {array} $args WP_Query arguments.
+	 * @param array $args WP_Query arguments.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$args  = apply_filters( 'mt_select_events_args', $args );
 	$query = new WP_Query( $args );
@@ -609,9 +609,9 @@ function mt_select_events() {
 			 *
 			 * @hook mt_reports_age_limit
 			 *
-			 * @param {int} $timestamp The current time minus 2 years.
+			 * @param int $timestamp The current time minus 2 years.
 			 *
-			 * @return {int}
+			 * @return int
 			 */
 			$report_age_limit = apply_filters( 'mt_reports_age_limit', mt_current_time() - ( YEAR_IN_SECONDS * 2 ) );
 			if ( isset( $event_data['general_admission'] ) && 'on' === $event_data['general_admission'] ) {
@@ -627,10 +627,10 @@ function mt_select_events() {
 				 *
 				 * @hook mt_the_title
 				 *
-				 * @param {string} $post_title The Post Title.
-				 * @param {WP_Post} $post Post object.
+				 * @param string $post_title The Post Title.
+				 * @param WP_Post $post Post object.
 				 *
-				 * @return {string}
+				 * @return string
 				 */
 				$title              = apply_filters( 'mt_the_title', $post->post_title, $post );
 				$options[ $key ]    = "<option value='$post->ID'$selected>$title ($count); $display_date</option>";
@@ -1085,9 +1085,9 @@ function mt_get_report_by_time( $start, $end ) {
 	 *
 	 * @hook mt_default_report_start_date
 	 *
-	 * @param {string} $modifier A date modifier string; default '-1 week'.
+	 * @param string $modifier A date modifier string; default '-1 week'.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	if ( mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) ) === $start && mt_date( 'Y-m-d' ) === $end ) {
 		$posts_per_page = 50;
@@ -1208,12 +1208,12 @@ function mt_get_report_data_by_time() {
 			 *
 			 * @hook mt_format_report_field
 			 *
-			 * @param {string}       $cstring Custom value as a string.
-			 * @param {string|array} $meta Stored meta value.
-			 * @param {int}          $post_id Post ID.
-			 * @param {string}       $name Name of custom field.
+			 * @param string       $cstring Custom value as a string.
+			 * @param string|array $meta Stored meta value.
+			 * @param int          $post_id Post ID.
+			 * @param string       $name Name of custom field.
 			 *
-			 * @return {string}
+			 * @return string
 			 */
 			$c_value       = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
 			$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$c_value</td>\n";

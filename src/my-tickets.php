@@ -160,9 +160,9 @@ function mt_build_gateways() {
 	 *
 	 * @hook mt_import_gateways
 	 *
-	 * @param {array} Associative array of strings identifying the gateway's loading file without the .php extension.
+	 * @param array Associative array of strings identifying the gateway's loading file without the .php extension.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$gateways = apply_filters( 'mt_import_gateways', mt_import_gateways() );
 	foreach ( $gateways as $gateway ) {
@@ -367,9 +367,9 @@ function my_tickets_menu() {
 	 *
 	 * @hook mt_registration_permissions
 	 *
-	 * @param {string} $permission WordPress capability string.
+	 * @param string $permission WordPress capability string.
 	 *
-	 * @return {string} WordPress capability string.
+	 * @return string WordPress capability string.
 	 */
 	$permission = apply_filters( 'mt_registration_permissions', 'manage_options' );
 	if ( function_exists( 'add_menu_page' ) ) {
@@ -474,9 +474,9 @@ function mt_public_enqueue_scripts() {
 	 *
 	 * @hook mt_redirect
 	 *
-	 * @param {string} $redirect Boolean value as string: 1 or 0.
+	 * @param string $redirect Boolean value as string: 1 or 0.
 	 *
-	 * @return {string} Boolean value as string: 1 or 0.
+	 * @return string Boolean value as string: 1 or 0.
 	 */
 	$redirect = apply_filters( 'mt_redirect', $redirect );
 	$version  = mt_get_current_version();
@@ -546,7 +546,7 @@ function mt_setup_gateways() {
 	 *
 	 * @hook mt_setup_gateways
 	 *
-	 * @param {array} $gateways Array holding custom fields relevant to each payment gateway.
+	 * @param array $gateways Array holding custom fields relevant to each payment gateway.
 	 */
 	return apply_filters( 'mt_setup_gateways', $gateways );
 }
@@ -1096,10 +1096,10 @@ function mt_money_format( $price ) {
 		 *
 		 * @hook mt_money_format_spacer
 		 *
-		 * @param {string} $space Spacing character. Default empty string or single space.
-		 * @param {string} $price Formatted price without currency symbols.
+		 * @param string $space Spacing character. Default empty string or single space.
+		 * @param string $price Formatted price without currency symbols.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$space = apply_filters( 'mt_money_format_spacer', $space, $price );
 
@@ -1109,10 +1109,10 @@ function mt_money_format( $price ) {
 		 *
 		 * @hook mt_money_format
 		 *
-		 * @param {string} $output Money amount formatted as string.
+		 * @param string $output Money amount formatted as string.
 		 * @param {float}  $price Original value.
-		 * @param {string} $space Space character in use.
-		 * @param {string} $symbol Currency symbol.
+		 * @param string $space Space character in use.
+		 * @param string $symbol Currency symbol.
 		 */
 		$output = apply_filters( 'mt_money_format', $output, $price, $space, $symbol );
 		return $output;

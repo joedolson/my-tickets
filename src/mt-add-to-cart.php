@@ -150,11 +150,11 @@ function mt_get_ticket_close_value( $event_id, $tickets_data = array() ) {
 	 *
 	 * @hook mt_tickets_close_value
 	 *
-	 * @param {int}   $tickets_close_value Number of tickets remaining that triggers sold out condition.
-	 * @param {int}   $event_id Event ID.
-	 * @param {array} $tickets_data Data about sold and available tickets.
+	 * @param int   $tickets_close_value Number of tickets remaining that triggers sold out condition.
+	 * @param int   $event_id Event ID.
+	 * @param array $tickets_data Data about sold and available tickets.
 	 *
-	 * @return {int}
+	 * @return int
 	 */
 	$close_value = apply_filters( 'mt_tickets_close_value', 0, $event_id, $tickets_data );
 
@@ -225,10 +225,10 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 	 *
 	 * @hook mt_show_form_when_soldout
 	 *
-	 * @param {bool} $show Whether to show the form. Default false.
-	 * @param {int}  $event_id Event ID for event displayed.
+	 * @param bool $show Whether to show the form. Default false.
+	 * @param int  $event_id Event ID for event displayed.
 	 *
-	 * @return {bool}
+	 * @return bool
 	 */
 	$show_form_when_soldout = apply_filters( 'mt_show_form_when_soldout', true, $event_id );
 	$handling_notice        = '';
@@ -300,10 +300,10 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 *
 				 * @hook mt_add_to_cart_hidden_fields
 				 *
-				 * @param {string} $hidden HTML output. Default empty.
-				 * @param {int}    $event_id Event ID.
+				 * @param string $hidden HTML output. Default empty.
+				 * @param int    $event_id Event ID.
 				 *
-				 * @return {string}
+				 * @return string
 				 */
 				$hidden = apply_filters( 'mt_add_to_cart_hidden_fields', '', $event_id );
 				/**
@@ -311,10 +311,10 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 *
 				 * @hook mt_add_to_cart_fields
 				 *
-				 * @param {string} $fields HTML output. Default empty.
-				 * @param {int}    $event_id Event ID.
+				 * @param string $fields HTML output. Default empty.
+				 * @param int    $event_id Event ID.
 				 *
-				 * @return {string}
+				 * @return string
 				 */
 				$fields = apply_filters( 'mt_add_to_cart_fields', '', $event_id );
 				$output = "
@@ -355,11 +355,11 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 		 *
 		 * @hook mt_ticket_sales_closed_content
 		 *
-		 * @param {string} $output HTML output; default empty string.
-		 * @param {int}    $event_id
-		 * @param {array}  $registration Registration data for event.
+		 * @param string $output HTML output; default empty string.
+		 * @param int    $event_id
+		 * @param array  $registration Registration data for event.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$output .= apply_filters( 'mt_ticket_sales_closed_content', '', $event_id, $registration );
 	}
@@ -371,11 +371,11 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 			 *
 			 * @hook mt_tickets_at_boxoffice_content
 			 *
-			 * @param {string} $output HTML output; default empty string.
-			 * @param {int}    $event_id
-			 * @param {array}  $registration Registration data for event.
+			 * @param string $output HTML output; default empty string.
+			 * @param int    $event_id
+			 * @param array  $registration Registration data for event.
 			 *
-			 * @return {string}
+			 * @return string
 			 */
 			$output .= apply_filters( 'mt_tickets_at_boxoffice_content', '', $event_id, $registration );
 		} else {
@@ -392,11 +392,11 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 *
 				 * @hook mt_tickets_soldout_content
 				 *
-				 * @param {string} $output HTML output; default empty string.
-				 * @param {int}    $event_id
-				 * @param {array}  $registration Registration data for event.
+				 * @param string $output HTML output; default empty string.
+				 * @param int    $event_id
+				 * @param array  $registration Registration data for event.
 				 *
-				 * @return {string}
+				 * @return string
 				 */
 				$output .= apply_filters( 'mt_tickets_soldout_content', '', $event_id, $registration );
 			}
@@ -427,9 +427,9 @@ function mt_format_date( $date ) {
 	 *
 	 * @hook mt_cart_date_format
 	 *
-	 * @param {string} $date_format Default from WordPress settings.
+	 * @param string $date_format Default from WordPress settings.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	$date_format = apply_filters( 'mt_cart_date_format', get_option( 'date_format' ) );
 	/**
@@ -437,9 +437,9 @@ function mt_format_date( $date ) {
 	 *
 	 * @hook mt_cart_time_format
 	 *
-	 * @param {string} $time_format Default from WordPress settings.
+	 * @param string $time_format Default from WordPress settings.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	$time_format = apply_filters( 'mt_cart_time_format', get_option( 'time_format' ) );
 	$date_string = date_i18n( $date_format, strtotime( $date ) );
@@ -519,10 +519,10 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 	 *
 	 * @hook mt_ticket_settings
 	 *
-	 * @param {array}  $ticket_type Price and availability for a ticket type.
-	 * @param {array}  $pricing Full pricing array being iterated.
-	 * @param {int}    $event_id Event ID.
-	 * @param {string} $type Current ticket type.
+	 * @param array  $ticket_type Price and availability for a ticket type.
+	 * @param array  $pricing Full pricing array being iterated.
+	 * @param int    $event_id Event ID.
+	 * @param string $type Current ticket type.
 	 */
 	$ticket_type = apply_filters( 'mt_ticket_settings', $ticket_type, $pricing, $event_id, $type );
 	if ( ! mt_can_order( $type ) ) {
@@ -537,11 +537,11 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 	 *
 	 * @hook mt_extra_label
 	 *
-	 * @param {string}     $extra_label Default empty string; 'Administrators only' for complimentary tickets.
-	 * @param {int|object} $event Event post ID.
-	 * @param {string}     $type Ticket type.
+	 * @param string     $extra_label Default empty string; 'Administrators only' for complimentary tickets.
+	 * @param int|object $event Event post ID.
+	 * @param string     $type Ticket type.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	$extra_label = apply_filters( 'mt_extra_label', $extra_label, $event_id, $type );
 	if ( $type ) {
@@ -567,11 +567,11 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		 *
 		 * @hook mt_ticket_price_label
 		 *
-		 * @param {string}       $price Formatted price.
-		 * @param {string|float} $original_price Unformatted price.
-		 * @param {string|float} $ticket_handling Ticket handling charge amount.
+		 * @param string       $price Formatted price.
+		 * @param string|float $original_price Unformatted price.
+		 * @param string|float $ticket_handling Ticket handling charge amount.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$ticket_price_label = '<span class="mt-ticket-price">' . apply_filters( 'mt_ticket_price_label', $price, $ticket_type['price'], $ticket_handling ) . '</span>';
 		/**
@@ -579,10 +579,10 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		 *
 		 * @hook mt_cart_default_value
 		 *
-		 * @param {int}    $value Default numeric value. Default '0'.
-		 * @param {string} $type Ticket type displayed.
+		 * @param int    $value Default numeric value. Default '0'.
+		 * @param string $type Ticket type displayed.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$default_cart_value = apply_filters( 'mt_cart_default_value', '0', $type );
 		$value              = ( is_array( $cart_data ) && isset( $cart_data[ $type ] ) ) ? $cart_data[ $type ] : $default_cart_value;
@@ -600,10 +600,10 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 *
 			 * @hook mt_ticket_type_sales_closed
 			 *
-			 * @param {string} $show_closed 'hide' or 'show'.
-			 * @param {int}    $event_id ID for currently displayed post.
+			 * @param string $show_closed 'hide' or 'show'.
+			 * @param int    $event_id ID for currently displayed post.
 			 *
-			 * @return {string}
+			 * @return string
 			 */
 			$ticket_type_sales_closed_behavior = apply_filters( 'mt_ticket_type_sales_closed', $show_closed, $event_id );
 			if ( 'hide' === $ticket_type_sales_closed_behavior && $close < mt_date() ) {
@@ -653,9 +653,7 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 *
 			 * @hook mt_max_sale_per_event
 			 *
-			 * @param {bool} $max_limit Default false.
-			 *
-			 * @return {bool|int} Number of tickets that can be purchased at once or false.
+			 * @param bool|int $max_limit Default false. Return false or integer.
 			 */
 			$max_limit = apply_filters( 'mt_max_sale_per_event', false );
 			if ( $max_limit ) {
@@ -681,17 +679,17 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 *
 			 * @hook mt_add_to_cart_input
 			 *
-			 * @param {string} $input      Default input form field.
-			 * @param {string} $input_type Type of input requested.
-			 * @param {string} $type       Event ticket type.
-			 * @param {int}    $value      Default value set.
-			 * @param {string} $attributes String of field attributes provided for input.
-			 * @param {string} $disable    Attribute to set field as disabled.
-			 * @param {int}    $max        Max value allowed.
-			 * @param {int}    $available  Number of tickets available.
-			 * @param {int}    $event_id   Event ID.
+			 * @param string $input      Default input form field.
+			 * @param string $input_type Type of input requested.
+			 * @param string $type       Event ticket type.
+			 * @param int    $value      Default value set.
+			 * @param string $attributes String of field attributes provided for input.
+			 * @param string $disable    Attribute to set field as disabled.
+			 * @param int    $max        Max value allowed.
+			 * @param int    $available  Number of tickets available.
+			 * @param int    $event_id   Event ID.
 			 *
-			 * @return {string}
+			 * @return string
 			 */
 			$form .= '<div class="mt-ticket-input">' . apply_filters(
 				'mt_add_to_cart_input',
@@ -713,11 +711,11 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				 *
 				 * @hook mt_tickets_available_discrete_text
 				 *
-				 * @param {string} $default_text Original available tickets text.
-				 * @param {int}    $remaining    Number of tickets remaining.
-				 * @param {int}    $tickets      Number of tickets available.
+				 * @param string $default_text Original available tickets text.
+				 * @param int    $remaining    Number of tickets remaining.
+				 * @param int    $tickets      Number of tickets available.
 				 *
-				 * @return {string}
+				 * @return string
 				 */
 				apply_filters(
 					'mt_tickets_remaining_discrete_text',
@@ -736,11 +734,11 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				 *
 				 * @hook mt_tickets_available_discrete_text
 				 *
-				 * @param {string} $default_text Original available tickets text.
-				 * @param {int}    $remaining    Number of tickets remaining.
-				 * @param {int}    $tickets      Number of tickets available.
+				 * @param string $default_text Original available tickets text.
+				 * @param int    $remaining    Number of tickets remaining.
+				 * @param int    $tickets      Number of tickets available.
 				 *
-				 * @return {string}
+				 * @return string
 				 */
 				apply_filters(
 					'mt_tickets_available_discrete_text',
@@ -763,10 +761,10 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 *
 			 * @hook mt_after_remaining_text
 			 *
-			 * @param {string} $remaining Additional text. Default empty.
-			 * @param {int}    $event_id Current event ID.
-			 * @param {string} $type Ticket type displayed.
-			 * @param {int}    $tickets_remaining. Number of tickets left.
+			 * @param string $remaining Additional text. Default empty.
+			 * @param int    $event_id Current event ID.
+			 * @param string $type Ticket type displayed.
+			 * @param int    $tickets_remaining. Number of tickets left.
 			 */
 			$display_text .= apply_filters( 'mt_after_remaining_text', '', $event_id, $type, $tickets_remaining );
 
@@ -786,10 +784,10 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 *
 			 * @hook mt_price_in_label
 			 *
-			 * @param {false} $price_in_label Default false.
-			 * @param {int}   $event_id Event ID.
+			 * @param bool $price_in_label Default false.
+			 * @param int  $event_id Event ID.
 			 *
-			 * @return {bool}
+			 * @return bool
 			 */
 			$price_in_label = apply_filters( 'mt_price_in_label', false, $event_id );
 			$price_class    = ( $price_in_label ) ? 'mt-price-in-label' : '';
@@ -849,10 +847,10 @@ function mt_remaining_tickets_notice( $event_id, $available, $tickets_remaining 
 		 *
 		 * @hook mt_tickets_remaining_continuous_text
 		 *
-		 * @param {string} $remaining_continuous_text Default text.
-		 * @param {int}    $event_id Event ID.
+		 * @param string $remaining_continuous_text Default text.
+		 * @param int    $event_id Event ID.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$remaining_continuous_text = apply_filters( 'mt_tickets_remaining_continuous_text', $remaining_continuous_text, $event_id );
 		$remaining_notice          = '<p class="tickets-remaining' . $hide_remaining . '">' . sprintf( $remaining_continuous_text, "<span class='value'>" . $tickets_remaining . '</span>' ) . '</p>';
@@ -956,10 +954,10 @@ function mt_admin_only( $type ) {
 	 *
 	 * @hook mt_admin_only_ticket
 	 *
-	 * @param {false} $admin_only False to indicate a ticket type is available to the public.
-	 * @param {string} $type Ticket type key.
+	 * @param bool   $admin_only False to indicate a ticket type is available to the public.
+	 * @param string $type Ticket type key.
 	 *
-	 * @return {bool}
+	 * @return bool
 	 */
 	return apply_filters( 'mt_admin_only_ticket', false, $type );
 }
@@ -1046,11 +1044,11 @@ function mt_close_ticket_sales( $limit, $event_id, $remaining ) {
 	 *
 	 * @hook mt_custom_event_limit
 	 *
-	 * @param {int}   $limit Number of tickets that cause an event to be sold out.
-	 * @param {int}   $event_id Event ID.
-	 * @param {array} $remaining Array of information about the number of tickets remaining.
+	 * @param int   $limit Number of tickets that cause an event to be sold out.
+	 * @param int   $event_id Event ID.
+	 * @param array $remaining Array of information about the number of tickets remaining.
 	 *
-	 * @return {int}
+	 * @return int
 	 */
 	return apply_filters( 'mt_custom_event_limit', $limit, $event_id, $remaining );
 }
@@ -1103,10 +1101,10 @@ function mt_handling_notice() {
 		 *
 		 * @hook mt_ticket_handling_notice
 		 *
-		 * @param {string} $handling_string Original notice.
-		 * @param {string} $handling_charge Amount charged before formatting.
+		 * @param string $handling_string Original notice.
+		 * @param string $handling_charge Amount charged before formatting.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$handling_notice = "<div class='mt-ticket-handling'>" . apply_filters( 'mt_ticket_handling_notice', sprintf( $handling_string, $money_formatted ), $options['mt_ticket_handling'] ) . '</div>';
 	} else {
@@ -1136,11 +1134,11 @@ function mt_get_cart_handling( $options, $gateway ) {
 	 *
 	 * @hook mt_handling_total
 	 *
-	 * @param {float|int} $handling Cart handling fee after gateway settings applied.
-	 * @param {float|int} $original Cart handling fee from settings.
-	 * @param {string}    $gateway Selected gateway.
+	 * @param float|int $handling Cart handling fee after gateway settings applied.
+	 * @param float|int $original Cart handling fee from settings.
+	 * @param string    $gateway Selected gateway.
 	 *
-	 * @return {float|int}
+	 * @return float|int
 	 */
 	$handling = apply_filters( 'mt_handling_total', $handling, $original, $gateway );
 	$handling = ( is_numeric( $handling ) ) ? floatval( $handling ) : 0;
@@ -1174,10 +1172,10 @@ function mt_sales_close( $event_id, $expires ) {
 				 *
 				 * @hook mt_ticket_sales_close_text
 				 *
-				 * @param {string} $sales_close_text Original notice.
-				 * @param {int}    $event Event ID.
+				 * @param string $sales_close_text Original notice.
+				 * @param int    $event Event ID.
 				 *
-				 * @return {string}
+				 * @return string
 				 */
 				$sales_close_text = apply_filters( 'mt_ticket_sales_close_text', $sales_close_text, $event );
 				return '<p>' . sprintf( $sales_close_text, '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';

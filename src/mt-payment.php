@@ -24,10 +24,10 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 	 *
 	 * @hook mt_filter_payment_data
 	 *
-	 * @param {array} $data Payment Details.
-	 * @param {array} $post Data sent to My Tickets from payment gateway.
+	 * @param array $data Payment Details.
+	 * @param array $post Data sent to My Tickets from payment gateway.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$data           = apply_filters( 'mt_filter_payment_data', $data, $post );
 	$payment_status = $data['status'];
@@ -69,10 +69,10 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 			 *
 			 * @hook mt_successful_payment
 			 *
-			 * @param {int}    $payment_id Payment ID.
-			 * @param {string} $response Response confirmation from gateway.
-			 * @param {array}  $data Data sent from gateway.
-			 * @param {array}  $post Posted data from gateway.
+			 * @param int    $payment_id Payment ID.
+			 * @param string $response Response confirmation from gateway.
+			 * @param array  $data Data sent from gateway.
+			 * @param array  $post Posted data from gateway.
 			 */
 			do_action( 'mt_successful_payment', $payment_id, $response, $data, $post );
 			wp_update_post(

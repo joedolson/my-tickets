@@ -430,9 +430,9 @@ function mt_expiration_window() {
 	 *
 	 * @hook mt_expiration_window
 	 *
-	 * @param {int}    $time Number of seconds before data will expire. Default WEEK_IN_SECONDS.
+	 * @param int    $time Number of seconds before data will expire. Default WEEK_IN_SECONDS.
 	 *
-	 * @return {int}
+	 * @return int
 	 */
 	$expiration = apply_filters( 'mt_expiration_window', $return );
 

@@ -103,8 +103,8 @@ function mt_create_payment( $post ) {
 	 *
 	 * @hook mt_after_insert_payment
 	 *
-	 * @param {int}   $payment_id Payment post ID.
-	 * @param {array} $post Array of data passed to function.
+	 * @param int   $payment_id Payment post ID.
+	 * @param array $post Array of data passed to function.
 	 */
 	do_action( 'mt_after_insert_payment', $payment_id, $post );
 	update_post_meta( $payment_id, '_first_name', sanitize_text_field( $post['mt_fname'] ) );
@@ -153,9 +153,9 @@ function mt_create_payment( $post ) {
 	 *
 	 * @hook mt_save_payment_fields
 	 *
-	 * @param {int}   $payment_id Payment post ID.
-	 * @param {array} $post Array of data passed to function.
-	 * @param {array} $purchased Array of ticket purchase data from cart.
+	 * @param int   $payment_id Payment post ID.
+	 * @param array $post Array of data passed to function.
+	 * @param array $purchased Array of ticket purchase data from cart.
 	 */
 	do_action( 'mt_save_payment_fields', $payment_id, $post, $purchased );
 	if ( $payment_id ) {
@@ -340,10 +340,10 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 	 *
 	 * @hook mt_is_virtual_inventory
 	 *
-	 * @param {string} $mt_inventory 'actual' or 'virtual'.
-	 * @param {int}    $event_id Event ID.
+	 * @param string $mt_inventory 'actual' or 'virtual'.
+	 * @param int    $event_id Event ID.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	$is_virtual = apply_filters( 'mt_is_virtual_inventory', $options['mt_inventory'], $event_id );
 	if ( 'virtual' === $is_virtual && ( 'auto' === $virtual || true === $virtual ) ) {
@@ -354,11 +354,11 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 		 *
 		 * @hook mt_virtual_inventory
 		 *
-		 * @param {array} $virtual_inventory Contents of the virtual inventory.
-		 * @param {int}   $event_id Current Event ID.
-		 * @param {array} $registration Event registration configuration.
+		 * @param array $virtual_inventory Contents of the virtual inventory.
+		 * @param int   $event_id Current Event ID.
+		 * @param array $registration Event registration configuration.
 		 *
-		 * @return {array}
+		 * @return array
 		 */
 		$virtual_inventory = apply_filters( 'mt_virtual_inventory', $virtual_inventory, $event_id, $registration );
 		if ( '' !== $type ) {

@@ -369,8 +369,8 @@ function mt_payment_data( $post_id, $sections = array() ) {
 	/**
 	 * Append custom field data at end of the payment information sidebar, inside the 'Custom Field Data' section.
 	 *
-	 * @param {string} $other_data HTML output. Default empty string.
-	 * @param {int}    $post_id Current post/payment ID.
+	 * @param string $other_data HTML output. Default empty string.
+	 * @param int    $post_id Current post/payment ID.
 	 */
 	$other_data = apply_filters( 'mt_show_in_payment_fields', '', $post_id );
 	if ( '' !== $other_data ) {
@@ -379,15 +379,15 @@ function mt_payment_data( $post_id, $sections = array() ) {
 	/**
 	 * Append data at the top of the payment information sidebar.
 	 *
-	 * @param {string} $top HTML output. Default empty string.
-	 * @param {int}    $post_id Current post/payment ID.
+	 * @param string $top HTML output. Default empty string.
+	 * @param int    $post_id Current post/payment ID.
 	 */
 	$top = apply_filters( 'mt_payment_purchase_information_top', '', $post_id );
 	/**
 	 * Append data at the bottom of the payment information sidebar.
 	 *
-	 * @param {string} $top HTML output. Default empty string.
-	 * @param {int}    $post_id Current post/payment ID.
+	 * @param string $top HTML output. Default empty string.
+	 * @param int    $post_id Current post/payment ID.
 	 */
 	$bottom = apply_filters( 'mt_payment_purchase_information_bottom', '', $post_id );
 

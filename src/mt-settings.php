@@ -742,10 +742,10 @@ function mt_datepicker_html( $args ) {
 	 *
 	 * @hook mt_datepicker_html
 	 *
-	 * @param {string} $output Default datepicker output.
-	 * @param {array}  $args Datepicker setup arguments.
+	 * @param string $output Default datepicker output.
+	 * @param array  $args Datepicker setup arguments.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	$output = apply_filters( 'mt_datepicker_html', $output, $args );
 

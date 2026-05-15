@@ -194,9 +194,9 @@ function mt_get_cart_purchase_date() {
 		 *
 		 * @hook mt_cart_purchase_date
 		 *
-		 * @param {string} $format HTML formatted string with date format placeholders.
+		 * @param string $format HTML formatted string with date format placeholders.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$format = apply_filters( 'mt_cart_purchase_date', '<span class="mt-cart-date">' . get_option( 'date_format' ) . '</span><span class="mt-date-separator">, </span><span class="mt-cart-time">' . get_option( 'time_format' ) . '</span>' );
 		$date   = date_i18n( $format, strtotime( $receipt->post_date ) );
@@ -565,10 +565,10 @@ function mt_get_event_title( $ticket_id = false ) {
 		 *
 		 * @hook mt_the_title
 		 *
-		 * @param {string} $post_title The event title.
-		 * @param {object} $ticket The ticket object.
+		 * @param string $post_title The event title.
+		 * @param object $ticket The ticket object.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$title = apply_filters( 'the_title', apply_filters( 'mt_the_title', $ticket->post_title, $ticket ), $ticket_id );
 
@@ -702,10 +702,10 @@ function mt_get_ticket_type( $ticket_id = false ) {
 		 *
 		 * @hook mt_ticket_type
 		 *
-		 * @param {string} $label Label defined from settings.
-		 * @param {string} $type Ticket type key.
+		 * @param string $label Label defined from settings.
+		 * @param string $type Ticket type key.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		return apply_filters( 'mt_ticket_type', $label, $type );
 	}
@@ -795,10 +795,10 @@ function mt_get_ticket_qrcode( $ticket_id = false ) {
 	 *
 	 * @hook mt_qrcode_options
 	 *
-	 * @param {array} $qrcode Array of configuration options.
-	 * @param {string} $ticket_id ID of the current ticket.
+	 * @param array $qrcode Array of configuration options.
+	 * @param string $ticket_id ID of the current ticket.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$qrcode  = apply_filters( 'mt_qrcode_options', $qrcode, $ticket_id );
 	$options = new QROptions( $qrcode );
@@ -844,10 +844,10 @@ function mt_get_purchase_qrcode( $receipt_id = false ) {
 	 *
 	 * @hook mt_qrcode_options
 	 *
-	 * @param {array} $qrcode Array of configuration options.
-	 * @param {string} $ticket_id ID of the current ticket.
+	 * @param array $qrcode Array of configuration options.
+	 * @param string $ticket_id ID of the current ticket.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$qrcode  = apply_filters( 'mt_qrcode_options', $qrcode, $receipt_id );
 	$options = new QROptions( $qrcode );
@@ -891,7 +891,7 @@ function mt_get_ticket_venue( $ticket_id = false, $event_id = false ) {
 			 * @hook mt_create_location_object
 			 *
 			 * @param {false} $location Default location object.
-			 * @param {int}   $location_id ID value saved in post meta _mc_event_location.
+			 * @param int   $location_id ID value saved in post meta _mc_event_location.
 			 *
 			 * @return {object|false}
 			 */
@@ -907,12 +907,12 @@ function mt_get_ticket_venue( $ticket_id = false, $event_id = false ) {
 		 *
 		 * @hook mt_hcard
 		 *
-		 * @param {string} $html HTML output of an hCard.
-		 * @param {int}    $location_id Location ID.
-		 * @param {object} $ticket Ticket object.
-		 * @param {int}    $event_id Event ID.
+		 * @param string $html HTML output of an hCard.
+		 * @param int    $location_id Location ID.
+		 * @param object $ticket Ticket object.
+		 * @param int    $event_id Event ID.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$html = apply_filters( 'mt_hcard', $html, $location_id, $ticket, $event_id );
 		if ( $html ) {
@@ -1073,10 +1073,10 @@ function mt_get_ticket_validity( $ticket = false, $format = 'full' ) {
 			 *
 			 * @hook mt_validity_date_format
 			 *
-			 * @param {string} $format Default format from WordPress date_format option.
-			 * @param {array}  $event_data Saved data about this event.
+			 * @param string $format Default format from WordPress date_format option.
+			 * @param array  $event_data Saved data about this event.
 			 *
-			 * @return {string}
+			 * @return string
 			 */
 			$format       = apply_filters( 'mt_validity_date_format', $format, $event_data );
 			$date_of_sale = get_the_date( $format, $sale_id );

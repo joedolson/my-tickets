@@ -124,9 +124,9 @@ function mt_get_ticket_ids( $atts, $content ) {
 	 *
 	 * @hook mt_get_events_count
 	 *
-	 * @param {int} $count Number of events to show.
+	 * @param int $count Number of events to show.
 	 *
-	 * @return {int}
+	 * @return int
 	 */
 	$count = apply_filters( 'mt_get_events_count', 20 );
 	$args  =
@@ -149,9 +149,9 @@ function mt_get_ticket_ids( $atts, $content ) {
 	 *
 	 * @hook mt_get_ticket_ids_query
 	 *
-	 * @param {array} $args An array of arguments passed to WP_Query.
+	 * @param array $args An array of arguments passed to WP_Query.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$args  = apply_filters( 'mt_get_ticket_ids_query', $args );
 	$query = new WP_Query( $args );

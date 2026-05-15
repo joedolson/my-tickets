@@ -160,11 +160,11 @@ function mt_featured_tickets( $atts, $content = '' ) {
 		 *
 		 * @hook mt_default_ticketed_events
 		 *
-		 * @param {array} $events Array of event IDs.
-		 * @param {array} $atts Shortcode attributes.
-		 * @param {string} $content Shortcode contents.
+		 * @param array $events Array of event IDs.
+		 * @param array $atts Shortcode attributes.
+		 * @param string $content Shortcode contents.
 		 *
-		 * @return {array}
+		 * @return array
 		 */
 		$events = apply_filters( 'mt_default_ticketed_events', array(), $atts, $content );
 	}
@@ -189,9 +189,9 @@ function mt_featured_tickets( $atts, $content = '' ) {
 				 *
 				 * @hook mt_ticket_template_array
 				 *
-				 * @param {array} $data Merged array of stored event data and post object as array.
+				 * @param array $data Merged array of stored event data and post object as array.
 				 *
-				 * @return {array}
+				 * @return array
 				 */
 				$data       = apply_filters( 'mt_ticket_template_array', array_merge( $event_data, $post ) );
 				$event_data = "<div class='mt-event-details'>" . mt_draw_template( $data, $atts['template'] ) . '</div>';

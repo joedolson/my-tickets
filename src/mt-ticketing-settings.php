@@ -101,10 +101,10 @@ function mt_update_ticketing_settings( $post ) {
 		 *
 		 * @hook mt_ticketing_update_settings
 		 *
-		 * @param {string} $messages Text string with updated settings messages. Default empty string.
-		 * @param {array}  $post Array of settings passed to function.
+		 * @param string $messages Text string with updated settings messages. Default empty string.
+		 * @param array  $post Array of settings passed to function.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$messages = apply_filters( 'mt_ticketing_update_settings', '', $post );
 
@@ -140,10 +140,10 @@ function mt_ticketing_settings() {
 								 *
 								 * @hook mt_ticketing_settings_fields
 								 *
-								 * @param {string} $fields HTML output of settings fields. Default empty.
-								 * @param {array} $options Array of option keys and values.
+								 * @param string $fields HTML output of settings fields. Default empty.
+								 * @param array $options Array of option keys and values.
 								 *
-								 * @return {string}
+								 * @return string
 								 */
 								echo apply_filters( 'mt_ticketing_settings_fields', '', $options );
 								?>
@@ -153,9 +153,9 @@ function mt_ticketing_settings() {
 								 *
 								 * @hook mt_registration_tickets_options
 								 *
-								 * @param {array} $options Array of available ticket types.
+								 * @param array $options Array of available ticket types.
 								 *
-								 * @return {array}
+								 * @return array
 								 */
 								$mt_ticketing = apply_filters(
 									'mt_registration_tickets_options',

@@ -44,10 +44,10 @@ function mt_get_custom_fields( $context ) {
 	 *
 	 * @hook mt_custom_fields
 	 *
-	 * @param {array}  $fields Array of custom fields. Default empty.
-	 * @param {string} $context Where is this function being called. Input, cart, ticket, receipt, etc.
+	 * @param array  $fields Array of custom fields. Default empty.
+	 * @param string $context Where is this function being called. Input, cart, ticket, receipt, etc.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$fields = apply_filters( 'mt_custom_fields', $fields, $context );
 
@@ -123,11 +123,11 @@ function mt_apply_custom_field( $field, $event_id ) {
 	 *
 	 * @hook mt_apply_custom_field_rules
 	 *
-	 * @param {bool}  $return True to return this field.
-	 * @param {array} $field Array of custom field characteristics.
-	 * @param {int}   $event_id Event being displayed.
+	 * @param bool  $return True to return this field.
+	 * @param array $field Array of custom field characteristics.
+	 * @param int   $event_id Event being displayed.
 	 *
-	 * @return {bool}
+	 * @return bool
 	 */
 	return apply_filters( 'mt_apply_custom_field_rules', $return, $field, $event_id );
 }
@@ -150,10 +150,10 @@ function mt_custom_field( $fields, $event_id ) {
 		 *
 		 * @hook mt_field_parameters
 		 *
-		 * @param {array} $field Array of field information.
-		 * @param {int}   $event_id The event being rendered.
+		 * @param array $field Array of field information.
+		 * @param int   $event_id The event being rendered.
 		 *
-		 * @return {array}
+		 * @return array
 		 */
 		$field = apply_filters( 'mt_field_parameters', $field, $event_id );
 		if ( $continue && is_array( $field ) ) {
@@ -298,11 +298,11 @@ function mt_insert_custom_field( $payment_id, $post, $purchased ) {
 					 *
 					 * @hook mt_save_custom_field
 					 *
-					 * @param {int}    $payment_id Payment ID for this purchase.
-					 * @param {int}    $event_id Event tickets purchased for.
-					 * @param {string} $name Custom field key being saved.
-					 * @param {array}  $sanitized Data submitted by user post-sanitization.
-					 * @param {array}  $purchased Full purchase data.
+					 * @param int    $payment_id Payment ID for this purchase.
+					 * @param int    $event_id Event tickets purchased for.
+					 * @param string $name Custom field key being saved.
+					 * @param array  $sanitized Data submitted by user post-sanitization.
+					 * @param array  $purchased Full purchase data.
 					 */
 					do_action( 'mt_custom_field_saved', $payment_id, $event_id, $name, $data, $purchased );
 				}
@@ -329,11 +329,11 @@ function mt_show_payment_field( $content, $payment_id ) {
 		 *
 		 * @hook mt_custom_display_field
 		 *
-		 * @param {string} $output_html. Default empty string.
+		 * @param string $output_html. Default empty string.
 		 * @param {mixed}  $data Saved data from post meta.
-		 * @param {string} $name Field name array key.
+		 * @param string $name Field name array key.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$return = apply_filters( 'mt_custom_display_field', '', $data, $name );
 		if ( '' === $return ) {
@@ -375,11 +375,11 @@ function mt_show_custom_data( $payment_id, $custom_field = false ) {
 			 *
 			 * @hook mt_custom_display_field
 			 *
-			 * @param {string} $return Return value of the field.
+			 * @param string $return Return value of the field.
 			 * @param {mixed}  $data Value stored in post meta.
-			 * @param {string} $name Field name.
+			 * @param string $name Field name.
 			 *
-			 * @return {string}
+			 * @return string
 			 */
 			$return = apply_filters( 'mt_custom_display_field', '', $data, $name );
 			if ( '' === $return ) {

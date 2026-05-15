@@ -67,9 +67,9 @@ function mt_add_ticket_form() {
 	 *
 	 * @hook mt_validity_options
 	 *
-	 * @param {array} $validity Associative array of validity options.
+	 * @param array $validity Associative array of validity options.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$validity = apply_filters( 'mt_validity_options', $validity );
 	// add fields for event time and event date.
@@ -418,11 +418,11 @@ function mt_get_registration_fields( $form, $has_data, $data, $context = 'admin'
 	 *
 	 * @hook mt_custom_data_fields
 	 *
-	 * @param {string} $form HTML Output. Default empty.
-	 * @param {array}  $registration Saved event data.
-	 * @param {object} $data Event data.
+	 * @param string $form HTML Output. Default empty.
+	 * @param array  $registration Saved event data.
+	 * @param object $data Event data.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	$form .= apply_filters( 'mt_custom_data_fields', '', $registration, $data );
 
@@ -431,13 +431,13 @@ function mt_get_registration_fields( $form, $has_data, $data, $context = 'admin'
 	 *
 	 * @hook mc_event_registration_form
 	 *
-	 * @param {string} $form Form HTML.
-	 * @param {bool}   $has_data Whether this form has data.
-	 * @param {object} $data Event object.
-	 * @param {string} $context Public or admin view.
-	 * @param {string} $original_form Form output before filter modifications.
+	 * @param string $form Form HTML.
+	 * @param bool   $has_data Whether this form has data.
+	 * @param object $data Event object.
+	 * @param string $context Public or admin view.
+	 * @param string $original_form Form output before filter modifications.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	return apply_filters( 'mc_event_registration_form', $form, $has_data, $data, $context, $original_form );
 }
@@ -720,11 +720,11 @@ function mt_save_registration_data( $post_id, $post, $data = array(), $event_id 
 		 *
 		 * @hook mt_registration_options
 		 *
-		 * @param {array}  $registration_options Saved options for this event.
-		 * @param {array}  $post POST data passed to function.
-		 * @param {object} $data Event object.
+		 * @param array  $registration_options Saved options for this event.
+		 * @param array  $post POST data passed to function.
+		 * @param object $data Event object.
 		 *
-		 * @return {array}
+		 * @return array
 		 */
 		$registration_options = apply_filters( 'mt_registration_options', $registration_options, $post, $data );
 		update_post_meta( $post_id, '_mt_registration_options', $registration_options );

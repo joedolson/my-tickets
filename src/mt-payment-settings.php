@@ -86,10 +86,10 @@ function mt_update_payment_settings( $post ) {
 		 *
 		 * @hook mt_payment_update_settings
 		 *
-		 * @param {string} $messages HTML output of messages.
-		 * @param {array}  $post POST data.
+		 * @param string $messages HTML output of messages.
+		 * @param array  $post POST data.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$messages = apply_filters( 'mt_payment_update_settings', '', $post );
 
@@ -198,10 +198,10 @@ function mt_payment_settings() {
 								 *
 								 * @hook mt_payment_settings_fields
 								 *
-								 * @param {string} $fields HTML output of fields.
-								 * @param {array}  $options Saved settings data.
+								 * @param string $fields HTML output of fields.
+								 * @param array  $options Saved settings data.
 								 *
-								 * @return {string}
+								 * @return string
 								 */
 								echo apply_filters( 'mt_payment_settings_fields', '', $options );
 								?>
@@ -390,9 +390,9 @@ function mt_currency() {
 	 *
 	 * @hook mt_currencies
 	 *
-	 * @param {array} $currencies Array of currencies available.
+	 * @param array $currencies Array of currencies available.
 	 *
-	 * @return {array}
+	 * @return array
 	 */
 	$currencies = apply_filters(
 		'mt_currencies',

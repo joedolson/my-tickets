@@ -110,10 +110,10 @@ function mt_get_event_link( $event_id ) {
 	 *
 	 * @hook mt_get_event_link
 	 *
-	 * @param {string} $url Event permalink.
-	 * @param {int}    $event_id Event Post ID.
+	 * @param string $url Event permalink.
+	 * @param int    $event_id Event Post ID.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	$url = apply_filters( 'mt_get_event_link', $url, $event_id );
 
@@ -641,10 +641,10 @@ function mt_html_email_header( $data ) {
 	 *
 	 * @hook mt_html_email_header
 	 *
-	 * @param {string} $header HTML header content.
-	 * @param {array}  $data Email data array.
+	 * @param string $header HTML header content.
+	 * @param array  $data Email data array.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	return apply_filters( 'mt_html_email_header', $header, $data );
 }
@@ -671,10 +671,10 @@ function mt_html_email_footer( $data ) {
 	 *
 	 * @hook mt_html_email_footer
 	 *
-	 * @param {string} $header HTML footer content.
-	 * @param {array}  $data Email data array.
+	 * @param string $header HTML footer content.
+	 * @param array  $data Email data array.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	return apply_filters( 'mt_html_email_footer', $footer, $data );
 }
@@ -689,9 +689,9 @@ function mt_html_email_wrapper_styles() {
 	 *
 	 * @hook mt_html_email_wrapper_styles
 	 *
-	 * @param {string} $styles HTML styles.
+	 * @param string $styles HTML styles.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	return apply_filters( 'mt_html_email_wrapper_styles', $styles );
 }
@@ -706,9 +706,9 @@ function mt_html_email_h1_styles() {
 	 *
 	 * @hook mt_html_email_h1_styles
 	 *
-	 * @param {string} $styles HTML styles.
+	 * @param string $styles HTML styles.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	return apply_filters( 'mt_html_email_h1_styles', $styles );
 }
@@ -723,9 +723,9 @@ function mt_html_email_body_styles() {
 	 *
 	 * @hook mt_html_email_h1_styles
 	 *
-	 * @param {string} $styles HTML styles.
+	 * @param string $styles HTML styles.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	return apply_filters( 'mt_html_email_body_styles', $styles );
 }
@@ -906,10 +906,10 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 		 *
 		 * @hook mt_closure_subject
 		 *
-		 * @param {string} $subject Email subject line.
-		 * @param {int}    $event Event Post ID.
+		 * @param string $subject Email subject line.
+		 * @param int    $event Event Post ID.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$subject = apply_filters(
 			'mt_closure_subject',
@@ -930,11 +930,11 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 			 *
 			 * @hook mt_closure_body
 			 *
-			 * @param {string} $body Email body text.
-			 * @param {int}    $event Event Post ID.
-			 * @param {string} $type Message type. 'has-sales' or 'no-sales'.
+			 * @param string $body Email body text.
+			 * @param int    $event Event Post ID.
+			 * @param string $type Message type. 'has-sales' or 'no-sales'.
 			 *
-			 * @return {string}
+			 * @return string
 			 */
 			$body = apply_filters(
 				'mt_closure_body',
@@ -956,10 +956,10 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 		 *
 		 * @hook mt_soldout_subject
 		 *
-		 * @param {string} $subject Email subject line.
-		 * @param {int}    $event Event Post ID.
+		 * @param string $subject Email subject line.
+		 * @param int    $event Event Post ID.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$subject = apply_filters(
 			'mt_soldout_subject',
@@ -976,10 +976,10 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 		 *
 		 * @hook mt_soldout_body
 		 *
-		 * @param {string} $body Email body text.
-		 * @param {int}    $event Event Post ID.
+		 * @param string $body Email body text.
+		 * @param int    $event Event Post ID.
 		 *
-		 * @return {string}
+		 * @return string
 		 */
 		$body = apply_filters(
 			'mt_soldout_body',
@@ -998,10 +998,10 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 	 *
 	 * @hook mt_closure_recipient
 	 *
-	 * @param {string} $email Email address of recipient.
+	 * @param string $email Email address of recipient.
 	 * @param {id}     $event Event Post ID.
 	 *
-	 * @return {string}
+	 * @return string
 	 */
 	$to = apply_filters( 'mt_closure_recipient', $email, $event );
 	add_filter( 'wp_mail_content_type', 'mt_html_type' );
