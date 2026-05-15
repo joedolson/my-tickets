@@ -556,9 +556,9 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 		 *
 		 * @hook mt_ticket_handling_price
 		 *
-		 * @param {string}     $ticket_handling Handling price from settings.
-		 * @param {int}object} $event Event post ID.
-		 * @param {string}     $type Ticket type.
+		 * @param string     $ticket_handling Handling price from settings.
+		 * @param int|object $event Event post ID.
+		 * @param string     $type Ticket type.
 		 */
 		$ticket_handling = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event_id, $type );
 		$handling_notice = mt_handling_notice();
@@ -1005,13 +1005,11 @@ function mt_tickets_remaining( $tickets_data, $event_id ) {
 			 *
 			 * @hook mt_tickets_still_remaining_text
 			 *
-			 * @param {string} $remaining_string Default text.
-			 * @param {int}    $tickets_remaining Number of tickets remaining.
-			 * @param {int}    $event_id Event ID.
-			 *
-			 * @return {string}
+			 * @param string $remaining_string Default text.
+			 * @param int    $tickets_remaining Number of tickets remaining.
+			 * @param int    $event_id Event ID.
 			 */
-			$remaining_string    = apply_filters( 'mt_tickets_still_remaining_text', $remaining_string, $event_id );
+			$remaining_string    = apply_filters( 'mt_tickets_still_remaining_text', $remaining_string, $tickets_remaining, $event_id );
 			$tickets_remain_text = ' ' . sprintf( $remaining_string, $tickets_remaining, $event_id );
 		} else {
 			$tickets_remain_text = '';
@@ -1078,13 +1076,12 @@ function mt_handling_price( $price, $event, $type = 'standard' ) {
 		 *
 		 * @hook mt_ticket_handling_price
 		 *
-		 * @param {float} $mt_ticket_handling Value in settings for event handling.
-		 * @param {int}   $event Event ID.
-		 *
-		 * @return {float}
+		 * @param float $mt_ticket_handling Value in settings for event handling.
+		 * @param int   $event Event ID.
+		 * @param string  $type Ticket type string.
 		 */
-		$handling = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event );
-		$price = $price + $handling;
+		$handling = apply_filters( 'mt_ticket_handling_price', $options['mt_ticket_handling'], $event, $type );
+		$price    = $price + $handling;
 	}
 
 	return $price;

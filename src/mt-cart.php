@@ -819,7 +819,7 @@ function mt_generate_cart( $user_ID = false ) {
 			 * @param string $text Submit button text.
 			 * @param string $current_gate Active gateway.
 			 */
-			$submit_text   = apply_filters( 'mt_submit_button_text', $text, $current_gate );
+			$submit_text = apply_filters( 'mt_submit_button_text', $text, $current_gate );
 			/**
 			 * Filter additional content inside the mt_cart_total container..
 			 *
@@ -838,9 +838,9 @@ function mt_generate_cart( $user_ID = false ) {
 			 * @param string $text Ticket total text. Default 'Ticket Total:'.
 			 * @param string $current_gate Active gateway.
 			 */
-			$total_text    = apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate );
-			$button        = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . esc_attr( $submit_text ) . "' /></p>";
-			$output       .= "<div class='mt_cart_total' aria-live='assertive'>" . $total_content . $total_text . " <span class='mt_total_number'>" . mt_money_format( $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
+			$total_text = apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate );
+			$button     = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . esc_attr( $submit_text ) . "' /></p>";
+			$output    .= "<div class='mt_cart_total' aria-live='assertive'>" . $total_content . $total_text . " <span class='mt_total_number'>" . mt_money_format( $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
 		} else {
 			do_action( 'mt_cart_is_empty' );
 			$expiration = '';
