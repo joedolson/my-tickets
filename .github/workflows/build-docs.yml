@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: akirk/extract-wp-hooks@main
       with:
-        base-dir: "./src"
+        base-dir: "."
         exclude-dirs: "vendor,tests,node_modules"
         ignore-filters: "debug_hook,internal_filter"
         section: "file"
