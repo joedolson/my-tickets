@@ -121,7 +121,6 @@ function mt_payment_settings() {
 	}
 	?>
 	<div class="wrap my-tickets" id="mt_settings">
-		<div id="icon-options-general" class="icon32"><br/></div>
 		<h1><?php _e( 'Payment & Cart Settings', 'my-tickets' ); ?></h1>
 		<?php echo wp_kses_post( $response ); ?>
 		<?php echo wp_kses_post( $alert ); ?>
