@@ -160,7 +160,7 @@ function mt_build_gateways() {
 	 *
 	 * @hook mt_import_gateways
 	 *
-	 * @param array Associative array of strings identifying the gateway's loading file without the .php extension.
+	 * @param array $gateways Array of strings identifying the gateway's loading file without the .php extension.
 	 *
 	 * @return array
 	 */
@@ -1110,7 +1110,7 @@ function mt_money_format( $price ) {
 		 * @hook mt_money_format
 		 *
 		 * @param string $output Money amount formatted as string.
-		 * @param {float}  $price Original value.
+		 * @param float  $price Original value.
 		 * @param string $space Space character in use.
 		 * @param string $symbol Currency symbol.
 		 */

@@ -999,7 +999,7 @@ function mt_notify_admin( $event, $ticket_info, $context ) {
 	 * @hook mt_closure_recipient
 	 *
 	 * @param string $email Email address of recipient.
-	 * @param {id}     $event Event Post ID.
+	 * @param int    $event Event Post ID.
 	 *
 	 * @return string
 	 */

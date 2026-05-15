@@ -890,10 +890,8 @@ function mt_get_ticket_venue( $ticket_id = false, $event_id = false ) {
 			 *
 			 * @hook mt_create_location_object
 			 *
-			 * @param {false} $location Default location object.
-			 * @param int   $location_id ID value saved in post meta _mc_event_location.
-			 *
-			 * @return {object|false}
+			 * @param false|object $location Replace the default location object. Default false.
+			 * @param int          $location_id ID value saved in post meta _mc_event_location.
 			 */
 			$location = apply_filters( 'mt_create_location_object', false, $location_id );
 			if ( ! $location ) {

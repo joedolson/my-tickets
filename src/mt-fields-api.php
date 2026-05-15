@@ -330,7 +330,7 @@ function mt_show_payment_field( $content, $payment_id ) {
 		 * @hook mt_custom_display_field
 		 *
 		 * @param string $output_html. Default empty string.
-		 * @param {mixed}  $data Saved data from post meta.
+		 * @param mixed  $data Saved data from post meta.
 		 * @param string $name Field name array key.
 		 *
 		 * @return string
@@ -376,7 +376,7 @@ function mt_show_custom_data( $payment_id, $custom_field = false ) {
 			 * @hook mt_custom_display_field
 			 *
 			 * @param string $return Return value of the field.
-			 * @param {mixed}  $data Value stored in post meta.
+			 * @param mixed  $data Value stored in post meta.
 			 * @param string $name Field name.
 			 *
 			 * @return string
