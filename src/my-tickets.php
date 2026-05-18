@@ -194,6 +194,7 @@ require plugin_dir_path( __FILE__ ) . 'mt-add-to-cart.php';
 require plugin_dir_path( __FILE__ ) . 'mt-templating.php';
 require plugin_dir_path( __FILE__ ) . 'mt-settings.php';
 require plugin_dir_path( __FILE__ ) . 'mt-payment-settings.php';
+require plugin_dir_path( __FILE__ ) . 'mt-gateway-settings.php';
 require plugin_dir_path( __FILE__ ) . 'mt-ticketing-settings.php';
 require plugin_dir_path( __FILE__ ) . 'mt-debug.php';
 
@@ -376,9 +377,10 @@ function my_tickets_menu() {
 		add_menu_page( __( 'My Tickets', 'my-tickets' ), __( 'My Tickets', 'my-tickets' ), $permission, 'my-tickets', 'mt_settings', $icon_path . '/tickets.png' );
 	}
 	add_action( 'admin_head', 'mt_reg_styles' );
-	add_submenu_page( 'my-tickets', __( 'My Tickets', 'my-tickets' ), __( 'Settings', 'my-tickets' ), $permission, 'my-tickets', 'mt_settings' );
-	add_submenu_page( 'my-tickets', __( 'My Tickets', 'my-tickets' ), __( 'Payment Settings', 'my-tickets' ), $permission, 'mt-payment', 'mt_payment_settings' );
-	$ticketing = add_submenu_page( 'my-tickets', __( 'My Tickets', 'my-tickets' ), __( 'Ticket Settings', 'my-tickets' ), $permission, 'mt-ticketing', 'mt_ticketing_settings' );
+	add_submenu_page( 'my-tickets', __( 'My Tickets: Primary Settings', 'my-tickets' ), __( 'Settings', 'my-tickets' ), $permission, 'my-tickets', 'mt_settings' );
+	add_submenu_page( 'my-tickets', __( 'My Tickets: Payment Settings', 'my-tickets' ), __( 'Payment Settings', 'my-tickets' ), $permission, 'mt-payment', 'mt_payment_settings' );
+	add_submenu_page( 'my-tickets', __( 'My Tickets: Payment Gateway Settings', 'my-tickets' ), __( 'Gateway Settings', 'my-tickets' ), $permission, 'mt-gateway', 'mt_gateway_settings' );
+	$ticketing = add_submenu_page( 'my-tickets', __( 'My Tickets: Ticket Settings', 'my-tickets' ), __( 'Ticket Settings', 'my-tickets' ), $permission, 'mt-ticketing', 'mt_ticketing_settings' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets > Reports', 'my-tickets' ), __( 'Reports', 'my-tickets' ), 'mt-view-reports', 'mt-reports', 'mt_reports_page' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets > Payments', 'my-tickets' ), __( 'Payments', 'my-tickets' ), 'mt-view-reports', 'mt-payments', 'mt_payments_page' );
 	add_submenu_page( 'my-tickets', __( 'My Tickets > Help', 'my-tickets' ), __( 'Ticketing Help', 'my-tickets' ), $permission, 'mt-help', 'mt_help' );

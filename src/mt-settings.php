@@ -305,152 +305,155 @@ function mt_settings() {
 										</select>
 									</p>
 								</fieldset>
-								<h3><?php _e( 'Ticket Purchase Messages', 'my-tickets' ); ?></h3>
-								<?php
-									echo apply_filters( 'mt_settings_fields', '', $options );
-								?>
-								<p>
-									<input type="checkbox" id="mt_html_email" name="mt_html_email" <?php checked( true, mt_is_checked( 'mt_html_email', 'true', $options ) ); ?> />
-									<label for="mt_html_email"><?php _e( 'Send email as HTML.', 'my-tickets' ); ?></label>
-								</p>
-								<div class="mt-flex">
+								<br />
+								<fieldset class="mt-ticket-notifications">
+									<legend><?php _e( 'Ticket Purchase Messages', 'my-tickets' ); ?></legend>
+									<?php
+										echo apply_filters( 'mt_settings_fields', '', $options );
+									?>
 									<p>
-										<label for="mt_to"><?php _e( 'Send to:', 'my-tickets' ); ?></label><br/>
-										<input type="text" name="mt_to" id="mt_to" class="widefat" value="<?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
+										<input type="checkbox" id="mt_html_email" name="mt_html_email" <?php checked( true, mt_is_checked( 'mt_html_email', 'true', $options ) ); ?> />
+										<label for="mt_html_email"><?php _e( 'Send email as HTML.', 'my-tickets' ); ?></label>
 									</p>
-									<p>
-										<label for="mt_from"><?php _e( 'Send from:', 'my-tickets' ); ?></label><br/>
-										<input type="text" name="mt_from" id="mt_from" class="widefat" value="<?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
-									</p>
-								</div>
-								<?php
-								$tabs         = '';
-								$status_types = array(
-									'completed' => __( 'Completed', 'my-tickets' ),
-									'failed'    => __( 'Failed', 'my-tickets' ),
-									'refunded'  => __( 'Refunded', 'my-tickets' ),
-									'interim'   => __( 'Offline & Pending', 'my-tickets' ),
-								);
-								foreach ( $status_types as $type => $status_type ) {
-									$tabs .= "<li><button id='tab_mt_" . $type . "' role='tab' type='button' aria-selected='false' aria-controls='$type'>$status_type</button></li>";
-								}
-								?>
-								<div class='mt-notifications'>
-									<div class='mt-tabs mt-settings'>
-										<ul class='tabs' role="tablist">
-											<?php echo wp_kses_post( $tabs ); ?>
-										</ul>
-										<?php
-										foreach ( $status_types as $type => $status_type ) {
-											?>
-											<div class='wptab mt_<?php echo esc_attr( $type ); ?>' id='<?php echo esc_attr( $type ); ?>' role='tabpanel' aria-labelledby='tab_mt_<?php echo esc_attr( $type ); ?>'>
-												<fieldset>
-													<legend><?php _e( 'Sent to administrators', 'my-tickets' ); ?></legend>
-													<ul>
-														<li>
-															<label for="mt_messages_<?php echo esc_attr( $type ); ?>_admin_subject">
-																<?php
-																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
-																printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type );
-																?>
-															</label><br/>
-															<input type="text" name="mt_messages[<?php echo esc_attr( $type ); ?>][admin][subject]" id="mt_messages_<?php echo esc_attr( $type ); ?>_admin_subject" class="widefat" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
-														</li>
-														<li>
-															<label for="mt_messages_<?php echo esc_attr( $type ); ?>_admin_body">
-																<?php
-																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
-																printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type );
-																?>
-															</label><br/>
-															<textarea class="widefat mt-code-editor" name="mt_messages[<?php echo esc_attr( $type ); ?>][admin][body]" id="mt_messages_<?php echo esc_attr( $type ); ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_textarea( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
-														</li>
-													</ul>
-												</fieldset>
-												<fieldset>
-													<legend><?php _e( 'Sent to purchaser', 'my-tickets' ); ?></legend>
-													<ul>
-														<li>
-															<label for="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_subject">
-																<?php
-																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
-																printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type );
-																?>
-															</label><br/>
-															<input type="text" name="mt_messages[<?php echo esc_attr( $type ); ?>][purchaser][subject]" id="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_subject" class="widefat" value="<?php echo stripslashes( esc_textarea( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
-														</li>
-														<li>
-															<label for="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_body">
-																<?php
-																// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
-																printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type );
-																?>
-															</label><br/>
-															<textarea class="widefat mt-code-editor" name="mt_messages[<?php echo esc_attr( $type ); ?>][purchaser][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
-														</li>
-													</ul>
-												</fieldset>
-											</div>
-											<?php
-										}
-										?>
+									<div class="mt-flex">
+										<p>
+											<label for="mt_to"><?php _e( 'Send to:', 'my-tickets' ); ?></label><br/>
+											<input type="text" name="mt_to" id="mt_to" class="widefat" value="<?php echo ( '' === $options['mt_to'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_to'] ) ); ?>"/>
+										</p>
+										<p>
+											<label for="mt_from"><?php _e( 'Send from:', 'my-tickets' ); ?></label><br/>
+											<input type="text" name="mt_from" id="mt_from" class="widefat" value="<?php echo ( '' === $options['mt_from'] ) ? esc_attr( get_bloginfo( 'admin_email' ) ) : stripslashes( esc_attr( $options['mt_from'] ) ); ?>"/>
+										</p>
 									</div>
 									<?php
-									$tags = array(
-										'receipt',
-										'tickets',
-										'ticket_ids',
-										'name',
-										'blogname',
-										'total',
-										'key',
-										'purchase',
-										'address',
-										'gateway_notes',
-										'transaction',
-										'transaction_id',
-										'amount_due',
-										'method',
-										'handling',
-										'shipping',
-										'phone',
-										'vat',
-										'purchase_ID',
-										'purchase_edit',
-										'buyer_email',
-										'event_notes',
-										'bulk_tickets',
+									$tabs         = '';
+									$status_types = array(
+										'completed' => __( 'Completed', 'my-tickets' ),
+										'failed'    => __( 'Failed', 'my-tickets' ),
+										'refunded'  => __( 'Refunded', 'my-tickets' ),
+										'interim'   => __( 'Offline & Pending', 'my-tickets' ),
 									);
-									// Add custom fields to display of template tags.
-									$custom_fields = mt_get_custom_fields( 'tags' );
-									foreach ( $custom_fields as $name => $field ) {
-										$tags[] = $name;
+									foreach ( $status_types as $type => $status_type ) {
+										$tabs .= "<li><button id='tab_mt_" . $type . "' role='tab' type='button' aria-selected='false' aria-controls='$type'>$status_type</button></li>";
 									}
-									/**
-									 * Filter cart custom fields when generating template tags.
-									 *
-									 * @hook mt_cart_custom_fields
-									 *
-									 * @param array  $fields Array of defined custom fields. Initialized as empty array.
-									 * @param array  $empty Empty array; not used in this context.
-									 * @param string $context Rendering context.
-									 */
-									$cart_custom_fields = apply_filters( 'mt_cart_custom_fields', array(), array(), 'tags' );
-									foreach ( $cart_custom_fields as $name => $field ) {
-										$tags[] = $name;
-									}
-									// Add custom tags that are not also custom fields.
-									$tags      = apply_filters( 'mt_display_tags', $tags );
-									$tags      = array_map( 'mt_array_code', $tags );
-									$available = implode( ', ', $tags );
 									?>
-									<p><em>
-									<?php
-									// Translators: list of template tags.
-									printf( __( 'Available template tags: %s', 'my-tickets' ), $available );
-									?>
-									</em></p>
-								</div>
+									<div class='mt-notifications'>
+										<div class='mt-tabs mt-settings'>
+											<ul class='tabs' role="tablist">
+												<?php echo wp_kses_post( $tabs ); ?>
+											</ul>
+											<?php
+											foreach ( $status_types as $type => $status_type ) {
+												?>
+												<div class='wptab mt_<?php echo esc_attr( $type ); ?>' id='<?php echo esc_attr( $type ); ?>' role='tabpanel' aria-labelledby='tab_mt_<?php echo esc_attr( $type ); ?>'>
+													<fieldset>
+														<legend><?php _e( 'Sent to administrators', 'my-tickets' ); ?></legend>
+														<ul>
+															<li>
+																<label for="mt_messages_<?php echo esc_attr( $type ); ?>_admin_subject">
+																	<?php
+																	// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
+																	printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type );
+																	?>
+																</label><br/>
+																<input type="text" name="mt_messages[<?php echo esc_attr( $type ); ?>][admin][subject]" id="mt_messages_<?php echo esc_attr( $type ); ?>_admin_subject" class="widefat" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
+															</li>
+															<li>
+																<label for="mt_messages_<?php echo esc_attr( $type ); ?>_admin_body">
+																	<?php
+																	// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
+																	printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type );
+																	?>
+																</label><br/>
+																<textarea class="widefat mt-code-editor" name="mt_messages[<?php echo esc_attr( $type ); ?>][admin][body]" id="mt_messages_<?php echo esc_attr( $type ); ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_textarea( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
+															</li>
+														</ul>
+													</fieldset>
+													<fieldset>
+														<legend><?php _e( 'Sent to purchaser', 'my-tickets' ); ?></legend>
+														<ul>
+															<li>
+																<label for="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_subject">
+																	<?php
+																	// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
+																	printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type );
+																	?>
+																</label><br/>
+																<input type="text" name="mt_messages[<?php echo esc_attr( $type ); ?>][purchaser][subject]" id="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_subject" class="widefat" value="<?php echo stripslashes( esc_textarea( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
+															</li>
+															<li>
+																<label for="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_body">
+																	<?php
+																	// Translators: message status: Completed, Failed, Refunded, or Offline & Pending.
+																	printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type );
+																	?>
+																</label><br/>
+																<textarea class="widefat mt-code-editor" name="mt_messages[<?php echo esc_attr( $type ); ?>][purchaser][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
+															</li>
+														</ul>
+													</fieldset>
+												</div>
+												<?php
+											}
+											?>
+										</div>
+										<?php
+										$tags = array(
+											'receipt',
+											'tickets',
+											'ticket_ids',
+											'name',
+											'blogname',
+											'total',
+											'key',
+											'purchase',
+											'address',
+											'gateway_notes',
+											'transaction',
+											'transaction_id',
+											'amount_due',
+											'method',
+											'handling',
+											'shipping',
+											'phone',
+											'vat',
+											'purchase_ID',
+											'purchase_edit',
+											'buyer_email',
+											'event_notes',
+											'bulk_tickets',
+										);
+										// Add custom fields to display of template tags.
+										$custom_fields = mt_get_custom_fields( 'tags' );
+										foreach ( $custom_fields as $name => $field ) {
+											$tags[] = $name;
+										}
+										/**
+										 * Filter cart custom fields when generating template tags.
+										 *
+										 * @hook mt_cart_custom_fields
+										 *
+										 * @param array  $fields Array of defined custom fields. Initialized as empty array.
+										 * @param array  $empty Empty array; not used in this context.
+										 * @param string $context Rendering context.
+										 */
+										$cart_custom_fields = apply_filters( 'mt_cart_custom_fields', array(), array(), 'tags' );
+										foreach ( $cart_custom_fields as $name => $field ) {
+											$tags[] = $name;
+										}
+										// Add custom tags that are not also custom fields.
+										$tags      = apply_filters( 'mt_display_tags', $tags );
+										$tags      = array_map( 'mt_array_code', $tags );
+										$available = implode( ', ', $tags );
+										?>
+										<p><em>
+										<?php
+										// Translators: list of template tags.
+										printf( __( 'Available template tags: %s', 'my-tickets' ), $available );
+										?>
+										</em></p>
+									</div>
+								</fieldset>
 								<fieldset class="mt-css-variables">
 									<legend><?php esc_html_e( 'CSS Variables', 'my-tickets' ); ?></legend>
 									<?php
@@ -642,7 +645,7 @@ function mt_wp_enqueue_scripts() {
 			)
 		);
 	}
-	if ( isset( $_GET['page'] ) && 'mt-payment' === $_GET['page'] ) {
+	if ( isset( $_GET['page'] ) && 'mt-payment' === $_GET['page'] || 'mt-gateway' === $_GET['page'] ) {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ), $version );
 		wp_localize_script(
