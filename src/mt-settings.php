@@ -269,7 +269,7 @@ function mt_settings() {
 							<form method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=my-tickets' ) ); ?>">
 								<div><input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'my-tickets' ) ); ?>" /></div>
 								<fieldset>
-									<legend><?php _e( 'Enable ticketing for these post types:', 'my-tickets' ); ?></legend>
+									<legend><?php _e( 'Post types enabled for ticketing', 'my-tickets' ); ?></legend>
 									<ul class="checkboxes">
 										<?php echo wp_kses( $mt_post_type_options, mt_kses_elements() ); ?>
 									</ul>
