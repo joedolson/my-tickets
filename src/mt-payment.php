@@ -29,7 +29,11 @@ function mt_handle_payment( $response, $response_code, $data, $post ) {
 	 *
 	 * @return array
 	 */
-	$data           = apply_filters( 'mt_filter_payment_data', $data, $post );
+	$data = apply_filters( 'mt_filter_payment_data', $data, $post );
+	// If the returned data is empty or does not reference a payment, ignore.
+	if ( empty( $data ) || 'mt-payments' !== get_post_type( $data['purchase_id'] ) ) {
+		return;
+	}
 	$payment_status = $data['status'];
 	$txn_id         = $data['transaction_id'];
 	$payment_id     = $data['purchase_id'];
