@@ -81,6 +81,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Improve design of hidden columns in reports print view.
 * Change: Move reports forms to top of reports screen, put in tabs.
 * Change: Remove 're-send email notification' if tickets not sent yet.
+* Change: Move Payment Gateway settings to independent settings page.
 * Bug fix: Prevent 'Tickets Delivered' from getting checked when tickets not created.
 * Bug fix: Fix two PHP errors triggered when attempting to parse tickets that haven't been created yet.
 * Bug fix: Report print view did not respect ticket type limits.
