@@ -221,7 +221,7 @@ function mt_default_fields() {
 				'notes' => 'Internal-use only',
 			),
 			'send_email'        => array(
-				'label'   => __( 'Re-send Email Notification', 'my-tickets' ),
+				'label'   => __( 'Re-send Completed Purchase Email Notification', 'my-tickets' ),
 				'input'   => ( ! empty( mt_get_payment_id_tickets( $post_ID ) ) ) ? 'checkbox' : 'hidden',
 				'context' => 'edit',
 			),
