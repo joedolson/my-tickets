@@ -46,7 +46,7 @@ function mt_generate_notifications( $id ) {
 		$last_status = get_post_meta( $id, '_last_status', true );
 		$paid        = get_post_meta( $id, '_is_paid', true );
 		if ( ! $email_sent || isset( $_POST['_send_email'] ) || ( 'Pending' === $last_status && 'Completed' === $paid ) ) {
-			$resend           = ( isset( $_POST['_send_email'] ) ) ? true : false;
+			$resend           = ( isset( $_POST['_send_email'] ) && ! empty( $_POST['_send_email'] ) ) ? true : false;
 			$details['email'] = get_post_meta( $id, '_email', true );
 			$details['name']  = get_the_title( $id );
 			$details['id']    = $id;
@@ -452,14 +452,19 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$ticketing_method = get_post_meta( $id, '_ticketing_method', true );
 	$email            = $details['email'];
 
-	if ( 'eticket' === $ticketing_method || 'printable' === $ticketing_method ) {
-		$tickets    = apply_filters( 'mt_format_array', '', 'tickets', $ticket_array, $id, 'email' );
-		$ticket_ids = apply_filters( 'mt_format_array', '', 'ticket_ids', array_keys( $ticket_array ), $id, 'email' );
-		update_post_meta( $id, '_is_delivered', 'true' );
+	if ( ! empty( $ticket_array) ) {
+		// Don't mark tickets as delivered or return markup if no tickets created.
+		if ( 'eticket' === $ticketing_method || 'printable' === $ticketing_method ) {
+			$tickets    = apply_filters( 'mt_format_array', '', 'tickets', $ticket_array, $id, 'email' );
+			$ticket_ids = apply_filters( 'mt_format_array', '', 'ticket_ids', array_keys( $ticket_array ), $id, 'email' );
+			update_post_meta( $id, '_is_delivered', 'true' );
+		} else {
+			$tickets    = ( 'willcall' === $ticketing_method ) ? __( 'Your tickets will be available at the box office.', 'my-tickets' ) : __( 'Your tickets will be mailed to you at the address provided.', 'my-tickets' );
+			$tickets    = ( 'true' === $options['mt_html_email'] ) ? '<p>' . $tickets . '</p>' : $tickets;
+			$ticket_ids = '';
+		}
 	} else {
-		$tickets    = ( 'willcall' === $ticketing_method ) ? __( 'Your tickets will be available at the box office.', 'my-tickets' ) : __( 'Your tickets will be mailed to you at the address provided.', 'my-tickets' );
-		$tickets    = ( 'true' === $options['mt_html_email'] ) ? '<p>' . $tickets . '</p>' : $tickets;
-		$ticket_ids = '';
+		$tickets = __( 'There was an error creating your tickets for this purchase.', 'my-tickets' );
 	}
 	$bulk_tickets = ( 'printable' === $ticketing_method || 'eticket' === $ticketing_method ) ? add_query_arg(
 		array(

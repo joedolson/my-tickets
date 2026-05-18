@@ -161,6 +161,7 @@ function mt_cpt_email_purchaser( $id ) {
  * @return mixed|void
  */
 function mt_default_fields() {
+	global $post_ID;
 	$mt_fields =
 		array(
 			'is_paid'           => array(
@@ -221,7 +222,7 @@ function mt_default_fields() {
 			),
 			'send_email'        => array(
 				'label'   => __( 'Re-send Email Notification', 'my-tickets' ),
-				'input'   => 'checkbox',
+				'input'   => ( ! empty( mt_get_payment_id_tickets( $post_ID ) ) ) ? 'checkbox' : 'hidden',
 				'context' => 'edit',
 			),
 			'gateway'           => array(
@@ -432,21 +433,39 @@ function mt_list_events( $payment_id ) {
 }
 
 /**
+ * Get tickets for a payment.
+ *
+ * @param int $payment_id Payment Post ID.
+ *
+ * @return array
+ */
+function mt_get_payment_id_tickets( $payment_id ) {
+	$purchase = get_post_meta( $payment_id, '_purchased' );
+	$tickets  = mt_setup_tickets( $purchase, $payment_id, 'ids', true );
+
+	return $tickets;
+}
+
+/**
  * Generate tickets for a given purchase.
  *
  * @param array  $purchase Purchase data.
  * @param int    $payment_id Payment ID.
  * @param string $return_type Links or IDs.
+ * @param bool   $bypass_creation Return true to only return stored values, whether they exist or not.
  *
  * @return array
  */
-function mt_setup_tickets( $purchase, $payment_id, $return_type = 'links' ) {
+function mt_setup_tickets( $purchase, $payment_id, $return_type = 'links', $bypass_creation = false ) {
 	$stored  = get_post_meta( $payment_id, '_tickets', true );
-	$tickets = ( ! empty( $stored ) ) ? mt_ticket_list( $stored, $return_type ) : false;
-	if ( $tickets ) {
+	$tickets = ( ! empty( $stored ) || $bypass_creation ) ? mt_ticket_list( $stored, $return_type ) : array();
+	if ( $tickets || $bypass_creation ) {
 		return $tickets;
 	}
 	$ticket_ids = array();
+	if ( ! is_array( $purchase ) ) {
+		return array();
+	}
 	foreach ( $purchase as $purch ) {
 		foreach ( $purch as $event => $tickets ) {
 			$purchases[ $event ] = $tickets;
@@ -500,6 +519,9 @@ function mt_ticket_list( $ticket_ids, $return_type = 'links' ) {
 	$payment_screen = ( isset( $_GET['post_type'] ) && 'mt-payments' === $_GET['post_type'] ) ? true : false;
 	$ticket_array   = array();
 	// Reassemble data.
+	if ( ! is_array( $ticket_ids ) ) {
+		return $ticket_array;
+	}
 	foreach ( $ticket_ids as $ticket ) {
 		// If ticket has a valid type, display.
 		if ( $payment_screen || mt_get_ticket_type( $ticket ) ) {
