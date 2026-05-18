@@ -147,7 +147,7 @@ function mt_export_settings_url() {
 function mt_get_settings( $setting = '' ) {
 	static $options = null;
 	if ( $options ) {
-		if (  ! empty( $setting ) && $options[ $setting ] ) {
+		if ( ! empty( $setting ) && $options[ $setting ] ) {
 			return $options[ $setting ];
 		}
 
