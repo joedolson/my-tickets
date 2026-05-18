@@ -145,6 +145,14 @@ function mt_export_settings_url() {
  * @return array
  */
 function mt_get_settings( $setting = '' ) {
+	static $options = null;
+	if ( $options ) {
+		if (  ! empty( $setting ) && $options[ $setting ] ) {
+			return $options[ $setting ];
+		}
+
+		return $options;
+	}
 	$options  = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
 	$defaults = mt_default_settings();
 	// Update settings structure for ticketing models if needed.
