@@ -37,11 +37,11 @@ function mt_update_gateway_settings( $post ) {
 		$mt_gateways = ( isset( $post['mt_gateways'] ) ) ? $post['mt_gateways'] : array();
 
 		$settings = array(
-			'mt_use_sandbox'      => $mt_use_sandbox,
-			'mt_ssl'              => $mt_ssl,
-			'mt_gateway'          => $mt_gateway,
-			'mt_default_gateway'  => $mt_default_gateway,
-			'mt_gateways'         => $mt_gateways,
+			'mt_use_sandbox'     => $mt_use_sandbox,
+			'mt_ssl'             => $mt_ssl,
+			'mt_gateway'         => $mt_gateway,
+			'mt_default_gateway' => $mt_default_gateway,
+			'mt_gateways'        => $mt_gateways,
 		);
 		/**
 		 * Filter My Tickets gateway settings before saving.
