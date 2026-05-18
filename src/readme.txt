@@ -79,6 +79,10 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Replace 'mt_money_format' filter with function; add filter to function.
 * Feature: Make print view in reports sortable.
 * Improve design of hidden columns in reports print view.
+* Change: Move reports forms to top of reports screen, put in tabs.
+* Change: Remove 're-send email notification' if tickets not sent yet.
+* Bug fix: Prevent 'Tickets Delivered' from getting checked when tickets not created.
+* Bug fix: Fix two PHP errors triggered when attempting to parse tickets that haven't been created yet.
 * Bug fix: Report print view did not respect ticket type limits.
 * Bug fix: Fix a variety of potentially undefined variables.
 * Bug fix: Use password field types for gateway API keys.
@@ -87,6 +91,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Prevent fatal error if no valid event ID passed in reports.
 * Adapt styles for WordPress 7.0.
 * Handle changes in `wp_kses_hair()` in WordPress 7.0.
+* Docs: Hook and filter docs now use PHPDoc format & Github wiki for documentation.
 
 = 2.1.2 =
 
