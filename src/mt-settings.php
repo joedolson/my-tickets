@@ -645,7 +645,7 @@ function mt_wp_enqueue_scripts() {
 			)
 		);
 	}
-	if ( isset( $_GET['page'] ) && 'mt-payment' === $_GET['page'] || 'mt-gateway' === $_GET['page'] ) {
+	if ( isset( $_GET['page'] ) && ( 'mt-payment' === $_GET['page'] || 'mt-gateway' === $_GET['page'] ) ) {
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 		wp_enqueue_script( 'mt.tabs', plugins_url( 'js/tabs.js', __FILE__ ), array( 'jquery' ), $version );
 		wp_localize_script(
