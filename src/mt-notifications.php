@@ -452,7 +452,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$ticketing_method = get_post_meta( $id, '_ticketing_method', true );
 	$email            = $details['email'];
 
-	if ( ! empty( $ticket_array) ) {
+	if ( ! empty( $ticket_array ) ) {
 		// Don't mark tickets as delivered or return markup if no tickets created.
 		if ( 'eticket' === $ticketing_method || 'printable' === $ticketing_method ) {
 			$tickets    = apply_filters( 'mt_format_array', '', 'tickets', $ticket_array, $id, 'email' );
