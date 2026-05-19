@@ -41,10 +41,10 @@
 }
 
 .mt-order input,
-.mt_cart button,
-.mt_cart select,
-.mt_cart input {
-	padding: 5px;
+.mt_cart input,
+.mt_cart select {
+	padding: 6px 8px;
+	box-sizing: border-box;
 }
 
 .mt_cart_total {
@@ -218,6 +218,9 @@ table.mt_cart {
     display: none;
 }
 
+.mt_cart button,
+.mt_cart input[name="mt_submit"],
+button[name="mt_waiting_list"],
 button[name="mt_add_to_cart"] {
 	display: flex;
 	align-items: center;
