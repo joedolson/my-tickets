@@ -237,9 +237,9 @@ function mt_get_payment_details() {
 			$shipping      = ( $ship_total ) ? '<li>' . __( 'Shipping:', 'my-tickets' ) . ' ' . mt_money_format( $ship_total ) . '</li>' : '';
 			$vat           = get_post_meta( $receipt->ID, '_vat', true );
 			// Translators: VAT ID.
-			$vat     = ( $vat ) ? '<li>' . sprintf( __( 'VAT Number: %s', 'my-tickets' ), '<code>' . $vat . '</code>' ) . '</li>' : '';
-			$return  = __( 'This receipt is paid in full.', 'my-tickets' );
-			$total   = (float) $total + (float) $hand_total + (float) $ship_total;
+			$vat    = ( $vat ) ? '<li>' . sprintf( __( 'VAT Number: %s', 'my-tickets' ), '<code>' . $vat . '</code>' ) . '</li>' : '';
+			$return = __( 'This receipt is paid in full.', 'my-tickets' );
+			$total  = (float) $total + (float) $hand_total + (float) $ship_total;
 			/**
 			 * Update total paid shown on receipt.
 			 *
