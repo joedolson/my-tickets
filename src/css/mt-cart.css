@@ -1,6 +1,5 @@
 .mt_cart_total, .mt_cart_label, .mt_ticket_handling {
     text-align: right;
-    padding: .25em 0;
 }
 
 .mt_cart_handling {
@@ -392,6 +391,11 @@ button[name="mt_add_to_cart"] img {
 .mt_purchase_path .active {
     background: rgba( 0,0,0,.04 );
 	border-bottom: 4px solid;
+}
+
+.mt-after-cart p {
+	margin: 0;
+	padding: 4px 0;
 }
 
 #x_card_code {

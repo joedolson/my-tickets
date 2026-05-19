@@ -278,7 +278,7 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 		'country' => '',
 		'code'    => '',
 	);
-	$confirm = array();
+	$confirm      = array();
 	$payment_id   = false;
 	if ( isset( $_GET['payment'] ) || mt_get_data( 'payment' ) ) {
 		$payment_id = ( isset( $_GET['payment'] ) ) ? (int) $_GET['payment'] : mt_get_data( 'payment' );
@@ -293,9 +293,9 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 				} else {
 					$save_address_label = __( 'Save Address', 'my-tickets' );
 				}
-				$save_address       = ( is_user_logged_in() ) ? '<p><button type="button" class="mt_save_shipping">' . $save_address_label . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></button></p>" : '';
-				$address            = ( isset( $_POST['mt_shipping']['address'] ) ) ? $_POST['mt_shipping']['address'] : (array) $user_address;
-				$address            = array_merge( $defaults, $address );
+				$save_address = ( is_user_logged_in() ) ? '<p><button type="button" class="mt_save_shipping">' . $save_address_label . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></button></p>" : '';
+				$address      = ( isset( $_POST['mt_shipping']['address'] ) ) ? $_POST['mt_shipping']['address'] : (array) $user_address;
+				$address      = array_merge( $defaults, $address );
 
 				$required = ' ' . __( '(required)', 'my-tickets' );
 				$output   = '
@@ -396,7 +396,7 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 	$output         = apply_filters( 'mt_render_field', $output, $field );
 	$confirm        = apply_filters( 'mt_render_confirm', $confirm, $field );
 	$confirm_output = '';
-	foreach( $confirm as $key => $value ) {
+	foreach ( $confirm as $key => $value ) {
 		if ( ! empty( $value['input'] ) ) {
 			$confirm_output .= '<li class="mt-confirm ' . esc_attr( $key ) . '"><strong>' . $value['label'] . '</strong>: ' . esc_html( $value['input'] ) . '</li>';
 		}
@@ -1253,7 +1253,7 @@ function mt_generate_gateway( $cart ) {
 			$mt_gateway = 'offline';
 		}
 
-		$report_total = "<div class='mt_cart_total'>" . apply_filters( 'mt_cart_total_text', __( 'Total:', 'my-tickets' ), $mt_gateway ) . " <span class='mt_total_number'>" . mt_money_format( $total + $shipping_total + $handling_total + $other_charges ) . '</span></div>';
+		$report_total = "<div class='mt_cart_total'><p>" . apply_filters( 'mt_cart_total_text', __( 'Total:', 'my-tickets' ), $mt_gateway ) . " <span class='mt_total_number'>" . mt_money_format( $total + $shipping_total + $handling_total + $other_charges ) . '</span></p></div>';
 		$args         = apply_filters(
 			'mt_payment_form_args',
 			array(
