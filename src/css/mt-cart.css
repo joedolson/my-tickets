@@ -292,12 +292,12 @@ button[name="mt_add_to_cart"] img {
 
 .mt_sandbox_enabled {
     position: relative;
-    background: #fbe6ab;
+    background: #fbe9ab;
     color: #101517;
-    padding: .5em 0;
-    font-size: 1.4em;
+    padding: 8px 0;
+    font-size: 20px;
     display: block;
-    border-top: 2px solid #8a2424;
+    border-top: 4px solid #9a2424;
     width: 100%;
     text-align: center;
 }
