@@ -2,6 +2,26 @@
 	$(function () {
 		mt_pricing_table();
 		mt_render_datepicker();
+		mt_expiration_notify();
+
+	function mt_expiration_notify() {
+		const regExpire = $( '#reg_expires' );
+		const responseRegion = $( '#reg_expiration' );
+		regExpire.on( 'keyup change click', function(e) {
+			let response;
+			let val = Math.abs( $( this ).val() );
+			let hours = Math.floor(val);
+			let mins = 60 * (val - hours);
+			let formatted = hours + ':' + mins.toString().padStart( 2, '0' );
+
+			if ( $( this ).val() < 0 ) {
+				response = mtShow.expireAfter.replace( '%s', formatted ); //+ ' after the event begins';
+			} else {
+				response = mtShow.expireBefore.replace( '%s', formatted ); // before the event begins';
+			}
+			responseRegion.text( response );
+		});
+	}
 		function mt_pricing_table() {
 			$('.add-price').on('click', function () {
 				let context = $( this ).attr( 'data-context' );
@@ -91,6 +111,7 @@
 				container.html( form );
 				mt_pricing_table();
 				mt_render_datepicker();
+				mt_expiration_notify();
 			}, "json" );
 		});
 	});

@@ -21,22 +21,6 @@ jQuery(document).ready(function ($) {
 			$( '.expire_date input' ).removeAttr( 'required' );
 		}
 	});
-	const regExpire = $( '#reg_expires' );
-	const responseRegion = $( '#reg_expiration' );
-	regExpire.on( 'keyup change click', function(e) {
-		let response;
-		let val = Math.abs( $( this ).val() );
-		let hours = Math.floor(val);
-		let mins = 60 * (val - hours);
-		let formatted = hours + ':' + mins.toString().padStart( 2, '0' );
-	
-		if ( $( this ).val() < 0 ) {
-			response = mtShow.expireAfter.replace( '%s', formatted ); //+ ' after the event begins';
-		} else {
-			response = mtShow.expireBefore.replace( '%s', formatted ); // before the event begins';
-		}
-		responseRegion.text( response );
-	});
 	if (initial_status !== true) {
 		$( '.mt-ticket-form' ).hide();
 		$( '.mt-ticket-form input' ).attr( 'disabled', 'disabled' );
