@@ -40,6 +40,11 @@
 	margin: 0;
 }
 
+.mt-shipping-address input,
+.mt-shipping-address select,
+.mt-shipping-address button,
+.mt-payment-form button,
+.mt-payment-form input,
 .mt-order input,
 .mt_cart input,
 .mt_cart select {
@@ -342,13 +347,16 @@ button[name="mt_add_to_cart"] img {
 .mt-ticket-input button,
 .mt-update-column button {
 	all: unset;
-    padding: .333em;
+    padding: .333em 0;
     line-height: 1;
 	border: 1px solid var(--mt-field-border);
 	color: var(--mt-field-color);
 	text-align: center;
 	border-radius: 3px;
 	background: var(--mt-field-background);
+	min-height: 24px;
+	min-width: 24px;
+	box-sizing: border-box;
 }
 
 .mt-ticket-input button.mt-increment {
@@ -378,11 +386,11 @@ button[name="mt_add_to_cart"] img {
 }
 
 .mt_purchase_path .inactive {
-    background: rgba( 0,0,0,.15 );
+    background: rgba( 0,0,0,.1 );
 }
 
 .mt_purchase_path .active {
-    background: rgba( 0,0,0,.1 );
+    background: rgba( 0,0,0,.04 );
 	border-bottom: 4px solid;
 }
 
@@ -428,12 +436,13 @@ button[name="mt_add_to_cart"] img {
 
 .mt_email_check span {
     font-weight: 700;
-    padding: .33rem;
+    padding: 4px;
     display: none;
 }
 
 .mt_email_check .dashicons, .mt_email_check .dashicons:before {
-    line-height: inherit;
+    line-height: 1;
+	vertical-align: text-bottom;
 }
 
 .mt_email_check .ok {
@@ -441,12 +450,26 @@ button[name="mt_add_to_cart"] img {
     background: var(--mt-success-border);
 }
 
+.mt-shipping-address legend,
+.mt-confirm-info h2 {
+	font-size: 1.2em;
+	font-weight: 700;
+}
+
 .mt-shipping-address label {
     display: block;
 }
 
-.mt_email_check .notemail,
-.mt_email_check .mismatch {
+.mt-shipping-address {
+	border: none;
+	padding: 0;
+}
+
+.mt-shipping-address input[type="text"] {
+	width: 100%;
+}
+
+.mt_email_check .notemail {
     color: #f2f2f2;
     background: var(--mt-error-border);
 }

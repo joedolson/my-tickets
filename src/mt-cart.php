@@ -140,16 +140,17 @@ function mt_cart_no_postal( $cart ) {
  *
  * @param array  $cart Cart data.
  * @param string $custom_fields HTML for custom fields added by plugins.
+ * @param string $context 'input' or 'confirm'.
  *
  * @return mixed|string
  */
-function mt_required_fields( $cart, $custom_fields ) {
+function mt_required_fields( $cart, $custom_fields, $context = 'input' ) {
 	$options   = mt_get_settings();
-	$output    = mt_render_field( 'name' );
-	$output   .= mt_render_field( 'email' );
-	$output   .= ( isset( $options['mt_phone'] ) && 'on' === $options['mt_phone'] ) ? mt_render_field( 'phone' ) : '';
-	$output   .= ( isset( $options['mt_vat'] ) && 'on' === $options['mt_vat'] ) ? mt_render_field( 'vat' ) : '';
-	$output   .= apply_filters( 'mt_filter_custom_field_output', $custom_fields, $cart );
+	$output    = mt_render_field( 'name', '', $context );
+	$output   .= mt_render_field( 'email', '', $context );
+	$output   .= ( isset( $options['mt_phone'] ) && 'on' === $options['mt_phone'] ) ? mt_render_field( 'phone', '', $context ) : '';
+	$output   .= ( isset( $options['mt_vat'] ) && 'on' === $options['mt_vat'] ) ? mt_render_field( 'vat', '', $context ) : '';
+	$output   .= apply_filters( 'mt_filter_custom_field_output', $custom_fields, $cart, $context );
 	$opt_types = $options['mt_ticketing'];
 	if ( isset( $opt_types['postal'] ) ) {
 		$no_postal = mt_cart_no_postal( $cart );
@@ -160,10 +161,10 @@ function mt_required_fields( $cart, $custom_fields ) {
 	$types = array_keys( $opt_types );
 	if ( 1 === count( $types ) ) {
 		foreach ( $types as $type ) {
-			$output .= mt_render_type( $type );
+			$output .= ( 'input' === $context ) ? mt_render_type( $type ) : '';
 		}
 	} else {
-		$output .= mt_render_types( $types );
+		$output .= mt_render_types( $types, $context );
 	}
 
 	return $output;
@@ -200,11 +201,18 @@ function mt_invite_login_or_register() {
 /**
  * If multiple types are available, allow to choose whether or not to use an e-ticket. Notify of multiple methods that are available.
  *
- * @param array $types Types of tickets enabled.
+ * @param array  $types Types of tickets enabled.
+ * @param string $context Display context: 'input' or 'confirm'.
  *
  * @return string
  */
-function mt_render_types( $types ) {
+function mt_render_types( $types, $context = 'input' ) {
+	if ( 'confirm' === $context ) {
+		$payment_id  = mt_get_data( 'payment' );
+		$ticket_type = get_post_meta( $payment_id, '_ticketing_method', true );
+
+		return '<li class="mt-confirm ticket-method">' . wp_strip_all_tags( mt_render_type( $ticket_type ) ) . '</li>';
+	}
 	$options   = mt_get_settings();
 	$ticketing = apply_filters( 'mt_ticketing_availability', $options['mt_ticketing'], $types );
 	$default   = isset( $options['mt_ticket_type_default'] ) ? $options['mt_ticket_type_default'] : '';
@@ -251,14 +259,15 @@ function mt_render_type( $type ) {
 }
 
 /**
- * Display input field on cart screen. (Pre Confirmation)
+ * Display input field on cart screen or return array of data confirming submitted input.
  *
  * @param string $field Name of field to display.
  * @param bool   $argument Custom arguments.
+ * @param string $context Display context: 'input' or 'confirm'.
  *
- * @return mixed|void
+ * @return mixed|array
  */
-function mt_render_field( $field, $argument = false ) {
+function mt_render_field( $field, $argument = false, $context = 'input' ) {
 	$current_user = wp_get_current_user();
 	$output       = '';
 	$defaults     = array(
@@ -269,6 +278,7 @@ function mt_render_field( $field, $argument = false ) {
 		'country' => '',
 		'code'    => '',
 	);
+	$confirm = array();
 	$payment_id   = false;
 	if ( isset( $_GET['payment'] ) || mt_get_data( 'payment' ) ) {
 		$payment_id = ( isset( $_GET['payment'] ) ) ? (int) $_GET['payment'] : mt_get_data( 'payment' );
@@ -283,11 +293,12 @@ function mt_render_field( $field, $argument = false ) {
 				} else {
 					$save_address_label = __( 'Save Address', 'my-tickets' );
 				}
-				$save_address = ( is_user_logged_in() ) ? '<p><button type="button" class="mt_save_shipping">' . $save_address_label . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></button></p>" : '';
-				$address      = ( isset( $_POST['mt_shipping']['address'] ) ) ? $_POST['mt_shipping']['address'] : (array) $user_address;
-				$address      = array_merge( $defaults, $address );
-				$required     = ' ' . __( '(required)', 'my-tickets' );
-				$output       = '
+				$save_address       = ( is_user_logged_in() ) ? '<p><button type="button" class="mt_save_shipping">' . $save_address_label . "<span class='mt-processing'><img src='" . admin_url( 'images/spinner-2x.gif' ) . "' alt='" . __( 'Working', 'my-tickets' ) . "' /></span></button></p>" : '';
+				$address            = ( isset( $_POST['mt_shipping']['address'] ) ) ? $_POST['mt_shipping']['address'] : (array) $user_address;
+				$address            = array_merge( $defaults, $address );
+
+				$required = ' ' . __( '(required)', 'my-tickets' );
+				$output   = '
 				<fieldset class="mt-shipping-address">
 					<legend>' . __( 'Shipping Address', 'my-tickets' ) . '</legend>
 					<p>
@@ -325,42 +336,75 @@ function mt_render_field( $field, $argument = false ) {
 		case 'name':
 			$user_fname = ( is_user_logged_in() ) ? $current_user->user_firstname : '';
 			$user_lname = ( is_user_logged_in() ) ? $current_user->user_lastname : '';
-			$fname      = ( isset( $_POST['mt_fname'] ) ) ? sanitize_text_field( $_POST['mt_fname'] ) : $user_fname;
-			$lname      = ( isset( $_POST['mt_lname'] ) ) ? sanitize_text_field( $_POST['mt_lname'] ) : $user_lname;
+			$fname      = ( isset( $_POST['mt_fname'] ) ) ? sanitize_text_field( wp_unslash( $_POST['mt_fname'] ) ) : $user_fname;
+			$lname      = ( isset( $_POST['mt_lname'] ) ) ? sanitize_text_field( wp_unslash( $_POST['mt_lname'] ) ) : $user_lname;
 			if ( $payment_id ) {
 				$fname = get_post_meta( $payment_id, '_first_name', true );
 				$lname = get_post_meta( $payment_id, '_last_name', true );
 			}
+			$confirm['fname'] = array(
+				'label' => __( 'First Name', 'my-tickets' ),
+				'input' => $fname,
+			);
+			$confirm['lname'] = array(
+				'label' => __( 'Last Name', 'my-tickets' ),
+				'input' => $lname,
+			);
+
 			$output = '<div class="mt-names mt-field-row"><p><label for="mt_fname">' . __( 'First Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_fname" id="mt_fname" value="' . esc_attr( stripslashes( $fname ) ) . '" autocomplete="given-name" required aria-required="true" /></p><p><label for="mt_lname">' . __( 'Last Name (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_lname" id="mt_lname" value="' . esc_attr( stripslashes( $lname ) ) . '" autocomplete="family-name" required aria-required="true" /></p></div>';
 			break;
 		case 'email':
 			$user_email = ( is_user_logged_in() ) ? $current_user->user_email : '';
-			$email      = ( isset( $_POST['mt_email'] ) ) ? sanitize_text_field( $_POST['mt_email'] ) : $user_email;
+			$email      = ( isset( $_POST['mt_email'] ) ) ? sanitize_text_field( wp_unslash( $_POST['mt_email'] ) ) : $user_email;
 			if ( $payment_id ) {
 				$email = get_post_meta( $payment_id, '_email', true );
 			}
-			$output  = '<div class="mt-emails mt-field-row"><p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" autocomplete="email" required aria-required="true"  /></p>';
-			$output .= '<p><label for="mt_email2">' . __( 'E-mail (confirm)', 'my-tickets' ) . '</label> <input type="email" name="mt_email2" id="mt_email2" aria-describedby="mt_email_check" value="' . esc_attr( stripslashes( $email ) ) . '" required aria-required="true"  /><span class="mt_email_check" aria-live="polite" id="mt_email_check"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address matches', 'my-tickets' ) . '</span><span class="notemail"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Not a valid email address', 'my-tickets' ) . '</span><span class="mismatch"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Email address does not match', 'my-tickets' ) . '</span></span></span></p></div>';
+			$confirm['email'] = array(
+				'label' => __( 'Email Address', 'my-tickets' ),
+				'input' => $email,
+			);
+
+			$output = '<div class="mt-emails mt-field-row"><p><label for="mt_email">' . __( 'E-mail (required)', 'my-tickets' ) . '</label> <input type="email" name="mt_email" id="mt_email" value="' . esc_attr( stripslashes( $email ) ) . '" autocomplete="email" required aria-required="true"  /><span class="mt_email_check" aria-live="polite" id="mt_email_check"><span class="ok"><i class="dashicons dashicons-yes" aria-hidden="true"></i>' . __( 'Email address is valid', 'my-tickets' ) . '</span><span class="notemail"><i class="dashicons dashicons-no" aria-hidden="true"></i>' . __( 'Not a valid email address', 'my-tickets' ) . '</span></span></p></div>';
 			break;
 		case 'phone':
 			$user_phone = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, 'mt_phone', true ) : '';
-			$phone      = ( isset( $_POST['mt_phone'] ) ) ? sanitize_text_field( $_POST['mt_phone'] ) : $user_phone;
+			$phone      = ( isset( $_POST['mt_phone'] ) ) ? sanitize_text_field( wp_unslash( $_POST['mt_phone'] ) ) : $user_phone;
 			if ( $payment_id ) {
 				$phone = get_post_meta( $payment_id, '_phone', true );
 			}
+			$confirm['phone'] = array(
+				'label' => __( 'Phone', 'my-tickets' ),
+				'input' => $phone,
+			);
+
 			$output = '<div class="mt-phone mt-field-row"><p><label for="mt_phone">' . __( 'Phone (required)', 'my-tickets' ) . '</label> <input type="text" name="mt_phone" id="mt_phone" value="' . esc_attr( stripslashes( $phone ) ) . '" autocomplete="tel" required aria-required="true"  /></p></div>';
 			break;
 		case 'vat':
 			$user_vat = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, 'mt_vat', true ) : '';
-			$vat      = ( isset( $_POST['mt_vat'] ) ) ? sanitize_text_field( $_POST['mt_vat'] ) : $user_vat;
+			$vat      = ( isset( $_POST['mt_vat'] ) ) ? sanitize_text_field( wp_unslash( $_POST['mt_vat'] ) ) : $user_vat;
 			if ( $payment_id ) {
 				$vat = get_post_meta( $payment_id, '_vat', true );
 			}
+			$confirm['vat'] = array(
+				'label' => __( 'VAT Number', 'my-tickets' ),
+				'input' => $vat,
+			);
+
 			$output = '<div class="mt-vat mt-field-row"><p><label for="mt_vat">' . __( 'VAT Number', 'my-tickets' ) . '</label> <input type="text" name="mt_vat" id="mt_vat" value="' . esc_attr( stripslashes( $vat ) ) . '" required aria-required="true"  /></p></div>';
 			break;
 	}
+	$output         = apply_filters( 'mt_render_field', $output, $field );
+	$confirm        = apply_filters( 'mt_render_confirm', $confirm, $field );
+	$confirm_output = '';
+	foreach( $confirm as $key => $value ) {
+		if ( ! empty( $value['input'] ) ) {
+			$confirm_output .= '<li class="mt-confirm ' . esc_attr( $key ) . '"><strong>' . $value['label'] . '</strong>: ' . esc_html( $value['input'] ) . '</li>';
+		}
+	}
 
-	return apply_filters( 'mt_render_field', $output, $field );
+	$return = ( 'input' === $context ) ? $output : $confirm_output;
+
+	return $return;
 }
 
 
@@ -1220,11 +1264,32 @@ function mt_generate_gateway( $cart ) {
 			)
 		);
 
+		/**
+		 * Filter cart custom field confirmations when generating the payment confirmation screen.
+		 *
+		 * @hook mt_cart_custom_confirmations
+		 *
+		 * @param array  $fields Array of custom field confirmation list items.
+		 * @param array  $cart Shopping cart contents.
+		 * @param string $gateway Gateway in use.
+		 *
+		 * @return array
+		 */
+		$custom_fields = apply_filters( 'mt_cart_custom_confirmations', array(), $cart, $mt_gateway );
+		$custom_output = '';
+		foreach ( $custom_fields as $key => $field ) {
+			$custom_output .= $field;
+		}
+		$confirm_info = mt_required_fields( $cart, $custom_output, 'confirm' );
+		if ( $confirm_info ) {
+			$confirm_info = '<div class="mt-confirm-info"><h2>' . esc_html__( 'Confirm your information', 'my-tickets' ) . '</h2><ul>' . $confirm_info . '</ul></div>';
+		}
+
 		$form  = apply_filters( 'mt_gateway', '', $mt_gateway, $args );
 		$form  = apply_filters( 'mt_form_wrapper', $form );
 		$form .= "<span id='mt_unsubmitted'></span>";
 
-		return $link . $confirmation . "<div class='mt-after-cart'>" . $tick_handling . $shipping . $handling . $other_notices . $report_total . '</div>' . $form;
+		return $link . $confirmation . "<div class='mt-after-cart'>" . $tick_handling . $shipping . $handling . $other_notices . $report_total . $confirm_info . '</div>' . $form;
 	} else {
 		do_action( 'mt_cart_is_empty' );
 

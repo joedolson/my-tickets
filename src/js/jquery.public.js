@@ -24,22 +24,18 @@
 
 		$( '.mt_email_check span' ).hide();
 
-		$( '#mt_email2' ).on( 'keyup', function() {
+		$( '#mt_email' ).on( 'keyup', function() {
 			let email_one = $( '#mt_email' ).val();
-			let email_two = $( '#mt_email2' ).val();
-			if ( email_two.length > 3 ) {
+			if ( email_one.length > 3 ) {
 				if ( ! validateEmail( email_one ) ) {
-					$( '.mt_email_check .notemail' ).show();
-					$( '.mt_email_check .ok, .mt_email_check .mismatch' ).hide();
-				} else if ( email_one == email_two && validateEmail(email_one) ) {
-					$( '.mt_email_check .ok' ).show();
-					$( '.mt_email_check .mismatch, .mt_email_check .notemail' ).hide();
+					$( '.mt_email_check .notemail' ).css( { 'display': 'block' } );
+					$( '.mt_email_check .ok' ).css( { 'display': 'none' } );
+					$( this ).attr( 'aria-invalid', 'true' );
 				} else {
-					$( '.mt_email_check .mismatch' ).show();
-					$( '.mt_email_check .ok, .mt_email_check .notemail' ).hide();
+					$( '.mt_email_check .notemail' ).css( { 'display': 'none' } );
+					$( '.mt_email_check .ok' ).css( { 'display': 'block' } );
+					$( this ).removeAttr( 'aria-invalid' );
 				}
-			} else {
-				$( '.mt_email_check *' ).hide();
 			}
 		});
 
