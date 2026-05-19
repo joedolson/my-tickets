@@ -480,7 +480,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 					</thead>
 					<tbody>';
 	if ( 'discrete' === $counting || 'event' === $counting ) {
-		$available_empty = "<input type='text' aria-labelledby='mt_available'  name='mt_tickets$pattern' id='mt_tickets' value='' size='8' />";
+		$available_empty = "<input type='number' step='1' aria-labelledby='mt_available' name='mt_tickets$pattern' id='mt_tickets' value='' size='8' />";
 		$total           = '<input type="hidden" name="mt_tickets_total' . $altpatt . '" value="inherit" />';
 	} else {
 		$disabled        = ( 'general' === $counting ) ? ' disabled="disabled"' : '';
@@ -498,7 +498,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 				continue;
 			}
 			if ( 'discrete' === $counting || 'event' === $counting ) {
-				$available = "<input type='text' aria-labelledby='mt_available'  name='mt_tickets$pattern' id='mt_tickets_$counting" . '_' . "$label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
+				$available = "<input type='number' step='1' aria-labelledby='mt_available' name='mt_tickets$pattern' id='mt_tickets_$counting" . '_' . "$label' value='" . esc_attr( $options['tickets'] ) . "' size='8' />";
 			} else {
 				$available = "<input type='hidden' name='mt_tickets$pattern' id='mt_tickets_$counting" . '_' . "$label' value='inherit' />";
 			}
@@ -569,7 +569,7 @@ function mt_prices_table( $registration = array(), $counting = '' ) {
 		<tr class='clonedPrice $counting' id='price" . $counting . "1'>
 			<td></td>
 			<td>$new_label_field<input type='text' aria-labelledby='mt_label'  class='$label_class' name='mt_label$pattern' id='mt_$counting" . '_' . "label' /></td>
-			<td><input type='text' aria-labelledby='mt_price'  name='mt_price$pattern' id='mt_$counting" . '_' . "price' step='0.01' size='8' /></td>
+			<td><input type='number' aria-labelledby='mt_price' name='mt_price$pattern' id='mt_$counting" . '_' . "price' step='0.01' size='8' /></td>
 			<td>$available_empty</td>
 			<td></td>
 			<td>" . $new_close_field . '</td>
