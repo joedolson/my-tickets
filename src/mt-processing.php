@@ -339,7 +339,7 @@ function mt_registration_fields( $form, $has_data, $data, $context = 'admin', $m
 		<textarea id='mt_event_notes' name='mt_event_notes' cols='60' rows='4' class='widefat' aria-describedby='template_tag'>" . stripslashes( esc_textarea( $notes ) ) . "</textarea><br />
 		<span id='template_tag'>" . __( 'Template tag for email notifications:', 'my-tickets' ) . ' <code>{event_notes}</code></span>
 	</p>';
-	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t display form on event', 'my-tickets' ) . '</label></p></div>';
+	$form .= "<p><input type='checkbox' name='mt_hide_registration_form' id='mt_hide' $is_hidden /> <label for='mt_hide'>" . __( 'Don\'t automatically display form on event', 'my-tickets' ) . '</label></p></div>';
 
 	return $form;
 }
