@@ -56,10 +56,6 @@
     font-size: 1.2em;
 }
 
-.mt_cart_label, .mt_ticket_handling {
-    font-size: 1.1em;
-}
-
 .mt-message {
     background: var(--mt-message-bg);
     color: var(--mt-message-color);
@@ -391,6 +387,12 @@ button[name="mt_add_to_cart"] img {
 .mt_purchase_path .active {
     background: rgba( 0,0,0,.04 );
 	border-bottom: 4px solid;
+}
+
+.mt-after-cart {
+	border-top: 1px solid currentColor;
+	margin-top: .5rem;
+	padding-top: .5rem;
 }
 
 .mt-after-cart p {
