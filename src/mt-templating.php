@@ -239,6 +239,16 @@ function mt_get_payment_details() {
 			// Translators: VAT ID.
 			$vat     = ( $vat ) ? '<li>' . sprintf( __( 'VAT Number: %s', 'my-tickets' ), '<code>' . $vat . '</code>' ) . '</li>' : '';
 			$return  = __( 'This receipt is paid in full.', 'my-tickets' );
+			$total   = (float) $total + (float) $hand_total + (float) $ship_total;
+			/**
+			 * Update total paid shown on receipt.
+			 *
+			 * @hook mt_show_total
+			 *
+			 * @param float $total Total combined from ticket cost, shipping, and handling.
+			 * @param int   $payment_id Post Payment ID.
+			 */
+			$total   = apply_filters( 'mt_show_total', $total, $receipt->ID );
 			$return .= '
 		<ul>
 			<li>' . __( 'Payment through:', 'my-tickets' ) . " $gateway_label</li>
