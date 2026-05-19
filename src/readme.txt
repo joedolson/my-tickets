@@ -75,6 +75,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 = 2.2.0 =
 
 * Accessibility: Labels on ticket creation table missing.
+* Accessibility: Remove email double entry to meet WCAG 3.3.7.
 * Remove cookie syntax for before PHP 7.4, which is no longer supported.
 * Replace 'mt_money_format' filter with function; add filter to function.
 * Feature: Make print view in reports sortable.
@@ -82,6 +83,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Change: Move reports forms to top of reports screen, put in tabs.
 * Change: Remove 're-send email notification' if tickets not sent yet.
 * Change: Move Payment Gateway settings to independent settings page.
+* Change: Misc. design changes to front-end.
 * Bug fix: Prevent 'Tickets Delivered' from getting checked when tickets not created.
 * Bug fix: Fix two PHP errors triggered when attempting to parse tickets that haven't been created yet.
 * Bug fix: Report print view did not respect ticket type limits.
@@ -90,9 +92,11 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Bug fix: Currency symbol order settings broken.
 * Bug fix: Custom field values omitted from downloaded purchase reports.
 * Bug fix: Prevent fatal error if no valid event ID passed in reports.
+* Bug fix: Ignore payment updates with invalid data.
 * Adapt styles for WordPress 7.0.
 * Handle changes in `wp_kses_hair()` in WordPress 7.0.
 * Docs: Hook and filter docs now use PHPDoc format & Github wiki for documentation.
+* Performance: Memoize getting settings array.
 
 = 2.1.2 =
 
