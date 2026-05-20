@@ -474,6 +474,7 @@ td duet-date-picker .duet-date:not(:last-of-type) {
 
 .mt-flex .license input {
 	width: 100%;
+	min-width: 20em;
 }
 
 .sales {
