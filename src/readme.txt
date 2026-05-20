@@ -84,6 +84,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 * Change: Remove 're-send email notification' if tickets not sent yet.
 * Change: Move Payment Gateway settings to independent settings page.
 * Change: Misc. design changes to front-end.
+* Change: Improvements to premium add-on licensing responses.
 * Bug fix: Prevent 'Tickets Delivered' from getting checked when tickets not created.
 * Bug fix: Fix two PHP errors triggered when attempting to parse tickets that haven't been created yet.
 * Bug fix: Report print view did not respect ticket type limits.
