@@ -66,21 +66,25 @@ function mt_check_license( $key = false, $product = '', $store = '' ) {
  * Verify the key.
  *
  * @param string $option Option to check for key storage.
- * @param string $name Name of product.
+ * @param string $id Product ID.
  * @param string $store URL of store.
+ * @param string $name Name of product.
  *
  * @return string
  */
-function mt_verify_key( $option, $name, $store ) {
+function mt_verify_key( $option, $id, $store, $name = '' ) {
 	$message = '';
 
-	$key = sanitize_text_field( $_POST[ $option ] );
+	$key      = sanitize_text_field( $_POST[ $option ] );
+	$prev_key = get_option( $option, $key );
 	update_option( $option, $key );
 
+	$name = ( $name ) ? $name : __( 'My Tickets Add-on', 'my-tickets' );
+
 	if ( '' !== $key ) {
-		$confirmation = mt_check_license( $key, $name, $store );
+		$confirmation = mt_check_license( $key, $id, $store );
 	} else {
-		$confirmation = 'deleted';
+		$confirmation = ( '' !== $prev_key ) ? 'deleted' : '';
 	}
 
 	$previously = get_option( $option . '_valid' );
@@ -90,7 +94,7 @@ function mt_verify_key( $option, $name, $store ) {
 		$message = sprintf( __( 'That %s key is not active.', 'my-tickets' ), $name );
 	} elseif ( 'active' === $confirmation || 'valid' === $confirmation ) {
 		if ( 'true' === $previously || 'active' === $previously || 'valid' === $previously ) {
-			$message = '';
+			$message = sprintf( __( '%s key has already been activated for this site. Enjoy!', 'my-tickets' ), $name );
 		} else {
 			// Translators: plugin name.
 			$message = sprintf( __( '%s key validated. Enjoy!', 'my-tickets' ), $name );
@@ -100,7 +104,7 @@ function mt_verify_key( $option, $name, $store ) {
 		$message = sprintf( __( 'You have deleted your %s license key.', 'my-tickets' ), $name );
 	} else {
 		// Translators: plugin name.
-		$message = sprintf( __( '%s received an unexpected message from the license server. Try again in a bit.', 'my-tickets' ), $name );
+		$message = ( '' !== $confirmation ) ? sprintf( __( 'Validating %s returned an unexpected message from the license server. Try again in a bit.', 'my-tickets' ), $name ) : '';
 	}
 	$message = ( '' !== $message ) ? " $message " : $message; // just add a space.
 
