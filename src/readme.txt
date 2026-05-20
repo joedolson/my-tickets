@@ -64,6 +64,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
    My Tickets -> Settings
    My Tickets -> Payment Settings
+   My Tickets -> Gateway Settings
    My Tickets -> Ticket Settings
    My Tickets -> Reports
    My Tickets -> Ticketing Help
