@@ -103,9 +103,12 @@ function mt_verify_key( $option, $id, $store, $name = '' ) {
 	} elseif ( 'deleted' === $confirmation ) {
 		// Translators: plugin name.
 		$message = sprintf( __( 'You have deleted your %s license key.', 'my-tickets' ), $name );
+	} elseif ( 'invalid' === $confirmation ) {
+		// translators: plugin name.
+		$message = sprintf( __( 'The provided license key for %s is not a valid key.', 'my-tickets' ), $name );
 	} else {
-		// Translators: plugin name.
-		$message = ( '' !== $confirmation ) ? sprintf( __( 'Validating %s returned an unexpected message from the license server. Try again in a bit.', 'my-tickets' ), $name ) : '';
+		// Translators: 1) plugin name, 2) license confirmation code.
+		$message = ( '' !== $confirmation ) ? sprintf( __( 'Validating %1$s returned an unexpected message, %2$s, from the license server. Try again in a bit.', 'my-tickets' ), $name, '<code>' . esc_html( $confirmation ) . '</code>' ) : '';
 	}
 	$message = ( '' !== $message ) ? " $message " : $message; // just add a space.
 
