@@ -94,6 +94,7 @@ function mt_verify_key( $option, $id, $store, $name = '' ) {
 		$message = sprintf( __( 'That %s key is not active.', 'my-tickets' ), $name );
 	} elseif ( 'active' === $confirmation || 'valid' === $confirmation ) {
 		if ( 'true' === $previously || 'active' === $previously || 'valid' === $previously ) {
+			// translators: plugin name.
 			$message = sprintf( __( '%s key has already been activated for this site. Enjoy!', 'my-tickets' ), $name );
 		} else {
 			// Translators: plugin name.
