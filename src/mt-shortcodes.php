@@ -294,12 +294,12 @@ add_shortcode( 'my-payments', 'mt_user_purchases' );
 /**
  * Fetch the current user's payment history and output on the front-end.
  *
- * @param int    $count Number of payments to display by default.
+ * @param int $count Number of payments to display by default.
  *
  * @return string
  */
 function mt_display_payments( $count = 10 ) {
-	$output   = '';
+	$output = '';
 	if ( is_user_logged_in() || current_user_can( 'mt-view-reports' ) ) {
 		$user     = wp_get_current_user();
 		$count    = ( ! $count ) ? 10 : absint( $count );
