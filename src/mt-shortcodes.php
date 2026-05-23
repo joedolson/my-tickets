@@ -309,10 +309,8 @@ function mt_display_payments( $count = 10 ) {
 				'post_status' => array( 'draft, publish' ),
 				'author'      => $user->ID,
 				'numberposts' => $count,
-			);
-		} else {
-			$payments = array();
-		}
+			)
+		);
 		if ( ! empty( $payments ) ) {
 			$thead = '<table class="widefat mt-payments striped">
 						<caption>' . __( 'Your Payments', 'my-tickets' ) . '</caption>
