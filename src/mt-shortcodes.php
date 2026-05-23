@@ -280,57 +280,35 @@ add_filter( 'mc_filter_shortcodes', 'mt_add_shortcode', 5, 2 );
 function mt_user_purchases( $atts, $content ) {
 	$atts   = shortcode_atts(
 		array(
-			'user_id'    => false,
 			'count'      => 10,
 			'user_email' => '',
 		),
 		$atts
 	);
-	$output = mt_display_payments( $atts['user_id'], $atts['count'], $atts['user_email'] );
+	$output = mt_display_payments( $atts['count'], $atts['user_email'] );
 
 	return $output;
 }
 add_shortcode( 'my-payments', 'mt_user_purchases' );
 
 /**
- * Fetch a user's payment history and output on the front-end.
+ * Fetch the current user's payment history and output on the front-end.
  *
- * @param int    $user_id User ID.
  * @param int    $count Number of payments to display by default.
- * @param string $user_email User email. If provided, fetch payments by email supplied rather than user ID. Ignores User ID.
  *
  * @return string
  */
-function mt_display_payments( $user_id = false, $count = 10, $user_email = '' ) {
+function mt_display_payments( $count = 10 ) {
 	$output   = '';
-	$user     = wp_get_current_user();
-	$can_view = ( ( $user_id === $user->ID || $user_email === $user->user_email ) || current_user_can( 'mt-view-reports' ) ) ? true : false;
-	if ( is_user_logged_in() && $can_view ) {
-		$user  = ( ! $user_id ) ? $user->ID : $user_id;
-		$count = ( ! $count ) ? 10 : absint( $count );
-		if ( $user && ! $user_email ) {
-			$payments = get_posts(
-				array(
-					'post_type'   => 'mt-payments',
-					'post_status' => array( 'draft, publish' ),
-					'author'      => $user,
-					'numberposts' => $count,
-				)
-			);
-		} elseif ( $user_email && is_email( $user_email ) ) {
-			$payments = get_posts(
-				array(
-					'post_type'   => 'mt-payments',
-					'post_status' => array( 'draft', 'publish' ),
-					'numberposts' => $count,
-					'meta_query'  => array(
-						array(
-							'key'     => 'email',
-							'value'   => $user_email,
-							'compare' => '=',
-						),
-					),
-				)
+	if ( is_user_logged_in() || current_user_can( 'mt-view-reports' ) ) {
+		$user     = wp_get_current_user();
+		$count    = ( ! $count ) ? 10 : absint( $count );
+		$payments = get_posts(
+			array(
+				'post_type'   => 'mt-payments',
+				'post_status' => array( 'draft, publish' ),
+				'author'      => $user->ID,
+				'numberposts' => $count,
 			);
 		} else {
 			$payments = array();
