@@ -78,11 +78,11 @@ function mt_ajax_handler() {
 	}
 	if ( 'add_to_cart' === $_REQUEST['function'] ) {
 		parse_str( $_REQUEST['data'], $data );
-		$data = map_deep( $data, 'sanitize_text_field' );
-		// reformat request data to multidimensional array.
-		$cart = mt_get_cart();
-		$lock = 'mt_add_to_cart_lock_' . sanitize_text_field( $_REQUEST['mt-cart-nonce'] );
-		if ( get_transient( $lock ) ) {
+		$data     = map_deep( $data, 'sanitize_text_field' );
+		$cart     = mt_get_cart();
+		$lock_key = ( isset( $_REQUEST['security'] ) ) ? $_REQUEST['security'] : false;
+		$lock     = 'mt_add_to_cart_lock_' . sanitize_text_field( $lock_key );
+		if ( $lock_key && get_transient( $lock ) ) {
 			$return = array(
 				'response' => esc_html__( 'Another transaction is currently processing. Please try again shortly.', 'my-tickets' ),
 				'success'  => 0,
