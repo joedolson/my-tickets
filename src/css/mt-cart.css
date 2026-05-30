@@ -354,6 +354,14 @@ button[name="mt_add_to_cart"] img {
 	box-sizing: border-box;
 }
 
+.mt-ticket-input button:hover,
+.mt-update-column button:hover,
+.mt-ticket-input button:focus,
+.mt-update-column button:focus {
+	background: var(--mt-field-color);
+	color: var(--mt-field-background);
+}
+
 .mt-ticket-input button.mt-increment {
 	border-radius: 3px 0 0 3px;
 	margin-left: 2px;
