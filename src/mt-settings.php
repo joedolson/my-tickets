@@ -519,7 +519,18 @@ function mt_settings() {
 						<h2 class="hndle"><?php _e( 'Premium Add-on License Keys', 'my-tickets' ); ?></h2>
 						<?php
 						if ( isset( $_POST['mt_license_keys'] ) && wp_verify_nonce( $_POST['_wpnonce_tickets'], 'my-tickets-licensing' ) ) {
-							echo wp_kses_post( "<div class='updated'><ul>" . apply_filters( 'mt_save_license', '', $_POST ) . '</ul></div>' );
+							/**
+							 * Return messages when saving licenses for premium add-ons.
+							 *
+							 * @hook mt_save_license
+							 *
+							 * @param string $response Empty string by default.
+							 * @param array  $post $_POST data, unsanitized.
+							 */
+							$responses = apply_filters( 'mt_save_license', '', $_POST );
+							if ( $responses ) {
+								echo wp_kses_post( "<div class='updated'><ul>" . $responses . '</ul></div>' );
+							}
 						}
 						?>
 						<div class="inside">
