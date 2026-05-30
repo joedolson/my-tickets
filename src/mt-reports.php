@@ -297,7 +297,7 @@ function mt_generate_tickets_by_event( $event_id = false, $display = false ) {
 		if ( $display ) {
 			return false;
 		} else {
-			echo wp_kses_post( "<div class='updated error'><p>" . __( 'You do not have sufficient permissions to view ticketing reports.', 'my-tickets' ) . '</p></div>' );
+			echo wp_kses_post( "<div class='notice notice-error'><p>" . __( 'You do not have sufficient permissions to view ticketing reports.', 'my-tickets' ) . '</p></div>' );
 		}
 	}
 }
@@ -392,7 +392,7 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 		if ( $return_type ) {
 			return false;
 		} else {
-			echo wp_kses_post( "<div class='updated error'><p>" . __( 'You do not have sufficient permissions to view sales reports.', 'my-tickets' ) . '</p></div>' );
+			echo wp_kses_post( "<div class='notice notice-error'><p>" . __( 'You do not have sufficient permissions to view sales reports.', 'my-tickets' ) . '</p></div>' );
 		}
 	}
 }
@@ -1353,7 +1353,7 @@ function mt_mass_email( $event_id = false ) {
 			)
 		);
 		if ( ! $body || ! $subject ) {
-			echo wp_kses_post( "<div class='updated error'><p>" . __( 'You must include a message subject and body to send mass email.', 'my-tickets' ) . '</p></div>' );
+			echo wp_kses_post( "<div class='notice notice-error'><p>" . __( 'You must include a message subject and body to send mass email.', 'my-tickets' ) . '</p></div>' );
 			return;
 		}
 		$event       = get_the_title( $event_id );
