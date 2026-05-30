@@ -1430,7 +1430,7 @@ function mt_mass_email( $event_id = false ) {
 		}
 		// Translators: Number of purchasers notified, total number of purchasers, number of purchasers opted out, name of event.
 		$message = ( '' !== $message ) ? $message : sprintf( __( '%1$d/%2$d purchasers of tickets for "%4$s" have been emailed. %3$d/%2$d purchasers have opted out.', 'my-tickets' ), $emails_sent, $count, $opt_outs, $event );
-		echo wp_kses_post( "<div class='updated'><p>" . $message . '</p></div>' );
+		echo wp_kses_post( "<div class='notice notice-success'><p>" . $message . '</p></div>' );
 	}
 }
 

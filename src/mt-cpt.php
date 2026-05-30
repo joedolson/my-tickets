@@ -1249,7 +1249,7 @@ function mt_bulk_admin_notices() {
 	if ( 'edit.php' === $pagenow && 'mt-payments' === $post_type && isset( $_REQUEST['completed'] ) && (int) $_REQUEST['completed'] ) {
 		// Translators: Number of payments edited.
 		$message = sprintf( _n( '%s payment completed & ticket notification sent.', '%s payments completed and ticket notifications sent.', $_REQUEST['completed'], 'my-tickets' ), number_format_i18n( $_REQUEST['completed'] ) );
-		echo wp_kses_post( "<div class='updated'><p>$message</p></div>" );
+		echo wp_kses_post( "<div class='notice notice-success'><p>$message</p></div>" );
 	}
 }
 
