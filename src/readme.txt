@@ -73,6 +73,14 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.2.1 =
+
+* Bug fix: Set hover/focus for all ticketing buttons using style variables.
+* Bug fix: Data locking during simultaneous transactions used incorrect key.
+* Bug fix: Don't return response messages if response is empty.
+* Change: Replace obsolete 'updated' class.
+* Change: Remove user arguments on display payments shortcode, only display current user.
+
 = 2.2.0 =
 
 * Accessibility: Labels on ticket creation table missing.
