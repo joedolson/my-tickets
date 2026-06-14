@@ -7,7 +7,7 @@ Tested up to: 7.0
 Requires PHP: 7.4
 License: GPLv3
 Text domain: my-tickets
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
