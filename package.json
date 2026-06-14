@@ -6,46 +6,48 @@
 	"author": "Joe Dolson",
 	"license": "GPL-2.0-or-later",
 	"keywords": [
-	  "tickets",
-	  "wordpress"
+		"tickets",
+		"wordpress"
 	],
 	"homepage": "https://www.joedolson.com/my-tickets/",
 	"repository": "git+https://github.com/joedolson/my-tickets.git",
 	"bugs": {
-	  "url": "https://github.com/joedolson/my-tickets/issues"
+		"url": "https://github.com/joedolson/my-tickets/issues"
 	},
 	"engines": {
-	  "node": ">=10.0.0",
-	  "npm": ">=6.9.0"
+		"node": ">=10.0.0",
+		"npm": ">=6.9.0"
 	},
 	"devDependencies": {
-	  "@wordpress/env": "^10.28",
-	  "jsdoc": "~3.6.3",
-	  "wp-hookdoc": "^0.2.0",
-	  "eslint": "^7.25.0",
-	  "eslint-config-prettier": "^8.3.0",
-	  "eslint-plugin-prettier": "^3.4.0",
-	  "husky": "^6.0.0",
-	  "lint-staged": "^10.5.4",
-	  "prettier": "^2.8.4",
-	  "esbuild": "^0.25.0"
+		"@wordpress/env": "^10.28",
+		"esbuild": "^0.28.1",
+		"eslint": "^7.25.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-prettier": "^3.4.0",
+		"husky": "^6.0.0",
+		"jsdoc": "^4.0.5",
+		"lint-staged": "^10.5.4",
+		"prettier": "^2.8.4",
+		"wp-hookdoc": "^0.2.0"
 	},
 	"scripts": {
-	  "start": "esbuild jquery.public.min=src/js/jquery.public.js --bundle --outdir=src/js --target=chrome58,firefox57,safari11,edge18 --watch --sourcemap",
-	  "build:js": "esbuild jquery.public.min=src/js/jquery.public.js --bundle --outdir=src/js --target=chrome58,firefox57,safari11,edge18 --minify",
-	  "presetup": "find .scripts -type f -exec chmod +x {} \\;",
-	  "build:docs": "rm -rf docs/ && jsdoc -c hookdoc-conf.json",
-	  "format-php": "wp-env run composer run-script format",
-	  "prelint-php": "wp-env run composer 'install --no-interaction'",
-	  "lint-php": "wp-env run composer run-script lint",
-	  "pretest-php": "wp-env run composer 'install --no-interaction'",
-	  "test-php": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/my-tickets/phpunit.xml.dist --verbose'",
-	  "lint-js": "eslint --fix './src/js'",
-	  "wp-env": "wp-env"
+		"start": "esbuild jquery.public.min=src/js/jquery.public.js --bundle --outdir=src/js --target=es2020 --watch --sourcemap",
+		"build:js": "esbuild jquery.public.min=src/js/jquery.public.js --bundle --outdir=src/js --target=es2020 --minify",
+		"presetup": "find .scripts -type f -exec chmod +x {} \\;",
+		"build:docs": "rm -rf docs/ && jsdoc -c hookdoc-conf.json",
+		"format-php": "wp-env run composer run-script format",
+		"prelint-php": "wp-env run composer 'install --no-interaction'",
+		"lint-php": "wp-env run composer run-script lint",
+		"pretest-php": "wp-env run composer 'install --no-interaction'",
+		"test-php": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/my-tickets/phpunit.xml.dist --verbose'",
+		"lint-js": "eslint --fix './src/js'",
+		"wp-env": "wp-env"
 	},
 	"lint-staged": {
-	  "./src/js/!(*min).js": ["eslint --fix", "prettier --write"],
-	  "./src/css/*.css": "prettier --write"
-	},
-	"dependencies": {}
-  }
+		"./src/js/!(*min).js": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"./src/css/*.css": "prettier --write"
+	}
+}
