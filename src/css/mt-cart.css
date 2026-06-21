@@ -136,6 +136,17 @@ fieldset .mt-ticket-field input:not([type=submit]), fieldset .mt-ticket-field se
 	width: auto;
 }
 
+fieldset .mt-ticket-field input::-webkit-outer-spin-button,
+fieldset .mt-ticket-field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+fieldset .mt-ticket-field input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .mt-ticket-field.mt-price-in-label {
     grid-template-columns: 9em 1fr;
 }
