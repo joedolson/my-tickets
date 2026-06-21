@@ -194,6 +194,7 @@ table.mt_cart {
 	text-align: end;
 }
 
+/* Sets the legend inside fieldset. Prevents contrast issues if fieldset contrasts with wrapper background. */
 .mt-order legend {
 	float: left;
 	margin-bottom: 1rem;
