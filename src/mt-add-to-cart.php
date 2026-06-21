@@ -1166,7 +1166,7 @@ function mt_sales_close( $event_id, $expires ) {
 			$begin      = strtotime( $event['event_begin'] . ' ' . $event['event_time'] ) - $expiration;
 			if ( mt_date( 'Y-m-d', $begin ) === mt_date( 'Y-m-d', mt_current_time() ) ) {
 				// Translators: time that ticket sales close today.
-				$sales_close_text = __( 'Ticket sales close at %s today', 'my-tickets' );
+				$sales_close_text = __( 'Ticket sales close at %s today.', 'my-tickets' );
 				/**
 				 * Filter the notification for when ticket sales will close.
 				 *
@@ -1178,7 +1178,7 @@ function mt_sales_close( $event_id, $expires ) {
 				 * @return string
 				 */
 				$sales_close_text = apply_filters( 'mt_ticket_sales_close_text', $sales_close_text, $event );
-				return '<p>' . sprintf( $sales_close_text, '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p>';
+				return '<div class="mt-ticket-sales-close"><p>' . sprintf( $sales_close_text, '<strong>' . date_i18n( get_option( 'time_format' ), $begin ) . '</strong>' ) . '</p></div>';
 			}
 		}
 	}
