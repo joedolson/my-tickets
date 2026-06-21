@@ -139,7 +139,6 @@ fieldset .mt-ticket-field input:not([type=submit]), fieldset .mt-ticket-field se
 fieldset .mt-ticket-field input::-webkit-outer-spin-button,
 fieldset .mt-ticket-field input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  margin: 0;
 }
 
 /* Firefox */
