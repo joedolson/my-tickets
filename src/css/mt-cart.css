@@ -79,7 +79,7 @@
 
 .ticket-orders fieldset {
     margin: 1em 0;
-	padding: 8px;
+	padding: .5rem;
 	border-radius: 8px;
 	background: var(--mt-order-background);
 	box-shadow: 4px 4px 4px var(--mt-order-shadow);
@@ -195,7 +195,12 @@ table.mt_cart {
 }
 
 .mt-order legend {
-	float: none;
+	float: left;
+	margin-bottom: 1rem;
+}
+
+.mt-order legend + * {
+	clear: both;
 }
 
 .mt_cart th .mt-datetime {
