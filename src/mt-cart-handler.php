@@ -313,7 +313,8 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 		return false;
 	}
 	$prices = $registration['prices'];
-	if ( ( 'discrete' === $registration['counting_method'] || 'event' === $registration['counting_method'] ) ) {
+	$method = $registration['counting_method'];
+	if ( ( 'discrete' === $method || 'event' === $method ) ) {
 		if ( '' !== $type ) {
 			$sold      = absint( isset( $prices[ $type ]['sold'] ) ? $prices[ $type ]['sold'] : 0 );
 			$available = absint( $prices[ $type ]['tickets'] ) - $sold;
@@ -332,7 +333,8 @@ function mt_check_inventory( $event_id, $type = '', $virtual = 'auto' ) {
 		foreach ( $prices as $pricetype ) {
 			$sold = $sold + intval( ( isset( $pricetype['sold'] ) ) ? $pricetype['sold'] : 0 );
 		}
-		$available = $available - $sold;
+		// General admissions are not limited inventory, always return a positive value.
+		$available = ( 'general' === $method ) ? 100 : $available - $sold;
 	}
 
 	/**
@@ -398,14 +400,14 @@ function mt_validate_cart( $cart = array() ) {
 	$cart = mt_check_cart( $cart );
 	if ( is_array( $cart ) ) {
 		foreach ( $cart as $event_id => $order ) {
-			foreach ( $order as $key => $type ) {
+			foreach ( $order as $key => $count ) {
 				// check the inventory, skipping the virtual inventory.
 				$has_inventory = mt_check_inventory( $event_id, $key, false );
 				if ( $has_inventory ) {
 					$available = $has_inventory['available'];
 					if ( 0 === $available ) {
 						$availability = false;
-					} elseif ( $order[ $key ] > $available ) {
+					} elseif ( $count > $available ) {
 						$availability = $available;
 					} else {
 						$availability = true;
