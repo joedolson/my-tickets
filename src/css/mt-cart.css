@@ -106,7 +106,7 @@
 
 .mt-ticket-field {
     display: flex;
-    column-gap: 12px;
+    gap: 12px;
     align-items: center;
     margin-bottom: .5rem;
 	justify-content: space-between;
