@@ -422,38 +422,208 @@ function mt_validate_cart( $cart = array() ) {
 }
 
 /**
+ * Acquire a database advisory lock.
+ *
+ * @param string $lock_name Unique lock name.
+ * @param int    $timeout Timeout in seconds.
+ *
+ * @return bool
+ */
+function mt_acquire_db_lock( $lock_name, $timeout = 10 ) {
+	global $wpdb;
+
+	$lock_name = sanitize_key( $lock_name );
+	$timeout   = absint( $timeout );
+	$lock_sql  = $wpdb->prepare( 'SELECT GET_LOCK( %s, %d )', $lock_name, $timeout );
+	$acquired  = ( 1 === (int) $wpdb->get_var( $lock_sql ) );
+
+	/**
+	 * Filter the result of a database advisory lock acquisition.
+	 *
+	 * @hook mt_acquire_db_lock
+	 *
+	 * @param bool   $acquired Whether lock was acquired.
+	 * @param string $lock_name Lock name.
+	 * @param int    $timeout Timeout used in seconds.
+	 *
+	 * @return bool
+	 */
+	return apply_filters( 'mt_acquire_db_lock', $acquired, $lock_name, $timeout );
+}
+
+/**
+ * Release a database advisory lock.
+ *
+ * @param string $lock_name Unique lock name.
+ *
+ * @return bool
+ */
+function mt_release_db_lock( $lock_name ) {
+	global $wpdb;
+
+	$lock_name  = sanitize_key( $lock_name );
+	$unlock_sql = $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name );
+	$released   = ( 1 === (int) $wpdb->get_var( $unlock_sql ) );
+
+	/**
+	 * Filter the result of a database advisory lock release.
+	 *
+	 * @hook mt_release_db_lock
+	 *
+	 * @param bool   $released Whether lock was released.
+	 * @param string $lock_name Lock name.
+	 *
+	 * @return bool
+	 */
+	return apply_filters( 'mt_release_db_lock', $released, $lock_name );
+}
+
+/**
+ * Claim stock for a purchase on an event before creating tickets.
+ *
+ * This is the authoritative capacity check for ticket issuance.
+ *
+ * @param int   $event_id Event ID.
+ * @param array $purchase Purchase data for this event.
+ *
+ * @return true|WP_Error
+ */
+function mt_claim_stock_for_purchase( $event_id, $purchase ) {
+	global $wpdb;
+
+	if ( ! is_array( $purchase ) ) {
+		return new WP_Error( 'mt_invalid_purchase', __( 'Purchase data is not valid for stock claim.', 'my-tickets' ) );
+	}
+
+	$lock_name = 'mt_stock_claim_' . absint( $event_id );
+	$lock      = mt_acquire_db_lock( $lock_name, 10 );
+
+	if ( ! $lock ) {
+		return new WP_Error( 'mt_stock_lock_failed', __( 'Could not acquire stock lock for this event.', 'my-tickets' ) );
+	}
+
+	try {
+		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
+		if ( ! is_array( $registration ) || empty( $registration['prices'] ) ) {
+			return new WP_Error( 'mt_invalid_registration', __( 'Event registration options are not valid.', 'my-tickets' ) );
+		}
+
+		$method          = isset( $registration['counting_method'] ) ? $registration['counting_method'] : 'event';
+		$requested_total = 0;
+
+		foreach ( $purchase as $type => $ticket ) {
+			$count = isset( $ticket['count'] ) ? absint( $ticket['count'] ) : 0;
+			if ( 0 >= $count ) {
+				continue;
+			}
+
+			if ( ! isset( $registration['prices'][ $type ] ) ) {
+				return new WP_Error( 'mt_invalid_ticket_type', __( 'Requested ticket type is not valid for this event.', 'my-tickets' ) );
+			}
+
+			$requested_total += $count;
+		}
+
+		if ( 'discrete' === $method || 'event' === $method ) {
+			foreach ( $purchase as $type => $ticket ) {
+				$count = isset( $ticket['count'] ) ? absint( $ticket['count'] ) : 0;
+				if ( 0 >= $count ) {
+					continue;
+				}
+
+				$sold  = absint( $registration['prices'][ $type ]['sold'] );
+				$total = absint( $registration['prices'][ $type ]['tickets'] );
+				if ( $sold + $count > $total ) {
+					return new WP_Error( 'mt_out_of_stock', __( 'Not enough tickets remain for this ticket type.', 'my-tickets' ) );
+				}
+
+				$registration['prices'][ $type ]['sold'] = $sold + $count;
+			}
+		} elseif ( 'continuous' === $method ) {
+			$current_sold = 0;
+			foreach ( $registration['prices'] as $price ) {
+				$current_sold += absint( $price['sold'] );
+			}
+
+			$event_total = isset( $registration['total'] ) ? absint( $registration['total'] ) : 0;
+			if ( $event_total > 0 && ( $current_sold + $requested_total ) > $event_total ) {
+				return new WP_Error( 'mt_out_of_stock', __( 'Not enough tickets remain for this event.', 'my-tickets' ) );
+			}
+
+			foreach ( $purchase as $type => $ticket ) {
+				$count = isset( $ticket['count'] ) ? absint( $ticket['count'] ) : 0;
+				if ( 0 >= $count ) {
+					continue;
+				}
+				$sold                                    = absint( $registration['prices'][ $type ]['sold'] );
+				$registration['prices'][ $type ]['sold'] = $sold + $count;
+			}
+		} else {
+			foreach ( $purchase as $type => $ticket ) {
+				$count = isset( $ticket['count'] ) ? absint( $ticket['count'] ) : 0;
+				if ( 0 >= $count ) {
+					continue;
+				}
+				$sold                                    = absint( $registration['prices'][ $type ]['sold'] );
+				$registration['prices'][ $type ]['sold'] = $sold + $count;
+			}
+		}
+
+		update_post_meta( $event_id, '_mt_registration_options', $registration );
+
+		return true;
+	} finally {
+		mt_release_db_lock( $lock_name );
+	}
+}
+
+/**
  * Generates tickets for purchase.
  *
  * @param integer    $payment_id Payment ID.
  * @param bool|array $purchased Array when initially building tickets, false otherwise.
  * @param bool       $resending We're resending a notice right now.
  *
- * @return null
+ * @return true|WP_Error
  */
 function mt_create_tickets( $payment_id, $purchased = false, $resending = false ) {
+	$payment_lock_name = 'mt_payment_process_' . absint( $payment_id );
+	$payment_lock      = mt_acquire_db_lock( $payment_lock_name, 10 );
+
+	if ( ! $payment_lock ) {
+		return new WP_Error( 'mt_payment_lock_failed', __( 'Another process is already finalizing this purchase.', 'my-tickets' ) );
+	}
+
+	try {
 	// _purchase_data contains the original purchase info; it's not updated when something is moved.
 	$purchased = ( $purchased ) ? $purchased : get_post_meta( $payment_id, '_purchase_data', true );
 	if ( ! is_array( $purchased ) || mt_purchase_has_tickets( $payment_id ) ) {
-		return;
+		return true;
 	}
-	$ids = array();
+	$ids    = array();
+	$errors = array();
 	foreach ( $purchased as $event_id => $purchase ) {
 		// It's possible for an event ID to appear in this list twice. If so, ignore the repetitions; they're duplicates.
 		if ( in_array( $event_id, $ids, true ) ) {
 			continue;
 		}
-		$registration = get_post_meta( $event_id, '_mt_registration_options', true );
-		$created      = false;
-		$ids[]        = $event_id;
+		$claim = mt_claim_stock_for_purchase( $event_id, $purchase );
+		if ( is_wp_error( $claim ) ) {
+			$title    = get_the_title( $event_id );
+			$label    = ( $title ) ? $title : __( 'Unknown event', 'my-tickets' );
+			$message  = sprintf( __( '%1$s: %2$s', 'my-tickets' ), $label, $claim->get_error_message() );
+			$errors[] = $message;
+			mt_debug( $message, 'Stock claim failed while creating tickets', $payment_id );
+			continue;
+		}
+		$created = false;
+		$ids[]   = $event_id;
 		add_post_meta( $payment_id, '_purchased', array( $event_id => $purchase ) );
 		add_post_meta( $event_id, '_purchase', array( $payment_id => $purchase ) );
 		foreach ( $purchase as $type => $ticket ) {
 			// add ticket hash for each ticket.
 			$count                                   = $ticket['count'];
 			$price                                   = $ticket['price'];
-			$sold                                    = absint( $registration['prices'][ $type ]['sold'] );
-			$new_sold                                = $sold + $count;
-			$registration['prices'][ $type ]['sold'] = $new_sold;
 			for ( $i = 0; $i < $count; $i++ ) {
 				$ticket_id = mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price );
 				if ( ! $resending && ! mt_ticket_exists( $payment_id, $ticket_id ) ) {
@@ -470,10 +640,25 @@ function mt_create_tickets( $payment_id, $purchased = false, $resending = false 
 					);
 				}
 			}
-			if ( ! $resending && $created ) {
-				update_post_meta( $event_id, '_mt_registration_options', $registration );
-			}
 		}
+	}
+
+	if ( ! empty( $errors ) ) {
+		$failure = array(
+			'message' => __( 'Your order could not be completed because one or more ticket selections are no longer available.', 'my-tickets' ),
+			'errors'  => $errors,
+			'date'    => mt_current_time(),
+		);
+		update_post_meta( $payment_id, '_mt_stock_claim_failure', $failure );
+
+		return new WP_Error( 'mt_stock_claim_failed', $failure['message'], $failure );
+	}
+
+	delete_post_meta( $payment_id, '_mt_stock_claim_failure' );
+
+	return true;
+	} finally {
+		mt_release_db_lock( $payment_lock_name );
 	}
 }
 

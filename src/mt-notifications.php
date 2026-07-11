@@ -418,7 +418,16 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	$vat      = get_post_meta( $id, '_vat', true );
 	// Restructure post meta array to match cart array.
 	if ( ( 'Completed' === $status || ( 'Pending' === $status && 'offline' === $gateway ) ) && ! $resending ) {
-		mt_create_tickets( $id );
+		$created = mt_create_tickets( $id );
+		if ( is_wp_error( $created ) ) {
+			if ( 'mt_payment_lock_failed' === $created->get_error_code() ) {
+				mt_debug( $created->get_error_message(), 'Payment finalization lock in progress; skipping duplicate notification run', $id );
+				return;
+			}
+			$status = 'Failed';
+			$error  = 'stock_claim_failed';
+			update_post_meta( $id, '_is_paid', 'Failed' );
+		}
 	}
 	$purchased     = get_post_meta( $id, '_purchased' );
 	$purchase_data = get_post_meta( $id, '_purchase_data', true );
@@ -562,12 +571,21 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	}
 
 	if ( 'Failed' === $status ) {
+		$append = '';
+		if ( 'stock_claim_failed' === $error ) {
+			$failure = get_post_meta( $id, '_mt_stock_claim_failure', true );
+			$append  = isset( $failure['message'] ) ? $failure['message'] : __( 'Your order could not be completed because tickets are no longer available.', 'my-tickets' );
+			if ( isset( $failure['errors'] ) && is_array( $failure['errors'] ) && ! empty( $failure['errors'] ) ) {
+				$append .= PHP_EOL . PHP_EOL . implode( PHP_EOL, $failure['errors'] );
+			}
+			$append .= PHP_EOL . PHP_EOL;
+		}
 
 		$subject  = mt_draw_template( $data, $options['messages']['failed']['purchaser']['subject'] );
 		$subject2 = mt_draw_template( $data, $options['messages']['failed']['admin']['subject'] );
 
-		$body  = mt_draw_template( $data, $options['messages']['failed']['purchaser']['body'] );
-		$body2 = mt_draw_template( $data, $options['messages']['failed']['admin']['body'] );
+		$body  = mt_draw_template( $data, $append . $options['messages']['failed']['purchaser']['body'] );
+		$body2 = mt_draw_template( $data, $append . $options['messages']['failed']['admin']['body'] );
 	}
 
 	if ( 'Pending' === $status || ( false !== strpos( $status, 'Other' ) ) ) {

@@ -263,6 +263,10 @@ function mt_get_payment_details() {
 		} elseif ( 'Refunded' === $paid ) {
 			return __( 'This payment has been refunded.', 'my-tickets' );
 		} elseif ( 'Failed' === $paid ) {
+			$failure = get_post_meta( $receipt->ID, '_mt_stock_claim_failure', true );
+			if ( isset( $failure['message'] ) ) {
+				return $failure['message'];
+			}
 			return __( 'Payment on this order failed.', 'my-tickets' );
 		} elseif ( 'Turned Back' === $paid ) {
 			return __( 'This purchase was cancelled and the tickets were returned to the seller.', 'my-tickets' );
