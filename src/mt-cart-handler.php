@@ -435,7 +435,7 @@ function mt_acquire_db_lock( $lock_name, $timeout = 10 ) {
 	$lock_name = sanitize_key( $lock_name );
 	$timeout   = absint( $timeout );
 	$lock_sql  = $wpdb->prepare( 'SELECT GET_LOCK( %s, %d )', $lock_name, $timeout );
-	$acquired  = ( 1 === (int) $wpdb->get_var( $lock_sql ) );
+	$acquired  = ( 1 === (int) $wpdb->get_var( $lock_sql ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 	/**
 	 * Filter the result of a database advisory lock acquisition.
@@ -463,7 +463,7 @@ function mt_release_db_lock( $lock_name ) {
 
 	$lock_name  = sanitize_key( $lock_name );
 	$unlock_sql = $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name );
-	$released   = ( 1 === (int) $wpdb->get_var( $unlock_sql ) );
+	$released   = ( 1 === (int) $wpdb->get_var( $unlock_sql ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 	/**
 	 * Filter the result of a database advisory lock release.
@@ -595,68 +595,68 @@ function mt_create_tickets( $payment_id, $purchased = false, $resending = false 
 	}
 
 	try {
-	// _purchase_data contains the original purchase info; it's not updated when something is moved.
-	$purchased = ( $purchased ) ? $purchased : get_post_meta( $payment_id, '_purchase_data', true );
-	if ( ! is_array( $purchased ) || mt_purchase_has_tickets( $payment_id ) ) {
-		return true;
-	}
-	$ids    = array();
-	$errors = array();
-	foreach ( $purchased as $event_id => $purchase ) {
-		// It's possible for an event ID to appear in this list twice. If so, ignore the repetitions; they're duplicates.
-		if ( in_array( $event_id, $ids, true ) ) {
-			continue;
+		// _purchase_data contains the original purchase info; it's not updated when something is moved.
+		$purchased = ( $purchased ) ? $purchased : get_post_meta( $payment_id, '_purchase_data', true );
+		if ( ! is_array( $purchased ) || mt_purchase_has_tickets( $payment_id ) ) {
+			return true;
 		}
-		$claim = mt_claim_stock_for_purchase( $event_id, $purchase );
-		if ( is_wp_error( $claim ) ) {
-			$title    = get_the_title( $event_id );
-			$label    = ( $title ) ? $title : __( 'Unknown event', 'my-tickets' );
-			$message  = sprintf( __( '%1$s: %2$s', 'my-tickets' ), $label, $claim->get_error_message() );
-			$errors[] = $message;
-			mt_debug( $message, 'Stock claim failed while creating tickets', $payment_id );
-			continue;
-		}
-		$created = false;
-		$ids[]   = $event_id;
-		add_post_meta( $payment_id, '_purchased', array( $event_id => $purchase ) );
-		add_post_meta( $event_id, '_purchase', array( $payment_id => $purchase ) );
-		foreach ( $purchase as $type => $ticket ) {
-			// add ticket hash for each ticket.
-			$count                                   = $ticket['count'];
-			$price                                   = $ticket['price'];
-			for ( $i = 0; $i < $count; $i++ ) {
-				$ticket_id = mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price );
-				if ( ! $resending && ! mt_ticket_exists( $payment_id, $ticket_id ) ) {
-					$created = true;
-					add_post_meta( $event_id, '_ticket', $ticket_id );
-					update_post_meta(
-						$event_id,
-						'_' . $ticket_id,
-						array(
-							'type'        => $type,
-							'price'       => $price,
-							'purchase_id' => $payment_id,
-						)
-					);
+		$ids    = array();
+		$errors = array();
+		foreach ( $purchased as $event_id => $purchase ) {
+			// It's possible for an event ID to appear in this list twice. If so, ignore the repetitions; they're duplicates.
+			if ( in_array( $event_id, $ids, true ) ) {
+				continue;
+			}
+			$claim = mt_claim_stock_for_purchase( $event_id, $purchase );
+			if ( is_wp_error( $claim ) ) {
+				$title    = get_the_title( $event_id );
+				$label    = ( $title ) ? $title : __( 'Unknown event', 'my-tickets' );
+				$message  = sprintf( __( '%1$s: %2$s', 'my-tickets' ), $label, $claim->get_error_message() );
+				$errors[] = $message;
+				mt_debug( $message, 'Stock claim failed while creating tickets', $payment_id );
+				continue;
+			}
+			$created = false;
+			$ids[]   = $event_id;
+			add_post_meta( $payment_id, '_purchased', array( $event_id => $purchase ) );
+			add_post_meta( $event_id, '_purchase', array( $payment_id => $purchase ) );
+			foreach ( $purchase as $type => $ticket ) {
+				// add ticket hash for each ticket.
+				$count                                   = $ticket['count'];
+				$price                                   = $ticket['price'];
+				for ( $i = 0; $i < $count; $i++ ) {
+					$ticket_id = mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price );
+					if ( ! $resending && ! mt_ticket_exists( $payment_id, $ticket_id ) ) {
+						$created = true;
+						add_post_meta( $event_id, '_ticket', $ticket_id );
+						update_post_meta(
+							$event_id,
+							'_' . $ticket_id,
+							array(
+								'type'        => $type,
+								'price'       => $price,
+								'purchase_id' => $payment_id,
+							)
+						);
+					}
 				}
 			}
 		}
-	}
 
-	if ( ! empty( $errors ) ) {
-		$failure = array(
-			'message' => __( 'Your order could not be completed because one or more ticket selections are no longer available.', 'my-tickets' ),
-			'errors'  => $errors,
-			'date'    => mt_current_time(),
-		);
-		update_post_meta( $payment_id, '_mt_stock_claim_failure', $failure );
+		if ( ! empty( $errors ) ) {
+			$failure = array(
+				'message' => __( 'Your order could not be completed because one or more ticket selections are no longer available.', 'my-tickets' ),
+				'errors'  => $errors,
+				'date'    => mt_current_time(),
+			);
+			update_post_meta( $payment_id, '_mt_stock_claim_failure', $failure );
 
-		return new WP_Error( 'mt_stock_claim_failed', $failure['message'], $failure );
-	}
+			return new WP_Error( 'mt_stock_claim_failed', $failure['message'], $failure );
+		}
 
-	delete_post_meta( $payment_id, '_mt_stock_claim_failure' );
+		delete_post_meta( $payment_id, '_mt_stock_claim_failure' );
 
-	return true;
+		return true;
 	} finally {
 		mt_release_db_lock( $payment_lock_name );
 	}
