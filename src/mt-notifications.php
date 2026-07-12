@@ -473,7 +473,9 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 			$ticket_ids = '';
 		}
 	} else {
-		$tickets = __( 'There was an error creating your tickets for this purchase.', 'my-tickets' );
+		$tickets    = __( 'There was an error creating your tickets for this purchase.', 'my-tickets' );
+		$ticket_ids = '';
+
 	}
 	$bulk_tickets = ( 'printable' === $ticketing_method || 'eticket' === $ticketing_method ) ? add_query_arg(
 		array(
