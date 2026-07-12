@@ -11,14 +11,14 @@ Sell Event Tickets on any post
 * Requires at least: 6.4
 * Tested up to: 7.0
 * Stable tag: `2.2.0`
-* License: GPLv3
+* License: GPLv2
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This is the development environment for My Tickets.
 
 ## Documentation
 
-* [My Tickets Public Documetation](https://docs.joedolson.com/my-tickets/)
+* [My Tickets Public Documentation](https://docs.joedolson.com/my-tickets/)
 * [My Tickets Hook Documentation](https://joedolson.github.io/my-tickets/)
 
 ## Contact

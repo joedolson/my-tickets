@@ -5,7 +5,7 @@
  * @category Widgets
  * @package  My Tickets
  * @author   Joe Dolson
- * @license  GPLv3
+ * @license  GPLv2
  * @link     https://www.joedolson.com/my-tickets/
  */
 
@@ -28,7 +28,7 @@ add_action( 'widgets_init', 'mt_register_widgets' );
  * @package   My Tickets
  * @author    Joe Dolson
  * @copyright 2015
- * @license   GPLv3
+ * @license   GPLv2
  * @version   1.0
  */
 class Mt_Short_Cart_Widget extends WP_Widget {
