@@ -2,7 +2,7 @@
 
 Sell Event Tickets on any post
 
-[![Code Linting](https://github.com/joedolson/my-tickets/actions/workflows/main.yml/badge.svg)](https://github.com/joedolson/my-tickets/actions/workflows/main.yml) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-green.svg)](https://www.gnu.org/license/gpl-2.0.html)
+[![Code Linting](https://github.com/joedolson/my-tickets/actions/workflows/main.yml/badge.svg)](https://github.com/joedolson/my-tickets/actions/workflows/main.yml) [![PHP Unit Tests](https://github.com/joedolson/my-tickets/actions/workflows/phpunit.yml/badge.svg)](https://github.com/joedolson/my-tickets/actions/workflows/phpunit.yml) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-green.svg)](https://www.gnu.org/license/gpl-2.0.html)
 
 ## My Tickets Build Environment
 
