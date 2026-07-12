@@ -140,7 +140,7 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 
 		add_filter(
 			'mt_acquire_db_lock',
-			function( $acquired, $lock_name ) {
+			function ( $acquired, $lock_name ) {
 				if ( false !== strpos( $lock_name, 'mt_payment_process_' ) ) {
 					return false;
 				}
@@ -180,7 +180,7 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 
 		add_filter(
 			'mt_acquire_db_lock',
-			function( $acquired, $lock_name ) {
+			function ( $acquired, $lock_name ) {
 				if ( false !== strpos( $lock_name, 'mt_payment_process_' ) ) {
 					return false;
 				}
@@ -193,10 +193,10 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 
 		add_filter(
 			'pre_wp_mail',
-			function( $return ) use ( &$mail_attempts ) {
+			function ( $return_value ) use ( &$mail_attempts ) {
 				$mail_attempts++;
 
-				return $return;
+				return $return_value;
 			},
 			10,
 			1
@@ -235,7 +235,7 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 
 		add_filter(
 			'pre_wp_mail',
-			function( $return ) use ( &$mail_attempts ) {
+			function () use ( &$mail_attempts ) {
 				$mail_attempts++;
 
 				return true;
@@ -246,9 +246,9 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 
 		wp_update_post(
 			array(
-				'ID'         => $this->payment_id,
+				'ID'          => $this->payment_id,
 				'post_status' => 'publish',
-				'post_title' => 'Concurrency Payment Updated Successfully',
+				'post_title'  => 'Concurrency Payment Updated Successfully',
 			)
 		);
 
