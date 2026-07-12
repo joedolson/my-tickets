@@ -351,6 +351,9 @@ function mt_set_user_unique_id() {
 		$expiration = mt_expiration_window() + WEEK_IN_SECONDS;
 		if ( ! $unique_id ) {
 			$unique_id = mt_generate_unique_id();
+			if ( headers_sent() ) {
+				return;
+			}
 			$options   = array(
 				'expires'  => time() + $expiration,
 				'path'     => COOKIEPATH,
@@ -374,6 +377,9 @@ function mt_set_receipt_cookie( $post_ID, $receipt = false ) {
 	$log_id       = mt_get_payment_log_id( $post_ID );
 	$receipt      = ( ! $receipt ) ? get_post_meta( $post_ID, '_receipt', true ) : $receipt;
 	$cookie_value = md5( $receipt . $log_id );
+	if ( headers_sent() ) {
+		return;
+	}
 	$options      = array(
 		'expires'  => time() + 600,
 		'path'     => COOKIEPATH,
