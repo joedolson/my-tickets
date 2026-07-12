@@ -162,6 +162,8 @@ class Tests_My_Tickets_Add_To_Cart_Paths extends WP_UnitTestCase {
 	 * @param int  $tickets Number of tickets to request.
 	 * @param bool $logged_in Whether to call authenticated AJAX action.
 	 *
+	 * @throws Exception Raised if AJAX action fails unexpectedly.
+	 *
 	 * @return array
 	 */
 	private function dispatch_ajax_add_to_cart( $tickets = 1, $logged_in = false ) {
@@ -232,9 +234,9 @@ class Tests_My_Tickets_Add_To_Cart_Paths extends WP_UnitTestCase {
 	 * Logged-in users should save cart data in user meta.
 	 */
 	public function test_logged_in_add_to_cart_saves_cart_to_user_meta() {
-		$user_id           = self::factory()->user->create();
-		$this->user_ids[]  = $user_id;
-		$guest_id          = $this->set_guest_cart_id();
+		$user_id          = self::factory()->user->create();
+		$this->user_ids[] = $user_id;
+		$guest_id         = $this->set_guest_cart_id();
 
 		wp_set_current_user( $user_id );
 
