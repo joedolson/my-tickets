@@ -40,7 +40,7 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 		$this->payment_id = self::factory()->post->create(
 			array(
 				'post_type'   => 'mt-payments',
-				'post_status' => 'publish',
+				'post_status' => 'draft',
 				'post_title'  => 'Concurrency Payment',
 			)
 		);
@@ -136,6 +136,7 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 		update_post_meta( $this->payment_id, '_is_paid', 'Completed' );
 		update_post_meta( $this->payment_id, '_gateway', 'offline' );
 		update_post_meta( $this->payment_id, '_email', 'test@example.com' );
+		delete_post_meta( $this->payment_id, '_notified' );
 
 		add_filter(
 			'mt_acquire_db_lock',
@@ -174,6 +175,8 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 		update_post_meta( $this->payment_id, '_last_status', 'Pending' );
 		update_post_meta( $this->payment_id, '_gateway', 'offline' );
 		update_post_meta( $this->payment_id, '_email', 'test@example.com' );
+		delete_post_meta( $this->payment_id, '_notified' );
+		delete_post_meta( $this->payment_id, '_mt_send_email' );
 
 		add_filter(
 			'mt_acquire_db_lock',
@@ -201,8 +204,9 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 
 		wp_update_post(
 			array(
-				'ID'         => $this->payment_id,
-				'post_title' => 'Concurrency Payment Updated',
+				'ID'          => $this->payment_id,
+				'post_status' => 'publish',
+				'post_title'  => 'Concurrency Payment Updated',
 			)
 		);
 
@@ -226,6 +230,8 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 		update_post_meta( $this->payment_id, '_last_status', 'Pending' );
 		update_post_meta( $this->payment_id, '_gateway', 'offline' );
 		update_post_meta( $this->payment_id, '_email', 'test@example.com' );
+		delete_post_meta( $this->payment_id, '_notified' );
+		delete_post_meta( $this->payment_id, '_mt_send_email' );
 
 		add_filter(
 			'pre_wp_mail',
@@ -241,6 +247,7 @@ class Tests_My_Tickets_Concurrency extends WP_UnitTestCase {
 		wp_update_post(
 			array(
 				'ID'         => $this->payment_id,
+				'post_status' => 'publish',
 				'post_title' => 'Concurrency Payment Updated Successfully',
 			)
 		);
