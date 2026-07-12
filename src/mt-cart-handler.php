@@ -611,23 +611,21 @@ function mt_create_tickets( $payment_id, $purchased = false, $resending = false 
 			if ( is_wp_error( $claim ) ) {
 				$title    = get_the_title( $event_id );
 				$label    = ( $title ) ? $title : __( 'Unknown event', 'my-tickets' );
-				$message  = sprintf( __( '%1$s: %2$s', 'my-tickets' ), $label, $claim->get_error_message() );
+				$message  = sprintf( '%1$s: %2$s', $label, $claim->get_error_message() );
 				$errors[] = $message;
 				mt_debug( $message, 'Stock claim failed while creating tickets', $payment_id );
 				continue;
 			}
-			$created = false;
 			$ids[]   = $event_id;
 			add_post_meta( $payment_id, '_purchased', array( $event_id => $purchase ) );
 			add_post_meta( $event_id, '_purchase', array( $payment_id => $purchase ) );
 			foreach ( $purchase as $type => $ticket ) {
 				// add ticket hash for each ticket.
-				$count                                   = $ticket['count'];
-				$price                                   = $ticket['price'];
+				$count = $ticket['count'];
+				$price = $ticket['price'];
 				for ( $i = 0; $i < $count; $i++ ) {
 					$ticket_id = mt_generate_ticket_id( $payment_id, $event_id, $type, $i, $price );
 					if ( ! $resending && ! mt_ticket_exists( $payment_id, $ticket_id ) ) {
-						$created = true;
 						add_post_meta( $event_id, '_ticket', $ticket_id );
 						update_post_meta(
 							$event_id,
