@@ -616,7 +616,7 @@ function mt_create_tickets( $payment_id, $purchased = false, $resending = false 
 				mt_debug( $message, 'Stock claim failed while creating tickets', $payment_id );
 				continue;
 			}
-			$ids[]   = $event_id;
+			$ids[] = $event_id;
 			add_post_meta( $payment_id, '_purchased', array( $event_id => $purchase ) );
 			add_post_meta( $event_id, '_purchase', array( $payment_id => $purchase ) );
 			foreach ( $purchase as $type => $ticket ) {
