@@ -117,10 +117,10 @@ class Tests_My_Tickets_Ticket_Payment_Transfer extends WP_UnitTestCase {
 	 * A ticket can be removed from one payment and re-added to another for the same event.
 	 */
 	public function test_ticket_can_be_reassigned_to_another_payment_on_same_event() {
-		$event_id        = $this->create_event( 'Transfer Event', 1 );
-		$source_payment  = $this->create_payment( 'Source Payment' );
-		$target_payment  = $this->create_payment( 'Target Payment' );
-		$ticket_id       = 'ticket-transfer-same-event-1';
+		$event_id       = $this->create_event( 'Transfer Event', 1 );
+		$source_payment = $this->create_payment( 'Source Payment' );
+		$target_payment = $this->create_payment( 'Target Payment' );
+		$ticket_id      = 'ticket-transfer-same-event-1';
 
 		$this->seed_ticket( $event_id, $source_payment, $ticket_id );
 
@@ -150,11 +150,11 @@ class Tests_My_Tickets_Ticket_Payment_Transfer extends WP_UnitTestCase {
 	 * A ticket can be moved to a different event and attached to a new payment.
 	 */
 	public function test_ticket_can_be_moved_to_different_event_and_payment() {
-		$source_event    = $this->create_event( 'Source Event', 1 );
-		$target_event    = $this->create_event( 'Target Event', 0 );
-		$source_payment  = $this->create_payment( 'Source Payment Two' );
-		$target_payment  = $this->create_payment( 'Target Payment Two' );
-		$ticket_id       = 'ticket-transfer-cross-event-1';
+		$source_event   = $this->create_event( 'Source Event', 1 );
+		$target_event   = $this->create_event( 'Target Event', 0 );
+		$source_payment = $this->create_payment( 'Source Payment Two' );
+		$target_payment = $this->create_payment( 'Target Payment Two' );
+		$ticket_id      = 'ticket-transfer-cross-event-1';
 
 		$this->seed_ticket( $source_event, $source_payment, $ticket_id );
 
