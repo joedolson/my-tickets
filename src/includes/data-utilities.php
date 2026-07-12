@@ -354,7 +354,7 @@ function mt_set_user_unique_id() {
 			if ( headers_sent() ) {
 				return;
 			}
-			$options   = array(
+			$options = array(
 				'expires'  => time() + $expiration,
 				'path'     => COOKIEPATH,
 				'domain'   => COOKIE_DOMAIN,
@@ -380,7 +380,7 @@ function mt_set_receipt_cookie( $post_ID, $receipt = false ) {
 	if ( headers_sent() ) {
 		return;
 	}
-	$options      = array(
+	$options = array(
 		'expires'  => time() + 600,
 		'path'     => COOKIEPATH,
 		'domain'   => COOKIE_DOMAIN,
