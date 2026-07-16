@@ -103,7 +103,11 @@ function mt_format_array( $output, $type, $data, $payment_id, $context = 'admin'
  * @return string URL to event.
  */
 function mt_get_event_link( $event_id ) {
-	$url = get_the_permalink( $event_id );
+	if ( 'mc-events' === get_post_type( $event_id ) ) {
+		$url = mc_get_permalink( $event_id );
+	} else {
+		$url = get_the_permalink( $event_id );
+	}
 
 	/**
 	 * Filter the link to a ticketed event.
