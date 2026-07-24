@@ -27,8 +27,7 @@
 		"husky": "^6.0.0",
 		"jsdoc": "^4.0.5",
 		"lint-staged": "^10.5.4",
-		"prettier": "^2.8.4",
-		"wp-hookdoc": "^0.2.0"
+		"prettier": "^2.8.4"
 	},
 	"scripts": {
 		"start": "esbuild jquery.public.min=src/js/jquery.public.js --bundle --outdir=src/js --target=es2020 --watch --sourcemap",
