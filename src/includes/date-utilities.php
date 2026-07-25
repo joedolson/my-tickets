@@ -24,7 +24,9 @@ function mt_date( $format = '', $timestamp = false, $offset = true ) {
 		$timestamp = time();
 	}
 	if ( $offset ) {
-		$offset = intval( get_option( 'gmt_offset', 0 ) ) * 60 * 60;
+		$site_timezone = wp_timezone();
+		$current_time  = new DateTime( 'now', $site_timezone );
+		$offset        = $site_timezone->getOffset( $current_time );
 	} else {
 		$offset = 0;
 	}
