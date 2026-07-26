@@ -297,7 +297,13 @@ function mt_generate_tickets_by_event( $event_id = false, $display = false ) {
 		if ( $display ) {
 			return false;
 		} else {
-			echo wp_kses_post( "<div class='notice notice-error'><p>" . __( 'You do not have sufficient permissions to view ticketing reports.', 'my-tickets' ) . '</p></div>' );
+			wp_admin_notice(
+				__( 'You do not have sufficient permissions to view ticketing reports.', 'my-tickets' ),
+				array(
+					'type' => 'error',
+					'id'   => 'mt_insufficient_permissions_message',
+				)
+			);
 		}
 	}
 }
@@ -392,7 +398,13 @@ function mt_generate_report_by_event( $event_id = false, $return_type = false ) 
 		if ( $return_type ) {
 			return false;
 		} else {
-			echo wp_kses_post( "<div class='notice notice-error'><p>" . __( 'You do not have sufficient permissions to view sales reports.', 'my-tickets' ) . '</p></div>' );
+			wp_admin_notice(
+				__( 'You do not have sufficient permissions to view sales reports.', 'my-tickets' ),
+				array(
+					'type' => 'error',
+					'id'   => 'mt_insufficient_permissions_message',
+				)
+			);
 		}
 	}
 }
@@ -1353,7 +1365,13 @@ function mt_mass_email( $event_id = false ) {
 			)
 		);
 		if ( ! $body || ! $subject ) {
-			echo wp_kses_post( "<div class='notice notice-error'><p>" . __( 'You must include a message subject and body to send mass email.', 'my-tickets' ) . '</p></div>' );
+			wp_admin_notice(
+				__( 'You must include a message subject and body to send mass email.', 'my-tickets' ),
+				array(
+					'type' => 'error',
+					'id'   => 'mt_insufficient_data_message',
+				)
+			);
 			return;
 		}
 		$event       = get_the_title( $event_id );
@@ -1430,7 +1448,13 @@ function mt_mass_email( $event_id = false ) {
 		}
 		// Translators: Number of purchasers notified, total number of purchasers, number of purchasers opted out, name of event.
 		$message = ( '' !== $message ) ? $message : sprintf( __( '%1$d/%2$d purchasers of tickets for "%4$s" have been emailed. %3$d/%2$d purchasers have opted out.', 'my-tickets' ), $emails_sent, $count, $opt_outs, $event );
-		echo wp_kses_post( "<div class='notice notice-success'><p>" . $message . '</p></div>' );
+		wp_admin_notice(
+			$message,
+			array(
+				'type' => 'success',
+				'id'   => 'mt_purchasers_notified_message',
+			)
+		);
 	}
 }
 
