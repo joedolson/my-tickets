@@ -895,7 +895,7 @@ function mt_setup_page( $slug ) {
 		);
 	} else {
 		$post    = get_page_by_path( $slug );
-		$post_ID = $post->ID;
+		$post_ID = ( null !== $post ) ? $post->ID : 0;
 	}
 
 	return $post_ID;
