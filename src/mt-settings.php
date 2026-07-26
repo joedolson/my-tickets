@@ -529,7 +529,14 @@ function mt_settings() {
 							 */
 							$responses = apply_filters( 'mt_save_license', '', $_POST );
 							if ( $responses ) {
-								echo wp_kses_post( "<div class='notice notice-success'><ul>" . $responses . '</ul></div>' );
+								wp_admin_notice(
+									'<ul>' . $responses . '</ul>',
+									array(
+										'type'           => 'success',
+										'dismiss'        => true,
+										'paragraph_wrap' => false,
+									)
+								);
 							}
 						}
 						?>
