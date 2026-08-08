@@ -200,7 +200,9 @@ table.mt_cart {
 	margin-bottom: 1rem;
 }
 
-.mt-order legend + * {
+/* Need to clear the legend, but the first item may not be visible. */
+.mt-order legend + *,
+.mt-order fieldset .mt-ticket-field {
 	clear: both;
 }
 
