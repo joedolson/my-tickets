@@ -3,7 +3,7 @@ Contributors: joedolson
 Donate link: https://www.joedolson.com/donate/
 Tags: ticket sales, registration, reservations, event tickets, accessibility
 Requires at least: 6.4
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
 License: GPLv2
 Text domain: my-tickets
