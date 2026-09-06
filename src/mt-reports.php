@@ -29,6 +29,11 @@ function mt_reports_page() {
 					<h2 class="hndle"><?php _e( 'Reports on Ticket Sales and Registrations', 'my-tickets' ); ?></h2>
 
 					<div class="inside">
+						<p>
+							<a class="button button-compact export-customers" href="<?php echo esc_url( add_query_arg( array( 'page' => 'mt-reports', 'format' => 'csv', 'mt-report' => 'customers' ), admin_url( 'admin.php' ) ) ); ?>">
+								<?php esc_html_e( 'Export Unique Customers (CSV)', 'my-tickets' ); ?>
+							</a>
+						</p>
 						<div class="mt-tabs mt-report-selector">
 							<ul class='tabs' role='tablist'>
 								<li><button id='tab_mt_by_date' role='tab' type='button' aria-selected='true' aria-controls='mt_by_date'>By Date</button></li>
@@ -1080,6 +1085,83 @@ function mt_download_csv_time() {
 			exit;
 		}
 	}
+}
+
+add_action( 'admin_init', 'mt_download_csv_customers' );
+/**
+ * Download list of unique customers (by email address) as CSV.
+ */
+function mt_download_csv_customers() {
+	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
+		if ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] && isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] && isset( $_GET['mt-report'] ) && 'customers' === $_GET['mt-report'] ) {
+			$report = mt_get_unique_customers();
+			$output = '';
+			foreach ( $report as $row ) {
+				$output .= $row;
+			}
+			$title = 'my-tickets-customers-' . mt_date( 'Y-m-d' );
+			header( 'Content-Type: application/csv' );
+			header( "Content-Disposition: attachment; filename=$title.csv" );
+			header( 'Pragma: no-cache' );
+			echo wp_kses_post( $output );
+			exit;
+		}
+	}
+}
+
+/**
+ * Get a CSV-formatted list of unique customers, deduplicated by email address.
+ *
+ * @return array Array of CSV rows, including header row.
+ */
+function mt_get_unique_customers() {
+	global $wpdb;
+
+	$emails    = $wpdb->get_col( "SELECT DISTINCT meta_value FROM $wpdb->postmeta WHERE meta_key = '_email' AND meta_value != ''" );
+	$customers = array();
+	foreach ( $emails as $email ) {
+		$key      = strtolower( $email );
+		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_email' AND meta_value = %s", $email ) );
+		foreach ( $post_ids as $post_id ) {
+			// Postmeta lookup isn't restricted by post type, so verify before use.
+			if ( 'mt-payments' !== get_post_type( $post_id ) || 'publish' !== get_post_status( $post_id ) ) {
+				continue;
+			}
+			$first_name = get_post_meta( $post_id, '_first_name', true );
+			$last_name  = get_post_meta( $post_id, '_last_name', true );
+			if ( ! $first_name && ! $last_name ) {
+				$name       = explode( ' ', get_the_title( $post_id ) );
+				$first_name = $name[0];
+				$last_name  = end( $name );
+			}
+			$value = floatval( get_post_meta( $post_id, '_total_paid', true ) );
+			$date  = get_the_time( 'Y-m-d', $post_id );
+			if ( ! isset( $customers[ $key ] ) ) {
+				$customers[ $key ] = array(
+					'email'      => $email,
+					'first_name' => $first_name,
+					'last_name'  => $last_name,
+					'payments'   => 0,
+					'total'      => 0,
+					'last_date'  => $date,
+				);
+			}
+			++$customers[ $key ]['payments'];
+			$customers[ $key ]['total'] += $value;
+			if ( strtotime( $date ) > strtotime( $customers[ $key ]['last_date'] ) ) {
+				$customers[ $key ]['last_date'] = $date;
+			}
+		}
+	}
+	ksort( $customers );
+
+	$csv   = array();
+	$csv[] = '"Email","First Name","Last Name","Number of Purchases","Total Paid","Last Payment Date"' . PHP_EOL;
+	foreach ( $customers as $customer ) {
+		$csv[] = '"' . $customer['email'] . '","' . $customer['first_name'] . '","' . $customer['last_name'] . '","' . $customer['payments'] . '","' . $customer['total'] . '","' . $customer['last_date'] . '"' . PHP_EOL;
+	}
+
+	return $csv;
 }
 
 /**
