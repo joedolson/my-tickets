@@ -188,7 +188,13 @@ class Tests_My_Tickets_Add_To_Cart_Paths extends WP_UnitTestCase {
 		);
 		$_POST    = $_REQUEST;
 
+		// wp_send_json() only routes through the filterable wp_die() when wp_doing_ajax() is true; without this, it calls a raw die() that kills the test run.
+		if ( ! defined( 'DOING_AJAX' ) ) {
+			define( 'DOING_AJAX', true );
+		}
+
 		add_filter( 'wp_die_handler', array( $this, 'filter_wp_die_handler' ) );
+		add_filter( 'wp_die_ajax_handler', array( $this, 'filter_wp_die_handler' ) );
 
 		ob_start();
 		try {
@@ -196,6 +202,7 @@ class Tests_My_Tickets_Add_To_Cart_Paths extends WP_UnitTestCase {
 		} catch ( Exception $e ) {
 			if ( 'mt_ajax_wp_die' !== $e->getMessage() ) {
 				remove_filter( 'wp_die_handler', array( $this, 'filter_wp_die_handler' ) );
+				remove_filter( 'wp_die_ajax_handler', array( $this, 'filter_wp_die_handler' ) );
 				$_REQUEST = $original_request;
 				$_POST    = $original_post;
 				ob_end_clean();
@@ -205,6 +212,7 @@ class Tests_My_Tickets_Add_To_Cart_Paths extends WP_UnitTestCase {
 		$response = ob_get_clean();
 
 		remove_filter( 'wp_die_handler', array( $this, 'filter_wp_die_handler' ) );
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'filter_wp_die_handler' ) );
 		$_REQUEST = $original_request;
 		$_POST    = $original_post;
 
