@@ -1137,40 +1137,48 @@ function mt_download_csv_customers() {
 function mt_get_unique_customers() {
 	global $wpdb;
 
-	$emails    = $wpdb->get_col( "SELECT DISTINCT meta_value FROM $wpdb->postmeta WHERE meta_key = '_email' AND meta_value != ''" );
+	// Query the database for all payments with email addresses, and get the latest first/last name and total paid for each email.
+	$rows = $wpdb->get_results(
+		"SELECT p.post_date, p.post_title,
+		        MAX( pm_email.meta_value ) AS email,
+		        MAX( pm_first.meta_value ) AS first_name,
+		        MAX( pm_last.meta_value ) AS last_name,
+		        MAX( pm_total.meta_value ) AS total_paid
+		FROM $wpdb->posts p
+		INNER JOIN $wpdb->postmeta pm_email ON pm_email.post_id = p.ID AND pm_email.meta_key = '_email'
+		LEFT JOIN $wpdb->postmeta pm_first ON pm_first.post_id = p.ID AND pm_first.meta_key = '_first_name'
+		LEFT JOIN $wpdb->postmeta pm_last ON pm_last.post_id = p.ID AND pm_last.meta_key = '_last_name'
+		LEFT JOIN $wpdb->postmeta pm_total ON pm_total.post_id = p.ID AND pm_total.meta_key = '_total_paid'
+		WHERE p.post_type = 'mt-payments' AND p.post_status = 'publish' AND pm_email.meta_value != ''
+		GROUP BY p.ID"
+	);
+
 	$customers = array();
-	foreach ( $emails as $email ) {
-		$key      = strtolower( $email );
-		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_email' AND meta_value = %s", $email ) );
-		foreach ( $post_ids as $post_id ) {
-			// Postmeta lookup isn't restricted by post type, so verify before use.
-			if ( 'mt-payments' !== get_post_type( $post_id ) || 'publish' !== get_post_status( $post_id ) ) {
-				continue;
-			}
-			$first_name = get_post_meta( $post_id, '_first_name', true );
-			$last_name  = get_post_meta( $post_id, '_last_name', true );
-			if ( ! $first_name && ! $last_name ) {
-				$name       = explode( ' ', get_the_title( $post_id ) );
-				$first_name = $name[0];
-				$last_name  = end( $name );
-			}
-			$value = floatval( get_post_meta( $post_id, '_total_paid', true ) );
-			$date  = get_the_time( 'Y-m-d', $post_id );
-			if ( ! isset( $customers[ $key ] ) ) {
-				$customers[ $key ] = array(
-					'email'      => $email,
-					'first_name' => $first_name,
-					'last_name'  => $last_name,
-					'payments'   => 0,
-					'total'      => 0,
-					'last_date'  => $date,
-				);
-			}
-			++$customers[ $key ]['payments'];
-			$customers[ $key ]['total'] += $value;
-			if ( strtotime( $date ) > strtotime( $customers[ $key ]['last_date'] ) ) {
-				$customers[ $key ]['last_date'] = $date;
-			}
+	foreach ( $rows as $row ) {
+		$key        = strtolower( $row->email );
+		$first_name = $row->first_name;
+		$last_name  = $row->last_name;
+		if ( ! $first_name && ! $last_name ) {
+			$name       = explode( ' ', $row->post_title );
+			$first_name = $name[0];
+			$last_name  = end( $name );
+		}
+		$value = floatval( $row->total_paid );
+		$date  = substr( $row->post_date, 0, 10 );
+		if ( ! isset( $customers[ $key ] ) ) {
+			$customers[ $key ] = array(
+				'email'      => $row->email,
+				'first_name' => $first_name,
+				'last_name'  => $last_name,
+				'payments'   => 0,
+				'total'      => 0,
+				'last_date'  => $date,
+			);
+		}
+		++$customers[ $key ]['payments'];
+		$customers[ $key ]['total'] += $value;
+		if ( $date > $customers[ $key ]['last_date'] ) {
+			$customers[ $key ]['last_date'] = $date;
 		}
 	}
 	ksort( $customers );
