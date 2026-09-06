@@ -19,6 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Display reports screen.
  */
 function mt_reports_page() {
+	$export_customers_url = add_query_arg(
+		array(
+			'page'      => 'mt-reports',
+			'format'    => 'csv',
+			'mt-report' => 'customers'
+		),
+		admin_url( 'admin.php' )
+	);
 	?>
 	<div class='wrap my-tickets'>
 	<h1><?php _e( 'My Tickets Reporting', 'my-tickets' ); ?></h1>
@@ -30,7 +38,7 @@ function mt_reports_page() {
 
 					<div class="inside">
 						<p>
-							<a class="button button-compact export-customers" href="<?php echo esc_url( add_query_arg( array( 'page' => 'mt-reports', 'format' => 'csv', 'mt-report' => 'customers' ), admin_url( 'admin.php' ) ) ); ?>">
+							<a class="button button-compact export-customers" href="<?php echo esc_url( $export_customers_url ); ?>">
 								<?php esc_html_e( 'Export Unique Customers (CSV)', 'my-tickets' ); ?>
 							</a>
 						</p>
