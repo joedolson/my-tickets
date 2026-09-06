@@ -260,7 +260,7 @@ function mt_get_data( $type, $user_ID = false, $unique_id = false ) {
  * @param bool|string $cart_id Cart identifier.
  * @param bool        $fetch_data True to get data only without taking action.
  *
- * @return array|mixed
+ * @return array Array keyed by event ID, e.g. array( $event_id => array( $ticket_type => $count ) ). Empty array if no cart data.
  */
 function mt_get_cart( $user_ID = false, $cart_id = false, $fetch_data = false ) {
 	$cart      = array();
