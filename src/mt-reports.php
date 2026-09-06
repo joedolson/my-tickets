@@ -989,6 +989,23 @@ function mt_get_report_data( $type, $payment_id, $ticket_id, $ticket, $event_id 
 	return $value;
 }
 
+/**
+ * Neutralize values that could be interpreted as spreadsheet formulas (CSV injection).
+ *
+ * @param array $row Row of raw CSV values.
+ *
+ * @return array
+ */
+function mt_csv_escape_row( $row ) {
+	foreach ( $row as $key => $value ) {
+		if ( is_string( $value ) && isset( $value[0] ) && in_array( $value[0], array( '=', '+', '-', '@', "\t", "\r" ), true ) ) {
+			$row[ $key ] = "'" . $value;
+		}
+	}
+
+	return $row;
+}
+
 add_action( 'admin_init', 'mt_download_csv_event' );
 /**
  * Download report of event data as CSV
@@ -1018,10 +1035,10 @@ function mt_download_csv_event() {
 				$report         = $purchases['report']['csv'];
 				$custom_fields  = mt_get_custom_fields( 'reports' );
 				$header_columns = mt_get_column_headers( 'purchases', 'csv' );
-				fputcsv( $fh, mt_set_column_headers( $header_columns, 'csv', $custom_fields ) );
+				fputcsv( $fh, mt_csv_escape_row( mt_set_column_headers( $header_columns, 'csv', $custom_fields ) ) );
 				foreach ( $report as $status => $rows ) {
 					foreach ( $rows as $row ) {
-						fputcsv( $fh, $row );
+						fputcsv( $fh, mt_csv_escape_row( $row ) );
 					}
 				}
 			}
@@ -1054,9 +1071,9 @@ function mt_download_csv_tickets() {
 			header( "Content-Disposition: attachment; filename=$title.csv" );
 			header( 'Pragma: no-cache' );
 			$fh = fopen( 'php://output', 'w' );
-			fputcsv( $fh, mt_set_column_headers( $headers, 'csv' ) );
+			fputcsv( $fh, mt_csv_escape_row( mt_set_column_headers( $headers, 'csv' ) ) );
 			foreach ( $report as $row ) {
-				fputcsv( $fh, $row );
+				fputcsv( $fh, mt_csv_escape_row( $row ) );
 			}
 			fclose( $fh );
 			exit;
@@ -1081,7 +1098,7 @@ function mt_download_csv_time() {
 			header( 'Pragma: no-cache' );
 			$fh = fopen( 'php://output', 'w' );
 			foreach ( $csv as $row ) {
-				fputcsv( $fh, $row );
+				fputcsv( $fh, mt_csv_escape_row( $row ) );
 			}
 			fclose( $fh );
 			exit;
@@ -1104,7 +1121,7 @@ function mt_download_csv_customers() {
 			$fh = fopen( 'php://output', 'w' );
 			fputcsv( $fh, array( 'Email', 'First Name', 'Last Name', 'Number of Purchases', 'Total Paid', 'Last Payment Date' ) );
 			foreach ( $customers as $customer ) {
-				fputcsv( $fh, array( $customer['email'], $customer['first_name'], $customer['last_name'], $customer['payments'], $customer['total'], $customer['last_date'] ) );
+				fputcsv( $fh, mt_csv_escape_row( array( $customer['email'], $customer['first_name'], $customer['last_name'], $customer['payments'], $customer['total'], $customer['last_date'] ) ) );
 			}
 			fclose( $fh );
 			exit;
