@@ -237,7 +237,7 @@ function mt_get_column_headers( $context = 'purchases', $type = 'table' ) {
  * @param string $type Display type table or csv.
  * @param array  $custom_headers Custom headers to insert into string.
  *
- * @return string
+ * @return string|array String of table header HTML, or array of column labels when $type is 'csv'.
  */
 function mt_set_column_headers( $headers, $type, $custom_headers = array() ) {
 	$cols  = array();
@@ -250,18 +250,19 @@ function mt_set_column_headers( $headers, $type, $custom_headers = array() ) {
 				if ( 'table' === $type ) {
 					$cols[] = "<th scope='col' class='mt_" . sanitize_title( $name ) . "'><span>" . $field['title'] . '</span></th>';
 				} else {
-					$cols[] = '"' . $field['title'] . '"';
+					$cols[] = $field['title'];
 				}
 			}
 		}
 		if ( 'table' === $type ) {// <button class="sort"><span class="dashicons dashicons-sort" aria-hidden="true"></span><span class="screen-reader-text">Sort</span></button>
 			$cols[] = '<th scope="col" class="' . $key . '" id="' . $key . '"><span>' . $value['label'] . '</span></th>';
 		} else {
-			$cols[] = '"' . $value['label'] . '"';
+			$cols[] = $value['label'];
 		}
 	}
 
-	return ( 'csv' === $type ) ? implode( ',', $cols ) : implode( PHP_EOL, $cols );
+	// CSV consumers expect an array of column labels for use with fputcsv().
+	return ( 'csv' === $type ) ? $cols : implode( PHP_EOL, $cols );
 }
 
 /**
@@ -733,8 +734,8 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 			// get count of tickets for *this* event on purchase.
 			// get total paid.
 			// get total price owed (on purchase).
-			$custom_cells = '';
-			$custom_csv   = '';
+			$custom_cells  = '';
+			$custom_values = array();
 			foreach ( $details as $type => $tickets ) {
 				$ticket_type = isset( $options['ticket_type'] ) ? $options['ticket_type'] : 'all';
 				if ( 'all' === $ticket_type || $ticket_type === $type ) {
@@ -804,9 +805,9 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 									}
 								}
 							}
-							$value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $payment_id, $name, true ), $payment_id, $name );
-							$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
-							$custom_csv   .= '"' . $value . '"';
+							$value           = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $payment_id, $name, true ), $payment_id, $name );
+							$custom_cells   .= "<td class='mt_" . sanitize_title( $name ) . "'>$value</td>\n";
+							$custom_values[] = $value;
 						}
 					}
 				}
@@ -818,31 +819,26 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 				$count          = 0;
 				$col_count      = count( $header_columns );
 				$row            = '<tr>';
-				$csv_array      = array();
+				$csv_row        = array();
 				foreach ( $header_columns as $key => $column ) {
 					$val          = str_replace( '-', '_', $key );
 					$column_value = $$val;
+					$csv_value    = ( 'mt-type' === $key ) ? str_replace( PHP_EOL, ', ', $mt_type ) : $column_value;
 					if ( $count === $col_count - 1 ) {
-						$row        .= $custom_cells;
-						$csv_array[] = $custom_csv;
+						$row    .= $custom_cells;
+						$csv_row = array_merge( $csv_row, $custom_values );
 					}
 					if ( 0 === $count ) {
-						$row        .= "<th scope='row' id='$key' class='$key'>" . esc_html( $column_value ) . '</th>';
-						$csv_array[] = "\"$column_value\"";
+						$row .= "<th scope='row' id='$key' class='$key'>" . esc_html( $column_value ) . '</th>';
 					} else {
 						$row .= "<td id='$key' class='$key'>" . esc_html( $column_value ) . '</td>';
-						if ( 'mt-type' === $key ) {
-							$column_value = str_replace( PHP_EOL, ', ', $mt_type );
-						}
-						$csv_array[] = "\"$column_value\"";
 					}
+					$csv_row[] = $csv_value;
 					++$count;
 				}
 				$row .= '</tr>';
-				// add split field to csv headers.
-				$csv                         = implode( ',', $csv_array ) . PHP_EOL;
 				$report['html'][ $status ][] = $row;
-				$report['csv'][ $status ][]  = $csv;
+				$report['csv'][ $status ][]  = $csv_row;
 			}
 		}
 	}
@@ -926,14 +922,13 @@ function mt_get_tickets( $event_id, $ticket_type = false ) {
 					}
 					$contents = call_user_func( $callback, $key, $payment_id, $ticket_id, $ticket, $event_id );
 					$rows[]   = "<td class='" . esc_attr( $key ) . "' id='" . esc_attr( $key ) . "'>$contents</td>";
-					$csvs[]   = '"' . wp_strip_all_tags( $contents ) . '"';
+					$csvs[]   = wp_strip_all_tags( $contents );
 				}
 				++$i;
 			}
 			$row              = '<tr>' . implode( PHP_EOL, $rows ) . '</tr>';
-			$csv              = implode( ',', $csvs ) . PHP_EOL;
 			$report['html'][] = $row;
-			$report['csv'][]  = $csv;
+			$report['csv'][]  = $csvs;
 		}
 	}
 
@@ -1014,24 +1009,23 @@ function mt_download_csv_event() {
 			);
 			$title     = get_the_title( $event_id );
 			$purchases = mt_purchases( $event_id, $args );
+			$title     = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
+			header( 'Content-Type: application/csv' );
+			header( "Content-Disposition: attachment; filename=$title.csv" );
+			header( 'Pragma: no-cache' );
+			$fh = fopen( 'php://output', 'w' );
 			if ( is_array( $purchases ) ) {
 				$report         = $purchases['report']['csv'];
 				$custom_fields  = mt_get_custom_fields( 'reports' );
 				$header_columns = mt_get_column_headers( 'purchases', 'csv' );
-				$csv            = mt_set_column_headers( $header_columns, 'csv', $custom_fields ) . PHP_EOL;
+				fputcsv( $fh, mt_set_column_headers( $header_columns, 'csv', $custom_fields ) );
 				foreach ( $report as $status => $rows ) {
-					foreach ( $rows as $type => $row ) {
-						$csv .= $row;
+					foreach ( $rows as $row ) {
+						fputcsv( $fh, $row );
 					}
 				}
-			} else {
-				$csv = '';
 			}
-			$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
-			header( 'Content-Type: application/csv' );
-			header( "Content-Disposition: attachment; filename=$title.csv" );
-			header( 'Pragma: no-cache' );
-			echo wp_kses_post( $csv );
+			fclose( $fh );
 			exit;
 		}
 	}
@@ -1053,18 +1047,18 @@ function mt_download_csv_tickets() {
 			$title    = get_the_title( $event_id ) . ' tickets';
 			$tickets  = mt_get_tickets( $event_id );
 			$report   = $tickets['csv'];
+			$headers  = mt_get_column_headers( 'tickets', 'csv' );
 
-			$headers     = mt_get_column_headers( 'tickets', 'csv' );
-			$header_html = mt_set_column_headers( $headers, 'csv' ) . PHP_EOL;
-			$csv         = $header_html . PHP_EOL;
-			foreach ( $report as $row ) {
-				$csv .= $row;
-			}
 			$title = sanitize_title( $title ) . '-' . mt_date( 'Y-m-d' );
 			header( 'Content-Type: application/csv' );
 			header( "Content-Disposition: attachment; filename=$title.csv" );
 			header( 'Pragma: no-cache' );
-			echo wp_kses_post( $csv );
+			$fh = fopen( 'php://output', 'w' );
+			fputcsv( $fh, mt_set_column_headers( $headers, 'csv' ) );
+			foreach ( $report as $row ) {
+				fputcsv( $fh, $row );
+			}
+			fclose( $fh );
 			exit;
 		}
 	}
@@ -1076,20 +1070,20 @@ add_action( 'admin_init', 'mt_download_csv_time' );
  */
 function mt_download_csv_time() {
 	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
-		$output = '';
 		if ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] && isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] && isset( $_GET['mt_start'] ) ) {
 			$report = mt_get_report_data_by_time();
 			$csv    = $report['csv'];
 			$start  = $report['start'];
 			$end    = $report['end'];
-			foreach ( $csv as $row ) {
-				$output .= "$row";
-			}
-			$title = sanitize_title( $start . '_' . $end ) . '-' . mt_date( 'Y-m-d' );
+			$title  = sanitize_title( $start . '_' . $end ) . '-' . mt_date( 'Y-m-d' );
 			header( 'Content-Type: application/csv' );
 			header( "Content-Disposition: attachment; filename=$title.csv" );
 			header( 'Pragma: no-cache' );
-			echo wp_kses_post( $output );
+			$fh = fopen( 'php://output', 'w' );
+			foreach ( $csv as $row ) {
+				fputcsv( $fh, $row );
+			}
+			fclose( $fh );
 			exit;
 		}
 	}
@@ -1102,25 +1096,26 @@ add_action( 'admin_init', 'mt_download_csv_customers' );
 function mt_download_csv_customers() {
 	if ( current_user_can( 'mt-view-reports' ) || current_user_can( 'manage_options' ) ) {
 		if ( isset( $_GET['format'] ) && 'csv' === $_GET['format'] && isset( $_GET['page'] ) && 'mt-reports' === $_GET['page'] && isset( $_GET['mt-report'] ) && 'customers' === $_GET['mt-report'] ) {
-			$report = mt_get_unique_customers();
-			$output = '';
-			foreach ( $report as $row ) {
-				$output .= $row;
-			}
-			$title = 'my-tickets-customers-' . mt_date( 'Y-m-d' );
+			$customers = mt_get_unique_customers();
+			$title     = 'my-tickets-customers-' . mt_date( 'Y-m-d' );
 			header( 'Content-Type: application/csv' );
 			header( "Content-Disposition: attachment; filename=$title.csv" );
 			header( 'Pragma: no-cache' );
-			echo wp_kses_post( $output );
+			$fh = fopen( 'php://output', 'w' );
+			fputcsv( $fh, array( 'Email', 'First Name', 'Last Name', 'Number of Purchases', 'Total Paid', 'Last Payment Date' ) );
+			foreach ( $customers as $customer ) {
+				fputcsv( $fh, array( $customer['email'], $customer['first_name'], $customer['last_name'], $customer['payments'], $customer['total'], $customer['last_date'] ) );
+			}
+			fclose( $fh );
 			exit;
 		}
 	}
 }
 
 /**
- * Get a CSV-formatted list of unique customers, deduplicated by email address.
+ * Get a list of unique customers, deduplicated by email address.
  *
- * @return array Array of CSV rows, including header row.
+ * @return array Array of customer rows keyed by lowercased email.
  */
 function mt_get_unique_customers() {
 	global $wpdb;
@@ -1163,13 +1158,7 @@ function mt_get_unique_customers() {
 	}
 	ksort( $customers );
 
-	$csv   = array();
-	$csv[] = '"Email","First Name","Last Name","Number of Purchases","Total Paid","Last Payment Date"' . PHP_EOL;
-	foreach ( $customers as $customer ) {
-		$csv[] = '"' . $customer['email'] . '","' . $customer['first_name'] . '","' . $customer['last_name'] . '","' . $customer['payments'] . '","' . $customer['total'] . '","' . $customer['last_date'] . '"' . PHP_EOL;
-	}
-
-	return $csv;
+	return $customers;
 }
 
 /**
@@ -1217,18 +1206,18 @@ function mt_get_report_by_time( $start, $end ) {
  * @return array
  */
 function mt_get_report_data_by_time() {
-	$start          = ( isset( $_GET['mt_start'] ) ) ? sanitize_text_field( $_GET['mt_start'] ) : mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
-	$end            = ( isset( $_GET['mt_end'] ) ) ? sanitize_text_field( $_GET['mt_end'] ) : mt_date( 'Y-m-d' );
-	$posts          = mt_get_report_by_time( $start, $end );
-	$total          = 0;
-	$html           = array();
-	$csv            = array();
-	$custom_fields  = mt_get_custom_fields( 'reports' );
-	$custom_headers = '';
+	$start         = ( isset( $_GET['mt_start'] ) ) ? sanitize_text_field( $_GET['mt_start'] ) : mt_date( 'Y-m-d', strtotime( apply_filters( 'mt_default_report_start_date', '-1 week' ) ) );
+	$end           = ( isset( $_GET['mt_end'] ) ) ? sanitize_text_field( $_GET['mt_end'] ) : mt_date( 'Y-m-d' );
+	$posts         = mt_get_report_by_time( $start, $end );
+	$total         = 0;
+	$html          = array();
+	$csv           = array();
+	$custom_fields = mt_get_custom_fields( 'reports' );
+	$header_row    = array( 'Last Name', 'First Name', 'Email', 'Ticket Type', 'Purchase Value', 'Status', 'Events', 'Event Dates', 'Purchase Date' );
 	foreach ( $custom_fields as $name => $field ) {
-		$custom_headers .= ',"' . $field['title'] . '"';
+		$header_row[] = $field['title'];
 	}
-	$csv[] = '"Last Name","First Name","Email","Ticket Type","Purchase Value","Status","Events","Event Dates","Purchase Date"' . $custom_headers . PHP_EOL;
+	$csv[] = $header_row;
 	foreach ( $posts as $post ) {
 		$purchaser  = get_the_title( $post->ID );
 		$first_name = get_post_meta( $post->ID, '_first_name', true );
@@ -1284,7 +1273,7 @@ function mt_get_report_data_by_time() {
 		$raw_event_dates = implode( ', ', array_map( 'strip_tags', $dates ) );
 		$custom_fields   = mt_get_custom_fields( 'reports' );
 		$custom_cells    = '';
-		$custom_csv      = '';
+		$custom_values   = array();
 		foreach ( $custom_fields as $name => $field ) {
 			if ( isset( $field['report_callback'] ) ) {
 				$cstring = call_user_func( $field['report_callback'], $post->ID );
@@ -1317,9 +1306,9 @@ function mt_get_report_data_by_time() {
 			 *
 			 * @return string
 			 */
-			$c_value       = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
-			$custom_cells .= "<td class='mt_" . sanitize_title( $name ) . "'>$c_value</td>\n";
-			$custom_csv   .= ",\"$c_value\"";
+			$c_value         = apply_filters( 'mt_format_report_field', $cstring, get_post_meta( $post->ID, $name, true ), $post->ID, $name );
+			$custom_cells   .= "<td class='mt_" . sanitize_title( $name ) . "'>$c_value</td>\n";
+			$custom_values[] = $c_value;
 		}
 		$html[] = "
 			<tr>
@@ -1332,7 +1321,8 @@ function mt_get_report_data_by_time() {
 				<td class='mt-date'>$date $time</td>
 				$custom_cells
 			</tr>\n";
-		$csv[]  = '"' . $last_name . '","' . $first_name . '","' . $email . '","' . $type . '","' . $value . '","' . $status . '","' . $raw_events . '","' . $raw_event_dates . '","' . $date . ' ' . $time . '"' . $custom_csv . PHP_EOL;
+		$row_values = array( $last_name, $first_name, $email, $type, $value, $status, $raw_events, $raw_event_dates, "$date $time" );
+		$csv[]      = array_merge( $row_values, $custom_values );
 	}
 	$report['html']  = $html;
 	$report['csv']   = $csv;
