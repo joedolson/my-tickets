@@ -172,7 +172,7 @@ class Tests_My_Tickets_Ticket_Payment_Transfer extends WP_UnitTestCase {
 		$target_ticket_meta  = get_post_meta( $target_event, '_' . $ticket_id, true );
 		$target_purchase     = get_post_meta( $target_payment, '_purchased' );
 
-		$this->assertFalse( $source_ticket_meta );
+		$this->assertSame( '', $source_ticket_meta );
 		$this->assertSame( 0, (int) $source_registration['prices']['standard']['sold'] );
 		$this->assertSame( 1, (int) $target_registration['prices']['standard']['sold'] );
 		$this->assertSame( $target_payment, (int) $target_ticket_meta['purchase_id'] );
@@ -212,7 +212,7 @@ class Tests_My_Tickets_Ticket_Payment_Transfer extends WP_UnitTestCase {
 			}
 		}
 
-		$this->assertFalse( $source_ticket_meta );
+		$this->assertSame( '', $source_ticket_meta );
 		$this->assertSame( $payment_id, (int) $target_ticket_meta['purchase_id'] );
 		$this->assertSame( 0, (int) $source_registration['prices']['standard']['sold'] );
 		$this->assertSame( 1, (int) $target_registration['prices']['standard']['sold'] );
