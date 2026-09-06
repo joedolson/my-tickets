@@ -1383,11 +1383,14 @@ function mt_update_cart( $post = array() ) {
 	if ( ! $cart ) {
 		$event_id = ( isset( $post['mt_event_id'] ) ) ? $post['mt_event_id'] : false;
 		$options  = ( isset( $post['mt_tickets'] ) ) ? $post['mt_tickets'] : false;
-		$cart     = array(
-			'event_id' => $event_id,
-			'options'  => $options,
+		$updated  = mt_save_data(
+			array(
+				'event_id' => $event_id,
+				'options'  => $options,
+			)
 		);
-		$updated  = mt_save_data( $cart );
+		// mt_save_data() persists this keyed by event ID; match that shape in the returned cart.
+		$cart = array( $event_id => $options );
 	} else {
 		foreach ( $post as $id => $item ) {
 			if ( is_numeric( $id ) ) {
