@@ -339,7 +339,7 @@ class Tests_My_Tickets_Reports_Csv extends WP_UnitTestCase {
 	}
 
 	/**
-	 * mt_get_unique_customers() must not break, and must preserve the raw value, when
+	 * Test: mt_get_unique_customers() must not break, and must preserve the raw value, when
 	 * an email contains SQL metacharacters (protected by $wpdb->prepare()).
 	 */
 	public function test_get_unique_customers_handles_email_with_sql_metacharacters() {
