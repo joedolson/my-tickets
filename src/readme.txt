@@ -7,7 +7,7 @@ Tested up to: 7.1
 Requires PHP: 7.4
 License: GPLv2
 Text domain: my-tickets
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 
 My Tickets is a simple, flexible platform for selling event tickets with WordPress.
 
@@ -72,6 +72,21 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 4. With <a href="https://wordpress.org/plugins/my-calendar/">My Calendar</a>, add ticketing to an event. Without My Calendar, choose what post types will support tickets from My Tickets -> Settings, and add ticketing to any post or Page!
 
 == Changelog ==
+
+= 2.3.0 =
+
+* Feature: Export list of unique customers.
+* Feature: Concurrency locking to prevent overselling tickets.
+* Bug fix: Inconsistent return value in mt_update_cart if cart did not already exist.
+* Bug fix: Default tab not set on reports screen.
+* Bug fix: Fix clearing after legend if first item after legend is not visible.
+* Bug fix: Get the correct My Calendar permalink for ticket lists.
+* Bug fix: Prevent warnings if setcookie executed after headers sent.
+* Bug fix: A few potentially undefined variables.
+* Change: Refactor CSV generation.
+* Change: Use wp_admin_notice() to generate notices.
+* Change: Use wp_timezone() to calculate timezone offsets.
+* Change: Minor design tweaks in cart.
 
 = 2.2.2 =
 
