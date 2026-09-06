@@ -836,7 +836,7 @@ function mt_purchases( $event_id, $options = array( 'include_failed' => false ) 
 					$csv_row[] = $csv_value;
 					++$count;
 				}
-				$row .= '</tr>';
+				$row                        .= '</tr>';
 				$report['html'][ $status ][] = $row;
 				$report['csv'][ $status ][]  = $csv_row;
 			}
@@ -1327,7 +1327,7 @@ function mt_get_report_data_by_time() {
 			$custom_cells   .= "<td class='mt_" . sanitize_title( $name ) . "'>$c_value</td>\n";
 			$custom_values[] = $c_value;
 		}
-		$html[] = "
+		$html[]     = "
 			<tr>
 				<td class='mt-purchaser'><a href='" . get_edit_post_link( $post->ID ) . "'>$purchaser</a></td>
 				<td class='mt-value'>$format_value</td>

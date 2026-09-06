@@ -64,7 +64,7 @@ class Tests_My_Tickets_Reports_Csv extends WP_UnitTestCase {
 	}
 
 	/**
-	 * mt_set_column_headers() must return an array of labels for CSV, inserting custom
+	 * Test: mt_set_column_headers() must return an array of labels for CSV, inserting custom
 	 * field labels immediately before the final base column.
 	 */
 	public function test_set_column_headers_csv_returns_array_with_custom_fields_before_last_column() {
@@ -82,7 +82,7 @@ class Tests_My_Tickets_Reports_Csv extends WP_UnitTestCase {
 	}
 
 	/**
-	 * mt_get_unique_customers() should dedupe by email (case-insensitively), aggregate
+	 * Test: mt_get_unique_customers() should dedupe by email (case-insensitively), aggregate
 	 * totals/counts, and ignore non-publish or non-payment posts.
 	 */
 	public function test_get_unique_customers_deduplicates_and_aggregates_by_email() {
@@ -132,7 +132,7 @@ class Tests_My_Tickets_Reports_Csv extends WP_UnitTestCase {
 	}
 
 	/**
-	 * mt_purchases() CSV rows should be arrays of raw values with custom field values
+	 * Test: mt_purchases() CSV rows should be arrays of raw values with custom field values
 	 * inserted immediately before the final column.
 	 */
 	public function test_mt_purchases_csv_row_includes_custom_field_value() {
@@ -191,7 +191,7 @@ class Tests_My_Tickets_Reports_Csv extends WP_UnitTestCase {
 	}
 
 	/**
-	 * mt_get_tickets() CSV rows should be arrays, with the ticket ID as the first value.
+	 * Test: mt_get_tickets() CSV rows should be arrays, with the ticket ID as the first value.
 	 */
 	public function test_mt_get_tickets_csv_row_structure() {
 		$event_id   = self::factory()->post->create(
@@ -236,7 +236,7 @@ class Tests_My_Tickets_Reports_Csv extends WP_UnitTestCase {
 	}
 
 	/**
-	 * mt_get_report_data_by_time() should append custom field header/values at the end
+	 * Test: mt_get_report_data_by_time() should append custom field header/values at the end
 	 * of each CSV row (including the header row).
 	 */
 	public function test_mt_get_report_data_by_time_appends_custom_field_column() {
@@ -277,7 +277,7 @@ class Tests_My_Tickets_Reports_Csv extends WP_UnitTestCase {
 	}
 
 	/**
-	 * mt_purchases() must preserve special characters (quotes, commas, apostrophes,
+	 * Test: mt_purchases() must preserve special characters (quotes, commas, apostrophes,
 	 * multibyte, and markup) in row values, and those values must round-trip losslessly
 	 * through fputcsv()/fgetcsv().
 	 */
@@ -362,7 +362,7 @@ class Tests_My_Tickets_Reports_Csv extends WP_UnitTestCase {
 	}
 
 	/**
-	 * mt_csv_escape_row() must prefix values that could be interpreted as spreadsheet
+	 * Test: mt_csv_escape_row() must prefix values that could be interpreted as spreadsheet
 	 * formulas (CSV/formula injection) while leaving ordinary values untouched.
 	 */
 	public function test_csv_escape_row_neutralizes_formula_injection_vectors() {
