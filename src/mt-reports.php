@@ -23,7 +23,7 @@ function mt_reports_page() {
 		array(
 			'page'      => 'mt-reports',
 			'format'    => 'csv',
-			'mt-report' => 'customers'
+			'mt-report' => 'customers',
 		),
 		admin_url( 'admin.php' )
 	);
