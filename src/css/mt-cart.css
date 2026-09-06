@@ -229,6 +229,10 @@ table.mt_cart {
 	gap: 20px;
 }
 
+.mt-response-container > p {
+	margin: 0;
+}
+
 .mt-response-container .mt-response {
 	flex-grow: 1;
 }
