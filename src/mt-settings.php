@@ -703,7 +703,7 @@ function mt_wp_enqueue_scripts() {
 			'mt.tabs',
 			'mtTabs',
 			array(
-				'firstItem' => 'mt_completed',
+				'firstItem' => ( isset( $_GET['mt-event-report'] ) ) ? 'mt_completed' : 'mt_by_date',
 			)
 		);
 	}
