@@ -73,6 +73,12 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.3.1 =
+
+* Added handler on `mc_calendar_loaded` event in My Calendar to ensure Add to Cart form works after navigation.
+* Added view and time to Add to Cart IDs so multiple views in My Calendar don't cause duplicate IDs.
+* Added support for placing custom fields either before or after required fields in checkout.
+
 = 2.3.0 =
 
 * Feature: Export list of unique customers.
