@@ -274,6 +274,11 @@
 			});
 		}
 
+		// My Calendar replaces the DOM on calendar navigation, detaching these handlers; rebind when it fires this event.
+		document.addEventListener( 'mc_calendar_loaded', function() {
+			mtAddToCart();
+		});
+
 		document.addEventListener( 'keydown', function( e ) {
 			if ( e.ctrlKey && e.code === 'Space' ) {
 
