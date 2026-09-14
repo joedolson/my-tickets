@@ -194,8 +194,9 @@ function mt_get_default_available( $registration = array() ) {
  *
  * @return string
  */
-function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $time = 'month', $override = false, $group = false ) {
+function mt_add_to_cart_form( $content, $event = false, $view = '', $time = '', $override = false, $group = false ) {
 	$options  = mt_get_settings();
+	$use_id   = ( strlen( $view . $time ) > 0 ) ? '-' . $view . '-' . $time : '';
 	$event_id = ( is_object( $event ) ) ? $event->event_post : $event;
 	$continue = mt_check_early_returns( $event_id, $override );
 
@@ -318,11 +319,11 @@ function mt_add_to_cart_form( $content, $event = false, $view = 'calendar', $tim
 				 */
 				$fields = apply_filters( 'mt_add_to_cart_fields', '', $event_id );
 				$output = "
-			<div class='mt-order my-tickets' id='mt-response-$event_id'>
+			<div class='mt-order my-tickets' id='mt-response-$event_id$use_id'>
 				$no_post
 				$closing_time
 				$handling_notice
-				<form action='" . esc_url( $permalink ) . "' method='POST' class='ticket-orders' id='order-tickets'>
+				<form action='" . esc_url( $permalink ) . "' method='POST' class='ticket-orders' id='order-tickets$use_id'>
 					<div>
 						$nonce
 						<input type='hidden' name='mt_event_id' value='$event_id' />" . $hidden . "
