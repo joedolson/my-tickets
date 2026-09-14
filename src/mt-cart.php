@@ -849,8 +849,13 @@ function mt_generate_cart( $user_ID = false ) {
 			 */
 			$custom_fields = apply_filters( 'mt_cart_custom_fields', array(), $cart, $gateway );
 			$custom_output = '';
+			$custom_before = '';
 			foreach ( $custom_fields as $key => $field ) {
-				$custom_output .= $field;
+				if ( isset( $field['group'] ) && 'before' === $field['group'] ) {
+					$custom_before .= $field['html'];
+				} else {
+					$custom_output .= ( isset( $field['html'] ) ) ? $field['html'] : $field;
+				}
 			}
 			$text = ( 'offline' === $current_gate ) ? __( 'Review cart and confirm reservation', 'my-tickets' ) : __( 'Review cart and make payment', 'my-tickets' );
 			/**
@@ -882,7 +887,7 @@ function mt_generate_cart( $user_ID = false ) {
 			 */
 			$total_text = apply_filters( 'mt_cart_ticket_total_text', __( 'Ticket Total:', 'my-tickets' ), $current_gate );
 			$button     = "<p class='mt_submit'><input type='submit' name='mt_submit' value='" . esc_attr( $submit_text ) . "' /></p>";
-			$output    .= "<div class='mt_cart_total' aria-live='assertive'>" . $total_content . $total_text . " <span class='mt_total_number'>" . mt_money_format( $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
+			$output    .= "<div class='mt_cart_total' aria-live='assertive'>" . $total_content . $total_text . " <span class='mt_total_number'>" . mt_money_format( $total ) . "</span></div>\n" . mt_invite_login_or_register() . "\n" . $custom_before . "\n" . mt_required_fields( $cart, $custom_output ) . "\n" . mt_gateways() . "$button\n<input type='hidden' name='my-tickets' value='true' />" . apply_filters( 'mt_cart_hidden_fields', '' ) . '</form>' . mt_copy_cart() . '</div>';
 		} else {
 			do_action( 'mt_cart_is_empty' );
 			$expiration = '';
