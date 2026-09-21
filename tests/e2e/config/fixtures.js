@@ -17,30 +17,34 @@ const REGISTRATION_OPTIONS = {
 };
 
 /**
- * Create a published post with ticket sales enabled and a `[ticket]` shortcode
+ * Create a published page with ticket sales enabled and a `[ticket]` shortcode
  * pointed at itself, so the Add to Cart form renders on the front end.
  *
- * @param {Object} requestUtils The @wordpress/e2e-test-utils-playwright RequestUtils fixture.
- * @param {string} title        Post title.
+ * A page is used because My Tickets' default `mt_post_types` setting is
+ * `[ 'mc-events', 'page' ]` with `mt_singular` enabled, so a plain `post` is
+ * rejected before the form ever renders.
  *
- * @return {Promise<{id: number, link: string}>} The created post's ID and permalink.
+ * @param {Object} requestUtils The @wordpress/e2e-test-utils-playwright RequestUtils fixture.
+ * @param {string} title        Page title.
+ *
+ * @return {Promise<{id: number, link: string}>} The created page's ID and permalink.
  */
 async function createTicketedEvent( requestUtils, title ) {
-	const post = await requestUtils.createPost( {
+	const page = await requestUtils.createPage( {
 		title,
 		status: 'publish',
 		content: '',
 	} );
 
-	setPostMeta( post.id, '_mt_registration_options', REGISTRATION_OPTIONS );
+	setPostMeta( page.id, '_mt_registration_options', REGISTRATION_OPTIONS );
 
 	const updated = await requestUtils.rest( {
 		method: 'POST',
-		path: `/wp/v2/posts/${ post.id }`,
-		data: { content: `[ticket event="${ post.id }"]` },
+		path: `/wp/v2/pages/${ page.id }`,
+		data: { content: `[ticket event="${ page.id }"]` },
 	} );
 
-	return { id: post.id, link: updated.link };
+	return { id: page.id, link: updated.link };
 }
 
 module.exports = { createTicketedEvent };
