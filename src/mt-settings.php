@@ -195,7 +195,7 @@ function mt_import_settings() {
 	if ( isset( $_FILES['mt-import-settings'] ) ) {
 		$options = ( ! is_array( get_option( 'mt_settings' ) ) ) ? array() : get_option( 'mt_settings' );
 		$nonce   = wp_verify_nonce( $_POST['_wpnonce'], 'my-tickets-nonce' );
-		if ( $nonce ) {
+		if ( $nonce && current_user_can( 'manage_options' ) ) {
 			$size = isset( $_FILES['mt-import-settings']['size'] ) ? absint( $_FILES['mt-import-settings']['size'] ) : 0;
 			$name = isset( $_FILES['mt-import-settings']['tmp_name'] ) ? sanitize_text_field( $_FILES['mt-import-settings']['tmp_name'] ) : '';
 			global $wp_filesystem;
