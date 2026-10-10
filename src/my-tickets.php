@@ -1519,11 +1519,13 @@ function mt_post_copy_event( $new_post_id, $post ) {
 		delete_post_meta( $new_post_id, '_ticket' );
 		// Remove all sold ticket counts.
 		$registration = get_post_meta( $new_post_id, '_mt_registration_options', true );
-		$prices       = $registration['prices'];
-		foreach ( $prices as $type => $info ) {
-			$registration['prices'][ $type ]['sold'] = 0;
+		if ( is_array( $registration ) ) {
+			$prices = isset( $registration['prices'] ) ? $registration['prices'] : array();
+			foreach ( $prices as $type => $info ) {
+				$registration['prices'][ $type ]['sold'] = 0;
+			}
+			update_post_meta( $new_post_id, '_mt_registration_options', $registration );
 		}
-		update_post_meta( $new_post_id, '_mt_registration_options', $registration );
 		// Reset sequential base to 0.
 		update_post_meta( $new_post_id, '_sequential_base', 0 );
 	}
