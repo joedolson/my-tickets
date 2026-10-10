@@ -17,7 +17,7 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/license/gpl-2.0.txt
  * Domain Path: lang
- * Version:     2.3.1
+ * Version:     2.3.2
  */
 
 /*
@@ -44,7 +44,7 @@
  * @return string Current My Tickets version.
  */
 function mt_get_current_version() {
-	$mt_version = '2.3.1';
+	$mt_version = '2.3.2';
 
 	return $mt_version;
 }
