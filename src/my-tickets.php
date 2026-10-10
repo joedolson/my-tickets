@@ -1517,7 +1517,7 @@ function mt_post_copy_event( $new_post_id, $post ) {
 		}
 		// Remove ticket registry.
 		delete_post_meta( $new_post_id, '_ticket' );
-		// Remove all sold ticket counts.
+		// Reset sold ticket counts; ticket types are retained.
 		$registration = get_post_meta( $new_post_id, '_mt_registration_options', true );
 		if ( is_array( $registration ) ) {
 			$prices = isset( $registration['prices'] ) ? $registration['prices'] : array();
@@ -1525,6 +1525,18 @@ function mt_post_copy_event( $new_post_id, $post ) {
 				$registration['prices'][ $type ]['sold'] = 0;
 			}
 			update_post_meta( $new_post_id, '_mt_registration_options', $registration );
+		}
+		// Remove purchase records and virtual inventory.
+		delete_post_meta( $new_post_id, '_purchase' );
+		delete_post_meta( $new_post_id, '_mt_virtual_inventory' );
+		// Remove sold out and expired status flags, including per-ticket-type flags.
+		delete_post_meta( $new_post_id, '_mt_event_soldout' );
+		delete_post_meta( $new_post_id, '_mt_event_expired' );
+		$meta_keys = array_keys( (array) get_post_meta( $new_post_id ) );
+		foreach ( $meta_keys as $meta_key ) {
+			if ( 0 === strpos( $meta_key, '_mt_event_expired_' ) ) {
+				delete_post_meta( $new_post_id, $meta_key );
+			}
 		}
 		// Reset sequential base to 0.
 		update_post_meta( $new_post_id, '_sequential_base', 0 );
