@@ -29,4 +29,14 @@ function setPostMeta( postId, key, value ) {
 	wpCli( [ 'post', 'meta', 'update', String( postId ), key, JSON.stringify( value ), '--format=json' ] );
 }
 
-module.exports = { wpCli, setPostMeta };
+/**
+ * Set a single My Tickets setting within the `mt_settings` option via wp-cli.
+ *
+ * @param {string} key   Setting key, e.g. `mt_phone`.
+ * @param {*}      value Setting value (will be JSON-encoded).
+ */
+function setMtSetting( key, value ) {
+	wpCli( [ 'option', 'patch', 'update', 'mt_settings', key, JSON.stringify( value ), '--format=json' ] );
+}
+
+module.exports = { wpCli, setPostMeta, setMtSetting };
