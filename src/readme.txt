@@ -75,6 +75,7 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 = 2.3.2 =
 
+* Bug fix: Carts failed to transfer to user if user logs in while having an active cart.
 * Improve Duplicate Post filter to verify ticket array exists before removing sales data.
 * Improve Duplicate Post filter to delete all other post sales data.
 * Hardening: Add additional guard to verify user privileges before importing settings.
