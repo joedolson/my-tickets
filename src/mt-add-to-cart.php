@@ -710,11 +710,12 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				/**
 				 * Filter the string describing the number of tickets remaining as a fraction.
 				 *
-				 * @hook mt_tickets_available_discrete_text
+				 * @hook mt_tickets_remaining_discrete_text
 				 *
-				 * @param string $default_text Original available tickets text.
-				 * @param int    $remaining    Number of tickets remaining.
-				 * @param int    $tickets      Number of tickets available.
+				 * @param string $default_text      Original remaining tickets text.
+				 * @param int    $remaining         Number of tickets remaining.
+				 * @param int    $tickets           Number of tickets available.
+				 * @param bool   $type_sales_closed Whether ticket sales are closed.
 				 *
 				 * @return string
 				 */
@@ -723,7 +724,8 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 					// Translators: 1) Opening span tag; 2) number remaining as fraction e.g. 2/40, 3) closing span tag..
 					__( '%1$s %2$s remaining%3$s', 'my-tickets' ),
 					$remaining,
-					$tickets
+					$tickets,
+					$type_sales_closed
 				),
 				'<span class="tickets-remaining">',
 				"<span class='value remaining-tickets'>" . $remaining . "</span><span class='separator'>/</span><span class='ticket-count'>" . $tickets . '</span>',
@@ -735,9 +737,10 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 				 *
 				 * @hook mt_tickets_available_discrete_text
 				 *
-				 * @param string $default_text Original available tickets text.
-				 * @param int    $remaining    Number of tickets remaining.
-				 * @param int    $tickets      Number of tickets available.
+				 * @param string $default_text      Original available tickets text.
+				 * @param int    $remaining         Number of tickets remaining.
+				 * @param int    $tickets           Number of tickets available.
+				 * @param bool   $type_sales_closed Whether ticket sales are closed.
 				 *
 				 * @return string
 				 */
@@ -746,7 +749,8 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 					// Translators: 1) opening span; 2) number remaining as integer, 3) closing span tag.
 					__( '%1$s %2$s available%3$s', 'my-tickets' ),
 					$remaining,
-					$tickets
+					$tickets,
+					$type_sales_closed
 				),
 				'<span class="tickets-remaining tickets-available">',
 				"<span class='value available-tickets'>" . $remaining . '</span>',
@@ -766,8 +770,9 @@ function mt_ticket_row( $event_id, $registration, $ticket_type, $type, $availabl
 			 * @param int    $event_id Current event ID.
 			 * @param string $type Ticket type displayed.
 			 * @param int    $tickets_remaining. Number of tickets left.
+			 * @param bool   $type_sales_closed Whether ticket sales are closed.
 			 */
-			$display_text .= apply_filters( 'mt_after_remaining_text', '', $event_id, $type, $tickets_remaining );
+			$display_text .= apply_filters( 'mt_after_remaining_text', '', $event_id, $type, $tickets_remaining, $type_sales_closed );
 
 			$form .= "<div id='mt_tickets_data_$type' class='ticket-pricing$hide_remaining'>" . $display_text . '<span class="mt-closure-date">' . $closure . '</span></div>';
 			$form .= "<span class='mt-error-notice' aria-live='assertive'></span></div>";
