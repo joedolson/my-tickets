@@ -3,6 +3,8 @@ name: Test
 on:
   # Run on pushes to main.
   push:
+    paths:
+      - '**/*.php'
     branches: [ main, master ]
   # Allow manually triggering the workflow.
   workflow_dispatch:
