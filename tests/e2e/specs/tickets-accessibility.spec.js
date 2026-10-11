@@ -3,7 +3,7 @@ const { createTicketedEvent } = require( '../config/fixtures' );
 const { setMtSetting } = require( '../config/wp-cli' );
 
 test.describe( 'My Tickets accessibility', () => {
-	test( 'add to cart form has no serious or critical axe violations', async ( {
+	test( 'add to cart form has no axe violations', async ( {
 		page,
 		requestUtils,
 		makeAxeBuilder,
@@ -17,14 +17,10 @@ test.describe( 'My Tickets accessibility', () => {
 			.include( 'form.ticket-orders' )
 			.analyze();
 
-		const seriousOrCritical = accessibilityScanResults.violations.filter( ( violation ) =>
-			[ 'serious', 'critical' ].includes( violation.impact )
-		);
-
-		expect( seriousOrCritical ).toEqual( [] );
+		expect( accessibilityScanResults.violations ).toEqual( [] );
 	} );
 
-	test( 'cart and payment views have no serious or critical axe violations', async ( {
+	test( 'cart and payment views have no axe violations', async ( {
 		page,
 		requestUtils,
 		makeAxeBuilder,
@@ -57,9 +53,7 @@ test.describe( 'My Tickets accessibility', () => {
 
 		const scan = async ( selector ) => {
 			const results = await makeAxeBuilder( { page } ).include( selector ).analyze();
-			return results.violations.filter( ( violation ) =>
-				[ 'serious', 'critical' ].includes( violation.impact )
-			);
+			return results.violations;
 		};
 
 		expect( await scan( '.mt_cart' ) ).toEqual( [] );
