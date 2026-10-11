@@ -5,6 +5,7 @@ const REGISTRATION_OPTIONS = {
 	total: 'inherit',
 	reg_expires: '3',
 	sales_type: 'tickets',
+	multiple: 'true',
 	prices: {
 		standard: {
 			label: 'Standard',
