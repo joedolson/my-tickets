@@ -259,9 +259,9 @@ class Tests_My_Tickets_Add_To_Cart_Paths extends WP_UnitTestCase {
 	}
 
 	/**
-	 * A guest cart should be available after login and then persist to user meta on update.
+	 * A guest cart should transfer to user meta when retrieved after login.
 	 */
-	public function test_guest_cart_is_available_after_login_and_updates_to_user_meta() {
+	public function test_guest_cart_transfers_to_user_meta_after_login() {
 		wp_set_current_user( 0 );
 		$guest_id = $this->set_guest_cart_id();
 		mt_update_cart( $this->get_initial_add_to_cart_payload( 1 ) );
@@ -275,6 +275,9 @@ class Tests_My_Tickets_Add_To_Cart_Paths extends WP_UnitTestCase {
 
 		$cart_after_login = mt_get_cart();
 		$this->assertSame( 1, (int) $cart_after_login[ $this->event_id ]['standard'] );
+		$user_stored = get_user_meta( $user_id, '_mt_user_cart', true );
+		$this->assertSame( 1, (int) $user_stored[ $this->event_id ]['standard'] );
+		$this->assertEmpty( mt_get_transient( 'mt_' . $guest_id . '_cart' ) );
 
 		$response = mt_update_cart( $this->get_update_payload( 3 ) );
 		$this->assertTrue( (bool) $response['success'] );

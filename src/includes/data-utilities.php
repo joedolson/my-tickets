@@ -295,8 +295,17 @@ function mt_get_cart( $user_ID = false, $cart_id = false, $fetch_data = false ) 
 	}
 	if ( is_user_logged_in() && ! $cart ) {
 		if ( $unique_id ) {
-			// Copy cart created when not-logged in after logging in.
+			// Transfer a cart created while logged out to the user's account.
 			$cart = mt_get_transient( 'mt_' . $unique_id . '_cart' );
+			if ( $cart ) {
+				$cart = mt_check_cart( $cart );
+				if ( $cart ) {
+					$current_user = wp_get_current_user();
+					update_user_meta( $current_user->ID, '_mt_user_cart', $cart );
+					update_user_meta( $current_user->ID, '_mt_user_init_expiration', time() + mt_expiration_window() );
+					mt_delete_transient( 'mt_' . $unique_id . '_cart' );
+				}
+			}
 		}
 	}
 
