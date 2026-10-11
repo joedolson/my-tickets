@@ -36,7 +36,13 @@ function setPostMeta( postId, key, value ) {
  * @param {*}      value Setting value (will be JSON-encoded).
  */
 function setMtSetting( key, value ) {
-	wpCli( [ 'option', 'patch', 'update', 'mt_settings', key, JSON.stringify( value ), '--format=json' ] );
+	const args = [ 'mt_settings', key, JSON.stringify( value ), '--format=json' ];
+	// `patch update` fails for keys that don't exist yet; `patch insert` fails for keys that do.
+	try {
+		wpCli( [ 'option', 'patch', 'update', ...args ] );
+	} catch ( error ) {
+		wpCli( [ 'option', 'patch', 'insert', ...args ] );
+	}
 }
 
 module.exports = { wpCli, setPostMeta, setMtSetting };
