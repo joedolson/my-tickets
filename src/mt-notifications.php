@@ -517,6 +517,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		'buyer_email'    => $email,
 		'event_notes'    => apply_filters( 'mt_format_notes', '', $purchased, $id ),
 		'bulk_tickets'   => $bulk_tickets,
+		'date'           => mt_date( get_option( 'date_format' ), mt_current_time() ),
+		'time'           => mt_date( get_option( 'time_format' ), mt_current_time() ),
 	);
 
 	$custom_fields = mt_get_custom_fields( 'notify' );
@@ -602,7 +604,6 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	}
 
 	if ( $send ) {
-
 		mt_send_notification( $data, $body, $subject, $email );
 		/**
 		 * Action triggered after purchaser email is sent.
@@ -657,6 +658,8 @@ function mt_send_notification( $data, $body, $subject, $email ) {
 	if ( 'true' === $options['mt_html_email'] ) {
 		add_filter( 'wp_mail_content_type', 'mt_html_type' );
 		$body = mt_html_email_header( $data ) . $body . mt_html_email_footer( $data );
+	} else {
+		$body = wp_strip_all_tags( $body );
 	}
 
 	// message to purchaser.
@@ -673,7 +676,7 @@ function mt_send_notification( $data, $body, $subject, $email ) {
 	);
 	$sent = wp_mail( $email, $subject, $body, $headers );
 	if ( ! $sent ) {
-		// If mail sends, try without custom headers.
+		// If mail fails to send, try without custom headers.
 		wp_mail( $email, $subject, $body );
 	}
 	if ( 'true' === $options['mt_html_email'] ) {
