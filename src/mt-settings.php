@@ -341,6 +341,15 @@ function mt_settings() {
 										'refunded'  => __( 'Refunded', 'my-tickets' ),
 										'interim'   => __( 'Offline & Pending', 'my-tickets' ),
 									);
+									/**
+									 * Filter the status types for ticket notifications.
+									 *
+									 * @hook mt_status_types
+									 * @since 2.3.3
+									 *
+									 * @param array $status_types Array of status types.
+									 */
+									$status_types = apply_filters( 'mt_status_types', $status_types );
 									foreach ( $status_types as $type => $status_type ) {
 										$tabs .= "<li><button id='tab_mt_" . $type . "' role='tab' type='button' aria-selected='false' aria-controls='$type'>$status_type</button></li>";
 									}
@@ -352,6 +361,9 @@ function mt_settings() {
 											</ul>
 											<?php
 											foreach ( $status_types as $type => $status_type ) {
+												$messages           = isset( $options['messages'][ $type ] ) ? $options['messages'][ $type ] : array();
+												$admin_messages     = isset( $messages['admin'] ) ? $messages['admin'] : array();
+												$purchaser_messages = isset( $messages['purchaser'] ) ? $messages['purchaser'] : array();
 												?>
 												<div class='wptab mt_<?php echo esc_attr( $type ); ?>' id='<?php echo esc_attr( $type ); ?>' role='tabpanel' aria-labelledby='tab_mt_<?php echo esc_attr( $type ); ?>'>
 													<fieldset>
@@ -364,7 +376,7 @@ function mt_settings() {
 																	printf( __( '%s - Administrator Subject', 'my-tickets' ), $status_type );
 																	?>
 																</label><br/>
-																<input type="text" name="mt_messages[<?php echo esc_attr( $type ); ?>][admin][subject]" id="mt_messages_<?php echo esc_attr( $type ); ?>_admin_subject" class="widefat" value="<?php echo stripslashes( esc_attr( $options['messages'][ $type ]['admin']['subject'] ) ); ?>"/>
+																<input type="text" name="mt_messages[<?php echo esc_attr( $type ); ?>][admin][subject]" id="mt_messages_<?php echo esc_attr( $type ); ?>_admin_subject" class="widefat" value="<?php echo stripslashes( esc_attr( $admin_messages['subject'] ?? '' ) ); ?>"/>
 															</li>
 															<li>
 																<label for="mt_messages_<?php echo esc_attr( $type ); ?>_admin_body">
@@ -373,7 +385,7 @@ function mt_settings() {
 																	printf( __( '%s - Administrator Message', 'my-tickets' ), $status_type );
 																	?>
 																</label><br/>
-																<textarea class="widefat mt-code-editor" name="mt_messages[<?php echo esc_attr( $type ); ?>][admin][body]" id="mt_messages_<?php echo esc_attr( $type ); ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_textarea( $options['messages'][ $type ]['admin']['body'] ) ); ?></textarea>
+																<textarea class="widefat mt-code-editor" name="mt_messages[<?php echo esc_attr( $type ); ?>][admin][body]" id="mt_messages_<?php echo esc_attr( $type ); ?>_admin_body" rows="12" cols="60"><?php echo stripslashes( esc_textarea( $admin_messages['body'] ?? '' ) ); ?></textarea>
 															</li>
 														</ul>
 													</fieldset>
@@ -387,7 +399,7 @@ function mt_settings() {
 																	printf( __( '%s - Purchaser Subject', 'my-tickets' ), $status_type );
 																	?>
 																</label><br/>
-																<input type="text" name="mt_messages[<?php echo esc_attr( $type ); ?>][purchaser][subject]" id="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_subject" class="widefat" value="<?php echo stripslashes( esc_textarea( $options['messages'][ $type ]['purchaser']['subject'] ) ); ?>"/>
+																<input type="text" name="mt_messages[<?php echo esc_attr( $type ); ?>][purchaser][subject]" id="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_subject" class="widefat" value="<?php echo stripslashes( esc_attr( $purchaser_messages['subject'] ?? '' ) ); ?>"/>
 															</li>
 															<li>
 																<label for="mt_messages_<?php echo esc_attr( $type ); ?>_purchaser_body">
@@ -396,7 +408,7 @@ function mt_settings() {
 																	printf( __( '%s - Purchaser Message', 'my-tickets' ), $status_type );
 																	?>
 																</label><br/>
-																<textarea class="widefat mt-code-editor" name="mt_messages[<?php echo esc_attr( $type ); ?>][purchaser][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $options['messages'][ $type ]['purchaser']['body'] ) ); ?></textarea>
+																<textarea class="widefat mt-code-editor" name="mt_messages[<?php echo esc_attr( $type ); ?>][purchaser][body]" id="mt_messages_<?php echo esc_html( $type ); ?>_purchaser_body" rows="12" cols="60"><?php echo stripslashes( esc_attr( $purchaser_messages['body'] ?? '' ) ); ?></textarea>
 															</li>
 														</ul>
 													</fieldset>
