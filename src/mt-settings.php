@@ -442,6 +442,8 @@ function mt_settings() {
 											'buyer_email',
 											'event_notes',
 											'bulk_tickets',
+											'date',
+											'time',
 										);
 										// Add custom fields to display of template tags.
 										$custom_fields = mt_get_custom_fields( 'tags' );
