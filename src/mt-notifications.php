@@ -627,6 +627,20 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 			// If mail sends, try without custom headers.
 			wp_mail( $email, $subject, $body );
 		}
+		/**
+		 * Action triggered after purchaser email is sent.
+		 *
+		 * @hook mt_purchaser_email_sent
+		 *
+		 * @param array  $data Email data array.
+		 * @param string $email Purchaser email.
+		 * @param array  $headers Email headers.
+		 * @param string $status Payment status.
+		 * @param array  $details Array containing purchase details.
+		 * @param string $error Error message if email sending failed.
+		 * @param bool   $resending Whether this is a resend attempt.
+		 */
+		do_action( 'mt_purchaser_email_sent', $data, $email, $headers, $status, $details, $error, $resending );
 		// message to admin.
 		$body2      = apply_filters( 'mt_modify_email_body', $body2, 'admin' );
 		$admin_sent = wp_mail( $options['mt_to'], $subject2, $body2, $headers );
@@ -634,6 +648,20 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 			// If mail send fails, try without custom headers.
 			wp_mail( $options['mt_to'], $subject2, $body2 );
 		}
+		/**
+		 * Action triggered after admin email is sent.
+		 *
+		 * @hook mt_admin_email_sent
+		 *
+		 * @param array  $data Email data array.
+		 * @param string $email Purchaser email.
+		 * @param array  $headers Email headers.
+		 * @param string $status Payment status.
+		 * @param array  $details Array containing purchase details.
+		 * @param string $error Error message if email sending failed.
+		 * @param bool   $resending Whether this is a resend attempt.
+		 */
+		do_action( 'mt_admin_email_sent', $data, $email, $headers, $status, $details, $error, $resending );
 		if ( 'true' === $options['mt_html_email'] ) {
 			remove_filter( 'wp_mail_content_type', 'mt_html_type' );
 		}
@@ -700,7 +728,7 @@ function mt_html_email_footer( $data ) {
 	 *
 	 * @hook mt_html_email_footer
 	 *
-	 * @param string $header HTML footer content.
+	 * @param string $footer HTML footer content.
 	 * @param array  $data Email data array.
 	 *
 	 * @return string
