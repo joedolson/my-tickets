@@ -285,8 +285,25 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 	}
 	switch ( $field ) {
 		case 'address':
-			// only show shipping fields if postal ticketing in use.
-			if ( ( isset( $_POST['ticketing_method'] ) && 'postal' === $_POST['ticketing_method'] ) || mt_always_collect_shipping() ) {
+			/**
+			 * Filter whether to show the shipping address fields, ignoring other settings.
+			 *
+			 * @hook mt_show_shipping_address
+			 *
+			 * @param bool $show Whether to show the shipping address fields despite other settings. Default false.
+			 */
+			$show_addresses = apply_filters( 'mt_show_shipping_address', false );
+			$show_shipping  = ( isset( $_POST['ticketing_method'] ) && 'postal' === $_POST['ticketing_method'] ) || mt_always_collect_shipping();
+			/**
+			 * Filter the legend text for the shipping address fieldset.
+			 *
+			 * @hook mt_address_legend
+			 *
+			 * @param bool   $show_shipping Whether shipping is being shown already. True if shipping is shown because of ticket or shipping status.
+			 * @param string $context Display context. Default 'input'.
+			 */
+			$address_legend = apply_filters( 'mt_address_legend', __( 'Shipping Address', 'my-tickets' ), $show_shipping, $context );
+			if ( $show_addresses || $show_shipping ) {
 				$user_address = ( is_user_logged_in() ) ? get_user_meta( $current_user->ID, '_mt_shipping_address', true ) : $defaults;
 				if ( get_user_meta( $current_user->ID, '_mt_shipping_address', true ) ) {
 					$save_address_label = __( 'Update Address', 'my-tickets' );
@@ -300,7 +317,7 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 				$required = ' ' . __( '(required)', 'my-tickets' );
 				$output   = '
 				<fieldset class="mt-shipping-address">
-					<legend>' . __( 'Shipping Address', 'my-tickets' ) . '</legend>
+					<legend>' . esc_html( $address_legend ) . '</legend>
 					<p>
 						<label for="mt_address_street">' . __( 'Street', 'my-tickets' ) . $required . '</label>
 						<input type="text" name="mt_shipping_street" id="mt_address_street" class="mt_street" value="' . esc_attr( stripslashes( $address['street'] ) ) . '" autocomplete="address-line1" required />
