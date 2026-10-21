@@ -409,7 +409,7 @@ function mt_format_receipt( $receipt ) {
  */
 function mt_send_notifications( $status = 'Completed', $details = array(), $error = false, $resending = false ) {
 	$options  = mt_get_settings();
-	$blogname = get_option( 'blogname' );
+	$blogname = get_bloginfo( 'name', 'display' );
 	$subject  = '';
 	$body     = '';
 	$subject2 = '';
@@ -532,9 +532,6 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 
 	$data = apply_filters( 'mt_notifications_data', $data, $details );
 
-	$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
-	$headers[] = "Reply-to: $options[mt_from]";
-
 	if ( 'Completed' === $status || ( 'Pending' === $status && 'offline' === $gateway ) ) {
 		$append = '';
 		if ( 'invalid_email' === $error ) {
@@ -605,28 +602,8 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 	}
 
 	if ( $send ) {
-		if ( 'true' === $options['mt_html_email'] ) {
-			add_filter( 'wp_mail_content_type', 'mt_html_type' );
-			$body = mt_html_email_header( $data ) . $body . mt_html_email_footer( $data );
-		}
 
-		// message to purchaser.
-		$body = apply_filters( 'mt_modify_email_body', $body, 'purchaser' );
-		// Log this message.
-		add_post_meta(
-			$id,
-			'_mt_send_email',
-			array(
-				'body'    => $body,
-				'subject' => $subject,
-				'date'    => mt_current_time(),
-			)
-		);
-		$sent = wp_mail( $email, $subject, $body, $headers );
-		if ( ! $sent ) {
-			// If mail sends, try without custom headers.
-			wp_mail( $email, $subject, $body );
-		}
+		mt_send_notification( $data, $body, $subject, $email );
 		/**
 		 * Action triggered after purchaser email is sent.
 		 *
@@ -634,20 +611,15 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		 *
 		 * @param array  $data Email data array.
 		 * @param string $email Purchaser email.
-		 * @param array  $headers Email headers.
 		 * @param string $status Payment status.
 		 * @param array  $details Array containing purchase details.
 		 * @param string $error Error message if email sending failed.
 		 * @param bool   $resending Whether this is a resend attempt.
 		 */
-		do_action( 'mt_purchaser_email_sent', $data, $email, $headers, $status, $details, $error, $resending );
+		do_action( 'mt_purchaser_email_sent', $data, $email, $status, $details, $error, $resending );
+
 		// message to admin.
-		$body2      = apply_filters( 'mt_modify_email_body', $body2, 'admin' );
-		$admin_sent = wp_mail( $options['mt_to'], $subject2, $body2, $headers );
-		if ( ! $admin_sent ) {
-			// If mail send fails, try without custom headers.
-			wp_mail( $options['mt_to'], $subject2, $body2 );
-		}
+		mt_send_notification( $data, $body2, $subject2, $options['mt_to'] );
 		/**
 		 * Action triggered after admin email is sent.
 		 *
@@ -655,20 +627,59 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 		 *
 		 * @param array  $data Email data array.
 		 * @param string $email Purchaser email.
-		 * @param array  $headers Email headers.
 		 * @param string $status Payment status.
 		 * @param array  $details Array containing purchase details.
 		 * @param string $error Error message if email sending failed.
 		 * @param bool   $resending Whether this is a resend attempt.
 		 */
-		do_action( 'mt_admin_email_sent', $data, $email, $headers, $status, $details, $error, $resending );
-		if ( 'true' === $options['mt_html_email'] ) {
-			remove_filter( 'wp_mail_content_type', 'mt_html_type' );
-		}
+		do_action( 'mt_admin_email_sent', $data, $email, $status, $details, $error, $resending );
+
 		update_post_meta( $id, '_notified', 'true' );
 	}
 }
 
+/**
+ * Send a notification email.
+ *
+ * @param array  $data Purchase data array.
+ * @param string $body Email body.
+ * @param string $subject Email subject.
+ * @param string $email Email recipient.
+ */
+function mt_send_notification( $data, $body, $subject, $email ) {
+	$blogname  = get_bloginfo( 'name', 'display' );
+	$options   = mt_get_settings();
+	$id        = $data['id'];
+	$headers   = array();
+	$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
+	$headers[] = "Reply-to: $options[mt_from]";
+
+	if ( 'true' === $options['mt_html_email'] ) {
+		add_filter( 'wp_mail_content_type', 'mt_html_type' );
+		$body = mt_html_email_header( $data ) . $body . mt_html_email_footer( $data );
+	}
+
+	// message to purchaser.
+	$body = apply_filters( 'mt_modify_email_body', $body, 'purchaser' );
+	// Log this message to the payment post.
+	add_post_meta(
+		$id,
+		'_mt_send_email',
+		array(
+			'body'    => $body,
+			'subject' => $subject,
+			'date'    => mt_current_time(),
+		)
+	);
+	$sent = wp_mail( $email, $subject, $body, $headers );
+	if ( ! $sent ) {
+		// If mail sends, try without custom headers.
+		wp_mail( $email, $subject, $body );
+	}
+	if ( 'true' === $options['mt_html_email'] ) {
+		remove_filter( 'wp_mail_content_type', 'mt_html_type' );
+	}
+}
 /**
  * Write HTML email header for email body.
  *
