@@ -649,7 +649,7 @@ function mt_send_notifications( $status = 'Completed', $details = array(), $erro
 function mt_send_notification( $data, $body, $subject, $email ) {
 	$blogname  = get_bloginfo( 'name', 'display' );
 	$options   = mt_get_settings();
-	$id        = $data['id'];
+	$id        = $data['purchase_ID'];
 	$headers   = array();
 	$headers[] = "From: $blogname Events <" . $options['mt_from'] . '>';
 	$headers[] = "Reply-to: $options[mt_from]";
