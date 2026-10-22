@@ -73,6 +73,16 @@ Read the <a href="http://docs.joedolson.com/my-tickets/">My Tickets online docum
 
 == Changelog ==
 
+= 2.3.3 =
+
+* Add Filter: `mt_shipping_note` to customize a text note when collecting shipping addresses.
+* Add Filter: `mt_address_legend` to customize the legend element for shipping addresses.
+* Add Filter: `mt_show_shipping_address` to force the shipping address fields to be visible when shipping is not required.
+* Add Action: `mt_purchaser_email_sent` to execute an action when a purchaser is sent an email notification.
+* Add Action: `mt_admin_email_sent` to execute an action when the admin is sent an email notification.
+* Add Filter: `mt_status_types` to pass custom email status types into the email configuration settings.
+* Feature: Add `date` and `time` template tags for email notifications.
+
 = 2.3.2 =
 
 * Bug fix: Carts failed to transfer to user if user logs in while having an active cart.
