@@ -293,7 +293,8 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 			 * @param bool $show Whether to show the shipping address fields despite other settings. Default false.
 			 */
 			$show_addresses = apply_filters( 'mt_show_shipping_address', false );
-			$show_shipping  = ( isset( $_POST['ticketing_method'] ) && 'postal' === $_POST['ticketing_method'] ) || mt_always_collect_shipping();
+			// Whether to show shipping address fields because they are required.
+			$show_shipping = ( isset( $_POST['ticketing_method'] ) && 'postal' === $_POST['ticketing_method'] ) || mt_always_collect_shipping();
 			/**
 			 * Filter the legend text for the shipping address fieldset.
 			 *
@@ -314,13 +315,27 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 				$address      = ( isset( $_POST['mt_shipping']['address'] ) ) ? $_POST['mt_shipping']['address'] : (array) $user_address;
 				$address      = array_merge( $defaults, $address );
 
-				$required = ' ' . __( '(required)', 'my-tickets' );
+				$required      = ( $show_shipping ) ? ' <span class="mt-required">' . __( '(required)', 'my-tickets' ) . '</span>' : '';
+				$required_attr = ( $show_shipping ) ? ' required' : '';
+				$shipping_note = __( 'Please provide your shipping address.', 'my-tickets' );
+				/**
+				 * Filter the shipping note text.
+				 *
+				 * @hook mt_shipping_note
+				 *
+				 * @param string $shipping_note The shipping note text.
+				 * @param bool   $show_shipping Whether shipping is being shown already.
+				 * @param string $context       Display context. Default 'input'.
+				 */
+				$shipping_note = apply_filters( 'mt_shipping_note', $shipping_note, $show_shipping, 'input' );
+
 				$output   = '
-				<fieldset class="mt-shipping-address">
+				<fieldset class="mt-shipping-address" aria-describedby="mt-shipping-note">
 					<legend>' . esc_html( $address_legend ) . '</legend>
+					<p class="mt-shipping-note" id="mt-shipping-note">' . $shipping_note . '</p>
 					<p>
 						<label for="mt_address_street">' . __( 'Street', 'my-tickets' ) . $required . '</label>
-						<input type="text" name="mt_shipping_street" id="mt_address_street" class="mt_street" value="' . esc_attr( stripslashes( $address['street'] ) ) . '" autocomplete="address-line1" required />
+						<input type="text" name="mt_shipping_street" id="mt_address_street" class="mt_street" value="' . esc_attr( stripslashes( $address['street'] ) ) . '" autocomplete="address-line1"' . $required_attr . ' />
 					</p>
 					<p>
 						<label for="mt_address_street2">' . __( 'Street (2)', 'my-tickets' ) . '</label>
@@ -328,7 +343,7 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 					</p>
 					<p>
 						<label for="mt_address_city">' . __( 'City', 'my-tickets' ) . $required . '</label>
-						<input type="text" name="mt_shipping_city" id="mt_address_city" class="mt_city" value="' . esc_attr( stripslashes( $address['city'] ) ) . '" autocomplete="address-level2" required />
+						<input type="text" name="mt_shipping_city" id="mt_address_city" class="mt_city" value="' . esc_attr( stripslashes( $address['city'] ) ) . '" autocomplete="address-level2"' . $required_attr . ' />
 					</p>
 					<p>
 						<label for="mt_address_state">' . __( 'State/Province', 'my-tickets' ) . '</label>
@@ -336,11 +351,11 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 					</p>
 					<p>
 						<label for="mt_address_code">' . __( 'Postal Code', 'my-tickets' ) . $required . '</label>
-						<input type="text" name="mt_shipping_code" size="10" id="mt_address_code" class="mt_code" value="' . esc_attr( stripslashes( $address['code'] ) ) . '" autocomplete="postal-code" required />
+						<input type="text" name="mt_shipping_code" size="10" id="mt_address_code" class="mt_code" value="' . esc_attr( stripslashes( $address['code'] ) ) . '" autocomplete="postal-code"' . $required_attr . ' />
 					</p>
 					<p>
 						<label for="mt_address_country">' . __( 'Country', 'my-tickets' ) . $required . '</label>
-						<select name="mt_shipping_country" id="mt_address_country" class="mt_country" autocomplete="country">
+						<select name="mt_shipping_country" id="mt_address_country" class="mt_country" autocomplete="country"' . $required_attr . '>
 						<option value="">Select Country</option>
 						' . mt_shipping_country( $address['country'] ) . '
 						</select>
