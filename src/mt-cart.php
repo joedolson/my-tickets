@@ -328,8 +328,7 @@ function mt_render_field( $field, $argument = false, $context = 'input' ) {
 				 * @param string $context       Display context. Default 'input'.
 				 */
 				$shipping_note = apply_filters( 'mt_shipping_note', $shipping_note, $show_shipping, 'input' );
-
-				$output   = '
+				$output        = '
 				<fieldset class="mt-shipping-address" aria-describedby="mt-shipping-note">
 					<legend>' . esc_html( $address_legend ) . '</legend>
 					<p class="mt-shipping-note" id="mt-shipping-note">' . $shipping_note . '</p>
